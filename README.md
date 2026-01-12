@@ -1,10 +1,3 @@
-#### What's Here?
-
-These are my updated GitHub lectures.
-Git requires a single folder with multiple versions. That idea doesn't fit with the way I've been using the materials in the past (copying the prior year's folder).
-
-This folder is git enabled.
-Use aliases for each class, by each semester.
 
 # CISP 360 Lecture Materials
 
@@ -17,3 +10,11 @@ Canonical lecture slides for CISP 360.
 
 ## Distribution
 This repository is not used for assignments or assessments.
+
+#### What's Here?
+
+These are my updated GitHub lectures.
+Git requires a single folder with multiple versions. That idea doesn't fit with the way I've been using the materials in the past (copying the prior year's folder).
+
+This folder is git enabled.
+Use aliases for each class, by each semester.
