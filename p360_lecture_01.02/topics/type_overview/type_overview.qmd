@@ -1,0 +1,436 @@
+
+# An Overview of Variable Types
+
+::: notes
+
+:::
+
+
+
+## Major C++ Variable Types
+
+- Integers
+- Floating Point
+- Char
+- Strings
+- Booleans
+- Void
+- Automatic Typing
+
+## Why Does C++ Have So Many Types?
+
+- Control
+- Multiple types allow the program designer (you) to precisely control how much memory will be reserved and what behaviors are allowed with the data.
+- This is not that much of a concern **today**.
+
+
+## Let's briefly look at each type in detail.
+
+
+## Close-up on Integers
+
+- negative and positive numbers
+- just positive numbers
+- No decimals in either case.
+
+
+## Various Integer Data Types
+
+| Data Type | Typical Size | Typical Range |
+|-----------|--------------|---------------|
+| short int | 2 bytes | -32,768 to +32,767 |
+| unsigned short int | 2 bytes | 0 to +65,535 |
+| int | 4 bytes | -2,147,483,648 to +2,147,483,647 |
+| unsigned int | 4 bytes | 0 to 4,294,967,295 |
+| long int | 4 bytes | -2,147,483,648 to +2,147,483,647 |
+| unsigned long int | 4 bytes | 0 to 4,294,967,295 |
+| long long int | 8 bytes | -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 |
+| unsigned long long int | 8 bytes | 0 to +8,446,744,073,709,551,615 |
+
+
+## Unsigned Integers
+
+- We can make an integer hold larger numbers by making it `unsigned`.
+- Downside - it can only hold positive numbers.
+  - Many errors are made on either side of zero.
+  - `unsigned` integers with a negative number will cause logic errors.
+
+---
+
+```{.cpp code-line-numbers="7-9"}
+#include <iostream>
+#include <string>
+
+int main() {
+    // Integer types
+    int intNum = 42;
+    unsigned int unsignedNum = 100;
+    long long longLongNum = 9000000000LL;
+    
+    // Floating-point types
+    float floatNum = 3.14f;         // good  to about 6 decimal places
+    double doubleNum = 3.14159;     // good to about 15 decimal places
+    
+    // Character types
+    char charVar = 'A';
+    
+    // Boolean type
+    bool boolVar = true;
+    
+    // String type
+    std::string stringVar = "Hello, World!";
+    
+    // Auto keyword (type inference)
+    auto autoInt = 42;
+    auto autoDouble = 3.14;
+    auto autoString = std::string("Auto");
+    
+    // Const variable
+    const int CONSTANT = 100;
+    
+    std::cout << "All major variable types demonstrated." << std::endl;
+    
+    return 0;
+}
+
+```
+
+---
+
+| Definitions Using Full Data Type Names | Definitions Using Abbreviated Data Type Names |
+|-------------------------------------------|-----------------------------------------------|
+| short int month; | short month; |
+| unsigned short int amount; | unsigned short amount; |
+| int days; | int days; // This has no short form |
+| unsigned int speed; | unsigned speed; |
+| long int deficit; | long deficit; |
+| unsigned long int insects; | unsigned long insects; |
+| long long int grandTotal; | long long grandTotal; |
+| unsigned long long int population; | unsigned long long population; |
+
+
+## Close up on Floating Points
+
+- Decimal numbers
+- precision - how faithful are we to real life?
+- positive and negative numbers (no unsigned)
+- truncated (not rounded)
+
+---
+
+| Data Type | Key Word | Size | Range | Significant Digits |
+|-------------------|-------------|---------|------------------------------------------|-------------------|
+| Single precision | float | 4 bytes | Numbers between ±3.4E-38 and ±3.4E38 | 7 |
+| Double precision | double | 8 bytes | Numbers between ±1.7E-308 and ±1.7E308 | 16 |
+| Long double precision | long double | 8 bytes* | Numbers between ±1.7E-308 and ±1.7E308 | 16 |
+
+*Some compilers use more than 8 bytes for a long double. This allows a greater range.*
+
+---
+
+```{.cpp code-line-numbers="10-12"}
+#include <iostream>
+#include <string>
+
+int main() {
+    // Integer types
+    int intNum = 42;
+    unsigned int unsignedNum = 100;
+    long long longLongNum = 9000000000LL;
+    
+    // Floating-point types
+    float floatNum = 3.14f;         // good  to about 6 decimal places
+    double doubleNum = 3.14159;     // good to about 15 decimal places
+    
+    // Character types
+    char charVar = 'A';
+    
+    // Boolean type
+    bool boolVar = true;
+    
+    // String type
+    std::string stringVar = "Hello, World!";
+    
+    // Auto keyword (type inference)
+    auto autoInt = 42;
+    auto autoDouble = 3.14;
+    auto autoString = std::string("Auto");
+    
+    // Const variable
+    const int CONSTANT = 100;
+    
+    std::cout << "All major variable types demonstrated." << std::endl;
+    
+    return 0;
+}
+
+```
+
+## Close up on char
+
+- Characters
+- small (1 byte) integers
+- signed/unsigned? Not specified, implementation specific.
+
+---
+
+```{.cpp code-line-numbers="14-15"}
+#include <iostream>
+#include <string>
+
+int main() {
+    // Integer types
+    int intNum = 42;
+    unsigned int unsignedNum = 100;
+    long long longLongNum = 9000000000LL;
+    
+    // Floating-point types
+    float floatNum = 3.14f;         // good  to about 6 decimal places
+    double doubleNum = 3.14159;     // good to about 15 decimal places
+    
+    // Character types
+    char charVar = 'A';
+    
+    // Boolean type
+    bool boolVar = true;
+    
+    // String type
+    std::string stringVar = "Hello, World!";
+    
+    // Auto keyword (type inference)
+    auto autoInt = 42;
+    auto autoDouble = 3.14;
+    auto autoString = std::string("Auto");
+    
+    // Const variable
+    const int CONSTANT = 100;
+    
+    std::cout << "All major variable types demonstrated." << std::endl;
+    
+    return 0;
+}
+
+```
+
+## Close up on Booleans
+
+- Holds either a 1 (true) or 0 (false).
+
+---
+
+```{.cpp code-line-numbers="17-18"}
+#include <iostream>
+#include <string>
+
+int main() {
+    // Integer types
+    int intNum = 42;
+    unsigned int unsignedNum = 100;
+    long long longLongNum = 9000000000LL;
+    
+    // Floating-point types
+    float floatNum = 3.14f;         // good  to about 6 decimal places
+    double doubleNum = 3.14159;     // good to about 15 decimal places
+    
+    // Character types
+    char charVar = 'A';
+    
+    // Boolean type
+    bool boolVar = true;
+    
+    // String type
+    std::string stringVar = "Hello, World!";
+    
+    // Auto keyword (type inference)
+    auto autoInt = 42;
+    auto autoDouble = 3.14;
+    auto autoString = std::string("Auto");
+    
+    // Const variable
+    const int CONSTANT = 100;
+    
+    std::cout << "All major variable types demonstrated." << std::endl;
+    
+    return 0;
+}
+
+```
+
+## Close up on strings
+
+- `#include <string>`
+- Holds text/symbols.
+
+---
+
+```{.cpp code-line-numbers="20-21"}
+#include <iostream>
+#include <string>
+
+int main() {
+    // Integer types
+    int intNum = 42;
+    unsigned int unsignedNum = 100;
+    long long longLongNum = 9000000000LL;
+    
+    // Floating-point types
+    float floatNum = 3.14f;         // good  to about 6 decimal places
+    double doubleNum = 3.14159;     // good to about 15 decimal places
+    
+    // Character types
+    char charVar = 'A';
+    
+    // Boolean type
+    bool boolVar = true;
+    
+    // String type
+    std::string stringVar = "Hello, World!";
+    
+    // Auto keyword (type inference)
+    auto autoInt = 42;
+    auto autoDouble = 3.14;
+    auto autoString = std::string("Auto");
+    
+    // Const variable
+    const int CONSTANT = 100;
+    
+    std::cout << "All major variable types demonstrated." << std::endl;
+    
+    return 0;
+}
+
+```
+
+## Close up on void
+
+- `void` means **no** type.
+- Incomplete type: A variable type which has been declared, but not defined.
+- The compiler knows about it but can't do anything with it like declare memory.
+- Cannot be instantiated.
+
+## Not Allowed
+
+```cpp
+void someVar;    // compiler error!
+void stuff = ??;    // compiler error!
+```
+We use void for functions and pointers.
+
+You'll see it again.
+
+## Close Up on Automatic Types
+
+Chill
+
+## When you don't feel like figuring out the type
+
+- Let the compile do it (C++11).
+- Uses the data you initialize the variable with (more later).
+- Once set, can't change (unlike Python).
+
+---
+
+```{.cpp code-line-numbers="23-26"}
+#include <iostream>
+#include <string>
+
+int main() {
+    // Integer types
+    int intNum = 42;
+    unsigned int unsignedNum = 100;
+    long long longLongNum = 9000000000LL;
+    
+    // Floating-point types
+    float floatNum = 3.14f;         // good  to about 6 decimal places
+    double doubleNum = 3.14159;     // good to about 15 decimal places
+    
+    // Character types
+    char charVar = 'A';
+    
+    // Boolean type
+    bool boolVar = true;
+    
+    // String type
+    std::string stringVar = "Hello, World!";
+    
+    // Auto keyword (type inference)
+    auto autoInt = 42;
+    auto autoDouble = 3.14;
+    auto autoString = std::string("Auto");
+    
+    // Const variable
+    const int CONSTANT = 100;
+    
+    std::cout << "All major variable types demonstrated." << std::endl;
+    
+    return 0;
+}
+
+```
+
+## Close up on constants
+
+- Remember, these are **READ-ONLY**
+- Set the value when you initialize.
+- Compile will not let you change it.
+
+---
+
+```{.cpp code-line-numbers="28-29"}
+#include <iostream>
+#include <string>
+
+int main() {
+    // Integer types
+    int intNum = 42;
+    unsigned int unsignedNum = 100;
+    long long longLongNum = 9000000000LL;
+    
+    // Floating-point types
+    float floatNum = 3.14f;         // good  to about 6 decimal places
+    double doubleNum = 3.14159;     // good to about 15 decimal places
+    
+    // Character types
+    char charVar = 'A';
+    
+    // Boolean type
+    bool boolVar = true;
+    
+    // String type
+    std::string stringVar = "Hello, World!";
+    
+    // Auto keyword (type inference)
+    auto autoInt = 42;
+    auto autoDouble = 3.14;
+    auto autoString = std::string("Auto");
+    
+    // Const variable
+    const int CONSTANT = 100;
+    
+    std::cout << "All major variable types demonstrated." << std::endl;
+    
+    return 0;
+}
+
+```
+
+## Now you try it
+
+Create five variables that describe your morning:
+
+- How many minutes did you sleep?
+- What’s the temperature outside?
+- What’s the first letter of your name?
+- Did you wake up on time?
+- What’s the name of your favorite breakfast?
+
+
+---
+
+![Sketch](topics/type_overview/images/sketch-1-2.1.jpg)
+
+
+
+## Remember
+
+C++ provides multiple data types (integers, floating-point numbers, characters, strings, and booleans) to give programmers precise control over memory usage and data behavior, though choosing the right integer or floating-point size is less critical today than it once was. The `auto` keyword allows the compiler to automatically infer variable types from initialization values, while `const` creates read-only variables that cannot be changed after they're set.

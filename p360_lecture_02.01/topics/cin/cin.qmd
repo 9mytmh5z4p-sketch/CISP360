@@ -1,0 +1,480 @@
+
+# Getting User Input with `cin`
+
+::: notes
+
+:::
+
+
+## Introduction
+
+So far, we've been using `cout` to **output** information to the screen. But what if we want our programs to be interactive? What if we want to ask the user questions and get their answers?
+
+That's where `cin` comes in!
+
+---
+
+## What is `cin`?
+
+**`cin`** (pronounced "see-in") stands for **"character input"** or **"console input"**
+
+- It reads data from the keyboard
+- It's part of the `<iostream>` library (same as `cout`)
+- It's in the `std` namespace
+
+**Think of it this way:**
+- `cout` = **output** (computer talks to user) -> screen
+- `cin` = **input** (user talks to computer) <- keyboard
+
+---
+
+## Basic Syntax
+
+The basic syntax for `cin` uses the **stream extraction operator** `>>`
+
+```cpp
+cin >> variableName;
+```
+
+**Notice:** 
+- `cout` uses `<<` (insertion operator - puts data OUT)
+- `cin` uses `>>` (extraction operator - pulls data IN)
+
+**Think of the arrows:**
+- `cout <<` - arrows point toward cout (data flows TO output)
+- `cin >>` - arrows point away from cin (data flows FROM input)
+
+---
+
+## Simple Example
+
+Let's write a program that asks for the user's age:
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int age;  // Declare a variable to store the age
+    
+    cout << "How old are you? ";  // Ask the question
+    cin >> age;                    // Wait for user input
+    
+    cout << "You are " << age << " years old." << endl;
+    
+    return 0;
+}
+```
+
+---
+
+**What happens when this runs:**
+1. Program displays: "How old are you? "
+2. Program **waits** for the user to type a number and press Enter
+3. User types `25` and presses Enter
+4. The value `25` is stored in the variable `age`
+5. Program displays: "You are 25 years old."
+
+---
+
+## Key Concepts
+
+## 1. The Variable Must Exist First
+
+**WRONG:**
+```cpp
+cin >> age;  // Error! What is 'age'?
+```
+
+**RIGHT:**
+```cpp
+int age;     // Declare the variable first
+cin >> age;  // Now we can read into it
+```
+
+## 2. The Variable Type Matters
+
+`cin` automatically converts the input to match your variable type:
+
+```cpp
+int number;
+cin >> number;     // Expects an integer (whole number)
+
+double price;
+cin >> price;      // Expects a decimal number
+
+string name;
+cin >> name;       // Expects text
+```
+
+::: notes
+We will have entire lectures about what happens if it doesn't match.
+:::
+
+## 3. The Program Waits
+
+When your program reaches `cin`, it **stops and waits** for the user to:
+1. Type something
+2. Press Enter
+
+This is called **blocking** - the program is blocked until input is received.
+
+---
+
+## Reading Different Data Types
+
+## Reading Integers
+
+```cpp
+int numberOfPets;
+
+cout << "How many pets do you have? ";
+cin >> numberOfPets;
+
+cout << "You have " << numberOfPets << " pets." << endl;
+```
+
+## Reading Decimals (Floating-Point)
+
+```cpp
+double temperature;
+
+cout << "What is the temperature? ";
+cin >> temperature;
+
+cout << "It is " << temperature << " degrees." << endl;
+```
+
+## Reading Single Words (Strings)
+
+```cpp
+string firstName;
+
+cout << "What is your first name? ";
+cin >> firstName;
+
+cout << "Hello, " << firstName << "!" << endl;
+```
+
+**Important:** `cin >>` only reads **one word** at a time. It stops at whitespace (spaces, tabs, Enter).
+
+---
+
+## Reading Multiple Values
+
+You can read multiple values in one statement:
+
+```cpp
+int month, day, year;
+
+cout << "Enter your birth month, day, and year: ";
+cin >> month >> day >> year;
+
+cout << "You were born on " << month << "/" << day << "/" << year << endl;
+```
+
+**User types:** `3 15 2005` (separated by spaces) and presses Enter
+
+**Output:** `You were born on 3/15/2005`
+
+---
+
+## Reading Multiple Values Separately
+
+You can also prompt for each value individually:
+
+```cpp
+string firstName, lastName;
+int age;
+
+cout << "Enter your first name: ";
+cin >> firstName;
+
+cout << "Enter your last name: ";
+cin >> lastName;
+
+cout << "Enter your age: ";
+cin >> age;
+
+cout << "Hello, " << firstName << " " << lastName << "!" << endl;
+cout << "You are " << age << " years old." << endl;
+```
+
+---
+
+## The Whitespace Problem
+
+**Important limitation:** `cin >>` stops reading at the first whitespace (space, tab, or newline).
+
+### Example of the Problem:
+
+```cpp
+string fullName;
+
+cout << "What is your full name? ";
+cin >> fullName;  // User types: John Smith
+
+cout << "Your name is " << fullName << endl;
+```
+
+**Output:** `Your name is John`
+
+**What happened?** `cin >>` only captured "John" and stopped at the space!
+
+## Solution: `getline()`
+
+For reading entire lines (including spaces), use `getline()`:
+
+```cpp
+string fullName;
+
+cout << "What is your full name? ";
+getline(cin, fullName);  // Reads the entire line
+
+cout << "Your name is " << fullName << endl;
+```
+
+**Output:** `Your name is John Smith`
+
+**Note:** We'll learn more about `getline()` in detail later.
+
+---
+
+## Complete Example Program
+
+Here's a complete program that demonstrates `cin`:
+
+```cpp
+// input_demo.cpp - Demonstrating cin
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    // Declare variables
+    string name;
+    int age;
+    double height;
+    
+    // Get user information
+    cout << "=== Personal Information ===" << endl;
+    cout << endl;
+    
+    cout << "Enter your name: ";
+    cin >> name;
+    
+    cout << "Enter your age: ";
+    cin >> age;
+    
+    cout << "Enter your height in inches: ";
+    cin >> height;
+    
+    // Display the information back
+    cout << endl;
+    cout << "=== Your Information ===" << endl;
+    cout << "Name: " << name << endl;
+    cout << "Age: " << age << " years old" << endl;
+    cout << "Height: " << height << " inches" << endl;
+    
+    return 0;
+}
+```
+
+---
+
+**Sample Run:**
+```
+=== Personal Information ===
+
+Enter your name: Alice
+Enter your age: 20
+Enter your height in inches: 65.5
+
+=== Your Information ===
+Name: Alice
+Age: 20 years old
+Height: 65.5 inches
+```
+
+---
+
+## Common Mistakes and How to Avoid Them
+
+## Mistake 1: Forgetting to Declare the Variable
+
+**WRONG:**
+```cpp
+cout << "Enter your age: ";
+cin >> age;  // Error! 'age' doesn't exist
+```
+
+**RIGHT:**
+```cpp
+int age;     // Declare first
+cout << "Enter your age: ";
+cin >> age;  // Now it works
+```
+
+## Mistake 2: Type Mismatch
+
+**Problem:**
+```cpp
+int number;
+cout << "Enter a number: ";
+cin >> number;  // User types: "hello"
+```
+
+If the user enters something that doesn't match the type (like text when expecting a number), `cin` will fail and your program may behave unexpectedly.
+
+**We'll learn how to handle this problem later in the course.**
+
+## Mistake 3: Using `>>` for Multi-word Input
+
+**WRONG for full names:**
+```cpp
+string fullName;
+cin >> fullName;  // Only gets first word
+```
+
+**RIGHT for full names:**
+```cpp
+string fullName;
+getline(cin, fullName);  // Gets entire line
+```
+
+## Mistake 4: No Prompt Message
+
+**Confusing for users:**
+```cpp
+int age;
+cin >> age;  // User sees cursor blinking - what do they enter?
+```
+
+**Better - always prompt:**
+```cpp
+int age;
+cout << "Please enter your age: ";  // Clear prompt
+cin >> age;
+```
+
+::: notes
+Consider using this prompt pattern whenever you have to use cin.
+:::
+
+---
+
+## Best Practices
+
+## 1. Always Prompt Before Input
+
+**Bad:**
+```cpp
+cin >> value;  // User doesn't know what to enter
+```
+
+**Good:**
+```cpp
+cout << "Enter the temperature in Fahrenheit: ";
+cin >> value;
+```
+
+## 2. Use Descriptive Prompts
+
+**Vague:**
+```cpp
+cout << "Enter number: ";
+```
+
+**Clear:**
+```cpp
+cout << "Enter the number of students in your class: ";
+```
+
+## 3. Echo the Input Back
+
+Confirm what the user entered:
+
+```cpp
+int quantity;
+cout << "How many items? ";
+cin >> quantity;
+cout << "You entered: " << quantity << endl;  // Echo back
+```
+
+## 4. Use Meaningful Variable Names
+
+**Bad:**
+```cpp
+int x;
+cin >> x;
+```
+
+**Good:**
+```cpp
+int numberOfStudents;
+cin >> numberOfStudents;
+```
+
+---
+
+## Practice Exercises
+
+::: notes
+Students may want to try these at home.
+:::
+
+## Exercise 1: Age Calculator
+
+Write a program that:
+1. Asks for the user's current age
+2. Asks for the year they were born
+3. Displays both pieces of information
+
+## Exercise 2: Rectangle Calculator
+
+Write a program that:
+1. Asks for the length of a rectangle
+2. Asks for the width of a rectangle
+3. Calculates and displays the area (length × width)
+
+## Exercise 3: Personal Greeting
+
+Write a program that:
+1. Asks for the user's first name
+2. Asks for their favorite color
+3. Displays a personalized message using both inputs
+
+---
+
+## Key Takeaways
+
+- `cin` is used to get input from the user  
+- Use the extraction operator `>>` to read input  
+- The variable must be declared before using it with `cin`  
+- `cin >>` stops at whitespace (spaces)  
+- Always provide clear prompts before asking for input  
+- The program waits at `cin` until the user presses Enter  
+
+---
+
+## Coming Up Next
+
+In future lectures, we'll learn:
+- How to handle input errors
+- More about `getline()` for reading full lines
+- Input validation techniques
+- Working with multiple inputs in calculations
+
+---
+
+## Summary
+
+`cin` makes our programs **interactive**! Instead of always showing the same output, we can now:
+- Ask questions
+- Get user input
+- Respond based on what the user tells us
+
+This is the foundation of creating programs that solve real problems for real users.
+
+**Remember:** Every interactive program you use (games, apps, websites) started with these basic concepts of getting input from users!
