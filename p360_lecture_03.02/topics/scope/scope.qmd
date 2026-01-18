@@ -1,0 +1,279 @@
+
+# Scope
+
+## Type this in
+
+```{.cpp} 
+#include <iostream>
+#include <vector>
+using namespace std;
+// Normal top matter above
+
+int main() {
+    vector<int> numbers = {10, 25, 15, 30, 20};
+    vector<string> labels = {"Alpha", "Beta", "Gamma", "Delta", "Echo"};
+    
+    int index = 0;
+    for (string label : labels) {
+        cout << label << ": " << numbers[index] << endl;
+        index++;
+    }
+    
+    return 0;
+}
+```
+
+---
+
+** Notice This**
+
+```{.cpp code-line-numbers="13-16"} 
+#include <iostream>
+#include <vector>
+using namespace std;
+// Normal top matter above
+
+int main() {
+    vector<int> numbers = {10, 25, 15, 30, 20};
+    vector<string> labels = {"Alpha", "Beta", "Gamma", "Delta", "Echo"};
+    
+    int index = 0;
+    for (string label : labels) {
+        cout << label << ": " << numbers[index] << endl;
+        index++;
+    }
+    
+    return 0;
+}
+```
+
+---
+
+** We Haven't Seen that Before**
+
+```{.cpp code-line-numbers="13-16"} 
+
+    
+    int index = 0;
+    for (string label : labels) {
+        cout << label << ": " << numbers[index] << endl;
+        index++;
+    }
+
+```
+
+All the code we've seen so far has only 1 line of syntax involved with the loop.
+
+## Let's Play With This
+
+Go ahead and add this line:
+
+```{.cpp code-line-numbers="14"} 
+#include <iostream>
+#include <vector>
+using namespace std;
+// Normal top matter above
+
+int main() {
+    vector<int> numbers = {10, 25, 15, 30, 20};
+    vector<string> labels = {"Alpha", "Beta", "Gamma", "Delta", "Echo"};
+    
+    int index = 0;
+    for (string label : labels) {
+        cout << label << ": " << numbers[index] << endl;
+        index++;
+        cout << index << endl;
+    }
+    
+    return 0;
+}
+```
+
+## What does this tell us?
+
+Notice `index` was declared and initialized **outside** of the loop.
+
+We had no trouble working with it **inside** the loop.
+
+## Let's make a change
+
+Replace the line you just added with the following:
+
+``` cpp
+      int myInt = 125;
+      cout << myInt << endl;
+```
+
+Run this.
+
+## What happened?
+
+## What happened?
+
+It should have run just fine.
+
+No surprises. This means we can access the variable created there from inside of that block.
+
+Recall, a block is the area of code between two braces: `{` and `}`
+
+## Let's make another change
+
+Move the `cout` statement so it's just above the `return 0;`
+
+``` cpp
+    cout << myInt << endl;
+    return 0;
+```
+
+Run it again.
+
+## What happened?
+
+## What happened?
+
+This should have generated an error.
+
+```
+ERROR!
+/tmp/FGfsFVxFCm/main.cpp: In function 'int main()':
+/tmp/FGfsFVxFCm/main.cpp:17:13: error: 'myInt' was not declared in this scope
+   17 |     cout << myInt << endl;
+      |             ^~~~~
+
+
+=== Code Exited With Errors ===
+```
+
+C++ did not recognize the variable, **but we declared it!**
+
+---
+
+- myInt was declared but it was a different level of scope than the `cout` statement.
+- Scope can possess a hierarchy.
+- The level of scope inside the for each loop is a lower level than the scope inside of main().
+- To access a variable, the level of scope must be the same or lower than the level upon which the variable was declared.
+
+---
+
+We are using the variable at a higher level of scope than what it was declared at.
+The compiler does not recognize the variable.
+
+``` cpp
+    int index = 0;
+    for (string label : labels) {
+        cout << label << ": " << numbers[index] << endl;
+        index++;
+        int myInt =125;
+    }
+    
+    cout << myInt << endl;
+    return 0;
+```
+
+## The Fix
+
+- The rule is the scope can be at the same level or lower.
+- To implement that here, we would simply move the declaration `int myInt =125;` out of the for-each loop and into main().
+- That would make it at the same level where we are using it in the `cout` statement and that would eliminate our problems.
+
+---
+
+```{.cpp code-line-numbers="10"}
+#include <iostream>
+#include <vector>
+using namespace std;
+// Normal top matter above
+
+int main() {
+    vector<int> numbers = {10, 25, 15, 30, 20};
+    vector<string> labels = {"Alpha", "Beta", "Gamma", "Delta", "Echo"};
+    
+    int myInt =125;
+    int index = 0;
+    for (string label : labels) {
+        cout << label << ": " << numbers[index] << endl;
+        index++;
+    }
+    
+    cout << myInt << endl;
+    return 0;
+}
+```
+
+## Why Do We Have Scope?
+
+Scope serves several purposes:
+
+::: {.incremental}
+1. Prevents Name Conflicts
+2. Memory Management.
+3. Fosters Encapsulation and Information Hiding
+4. Reduce Bugs
+5. Makes code more readable
+::: 
+
+## Prevents Name Conflicts
+
+Without scope, you could only use each variable name once in your entire program:
+
+```cpp
+int count = 0;  // counting users
+// ...1000 lines later...
+int count = 0;  // ERROR! want to count something else, but name is taken
+```
+With scope, you can reuse names in different contexts without collision.
+
+## Memory Management
+
+Variables are automatically destroyed when they go out of scope:
+
+```cpp
+for (int i = 0; i < 1000; i++) {
+    string tempData = loadLargeFile();  // memory allocated
+    processData(tempData);
+}  // tempData destroyed here, memory freed automatically
+```
+
+Without scope, you'd have to manually track and delete every variable, leading to memory leaks.
+
+## Fosters Encapsulation and Information Hiding
+
+Scope lets you hide implementation details:
+
+```cpp
+void calculateTotal() {
+    int subtotal = 100;  // internal calculation
+    int tax = 10;        // nobody outside needs to see this
+    return subtotal + tax;
+}
+// subtotal and tax don't clutter the outer namespace
+```
+
+::: notes
+This means there is less we need to remember. It lightens our cognitive load.
+:::
+
+
+## Reduce Bugs
+
+Scope limits where variables can be accidentally modified:
+
+```cpp
+int userID = 5;
+
+for (int i = 0; i < 10; i++) {
+    int result = userID * i;
+}
+
+cout << result << endl;  // ERROR: result doesn't exist here
+```
+
+We can't accidentally use `result` outside of the loop.
+
+## Makes code more readable
+
+Scope tells you where to look for variable definitions. If you see a variable used in a function, you know it's either declared in that function, passed as a parameter, or is a global—you don't have to search the entire codebase.
+
+## In Summary
+
+Scope helps organize code, manage memory efficiently, prevent bugs, and make programs easier to understand and maintain.

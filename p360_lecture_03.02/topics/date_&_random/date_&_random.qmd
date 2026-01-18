@@ -1,0 +1,174 @@
+
+# Dates & Random Numbers in C++
+
+
+## Working with Dates and Times
+
+Sometimes we need to get the current date and/or time.
+
+C++ provides functionality to work with dates and times through the `<ctime>` library.
+
+## Getting the Current Date and Time
+
+```cpp
+// dateTime.cpp -- date & time example
+#include <iostream>
+using namespace std;
+
+int main() {
+    time_t now = time(nullptr);
+    cout << asctime(localtime(&now)) << endl;
+    
+    return 0;
+}
+```
+
+**Output:**
+```
+Wed Feb  1 18:19:01 2023
+```
+
+## Understanding the Date/Time Components
+
+**`time_t`** is a data type that represents time as a number (typically seconds since January 1, 1970).
+
+**`time(nullptr)`** gets the current time and stores it in a `time_t` variable.
+
+**`localtime(&now)`** converts the `time_t` value to a structure containing the broken-down local time (year, month, day, hour, minute, second).
+
+**`asctime()`** converts the time structure into a human-readable string format.
+
+## Practical Uses
+
+### Date and Time
+- Logging and timestamps
+- Scheduling and timing events
+- Calculating elapsed time
+- Displaying current date/time to users
+
+
+## Random Numbers
+
+Sometimes we need to generate random numbers in our programs. C++ provides several ways to accomplish this, ranging from simple to more sophisticated approaches.
+
+## Basic Random Number Generation
+
+The simplest way to generate random numbers in C++ is using the `rand()` function from the `<cstdlib>` library.
+
+## A Simple Example
+
+Type this in.
+
+```cpp
+//3-30.cpp -- random numbers
+// generates the same numbers
+#include <iostream>
+#include <cstdlib>     // for rand
+using namespace std;
+
+int main() {
+    cout << rand() << "\t";
+    cout << rand() << "\t";
+    cout << rand() << endl;
+    
+    return 0;
+}
+```
+
+Rerun and examine the output. What do you notice about the numbers?
+
+---
+
+**Problem:** This program will generate the same sequence of "random" numbers every time you run it!
+
+**Why?** Because the starting value of the random number generator or seed, does not change. This leads to the same result every time it's run.
+
+::: {.incremental}
+To get different random numbers each time the program runs, we need to "seed" the random number generator with a different number using `srand()`.
+::: 
+
+## Using Time as a Seed
+
+```cpp
+//3-32.cpp -- useful random numbers
+// generates the same numbers
+#include <iostream>
+#include <cstdlib>     // for rand
+#include <ctime>       // for time
+using namespace std;
+
+int main() {
+    unsigned seed;
+    // seed = 100;              // for debugging
+    seed = time(0);             // different random numbers
+    srand(seed);                // randomize
+    
+    cout << rand() << "\t";
+    
+    // 6 sided die
+    cout << rand() % 6 + 1 << "\t";
+    
+    // random number between 8 and 12
+    cout << (rand() % (12 - 8 + 1)) + 8 << endl;
+    
+    return 0;
+}
+```
+
+::: notes
+Type this in and run. We use the seed for debugging.
+::: 
+
+## Understanding the Seeding Process
+
+**`time(0)`** returns the current time in seconds since January 1, 1970 (Unix epoch). Since this value changes every second, it provides a different seed value each time you run the program.
+
+**`srand(seed)`** initializes the random number generator with the seed value, ensuring different sequences of random numbers.
+
+## Generating Random Numbers in Specific Ranges
+
+## Simulating a Six-Sided Die
+
+To generate a random number between 1 and 6:
+
+```cpp
+rand() % 6 + 1
+```
+
+**How it works:**
+- `rand() % 6` produces values from 0 to 5
+- Adding 1 shifts the range to 1 to 6
+
+## Random Numbers in Any Range
+
+To generate a random number between a minimum and maximum value:
+
+```cpp
+(rand() % (max - min + 1)) + min
+```
+
+**Example:** For a random number between 8 and 12:
+
+```cpp
+(rand() % (12 - 8 + 1)) + 8
+```
+
+This formula works because:
+- `12 - 8 + 1 = 5` (there are 5 possible values: 8, 9, 10, 11, 12)
+- `rand() % 5` produces 0, 1, 2, 3, or 4
+- Adding 8 shifts these to 8, 9, 10, 11, or 12
+
+## Practical Uses
+
+## Random Numbers
+- Game development (dice rolls, random events)
+- Simulations and modeling
+- Generating test data
+- Cryptographic applications (though more sophisticated methods are needed for security)
+
+## Important Notes
+
+**Pseudo-random vs. True Random:** The `rand()` function generates pseudo-random numbers. They appear random but follow a deterministic sequence based on the seed. For most applications, this is sufficient.
+
+**Better Alternatives:** Modern C++ (C++11 and later) provides more sophisticated random number generation through the `<random>` library, which offers better statistical properties and more control over distributions.
+

@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="p360_lecture_03.02_files/libs/clipboard/clipboard.min.js"></script>
+<script src="p360_lecture_03.02_files/libs/quarto-html/tabby.min.js"></script>
+<script src="p360_lecture_03.02_files/libs/quarto-html/popper.min.js"></script>
+<script src="p360_lecture_03.02_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="p360_lecture_03.02_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="p360_lecture_03.02_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="p360_lecture_03.02_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.26">
+
+  <meta name="author" content="Dr.&nbsp;Caleb Fowler">
+  <title>CISP 360 Structured Programming</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="p360_lecture_03.02_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="p360_lecture_03.02_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="p360_lecture_03.02_files/libs/revealjs/dist/theme/quarto-99eeafcedac04850354b682963cedae3.css">
+  <link href="p360_lecture_03.02_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="p360_lecture_03.02_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="p360_lecture_03.02_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="p360_lecture_03.02_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <style>
+  /* ===== Global slide layout ===== */
+
+  /* Left-align titles to match images/code */
+  .reveal h1 {
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-align: center;
+  }
+  .reveal h2 {
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+  .reveal h3 {
+    font-weight: 600;
+  }
+
+  /* Code window sizing */
+  .reveal pre {
+    max-height: 98vh;
+    overflow-y: auto;
+  }
+
+  .reveal pre code {
+    font-size: 0.9em;
+    line-height: 1.20;
+    padding: 0.6em;
+  }
+
+  /* C++ code blocks only (Quarto/Pandoc correct selectors) */
+  .reveal pre.sourceCode.cpp,
+  .reveal pre.sourceCode.cpp code {
+    background-color: #ffffff !important;
+    color: #000000;
+  }
+
+  /* Optional: subtle border for contrast */
+  .reveal pre.sourceCode.cpp {
+    border: 1px solid #ccc;
+  }
+
+  /* Strong, visible line highlighting for code */
+  .reveal pre .line-highlight {
+    background-color: #fff3cd;   /* pale yellow */
+    display: block;
+    width: 100%;
+  }
+
+  /* Optional: emphasize the line number itself */
+  .reveal pre .line-highlight .hljs-ln-numbers {
+    font-weight: bold;
+    color: #b45309;
+  }
+
+  .reveal .highlight-line {
+  background-color: rgba(255, 235, 59, 0.08);
+  border-left: 6px solid #d97706;
+  padding-left: 0.5em;
+  }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">CISP 360 Structured Programming</h1>
+  <p class="subtitle">Introduction to C++</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Dr.&nbsp;Caleb Fowler 
+</div>
+</div>
+</div>
+
+</section>
+<section id="last-time" class="slide level2">
+<h2>Last Time</h2>
+
+</section>
+<section id="todays-agenda" class="slide level2">
+<h2>Today’s Agenda</h2>
+<ul>
+<li>Scope</li>
+<li>Random Numbers</li>
+<li>Colors on the Terminal</li>
+</ul>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section>
+<section id="scope" class="title-slide slide level1 center">
+<h1>Scope</h1>
+
+</section>
+<section id="type-this-in" class="slide level2">
+<h2>Type this in</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb1-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb1-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb1-4"><a href=""></a><span class="co">// Normal top matter above</span></span>
+<span id="cb1-5"><a href=""></a></span>
+<span id="cb1-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-7"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">25</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">20</span><span class="op">};</span></span>
+<span id="cb1-8"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> labels <span class="op">=</span> <span class="op">{</span><span class="st">"Alpha"</span><span class="op">,</span> <span class="st">"Beta"</span><span class="op">,</span> <span class="st">"Gamma"</span><span class="op">,</span> <span class="st">"Delta"</span><span class="op">,</span> <span class="st">"Echo"</span><span class="op">};</span></span>
+<span id="cb1-9"><a href=""></a>    </span>
+<span id="cb1-10"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-11"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string label <span class="op">:</span> labels<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-12"><a href=""></a>        cout <span class="op">&lt;&lt;</span> label <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> numbers<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-13"><a href=""></a>        index<span class="op">++;</span></span>
+<span id="cb1-14"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb1-15"><a href=""></a>    </span>
+<span id="cb1-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+
+<p>** Notice This**</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-code-line-numbers="13-16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb2-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb2-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb2-4"><a href=""></a><span class="co">// Normal top matter above</span></span>
+<span id="cb2-5"><a href=""></a></span>
+<span id="cb2-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-7"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">25</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">20</span><span class="op">};</span></span>
+<span id="cb2-8"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> labels <span class="op">=</span> <span class="op">{</span><span class="st">"Alpha"</span><span class="op">,</span> <span class="st">"Beta"</span><span class="op">,</span> <span class="st">"Gamma"</span><span class="op">,</span> <span class="st">"Delta"</span><span class="op">,</span> <span class="st">"Echo"</span><span class="op">};</span></span>
+<span id="cb2-9"><a href=""></a>    </span>
+<span id="cb2-10"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-11"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string label <span class="op">:</span> labels<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-12"><a href=""></a>        cout <span class="op">&lt;&lt;</span> label <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> numbers<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-13"><a href=""></a>        index<span class="op">++;</span></span>
+<span id="cb2-14"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb2-15"><a href=""></a>    </span>
+<span id="cb2-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+
+<p>** We Haven’t Seen that Before**</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-code-line-numbers="13-16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a></span>
+<span id="cb3-2"><a href=""></a>    </span>
+<span id="cb3-3"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string label <span class="op">:</span> labels<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> label <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> numbers<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb3-6"><a href=""></a>        index<span class="op">++;</span></span>
+<span id="cb3-7"><a href=""></a>    <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>All the code we’ve seen so far has only 1 line of syntax involved with the loop.</p>
+</section>
+<section id="lets-play-with-this" class="slide level2">
+<h2>Let’s Play With This</h2>
+<p>Go ahead and add this line:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-code-line-numbers="14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb4-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb4-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb4-4"><a href=""></a><span class="co">// Normal top matter above</span></span>
+<span id="cb4-5"><a href=""></a></span>
+<span id="cb4-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-7"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">25</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">20</span><span class="op">};</span></span>
+<span id="cb4-8"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> labels <span class="op">=</span> <span class="op">{</span><span class="st">"Alpha"</span><span class="op">,</span> <span class="st">"Beta"</span><span class="op">,</span> <span class="st">"Gamma"</span><span class="op">,</span> <span class="st">"Delta"</span><span class="op">,</span> <span class="st">"Echo"</span><span class="op">};</span></span>
+<span id="cb4-9"><a href=""></a>    </span>
+<span id="cb4-10"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-11"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string label <span class="op">:</span> labels<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-12"><a href=""></a>        cout <span class="op">&lt;&lt;</span> label <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> numbers<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb4-13"><a href=""></a>        index<span class="op">++;</span></span>
+<span id="cb4-14"><a href=""></a>        cout <span class="op">&lt;&lt;</span> index <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb4-15"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb4-16"><a href=""></a>    </span>
+<span id="cb4-17"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="what-does-this-tell-us" class="slide level2">
+<h2>What does this tell us?</h2>
+<p>Notice <code>index</code> was declared and initialized <strong>outside</strong> of the loop.</p>
+<p>We had no trouble working with it <strong>inside</strong> the loop.</p>
+</section>
+<section id="lets-make-a-change" class="slide level2">
+<h2>Let’s make a change</h2>
+<p>Replace the line you just added with the following:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a>      <span class="dt">int</span> myInt <span class="op">=</span> <span class="dv">125</span><span class="op">;</span></span>
+<span id="cb5-2"><a href=""></a>      cout <span class="op">&lt;&lt;</span> myInt <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Run this.</p>
+</section>
+<section id="what-happened" class="slide level2">
+<h2>What happened?</h2>
+</section>
+<section id="what-happened-1" class="slide level2">
+<h2>What happened?</h2>
+<p>It should have run just fine.</p>
+<p>No surprises. This means we can access the variable created there from inside of that block.</p>
+<p>Recall, a block is the area of code between two braces: <code>{</code> and <code>}</code></p>
+</section>
+<section id="lets-make-another-change" class="slide level2">
+<h2>Let’s make another change</h2>
+<p>Move the <code>cout</code> statement so it’s just above the <code>return 0;</code></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a>    cout <span class="op">&lt;&lt;</span> myInt <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb6-2"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Run it again.</p>
+</section>
+<section id="what-happened-2" class="slide level2">
+<h2>What happened?</h2>
+</section>
+<section id="what-happened-3" class="slide level2">
+<h2>What happened?</h2>
+<p>This should have generated an error.</p>
+<pre><code>ERROR!
+/tmp/FGfsFVxFCm/main.cpp: In function 'int main()':
+/tmp/FGfsFVxFCm/main.cpp:17:13: error: 'myInt' was not declared in this scope
+   17 |     cout &lt;&lt; myInt &lt;&lt; endl;
+      |             ^~~~~
+
+
+=== Code Exited With Errors ===</code></pre>
+<p>C++ did not recognize the variable, <strong>but we declared it!</strong></p>
+</section>
+<section class="slide level2">
+
+<ul>
+<li>myInt was declared but it was a different level of scope than the <code>cout</code> statement.</li>
+<li>Scope can possess a hierarchy.</li>
+<li>The level of scope inside the for each loop is a lower level than the scope inside of main().</li>
+<li>To access a variable, the level of scope must be the same or lower than the level upon which the variable was declared.</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<p>We are using the variable at a higher level of scope than what it was declared at. The compiler does not recognize the variable.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string label <span class="op">:</span> labels<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> label <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> numbers<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb8-4"><a href=""></a>        index<span class="op">++;</span></span>
+<span id="cb8-5"><a href=""></a>        <span class="dt">int</span> myInt <span class="op">=</span><span class="dv">125</span><span class="op">;</span></span>
+<span id="cb8-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb8-7"><a href=""></a>    </span>
+<span id="cb8-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> myInt <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb8-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="the-fix" class="slide level2">
+<h2>The Fix</h2>
+<ul>
+<li>The rule is the scope can be at the same level or lower.</li>
+<li>To implement that here, we would simply move the declaration <code>int myInt =125;</code> out of the for-each loop and into main().</li>
+<li>That would make it at the same level where we are using it in the <code>cout</code> statement and that would eliminate our problems.</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-code-line-numbers="10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb9-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb9-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb9-4"><a href=""></a><span class="co">// Normal top matter above</span></span>
+<span id="cb9-5"><a href=""></a></span>
+<span id="cb9-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-7"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">25</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">20</span><span class="op">};</span></span>
+<span id="cb9-8"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> labels <span class="op">=</span> <span class="op">{</span><span class="st">"Alpha"</span><span class="op">,</span> <span class="st">"Beta"</span><span class="op">,</span> <span class="st">"Gamma"</span><span class="op">,</span> <span class="st">"Delta"</span><span class="op">,</span> <span class="st">"Echo"</span><span class="op">};</span></span>
+<span id="cb9-9"><a href=""></a>    </span>
+<span id="cb9-10"><a href=""></a>    <span class="dt">int</span> myInt <span class="op">=</span><span class="dv">125</span><span class="op">;</span></span>
+<span id="cb9-11"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-12"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string label <span class="op">:</span> labels<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-13"><a href=""></a>        cout <span class="op">&lt;&lt;</span> label <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> numbers<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb9-14"><a href=""></a>        index<span class="op">++;</span></span>
+<span id="cb9-15"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb9-16"><a href=""></a>    </span>
+<span id="cb9-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> myInt <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb9-18"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="why-do-we-have-scope" class="slide level2">
+<h2>Why Do We Have Scope?</h2>
+<p>Scope serves several purposes:</p>
+<ol type="1">
+<li class="fragment">Prevents Name Conflicts</li>
+<li class="fragment">Memory Management.</li>
+<li class="fragment">Fosters Encapsulation and Information Hiding</li>
+<li class="fragment">Reduce Bugs</li>
+<li class="fragment">Makes code more readable</li>
+</ol>
+</section>
+<section id="prevents-name-conflicts" class="slide level2">
+<h2>Prevents Name Conflicts</h2>
+<p>Without scope, you could only use each variable name once in your entire program:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">// counting users</span></span>
+<span id="cb10-2"><a href=""></a><span class="co">// ...1000 lines later...</span></span>
+<span id="cb10-3"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">// ERROR! want to count something else, but name is taken</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>With scope, you can reuse names in different contexts without collision.</p>
+</section>
+<section id="memory-management" class="slide level2">
+<h2>Memory Management</h2>
+<p>Variables are automatically destroyed when they go out of scope:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">1000</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href=""></a>    string tempData <span class="op">=</span> loadLargeFile<span class="op">();</span>  <span class="co">// memory allocated</span></span>
+<span id="cb11-3"><a href=""></a>    processData<span class="op">(</span>tempData<span class="op">);</span></span>
+<span id="cb11-4"><a href=""></a><span class="op">}</span>  <span class="co">// tempData destroyed here, memory freed automatically</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Without scope, you’d have to manually track and delete every variable, leading to memory leaks.</p>
+</section>
+<section id="fosters-encapsulation-and-information-hiding" class="slide level2">
+<h2>Fosters Encapsulation and Information Hiding</h2>
+<p>Scope lets you hide implementation details:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">void</span> calculateTotal<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb12-2"><a href=""></a>    <span class="dt">int</span> subtotal <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>  <span class="co">// internal calculation</span></span>
+<span id="cb12-3"><a href=""></a>    <span class="dt">int</span> tax <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>        <span class="co">// nobody outside needs to see this</span></span>
+<span id="cb12-4"><a href=""></a>    <span class="cf">return</span> subtotal <span class="op">+</span> tax<span class="op">;</span></span>
+<span id="cb12-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb12-6"><a href=""></a><span class="co">// subtotal and tax don't clutter the outer namespace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>This means there is less we need to remember. It lightens our cognitive load.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="reduce-bugs" class="slide level2">
+<h2>Reduce Bugs</h2>
+<p>Scope limits where variables can be accidentally modified:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">int</span> userID <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb13-2"><a href=""></a></span>
+<span id="cb13-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb13-4"><a href=""></a>    <span class="dt">int</span> result <span class="op">=</span> userID <span class="op">*</span> i<span class="op">;</span></span>
+<span id="cb13-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb13-6"><a href=""></a></span>
+<span id="cb13-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> result <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// ERROR: result doesn't exist here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We can’t accidentally use <code>result</code> outside of the loop.</p>
+</section>
+<section id="makes-code-more-readable" class="slide level2">
+<h2>Makes code more readable</h2>
+<p>Scope tells you where to look for variable definitions. If you see a variable used in a function, you know it’s either declared in that function, passed as a parameter, or is a global—you don’t have to search the entire codebase.</p>
+</section>
+<section id="in-summary" class="slide level2">
+<h2>In Summary</h2>
+<p>Scope helps organize code, manage memory efficiently, prevent bugs, and make programs easier to understand and maintain.</p>
+</section></section>
+<section>
+<section id="dates-random-numbers-in-c" class="title-slide slide level1 center">
+<h1>Dates &amp; Random Numbers in C++</h1>
+
+</section>
+<section id="working-with-dates-and-times" class="slide level2">
+<h2>Working with Dates and Times</h2>
+<p>Sometimes we need to get the current date and/or time.</p>
+<p>C++ provides functionality to work with dates and times through the <code>&lt;ctime&gt;</code> library.</p>
+</section>
+<section id="getting-the-current-date-and-time" class="slide level2">
+<h2>Getting the Current Date and Time</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="co">// dateTime.cpp -- date &amp; time example</span></span>
+<span id="cb14-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb14-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb14-4"><a href=""></a></span>
+<span id="cb14-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb14-6"><a href=""></a>    <span class="dt">time_t</span> now <span class="op">=</span> time<span class="op">(</span><span class="kw">nullptr</span><span class="op">);</span></span>
+<span id="cb14-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> asctime<span class="op">(</span>localtime<span class="op">(&amp;</span>now<span class="op">))</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-8"><a href=""></a>    </span>
+<span id="cb14-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb14-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Output:</strong></p>
+<pre><code>Wed Feb  1 18:19:01 2023</code></pre>
+</section>
+<section id="understanding-the-datetime-components" class="slide level2">
+<h2>Understanding the Date/Time Components</h2>
+<p><strong><code>time_t</code></strong> is a data type that represents time as a number (typically seconds since January 1, 1970).</p>
+<p><strong><code>time(nullptr)</code></strong> gets the current time and stores it in a <code>time_t</code> variable.</p>
+<p><strong><code>localtime(&amp;now)</code></strong> converts the <code>time_t</code> value to a structure containing the broken-down local time (year, month, day, hour, minute, second).</p>
+<p><strong><code>asctime()</code></strong> converts the time structure into a human-readable string format.</p>
+</section>
+<section id="practical-uses" class="slide level2">
+<h2>Practical Uses</h2>
+<h3 id="date-and-time">Date and Time</h3>
+<ul>
+<li>Logging and timestamps</li>
+<li>Scheduling and timing events</li>
+<li>Calculating elapsed time</li>
+<li>Displaying current date/time to users</li>
+</ul>
+</section>
+<section id="random-numbers" class="slide level2">
+<h2>Random Numbers</h2>
+<p>Sometimes we need to generate random numbers in our programs. C++ provides several ways to accomplish this, ranging from simple to more sophisticated approaches.</p>
+</section>
+<section id="basic-random-number-generation" class="slide level2">
+<h2>Basic Random Number Generation</h2>
+<p>The simplest way to generate random numbers in C++ is using the <code>rand()</code> function from the <code>&lt;cstdlib&gt;</code> library.</p>
+<h3 id="a-simple-example">A Simple Example</h3>
+<p>Type this in.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="co">//3-30.cpp -- random numbers</span></span>
+<span id="cb16-2"><a href=""></a><span class="co">// generates the same numbers</span></span>
+<span id="cb16-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb16-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span><span class="pp">     </span><span class="co">// for rand</span></span>
+<span id="cb16-5"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb16-6"><a href=""></a></span>
+<span id="cb16-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb16-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb16-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb16-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb16-11"><a href=""></a>    </span>
+<span id="cb16-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb16-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Rerun and examine the output. What do you notice about the numbers?</p>
+</section>
+<section class="slide level2">
+
+<p><strong>Problem:</strong> This program will generate the same sequence of “random” numbers every time you run it!</p>
+<p><strong>Why?</strong> Because the starting value of the random number generator or seed, does not change. This leads to the same result every time it’s run.</p>
+<p>To get different random numbers each time the program runs, we need to “seed” the random number generator with a different number using <code>srand()</code>.</p>
+<h3 id="using-time-as-a-seed">Using Time as a Seed</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="co">//3-32.cpp -- useful random numbers</span></span>
+<span id="cb17-2"><a href=""></a><span class="co">// generates the same numbers</span></span>
+<span id="cb17-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb17-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span><span class="pp">     </span><span class="co">// for rand</span></span>
+<span id="cb17-5"><a href=""></a><span class="pp">#include </span><span class="im">&lt;ctime&gt;</span><span class="pp">       </span><span class="co">// for time</span></span>
+<span id="cb17-6"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb17-7"><a href=""></a></span>
+<span id="cb17-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb17-9"><a href=""></a>    <span class="dt">unsigned</span> seed<span class="op">;</span></span>
+<span id="cb17-10"><a href=""></a>    <span class="co">// seed = 100;              // for debugging</span></span>
+<span id="cb17-11"><a href=""></a>    seed <span class="op">=</span> time<span class="op">(</span><span class="dv">0</span><span class="op">);</span>             <span class="co">// different random numbers</span></span>
+<span id="cb17-12"><a href=""></a>    srand<span class="op">(</span>seed<span class="op">);</span>                <span class="co">// randomize</span></span>
+<span id="cb17-13"><a href=""></a>    </span>
+<span id="cb17-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb17-15"><a href=""></a>    </span>
+<span id="cb17-16"><a href=""></a>    <span class="co">// 6 sided die</span></span>
+<span id="cb17-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb17-18"><a href=""></a>    </span>
+<span id="cb17-19"><a href=""></a>    <span class="co">// random number between 8 and 12</span></span>
+<span id="cb17-20"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">(</span>rand<span class="op">()</span> <span class="op">%</span> <span class="op">(</span><span class="dv">12</span> <span class="op">-</span> <span class="dv">8</span> <span class="op">+</span> <span class="dv">1</span><span class="op">))</span> <span class="op">+</span> <span class="dv">8</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb17-21"><a href=""></a>    </span>
+<span id="cb17-22"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb17-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Type this in and run. We use the seed for debugging.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="understanding-the-seeding-process" class="slide level2">
+<h2>Understanding the Seeding Process</h2>
+<p><strong><code>time(0)</code></strong> returns the current time in seconds since January 1, 1970 (Unix epoch). Since this value changes every second, it provides a different seed value each time you run the program.</p>
+<p><strong><code>srand(seed)</code></strong> initializes the random number generator with the seed value, ensuring different sequences of random numbers.</p>
+</section>
+<section id="generating-random-numbers-in-specific-ranges" class="slide level2">
+<h2>Generating Random Numbers in Specific Ranges</h2>
+<h3 id="simulating-a-six-sided-die">Simulating a Six-Sided Die</h3>
+<p>To generate a random number between 1 and 6:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a>rand<span class="op">()</span> <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>How it works:</strong> - <code>rand() % 6</code> produces values from 0 to 5 - Adding 1 shifts the range to 1 to 6</p>
+<h3 id="random-numbers-in-any-range">Random Numbers in Any Range</h3>
+<p>To generate a random number between a minimum and maximum value:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="op">(</span>rand<span class="op">()</span> <span class="op">%</span> <span class="op">(</span>max <span class="op">-</span> min <span class="op">+</span> <span class="dv">1</span><span class="op">))</span> <span class="op">+</span> min</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Example:</strong> For a random number between 8 and 12:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="op">(</span>rand<span class="op">()</span> <span class="op">%</span> <span class="op">(</span><span class="dv">12</span> <span class="op">-</span> <span class="dv">8</span> <span class="op">+</span> <span class="dv">1</span><span class="op">))</span> <span class="op">+</span> <span class="dv">8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This formula works because: - <code>12 - 8 + 1 = 5</code> (there are 5 possible values: 8, 9, 10, 11, 12) - <code>rand() % 5</code> produces 0, 1, 2, 3, or 4 - Adding 8 shifts these to 8, 9, 10, 11, or 12</p>
+</section>
+<section id="practical-uses-1" class="slide level2">
+<h2>Practical Uses</h2>
+<h3 id="random-numbers-1">Random Numbers</h3>
+<ul>
+<li>Game development (dice rolls, random events)</li>
+<li>Simulations and modeling</li>
+<li>Generating test data</li>
+<li>Cryptographic applications (though more sophisticated methods are needed for security)</li>
+</ul>
+</section>
+<section id="important-notes" class="slide level2">
+<h2>Important Notes</h2>
+<p><strong>Pseudo-random vs.&nbsp;True Random:</strong> The <code>rand()</code> function generates pseudo-random numbers. They appear random but follow a deterministic sequence based on the seed. For most applications, this is sufficient.</p>
+<p><strong>Better Alternatives:</strong> Modern C++ (C++11 and later) provides more sophisticated random number generation through the <code>&lt;random&gt;</code> library, which offers better statistical properties and more control over distributions.</p>
+</section></section>
+<section id="terminal-color-codes-in-c" class="title-slide slide level1 center">
+<h1>Terminal Color Codes in C++</h1>
+
+</section>
+
+<section>
+<section id="introduction-to-terminal-colors" class="title-slide slide level1 center">
+<h1>Introduction to Terminal Colors</h1>
+<p>Making your console programs more visually appealing is easy with terminal color codes! By using special escape sequences, you can change the color of text displayed in the terminal, making your output more readable and engaging.</p>
+</section>
+<section id="what-are-ansi-escape-codes" class="slide level2">
+<h2>What Are ANSI Escape Codes?</h2>
+<p>ANSI escape codes are special character sequences that tell the terminal to change text attributes like color, background, and style. These codes work on most modern terminals, including Linux, macOS, and Windows (Windows 10 and later).</p>
+</section></section>
+<section>
+<section id="basic-color-implementation" class="title-slide slide level1 center">
+<h1>Basic Color Implementation</h1>
+
+</section>
+<section id="a-simple-color-example" class="slide level2">
+<h2>A Simple Color Example</h2>
+<p>Here’s a complete program that demonstrates how to use color codes:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="co">// simCol.cpp -- simple terminal color example</span></span>
+<span id="cb21-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb21-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb21-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb21-5"><a href=""></a></span>
+<span id="cb21-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb21-7"><a href=""></a>    <span class="at">const</span> string RED <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[031m;"</span><span class="op">;</span></span>
+<span id="cb21-8"><a href=""></a>    <span class="at">const</span> string YELLOW <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[033m;"</span><span class="op">;</span></span>
+<span id="cb21-9"><a href=""></a>    <span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span>
+<span id="cb21-10"><a href=""></a>    </span>
+<span id="cb21-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> RED <span class="op">&lt;&lt;</span> <span class="st">"Hello"</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> YELLOW <span class="op">&lt;&lt;</span> <span class="st">"there"</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-13"><a href=""></a>    </span>
+<span id="cb21-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Output:</strong></p>
+<pre><code>./main
+;Hello
+;there</code></pre>
+<p>The text “Hello” appears in red, and “there” appears in yellow!</p>
+</section>
+<section id="understanding-the-color-code-format" class="slide level2">
+<h2>Understanding the Color Code Format</h2>
+<p>Each color code follows this pattern:</p>
+<pre><code>\033[COLORm</code></pre>
+<p><strong>Breaking it down:</strong> - <code>\033</code> is the escape character (ESC in ASCII) - <code>[</code> starts the color sequence - <code>COLOR</code> is the color code number - <code>m</code> ends the sequence</p>
+</section>
+<section id="common-color-codes" class="slide level2">
+<h2>Common Color Codes</h2>
+<p>Here are the most frequently used foreground (text) color codes:</p>
+<ul>
+<li><code>\033[030m</code> - Black</li>
+<li><code>\033[031m</code> - Red</li>
+<li><code>\033[032m</code> - Green</li>
+<li><code>\033[033m</code> - Yellow</li>
+<li><code>\033[034m</code> - Blue</li>
+<li><code>\033[035m</code> - Magenta</li>
+<li><code>\033[036m</code> - Cyan</li>
+<li><code>\033[037m</code> - White</li>
+</ul>
+</section>
+<section id="the-importance-of-norm-reset" class="slide level2">
+<h2>The Importance of NORM (Reset)</h2>
+<p>The <code>NORM</code> constant is crucial:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong><code>\033[0m</code></strong> resets all text attributes back to the terminal’s default. Always use this after colored text to prevent all subsequent output from being colored!</p>
+</section></section>
+<section>
+<section id="practical-usage-tips" class="title-slide slide level1 center">
+<h1>Practical Usage Tips</h1>
+
+</section>
+<section id="storing-colors-as-constants" class="slide level2">
+<h2>Storing Colors as Constants</h2>
+<p>It’s best practice to define color codes as named constants at the beginning of your program:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="at">const</span> string RED <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[031m"</span><span class="op">;</span></span>
+<span id="cb25-2"><a href=""></a><span class="at">const</span> string GREEN <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[032m"</span><span class="op">;</span></span>
+<span id="cb25-3"><a href=""></a><span class="at">const</span> string BLUE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[034m"</span><span class="op">;</span></span>
+<span id="cb25-4"><a href=""></a><span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This approach offers several benefits: - Makes your code more readable - Easy to modify colors throughout your program - Prevents typos in color codes</p>
+</section>
+<section id="using-colors-in-output" class="slide level2">
+<h2>Using Colors in Output</h2>
+<p>To color your text, simply insert the color code before the text and reset after:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> RED <span class="op">&lt;&lt;</span> <span class="st">"Error: File not found!"</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb26-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> GREEN <span class="op">&lt;&lt;</span> <span class="st">"Success! Operation completed."</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb26-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> YELLOW <span class="op">&lt;&lt;</span> <span class="st">"Warning: Low disk space."</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="best-practices" class="slide level2">
+<h2>Best Practices</h2>
+<p><strong>Always reset colors:</strong> Remember to use <code>NORM</code> after colored text to avoid coloring unintended output.</p>
+<p><strong>Use colors meaningfully:</strong> - Red for errors or important warnings - Green for success messages - Yellow for caution or warnings - Blue for informational messages</p>
+<p><strong>Test on your target terminal:</strong> Not all terminals support the same color codes, so test your program on the systems where it will run.</p>
+</section></section>
+<section>
+<section id="finding-more-information" class="title-slide slide level1 center">
+<h1>Finding More Information</h1>
+<p>If you want to explore more color options and text effects, you can search online for:</p>
+<p><strong>“How do I output colored text to a Linux terminal?”</strong></p>
+<p>This will lead you to resources about: - Background colors - Bold and italic text - Underlined text - Bright/bold color variants - 256-color and true color support</p>
+</section>
+<section id="additional-color-codes-to-explore" class="slide level2">
+<h2>Additional Color Codes to Explore</h2>
+<p><strong>Bright/Bold Colors:</strong> Add 60 to the color code or use the bold attribute: - <code>\033[091m</code> - Bright Red - <code>\033[092m</code> - Bright Green - <code>\033[093m</code> - Bright Yellow</p>
+<p><strong>Background Colors:</strong> Use codes 40-47 for background colors: - <code>\033[041m</code> - Red background - <code>\033[042m</code> - Green background - <code>\033[044m</code> - Blue background</p>
+<p><strong>Text Styles:</strong> - <code>\033[1m</code> - Bold - <code>\033[4m</code> - Underline - <code>\033[7m</code> - Reverse (swap foreground and background)</p>
+</section>
+<section id="try-this" class="slide level2">
+<h2>Try This!</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource .cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb27-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb27-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb27-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb27-5"><a href=""></a></span>
+<span id="cb27-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb27-7"><a href=""></a>    <span class="co">// Define color codes as const strings</span></span>
+<span id="cb27-8"><a href=""></a>    <span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span>
+<span id="cb27-9"><a href=""></a>    <span class="at">const</span> string RED <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[031m"</span><span class="op">;</span></span>
+<span id="cb27-10"><a href=""></a>    <span class="at">const</span> string GREEN <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[032m"</span><span class="op">;</span></span>
+<span id="cb27-11"><a href=""></a>    <span class="at">const</span> string YELLOW <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[033m"</span><span class="op">;</span></span>
+<span id="cb27-12"><a href=""></a>    <span class="at">const</span> string BLUE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[034m"</span><span class="op">;</span></span>
+<span id="cb27-13"><a href=""></a>    <span class="at">const</span> string MAGENTA <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[035m"</span><span class="op">;</span></span>
+<span id="cb27-14"><a href=""></a>    <span class="at">const</span> string CYAN <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[036m"</span><span class="op">;</span></span>
+<span id="cb27-15"><a href=""></a>    <span class="at">const</span> string WHITE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[037m"</span><span class="op">;</span></span>
+<span id="cb27-16"><a href=""></a>    </span>
+<span id="cb27-17"><a href=""></a>    <span class="co">// Store them in a vector</span></span>
+<span id="cb27-18"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> colors <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb27-19"><a href=""></a>        NORM<span class="op">,</span>    <span class="co">// 0</span></span>
+<span id="cb27-20"><a href=""></a>        RED<span class="op">,</span>     <span class="co">// 1</span></span>
+<span id="cb27-21"><a href=""></a>        GREEN<span class="op">,</span>   <span class="co">// 2</span></span>
+<span id="cb27-22"><a href=""></a>        YELLOW<span class="op">,</span>  <span class="co">// 3</span></span>
+<span id="cb27-23"><a href=""></a>        BLUE<span class="op">,</span>    <span class="co">// 4</span></span>
+<span id="cb27-24"><a href=""></a>        MAGENTA<span class="op">,</span> <span class="co">// 5</span></span>
+<span id="cb27-25"><a href=""></a>        CYAN<span class="op">,</span>    <span class="co">// 6</span></span>
+<span id="cb27-26"><a href=""></a>        WHITE    <span class="co">// 7</span></span>
+<span id="cb27-27"><a href=""></a>    <span class="op">};</span></span>
+<span id="cb27-28"><a href=""></a>    </span>
+<span id="cb27-29"><a href=""></a>    <span class="co">// Now you can use either the named constants OR the vector</span></span>
+<span id="cb27-30"><a href=""></a>    <span class="co">// This gives you the best of both worlds!</span></span>
+<span id="cb27-31"><a href=""></a>    cout <span class="op">&lt;&lt;</span> RED <span class="op">&lt;&lt;</span> <span class="st">"Using the constant directly"</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb27-32"><a href=""></a>    cout <span class="op">&lt;&lt;</span> colors<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"Using the vector"</span> <span class="op">&lt;&lt;</span> colors<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb27-33"><a href=""></a>    </span>
+<span id="cb27-34"><a href=""></a>    <span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb27-35"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> COLOR<span class="op">:</span>colors<span class="op">)</span></span>
+<span id="cb27-36"><a href=""></a>        cout <span class="op">&lt;&lt;</span> COLOR <span class="op">&lt;&lt;</span> i<span class="op">++</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb27-37"><a href=""></a>    </span>
+<span id="cb27-38"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb27-39"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>This works on OnlineGBD https://www.onlinegdb.com/online_c++_compiler</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="exercise-practice-with-colors" class="title-slide slide level1 center">
+<h1>Exercise: Practice with Colors</h1>
+<p>Now it’s your turn! Try these exercises to practice using terminal colors:</p>
+</section>
+<section id="exercise-1-colorful-greeting" class="slide level2">
+<h2>Exercise 1: Colorful Greeting</h2>
+<p>Add colored text to a simple greeting program:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb28-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb28-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb28-4"><a href=""></a></span>
+<span id="cb28-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb28-6"><a href=""></a>    <span class="at">const</span> string RED <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[031m"</span><span class="op">;</span></span>
+<span id="cb28-7"><a href=""></a>    <span class="at">const</span> string GREEN <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[032m"</span><span class="op">;</span></span>
+<span id="cb28-8"><a href=""></a>    <span class="at">const</span> string BLUE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[034m"</span><span class="op">;</span></span>
+<span id="cb28-9"><a href=""></a>    <span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span>
+<span id="cb28-10"><a href=""></a>    </span>
+<span id="cb28-11"><a href=""></a>    <span class="co">// Your code here: create a colorful greeting</span></span>
+<span id="cb28-12"><a href=""></a>    </span>
+<span id="cb28-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb28-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="exercise-2-menu-system" class="slide level2">
+<h2>Exercise 2: Menu System</h2>
+<p>Create a simple menu with colored options: - Use one color for the menu title - Use different colors for different menu items - Use another color for the prompt</p>
+</section>
+<section id="exercise-3-status-messages" class="slide level2">
+<h2>Exercise 3: Status Messages</h2>
+<p>Write a program that displays different types of status messages: - Red for errors - Yellow for warnings<br>
+- Green for success - Blue for information</p>
+<p>Remember to add more output and experiment with different color combinations!</p>
+</section></section>
+<section id="summary" class="title-slide slide level1 center">
+<h1>Summary</h1>
+<p>Terminal color codes are a simple way to make your console programs more visually appealing and user-friendly. By using ANSI escape sequences stored in string constants, you can easily add color to any text output. Just remember to:</p>
+<ol type="1">
+<li>Define color codes as constants</li>
+<li>Use meaningful colors for different types of messages</li>
+<li>Always reset to normal after colored text</li>
+<li>Test on your target terminal</li>
+</ol>
+<p>With these tools, you can create more engaging and professional-looking command-line applications!</p>
+</section>
+
+<section id="key-takaways" class="title-slide slide level1 center">
+<h1>Key Takaways</h1>
+
+</section>
+
+<section id="next-time" class="title-slide slide level1 center">
+<h1>Next Time</h1>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>CISP 360 · Fowler</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="p360_lecture_03.02_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="p360_lecture_03.02_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="p360_lecture_03.02_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="p360_lecture_03.02_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="p360_lecture_03.02_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="p360_lecture_03.02_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="p360_lecture_03.02_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="p360_lecture_03.02_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="p360_lecture_03.02_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="p360_lecture_03.02_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'h.v',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
