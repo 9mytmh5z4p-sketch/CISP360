@@ -1,0 +1,231 @@
+
+# Function Centered Architecture
+
+## Function Centered Architecture
+
+Function-centric architecture refers to a program design approach where the code is organized primarily around functions (procedures) rather than objects or classes.
+
+A function is a block of code we assign a name to. We call the name to execute the code.
+
+## Other Architectures
+
+- Object Oriented
+- Spaghetti Coding
+
+## Object-Oriented Architecture
+
+- Organized around classes/objects.
+- Data and functions bundled together (mini programs).
+- Focus: "What entities/objects exist?"
+
+::: notes
+I'll have more to say about this later in the course.
+::: 
+
+
+## Spaghetti Coding
+
+Just type it in as you go along.
+
+---
+
+```{.cpp } 
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> scores = {85, 92, 78, 95, 88};
+    int index;
+    int total;
+    double average;
+    int highest;
+    
+    // Jump to display section
+    goto display_scores;
+    
+display_scores:
+    index = 0;
+display_loop:
+    if (index >= scores.size()) goto display_done;
+    cout << scores[index] << " ";
+    index++;
+    goto display_loop;
+    
+display_done:
+    cout << endl;
+    goto calculate_average;
+    
+calculate_average:
+    total = 0;
+    index = 0;
+avg_loop:
+    if (index >= scores.size()) goto avg_done;
+    total += scores[index];
+    index++;
+    goto avg_loop;
+    
+avg_done:
+    average = static_cast<double>(total) / scores.size();
+    cout << "Average: " << average << endl;
+    goto find_highest;
+    
+find_highest:
+    highest = scores[0];
+    index = 0;
+high_loop:
+    if (index >= scores.size()) goto high_done;
+    if (scores[index] > highest) {
+        highest = scores[index];
+    }
+    index++;
+    goto high_loop;
+    
+high_done:
+    cout << "Highest: " << highest << endl;
+    goto program_end;
+    
+program_end:
+    return 0;
+}
+```
+## Why is this bad code?
+
+- Unreadable - Jump around to understand flow
+- Unmaintainable - Hard to modify without breaking
+- Not reusable - Can't call "display" from elsewhere
+- Error-prone - Easy to create infinite loops or skip code
+- Hard to debug - Control flow is non-linear
+- No abstraction - All details exposed in one place
+
+**Never, ever, code like this.**
+
+::: notes
+This style resembles assembly language programming or very early programming languages (like early BASIC or FORTRAN) before structured programming paradigms emerged in the 1960s-70s.
+The famous paper "Go To Statement Considered Harmful" by Edsger Dijkstra (1968) advocated against this style and promoted structured programming with functions, loops, and conditionals.
+Modern C++ strongly discourages goto usage - it's considered a code smell in almost all cases!
+::: 
+
+## Function Centric Architecture
+
+1. Functions are the primary building blocks
+
+- The program is decomposed into a collection of functions
+- Each function performs a specific task
+- Functions call other functions to accomplish complex operations
+
+2. Data and behavior are separated
+
+- Data is typically stored in variables or structs
+- Functions operate on that data
+- Data is passed to functions as parameters
+
+3. Top-down design approach
+
+- Start with the main problem
+- Break it into smaller sub-problems (functions)
+- Each sub-problem becomes a function
+
+## Example
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function declarations
+double calculateAverage(vector<int> scores);
+void displayScores(vector<int> scores);
+int findHighest(vector<int> scores);
+
+int main() {
+    vector<int> scores = {85, 92, 78, 95, 88};
+    
+    displayScores(scores);
+    cout << "Average: " << calculateAverage(scores) << endl;
+    cout << "Highest: " << findHighest(scores) << endl;
+    
+    return 0;
+}
+
+double calculateAverage(vector<int> scores) {
+    int total = 0;
+    for (int score : scores) {
+        total += score;
+    }
+    return static_cast<double>(total) / scores.size();
+}
+
+void displayScores(vector<int> scores) {
+    for (int score : scores) {
+        cout << score << " ";
+    }
+    cout << endl;
+}
+
+int findHighest(vector<int> scores) {
+    int highest = scores[0];
+    for (int score : scores) {
+        if (score > highest) {
+            highest = score;
+        }
+    }
+    return highest;
+}
+```
+
+## Use Cases
+
+- Introductory programming courses
+- Simple, straightforward problems
+- Mathematical computations
+- Small to medium programs
+- Scripts and utilities
+
+## Anti-Use Cases
+
+- Large, complex systems
+- Programs modeling real-world entities
+- Systems requiring data encapsulation
+- Projects with many developers
+
+## Conceptual Process
+
+::: {.columns}
+::: {.column width="50%"}
+- Here's some code
+- Say several sections repeat
+- This duplicate code will diverge at some point.
+:::
+
+::: {.column width="50%"}
+![code example]('/Users/calebfowler/Library/Mobile Documents/com~apple~CloudDocs/Lecture Materials/p360 Lectures/p360_lecture_04.01/topics/function_centric_architecture/images'/cb1.png) 
+:::
+::: 
+
+
+---
+
+![code example]('/Users/calebfowler/Library/Mobile Documents/com~apple~CloudDocs/Lecture Materials/p360 Lectures/p360_lecture_04.01/topics/function_centric_architecture/images'/cb2.png)  
+
+## Solution
+
+::: {.columns}
+::: {.column width="50%"}
+- Pull the duplicated code out.
+- Give it a name.
+- Call the duplicated code in the main part of the program.
+
+:::
+
+::: {.column width="50%"}
+![code example]('/Users/calebfowler/Library/Mobile Documents/com~apple~CloudDocs/Lecture Materials/p360 Lectures/p360_lecture_04.01/topics/function_centric_architecture/images'/cb3.png)
+:::
+::: 
+
+
+
+
+
+
+
