@@ -1,0 +1,298 @@
+# Global and Local Variables in C++
+
+## Learning Objectives
+
+By the end of this lecture, you will understand the concept of variable scope in C++. You will be able to distinguish between local and global variables, understand their lifetimes and accessibility, and apply best practices for using each type. This knowledge is essential for writing well-structured and maintainable C++ programs.
+
+## Review: Variables in Memory
+
+Recall from our earlier discussions that variables are stored in different memory regions. Local variables reside on the stack, created when their function executes and destroyed when it ends. Global variables reside in the data segment and exist for the entire program duration.
+
+The data segment is the memory region we discussed previously that stores global variables and persists throughout program execution. Understanding where variables are stored helps explain their behavior and lifetime. This foundation is critical for grasping the concept of scope.
+
+::: notes
+**Speaker Notes:** Display a diagram showing the stack and data segment, with arrows indicating where local and global variables are stored.
+:::
+
+## What is Scope?
+
+Scope defines where in your program a variable can be accessed and used. Think of scope as the "visibility" or "reach" of a variable. A variable is only accessible within its scope.
+
+Understanding scope prevents errors and helps you organize your code effectively. Different types of variables have different scopes, which determines where you can use them in your program. For instance, a variable declared in one function cannot be seen or used in another function.
+
+## Local Variables
+
+Local variables are declared inside a function or block of code. They can only be accessed within the function or block where they are declared. Once the function or block ends, the local variable ceases to exist.
+
+```cpp
+// Assumes: #include <iostream> and using namespace std;
+void example() {
+    int localVar = 10;  // Local to example()
+    cout << localVar;   // Valid: inside the function
+}
+// localVar does not exist here
+```
+
+The scope of `localVar` is limited to the `example()` function.
+
+## Local Variable Characteristics
+
+**Lifetime:** Local variables are created when program execution enters their scope and destroyed when execution leaves. This automatic management happens on the stack.
+
+**Accessibility:** Local variables can only be accessed within the function or block where they are declared. We call this "function scope" when a variable is accessible throughout an entire function. Attempting to access them elsewhere causes a compilation error.
+
+**Storage:** Local variables are stored on the stack, making their creation and destruction very efficient.
+
+::: notes
+**Speaker Notes:** Create a timeline diagram showing a local variable being created at function entry, existing during execution, and being destroyed at function exit.
+::: 
+
+## Local Variable Examples
+
+```cpp
+int add(int a, int b) {
+    int sum = a + b;    // sum is local to add()
+    return sum;
+}
+
+int main() {
+    int result = add(5, 3);
+    cout << result;     // Prints 8
+    // cout << sum;     // ERROR: sum doesn't exist here
+    return 0;
+}
+```
+
+Each function has its own local variables. The `sum` variable exists only inside `add()` and cannot be accessed from `main()`.
+
+## Block Scope
+
+Variables can also be declared within nested blocks like if statements, loops, and any code enclosed in curly braces. These variables have block scope, meaning they exist only within that specific block.
+
+```cpp
+void demo() {
+    int x = 5;          // Function scope
+    if (x > 0) {
+        int y = 10;     // Block scope (if block)
+        cout << y;      // Valid
+    }
+    // cout << y;       // ERROR: y doesn't exist here
+}
+```
+
+Block scope is even more restrictive than function scope.
+
+::: notes
+**Speaker Notes:** Show nested boxes representing the function scope containing the if-block scope, illustrating how inner scopes are contained within outer scopes.
+::: 
+
+## Block Scope Examples
+
+```cpp
+int main() {
+    for (int i = 0; i < 5; i++) {
+        int temp = i * 2;       // temp exists only in loop
+        cout << temp << " ";
+    }
+    // cout << i;               // ERROR: i doesn't exist here
+    // cout << temp;            // ERROR: temp doesn't exist here
+    
+    int i = 100;                // Valid: loop's i no longer exists
+    cout << i;                  // Prints 100
+    return 0;
+}
+```
+
+Loop variables like `i` and variables declared within the loop have block scope limited to that loop.
+
+## Global Variables
+
+Global variables are declared outside all functions, typically at the top of your program file. They can be accessed from any function in the program. Global variables exist for the entire duration of program execution.
+
+```cpp
+int globalVar = 100;    // Global variable
+
+void function1() {
+    cout << globalVar;  // Can access globalVar
+}
+
+void function2() {
+    globalVar = 200;    // Can modify globalVar
+}
+```
+
+All functions in the program can see and use `globalVar`.
+
+## Global Variable Characteristics
+
+**Lifetime:** Global variables are created when the program starts and destroyed when the program ends. They persist for the entire program execution.
+
+**Accessibility:** Global variables can be accessed from any function in the program after their declaration. This makes them available throughout your code.
+
+**Storage:** Global variables are stored in the data segment of memory, not on the stack.
+
+::: notes
+**Speaker Notes:** Display a diagram showing the data segment with a global variable, and multiple function stack frames all having access to that global variable.
+::: 
+
+## Global Variable Examples
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int counter = 0;        // Global variable
+
+void increment() {
+    counter++;          // Modifies the global counter
+}
+
+int main() {
+    cout << counter;    // Prints 0
+    increment();
+    cout << counter;    // Prints 1
+    increment();
+    cout << counter;    // Prints 2
+    return 0;
+}
+```
+
+The `counter` variable persists across multiple function calls and can be modified by any function.
+
+## Comparing Local and Global Variables
+
+## Comparing Local and Global Variables
+
+| Characteristic | Local Variables | Global Variables |
+|----------------|-----------------|------------------|
+| **Declaration** | Inside functions or blocks | Outside all functions |
+| **Lifetime** | Exist only during function/block execution | Exist for entire program duration |
+| **Storage** | Stored on the stack | Stored in the data segment |
+| **Accessibility** | Accessible only within their scope | Accessible from all functions |
+| **Management** | Automatically created and destroyed | Created at program start, destroyed at program end |
+
+Choose the appropriate type based on whether data needs to be shared across functions or kept isolated.
+
+## Variable Shadowing
+
+Shadowing occurs when a local variable has the same name as a global variable. The local variable "shadows" or hides the global variable within its scope. In the local scope, the local variable is accessed, not the global one.
+
+```cpp
+int value = 100;        // Global variable
+
+void test() {
+    int value = 50;     // Local variable shadows global
+    cout << value;      // Prints 50, not 100
+}
+```
+
+The local `value` hides the global `value` inside the `test()` function.
+
+## Shadowing Examples
+
+```cpp
+int x = 10;             // Global x
+
+int main() {
+    cout << x;          // Prints 10 (global x)
+    
+    int x = 20;         // Local x shadows global x
+    cout << x;          // Prints 20 (local x)
+    
+    {
+        int x = 30;     // Block-scoped x
+        cout << x;      // Prints 30 (block x)
+    }
+    
+    cout << x;          // Prints 20 (local x)
+    return 0;
+}
+```
+
+Each scope level can have its own variable with the same name. The most local version is always accessed.
+
+::: notes
+**Speaker Notes:** Create a diagram showing three nested rectangles representing global scope, function scope, and block scope, each containing a variable named 'x' with different values.
+:::
+
+
+## Scope Resolution
+
+C++ follows a scope resolution rule: it searches for variables from the innermost scope outward. When you use a variable name, C++ first looks in the current block, then the enclosing function, and finally in the global scope.
+
+```cpp
+int num = 5;            // Global
+
+void display() {
+    int num = 10;       // Local
+    cout << num;        // Prints 10 (finds local first)
+}
+```
+
+This innermost-to-outermost search ensures that the most local variable with a given name is always the one accessed.
+
+## Best Practices
+
+**Prefer local variables:** Use local variables whenever possible to keep data isolated and functions independent. This makes code easier to understand and debug.
+
+**Minimize global variables:** Use global variables very sparingly, only for data that truly needs to be accessed throughout the entire program. Too many globals make code harder to maintain and test.
+
+**Use global constants when appropriate:** Global constants (const variables) are more acceptable than global variables because they cannot be accidentally modified and provide program-wide configuration values.
+
+**Avoid shadowing:** Give variables distinct names to avoid confusion and errors. Shadowing can make code difficult to read and debug.
+
+## Common Mistakes
+
+**Using undefined variables:** Attempting to access a variable outside its scope results in compilation errors. Always ensure variables are declared in the scope where you need them.
+
+```cpp
+void function1() {
+    int localNum = 5;
+}
+
+void function2() {
+    // cout << localNum;  // ERROR: localNum is not in scope
+}
+```
+
+---
+
+**Uninitialized globals:** Global variables are automatically initialized to 0 for numeric types if you don't initialize them explicitly. However, it's best practice to always initialize variables explicitly for clarity and intentionality.
+
+## Practical Application
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int totalScore = 0;     // Global: tracks cumulative score
+
+void addPoints(int points) {
+    int bonus = 10;     // Local: temporary calculation
+    int earned = points + bonus;
+    totalScore += earned;
+    cout << "Earned: " << earned << endl;
+}
+
+int main() {
+    cout << "Total: " << totalScore << endl;  // Prints 0
+    addPoints(50);                             // Earned: 60
+    addPoints(30);                             // Earned: 40
+    cout << "Total: " << totalScore << endl;  // Prints 100
+    return 0;
+}
+```
+
+This example shows appropriate use of both global and local variables. The global `totalScore` persists across function calls, while local variables handle temporary computations.
+
+::: notes
+**Speaker Notes:** Walk through the execution step-by-step: (1) totalScore starts at 0 in data segment, (2) first addPoints call creates bonus=10 and earned=60 on stack, adds 60 to totalScore, then destroys local variables, (3) second addPoints call creates new bonus=10 and earned=40 on stack, adds 40 to totalScore making it 100, then destroys local variables, (4) totalScore persists throughout in data segment while local variables come and go on the stack.
+::: 
+
+## Summary
+
+Scope determines where variables can be accessed in your program. Local variables exist within functions or blocks and are stored on the stack. Global variables exist for the entire program and are stored in the data segment.
+
+Use local variables as your default choice for better code organization and maintenance. Reserve global variables for data that genuinely needs program-wide accessibility. Understanding scope helps you write clearer, more reliable C++ programs.
+
+In our next lecture, we'll explore how to pass variables between functions using pass by value and pass by reference.
