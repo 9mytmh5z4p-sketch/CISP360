@@ -1,8 +1,7 @@
-
 # Creating Formatted Tables in C++
 
 ::: notes
-~ 65
+~ 30 slides
 ::: 
 
 ## Introduction
@@ -14,29 +13,17 @@ Tables are everywhere in programming:
 - Financial reports
 - Data summaries
 - System information displays
-- Log files
 - Database outputs
-
-## Key
 
 **Key Question:** How do we decide which table format to use?
 
 **Answer:** **The data inside the table drives the decision about which table to use.**
 
+<!-- Slide 1 -->
+
 ---
 
 ## Why Tables Matter
-
-Well-formatted tables make data:
-
-- **Readable** - Easy to scan and understand
-- **Professional** - Look polished and organized
-- **Comparable** - Align values for easy comparison
-- **Clear** - Show relationships between data
-
-Compare these two outputs:
-
----
 
 ::: {.columns}
 ::: {.column width="40%"}
@@ -55,20 +42,20 @@ Charlie 28 52000
 **With table formatting**
 
 ```
-================================================
-| Name         | Age        | Salary           |
-================================================
-| Alice        | 30         | 50000.5          |
-| Bob          | 25         | 45000.8          |
-| Charlie      | 28         | 52000            |
-================================================
+=====================================
+| Name      | Age  | Salary        |
+=====================================
+| Alice     | 30   | 50000.5       |
+| Bob       | 25   | 45000.8       |
+| Charlie   | 28   | 52000         |
+=====================================
 ```
 :::
 :::
 
-::: notes
 Which is easier to read?
-::: 
+
+<!-- Slide 2 -->
 
 ---
 
@@ -81,13 +68,13 @@ We'll cover four common table patterns, each suited for different types of data:
 3. **Cash Table with Negative Numbers** - Financial data with parentheses for negatives
 4. **Scientific Notation Table** - Very large or very small numbers
 
+<!-- Slide 3 -->
+
 ---
 
 ## Table Type 1: Fixed Width Table with Borders
 
 ## When to Use
-
-Use this table when you need:
 
 - Clear visual separation between columns
 - Professional appearance
@@ -108,14 +95,36 @@ Fixed Width Table with Borders
 End of Report.
 ```
 
-## Key Techniques
+<!-- Slide 4 -->
+
+---
+
+## Fixed Width Table: Key Techniques
 
 1. **Define column widths as constants**
+```cpp
+const int nameWidth = 15;
+const int ageWidth = 10;
+const int salaryWidth = 12;
+```
+
 2. **Use `setfill()` to create border lines**
+```cpp
+cout << setfill('=') << setw(totalWidth) << "=" << endl;
+```
+
 3. **Use `setw()` for each column**
+```cpp
+cout << "| " << setw(nameWidth) << "Alice";
+```
+
 4. **Add spaces and `|` characters for visual borders**
 
-## Complete Code Example
+<!-- Slide 5 -->
+
+---
+
+## Fixed Width Table: Complete Code (Part 1)
 
 ```cpp
 //FixWwBorders.cpp
@@ -137,7 +146,7 @@ int main() {
          << "| " << setw(ageWidth) << "Age"
          << "| " << setw(salaryWidth) << "Salary" << " |" << endl;
     cout << setfill('=') << setw(totalWidth) << "=" << endl;
-    
+
     cout << setfill(' ')
          << "| " << setw(nameWidth) << "Alice"
          << "| " << setw(ageWidth) << 30
@@ -152,14 +161,17 @@ int main() {
          << "| " << setw(salaryWidth) << 52000.00 << " |" << endl;
     
     cout << setfill('=') << setw(totalWidth) << "=" << endl;
-    
     cout << "End of Report." << endl;
     
     return 0;
 }
 ```
 
-## Important Concepts
+<!-- Slide 7 -->
+
+---
+
+## Fixed Width Table: Important Concepts
 
 **1. Calculate total width:**
 ```cpp
@@ -173,18 +185,18 @@ cout << setfill('=') << setw(totalWidth) << "=" << endl;
 // Fills the width with '=' characters
 ```
 
-## Important Concepts
-
-**3. Reset fill character:**
+**3. Always reset fill character:**
 ```cpp
-cout << setfill(' ')  // Always reset to space after using setfill('=')
+cout << setfill(' ')  // Reset to space after using setfill('=')
 ```
 
 **4. Each column needs `setw()`:**
 ```cpp
 cout << "| " << setw(nameWidth) << "Alice"  // setw() only affects next item!
-     << "| " << setw(ageWidth) << 30         // Need setw() again
+     << "| " << setw(ageWidth) << 30;        // Need setw() again
 ```
+
+<!-- Slide 8 -->
 
 ---
 
@@ -192,11 +204,9 @@ cout << "| " << setw(nameWidth) << "Alice"  // setw() only affects next item!
 
 ## When to Use
 
-Use this table when you need to:
-
-- Show number system conversions (decimal, hex, octal, binary)
+- Show number system conversions (decimal, hex, octal)
 - Display memory addresses
-- Show computer science / low-level programming data
+- Computer science / low-level programming data
 - Compare different representations of the same value
 
 ## Example Output
@@ -212,13 +222,31 @@ Octal:         377
 + End of Report +
 ```
 
-## Key Techniques
+<!-- Slide 9 -->
+
+---
+
+## Hex/Oct Table: Key Techniques
 
 1. **Use `dec`, `hex`, and `oct` manipulators**
-2. **Use `uppercase` for uppercase hex letters**
-3. **Simple dashed borders (no need for complex borders)**
+```cpp
+cout << dec << value;  // Decimal
+cout << hex << value;  // Hexadecimal
+cout << oct << value;  // Octal
+```
 
-## Complete Code Example
+2. **Use `uppercase` for uppercase hex letters**
+```cpp
+cout << hex << uppercase << value;  // FF instead of ff
+```
+
+3. **Simple dashed borders**
+
+<!-- Slide 10 -->
+
+---
+
+## Hex/Oct Table: Complete Code
 
 ```cpp
 //HexOctTable.cpp
@@ -228,7 +256,6 @@ using namespace std;
 
 int main() {
     int value = 255;
-    
     const int labelWidth = 12;
     const int valueWidth = 8;
     
@@ -246,12 +273,15 @@ int main() {
     cout << left << setw(labelWidth) << "Octal:"
          << left << setw(valueWidth) << oct << value << endl;
     cout << "-----------------------" << endl;
-    
     cout << "+ End of Report +" << endl;
     
     return 0;
 }
 ```
+
+<!-- Slide 11 -->
+
+---
 
 ## Number System Manipulators
 
@@ -262,8 +292,6 @@ int main() {
 | `oct` | Octal (base 8) | 377 |
 | `uppercase` | Uppercase hex letters | FF instead of ff |
 
----
-
 **Remember:** These manipulators are **persistent** - they stay active until changed!
 
 ```cpp
@@ -272,27 +300,31 @@ cout << 100 << endl;         // 64 (still in hex mode!)
 cout << dec << 100 << endl;  // 100 (back to decimal)
 ```
 
+<!-- Slide 12 -->
+
 ---
 
 ## Table Type 3: Cash Table with Negative Numbers
 
 ## When to Use
 
-Use this table when you need:
-
 - Financial data (income/expenses)
 - Accounting reports
 - Budget tracking
 - Any data with positive and negative monetary values
 
-## Special Feature: Parentheses for Negative Numbers
+## Special Feature
 
 In accounting, negative numbers are shown in parentheses:
 
 - Positive: `1500.75`
 - Negative: `( $450.50)` (not `-450.50`)
 
-## Example Output
+<!-- Slide 13 -->
+
+---
+
+## Cash Table: Example Output
 
 ```
 ========================================
@@ -306,14 +338,37 @@ In accounting, negative numbers are shown in parentheses:
 ========================================
 ```
 
-## Key Techniques
+<!-- Slide 14 -->
+
+---
+
+## Cash Table: Key Techniques
 
 1. **Use `fixed` and `setprecision(2)` for money**
-2. **Handle negative numbers with conditional formatting**
-3. **Use `right` alignment for numbers**
-4. **Adjust `setw()` for parentheses (subtract space for `$` and `()`)**
+```cpp
+cout << fixed << setprecision(2);
+```
 
-## Complete Code Example
+2. **Handle negative numbers with conditional formatting**
+```cpp
+cout << "( $" << -groceries << ")";
+```
+
+3. **Use `right` alignment for numbers**
+```cpp
+cout << right << setw(15) << salary;
+```
+
+4. **Adjust `setw()` for parentheses**
+```cpp
+cout << setw(colWidth - 6) << "( $" << amount << ")";
+```
+
+<!-- Slide 15 -->
+
+---
+
+## Cash Table: Complete Code (Part 1)
 
 ```cpp
 //CashTablewNegs.cpp
@@ -339,7 +394,7 @@ int main() {
     
     cout << setfill(' ');
     cout << fixed << setprecision(2);
-    
+
     cout << "| " << setw(colWidth) << left << "Salary";
     cout << "| " << setw(colWidth) << right << salary << " |" << endl;
     
@@ -361,9 +416,11 @@ int main() {
 }
 ```
 
-## Negative Number Formatting Explained
+<!-- Slide 17 -->
 
-For negative numbers in accounting format:
+---
+
+## Cash Table: Negative Number Formatting
 
 **Regular output:**
 ```cpp
@@ -377,21 +434,19 @@ double groceries = -450.50;
 cout << "( $" << -groceries << ")";  // Displays: ( $450.50)
 ```
 
----
-
 **Why `setw(colWidth - 6)`?**
 - `colWidth` is 15
 - `( $` takes 3 characters
 - `)` takes 1 character  
 - We need space for the number: 15 - 6 = 9 characters for the amount
 
+<!-- Slide 18 -->
+
 ---
 
 ## Table Type 4: Scientific Notation Table
 
 ## When to Use
-
-Use this table when you need:
 
 - Very large numbers (millions, billions, trillions)
 - Very small numbers (0.00001, etc.)
@@ -407,13 +462,29 @@ Value 1:         1.235e+03
 Value 2:         9.87654e+03
 ```
 
-## Key Techniques
+<!-- Slide 19 -->
+
+---
+
+## Scientific Table: Key Techniques
 
 1. **Use `scientific` manipulator**
+```cpp
+cout << scientific << value;
+```
+
 2. **Use `setprecision()` to control significant figures**
+```cpp
+cout << scientific << setprecision(3) << value;
+```
+
 3. **Simpler table structure (fewer columns)**
 
-## Complete Code Example
+<!-- Slide 20 -->
+
+---
+
+## Scientific Table: Complete Code
 
 ```cpp
 // SciNotWLeft.cpp
@@ -427,15 +498,21 @@ int main() {
     string title = "Scientific Notation Output:";
     
     cout << title << endl;
-    cout << string(title.size(), '-') << endl;  // auto figure length
+    cout << string(title.size(), '-') << endl;
+    
     cout << left << setw(15) << "Value 1:"
          << scientific << setprecision(3) << num1 << endl;
+    
     cout << setw(15) << "Value 2:"
          << scientific << setprecision(5) << num2 << endl;
     
     return 0;
 }
 ```
+
+<!-- Slide 21 -->
+
+---
 
 ## Scientific Notation Explained
 
@@ -454,28 +531,28 @@ cout << scientific << setprecision(5) << num;  // 1.23457e+03
 
 **Uppercase E:**
 ```cpp
-cout << scientific << uppercase << num;  // 1.235E+03 (capital E)
+cout << scientific << uppercase << num;  // 1.235E+03
 ```
+
+<!-- Slide 22 -->
 
 ---
 
 ## Choosing the Right Table Type
 
-::: {.small-table}
 | Data Type | Best Table | Why |
 |-----------|-----------|-----|
 | Mixed text and numbers | Fixed Width with Borders | Clear separation, professional |
 | Number conversions | Hex/Oct Table | Shows different representations |
 | Money/Budget data | Cash Table | Proper negative number formatting |
-| Very large/small numbers | Scientific Notation | Consistent scale regardless of size |
-| Database results | Fixed Width with Borders | General purpose |
+| Very large/small numbers | Scientific Notation | Consistent scale |
 | Memory addresses | Hex/Oct Table | Hexadecimal format |
-| Scientific measurements | Scientific Notation | Standard scientific format |
-:::
 
-## Common Table Patterns
+<!-- Slide 23 -->
 
-## Pattern 1: Setting Up Column Widths
+---
+
+## Common Table Patterns: Column Widths
 
 **Always define column widths as constants at the top:**
 
@@ -486,7 +563,13 @@ const int salaryWidth = 12;
 const int totalWidth = nameWidth + ageWidth + salaryWidth + 8;
 ```
 
-## Pattern 2: Creating Border Lines
+This makes it easy to adjust your table later!
+
+<!-- Slide 24 -->
+
+---
+
+## Common Table Patterns: Border Lines
 
 **Use setfill and setw to create lines:**
 
@@ -501,8 +584,13 @@ cout << setfill('-') << setw(totalWidth) << "-" << endl;
 cout << setfill(' ');
 ```
 
-## Pattern 3: Header Row
+<!-- Slide 25 -->
 
+---
+
+## Common Table Patterns: Headers and Data
+
+**Header row:**
 ```cpp
 cout << setfill(' ')
      << "| " << left << setw(nameWidth) << "Name"
@@ -510,83 +598,29 @@ cout << setfill(' ')
      << "| " << setw(salaryWidth) << "Salary" << " |" << endl;
 ```
 
-## Pattern 4: Data Rows
-
+**Data rows:**
 ```cpp
 cout << "| " << setw(nameWidth) << "Alice"
      << "| " << setw(ageWidth) << 30
      << "| " << setw(salaryWidth) << 50000.50 << " |" << endl;
 ```
 
+<!-- Slide 26 -->
+
 ---
 
-## Building a Table Step-by-Step
+## Building a Table: Step-by-Step Process
 
-## Step 1: Plan Your Table
+1. **Plan:** What data? How many columns? Widest values?
+2. **Define constants:** Column widths and total width
+3. **Set formatting:** `fixed`, `scientific`, `hex`, etc.
+4. **Create title and top border**
+5. **Add header row**
+6. **Add separator line**
+7. **Add data rows**
+8. **Add bottom border**
 
-Ask yourself:
-
-- What data am I displaying?
-- How many columns?
-- What's the widest value in each column?
-- Do I need borders?
-- What format (money, scientific, hex)?
-
-## Step 2: Define Constants
-
-```cpp
-const int col1Width = 15;
-const int col2Width = 10;
-const int col3Width = 12;
-const int totalWidth = col1Width + col2Width + col3Width + 8;
-```
-
-## Step 3: Set Formatting
-
-```cpp
-cout << fixed << setprecision(2);  // For money
-// OR
-cout << scientific << setprecision(3);  // For scientific
-// OR
-cout << hex << uppercase;  // For hexadecimal
-```
-
-## Step 4: Create Title and Top Border
-
-```cpp
-cout << "My Report Title" << endl;
-cout << setfill('=') << setw(totalWidth) << "=" << endl;
-cout << setfill(' ');
-```
-
-## Step 5: Add Header Row
-
-```cpp
-cout << "| " << left << setw(col1Width) << "Column1"
-     << "| " << setw(col2Width) << "Column2"
-     << "| " << setw(col3Width) << "Column3" << " |" << endl;
-```
-
-## Step 6: Add Separator
-
-```cpp
-cout << setfill('-') << setw(totalWidth) << "-" << endl;
-cout << setfill(' ');
-```
-
-## Step 7: Add Data Rows
-
-```cpp
-cout << "| " << setw(col1Width) << value1
-     << "| " << setw(col2Width) << value2
-     << "| " << setw(col3Width) << value3 << " |" << endl;
-```
-
-## Step 8: Add Bottom Border
-
-```cpp
-cout << setfill('=') << setw(totalWidth) << "=" << endl;
-```
+<!-- Slide 27 -->
 
 ---
 
@@ -594,43 +628,23 @@ cout << setfill('=') << setw(totalWidth) << "=" << endl;
 
 ## Exercise 1: Product Inventory Table
 
-Create a table showing:
-
-- Product name (20 characters)
-- Quantity in stock (10 characters)
-- Price per unit (12 characters, 2 decimals)
-- Total value (12 characters, 2 decimals)
-- At least 4 products
-- Use borders
+Create a bordered table with: Product name, Quantity, Price per unit, Total value (at least 4 products)
 
 ## Exercise 2: Temperature Conversion Table
 
-Create a table showing:
-
-- Celsius values (0, 25, 50, 75, 100)
-- Fahrenheit equivalents
-- Kelvin equivalents
-- Use simple dashed borders
+Show Celsius, Fahrenheit, and Kelvin for values: 0, 25, 50, 75, 100
 
 ## Exercise 3: Bank Statement
 
-Create a cash table showing:
-
-- Transaction descriptions
-- Amounts (positive and negative)
-- Use parentheses for negative amounts
-- Show running balance
-- Use proper money formatting
+Create a cash table with transactions (positive and negative) using parentheses for negative amounts
 
 ## Exercise 4: Computer Memory Table
 
-Create a table showing:
+Show memory addresses in hex, with values in decimal and octal
 
-- Memory address (in hexadecimal)
-- Value (in decimal)
-- Value (in octal)
-- Use uppercase hex
+<!-- Slide 28 -->
 
+---
 
 ## Key Takeaways
 
@@ -638,13 +652,9 @@ Create a table showing:
 - **Plan before coding** - Define column widths first  
 - **`setw()` resets** - Use it for every column  
 - **`setfill()` persists** - Always reset to space  
-- **Money needs `fixed` + `setprecision(2)`**  
-- **Text columns need `left` alignment**  
-- **Number columns typically use `right` alignment**  
-- **Calculate total width** - Include borders and spaces  
+
+<!-- Slide 29 -->
 
 ---
 
-**Remember:** Practice building tables from scratch. Start with the column widths, then the borders, then the data. Soon it will become second nature!
 
-**Next steps:** Try combining table skills with user input, calculations, and loops (coming soon!) to create dynamic, interactive reports!

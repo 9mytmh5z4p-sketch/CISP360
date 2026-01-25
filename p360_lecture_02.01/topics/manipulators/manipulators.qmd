@@ -1,125 +1,77 @@
-
 # Formatting Output with Manipulators
 
-## Introduction
+::: notes
+Target duration: ~30 minutes - Comprehensive coverage of cout manipulators
+:::
 
-You've learned how to display output with `cout`. But what if you want to:
+## Agenda
 
-- Display money with exactly 2 decimal places?
-- Line up columns of numbers neatly?
-- Show `true` and `false` instead of `1` and `0`?
-- Control how your output looks?
+Today's topics:
 
-That's where **manipulators** come in!
+- What are manipulators and why use them?
+- Precision and decimal formatting (`fixed`, `setprecision`)
+- Boolean formatting (`boolalpha`)
+- Width and alignment (`setw`, `left`, `right`)
+- Fill characters (`setfill`)
+- Complete formatting examples
 
----
+::: notes
+This lecture assumes students are comfortable with basic cout usage. Focus on practical applications throughout.
+:::
+
+<!-- Slide 1 -->
 
 ## What Are Manipulators?
 
 **Manipulators** are special functions that modify how `cout` displays data.
 
-- They change the **formatting** of output
-- They're used with the `<<` operator
-- Most require the `<iomanip>` header
-- Some are in `<iostream>` (like `endl`)
+**Purpose:** Control the formatting of output (not what to display, but how to display it)
 
-**Think of manipulators as formatting instructions** - they tell `cout` HOW to display something, not WHAT to display.
-
----
-
-## Two Important Headers
-
-- Basic Manipulators
-- Advanced Manipulators
-
-
-## `<iostream>` - Basic Manipulators
+**Requirements:**
+- Basic manipulators: `#include <iostream>` (endl, boolalpha, fixed)
+- Advanced manipulators: `#include <iomanip>` (setprecision, setw, setfill)
 
 ```cpp
 #include <iostream>
-```
-
-Contains:
-
-- `endl` (end line)
-- `boolalpha` / `noboolalpha`
-- `fixed` / `scientific`
-- `showpoint` / `noshowpoint`
-
-
-## `<iomanip>` - Advanced Manipulators
-
-```cpp
-#include <iomanip>
-```
-
-Contains:
-
-- `setprecision(n)` (set decimal precision)
-- `setw(n)` (set field width)
-- `setfill(c)` (set fill character)
-- `left` / `right` (alignment)
-
-**Important:** Always include `<iomanip>` when using advanced formatting!
-
----
-
-## Basic Program Setup
-
-```cpp
-#include <iostream>
-#include <iomanip>  // Don't forget this!
+#include <iomanip>  // Always include for formatting!
 using namespace std;
-
-int main()
-{
-    // Your code here
-    
-    return 0;
-}
 ```
 
----
+::: notes
+Emphasize that manipulators are instructions that change how cout behaves. They're not data themselves.
+:::
 
-## Precision Manipulators
+<!-- Slide 2 -->
 
-- `setprecision`
-- `setprecision` and `fixed`
-- `fixed`
-
-## `setprecision(n)` - Control Decimal Places
+## Decimal Precision: `setprecision(n)`
 
 Controls how many digits are displayed.
 
 **Without `fixed`:** Controls total significant digits
-
 ```cpp
 double pi = 3.14159265;
-
 cout << setprecision(3) << pi << endl;  // 3.14
 cout << setprecision(5) << pi << endl;  // 3.1416
-cout << setprecision(8) << pi << endl;  // 3.1415927
 ```
 
----
-
-**With `fixed`:** Controls decimal places (digits after the decimal point)
-
+**With `fixed`:** Controls decimal places (digits after decimal)
 ```cpp
 double price = 19.5;
-
 cout << fixed << setprecision(2) << price << endl;  // 19.50
 ```
 
+**Rule:** Always use `fixed` with `setprecision` for predictable formatting.
+
+<!-- Slide 3 -->
 
 ## The `fixed` Manipulator
 
-`fixed` tells C++ to use **fixed-point notation** (regular decimal format, not scientific notation).
+`fixed` forces fixed-point notation (regular decimals, not scientific notation).
 
 **Without `fixed`:**
 ```cpp
 double num = 123.456789;
-cout << setprecision(2) << num << endl;  // 1.2e+02 (scientific notation)
+cout << setprecision(2) << num << endl;  // 1.2e+02 (scientific!)
 ```
 
 **With `fixed`:**
@@ -128,95 +80,86 @@ double num = 123.456789;
 cout << fixed << setprecision(2) << num << endl;  // 123.46
 ```
 
-## Common Pattern: Money Formatting
+**Best practice:** Use `fixed` whenever formatting decimal numbers for users.
 
-**Always use `fixed` with `setprecision(2)` for money!**
+::: notes
+Show that without fixed, large or small numbers may appear in scientific notation, which confuses users.
+:::
+
+<!-- Slide 4 -->
+
+## Money Formatting Pattern
+
+**Always use `fixed` with `setprecision(2)` for money:**
 
 ```cpp
 double price = 29.5;
 double tax = 2.3625;
 double total = price + tax;
 
-cout << fixed << setprecision(2);  // Set once for all following output
+cout << fixed << setprecision(2);  // Set once for all output
 
 cout << "Price: $" << price << endl;    // Price: $29.50
 cout << "Tax:   $" << tax << endl;      // Tax:   $2.36
 cout << "Total: $" << total << endl;    // Total: $31.86
 ```
 
----
+**Note:** `fixed` and `setprecision` persist until changed.
 
-## The `boolalpha` Manipulator
+<!-- Slide 5 -->
 
-By default, C++ displays boolean values as numbers:
+## Boolean Formatting: `boolalpha`
 
-- `true` displays as `1`
-- `false` displays as `0`
+By default, booleans display as numbers (1 or 0). Use `boolalpha` for words.
 
-`boolalpha` makes booleans display as words!
-
-## Without `boolalpha`
-
+**Without `boolalpha`:**
 ```cpp
 bool isStudent = true;
 bool hasLicense = false;
 
-cout << "Student: " << isStudent << endl;      // Student: 1
-cout << "License: " << hasLicense << endl;     // License: 0
+cout << "Student: " << isStudent << endl;   // Student: 1
+cout << "License: " << hasLicense << endl;  // License: 0
 ```
 
-## With `boolalpha`
-
+**With `boolalpha`:**
 ```cpp
-bool isStudent = true;
-bool hasLicense = false;
-
-cout << boolalpha;  // Turn on word display
-
-cout << "Student: " << isStudent << endl;      // Student: true
-cout << "License: " << hasLicense << endl;     // License: false
+cout << boolalpha;
+cout << "Student: " << isStudent << endl;   // Student: true
+cout << "License: " << hasLicense << endl;  // License: false
 ```
 
-## Turning It Off: `noboolalpha`
+**Tip:** Use `noboolalpha` to switch back to numbers.
 
-```cpp
-bool value = true;
+<!-- Slide 6 -->
 
-cout << boolalpha << value << endl;      // true
-cout << noboolalpha << value << endl;    // 1
-```
+## Field Width: `setw(n)`
 
-**Tip:** Use `boolalpha` when displaying boolean values to users - it's much clearer!
-
----
-
-## Width Manipulators
-
-- `setw`
-
-## `setw(n)` - Set Field Width
-
-`setw(n)` sets the **minimum width** for the next output item only.
+`setw(n)` sets the minimum width for the next output item only.
 
 ```cpp
 int num = 42;
 
-cout << setw(5) << num << endl;    //    42 (5 characters wide, right-aligned)
-cout << setw(10) << num << endl;   //        42 (10 characters wide)
-cout << num << endl;               // 42 (back to normal)
+cout << setw(5) << num << endl;    //    42 (5 chars wide, right-aligned)
+cout << setw(10) << num << endl;   //        42 (10 chars wide)
+cout << num << endl;               // 42 (setw reset!)
 ```
 
-**Important:** `setw()` only affects the NEXT item, then resets!
+**Critical:** `setw()` only affects the NEXT item, then resets automatically.
 
-## Creating Columns
+::: notes
+Emphasize this is the most common mistake - students forget setw resets and wonder why their columns don't align.
+:::
 
-`setw()` is perfect for aligning columns:
+<!-- Slide 7 -->
+
+## Creating Aligned Columns
+
+Use `setw()` for each column item:
 
 ```cpp
 cout << setw(10) << "Name" << setw(8) << "Age" << setw(10) << "Grade" << endl;
 cout << setw(10) << "Alice" << setw(8) << 20 << setw(10) << 95 << endl;
 cout << setw(10) << "Bob" << setw(8) << 22 << setw(10) << 88 << endl;
-cout << setw(10) << "Charlie" << setw(8) << 19 << setw(10) << 92 << endl;
 ```
 
 **Output:**
@@ -224,282 +167,218 @@ cout << setw(10) << "Charlie" << setw(8) << 19 << setw(10) << 92 << endl;
       Name     Age     Grade
      Alice      20        95
        Bob      22        88
-   Charlie      19        92
 ```
 
----
+::: notes
+Show a diagram of how setw creates invisible boxes for each item. Point out that by default, content is right-aligned.
+:::
 
-## Alignment Manipulators
+<!-- Slide 8 -->
 
-## `left` and `right`
+## Alignment: `left` and `right`
 
-By default, output is **right-aligned** within the field width.
+By default, output is right-aligned. Use `left` to change this.
 
 **Right-aligned (default):**
 ```cpp
-cout << setw(10) << "Hello" << endl;    //      Hello
-cout << setw(10) << 42 << endl;         //         42
+cout << setw(10) << "Hello" << endl;  //      Hello
 ```
 
 **Left-aligned:**
 ```cpp
-cout << left;  // Switch to left alignment
-
-cout << setw(10) << "Hello" << endl;    // Hello     
-cout << setw(10) << 42 << endl;         // 42        
+cout << left;
+cout << setw(10) << "Hello" << endl;  // Hello     
 ```
-
----
 
 **Switch back:**
 ```cpp
-cout << right;  // Back to right alignment
+cout << right;  // Return to default
 ```
 
-## Practical Example: Menu Display
+**Note:** `left` and `right` persist until changed.
+
+<!-- Slide 9 -->
+
+## Practical Table Example
 
 ```cpp
+cout << fixed << setprecision(2);
 cout << left;
-cout << setw(20) << "Item" << setw(10) << "Price" << endl;
-cout << setw(20) << "Coffee" << right << setw(10) << "$3.50" << endl;
-cout << left << setw(20) << "Sandwich" << right << setw(10) << "$7.99" << endl;
-cout << left << setw(20) << "Salad" << right << setw(10) << "$6.50" << endl;
+
+cout << setw(15) << "Item" << right << setw(10) << "Price" << endl;
+cout << left << setw(15) << "Coffee" << right << setw(10) << "$3.50" << endl;
+cout << left << setw(15) << "Sandwich" << right << setw(10) << "$7.99" << endl;
 ```
 
 **Output:**
 ```
-Item                     Price
-Coffee                   $3.50
-Sandwich                 $7.99
-Salad                    $6.50
+Item                 Price
+Coffee               $3.50
+Sandwich             $7.99
 ```
 
----
+::: notes
+Walk through how we switch between left and right alignment for different columns.
+:::
 
-## Fill Character: `setfill(c)`
+<!-- Slide 10 -->
 
-`setfill(c)` sets the character used to fill empty space in a field.
+## Fill Characters: `setfill(c)`
 
-**Default fill character is space:**
+`setfill(c)` sets the character used to fill empty space in fields.
+
+**Default is space:**
 ```cpp
-cout << setw(10) << 42 << endl;    //         42 (filled with spaces)
+cout << setw(10) << 42 << endl;  //         42
 ```
 
-**Custom fill character:**
+**Custom fill:**
 ```cpp
-cout << setfill('0');
-cout << setw(5) << 42 << endl;     // 00042 (filled with zeros)
-
-cout << setfill('*');
-cout << setw(10) << "Hi" << endl;  // ********Hi (filled with asterisks)
+cout << setfill('0') << setw(5) << 42 << endl;     // 00042
+cout << setfill('*') << setw(10) << "Hi" << endl;  // ********Hi
 ```
 
-## Practical Uses
+**Note:** `setfill` persists until changed.
 
-**1. Zero-padded numbers (like invoice numbers):**
+<!-- Slide 11 -->
+
+## Practical Fill Character Uses
+
+**Invoice numbers with leading zeros:**
 ```cpp
 int invoiceNum = 237;
-cout << "Invoice #" << setfill('0') << setw(6) << invoiceNum << endl;
-// Output: Invoice #000237
+cout << setfill('0') << setw(6) << invoiceNum << endl;
+// Output: 000237
 ```
 
-**2. Decorative lines:**
+**Decorative separator lines:**
 ```cpp
 cout << setfill('-') << setw(40) << "" << endl;
 // Output: ----------------------------------------
 ```
 
-**3. Credit card display:**
-```cpp
-cout << setfill('*') << setw(12) << "4532" << endl;
-// Output: ********4532
-```
+**Remember:** Reset fill to space when done: `setfill(' ')`
 
----
+<!-- Slide 12 -->
 
 ## Persistent vs. Temporary Manipulators
 
-## Persistent (Stay Until Changed)
-These stay active until you explicitly change them:
-
-- `fixed` / `scientific`
+**Persistent** (stay active until changed):
+- `fixed`, `scientific`
 - `setprecision(n)`
-- `boolalpha` / `noboolalpha`
-- `left` / `right`
+- `boolalpha`, `noboolalpha`
+- `left`, `right`
 - `setfill(c)`
-- `showpoint` / `noshowpoint`
 
-## Persistence Example
+**Temporary** (reset after one use):
+- `setw(n)` - **Only affects next output!**
 
+::: notes
+Create a visual showing persistent manipulators as switches that stay on, versus setw as a one-time-use token.
+:::
+
+<!-- Slide 13 -->
+
+## Other Useful Manipulators
+
+**`showpoint` / `noshowpoint`:** Control trailing zeros
 ```cpp
-cout << fixed << setprecision(2);  // Sets for ALL following output
-cout << 3.1 << endl;     // 3.10
-cout << 5.7 << endl;     // 5.70
-cout << 9.0 << endl;     // 9.00
+cout << showpoint << 5.0 << endl;  // 5.00000
 ```
 
-## Temporary (Affects Next Item Only)
-These reset after one use:
-
-- `setw(n)` - **ONLY affects the next output!**
-
+**`scientific`:** Scientific notation
 ```cpp
-cout << setw(5) << 42 << endl;   //    42
-cout << 42 << endl;              // 42 (setw gone!)
+cout << scientific << 123456789.0 << endl;  // 1.234568e+08
 ```
 
----
+**`uppercase` / `nouppercase`:** Affects scientific notation
+```cpp
+cout << scientific << uppercase << 1234.5 << endl;  // 1.2345E+03
+```
 
-## Complete Example Programs
+<!-- Slide 14 -->
 
-## Example 1: Receipt Formatter
+## Complete Example: Receipt Formatter
 
 ```cpp
 #include <iostream>
 #include <iomanip>
 using namespace std;
 
-int main()
-{
-    string item1 = "Coffee";
-    string item2 = "Muffin";
-    string item3 = "Sandwich";
-    
-    double price1 = 3.50;
-    double price2 = 2.75;
-    double price3 = 7.99;
-    
-    double subtotal = price1 + price2 + price3;
+int main() {
+    double coffee = 3.50, muffin = 2.75, sandwich = 7.99;
+    double subtotal = coffee + muffin + sandwich;
     double tax = subtotal * 0.08;
     double total = subtotal + tax;
     
-    // Set formatting
-    cout << fixed << setprecision(2);
+    cout << fixed << setprecision(2) << left;
     
-    // Display receipt
     cout << "====== RECEIPT ======" << endl;
-    cout << left;
-    cout << setw(15) << item1 << "$" << right << setw(6) << price1 << endl;
-    cout << left << setw(15) << item2 << "$" << right << setw(6) << price2 << endl;
-    cout << left << setw(15) << item3 << "$" << right << setw(6) << price3 << endl;
+    cout << setw(15) << "Coffee" << "$" << right << setw(6) << coffee << endl;
+    cout << left << setw(15) << "Muffin" << "$" << right << setw(6) << muffin << endl;
+    cout << left << setw(15) << "Sandwich" << "$" << right << setw(6) << sandwich << endl;
     cout << setfill('-') << setw(23) << "" << setfill(' ') << endl;
     cout << left << setw(15) << "Subtotal" << "$" << right << setw(6) << subtotal << endl;
     cout << left << setw(15) << "Tax (8%)" << "$" << right << setw(6) << tax << endl;
     cout << setfill('=') << setw(23) << "" << setfill(' ') << endl;
     cout << left << setw(15) << "TOTAL" << "$" << right << setw(6) << total << endl;
-    cout << "====================" << endl;
     
     return 0;
 }
 ```
 
-**Output:**
-```
-====== RECEIPT ======
-Coffee         $  3.50
-Muffin         $  2.75
-Sandwich       $  7.99
------------------------
-Subtotal       $ 14.24
-Tax (8%)       $  1.14
-=======================
-TOTAL          $ 15.38
-====================
-```
+::: notes
+Walk through this example showing how multiple manipulators work together to create professional output.
+:::
 
-## Example 2: Student Grade Report
+<!-- Slide 15 -->
+
+## Complete Example: Grade Report
 
 ```cpp
 #include <iostream>
 #include <iomanip>
 using namespace std;
 
-int main()
-{
+int main() {
     string name = "Alice Johnson";
     int exam1 = 95, exam2 = 88, exam3 = 92;
-    bool isPassing = true;
-    bool onHonorRoll = true;
-    
+    bool isPassing = true, onHonorRoll = true;
     double average = (exam1 + exam2 + exam3) / 3.0;
     
-    // Format output
-    cout << fixed << setprecision(2);
-    cout << boolalpha;  // Show true/false as words
+    cout << fixed << setprecision(2) << boolalpha;
     
-    // Display report
     cout << "====== GRADE REPORT ======" << endl;
-    cout << "Student: " << name << endl;
-    cout << endl;
-    
+    cout << "Student: " << name << endl << endl;
     cout << "Exam Scores:" << endl;
     cout << "  Exam 1: " << exam1 << endl;
     cout << "  Exam 2: " << exam2 << endl;
-    cout << "  Exam 3: " << exam3 << endl;
-    cout << endl;
-    
+    cout << "  Exam 3: " << exam3 << endl << endl;
     cout << "Average: " << average << endl;
     cout << "Passing: " << isPassing << endl;
     cout << "Honor Roll: " << onHonorRoll << endl;
-    cout << "==========================" << endl;
     
     return 0;
 }
 ```
 
-**Output:**
-```
-====== GRADE REPORT ======
-Student: Alice Johnson
+<!-- Slide 16 -->
 
-Exam Scores:
-  Exam 1: 95
-  Exam 2: 88
-  Exam 3: 92
-
-Average: 91.67
-Passing: true
-Honor Roll: true
-==========================
-```
-
-## Example 3: Data Table
+## Complete Example: Data Table
 
 ```cpp
-#include <iostream>
-#include <iomanip>
-using namespace std;
+cout << fixed << setprecision(2) << left;
 
-int main()
-{
-    cout << fixed << setprecision(2);
-    
-    // Column headers
-    cout << left;
-    cout << setw(12) << "Product" 
-         << setw(10) << "Quantity" 
-         << setw(10) << "Price" 
-         << setw(10) << "Total" << endl;
-    cout << setfill('-') << setw(42) << "" << setfill(' ') << endl;
-    
-    // Data rows
-    cout << setw(12) << "Laptop" 
-         << right << setw(10) << 2 
-         << setw(10) << 899.99 
-         << setw(10) << (2 * 899.99) << endl;
-         
-    cout << left << setw(12) << "Mouse" 
-         << right << setw(10) << 5 
-         << setw(10) << 24.50 
-         << setw(10) << (5 * 24.50) << endl;
-         
-    cout << left << setw(12) << "Keyboard" 
-         << right << setw(10) << 3 
-         << setw(10) << 79.99 
-         << setw(10) << (3 * 79.99) << endl;
-    
-    return 0;
-}
+// Headers
+cout << setw(12) << "Product" << setw(10) << "Quantity" 
+     << setw(10) << "Price" << setw(10) << "Total" << endl;
+cout << setfill('-') << setw(42) << "" << setfill(' ') << endl;
+
+// Data rows
+cout << setw(12) << "Laptop" << right << setw(10) << 2 
+     << setw(10) << 899.99 << setw(10) << (2 * 899.99) << endl;
+cout << left << setw(12) << "Mouse" << right << setw(10) << 5 
+     << setw(10) << 24.50 << setw(10) << (5 * 24.50) << endl;
 ```
 
 **Output:**
@@ -508,260 +387,95 @@ Product     Quantity      Price      Total
 ------------------------------------------
 Laptop             2     899.99    1799.98
 Mouse              5      24.50     122.50
-Keyboard           3      79.99     239.97
 ```
 
----
+<!-- Slide 17 -->
 
-## Other Useful Manipulators
+## Common Mistakes to Avoid
 
-## `showpoint` and `noshowpoint`
-
-Controls whether trailing zeros are shown.
-
+**Mistake 1: Forgetting `#include <iomanip>`**
 ```cpp
-double num = 5.0;
-
-cout << num << endl;                    // 5
-cout << showpoint << num << endl;       // 5.00000
-cout << noshowpoint << num << endl;     // 5
+cout << setprecision(2) << 3.14;  // ERROR without <iomanip>
 ```
 
-## `scientific`
-
-Display in scientific notation.
-
+**Mistake 2: Using `setprecision()` without `fixed`**
 ```cpp
-double big = 123456789.0;
-
-cout << scientific << big << endl;      // 1.234568e+08
-cout << fixed << big << endl;           // 123456789.00
+cout << setprecision(2) << 19.5;  // Unpredictable!
+cout << fixed << setprecision(2) << 19.5;  // Correct: 19.50
 ```
 
-## `uppercase` and `nouppercase`
-
-Affects hexadecimal and scientific notation.
-
+**Mistake 3: Forgetting `setw()` resets**
 ```cpp
-double num = 1234.5;
-
-cout << scientific;
-cout << num << endl;                    // 1.2345e+03
-cout << uppercase << num << endl;       // 1.2345E+03
-cout << nouppercase << num << endl;     // 1.2345e+03
+cout << setw(10);        // WRONG - doesn't persist
+cout << setw(10) << 42;  // CORRECT - use with each item
 ```
 
----
+<!-- Slide 18 -->
 
-## Common Patterns and Recipes
+## Common Formatting Patterns
 
-## Pattern 1: Money Format
-
+**Money formatting:**
 ```cpp
-cout << fixed << setprecision(2);
-cout << "$" << amount << endl;
+cout << fixed << setprecision(2) << "$" << amount;
 ```
 
-## Pattern 2: Percentage Format
-
+**Percentage formatting:**
 ```cpp
-double rate = 0.0825;
-cout << fixed << setprecision(2);
-cout << (rate * 100) << "%" << endl;  // 8.25%
+cout << fixed << setprecision(2) << (rate * 100) << "%";
 ```
 
-## Pattern 3: Table with Headers
-
-```cpp
-// Set up formatting once
-cout << fixed << setprecision(2);
-
-// Headers
-cout << left;
-cout << setw(15) << "Column1" << setw(10) << "Column2" << endl;
-cout << setfill('-') << setw(25) << "" << setfill(' ') << endl;
-
-// Data rows
-cout << setw(15) << "Data1" << right << setw(10) << value1 << endl;
-```
-
-## Pattern 4: Aligned Output
-
-```cpp
-cout << left << setw(20) << "Label:" << right << value << endl;
-```
-
-## Pattern 5: Boolean Status Display
-
-```cpp
-cout << boolalpha;
-cout << "Status: " << isActive << endl;  // Status: true
-```
-
----
-
-## Common Mistakes and Solutions
-
-## Mistake 1: Forgetting `#include <iomanip>`
-
-**WRONG:**
-```cpp
-#include <iostream>  // Missing iomanip!
-using namespace std;
-
-int main()
-{
-    cout << setprecision(2) << 3.14159;  // Error! setprecision not defined
-}
-```
-
----
-
-**RIGHT:**
-```cpp
-#include <iostream>
-#include <iomanip>  // Don't forget this!
-using namespace std;
-
-int main()
-{
-    cout << setprecision(2) << 3.14159;  // Works!
-}
-```
-
-## Mistake 2: Using `setprecision()` Without `fixed`
-
-**Problem:**
-```cpp
-double price = 19.5;
-cout << setprecision(2) << price;  // Might show: 20 or 19 (not 19.50!)
-```
-
-**Solution:**
-```cpp
-double price = 19.5;
-cout << fixed << setprecision(2) << price;  // Shows: 19.50
-```
-
-## Mistake 3: Forgetting `setw()` Resets
-
-**WRONG:**
-```cpp
-cout << setw(10);  // Set once
-cout << 42 << endl;    //       42
-cout << 17 << endl;    // 17 (NOT 10 wide! setw expired)
-```
-
-**RIGHT:**
-```cpp
-cout << setw(10) << 42 << endl;    //       42
-cout << setw(10) << 17 << endl;    //       17
-```
-
-## Mistake 4: Wrong Order of Manipulators
-
-**WRONG:**
-```cpp
-cout << 3.14159 << fixed << setprecision(2);  // Too late! 3.14159 already displayed
-```
-
-**RIGHT:**
-```cpp
-cout << fixed << setprecision(2) << 3.14159;  // Set format BEFORE displaying
-```
-
----
-
-## Quick Reference Guide
-
-## Essential Money Formatting
-```cpp
-cout << fixed << setprecision(2) << price;
-```
-
-## Boolean Words Instead of Numbers
-```cpp
-cout << boolalpha << isTrue;
-```
-
-## Column Width (resets after each use!)
-```cpp
-cout << setw(10) << value;
-```
-
-## Alignment
-```cpp
-cout << left;   // Left-align
-cout << right;  // Right-align (default)
-```
-
-## Fill Character
-```cpp
-cout << setfill('0') << setw(5) << 42;  // 00042
-```
-
-## Table Headers
+**Table headers:**
 ```cpp
 cout << left << setw(15) << "Header1" << setw(10) << "Header2" << endl;
 ```
 
----
+**Boolean status:**
+```cpp
+cout << boolalpha << "Active: " << isActive << endl;
+```
 
-## Practice Exercises
+**Zero-padded numbers:**
+```cpp
+cout << setfill('0') << setw(6) << number << setfill(' ');
+```
 
-## Exercise 1: Price List
+<!-- Slide 19 -->
 
-Create a program that displays a price list with:
+## Quick Reference
 
-- Item names (left-aligned, 20 characters wide)
-- Prices (right-aligned, showing exactly 2 decimal places)
-- At least 4 items
+| Manipulator | Persistent? | Purpose |
+|-------------|-------------|---------|
+| `fixed` | Yes | Fixed-point notation |
+| `setprecision(n)` | Yes | Decimal places (with fixed) |
+| `boolalpha` | Yes | Display bool as true/false |
+| `setw(n)` | **NO** | Field width (next item only) |
+| `left` / `right` | Yes | Alignment |
+| `setfill(c)` | Yes | Fill character |
+| `showpoint` | Yes | Show trailing zeros |
+| `scientific` | Yes | Scientific notation |
 
-## Exercise 2: Student Report Card
-
-Create a program that displays:
-
-- Student name
-- Three test scores
-- Average (with 2 decimal places)
-- Passing status (using `boolalpha` to show true/false)
-
-## Exercise 3: Invoice Number Generator
-
-Create a program that displays invoice numbers with:
-
-- Leading zeros (6 digits total)
-- Example: Invoice #000125, Invoice #000126, etc.
-
-## Exercise 4: Temperature Table
-
-Create a table showing:
-
-- City names (left-aligned)
-- Temperatures (right-aligned with 1 decimal place)
-- At least 5 cities
-
----
-
-## Manipulator Summary Table
-
-::: {.small-table}
-| Manipulator | Header | Persistent? | Purpose |
-|-------------|--------|-------------|---------|
-| `fixed` | `<iostream>` | Yes | Fixed-point notation (not scientific) |
-| `scientific` | `<iostream>` | Yes | Scientific notation |
-| `setprecision(n)` | `<iomanip>` | Yes | Set decimal precision |
-| `boolalpha` | `<iostream>` | Yes | Display bool as true/false |
-| `noboolalpha` | `<iostream>` | Yes | Display bool as 1/0 |
-| `setw(n)` | `<iomanip>` | **NO** | Set field width (next item only!) |
-| `setfill(c)` | `<iomanip>` | Yes | Set fill character |
-| `left` | `<iostream>` | Yes | Left-align in field |
-| `right` | `<iostream>` | Yes | Right-align in field |
-| `showpoint` | `<iostream>` | Yes | Always show decimal point |
-| `uppercase` | `<iostream>` | Yes | Uppercase E in scientific notation |
+::: notes
+Emphasize that setw is the ONLY manipulator that doesn't persist - this is the most common source of student confusion.
 :::
 
----
+<!-- Slide 20 -->
 
-![Summary](topics/manipulators/images/manipulators.jpg)
+## Practice Exercise
+
+Create a program that displays a product inventory table with:
+
+- Product names (left-aligned, 15 characters wide)
+- Quantities (right-aligned, 8 characters wide)
+- Unit prices (right-aligned, 2 decimal places)
+- Total values (right-aligned, 2 decimal places, calculated from quantity × price)
+- At least 4 products
+- Proper table headers and a separator line
+
+**Bonus:** Add a grand total row at the bottom with a decorative separator.
+
+::: notes
+This exercise requires students to use setw, left/right alignment, fixed, setprecision, and setfill. It integrates all major concepts from the lecture.
+:::
+
+<!-- Slide 21 -->
 

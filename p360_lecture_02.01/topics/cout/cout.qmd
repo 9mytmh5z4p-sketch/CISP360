@@ -1,33 +1,47 @@
 # Displaying Output with `cout`
 
 ::: notes
-~ 49
-::: 
+Target duration: ~15 minutes - Basic concepts only
+:::
 
-## Introduction
+## Agenda
 
-When you write a program, you need a way to communicate with the user. How does your program display results? How does it show messages? How does it tell the user what's happening?
+Today's topics:
 
-That's where `cout` comes in!
+- What is `cout` and why do we need it?
+- Basic syntax and the `<<` operator
+- Displaying text, numbers, and variables
+- Chaining output with `<<`
+- Creating new lines with `endl` and `\n`
+- Common mistakes to avoid
 
----
+::: notes
+This is the foundational lecture. Advanced formatting, escape sequences, and patterns will be covered in a follow-up lecture.
+:::
+
+<!-- Slide 1 -->
 
 ## What is `cout`?
 
-**`cout`** (pronounced "see-out") stands for **"character output"** or **"console output"**
+**`cout`** (pronounced "see-out") stands for **"console output"**
 
+**Purpose:** Sends data to the screen (the console/terminal)
 
-- It sends data to the screen (the console/terminal)
-- It's part of the `<iostream>` library
-- It's in the `std` namespace
+**Requirements:**
+- Part of the `<iostream>` library
+- In the `std` namespace
 
 **Think of `cout` as your program's voice** - it's how your program "talks" to the user.
 
----
+::: notes
+Emphasize that without cout, programs can't communicate results to users. Show the connection between #include <iostream> and being able to use cout.
+:::
+
+<!-- Slide 2 -->
 
 ## Basic Syntax
 
-The basic syntax for `cout` uses the **stream insertion operator** `<<`
+The basic syntax uses the **stream insertion operator** `<<`
 
 ```cpp
 cout << "something to display";
@@ -37,59 +51,38 @@ cout << "something to display";
 
 The `<<` operator is like an arrow pointing toward `cout`, showing that data flows TO the output stream.
 
+::: notes
+Draw an arrow showing data flowing from right to left into cout. Emphasize that << is an operator, not just syntax decoration.
+:::
 
-## Classic First Program
+<!-- Slide 3 -->
 
-::: {.columns}
-::: {.column width="60%"}
+## Your First Program
 
-```{.cpp code-line-numbers="1|2|6"}
+```cpp
 #include <iostream>
 using namespace std;
 
 int main()
 {
     cout << "Hello, World!";
-    
     return 0;
 }
 ```
-
-:::
-
-::: {.column width="40%"}
 
 **Output:**
 ```
 Hello, World!
 ```
 
-:::
-::: 
-
----
-
 **What's happening:**
+- `#include <iostream>` brings in the iostream library (where `cout` lives)
+- `using namespace std;` lets us write `cout` instead of `std::cout`
+- `cout << "Hello, World!";` sends the text to the screen
 
-1. `#include <iostream>` - Brings in the iostream library (where `cout` lives)
+<!-- Slide 4 -->
 
-2. `using namespace std;` - Lets us write `cout` instead of `std::cout`
-
-3. `cout << "Hello, World!";` - Sends the text to the screen
-
-4. The semicolon `;` ends the statement
-
-
-## Displaying Different Types of Data
-
-- String Literals
-- Numbers
-- Variables
-
-All can go into the stream.
-
-
-## Displaying Text (String Literals)
+## Displaying Text
 
 Text must be enclosed in **double quotes** `" "`
 
@@ -102,26 +95,24 @@ cout << "Welcome to C++ Programming!";
 Welcome to C++ Programming!
 ```
 
-## Displaying Numbers
+**Rule:** Text (string literals) always needs double quotes.
 
-Numbers don't need quotes:
+::: notes
+Common mistake: Students forget the quotes. Show what happens when you omit them - compiler thinks it's a variable name.
+:::
+
+<!-- Slide 5 -->
+
+## Displaying Numbers and Variables
+
+**Numbers** don't need quotes:
 
 ```cpp
 cout << 42;
 cout << 3.14159;
-cout << -17;
 ```
 
-**Output:**
-```
-423.14159-17
-```
-
-**Notice:** Everything runs together! We'll fix this soon.
-
-## Displaying Variables
-
-You can display the **value** stored in a variable:
+**Variables** don't need quotes either:
 
 ```cpp
 int age = 25;
@@ -131,10 +122,13 @@ cout << age;    // Displays: 25
 cout << name;   // Displays: Alice
 ```
 
+**Key distinction:** Quotes = literal text, No quotes = variable or number
 
-## Chaining Multiple Items
+<!-- Slide 6 -->
 
-You can display multiple things in one statement by **chaining** them with `<<`
+## Chaining Output
+
+You can display multiple things in one statement by **chaining** with `<<`
 
 ```cpp
 cout << "Hello" << " " << "World";
@@ -145,9 +139,7 @@ cout << "Hello" << " " << "World";
 Hello World
 ```
 
-## Mixing Text and Variables
-
-This is where `cout` becomes powerful:
+**Mixing text and variables:**
 
 ```cpp
 string name = "Bob";
@@ -161,76 +153,51 @@ cout << "My name is " << name << " and I am " << age << " years old.";
 My name is Bob and I am 30 years old.
 ```
 
-**Notice:** 
+::: notes
+Emphasize that you need to include spaces in your quoted strings. Show what happens without the space in " and I am ".
+:::
 
-- Text goes in quotes: `"My name is "`
-- Variables don't use quotes: `name`
-- Spaces in quotes: `" and I am "` (notice the spaces!)
-
+<!-- Slide 7 -->
 
 ## Adding New Lines
 
-By default, `cout` doesn't move to the next line. Everything prints on the same line.
+By default, `cout` doesn't move to the next line. Use `endl` or `\n`:
 
-So, how do we move to a new line?
-
-## Method 1: Using `endl`
-
-`endl` stands for "end line" - it moves to the next line:
-
+**Method 1: Using `endl`**
 ```cpp
 cout << "First line" << endl;
 cout << "Second line" << endl;
 cout << "Third line" << endl;
 ```
 
-**Output:**
-```
-First line
-Second line
-Third line
-```
-
-## Method 2: Using `\n`
-
-`\n` is the newline character:
-
+**Method 2: Using `\n`**
 ```cpp
 cout << "First line\n";
 cout << "Second line\n";
 cout << "Third line\n";
 ```
 
-**Output:**
+**Both produce:**
 ```
 First line
 Second line
 Third line
 ```
 
-## `endl` vs `\n` - What's the Difference?
+<!-- Slide 8 -->
 
-Both create a new line, but:
+## `endl` vs `\n`
 
-- `endl` - Moves to next line AND flushes the output buffer (forces immediate display)
+**`endl`** - Moves to next line AND flushes the output buffer
 
-- `\n` - Just moves to next line (slightly faster)
+**`\n`** - Just moves to next line (slightly faster)
 
-**For beginners:** Use whichever you prefer. `endl` is more common and safer.
+**For now:** Use whichever you prefer. Both work the same for simple programs.
 
-
-## Creating Space in Your Output
-
-- Blank Lines
-- Multiple Newlines
-- Spaces in Text
-
-
-## Blank Lines
-
+**Creating blank lines:**
 ```cpp
 cout << "Paragraph 1" << endl;
-cout << endl;                   // Blank line
+cout << endl;              // Blank line
 cout << "Paragraph 2" << endl;
 ```
 
@@ -241,500 +208,66 @@ Paragraph 1
 Paragraph 2
 ```
 
-## Multiple Newlines
+<!-- Slide 9 -->
+
+## Common Mistakes
+
+**Mistake 1: Forgetting quotes around text**
+```cpp
+cout << Hello;   // ERROR - thinks Hello is a variable
+cout << "Hello"; // CORRECT
+```
+
+**Mistake 2: Using single quotes for text**
+```cpp
+cout << 'Hello';  // ERROR - single quotes for ONE character only
+cout << "Hello";  // CORRECT - double quotes for text
+```
+
+**Mistake 3: Confusing variables and text**
+```cpp
+int age = 25;
+cout << "age";  // Displays: age (the word)
+cout << age;    // Displays: 25 (the value)
+```
+
+<!-- Slide 10 -->
+
+## Complete Example
 
 ```cpp
-cout << "Top" << endl << endl << endl;
-cout << "Bottom" << endl;
-```
-
-**Output:**
-```
-Top
-
-
-Bottom
-```
-
-## Spaces in Text
-
-```cpp
-cout << "Hello    World";  // Multiple spaces in quotes
-```
-
-**Output:**
-```
-Hello    World
-```
-
-Hint: I use `.` instead spaces to make it easier to count.
-
----
-
-```cpp
-cout << "Hello....World";  // Multiple spaces in quotes
-```
-
-**Output:**
-```
-Hello....World
-```
-
-When you get everything lined up you type over the `.` with a space.
-
-
-## Complete Example Program
-
-Let's put it all together:
-
-```cpp
-// display_info.cpp - Demonstrating cout
 #include <iostream>
 using namespace std;
 
 int main()
 {
-    // Variables
     string firstName = "Sarah";
     string lastName = "Johnson";
     int age = 22;
     double gpa = 3.85;
     
-    // Display information
-    cout << "=== Student Information ===" << endl;
+    cout << "Student Information" << endl;
     cout << endl;
     
     cout << "Name: " << firstName << " " << lastName << endl;
     cout << "Age: " << age << " years old" << endl;
     cout << "GPA: " << gpa << endl;
-    cout << endl;
-    
-    cout << "Thank you for using this program!" << endl;
     
     return 0;
 }
 ```
 
----
-
 **Output:**
 ```
-=== Student Information ===
+Student Information
 
 Name: Sarah Johnson
 Age: 22 years old
 GPA: 3.85
-
-Thank you for using this program!
 ```
 
----
-
-## Special Characters and Escape Sequences
-
-Sometimes you need to display special characters. Use the backslash `\` (called an escape character):
-
----
-
-| Escape Sequence | Meaning | Example |
-|----------------|---------|---------|
-| `\n` | Newline (new line) | `"Line 1\nLine 2"` |
-| `\t` | Tab (indent) | `"Name:\tValue"` |
-| `\"` | Double quote | `"She said \"Hi\""` |
-| `\\` | Backslash | `"C:\\folder\\file"` |
-
-## Examples:
-
-```cpp
-cout << "Column1\tColumn2\tColumn3" << endl;
-cout << "Value1\tValue2\tValue3" << endl;
-```
-
-**Output:**
-```
-Column1    Column2    Column3
-Value1     Value2     Value3
-```
-
----
-
-```cpp
-cout << "He said, \"Hello!\"" << endl;
-```
-
-**Output:**
-```
-He said, "Hello!"
-```
-
----
-
-```cpp
-cout << "First line\nSecond line\nThird line" << endl;
-```
-
-**Output:**
-```
-First line
-Second line
-Third line
-```
-
----
-
-## Displaying Calculations
-
-`cout` can display the result of calculations:
-
-```cpp
-int a = 10;
-int b = 20;
-
-cout << "The sum is: " << a + b << endl;
-cout << "The product is: " << a * b << endl;
-cout << "The average is: " << (a + b) / 2 << endl;
-```
-
-**Output:**
-```
-The sum is: 30
-The product is: 200
-The average is: 15
-```
-
-**Important:** The calculation happens first, then the result is displayed.
-
----
-
-## Common Patterns
-
-## Pattern 1: Header and Content
-
-```cpp
-cout << "=== Title ===" << endl;
-cout << "Content here" << endl;
-cout << "=============" << endl;
-```
-
-**Output:**
-```
-=== Title ===
-Content here
-=============
-```
-
-## Pattern 2: Labels and Values
-
-```cpp
-string item = "Laptop";
-double price = 899.99;
-
-cout << "Item:  " << item << endl;
-cout << "Price: $" << price << endl;
-```
-
-**Output:**
-```
-Item:  Laptop
-Price: $899.99
-```
-
-## Pattern 3: Messages with Data
-
-```cpp
-int score = 95;
-cout << "Your score of " << score << " is excellent!" << endl;
-```
-
-**Output:**
-```
-Your score of 95 is excellent!
-```
-
-## Pattern 4: Building Sentences
-
-```cpp
-string subject = "C++";
-int hours = 3;
-
-cout << "I studied " << subject;
-cout << " for " << hours << " hours";
-cout << " today." << endl;
-```
-
-**Output:**
-```
-I studied C++ for 3 hours today.
-```
-
----
-
-## Common Mistakes and How to Avoid Them
-
-## Mistake 1: Forgetting Quotes Around Text
-
-**WRONG:**
-```cpp
-cout << Hello;  // Error! C++ thinks Hello is a variable
-```
-
-**RIGHT:**
-```cpp
-cout << "Hello";  // Correct! Text needs quotes
-```
-
-## Mistake 2: Using Single Quotes for Text
-
-**WRONG:**
-```cpp
-cout << 'Hello';  // Error! Single quotes are for single characters only
-```
-
-**RIGHT:**
-```cpp
-cout << "Hello";  // Use double quotes for text
-cout << 'H';      // Single quotes for ONE character
-```
-
-## Mistake 3: Forgetting `#include <iostream>`
-
-**WRONG:**
-```cpp
-// Missing #include <iostream>
-
-int main()
-{
-    cout << "Hello";  // Error! cout doesn't exist
-}
-```
-
----
-
-**RIGHT:**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main()
-{
-    cout << "Hello";  // Works!
-}
-```
-
-## Mistake 4: Missing Semicolon
-
-**WRONG:**
-```cpp
-cout << "Hello"  // Error! Missing semicolon
-cout << "World";
-```
-
-**RIGHT:**
-```cpp
-cout << "Hello";  // Each statement needs semicolon
-cout << "World";
-```
-
-## Mistake 5: Confusing Variables and Text
-
-**WRONG:**
-```cpp
-int age = 25;
-cout << "age";  // Displays: age (the word, not the value!)
-```
-
-**RIGHT:**
-```cpp
-int age = 25;
-cout << age;   // Displays: 25 (the value)
-cout << "age"; // Displays: age (the word)
-```
-
-**Remember:** 
-- Quotes = literal text
-- No quotes = variable or number
-
----
-
-## Good Practices
-
-## 1. Make Output Clear and Readable
-
-**Poor:**
-```cpp
-cout << name << age << city;
-```
-**Output:** `Alice25Boston` (confusing!)
-
-**Better:**
-```cpp
-cout << "Name: " << name << endl;
-cout << "Age: " << age << endl;
-cout << "City: " << city << endl;
-```
-**Output:**
-```
-Name: Alice
-Age: 25
-City: Boston
-```
-
-## 2. Use Blank Lines to Organize
-
-```cpp
-cout << "=== Section 1 ===" << endl;
-cout << "Content..." << endl;
-cout << endl;  // Blank line
-
-cout << "=== Section 2 ===" << endl;
-cout << "More content..." << endl;
-```
-
-**Output**
-```
-=== Section 1 ===
-Content...
-
-=== Section 2 ===
-More content...
-```
-
-
-## 3. Label Your Output
-
-**Poor:**
-```cpp
-cout << 42 << endl;
-cout << 3.14 << endl;
-```
-
-**Better:**
-```cpp
-cout << "Answer: " << 42 << endl;
-cout << "Pi: " << 3.14 << endl;
-```
-
-## 4. Use Consistent Formatting
-
-Pick a style and stick with it:
-
-```cpp
-// Style 1: Everything on separate lines
-cout << "Hello" << endl;
-cout << "World" << endl;
-
-// Style 2: Chain when related
-cout << "Hello " << "World" << endl;
-
-// Both are fine - just be consistent!
-```
-
----
-
-## Practical Examples
-
-## Example 1: Personal Information
-
-```cpp
-#include <iostream>
-using namespace std;
-
-int main()
-{
-    string name = "Alex Chen";
-    int age = 19;
-    string major = "Computer Science";
-    
-    cout << "Student Profile" << endl;
-    cout << "===============" << endl;
-    cout << "Name:  " << name << endl;
-    cout << "Age:   " << age << endl;
-    cout << "Major: " << major << endl;
-    
-    return 0;
-}
-```
-
-## Example 2: Simple Calculator Display
-
-```cpp
-#include <iostream>
-using namespace std;
-
-int main()
-{
-    int num1 = 15;
-    int num2 = 7;
-    
-    cout << "Calculator" << endl;
-    cout << "==========" << endl;
-    cout << num1 << " + " << num2 << " = " << (num1 + num2) << endl;
-    cout << num1 << " - " << num2 << " = " << (num1 - num2) << endl;
-    cout << num1 << " * " << num2 << " = " << (num1 * num2) << endl;
-    cout << num1 << " / " << num2 << " = " << (num1 / num2) << endl;
-    
-    return 0;
-}
-```
-
-## Example 3: Recipe Display
-
-```cpp
-#include <iostream>
-using namespace std;
-
-int main()
-{
-    string recipe = "Chocolate Chip Cookies";
-    int servings = 24;
-    int prepTime = 15;
-    int bakeTime = 12;
-    
-    cout << "=== Recipe ===" << endl;
-    cout << recipe << endl;
-    cout << endl;
-    
-    cout << "Servings: " << servings << " cookies" << endl;
-    cout << "Prep Time: " << prepTime << " minutes" << endl;
-    cout << "Bake Time: " << bakeTime << " minutes" << endl;
-    cout << "Total Time: " << (prepTime + bakeTime) << " minutes" << endl;
-    
-    return 0;
-}
-```
-
----
-
-## Practice Exercises
-
-## Exercise 1: About Me
-
-Write a program that displays:
-
-- Your name
-- Your age
-- Your favorite hobby
-- Your favorite food
-
-Use `cout` statements with proper labels and formatting.
-
-## Exercise 2: Math Display
-
-Write a program that:
-
-1. Creates two integer variables with values of your choice
-
-2. Displays the sum, difference, product, and quotient
-
-3. Uses clear labels for each result
-
-## Exercise 3: Formatted Message
-
-Write a program that displays a multi-line message with:
-
-- A title line
-- A blank line
-- At least 3 lines of content
-- Another blank line
-- A closing line
-
+::: notes
+Walk through this example line by line. Show how variables are mixed with text, how endl creates spacing, and how the output is structured and readable.
+:::
+
+<!-- Slide 11 -->
