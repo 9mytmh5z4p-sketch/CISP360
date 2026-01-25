@@ -1,30 +1,27 @@
-
 # Passing Data To and From Functions
 
 ::: notes
-~ 45 min
-::: 
+Target duration: ~20 minutes
+:::
 
-## Void Functions are Useful, but ...
+## Agenda
 
-**Functions become much more powerful when they can:**
-- **Receive data** (inputs)
-- **Process that data**
-- **Return results** (outputs)
+Today's topics:
 
----
+- Understanding parameters and arguments
+- Passing data into functions
+- Returning data from functions
+- Function prototypes
+- Common mistakes and how to avoid them
+- Practical examples
 
-## The Problem: Functions Need Data
+::: notes
+This lecture builds on void functions by showing how to make functions more flexible and powerful through data passing.
+:::
 
-```cpp
-void displayName() {
-    cout << "Hello, Alice!" << endl;
-}
-```
+## Why Functions Need Data
 
-**Problem:** This only works for Alice!
-
----
+Consider this function:
 
 ```cpp
 void displayName() {
@@ -32,22 +29,15 @@ void displayName() {
 }
 ```
 
-**What we want:**
-```cpp
-displayName("Alice");   // Hello, Alice!
-displayName("Bob");     // Hello, Bob!
-displayName("Charlie"); // Hello, Charlie!
-```
+**Problem:** This only works for Alice. What about Bob or Charlie?
 
----
+**Challenge:** How can we make one function work for any name?
 
-**Solution:** Give the function the ability to receive data!
+**Solution:** Give functions the ability to receive and process different data.
 
----
+## Parameters: Receiving Data
 
-## Parameters: Function Inputs
-
-**Parameters** are variables that receive data when a function is called.
+**Parameters** are variables in the function definition that receive data.
 
 ```cpp
 void displayName(string name) {
@@ -55,51 +45,40 @@ void displayName(string name) {
 }
 ```
 
-**Parts:**
-- `string` - The data type (what kind of data)
-- `name` - The parameter name (variable inside the function)
+**Anatomy:**
+- `string` is the data type
+- `name` is the parameter variable
+- Parameters exist only inside the function
 
-**Think of parameters as:**
-- Placeholders for data
-- Empty boxes waiting to be filled
-- Variables that exist only inside the function
+::: notes
+A diagram showing the function definition with the parameter highlighted would be useful here.
+:::
 
----
+## Arguments vs Parameters
 
-## Arguments: The Actual Data
+**Parameter:** Variable in the function definition (placeholder)
 
-**Arguments** are the actual values you pass to a function when calling it.
-
-```cpp
-displayName("Alice");  // "Alice" is the argument
-```
-
----
-
-**Key Distinction:**
-- **Parameter** = Variable in function definition (placeholder)
-- **Argument** = Actual value passed when calling (real data)
+**Argument:** Actual value passed when calling the function (real data)
 
 ```cpp
-void displayName(string name) {  // name is a PARAMETER
+void displayName(string name) {     // name is a PARAMETER
     cout << "Hello, " << name << "!" << endl;
 }
 
 int main() {
-    displayName("Alice");  // "Alice" is an ARGUMENT
+    displayName("Alice");           // "Alice" is an ARGUMENT
     return 0;
 }
 ```
 
----
+The argument value is copied into the parameter variable.
 
-## Complete Example: One Parameter
+## Single Parameter Example
 
 ```cpp
 #include <iostream>
 using namespace std;
 
-// BAD Practice - we use function prototypes 
 void greet(string person) {
     cout << "Welcome, " << person << "!" << endl;
 }
@@ -108,7 +87,6 @@ int main() {
     greet("Alice");
     greet("Bob");
     greet("Charlie");
-    
     return 0;
 }
 ```
@@ -119,10 +97,6 @@ Welcome, Alice!
 Welcome, Bob!
 Welcome, Charlie!
 ```
-
-**What happens:** The argument value is copied into the parameter variable.
-
----
 
 ## Multiple Parameters
 
@@ -136,53 +110,22 @@ void displayProduct(string name, double price) {
 int main() {
     displayProduct("Laptop", 899.99);
     displayProduct("Mouse", 24.50);
-    
     return 0;
 }
 ```
 
-**Output:**
-```
-Laptop costs $899.99
-Mouse costs $24.50
-```
-
----
-
-**Important:** 
+**Key rules:**
 - Separate parameters with commas
-- Order matters! Arguments must match parameter order
-
----
-
-## Parameter Syntax
-
-```cpp
-returnType functionName(type1 param1, type2 param2, type3 param3, etc.) {
-    // Function body
-}
-```
-
-**Examples:**
-```cpp
-void displayInfo(string name, int age) { }
-
-void printSum(int a, int b) { }
-
-void showData(string title, int count, double value) { }
-```
-
----
-
-**Rules:**
 - Each parameter needs a type
-- Separate with commas
-- Parameters are local to the function
-- Use descriptive names
+- Order matters - arguments must match parameter order
 
----
+::: notes
+Emphasize that you cannot write `string name, price` - each parameter needs its own type. Show what happens when you call with arguments in wrong order.
+:::
 
-## Order Matters!
+## Parameter Order and Types
+
+Arguments must match parameters in **order** and **type**:
 
 ```cpp
 void displayStudent(string name, int age, double gpa) {
@@ -191,101 +134,82 @@ void displayStudent(string name, int age, double gpa) {
 }
 
 int main() {
-    displayStudent("Alice", 20, 3.8);  // Correct order
-    displayStudent(20, "Alice", 3.8);  // ERROR! Wrong types
-    
+    displayStudent("Alice", 20, 3.8);     // Correct
+    displayStudent(20, "Alice", 3.8);     // ERROR - wrong types
     return 0;
 }
 ```
 
-**The argument types and order must match the parameter types and order!**
+::: notes
+Consider showing a visual matching of arguments to parameters with arrows. Demonstrate the compiler error message for type mismatch.
+:::
 
----
+## Function Prototypes
 
-## Parameters with Different Types
+**Problem:** C++ requires functions to be defined before they're called.
+
+**Solution:** Declare the function's signature at the top with a **prototype**.
 
 ```cpp
-#include <iostream>
-#include <iomanip>
-using namespace std;
-
-void displayScore(string student, int score, char grade) {
-    cout << left << setw(12) << student 
-         << right << setw(5) << score 
-         << "  Grade: " << grade << endl;
-}
+// Prototype (declaration) - tells compiler function exists
+void displayStudent(string name, int age, double gpa);
 
 int main() {
-    displayScore("Alice", 95, 'A');
-    displayScore("Bob", 87, 'B');
-    displayScore("Charlie", 78, 'C');
-    
+    displayStudent("Alice", 20, 3.8);  // Can call here
     return 0;
 }
+
+// Definition (implementation) - actual code
+void displayStudent(string name, int age, double gpa) {
+    cout << name << " is " << age << " years old" << endl;
+}
 ```
 
-**Output:**
+::: notes
+Explain that prototypes are especially important when working with multiple files. The prototype is like a table of contents - it tells the compiler what to expect.
+:::
+
+## Prototype Syntax
+
+```cpp
+// Full prototype with parameter names (recommended)
+double calculateAverage(double score1, double score2, double score3);
+
+// Parameter names optional, but less clear
+double calculateAverage(double, double, double);
+
+// Multiple prototypes
+void displayMenu();
+int getChoice();
+double calculateTax(double amount);
 ```
-Alice          95  Grade: A
-Bob            87  Grade: B
-Charlie        78  Grade: C
-```
 
----
+**Best practice:** Include parameter names for readability. They don't have to match the definition's names, but usually do.
 
-## Returning Data From Functions
+::: notes
+Show students where prototypes typically go: after includes and namespace, before main. Mention that professional code often puts prototypes in header files (.h).
+:::
 
-**So far:** Functions that receive data but don't give anything back (void)
+## Return Values: Sending Data Back
 
-**Now:** Functions that return a result!
+**So far:** Functions receive data through parameters (input)
+
+**Now:** Functions can send data back through return values (output)
 
 ```cpp
 int add(int a, int b) {
-    int sum = a + b;
-    return sum;
-}
-```
-
----
-
-
-```cpp
-int add(int a, int b) {
-    int sum = a + b;
-    return sum;
-}
-```
-
-**Parts:**
-- `int` - Return type (what type of data comes back)
-- `return sum;` - Send the value back to the caller
-
----
-
-## Return Type Replaces void
-
-**Compare:**
-
-```cpp
-void displaySum(int a, int b) {
-    cout << "Sum: " << (a + b) << endl;
-}
-```
-
-**vs.**
-
-```cpp
-int calculateSum(int a, int b) {
     return a + b;
 }
 ```
 
----
+**Key components:**
+- `int` is the return type
+- `return` statement sends the value back
+- Return type must match the returned value
 
-**First version:** Does something (prints)  
-**Second version:** Gives back a value (returns)
-
----
+::: notes
+A data flow diagram showing data going into the function via parameters and coming out via return would be helpful. Emphasize this completes the picture: data in (parameters) and data out (return).
+:::
 
 ## Using Return Values
 
@@ -295,357 +219,94 @@ int add(int a, int b) {
 }
 
 int main() {
+    // Store in a variable
     int result = add(5, 3);
     cout << "Result: " << result << endl;
     
-    // Or use directly
+    // Use directly in expression
     cout << "Sum: " << add(10, 20) << endl;
     
-    return 0;
-}
-```
-
-**Output:**
-```
-Result: 8
-Sum: 30
-```
-
----
-
-**You can:**
-- Store the return value in a variable
-- Use it directly in an expression
-- Pass it to another function
-
----
-
-## Complete Example: Return Value
-
-```cpp
-#include <iostream>
-using namespace std;
-
-double calculateAverage(double num1, double num2) {
-    double avg = (num1 + num2) / 2.0;
-    return avg;
-}
-
-int main() {
-    double score1 = 85.5;
-    double score2 = 92.3;
-    
-    double average = calculateAverage(score1, score2);
-    
-    cout << "Average: " << average << endl;
+    // Pass to another function
+    cout << add(5, add(2, 3)) << endl;
     
     return 0;
 }
 ```
 
-**Output:**
-```
-Average: 88.9
-```
-
----
-
-## Different Return Types
-
-```cpp
-int getAge() {
-    return 25;
-}
-
-double getPrice() {
-    return 19.99;
-}
-
-string getName() {
-    return "Alice";
-}
-
-char getGrade() {
-    return 'A';
-}
-
-bool isPassing(int score) {
-    return score >= 60;
-}
-```
-
-**The return type must match the type of value you return!**
-
----
+::: notes
+Emphasize the flexibility of return values. The inner add(2,3) executes first, returns 5, then add(5,5) executes. This demonstrates function composition.
+:::
 
 ## Return Type Must Match
 
+The return statement must match the function's return type:
+
 ```cpp
 int getValue() {
-    return 3.14;  // WARNING! Returns double, function expects int
-                   // Will be truncated to 3
+    return 3.14;        // WARNING - truncated to 3
 }
 
 double getNumber() {
-    return 42;    // OK! int converts to double (42.0)
+    return 42;          // OK - converts to 42.0
 }
 
 string getName() {
-    return 123;   // ERROR! Can't convert int to string
+    return 123;         // ERROR - cannot convert int to string
 }
 ```
 
-**Rule:** Return statement value must match (or be convertible to) the return type.
+**Rule:** The compiler will error or warn if types don't match or convert properly.
 
----
+::: notes
+Demonstrate the actual compiler warnings/errors. Explain implicit conversion (int to double is safe, double to int loses precision). String conversion requires explicit methods like to_string().
+:::
 
 ## Multiple Return Statements
 
-Functions can have multiple return statements:
+Functions can have multiple returns, but only one executes:
 
 ```cpp
-string getLetterGrade(int score) {
+char getLetterGrade(int score) {
     if (score >= 90) {
-        return "A";
+        return 'A';
     }
     if (score >= 80) {
-        return "B";
+        return 'B';
     }
     if (score >= 70) {
-        return "C";
+        return 'C';
     }
     if (score >= 60) {
-        return "D";
+        return 'D';
     }
-    return "F";
+    return 'F';
 }
 ```
 
-**Once a return executes, the function immediately exits!**
+**Important:** Once a return executes, the function immediately exits.
 
----
-
-## Practical Example: Area Calculator
-
-```cpp
-#include <iostream>
-using namespace std;
-
-double calculateRectangleArea(double length, double width) {
-    return length * width;
-}
-
-double calculateCircleArea(double radius) {
-    const double PI = 3.14159;
-    return PI * radius * radius;
-}
-
-int main() {
-    double rectArea = calculateRectangleArea(5.0, 3.0);
-    double circArea = calculateCircleArea(4.0);
-    
-    cout << "Rectangle area: " << rectArea << endl;
-    cout << "Circle area: " << circArea << endl;
-    
-    return 0;
-}
-```
-
-**Output:**
-```
-Rectangle area: 15
-Circle area: 50.2654
-```
-
----
-
-## Data Flow Diagram
-
-```
-CALLER (main)          FUNCTION (add)
-    |                       |
-    |  Arguments: 5, 3      |
-    |--------------------->|
-    |                       |
-    |                  Parameters: a=5, b=3
-    |                       |
-    |                  Calculate: sum = 8
-    |                       |
-    |   Return value: 8     |
-    |<---------------------|
-    |                       |
-Store in variable
-or use in expression
-```
-
----
-
-```mermaid
-sequenceDiagram
-    participant Caller as CALLER\n(main)
-    participant AddFunc as FUNCTION\nadd(a, b)
-    participant Calc as Compute\nsum = a + b
-
-    Caller->>AddFunc: Arguments: 5, 3
-    Note right of AddFunc: Parameters bound\n a = 5\n b = 3
-    AddFunc->>Calc: Execute computation
-    Note right of Calc: sum = a + b\nsum = 8
-    Calc-->>AddFunc: Result: 8
-    AddFunc-->>Caller: Return value: 8
-```
-
-
-
-
-**Data flows INTO the function via arguments/parameters**  
-**Data flows OUT OF the function via return value**
-
----
-
-## Pass By Value (Default Behavior)
-
-When you pass arguments, C++ makes a **copy** of the value:
-
-```cpp
-void changeNumber(int num) {
-    num = 100;
-    cout << "Inside function: " << num << endl;
-}
-
-int main() {
-    int value = 5;
-    changeNumber(value);
-    cout << "In main: " << value << endl;  // Still 5!
-    
-    return 0;
-}
-```
-
-**Output:**
-```
-Inside function: 100
-In main: 5
-```
-
-**The original variable is NOT changed!** (More on this later with references)
-
----
-
-## Function Declarations (Prototypes)
-
-**Problem:** Functions must be defined before they're called.
-
-**Solution:** Use function prototypes!
-
-```cpp
-#include <iostream>
-using namespace std;
-
-// Function prototype (declaration)
-int add(int a, int b);
-
-int main() {
-    cout << add(5, 3) << endl;  // Can call before definition
-    return 0;
-}
-
-// Function definition (implementation)
-int add(int a, int b) {
-    return a + b;
-}
-```
-
-**Prototype tells the compiler:**
-- The function exists
-- Its return type
-- Its parameter types
-
----
-
-## Prototype Syntax
-
-```cpp
-// Full prototype
-int calculateSum(int num1, int num2);
-
-// Parameter names optional (but helpful)
-int calculateSum(int, int);
-
-// Multiple prototypes
-double getAverage(double, double, double);
-void displayResult(string, double);
-bool isValid(int);
-```
-
-**Convention:**
-- Prototypes at the top (or in header files)
-- Definitions below main() or in separate files
-- Parameter names in prototypes make code more readable
-
----
-
-## Complete Example: With Prototypes
-
-```cpp
-#include <iostream>
-using namespace std;
-
-// Function prototypes
-void displayMenu();
-int getChoice();
-double calculateTax(double amount);
-
-int main() {
-    displayMenu();
-    int choice = getChoice();
-    double tax = calculateTax(99.99);
-    
-    cout << "Tax: $" << tax << endl;
-    
-    return 0;
-}
-
-void displayMenu() {
-    cout << "1. Add item" << endl;
-    cout << "2. Calculate total" << endl;
-}
-
-int getChoice() {
-    int choice;
-    cin >> choice;
-    return choice;
-}
-
-double calculateTax(double amount) {
-    return amount * 0.08;
-}
-```
-
----
-
-## Common Mistakes: Missing Return
+## Common Mistake: Missing Return
 
 ```cpp
 int getValue() {
     int x = 10;
-    // ERROR! No return statement
+    // ERROR - no return statement
 }
 ```
 
-**Compiler warning:** Control reaches end of non-void function
+**Compiler error:** Control reaches end of non-void function.
 
-**Fix:** Always return a value in non-void functions!
-
+**Fix:**
 ```cpp
 int getValue() {
     int x = 10;
-    return x;  // Correct!
+    return x;
 }
 ```
 
----
+**Rule:** Non-void functions must return a value on all code paths.
 
-## Common Mistakes: Wrong Argument Count
+## Common Mistake: Argument Count and Type
 
 ```cpp
 void displayInfo(string name, int age) {
@@ -653,87 +314,31 @@ void displayInfo(string name, int age) {
 }
 
 int main() {
-    displayInfo("Alice");        // ERROR! Missing argument
-    displayInfo("Bob", 20, 3.5); // ERROR! Too many arguments
-    
+    displayInfo("Alice");           // ERROR - missing argument
+    displayInfo("Bob", 20, 3.5);    // ERROR - too many arguments
+    displayInfo("Charlie", "20");   // ERROR - wrong type
+    displayInfo("David", 25);       // CORRECT
     return 0;
 }
 ```
 
-**Fix:** Match the number of arguments to the number of parameters!
+**Fix:** Match the exact number, order, and types of parameters.
 
-```cpp
-displayInfo("Alice", 20);  // Correct!
-```
-
----
-
-## Common Mistakes: Wrong Argument Type
-
-```cpp
-void displayAge(int age) {
-    cout << "Age: " << age << endl;
-}
-
-int main() {
-    displayAge("twenty");  // ERROR! String, not int
-    displayAge(20.5);      // WARNING! double truncated to int
-    
-    return 0;
-}
-```
-
-**Fix:** Match argument types to parameter types!
-
-```cpp
-displayAge(20);  // Correct!
-```
-
----
-
-## Common Mistakes: Using void Return
-
-```cpp
-void displayMessage(string msg) {
-    cout << msg << endl;
-}
-
-int main() {
-    string result = displayMessage("Hello");  // ERROR!
-    // void functions don't return values
-    
-    return 0;
-}
-```
-
-**Fix:** Just call void functions without capturing a return value:
-
-```cpp
-displayMessage("Hello");  // Correct!
-```
-
----
-
-## Practical Example: Temperature Converter
+## Example: Temperature Conversion
 
 ```cpp
 #include <iostream>
 #include <iomanip>
 using namespace std;
 
-// Function prototypes
-double celsiusToFahrenheit(double celsius);
-double fahrenheitToCelsius(double fahrenheit);
-void displayConversion(double original, double converted, string unit);
+double celsiusToFahrenheit(double celsius);  // Prototype
 
 int main() {
     double tempC = 25.0;
     double tempF = celsiusToFahrenheit(tempC);
-    displayConversion(tempC, tempF, "F");
     
-    double temp2F = 77.0;
-    double temp2C = fahrenheitToCelsius(temp2F);
-    displayConversion(temp2F, temp2C, "C");
+    cout << fixed << setprecision(1);
+    cout << tempC << "°C = " << tempF << "°F" << endl;
     
     return 0;
 }
@@ -741,43 +346,68 @@ int main() {
 double celsiusToFahrenheit(double celsius) {
     return (celsius * 9.0 / 5.0) + 32.0;
 }
-
-double fahrenheitToCelsius(double fahrenheit) {
-    return (fahrenheit - 32.0) * 5.0 / 9.0;
-}
-
-void displayConversion(double original, double converted, string unit) {
-    cout << fixed << setprecision(1);
-    cout << original << "° = " << converted << "°" << unit << endl;
-}
 ```
 
----
+**Output:** `25.0°C = 77.0°F`
 
-## Practical Example: Grade Calculator
+## Example: Grade Determination
 
 ```cpp
 #include <iostream>
 using namespace std;
 
-// Function prototypes
-double calculateAverage(int score1, int score2, int score3);
+char determineGrade(double average);  // Prototype
+
+int main() {
+    char grade = determineGrade(87.5);
+    cout << "Grade: " << grade << endl;
+    return 0;
+}
+
+char determineGrade(double average) {
+    if (average >= 90) return 'A';
+    if (average >= 80) return 'B';
+    if (average >= 70) return 'C';
+    if (average >= 60) return 'D';
+    return 'F';
+}
+```
+
+**Output:** `Grade: B`
+
+## Comprehensive Example: Grade Calculator
+
+```cpp
+#include <iostream>
+using namespace std;
+
+// Prototypes
+double calculateAverage(int s1, int s2, int s3);
 char determineGrade(double average);
 void displayResults(string name, double avg, char grade);
 
 int main() {
-    string studentName = "Alice";
-    int test1 = 85, test2 = 92, test3 = 88;
-    
-    double average = calculateAverage(test1, test2, test3);
-    char letterGrade = determineGrade(average);
-    displayResults(studentName, average, letterGrade);
-    
+    string student = "Alice";
+    double avg = calculateAverage(85, 92, 88);
+    char grade = determineGrade(avg);
+    displayResults(student, avg, grade);
     return 0;
 }
+```
 
-double calculateAverage(int score1, int score2, int score3) {
-    return (score1 + score2 + score3) / 3.0;
+**Output:**
+```
+Alice's average: 88.3333
+Letter grade: B
+```
+
+::: notes
+This example demonstrates the complete workflow: prototypes at top, main coordinates the logic, definitions below.
+
+Function implementations:
+```cpp
+double calculateAverage(int s1, int s2, int s3) {
+    return (s1 + s2 + s3) / 3.0;
 }
 
 char determineGrade(double average) {
@@ -794,136 +424,5 @@ void displayResults(string name, double avg, char grade) {
 }
 ```
 
----
-
-## When to Use Parameters vs Return Values
-
-**Use Parameters when:**
-- The function needs input data to work with
-- You're passing configuration or settings
-- You're providing multiple pieces of information
-
-**Use Return Values when:**
-- The function calculates a result
-- You need the data back in the caller
-- The function performs a query or lookup
-
-**Use Both when:**
-- Function processes input and produces output
-- Example: `double calculateTax(double amount)`
-
----
-
-## Function Design Guidelines
-
-**Good function design:**
-- One clear purpose
-- Descriptive name (verb + noun)
-- Minimal parameters (1-3 is ideal)
-- Consistent return type
-- No side effects (for now)
-
-**Examples:**
-```cpp
-double calculateTotal(double price, int quantity)    // Good
-int findMax(int a, int b)                           // Good
-void displayMenu()                                   // Good
-
-void doStuff(int x, int y, double z, string s)      // Too many params
-int thing()                                          // Unclear name
-```
-
----
-
-## Benefits of Functions with Parameters
-
-**1. Reusability**
-```cpp
-displayStudent("Alice", 20);
-displayStudent("Bob", 22);
-displayStudent("Charlie", 19);
-```
-
-**2. Flexibility**
-```cpp
-double tax1 = calculateTax(99.99);
-double tax2 = calculateTax(149.50);
-```
-
-**3. Testability**
-```cpp
-// Easy to test with different inputs
-assert(add(2, 3) == 5);
-assert(add(-1, 1) == 0);
-```
-
----
-
-## Summary: Parameters
-
-**Parameters** (in function definition):
-- Variables that receive data
-- Placeholders for actual values
-- Defined with type and name
-- Local to the function
-
-```cpp
-void greet(string name) {  // name is a parameter
-    cout << "Hello, " << name << endl;
-}
-```
-
-**Arguments** (in function call):
-- Actual values passed to function
-- Must match parameter types and order
-
-```cpp
-greet("Alice");  // "Alice" is an argument
-```
-
----
-
-## Summary: Return Values
-
-**Return values:**
-- Data sent back from function to caller
-- Specified by return type
-- Use `return` statement
-- Must match return type
-
-```cpp
-int add(int a, int b) {  // int is return type
-    return a + b;        // return statement
-}
-
-int result = add(5, 3);  // capture return value
-```
-
-**void functions:** No return value needed
-
----
-
-## Practice Exercises
-
-**Create these functions:**
-
-1. `int multiply(int a, int b)` - Returns product of two numbers
-2. `double calculateCircleArea(double radius)` - Returns area
-3. `void displayBox(int width, int height)` - Draws a box with asterisks
-4. `string getFullName(string first, string last)` - Returns combined name
-5. `bool isEven(int number)` - Returns true if number is even
-
-**Then call each function from main() with different arguments!**
-
----
-
-## Key Takeaways
-
-- **Parameters** receive data INTO functions  
-- **Arguments** are the actual values you pass  
-- **Return values** send data OUT of functions  
-- **Order and type must match** between arguments and parameters  
-- **Use prototypes** to organize code  
-- **Pass by value** creates copies (default)  
-- **Non-void functions** must return appropriate type  
-
+Walk through the flow: main calls calculateAverage with 3 test scores, stores result, calls determineGrade with the average, then displayResults shows the output. This demonstrates how functions work together to solve a complete problem.
+:::

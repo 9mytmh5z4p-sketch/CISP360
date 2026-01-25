@@ -17,3 +17,8 @@
 ###### Lecture 2.1
 
 - Has a small-table css defined. Used to shrink a large table.
+
+###### Lecture 2.2
+
+- H2 has a css nowrap added.
+- this now uses the global style sheet.

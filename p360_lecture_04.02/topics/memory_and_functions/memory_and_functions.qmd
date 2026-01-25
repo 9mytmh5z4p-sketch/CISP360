@@ -1,5 +1,9 @@
 # C++ Memory Model and Functions
 
+::: notes
+~24
+::: 
+
 ## Learning Objectives
 
 By the end of this lecture, you will understand how C++ organizes memory during program execution. You will learn how function calls interact with memory and how this affects your programs. This foundational knowledge will help you write more efficient and correct C++ code.
@@ -118,12 +122,6 @@ This copying happens when the stack frame is created. The original `value` in `m
 **Speaker Notes:** Show two separate memory boxes labeled "main: value" and "increment: num" to illustrate they are different locations, even though num receives a copy of value's data.
 :::
 
-
-## Why Pass by Value Matters
-
-Pass by value provides safety because functions cannot accidentally modify data from the calling function. However, copying large amounts of data can be slow and use extra memory. For simple types like integers, the performance cost is negligible.
-
-Understanding pass by value helps you predict what your functions will do. If you want a function to modify a variable, you need different techniques that we'll cover in future lectures.
 
 ## Variable Scope and Lifetime
 
@@ -303,24 +301,14 @@ As your program runs, the stack grows and shrinks dynamically with function call
 
 **Reality:** Globals are in the data segment while locals are on the stack.
 
-## Best Practices
+## Good Practices
 
 - Keep functions focused and avoid excessive local variables to minimize stack frame size. Use meaningful variable names even though they occupy the same amount of memory as short names. The clarity is worth it.
 
 - Limit your use of global variables because they make programs harder to understand and debug. Prefer passing data through function parameters. This makes the flow of data explicit and easier to track.
 
-## Summary
-
-C++ organizes memory into distinct regions, with the stack being crucial for function execution. Each function call creates a stack frame containing parameters and local variables. These frames are automatically created and destroyed.
-
-Pass by value means functions work with copies of data, ensuring safety but using memory for copies. Understanding these concepts helps you write programs that use memory efficiently and behave predictably.
 
 ## Questions for Reflection
 
 What would happen if you tried to use a local variable after its function has ended? Why does pass by value prevent a function from changing the original variable? How do global variables differ from local variables in terms of where they're stored and how long they exist?
 
-## Next Steps
-
-In future lectures, we'll explore references and how they provide an alternative to pass by value. We'll also examine the heap, another memory region that allows different memory management strategies. Understanding the stack provides the foundation for these more advanced topics.
-
-Continue practicing with functions and observing how local variables behave. Experiment with passing different types of data to functions and predicting the results.

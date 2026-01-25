@@ -1,6 +1,9 @@
 
 # What's the Output?
 
+::: notes
+Focus: return values, intermediate level, 24 lines
+::: 
 
 ## Exercise Goals
 
@@ -10,30 +13,33 @@
 ## What to Do
 
 - Using the given code ...
-- Compute the output
+- Compute the output (**MANUALLY**)
 
 ## What's the Output?
 
 ```{.cpp} 
-// Trace execution and find the output
 #include <iostream>
 using namespace std;
-int addTen(int num);
-int calculate(int x, int y);
+int multiply(int, int);
+int subtract(int, int);
+int compute(int);
 int main() {
-    int value = 15;
-    cout << value << " " << addTen(value) << endl;
-    int a = 5, b = 10;
-    cout << a << " " << b << " " << calculate(a, b) << endl;
+    int a = 4, b = 5;
+    int result1 = multiply(a, b) + subtract(b, a);
+    cout << result1 << endl;
+    int result2 = compute(multiply(3, 2));
+    cout << result2 << endl;
+    cout << multiply(result1, 2) - compute(5) << endl;
     return 0;
 }
-int addTen(int num) {
-    num = num + 10;
-    return num;
+int multiply(int x, int y) {
+    return x * y;
 }
-int calculate(int x, int y) {
-    x = x * 2;
-    return x + y + x;
+int subtract(int x, int y) {
+    return x - y;
+}
+int compute(int n) {
+    return n + 10;
 }
 ```
 
@@ -43,25 +49,28 @@ int calculate(int x, int y) {
 ::: {.column width="75%"}
 
 ```{.cpp} 
-// Trace execution and find the output
 #include <iostream>
 using namespace std;
-int addTen(int num);
-int calculate(int x, int y);
+int multiply(int, int);
+int subtract(int, int);
+int compute(int);
 int main() {
-    int value = 15;
-    cout << value << " " << addTen(value) << endl;
-    int a = 5, b = 10;
-    cout << a << " " << b << " " << calculate(a, b) << endl;
+    int a = 4, b = 5;
+    int result1 = multiply(a, b) + subtract(b, a);
+    cout << result1 << endl;
+    int result2 = compute(multiply(3, 2));
+    cout << result2 << endl;
+    cout << multiply(result1, 2) - compute(5) << endl;
     return 0;
 }
-int addTen(int num) {
-    num = num + 10;
-    return num;
+int multiply(int x, int y) {
+    return x * y;
 }
-int calculate(int x, int y) {
-    x = x * 2;
-    return x + y + x;
+int subtract(int x, int y) {
+    return x - y;
+}
+int compute(int n) {
+    return n + 10;
 }
 ```
 :::
@@ -69,9 +78,10 @@ int calculate(int x, int y) {
 ::: {.column width="25%"}
 
 ```{.cpp} 
-// 15 25
-// 510 30
-
+Output
+//  21
+//  16
+//  27
 ```
 
 :::
