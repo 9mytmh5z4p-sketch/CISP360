@@ -1,5 +1,23 @@
 
-# Range-Based For Loop in C++
+# Looping (Iteration)
+
+::: notes
+~
+::: 
+
+## What is it?
+
+Looping is the process of executing the same block of code over and over.
+
+. . . 
+
+There are a number of different types of loops - we'll go into detail later.
+
+---
+
+Today we are going to start with the **Range-Based Loop** because it was made for data structures like vectors.
+
+## Range-Based For Loop in C++
 
 ## What is a range-based for loop?
 
@@ -52,7 +70,7 @@ for (int i = 0; i < scores.size(); i++) {
 }
 ```
 
-I know you haven't learned this loop yet, but this is what you would need to do if we didn't have the eor-each loop.
+I know you haven't learned this loop yet, but this is what you would need to do if we didn't have the range-based loop.
 
 ---
 
@@ -73,11 +91,12 @@ The basic syntax of a range-based for loop:
 
 ```cpp
 for (type element : container) {
-    // Use element here
+    // Code to repeat goes in here
 }
 ```
 
 **Breaking it down:**
+
 - `for` - The for loop keyword
 - `type` - The data type of each element
 - `element` - A variable name you choose (holds each value)
@@ -167,23 +186,39 @@ Banana
 Orange
 ```
 
-## Process diagram - Range-based for loop
+## Process Diagram
 
-```mermaid
-flowchart TD
-    Start([Start Loop]) --> Check{More elements<br/>in container?}
-    Check -->|Yes| Assign[Assign next element<br/>to loop variable]
-    Assign --> Execute[Execute loop body<br/>using current element]
-    Execute --> Check
-    Check -->|No| End([Exit Loop])
-    
-    style Start fill:#90EE90
-    style End fill:#FFB6C6
-    style Check fill:#FFE4B5
-    style Assign fill:#ADD8E6
-    style Execute fill:#DDA0DD
+::: {style="text-align: center;"}
+
+```plantuml
+@startuml
+scale 1.5
+!theme plain
+skinparam defaultFontName Arial
+skinparam backgroundColor white
+
+start
+
+:Initialize vector\nvector<int> nums = {10, 20, 30};
+
+:Get first element from vector;
+
+while (More elements in vector?) is (true)
+  :Copy current element to loop variable\n(e.g., int num = 10);
+  
+  :Execute loop body\n(e.g., cout << num);
+  
+  :Move to next element;
+endwhile (no)
+
+:Continue with rest of program;
+
+stop
+
+@enduml
 ```
 
+::: notes
 **Explanation:**
 1. **Start Loop** - Begin range-based for loop
 2. **Check** - Are there more elements in the vector?
@@ -191,31 +226,14 @@ flowchart TD
 4. **Execute** - Run the code block with current element
 5. **Loop back** - Go back to check for more elements
 6. **Exit** - When no more elements, exit loop
+::: 
 
-## Detailed flow diagram
-
-```mermaid
-flowchart TD
-    Start([for element : container]) --> Init[Start at first element]
-    Init --> HasMore{Are there more<br/>elements?}
-    HasMore -->|Yes| Copy[Copy current element<br/>into loop variable]
-    Copy --> Body[Execute loop body<br/>statements]
-    Body --> Next[Move to next element]
-    Next --> HasMore
-    HasMore -->|No| Done([Continue with code<br/>after loop])
-    
-    style Start fill:#4CAF50,color:#fff
-    style Done fill:#f44336,color:#fff
-    style HasMore fill:#FF9800,color:#fff
-    style Copy fill:#2196F3,color:#fff
-    style Body fill:#9C27B0,color:#fff
-    style Next fill:#00BCD4,color:#fff
-```
+:::
 
 ## Your first range-based for loop
 
-Here's a complete example:
-
+::: {.columns}
+::: {.column width="70%"}
 ```cpp
 #include <iostream>
 #include <vector>
@@ -233,9 +251,9 @@ int main() {
     return 0;
 }
 ```
+:::
 
----
-
+::: {.column width="30%"}
 **Output:**
 ```
 The numbers are:
@@ -245,18 +263,26 @@ The numbers are:
 40
 50
 ```
+:::
+::: 
+
+---
 
 **What happened:**
+
 - The loop automatically went through each element
 - Each time, `num` held the current value
 - We displayed each value
 - No indexes needed!
 
-## Range-based loops with different types
+## Looping with Different Types
 
 Range-based for loops work with vectors of any type.
 
 **Integer vectors:**
+
+::: {.columns}
+::: {.column width="70%"}
 
 ```cpp
 vector<int> ages = {25, 30, 22, 35, 28};
@@ -265,8 +291,9 @@ for (int age : ages) {
     cout << "Age: " << age << endl;
 }
 ```
+:::
 
----
+::: {.column width="30%"}
 
 **Output:**
 ```
@@ -276,10 +303,15 @@ Age: 22
 Age: 35
 Age: 28
 ```
+:::
+:::
 
 ---
 
 **Double vectors:**
+
+::: {.columns}
+::: {.column width="70%"}
 
 ```cpp
 vector<double> prices = {19.99, 24.50, 15.75, 32.00};
@@ -288,6 +320,9 @@ for (double price : prices) {
     cout << "$" << price << endl;
 }
 ```
+:::
+
+::: {.column width="30%"}
 
 **Output:**
 ```
@@ -296,10 +331,15 @@ $24.50
 $15.75
 $32.00
 ```
+:::
+:::
 
 ---
 
 **String vectors:**
+
+::: {.columns}
+::: {.column width="70%"}
 
 ```cpp
 vector<string> names = {"Alice", "Bob", "Charlie", "Diana"};
@@ -308,6 +348,9 @@ for (string name : names) {
     cout << "Hello, " << name << "!" << endl;
 }
 ```
+:::
+
+::: {.column width="30%"}
 
 **Output:**
 ```
@@ -316,6 +359,8 @@ Hello, Bob!
 Hello, Charlie!
 Hello, Diana!
 ```
+:::
+:::
 
 ## Naming the loop variable
 
@@ -353,6 +398,9 @@ Range-based for loops are perfect for calculations involving all elements.
 
 **Example: Sum of all elements**
 
+::: {.columns}
+::: {.column width="70%"}
+
 ```cpp
 vector<int> scores = {85, 92, 78, 95, 88};
 
@@ -364,15 +412,21 @@ for (int score : scores) {
 
 cout << "Total: " << total << endl;
 ```
+:::
+
+::: {.column width="30%"}
 
 **Output:**
 ```
 Total: 438
 ```
+:::
+:::
 
 ---
 
 **How it works:**
+
 - Start with `total = 0`
 - First iteration: `total = 0 + 85 = 85`
 - Second iteration: `total = 85 + 92 = 177`
@@ -380,7 +434,7 @@ Total: 438
 - Fourth iteration: `total = 255 + 95 = 350`
 - Fifth iteration: `total = 350 + 88 = 438`
 
-## Complete example - Average calculator
+## Example - Average calculator
 
 ```cpp
 #include <iostream>
@@ -426,7 +480,7 @@ Total Points: 436
 Average Score: 87.2
 ```
 
-## Formatting output with range-based loops
+## Formatting with range-based loops
 
 Range-based loops work great with formatting manipulators.
 
@@ -494,6 +548,7 @@ for (int score : scores) {
 ```
 
 **What's happening:**
+
 - Each element is **copied** from the vector into `score`
 - `score` is a **separate variable** with its own copy
 - Changes to `score` inside the loop do NOT affect the vector
@@ -515,7 +570,7 @@ for (int num : numbers) {
 }
 ```
 
-## Complete example - Shopping cart calculator
+## Example - Shopping cart calculator
 
 ```cpp
 #include <iostream>
@@ -593,13 +648,14 @@ for (const int score : scores) {
 ---
 
 **Why use const:**
+
 - Makes code **safer** - prevents accidental changes
 - Documents **intent** - clearly read-only
 - May allow compiler **optimizations**
 
-**Best practice:** Use `const` when you're only reading values, not modifying them.
+**Common practice:** Use `const` when you're only reading values, not modifying them.
 
-## Common patterns with range-based loops
+## Things to do with for-each loops
 
 **Pattern 1: Display all elements**
 ```cpp
@@ -608,6 +664,8 @@ for (type element : container) {
 }
 ```
 
+. . .
+
 **Pattern 2: Sum all elements**
 ```cpp
 type total = 0;
@@ -615,6 +673,8 @@ for (type element : container) {
     total += element;
 }
 ```
+
+---
 
 **Pattern 3: Count matching elements**
 ```cpp
@@ -626,135 +686,12 @@ for (type element : container) {
 }
 ```
 
-## Common mistakes with range-based loops
-
-**Mistake 1: Wrong data type**
-
-```cpp
-vector<double> prices = {19.99, 24.50, 15.75};
-
-for (int price : prices) {  // WRONG! Should be double
-    cout << price;  // Truncates to integers: 19, 24, 15
-}
-```
-
-**Fix:**
-```cpp
-for (double price : prices) {  // Correct type
-    cout << price;
-}
-```
-
----
-
-**Mistake 2: Same name for loop variable and container**
-
-```cpp
-vector<int> scores = {85, 92, 78};
-
-for (int scores : scores) {  // CONFUSING! Same name
-    cout << scores;
-}
-```
-
-**Fix:**
-```cpp
-for (int score : scores) {  // Use singular form
-    cout << score;
-}
-```
-
----
-
-**Mistake 3: Trying to access index**
-
-```cpp
-vector<string> names = {"Alice", "Bob", "Charlie"};
-
-for (string name : names) {
-    cout << i << ": " << name;  // ERROR! i doesn't exist
-}
-```
-
-**Fix (if you need index, use traditional for loop):**
-```cpp
-for (int i = 0; i < names.size(); i++) {
-    cout << i << ": " << names[i];
-}
-```
-
----
-
-**Mistake 4: Expecting modifications to affect vector**
-
-```cpp
-vector<int> numbers = {10, 20, 30};
-
-for (int num : numbers) {
-    num = num * 2;  // Changes num, NOT the vector!
-}
-// Vector is still {10, 20, 30}
-```
-
-**Note:** This isn't an error, but a misunderstanding. The loop variable is a **copy**.
-
-::: notes
-This is why I haven't demonstrated how to mutate for-each loops.
-::: 
-
-## Practice exercises
-
-**Exercise 1: Product of all elements**
-
-Create a program that:
-- Creates a vector of 5 integers
-- Uses a range-based for loop to calculate the product of all elements
-- Displays the result
-
----
-
-**Exercise 2: Grade analyzer**
-
-Create a program with a vector of test scores that:
-- Displays all scores using a range-based loop
-- Calculates and displays the average
-- Counts how many scores are above the average
-- Finds the highest and lowest scores
-
----
-
-**Exercise 3: String searcher**
-
-Create a program with a vector of fruit names that:
-- Uses a range-based loop to display all fruits
-- Searches for a specific fruit using a range-based loop
-- Reports whether the fruit was found
-
----
-
-**Exercise 4: Price comparison**
-
-Create two vectors (product names and prices) and:
-- Display all products with their prices using a range-based loop
-- Find the most expensive and least expensive products
-- Calculate the average price
-- Count products over $50
-
----
-
-**Exercise 5: Temperature converter**
-
-Create a vector of Celsius temperatures and:
-- Display each Celsius temperature
-- Convert each to Fahrenheit using: F = (C × 9/5) + 32
-- Display each converted temperature
-- Calculate the average in both scales
-
 ## Summary
 
 Range-based for loops provide a clean, simple way to process every element in a vector.
 
 **Key concepts covered:**
+
 - Syntax: `for (type element : container)`
 - Automatic iteration through all elements
 - No index management needed
@@ -767,6 +704,7 @@ Range-based for loops provide a clean, simple way to process every element in a 
 ---
 
 **When to use range-based for loops:**
+
 - Processing all elements
 - Calculations (sum, average, product)
 - Counting elements that meet criteria
@@ -778,6 +716,7 @@ Range-based for loops provide a clean, simple way to process every element in a 
 ---
 
 **Remember:**
+
 - Choose descriptive loop variable names (singular of container name)
 - Match the data type to the vector's element type
 - Range-based loops copy elements (safe for reading)
@@ -786,22 +725,4 @@ Range-based for loops provide a clean, simple way to process every element in a 
 
 Practice using range-based for loops with different vector types and operations. They'll become your go-to tool for processing collections!
 
----
 
-# Key Takeaways
-
-## 1. Range-based for loops automatically iterate through every element in a vector
-
-The syntax `for (type element : container)` eliminates the need for index management and automatically processes each element in order. Read it as "for each element in container" - the loop variable gets each value one at a time, making your code cleaner and less error-prone. This is perfect when you need to work with all elements and don't care about their position numbers.
-
----
-
-## 2. The loop variable is a copy of each element, making range-based loops ideal for read-only operations
-
-Each iteration copies an element from the vector into the loop variable, so changes to the loop variable don't affect the original vector. This copy behavior makes range-based loops perfect for displaying, calculating sums/averages, counting, searching, and finding min/max values. Use `const` in the declaration (e.g., `for (const int score : scores)`) to document read-only intent and prevent accidental modifications.
-
----
-
-## 3. Use range-based loops when processing all elements without needing indexes
-
-Choose range-based for loops over traditional for loops when you need to process every element and don't need position information. They excel at summing values, counting elements that meet criteria, finding extremes, and displaying data. If you need the index number or must process multiple vectors in parallel, use a traditional for loop instead. The cleaner syntax of range-based loops makes them the modern C++ preferred approach for simple iteration.

@@ -1,0 +1,231 @@
+# C++ Vectors and For-Each Loops Lab
+
+::: notes
+
+::: 
+
+## Objectives
+
+- Understand how to declare and initialize vectors in C++
+- Learn to iterate through vectors using for-each loops
+- Practice displaying vector elements and performing calculations during iteration
+
+## Initial Code to Type and Execute
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> fibonacci = {1, 1, 2, 3, 5, 8, 13, 21};
+    
+    for (int num : fibonacci) {
+        cout << num << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}
+```
+
+Type this program, compile it, and run it. You should see: `1 1 2 3 5 8 13 21`
+
+::: notes
+Emphasize the syntax: vector<int> declares a vector of integers, curly braces initialize with values
+:::
+
+---
+
+## Modification 1: Add a Loop Counter
+
+Modify the baseline program to count how many times the loop executes. Display this count after the loop finishes.
+
+Think about where you need to declare the counter variable and where you need to increment it.
+
+---
+
+## Solution 1: Loop Counter
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> fibonacci = {1, 1, 2, 3, 5, 8, 13, 21};
+    int count = 0;
+    
+    for (int num : fibonacci) {
+        cout << num << " ";
+        count++;
+    }
+    cout << endl;
+    cout << "Loop executed " << count << " times" << endl;
+    
+    return 0;
+}
+```
+
+The counter is declared before the loop and incremented during each iteration.
+
+---
+
+## Modification 2: Calculate Running Sum
+
+Add a variable to calculate the sum of all Fibonacci numbers in the vector. Display this total after the loop completes.
+
+Consider what initial value your sum variable should have.
+
+---
+
+## Solution 2: Running Sum
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> fibonacci = {1, 1, 2, 3, 5, 8, 13, 21};
+    int count = 0;
+    int sum = 0;
+    
+    for (int num : fibonacci) {
+        cout << num << " ";
+        count++;
+        sum += num;
+    }
+    cout << endl;
+    cout << "Loop executed " << count << " times" << endl;
+    cout << "Sum of all elements: " << sum << endl;
+    
+    return 0;
+}
+```
+
+The sum accumulates each element's value during iteration.
+
+---
+
+## Modification 3: Display Position and Value
+
+Modify the program to display both the position (index) and value of each element. Use a separate counter variable to track the position.
+
+Remember that positions typically start at 0 in programming.
+
+---
+
+## Solution 3: Position and Value
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> fibonacci = {1, 1, 2, 3, 5, 8, 13, 21};
+    int count = 0;
+    int sum = 0;
+    int position = 0;
+    
+    for (int num : fibonacci) {
+        cout << "Position " << position << ": " << num << endl;
+        count++;
+        sum += num;
+        position++;
+    }
+    cout << "Loop executed " << count << " times" << endl;
+    cout << "Sum of all elements: " << sum << endl;
+    
+    return 0;
+}
+```
+
+The position counter tracks the index of each element during iteration.
+
+---
+
+## Modification 4: Use Auto Keyword
+
+Replace the explicit type `int` in the for-each loop declaration with the `auto` keyword. The program should produce the same output.
+
+The auto keyword allows the compiler to automatically deduce the type from the vector.
+
+---
+
+## Solution 4: Auto Keyword
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> fibonacci = {1, 1, 2, 3, 5, 8, 13, 21};
+    int count = 0;
+    int sum = 0;
+    int position = 0;
+    
+    for (auto num : fibonacci) {
+        cout << "Position " << position << ": " << num << endl;
+        count++;
+        sum += num;
+        position++;
+    }
+    cout << "Loop executed " << count << " times" << endl;
+    cout << "Sum of all elements: " << sum << endl;
+    
+    return 0;
+}
+```
+
+Using `auto` makes code more flexible and easier to maintain when vector types change.
+
+---
+
+## Modification 5: Calculate the Average
+
+Use the sum and count variables to calculate and display the average value of the Fibonacci numbers in the vector.
+
+Consider what data type you should use for the average to handle decimal values.
+
+---
+
+## Solution 5: Average Calculation
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> fibonacci = {1, 1, 2, 3, 5, 8, 13, 21};
+    int count = 0;
+    int sum = 0;
+    int position = 0;
+    
+    for (auto num : fibonacci) {
+        cout << "Position " << position << ": " << num << endl;
+        count++;
+        sum += num;
+        position++;
+    }
+    cout << "Loop executed " << count << " times" << endl;
+    cout << "Sum of all elements: " << sum << endl;
+    
+    double average = static_cast<double>(sum) / count;
+    cout << "Average value: " << average << endl;
+    
+    return 0;
+}
+```
+
+The average is calculated by dividing sum by count, using type casting to ensure decimal precision.
+
+---
+
+## Lab Summary
+
+This lab introduced vectors and for-each loops for working with collections in C++. You learned to iterate through vectors, track loop execution with counters, calculate sums and averages, display position-value pairs, and use the auto keyword for type deduction.
+
