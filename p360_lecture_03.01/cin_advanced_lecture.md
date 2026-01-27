@@ -1,7 +1,7 @@
 # Advanced Input Handling with `cin`
 
 ::: notes
-
+~15 min
 :::
 
 
@@ -39,7 +39,6 @@ cout << "Your name is " << fullName << endl;
 - `cin >>` captured "John" and stopped at the space
 - "Smith" is left in the input buffer, waiting to be read
 
-This is a problem when you need to read entire lines of text.
 
 <!-- Slide 2 -->
 
@@ -74,21 +73,14 @@ cout << "Your name is " << fullName << endl;
 
 ## `cin >>` vs `getline()`
 
-## `cin >>`
-- Stops at first whitespace
-- Leaves the newline in the buffer
-- Good for single words or numbers
-- Syntax: `cin >> variable;`
-
-## `getline()`
-- Reads until newline
-- Removes the newline from buffer
-- Good for sentences or multi-word input
-- Syntax: `getline(cin, variable);`
-
-**Choose based on what you're reading:**
-- Single word/number → use `cin >>`
-- Full sentence/line → use `getline()`
+| Aspect | `cin >>` | `getline()` |
+|------|---------|-------------|
+| Whitespace handling | Stops at first whitespace | Reads entire line until newline |
+| Newline behavior | Leaves newline in input buffer | Removes newline from buffer |
+| Best use case | Single words or numeric input | Sentences or multi-word input |
+| Typical input type | Tokens | Full lines |
+| Syntax | `cin >> variable;` | `getline(cin, variable);` |
+| Common pitfall | Can cause skipped input when mixed with `getline()` | Requires buffer cleanup if preceded by `cin >>` |
 
 <!-- Slide 4 -->
 

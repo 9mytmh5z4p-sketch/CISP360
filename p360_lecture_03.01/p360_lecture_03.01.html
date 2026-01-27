@@ -96,6 +96,7 @@
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="p360_lecture_03.01_files/libs/revealjs/dist/theme/quarto-99eeafcedac04850354b682963cedae3.css">
+  <link rel="stylesheet" href="../styles/styles.css">
   <link href="p360_lecture_03.01_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="p360_lecture_03.01_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="p360_lecture_03.01_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -187,68 +188,6 @@
       margin-right: 0; 
     }
   </style>
-  <style>
-  /* ===== Global slide layout ===== */
-
-  /* Left-align titles to match images/code */
-  .reveal h1 {
-    font-weight: 800;
-    text-decoration: underline;
-    text-decoration-thickness: 3px;
-    text-align: center;
-  }
-  .reveal h2 {
-    font-weight: 700;
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-  }
-  .reveal h3 {
-    font-weight: 600;
-  }
-
-  /* Code window sizing */
-  .reveal pre {
-    max-height: 98vh;
-    overflow-y: auto;
-  }
-
-  .reveal pre code {
-    font-size: 0.9em;
-    line-height: 1.20;
-    padding: 0.6em;
-  }
-
-  /* C++ code blocks only (Quarto/Pandoc correct selectors) */
-  .reveal pre.sourceCode.cpp,
-  .reveal pre.sourceCode.cpp code {
-    background-color: #ffffff !important;
-    color: #000000;
-  }
-
-  /* Optional: subtle border for contrast */
-  .reveal pre.sourceCode.cpp {
-    border: 1px solid #ccc;
-  }
-
-  /* Strong, visible line highlighting for code */
-  .reveal pre .line-highlight {
-    background-color: #fff3cd;   /* pale yellow */
-    display: block;
-    width: 100%;
-  }
-
-  /* Optional: emphasize the line number itself */
-  .reveal pre .line-highlight .hljs-ln-numbers {
-    font-weight: bold;
-    color: #b45309;
-  }
-
-  .reveal .highlight-line {
-  background-color: rgba(255, 235, 59, 0.08);
-  border-left: 6px solid #d97706;
-  padding-left: 0.5em;
-  }
-  </style>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -270,12 +209,12 @@ Dr.&nbsp;Caleb Fowler
 <section id="last-time" class="slide level2">
 <h2>Last Time</h2>
 
-</section>
+<img data-src="images/L02.02mm.png" class="r-stretch quarto-figure-center"><p class="caption">Last Time</p></section>
 <section id="todays-agenda" class="slide level2">
 <h2>Today’s Agenda</h2>
 <ul>
 <li>Debugging</li>
-<li>Graphs</li>
+<li>Colors on the Terminal</li>
 </ul>
 <aside class="notes">
 
@@ -291,913 +230,6 @@ Dr.&nbsp;Caleb Fowler
           display:block!important;
       }</style></aside>
 </section>
-<section>
-<section id="introduction-to-debugging-in-c" class="title-slide slide level1 center">
-<h1>Introduction to Debugging in C++</h1>
-
-</section>
-<section id="what-is-debugging" class="slide level2">
-<h2>What is debugging?</h2>
-<p><strong>Debugging</strong> is the process of finding and fixing errors (bugs) in your code.</p>
-<p>Every programmer writes buggy code - even experienced developers! The difference is that experienced programmers know how to <strong>find</strong> and <strong>fix</strong> bugs efficiently.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Types of errors:</strong> - <strong>Syntax errors</strong> - Code won’t compile (missing semicolon, wrong syntax) - <strong>Logic errors</strong> - Code compiles but produces wrong results - <strong>Runtime errors</strong> - Code crashes while running</p>
-<p><strong>The debugging mindset:</strong> - Bugs are <strong>normal</strong> - don’t get frustrated! - Be <strong>systematic</strong> - don’t randomly change code - <strong>Test frequently</strong> - catch bugs early - <strong>Read error messages</strong> - they’re trying to help you!</p>
-</section>
-<section id="why-debugging-matters" class="slide level2">
-<h2>Why debugging matters</h2>
-<p>Debugging is one of the most important programming skills you’ll learn.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>You’ll spend more time debugging than writing code!</strong></p>
-<p>Professional programmers estimate: - 20% of time: Writing new code - 80% of time: Debugging, testing, and fixing code</p>
-<p><strong>Good debugging skills help you:</strong> - Fix problems faster - Understand how code works - Write better code from the start - Become a confident programmer</p>
-</section>
-<section id="understanding-compiler-errors" class="slide level2">
-<h2>Understanding compiler errors</h2>
-<p>When code won’t compile, the compiler gives you error messages.</p>
-<p><strong>Example error message:</strong></p>
-<pre><code>error: expected ';' before 'cout'</code></pre>
-</section>
-<section class="slide level2">
-
-<p><strong>How to read error messages:</strong> 1. <strong>Line number</strong> - Where the problem is (or near) 2. <strong>Error type</strong> - What kind of error 3. <strong>Description</strong> - What’s wrong 4. <strong>Context</strong> - Sometimes shows the problematic code</p>
-<p><strong>Important:</strong> The error might be on the line <strong>before</strong> the line number shown!</p>
-</section>
-<section id="common-syntax-errors" class="slide level2">
-<h2>Common syntax errors</h2>
-<p><strong>Missing semicolon:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">25</span>  <span class="co">// Missing semicolon</span></span>
-<span id="cb2-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Error:</strong></p>
-<pre><code>error: expected ';' before 'cout'</code></pre>
-<p><strong>Fix:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">25</span><span class="op">;</span>  <span class="co">// Added semicolon</span></span>
-<span id="cb4-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<p><strong>Mismatched braces:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb5-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb5-3"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb5-4"><a href=""></a><span class="co">// Missing closing brace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Error:</strong></p>
-<pre><code>error: expected '}' at end of input</code></pre>
-</section>
-<section class="slide level2">
-
-<p><strong>Fix:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb7-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb7-3"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb7-4"><a href=""></a><span class="op">}</span>  <span class="co">// Added closing brace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<p><strong>Undefined variable:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
-<span id="cb8-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> aeg <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Typo: aeg instead of age</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Error:</strong></p>
-<pre><code>error: 'aeg' was not declared in this scope</code></pre>
-<p><strong>Fix:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
-<span id="cb10-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Fixed typo</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="basic-debugging-technique-1---read-the-error-message" class="slide level2">
-<h2>Basic debugging technique 1 - Read the error message</h2>
-<p><strong>Step 1: Read the first error message</strong></p>
-<p>Many times, fixing the first error makes the others go away.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Step 2: Find the line number</strong></p>
-<pre><code>main.cpp:15:5: error: expected ';' before 'cout'</code></pre>
-<p>This means: Line 15, column 5 has an error.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Step 3: Read the description</strong></p>
-<p>“expected ‘;’ before ‘cout’” means: You forgot a semicolon before the cout statement.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Step 4: Check that line AND the line before</strong></p>
-<p>Often the error is on the <strong>previous line</strong>.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Step 5: Fix and recompile</strong></p>
-<p>Make the fix, save, and compile again.</p>
-</section>
-<section id="basic-debugging-technique-2---comment-out-code" class="slide level2">
-<h2>Basic debugging technique 2 - Comment out code</h2>
-<p>When you’re not sure what’s causing an error, comment out sections of code.</p>
-<p><strong>Original broken code:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb12-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb12-3"><a href=""></a>    <span class="dt">int</span> y <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
-<span id="cb12-4"><a href=""></a>    <span class="dt">int</span> z <span class="op">=</span> x <span class="op">+</span> y<span class="op">;</span></span>
-<span id="cb12-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Result: "</span> <span class="op">&lt;&lt;</span> z <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb12-6"><a href=""></a>    <span class="co">// Something here is broken</span></span>
-<span id="cb12-7"><a href=""></a>    <span class="dt">int</span> a <span class="op">=</span> <span class="dv">5</span> <span class="op">/</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">// This causes a problem</span></span>
-<span id="cb12-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Done"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb12-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb12-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<p><strong>Comment out suspicious sections:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb13-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb13-3"><a href=""></a>    <span class="dt">int</span> y <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
-<span id="cb13-4"><a href=""></a>    <span class="dt">int</span> z <span class="op">=</span> x <span class="op">+</span> y<span class="op">;</span></span>
-<span id="cb13-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Result: "</span> <span class="op">&lt;&lt;</span> z <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb13-6"><a href=""></a>    </span>
-<span id="cb13-7"><a href=""></a>    <span class="co">// Commenting out to test</span></span>
-<span id="cb13-8"><a href=""></a>    <span class="co">// int a = 5 / 0;</span></span>
-<span id="cb13-9"><a href=""></a>    <span class="co">// cout &lt;&lt; "Done" &lt;&lt; endl;</span></span>
-<span id="cb13-10"><a href=""></a>    </span>
-<span id="cb13-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb13-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If it works now, the problem is in the commented section!</p>
-</section>
-<section id="basic-debugging-technique-3---print-statements" class="slide level2">
-<h2>Basic debugging technique 3 - Print statements</h2>
-<p><strong>The most basic and effective debugging tool: cout statements!</strong></p>
-<p>Use <code>cout</code> to see what’s happening in your code.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Example problem - Wrong calculation:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb14-2"><a href=""></a>    <span class="dt">int</span> score1 <span class="op">=</span> <span class="dv">85</span><span class="op">;</span></span>
-<span id="cb14-3"><a href=""></a>    <span class="dt">int</span> score2 <span class="op">=</span> <span class="dv">92</span><span class="op">;</span></span>
-<span id="cb14-4"><a href=""></a>    <span class="dt">int</span> score3 <span class="op">=</span> <span class="dv">78</span><span class="op">;</span></span>
-<span id="cb14-5"><a href=""></a>    </span>
-<span id="cb14-6"><a href=""></a>    <span class="dt">int</span> average <span class="op">=</span> score1 <span class="op">+</span> score2 <span class="op">+</span> score3 <span class="op">/</span> <span class="dv">3</span><span class="op">;</span>  <span class="co">// </span><span class="al">BUG</span><span class="co">!</span></span>
-<span id="cb14-7"><a href=""></a>    </span>
-<span id="cb14-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb14-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb14-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>Average: 203</code></pre>
-</section>
-<section class="slide level2">
-
-<p>That’s wrong! Let’s debug:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb16-2"><a href=""></a>    <span class="dt">int</span> score1 <span class="op">=</span> <span class="dv">85</span><span class="op">;</span></span>
-<span id="cb16-3"><a href=""></a>    <span class="dt">int</span> score2 <span class="op">=</span> <span class="dv">92</span><span class="op">;</span></span>
-<span id="cb16-4"><a href=""></a>    <span class="dt">int</span> score3 <span class="op">=</span> <span class="dv">78</span><span class="op">;</span></span>
-<span id="cb16-5"><a href=""></a>    </span>
-<span id="cb16-6"><a href=""></a>    <span class="co">// Debug: Print individual values</span></span>
-<span id="cb16-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score 1: "</span> <span class="op">&lt;&lt;</span> score1 <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">//85</span></span>
-<span id="cb16-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score 2: "</span> <span class="op">&lt;&lt;</span> score2 <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">//92</span></span>
-<span id="cb16-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score 3: "</span> <span class="op">&lt;&lt;</span> score3 <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">//78</span></span>
-<span id="cb16-10"><a href=""></a>    </span>
-<span id="cb16-11"><a href=""></a>    <span class="dt">int</span> average <span class="op">=</span> score1 <span class="op">+</span> score2 <span class="op">+</span> score3 <span class="op">/</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb16-12"><a href=""></a>    </span>
-<span id="cb16-13"><a href=""></a>    <span class="co">// Debug: Print the result</span></span>
-<span id="cb16-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb16-15"><a href=""></a>    </span>
-<span id="cb16-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb16-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>You may think we haven’t accomplished anything with those cout statements, but that’s not true. We confirmed the values were correctly assigned!</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
-<p>Doing the math in your head, you can see the calculation is wrong. The fix:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">int</span> average <span class="op">=</span> <span class="op">(</span>score1 <span class="op">+</span> score2 <span class="op">+</span> score3<span class="op">)</span> <span class="op">/</span> <span class="dv">3</span><span class="op">;</span>  <span class="co">// Added parentheses</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="basic-debugging-technique-4---simplify-the-problem" class="slide level2">
-<h2>Basic debugging technique 4 - Simplify the problem</h2>
-<p>If you have a complex problem, break it into smaller pieces.</p>
-<p><strong>Complex problem:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">double</span> result <span class="op">=</span> <span class="op">(</span>a <span class="op">+</span> b<span class="op">)</span> <span class="op">*</span> c <span class="op">/</span> <span class="op">(</span>d <span class="op">-</span> e<span class="op">)</span> <span class="op">+</span> f <span class="op">*</span> g <span class="op">-</span> h<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<p><strong>Simplified debugging:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">double</span> sum <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span></span>
-<span id="cb19-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"sum = "</span> <span class="op">&lt;&lt;</span> sum <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-3"><a href=""></a></span>
-<span id="cb19-4"><a href=""></a><span class="dt">double</span> product1 <span class="op">=</span> sum <span class="op">*</span> c<span class="op">;</span></span>
-<span id="cb19-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"product1 = "</span> <span class="op">&lt;&lt;</span> product1 <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-6"><a href=""></a></span>
-<span id="cb19-7"><a href=""></a><span class="dt">double</span> difference <span class="op">=</span> d <span class="op">-</span> e<span class="op">;</span></span>
-<span id="cb19-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"difference = "</span> <span class="op">&lt;&lt;</span> difference <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-9"><a href=""></a></span>
-<span id="cb19-10"><a href=""></a><span class="dt">double</span> quotient <span class="op">=</span> product1 <span class="op">/</span> difference<span class="op">;</span></span>
-<span id="cb19-11"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"quotient = "</span> <span class="op">&lt;&lt;</span> quotient <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-12"><a href=""></a></span>
-<span id="cb19-13"><a href=""></a><span class="dt">double</span> product2 <span class="op">=</span> f <span class="op">*</span> g<span class="op">;</span></span>
-<span id="cb19-14"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"product2 = "</span> <span class="op">&lt;&lt;</span> product2 <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-15"><a href=""></a></span>
-<span id="cb19-16"><a href=""></a><span class="dt">double</span> result <span class="op">=</span> quotient <span class="op">+</span> product2 <span class="op">-</span> h<span class="op">;</span></span>
-<span id="cb19-17"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"result = "</span> <span class="op">&lt;&lt;</span> result <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Now you can see exactly where the problem occurs!</p>
-</section>
-<section id="basic-debugging-technique-5---check-your-assumptions" class="slide level2">
-<h2>Basic debugging technique 5 - Check your assumptions</h2>
-<p>Often bugs happen because we assume something that isn’t true.</p>
-<p><strong>Common false assumptions:</strong> - “I initialized that variable” (but you didn’t) - “That function returns what I expect” (but it returns something else) - “The user will enter valid input” (but they enter garbage) - “Integer division gives decimals” (but it truncates)</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Example - Integer division mistake:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">int</span> total <span class="op">=</span> <span class="dv">100</span><span class="op">;</span></span>
-<span id="cb20-2"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb20-3"><a href=""></a></span>
-<span id="cb20-4"><a href=""></a><span class="dt">double</span> average <span class="op">=</span> total <span class="op">/</span> count<span class="op">;</span>  <span class="co">// </span><span class="al">BUG</span><span class="co">!</span></span>
-<span id="cb20-5"><a href=""></a></span>
-<span id="cb20-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Shows: 33 (not 33.333...)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Debug by checking types:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"total type: int, value: "</span> <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb21-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"count type: int, value: "</span> <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb21-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"total / count: "</span> <span class="op">&lt;&lt;</span> <span class="op">(</span>total <span class="op">/</span> count<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Integer division!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<p><strong>Fix:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="dt">double</span> average <span class="op">=</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> count<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>We’ll talk about this later in the course. For now, consider changing the variable types.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="the-debugging-process" class="slide level2">
-<h2>The debugging process</h2>
-<p><strong>Step 1: Reproduce the bug</strong></p>
-<p>Make sure you can consistently cause the bug to happen.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Step 2: Isolate the problem</strong></p>
-<ul>
-<li>Comment out code sections</li>
-<li>Test with simple inputs</li>
-<li>Add print statements</li>
-</ul>
-</section>
-<section class="slide level2">
-
-<p><strong>Step 3: Understand the bug</strong></p>
-<ul>
-<li>Why is it happening?</li>
-<li>What did you assume that was wrong?</li>
-</ul>
-</section>
-<section class="slide level2">
-
-<p><strong>Step 4: Fix the bug</strong></p>
-<p>Make the smallest change possible to fix it.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Step 5: Test the fix</strong></p>
-<ul>
-<li>Does it work now?</li>
-<li>Did you break anything else?</li>
-<li>Test with multiple inputs</li>
-</ul>
-</section>
-<section class="slide level2">
-
-<p><strong>Step 6: Learn from it</strong></p>
-<ul>
-<li>Why did this bug happen?</li>
-<li>How can you avoid it in the future?</li>
-</ul>
-</section>
-<section id="common-beginner-mistakes" class="slide level2">
-<h2>Common beginner mistakes</h2>
-</section>
-<section class="slide level2">
-
-<p><strong>Mistake 1: Not compiling often</strong></p>
-<p><strong>Bad approach:</strong> - Write 100 lines of code - Try to compile - Get 50 errors</p>
-<p><strong>Good approach:</strong> - Write 5-10 lines - Compile and test - Fix any errors immediately</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Mistake 2: Ignoring warnings</strong></p>
-<p>Compilers give warnings for suspicious code. Don’t ignore them!</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">int</span> x<span class="op">;</span>  <span class="co">// Warning: unused variable</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Warnings often become bugs later.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Mistake 3: Random changes</strong></p>
-<p><strong>Bad approach:</strong> “I’ll just change random things until it works!”</p>
-<p><strong>Good approach:</strong> - Understand the problem - Make targeted changes - Test each change</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Mistake 4: Not reading documentation</strong></p>
-<p>If you’re not sure how something works, look it up!</p>
-<ul>
-<li>Check your textbook</li>
-<li>Read compiler error messages fully</li>
-<li>Search for the exact error message</li>
-</ul>
-</section>
-<section id="practice-debugging-strategies" class="slide level2">
-<h2>Practice debugging strategies</h2>
-<p><strong>Strategy 1: Binary search debugging</strong></p>
-<p>If you have a long program, comment out half and test. Keep narrowing down where the bug is.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Strategy 2: Rubber duck debugging</strong></p>
-<p>Explain your code line-by-line to someone (or a rubber duck!). Often you’ll find the bug while explaining.</p>
-<p><strong>Strategy 3: Take a break</strong></p>
-<p>If you’re stuck for more than 15 minutes, take a 5-minute break. Fresh eyes find bugs faster!</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Strategy 4: Start from scratch</strong></p>
-<p>Sometimes it’s easier to rewrite a small section than debug it.</p>
-<p><strong>Strategy 5: Compare to working code</strong></p>
-<p>Look at similar working examples and see what’s different.</p>
-</section>
-<section id="real-debugging-example---complete-walkthrough" class="slide level2">
-<h2>Real debugging example - Complete walkthrough</h2>
-<p><strong>The buggy program:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb24-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb24-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb24-4"><a href=""></a></span>
-<span id="cb24-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb24-6"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
-<span id="cb24-7"><a href=""></a>    </span>
-<span id="cb24-8"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb24-9"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> scores<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb24-10"><a href=""></a>        total <span class="op">=</span> total <span class="op">+</span> scores<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb24-11"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb24-12"><a href=""></a>    </span>
-<span id="cb24-13"><a href=""></a>    <span class="dt">double</span> average <span class="op">=</span> total <span class="op">/</span> scores<span class="op">.</span>size<span class="op">();</span></span>
-<span id="cb24-14"><a href=""></a>    </span>
-<span id="cb24-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb24-16"><a href=""></a>    </span>
-<span id="cb24-17"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb24-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Problem:</strong> This program crashes!</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Debugging step 1: Add print statement in loop</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> scores<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb25-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"i = "</span> <span class="op">&lt;&lt;</span> i <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Debug print</span></span>
-<span id="cb25-3"><a href=""></a>    total <span class="op">=</span> total <span class="op">+</span> scores<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb25-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>i = 0
-i = 1
-i = 2
-i = 3
-i = 4
-i = 5
-[crash]</code></pre>
-<p><strong>Discovery:</strong> Loop goes to i = 5, but valid indexes are 0-4!</p>
-<p><strong>Bug #1 found:</strong> <code>i &lt;= scores.size()</code> should be <code>i &lt; scores.size()</code></p>
-</section>
-<section class="slide level2">
-
-<p><strong>Debugging step 2: Check average calculation</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">double</span> average <span class="op">=</span> total <span class="op">/</span> scores<span class="op">.</span>size<span class="op">();</span></span>
-<span id="cb27-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Total: "</span> <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Debug</span></span>
-<span id="cb27-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Size: "</span> <span class="op">&lt;&lt;</span> scores<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Debug</span></span>
-<span id="cb27-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>Total: 438
-Size: 5
-Average: 87</code></pre>
-<p>Expected: 87.6, got: 87</p>
-<p><strong>Bug #2 found:</strong> Integer division! Need to cast to double.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Fixed program:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb29-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb29-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb29-4"><a href=""></a></span>
-<span id="cb29-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb29-6"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
-<span id="cb29-7"><a href=""></a>    </span>
-<span id="cb29-8"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb29-9"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> scores<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span>  <span class="co">// Fixed: &lt; instead of &lt;=</span></span>
-<span id="cb29-10"><a href=""></a>        total <span class="op">=</span> total <span class="op">+</span> scores<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb29-11"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb29-12"><a href=""></a>    </span>
-<span id="cb29-13"><a href=""></a>    <span class="co">// Fixed: Cast to double for decimal result</span></span>
-<span id="cb29-14"><a href=""></a>    <span class="dt">double</span> average <span class="op">=</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> scores<span class="op">.</span>size<span class="op">();</span></span>
-<span id="cb29-15"><a href=""></a>    </span>
-<span id="cb29-16"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb29-17"><a href=""></a>    </span>
-<span id="cb29-18"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb29-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="summary" class="slide level2">
-<h2>Summary</h2>
-<p>Debugging is a critical programming skill that you’ll use constantly.</p>
-<p><strong>Key debugging techniques:</strong> - Read compiler error messages carefully - Use cout statements to see what’s happening - Comment out code to isolate problems - Test with simple, known inputs - Check your assumptions - Simplify complex expressions - Compile and test frequently</p>
-<p><strong>The debugging mindset:</strong> - Bugs are normal - don’t panic - Be systematic, not random - Understand before fixing - Test your fixes - Learn from each bug</p>
-<p><strong>Prevention strategies:</strong> - Write clear, simple code - Use meaningful names - Test frequently - Compile often (every 5-10 lines)</p>
-<p><strong>Remember:</strong> - Every programmer debugs code - Debugging skills improve with practice - Print statements are powerful - Small, focused changes are best</p>
-<p>Practice these techniques and you’ll become a confident debugger!</p>
-</section>
-<section id="key-takeaways" class="slide level2">
-<h2>Key Takeaways</h2>
-<ol type="1">
-<li>Use cout statements strategically to understand what your code is actually doing</li>
-<li>Debug systematically by isolating problems rather than making random changes</li>
-<li>Compile and test frequently to catch bugs early when they’re easiest to fix</li>
-</ol>
-</section></section>
-<section>
-<section id="introduction-to-terminal-charts-and-graphs-in-c" class="title-slide slide level1 center">
-<h1>Introduction to Terminal Charts and Graphs in C++</h1>
-
-</section>
-<section id="what-are-terminal-charts" class="slide level2">
-<h2>What are terminal charts?</h2>
-<p><strong>Terminal charts</strong> are visual representations of data created using text characters in the console window.</p>
-<p>Instead of just displaying numbers:</p>
-<pre><code>Sales: 15, 23, 18, 30, 25</code></pre>
-<p>You can create a visual representation:</p>
-<pre><code>Month 1 sales: 15 units
-Month 2 sales: 23 units
-Month 3 sales: 18 units
-Month 4 sales: 30 units
-Month 5 sales: 25 units</code></pre>
-</section>
-<section class="slide level2">
-
-<p><strong>Why create charts in the terminal?</strong> - <strong>Visualize data</strong> - See patterns at a glance - <strong>Make programs more interesting</strong> - Beyond just numbers - <strong>Practice loops and strings</strong> - Apply what you’ve learned - <strong>Professional appearance</strong> - More polished output - <strong>No graphics library needed</strong> - Just cout and characters!</p>
-</section>
-<section id="displaying-data-with-for-each-loops" class="slide level2">
-<h2>Displaying data with for-each loops</h2>
-<p>Let’s start by displaying data clearly using for-each loops.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb32-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb32-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb32-4"><a href=""></a></span>
-<span id="cb32-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb32-6"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> sales <span class="op">=</span> <span class="op">{</span><span class="dv">15</span><span class="op">,</span> <span class="dv">23</span><span class="op">,</span> <span class="dv">18</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">25</span><span class="op">};</span></span>
-<span id="cb32-7"><a href=""></a>    </span>
-<span id="cb32-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"===== SALES DATA ====="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb32-9"><a href=""></a>    </span>
-<span id="cb32-10"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> sale <span class="op">:</span> sales<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb32-11"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Sales: "</span> <span class="op">&lt;&lt;</span> sale <span class="op">&lt;&lt;</span> <span class="st">" units"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb32-12"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb32-13"><a href=""></a>    </span>
-<span id="cb32-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb32-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>===== SALES DATA =====
-Sales: 15 units
-Sales: 23 units
-Sales: 18 units
-Sales: 30 units
-Sales: 25 units</code></pre>
-</section>
-<section id="displaying-parallel-data-with-labels" class="slide level2">
-<h2>Displaying parallel data with labels</h2>
-<p>When you have related data in multiple vectors, you can display them together using an index counter.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb34-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb34-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb34-4"><a href=""></a></span>
-<span id="cb34-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb34-6"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> sales <span class="op">=</span> <span class="op">{</span><span class="dv">15</span><span class="op">,</span> <span class="dv">23</span><span class="op">,</span> <span class="dv">18</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">25</span><span class="op">};</span></span>
-<span id="cb34-7"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> months <span class="op">=</span> <span class="op">{</span><span class="st">"Jan"</span><span class="op">,</span> <span class="st">"Feb"</span><span class="op">,</span> <span class="st">"Mar"</span><span class="op">,</span> <span class="st">"Apr"</span><span class="op">,</span> <span class="st">"May"</span><span class="op">};</span></span>
-<span id="cb34-8"><a href=""></a>    </span>
-<span id="cb34-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"===== MONTHLY SALES ====="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb34-10"><a href=""></a>    </span>
-<span id="cb34-11"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb34-12"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string month <span class="op">:</span> months<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb34-13"><a href=""></a>        cout <span class="op">&lt;&lt;</span> month <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> sales<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" units"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb34-14"><a href=""></a>        index<span class="op">++;</span></span>
-<span id="cb34-15"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb34-16"><a href=""></a>    </span>
-<span id="cb34-17"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb34-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<p><strong>Output:</strong></p>
-<pre><code>===== MONTHLY SALES =====
-Jan: 15 units
-Feb: 23 units
-Mar: 18 units
-Apr: 30 units
-May: 25 units</code></pre>
-<p><strong>How it works:</strong> - Create an index counter starting at 0 - For each month name, display it with the corresponding sales value - Increment the index after each iteration</p>
-</section>
-<section id="adding-professional-formatting" class="slide level2">
-<h2>Adding professional formatting</h2>
-<p>Use <code>setw()</code> and alignment to make your output look professional.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb36-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb36-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
-<span id="cb36-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb36-5"><a href=""></a></span>
-<span id="cb36-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb36-7"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
-<span id="cb36-8"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> students <span class="op">=</span> <span class="op">{</span><span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span><span class="op">,</span> <span class="st">"Charlie"</span><span class="op">,</span> <span class="st">"Diana"</span><span class="op">,</span> <span class="st">"Eve"</span><span class="op">};</span></span>
-<span id="cb36-9"><a href=""></a>    </span>
-<span id="cb36-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"===== TEST SCORES ====="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb36-11"><a href=""></a>    </span>
-<span id="cb36-12"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb36-13"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string student <span class="op">:</span> students<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb36-14"><a href=""></a>        cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> student </span>
-<span id="cb36-15"><a href=""></a>             <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">5</span><span class="op">)</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span>index<span class="op">]</span> </span>
-<span id="cb36-16"><a href=""></a>             <span class="op">&lt;&lt;</span> <span class="st">" points"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb36-17"><a href=""></a>        index<span class="op">++;</span></span>
-<span id="cb36-18"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb36-19"><a href=""></a>    </span>
-<span id="cb36-20"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb36-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<p><strong>Output:</strong></p>
-<pre><code>===== TEST SCORES =====
-Alice        85 points
-Bob          92 points
-Charlie      78 points
-Diana        95 points
-Eve          88 points</code></pre>
-</section>
-<section id="working-with-multiple-data-types" class="slide level2">
-<h2>Working with multiple data types</h2>
-<p>For-each loops work with any vector type.</p>
-<p><strong>String data:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb38-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb38-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb38-4"><a href=""></a></span>
-<span id="cb38-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb38-6"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> products <span class="op">=</span> <span class="op">{</span><span class="st">"Laptop"</span><span class="op">,</span> <span class="st">"Mouse"</span><span class="op">,</span> <span class="st">"Keyboard"</span><span class="op">,</span> <span class="st">"Monitor"</span><span class="op">,</span> <span class="st">"Webcam"</span><span class="op">};</span></span>
-<span id="cb38-7"><a href=""></a>    </span>
-<span id="cb38-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"===== PRODUCT LIST ====="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb38-9"><a href=""></a>    </span>
-<span id="cb38-10"><a href=""></a>    <span class="dt">int</span> number <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb38-11"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string product <span class="op">:</span> products<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb38-12"><a href=""></a>        cout <span class="op">&lt;&lt;</span> number <span class="op">&lt;&lt;</span> <span class="st">". "</span> <span class="op">&lt;&lt;</span> product <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb38-13"><a href=""></a>        number<span class="op">++;</span></span>
-<span id="cb38-14"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb38-15"><a href=""></a>    </span>
-<span id="cb38-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb38-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<p><strong>Output:</strong></p>
-<pre><code>===== PRODUCT LIST =====
-1. Laptop
-2. Mouse
-3. Keyboard
-4. Monitor
-5. Webcam</code></pre>
-</section>
-<section class="slide level2">
-
-<p><strong>Double data with formatting:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb40-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb40-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
-<span id="cb40-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb40-5"><a href=""></a></span>
-<span id="cb40-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb40-7"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> prices <span class="op">=</span> <span class="op">{</span><span class="fl">899.99</span><span class="op">,</span> <span class="fl">24.50</span><span class="op">,</span> <span class="fl">79.99</span><span class="op">,</span> <span class="fl">299.99</span><span class="op">,</span> <span class="fl">89.95</span><span class="op">};</span></span>
-<span id="cb40-8"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> items <span class="op">=</span> <span class="op">{</span><span class="st">"Laptop"</span><span class="op">,</span> <span class="st">"Mouse"</span><span class="op">,</span> <span class="st">"Keyboard"</span><span class="op">,</span> <span class="st">"Monitor"</span><span class="op">,</span> <span class="st">"Webcam"</span><span class="op">};</span></span>
-<span id="cb40-9"><a href=""></a>    </span>
-<span id="cb40-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"===== PRICE LIST ====="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb40-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
-<span id="cb40-12"><a href=""></a>    </span>
-<span id="cb40-13"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb40-14"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string item <span class="op">:</span> items<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb40-15"><a href=""></a>        cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> item </span>
-<span id="cb40-16"><a href=""></a>             <span class="op">&lt;&lt;</span> <span class="st">"$"</span> <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">7</span><span class="op">)</span> <span class="op">&lt;&lt;</span> prices<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb40-17"><a href=""></a>        index<span class="op">++;</span></span>
-<span id="cb40-18"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb40-19"><a href=""></a>    </span>
-<span id="cb40-20"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb40-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<p><strong>Output:</strong></p>
-<pre><code>===== PRICE LIST =====
-Laptop      $ 899.99
-Mouse       $  24.50
-Keyboard    $  79.99
-Monitor     $ 299.99
-Webcam      $  89.95</code></pre>
-</section>
-<section id="creating-tables-with-borders" class="slide level2">
-<h2>Creating tables with borders</h2>
-<p>Use the <code>string()</code> function to create lines and borders.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb42-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb42-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb42-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
-<span id="cb42-5"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb42-6"><a href=""></a></span>
-<span id="cb42-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb42-8"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> votes <span class="op">=</span> <span class="op">{</span><span class="dv">45</span><span class="op">,</span> <span class="dv">38</span><span class="op">,</span> <span class="dv">52</span><span class="op">,</span> <span class="dv">30</span><span class="op">};</span></span>
-<span id="cb42-9"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> candidates <span class="op">=</span> <span class="op">{</span><span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span><span class="op">,</span> <span class="st">"Carol"</span><span class="op">,</span> <span class="st">"Dave"</span><span class="op">};</span></span>
-<span id="cb42-10"><a href=""></a>    </span>
-<span id="cb42-11"><a href=""></a>    <span class="dt">int</span> width <span class="op">=</span> <span class="dv">40</span><span class="op">;</span></span>
-<span id="cb42-12"><a href=""></a>    </span>
-<span id="cb42-13"><a href=""></a>    <span class="co">// Top border</span></span>
-<span id="cb42-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"+"</span> <span class="op">&lt;&lt;</span> string<span class="op">(</span>width<span class="op">,</span> <span class="ch">'-'</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"+"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb42-15"><a href=""></a>    </span>
-<span id="cb42-16"><a href=""></a>    <span class="co">// Title</span></span>
-<span id="cb42-17"><a href=""></a>    string title <span class="op">=</span> <span class="st">"ELECTION RESULTS"</span><span class="op">;</span></span>
-<span id="cb42-18"><a href=""></a>    <span class="dt">int</span> padding <span class="op">=</span> <span class="op">(</span>width <span class="op">-</span> title<span class="op">.</span>length<span class="op">())</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb42-19"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"|"</span> <span class="op">&lt;&lt;</span> string<span class="op">(</span>padding<span class="op">,</span> <span class="ch">' '</span><span class="op">)</span> <span class="op">&lt;&lt;</span> title </span>
-<span id="cb42-20"><a href=""></a>         <span class="op">&lt;&lt;</span> string<span class="op">(</span>width <span class="op">-</span> padding <span class="op">-</span> title<span class="op">.</span>length<span class="op">(),</span> <span class="ch">' '</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"|"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb42-21"><a href=""></a>    </span>
-<span id="cb42-22"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"+"</span> <span class="op">&lt;&lt;</span> string<span class="op">(</span>width<span class="op">,</span> <span class="ch">'-'</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"+"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb42-23"><a href=""></a>    </span>
-<span id="cb42-24"><a href=""></a>    <span class="co">// Data rows</span></span>
-<span id="cb42-25"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb42-26"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string candidate <span class="op">:</span> candidates<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb42-27"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"| "</span> <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">15</span><span class="op">)</span> <span class="op">&lt;&lt;</span> candidate </span>
-<span id="cb42-28"><a href=""></a>             <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">5</span><span class="op">)</span> <span class="op">&lt;&lt;</span> votes<span class="op">[</span>index<span class="op">]</span> </span>
-<span id="cb42-29"><a href=""></a>             <span class="op">&lt;&lt;</span> <span class="st">" votes           |"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb42-30"><a href=""></a>        index<span class="op">++;</span></span>
-<span id="cb42-31"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb42-32"><a href=""></a>    </span>
-<span id="cb42-33"><a href=""></a>    <span class="co">// Bottom border</span></span>
-<span id="cb42-34"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"+"</span> <span class="op">&lt;&lt;</span> string<span class="op">(</span>width<span class="op">,</span> <span class="ch">'-'</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"+"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb42-35"><a href=""></a>    </span>
-<span id="cb42-36"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb42-37"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<p><strong>Output:</strong></p>
-<pre><code>+----------------------------------------+
-|          ELECTION RESULTS              |
-+----------------------------------------+
-| Alice             45 votes           |
-| Bob               38 votes           |
-| Carol             52 votes           |
-| Dave              30 votes           |
-+----------------------------------------+</code></pre>
-</section>
-<section class="slide level2">
-
-<p><strong>How it works:</strong> - <code>string(width, '-')</code> creates a string of dashes - Calculate padding to center the title - Use setw() to align data in columns</p>
-</section>
-<section id="calculating-statistics-with-for-each-loops" class="slide level2">
-<h2>Calculating statistics with for-each loops</h2>
-<p>You can perform calculations on your data using for-each loops.</p>
-<p><strong>Calculating total:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb44-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb44-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb44-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb44-4"><a href=""></a></span>
-<span id="cb44-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb44-6"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> sales <span class="op">=</span> <span class="op">{</span><span class="dv">150</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">175</span><span class="op">,</span> <span class="dv">225</span><span class="op">,</span> <span class="dv">190</span><span class="op">};</span></span>
-<span id="cb44-7"><a href=""></a>    </span>
-<span id="cb44-8"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb44-9"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> sale <span class="op">:</span> sales<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb44-10"><a href=""></a>        total <span class="op">+=</span> sale<span class="op">;</span></span>
-<span id="cb44-11"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb44-12"><a href=""></a>    </span>
-<span id="cb44-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Total Sales: "</span> <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> <span class="st">" units"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb44-14"><a href=""></a>    </span>
-<span id="cb44-15"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb44-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>Total Sales: 940 units</code></pre>
-</section>
-<section class="slide level2">
-
-<p><strong>Calculating average:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb46-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb46-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb46-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
-<span id="cb46-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb46-5"><a href=""></a></span>
-<span id="cb46-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb46-7"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
-<span id="cb46-8"><a href=""></a>    </span>
-<span id="cb46-9"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb46-10"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb46-11"><a href=""></a>        total <span class="op">+=</span> score<span class="op">;</span></span>
-<span id="cb46-12"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb46-13"><a href=""></a>    </span>
-<span id="cb46-14"><a href=""></a>    <span class="dt">double</span> average <span class="op">=</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> scores<span class="op">.</span>size<span class="op">();</span></span>
-<span id="cb46-15"><a href=""></a>    </span>
-<span id="cb46-16"><a href=""></a>    cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
-<span id="cb46-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Total Points: "</span> <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb46-18"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average Score: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb46-19"><a href=""></a>    </span>
-<span id="cb46-20"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb46-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>Total Points: 438
-Average Score: 87.60</code></pre>
-</section>
-<section id="complete-example---sales-dashboard" class="slide level2">
-<h2>Complete example - Sales dashboard</h2>
-<p>Here’s a comprehensive example combining multiple techniques.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb48-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb48-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb48-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
-<span id="cb48-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb48-5"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb48-6"><a href=""></a></span>
-<span id="cb48-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb48-8"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> sales <span class="op">=</span> <span class="op">{</span><span class="dv">150</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">175</span><span class="op">,</span> <span class="dv">225</span><span class="op">,</span> <span class="dv">190</span><span class="op">};</span></span>
-<span id="cb48-9"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> months <span class="op">=</span> <span class="op">{</span><span class="st">"Jan"</span><span class="op">,</span> <span class="st">"Feb"</span><span class="op">,</span> <span class="st">"Mar"</span><span class="op">,</span> <span class="st">"Apr"</span><span class="op">,</span> <span class="st">"May"</span><span class="op">};</span></span>
-<span id="cb48-10"><a href=""></a>    </span>
-<span id="cb48-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"========================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"       QUARTERLY SALES REPORT           "</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"========================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-15"><a href=""></a>    </span>
-<span id="cb48-16"><a href=""></a>    <span class="co">// Display monthly data</span></span>
-<span id="cb48-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"MONTHLY SALES DATA"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-18"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"----------------------------------------"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-19"><a href=""></a>    </span>
-<span id="cb48-20"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb48-21"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string month <span class="op">:</span> months<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb48-22"><a href=""></a>        cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> month </span>
-<span id="cb48-23"><a href=""></a>             <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> sales<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" units"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-24"><a href=""></a>        index<span class="op">++;</span></span>
-<span id="cb48-25"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb48-26"><a href=""></a>    </span>
-<span id="cb48-27"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-28"><a href=""></a>    </span>
-<span id="cb48-29"><a href=""></a>    <span class="co">// Calculate statistics</span></span>
-<span id="cb48-30"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb48-31"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> sale <span class="op">:</span> sales<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb48-32"><a href=""></a>        total <span class="op">+=</span> sale<span class="op">;</span></span>
-<span id="cb48-33"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb48-34"><a href=""></a>    </span>
-<span id="cb48-35"><a href=""></a>    <span class="dt">double</span> average <span class="op">=</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> sales<span class="op">.</span>size<span class="op">();</span></span>
-<span id="cb48-36"><a href=""></a>    </span>
-<span id="cb48-37"><a href=""></a>    <span class="co">// Display summary</span></span>
-<span id="cb48-38"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"SUMMARY"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-39"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"----------------------------------------"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-40"><a href=""></a>    cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
-<span id="cb48-41"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Total Sales:    "</span> <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">6</span><span class="op">)</span> <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> <span class="st">" units"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-42"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average Sales:  "</span> <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">6</span><span class="op">)</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> <span class="st">" units"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-43"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Number of Months: "</span> <span class="op">&lt;&lt;</span> sales<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-44"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"========================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-45"><a href=""></a>    </span>
-<span id="cb48-46"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb48-47"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<p><strong>Output:</strong></p>
-<pre><code>========================================
-       QUARTERLY SALES REPORT           
-========================================
-
-MONTHLY SALES DATA
-----------------------------------------
-Jan        150 units
-Feb        200 units
-Mar        175 units
-Apr        225 units
-May        190 units
-
-SUMMARY
-----------------------------------------
-Total Sales:       940 units
-Average Sales:   188.00 units
-Number of Months: 5
-========================================</code></pre>
-</section>
-<section id="tips-for-effective-charts" class="slide level2">
-<h2>Tips for effective charts</h2>
-<p><strong>1. Choose appropriate scaling</strong> - Too many characters = too wide - Too few characters = hard to see differences - Common scales: 1, 5, 10, 50, 100</p>
-<p><strong>2. Add clear labels</strong> - Chart title - Axis labels - Data values - Units of measurement</p>
-</section>
-<section class="slide level2">
-
-<p><strong>3. Use consistent spacing</strong> - Align columns with setw() - Keep bar spacing uniform - Use fixed widths for labels</p>
-<p><strong>4. Include a legend when needed</strong> - Explain what characters represent - Show the scale - Define abbreviations</p>
-</section>
-<section class="slide level2">
-
-<p><strong>5. Test with different data</strong> - Small values - Large values - Equal values - Edge cases</p>
-</section>
-<section id="common-mistakes-and-fixes" class="slide level2">
-<h2>Common mistakes and fixes</h2>
-<p><strong>Mistake 1: Wrong vector access</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb50-1"><a href=""></a><span class="co">// BAD - Using loop variable instead of index</span></span>
-<span id="cb50-2"><a href=""></a><span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb50-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span>string name <span class="op">:</span> names<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb50-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">];</span>  <span class="co">// Always prints first score!</span></span>
-<span id="cb50-5"><a href=""></a>    index<span class="op">++;</span></span>
-<span id="cb50-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Fix:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb51-1"><a href=""></a><span class="co">// GOOD - Use the index variable</span></span>
-<span id="cb51-2"><a href=""></a><span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb51-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span>string name <span class="op">:</span> names<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb51-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span>index<span class="op">];</span>  <span class="co">// Correct!</span></span>
-<span id="cb51-5"><a href=""></a>    index<span class="op">++;</span></span>
-<span id="cb51-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<p><strong>Mistake 4: Not initializing accumulator</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb52-1"><a href=""></a><span class="co">// BAD - total not initialized</span></span>
-<span id="cb52-2"><a href=""></a><span class="dt">int</span> total<span class="op">;</span></span>
-<span id="cb52-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> value <span class="op">:</span> values<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb52-4"><a href=""></a>    total <span class="op">+=</span> value<span class="op">;</span>  <span class="co">// Undefined behavior!</span></span>
-<span id="cb52-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Fix:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb53-1"><a href=""></a><span class="co">// GOOD - Initialize to zero</span></span>
-<span id="cb53-2"><a href=""></a><span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">// Always initialize!</span></span>
-<span id="cb53-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> value <span class="op">:</span> values<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb53-4"><a href=""></a>    total <span class="op">+=</span> value<span class="op">;</span></span>
-<span id="cb53-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="practice-exercises" class="slide level2">
-<h2>Practice exercises</h2>
-<p><strong>Exercise 1: Product catalog</strong></p>
-<p>Create a program that displays product names and prices in a formatted table. Use two vectors and display them with proper alignment.</p>
-<p><strong>Exercise 2: Grade report</strong></p>
-<p>Create a program with student names and test scores. Display the data, then calculate and show the class total and average.</p>
-<p><strong>Exercise 3: Temperature data</strong></p>
-<p>Create a program with daily temperatures for a week. Display each day with its temperature, then calculate the weekly average.</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Exercise 4: Sales summary</strong></p>
-<p>Create a program showing monthly sales for a quarter (3 months). Display the data with borders, calculate the total, and show the average.</p>
-<p><strong>Exercise 5: Multi-section dashboard</strong></p>
-<p>Create a program that displays data in multiple sections: - A data listing section - A statistics section (total and average) - Use borders and professional formatting throughout</p>
-</section>
-<section id="advanced-techniques-preview" class="slide level2">
-<h2>Advanced techniques preview</h2>
-<p>As you progress, you can create more sophisticated charts:</p>
-<p><strong>Multiple data series</strong> - Display different data sets side-by-side - Use different characters for each series - Add a legend explaining each character</p>
-<p><strong>Animation effects</strong> - Update charts multiple times - Show data changing over time - Create progress bars</p>
-<p><strong>Interactive elements</strong> - Display charts based on user choice - Allow users to input their own data - Create custom scales</p>
-</section>
-<section id="summary-1" class="slide level2">
-<h2>Summary</h2>
-<p>Terminal displays transform raw numbers into organized, professional-looking output using for-each loops and formatting.</p>
-<p><strong>Key concepts covered:</strong> - Displaying data with for-each loops - Using index counters with for-each loops to access parallel vectors - Professional formatting with setw() and alignment - Creating borders and tables with string() - Calculating statistics (totals and averages) - Working with multiple data types (int, double, string)</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Building blocks:</strong> - For-each loops to iterate through vectors - Index counters to access parallel data - Formatting manipulators for alignment - String functions for borders and spacing - Calculations with accumulated values</p>
-</section>
-<section class="slide level2">
-
-<p><strong>Best practices:</strong> - Always initialize index counters before loops - Always increment index counters inside loops - Use consistent formatting with setw() - Add clear labels and titles - Initialize accumulators before use - Test with various data values</p>
-<p><strong>Core pattern for calculations:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb54-1"><a href=""></a><span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb54-2"><a href=""></a><span class="cf">for</span> <span class="op">(</span>element <span class="op">:</span> vector<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb54-3"><a href=""></a>    total <span class="op">+=</span> element<span class="op">;</span></span>
-<span id="cb54-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Terminal displays combine for-each loops, vectors, and formatting to create professional output!</p>
-</section>
-<section id="key-takeaways-1" class="slide level2">
-<h2>Key Takeaways</h2>
-</section>
-<section id="professional-formatting-combines-setw-alignment-and-borders-to-create-clear-displays" class="slide level2">
-<h2>1. Professional formatting combines setw(), alignment, and borders to create clear displays</h2>
-<p>Use <code>left</code> and <code>right</code> manipulators with <code>setw()</code> to align columns: <code>cout &lt;&lt; left &lt;&lt; setw(10) &lt;&lt; label &lt;&lt; right &lt;&lt; setw(8) &lt;&lt; value;</code>. Create borders with <code>string(width, '-')</code> to make sections visually distinct. Add titles, spacing, and consistent alignment throughout. Fixed precision with <code>fixed</code> and <code>setprecision(2)</code> ensures clean numeric output. These formatting techniques transform simple data into professional-looking reports and dashboards.</p>
-</section></section>
 <section>
 <section id="whats-the-output" class="title-slide slide level1 center">
 <h1>What’s the Output?</h1>
@@ -1219,63 +251,1010 @@ Number of Months: 5
 </section>
 <section id="whats-the-output-1" class="slide level2">
 <h2>What’s the Output?</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb55-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb55-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
-<span id="cb55-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb55-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb55-5"><a href=""></a></span>
-<span id="cb55-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb55-7"><a href=""></a><span class="op">{</span></span>
-<span id="cb55-8"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> nums <span class="op">=</span> <span class="op">{</span><span class="dv">5</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">8</span><span class="op">};</span></span>
-<span id="cb55-9"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> prices <span class="op">=</span> <span class="op">{</span><span class="fl">4.5</span><span class="op">,</span> <span class="fl">12.99</span><span class="op">,</span> <span class="fl">7.8</span><span class="op">};</span></span>
-<span id="cb55-10"><a href=""></a>    </span>
-<span id="cb55-11"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> n <span class="op">:</span> nums<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb55-12"><a href=""></a>        cout <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">5</span><span class="op">)</span> <span class="op">&lt;&lt;</span> n <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb55-13"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb55-14"><a href=""></a>    </span>
-<span id="cb55-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
-<span id="cb55-16"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">double</span> p <span class="op">:</span> prices<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb55-17"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"$"</span> <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">6</span><span class="op">)</span> <span class="op">&lt;&lt;</span> p <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb55-18"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb55-19"><a href=""></a>    </span>
-<span id="cb55-20"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb55-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb1-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
+<span id="cb1-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb1-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb1-5"><a href=""></a></span>
+<span id="cb1-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb1-7"><a href=""></a><span class="op">{</span></span>
+<span id="cb1-8"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> nums <span class="op">=</span> <span class="op">{</span><span class="dv">5</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">8</span><span class="op">};</span></span>
+<span id="cb1-9"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> prices <span class="op">=</span> <span class="op">{</span><span class="fl">4.5</span><span class="op">,</span> <span class="fl">12.99</span><span class="op">,</span> <span class="fl">7.8</span><span class="op">};</span></span>
+<span id="cb1-10"><a href=""></a>    </span>
+<span id="cb1-11"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> n <span class="op">:</span> nums<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-12"><a href=""></a>        cout <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">5</span><span class="op">)</span> <span class="op">&lt;&lt;</span> n <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-13"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb1-14"><a href=""></a>    </span>
+<span id="cb1-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb1-16"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">double</span> p <span class="op">:</span> prices<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-17"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"$"</span> <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">6</span><span class="op">)</span> <span class="op">&lt;&lt;</span> p <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-18"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb1-19"><a href=""></a>    </span>
+<span id="cb1-20"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section class="slide level2">
 
 <div class="columns">
 <div class="column" style="width:75%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb56-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb56-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
-<span id="cb56-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb56-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb56-5"><a href=""></a></span>
-<span id="cb56-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb56-7"><a href=""></a><span class="op">{</span></span>
-<span id="cb56-8"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> nums <span class="op">=</span> <span class="op">{</span><span class="dv">5</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">8</span><span class="op">};</span></span>
-<span id="cb56-9"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> prices <span class="op">=</span> <span class="op">{</span><span class="fl">4.5</span><span class="op">,</span> <span class="fl">12.99</span><span class="op">,</span> <span class="fl">7.8</span><span class="op">};</span></span>
-<span id="cb56-10"><a href=""></a>    </span>
-<span id="cb56-11"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> n <span class="op">:</span> nums<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb56-12"><a href=""></a>        cout <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">5</span><span class="op">)</span> <span class="op">&lt;&lt;</span> n <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb56-13"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb56-14"><a href=""></a>    </span>
-<span id="cb56-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
-<span id="cb56-16"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">double</span> p <span class="op">:</span> prices<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb56-17"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"$"</span> <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">6</span><span class="op">)</span> <span class="op">&lt;&lt;</span> p <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb56-18"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb56-19"><a href=""></a>    </span>
-<span id="cb56-20"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb56-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb2-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
+<span id="cb2-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb2-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb2-5"><a href=""></a></span>
+<span id="cb2-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb2-7"><a href=""></a><span class="op">{</span></span>
+<span id="cb2-8"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> nums <span class="op">=</span> <span class="op">{</span><span class="dv">5</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">8</span><span class="op">};</span></span>
+<span id="cb2-9"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> prices <span class="op">=</span> <span class="op">{</span><span class="fl">4.5</span><span class="op">,</span> <span class="fl">12.99</span><span class="op">,</span> <span class="fl">7.8</span><span class="op">};</span></span>
+<span id="cb2-10"><a href=""></a>    </span>
+<span id="cb2-11"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> n <span class="op">:</span> nums<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-12"><a href=""></a>        cout <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">5</span><span class="op">)</span> <span class="op">&lt;&lt;</span> n <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-13"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb2-14"><a href=""></a>    </span>
+<span id="cb2-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb2-16"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">double</span> p <span class="op">:</span> prices<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-17"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"$"</span> <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">6</span><span class="op">)</span> <span class="op">&lt;&lt;</span> p <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-18"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb2-19"><a href=""></a>    </span>
+<span id="cb2-20"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:25%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb57-1"><a href=""></a><span class="co">// ANSWER KEY:</span></span>
-<span id="cb57-2"><a href=""></a><span class="co">//</span></span>
-<span id="cb57-3"><a href=""></a><span class="co">//     5</span></span>
-<span id="cb57-4"><a href=""></a><span class="co">//    12</span></span>
-<span id="cb57-5"><a href=""></a><span class="co">//     8</span></span>
-<span id="cb57-6"><a href=""></a><span class="co">// $  4.50</span></span>
-<span id="cb57-7"><a href=""></a><span class="co">// $ 12.99</span></span>
-<span id="cb57-8"><a href=""></a><span class="co">// $  7.80</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="co">// ANSWER KEY:</span></span>
+<span id="cb3-2"><a href=""></a><span class="co">//</span></span>
+<span id="cb3-3"><a href=""></a><span class="co">//     5</span></span>
+<span id="cb3-4"><a href=""></a><span class="co">//    12</span></span>
+<span id="cb3-5"><a href=""></a><span class="co">//     8</span></span>
+<span id="cb3-6"><a href=""></a><span class="co">// $  4.50</span></span>
+<span id="cb3-7"><a href=""></a><span class="co">// $ 12.99</span></span>
+<span id="cb3-8"><a href=""></a><span class="co">// $  7.80</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
+</section></section>
+<section>
+<section id="introduction-to-debugging-in-c" class="title-slide slide level1 center">
+<h1>Introduction to<br> Debugging in C++</h1>
+<aside class="notes">
+<p>Target duration: ~30 minutes</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ever-written-code-that-worked-perfectly-on-the-first-try" class="slide level2">
+<h2>Ever written code that worked <br> perfectly on the first try?</h2>
+<p>Neither has anyone else. Debugging is the process of finding and fixing errors in your code, and every programmer—from beginners to experts—does it constantly. The difference is that experienced programmers know how to find and fix bugs efficiently.</p>
+<aside class="notes">
+<p>Set the stage by normalizing bugs and emphasizing that debugging is a learnable skill, not a sign of failure.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="understanding-compiler-errors" class="slide level2">
+<h2>Understanding Compiler Errors</h2>
+<p>When code won’t compile, the compiler provides error messages to help you locate problems.</p>
+<p><strong>How to read error messages:</strong> - <strong>Line number</strong> - Where the problem is (or near it) - <strong>Error type</strong> - What kind of error occurred - <strong>Description</strong> - What’s wrong with the code</p>
+<p><strong>Important:</strong> The actual error might be on the line before the line number shown.</p>
+<aside class="notes">
+<p>Show students an actual compiler error message on screen and point out each component. Emphasize that error messages are trying to help, not punish. Consider displaying a diagram showing how to parse a typical error message like “main.cpp:15:5: error: expected ‘;’ before ‘cout’”.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="common-error-missing-semicolon" class="slide level2">
+<h2>Common Error: Missing Semicolon</h2>
+<p><strong>Broken code:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">25</span>  <span class="co">// Missing semicolon</span></span>
+<span id="cb4-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Error message:</strong></p>
+<pre><code>error: expected ';' before 'cout'</code></pre>
+<p><strong>Fixed code:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">25</span><span class="op">;</span>  <span class="co">// Added semicolon</span></span>
+<span id="cb6-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Point out that the error message points to the cout line, but the actual problem is on the previous line. This is a common pattern that confuses beginners.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="common-error-mismatched-braces" class="slide level2">
+<h2>Common Error: Mismatched Braces</h2>
+<p><strong>Broken code:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb7-3"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-4"><a href=""></a><span class="co">// Missing closing brace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Error message:</strong></p>
+<pre><code>error: expected '}' at end of input</code></pre>
+<p><strong>Fixed code:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-4"><a href=""></a><span class="op">}</span>  <span class="co">// Added closing brace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Emphasize the importance of matching every opening brace with a closing brace. Many IDEs can help by highlighting matching braces when you click on one.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="common-error-undefined-variable" class="slide level2">
+<h2>Common Error: Undefined Variable</h2>
+<p><strong>Broken code:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
+<span id="cb10-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> aeg <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Typo: aeg instead of age</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Error message:</strong></p>
+<pre><code>error: 'aeg' was not declared in this scope</code></pre>
+<p><strong>Fixed code:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
+<span id="cb12-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Fixed typo</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Variable name typos are extremely common. Encourage students to use descriptive variable names and enable compiler warnings for unused variables, which can help catch these errors.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="debugging-technique-1-read-error-messages" class="slide level2">
+<h2>Debugging Technique 1: <br> Read Error Messages</h2>
+<p><strong>Step 1: Read the first error message</strong> - Fixing the first error often makes subsequent errors disappear.</p>
+<p><strong>Step 2: Locate the line number</strong> - Example: <code>main.cpp:15:5:</code> means line 15, column 5.</p>
+<p><strong>Step 3: Read the description</strong> - “expected ‘;’ before ‘cout’” means you forgot a semicolon.</p>
+<p><strong>Step 4: Check that line AND the line before</strong> - The error is often on the previous line.</p>
+<p><strong>Step 5: Fix and recompile</strong> - Make the fix, save, and compile again.</p>
+<aside class="notes">
+<p>Walk through this process with a live example if possible. Show how one missing semicolon can generate multiple cascading errors, and how fixing that one error makes them all disappear.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="debugging-technique-2-comment-out-code" class="slide level2">
+<h2>Debugging Technique 2:<br> Comment Out Code</h2>
+<p>When you’re unsure what’s causing an error, systematically comment out sections of code.</p>
+<p><strong>Original broken code:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb13-3"><a href=""></a>    <span class="dt">int</span> y <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb13-4"><a href=""></a>    <span class="dt">int</span> z <span class="op">=</span> x <span class="op">+</span> y<span class="op">;</span></span>
+<span id="cb13-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Result: "</span> <span class="op">&lt;&lt;</span> z <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb13-6"><a href=""></a>    <span class="dt">int</span> a <span class="op">=</span> <span class="dv">5</span> <span class="op">/</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">// This causes a problem</span></span>
+<span id="cb13-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Done"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb13-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+
+<p><strong>Comment out suspicious sections:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb14-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb14-3"><a href=""></a>    <span class="dt">int</span> y <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb14-4"><a href=""></a>    <span class="dt">int</span> z <span class="op">=</span> x <span class="op">+</span> y<span class="op">;</span></span>
+<span id="cb14-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Result: "</span> <span class="op">&lt;&lt;</span> z <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-6"><a href=""></a>    </span>
+<span id="cb14-7"><a href=""></a>    <span class="co">// Commenting out to test</span></span>
+<span id="cb14-8"><a href=""></a>    <span class="co">// int a = 5 / 0;</span></span>
+<span id="cb14-9"><a href=""></a>    <span class="co">// cout &lt;&lt; "Done" &lt;&lt; endl;</span></span>
+<span id="cb14-10"><a href=""></a>    </span>
+<span id="cb14-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb14-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If it works now, the problem is in the commented section.</p>
+<aside class="notes">
+<p>Demonstrate how to use multi-line comments (/* */) for larger sections. This technique is especially useful when you have a general idea where the bug is but aren’t sure exactly which line.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="debugging-technique-3-print-statements" class="slide level2">
+<h2>Debugging Technique 3:<br> Print Statements</h2>
+<p><strong>The most basic and effective debugging tool is cout statements.</strong> Use <code>cout</code> to see what’s happening inside your code.</p>
+<p><strong>Example problem - Wrong calculation:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href=""></a>    <span class="dt">int</span> score1 <span class="op">=</span> <span class="dv">85</span><span class="op">;</span></span>
+<span id="cb15-3"><a href=""></a>    <span class="dt">int</span> score2 <span class="op">=</span> <span class="dv">92</span><span class="op">;</span></span>
+<span id="cb15-4"><a href=""></a>    <span class="dt">int</span> score3 <span class="op">=</span> <span class="dv">78</span><span class="op">;</span></span>
+<span id="cb15-5"><a href=""></a>    </span>
+<span id="cb15-6"><a href=""></a>    <span class="dt">int</span> average <span class="op">=</span> score1 <span class="op">+</span> score2 <span class="op">+</span> score3 <span class="op">/</span> <span class="dv">3</span><span class="op">;</span>  <span class="co">// </span><span class="al">BUG</span><span class="co">!</span></span>
+<span id="cb15-7"><a href=""></a>    </span>
+<span id="cb15-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb15-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb15-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Output:</strong> <code>Average: 203</code> (This is wrong!)</p>
+</section>
+<section id="print-statements-debugging-the-calculation" class="slide level2">
+<h2>Print Statements: Debugging the Calculation</h2>
+<p>Add strategic print statements to understand what’s happening:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href=""></a>    <span class="dt">int</span> score1 <span class="op">=</span> <span class="dv">85</span><span class="op">;</span></span>
+<span id="cb16-3"><a href=""></a>    <span class="dt">int</span> score2 <span class="op">=</span> <span class="dv">92</span><span class="op">;</span></span>
+<span id="cb16-4"><a href=""></a>    <span class="dt">int</span> score3 <span class="op">=</span> <span class="dv">78</span><span class="op">;</span></span>
+<span id="cb16-5"><a href=""></a>    </span>
+<span id="cb16-6"><a href=""></a>    <span class="co">// Debug: Print individual values</span></span>
+<span id="cb16-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score 1: "</span> <span class="op">&lt;&lt;</span> score1 <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// 85 ✓</span></span>
+<span id="cb16-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score 2: "</span> <span class="op">&lt;&lt;</span> score2 <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// 92 ✓</span></span>
+<span id="cb16-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score 3: "</span> <span class="op">&lt;&lt;</span> score3 <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// 78 ✓</span></span>
+<span id="cb16-10"><a href=""></a>    </span>
+<span id="cb16-11"><a href=""></a>    <span class="dt">int</span> average <span class="op">=</span> score1 <span class="op">+</span> score2 <span class="op">+</span> score3 <span class="op">/</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb16-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// 203 - Wrong!</span></span>
+<span id="cb16-13"><a href=""></a>    </span>
+<span id="cb16-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb16-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The values are correct, so the problem must be in the calculation. The fix: add parentheses to force correct order of operations.</p>
+</section>
+<section class="slide level2">
+
+<p><strong>Corrected:</strong> <code>int average = (score1 + score2 + score3) / 3;</code></p>
+<aside class="notes">
+<p>Explain that without parentheses, only score3 is divided by 3 due to operator precedence. Walk through the math: 85 + 92 + (78/3) = 85 + 92 + 26 = 203. With parentheses: (85+92+78)/3 = 255/3 = 85.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="debugging-technique-4-simplify-the-problem" class="slide level2">
+<h2>Debugging Technique 4:<br> Simplify the Problem</h2>
+<p>Break complex problems into smaller, testable pieces.</p>
+<p><strong>Complex problem:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">double</span> result <span class="op">=</span> <span class="op">(</span>a <span class="op">+</span> b<span class="op">)</span> <span class="op">*</span> c <span class="op">/</span> <span class="op">(</span>d <span class="op">-</span> e<span class="op">)</span> <span class="op">+</span> f <span class="op">*</span> g <span class="op">-</span> h<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+
+<p><strong>Simplified debugging:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">double</span> sum <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb18-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"sum = "</span> <span class="op">&lt;&lt;</span> sum <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb18-3"><a href=""></a></span>
+<span id="cb18-4"><a href=""></a><span class="dt">double</span> product1 <span class="op">=</span> sum <span class="op">*</span> c<span class="op">;</span></span>
+<span id="cb18-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"product1 = "</span> <span class="op">&lt;&lt;</span> product1 <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb18-6"><a href=""></a></span>
+<span id="cb18-7"><a href=""></a><span class="dt">double</span> difference <span class="op">=</span> d <span class="op">-</span> e<span class="op">;</span></span>
+<span id="cb18-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"difference = "</span> <span class="op">&lt;&lt;</span> difference <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb18-9"><a href=""></a></span>
+<span id="cb18-10"><a href=""></a><span class="dt">double</span> quotient <span class="op">=</span> product1 <span class="op">/</span> difference<span class="op">;</span></span>
+<span id="cb18-11"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"quotient = "</span> <span class="op">&lt;&lt;</span> quotient <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb18-12"><a href=""></a></span>
+<span id="cb18-13"><a href=""></a><span class="dt">double</span> product2 <span class="op">=</span> f <span class="op">*</span> g<span class="op">;</span></span>
+<span id="cb18-14"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"product2 = "</span> <span class="op">&lt;&lt;</span> product2 <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb18-15"><a href=""></a></span>
+<span id="cb18-16"><a href=""></a><span class="dt">double</span> result <span class="op">=</span> quotient <span class="op">+</span> product2 <span class="op">-</span> h<span class="op">;</span></span>
+<span id="cb18-17"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"result = "</span> <span class="op">&lt;&lt;</span> result <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Emphasize that breaking complex expressions into steps has two benefits: easier to debug, and easier to read. Sometimes the “debugging” version is actually better code that should stay in the final program.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="debugging-technique-5-check-your-assumptions" class="slide level2">
+<h2>Debugging Technique 5:<br> Check Your Assumptions</h2>
+<p>Bugs often occur because we assume something that isn’t true.</p>
+<p><strong>Common false assumptions:</strong> - “I initialized that variable” (but you didn’t) - “Integer division gives decimals” (but it truncates) - “The user will enter valid input” (but they enter invalid data)</p>
+<p>Let’s focus on the most common assumption error: integer division.</p>
+<aside class="notes">
+<p>Emphasize that experienced programmers explicitly verify their assumptions rather than trusting them. A diagram showing the difference between integer division (5/2 = 2) and floating-point division (5.0/2 = 2.5) would be helpful here.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="checking-assumptions-integer-division-example" class="slide level2">
+<h2>Checking Assumptions:<br> Integer Division Example</h2>
+<p><strong>Buggy code:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">int</span> total <span class="op">=</span> <span class="dv">100</span><span class="op">;</span></span>
+<span id="cb19-2"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb19-3"><a href=""></a></span>
+<span id="cb19-4"><a href=""></a><span class="dt">double</span> average <span class="op">=</span> total <span class="op">/</span> count<span class="op">;</span>  <span class="co">// </span><span class="al">BUG</span><span class="co">!</span></span>
+<span id="cb19-5"><a href=""></a></span>
+<span id="cb19-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Shows: 33 (not 33.333...)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Debug by checking types:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"total type: int, value: "</span> <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb20-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"count type: int, value: "</span> <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb20-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"total / count: "</span> <span class="op">&lt;&lt;</span> <span class="op">(</span>total <span class="op">/</span> count<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Integer division!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Fix:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="dt">double</span> average <span class="op">=</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> count<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Explain that when both operands are integers, C++ performs integer division and discards the remainder. The result is then converted to double, but the precision is already lost. Casting one operand to double forces floating-point division.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-debugging-process" class="slide level2">
+<h2>The Debugging Process</h2>
+<ul>
+<li>Reproduce the bug</li>
+<li>Isolate the problem</li>
+<li>Understand the bug</li>
+<li>Fix the bug</li>
+<li>Test the fix</li>
+<li>Learn from it</li>
+</ul>
+</section>
+<section id="the-debugging-process-steps-1-3" class="slide level2">
+<h2>The Debugging Process: Steps 1-3</h2>
+<p><strong>Step 1: Reproduce the bug</strong> - Make sure you can consistently cause the bug to happen.</p>
+<p><strong>Step 2: Isolate the problem</strong></p>
+<ul>
+<li>Comment out code sections</li>
+<li>Test with simple inputs</li>
+<li>Add print statements</li>
+</ul>
+<p><strong>Step 3: Understand the bug</strong></p>
+<ul>
+<li>Why is it happening?</li>
+<li>What assumption was wrong?</li>
+</ul>
+<p>Once you understand the bug, you’re ready to fix it systematically.</p>
+<aside class="notes">
+<p>Emphasize that understanding comes before fixing. Students often want to jump straight to changing code, but understanding the root cause prevents creating new bugs while fixing the old one.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-debugging-process-steps-4-6" class="slide level2">
+<h2>The Debugging Process: Steps 4-6</h2>
+<p><strong>Step 4: Fix the bug</strong> - Make the smallest change possible to fix it.</p>
+<p><strong>Step 5: Test the fix</strong></p>
+<ul>
+<li>Does it work now?</li>
+<li>Did you break anything else?</li>
+<li>Test with multiple inputs</li>
+</ul>
+<p><strong>Step 6: Learn from it</strong></p>
+<ul>
+<li>Why did this bug happen?</li>
+<li>How can you avoid it in the future?</li>
+</ul>
+<aside class="notes">
+<p>Emphasize “smallest change possible” - changing multiple things at once makes it unclear which change fixed the bug. Testing with multiple inputs is crucial because a fix that works for one input might fail for others.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="practice-debugging-strategies" class="slide level2">
+<h2>Practice Debugging Strategies</h2>
+<p><strong>Binary search debugging:</strong> If you have a long program, comment out half and test. Keep narrowing down where the bug is.</p>
+<p><strong>Rubber duck debugging:</strong> Explain your code line-by-line to someone (or a rubber duck). Often you’ll find the bug while explaining.</p>
+<p><strong>Take a break:</strong> If you’re stuck for more than 15 minutes, take a 5-minute break. Fresh eyes find bugs faster.</p>
+<p><strong>Start from scratch:</strong> Sometimes it’s easier to rewrite a small section than debug it.</p>
+<p><strong>Compare to working code:</strong> Look at similar working examples and see what’s different.</p>
+<aside class="notes">
+<p>Emphasize that professional programmers use all these strategies regularly. There’s no shame in taking a break or asking for help. The rubber duck method works because verbalizing forces you to think through each step carefully.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<p>Debugging is a systematic process: read error messages carefully, use print statements strategically, and test frequently. Every programmer debugs constantly - mastering these techniques will make you a confident, efficient developer.</p>
+<aside class="notes">
+<p>Reinforce that debugging is normal and that the techniques covered today are used by professional programmers every day.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="terminal-color-codes-in-c" class="title-slide slide level1 center">
+<h1>Terminal Color Codes<br> in C++</h1>
+
+</section>
+<section id="introduction-to-terminal-colors" class="slide level2">
+<h2>Introduction to Terminal Colors</h2>
+<p>Making your console programs more visually appealing is easy with terminal color codes! By using special escape sequences, you can change the color of text displayed in the terminal, making your output more readable and engaging.</p>
+</section>
+<section id="what-are-ansi-escape-codes" class="slide level2">
+<h2>What Are ANSI Escape Codes?</h2>
+<p>ANSI escape codes are special character sequences that tell the terminal to change text attributes like color, background, and style. These codes work on most modern terminals, including Linux, macOS, and Windows (Windows 10 and later).</p>
+</section>
+<section id="basic-color-implementation" class="slide level2">
+<h2>Basic Color Implementation</h2>
+</section>
+<section id="a-simple-color-example" class="slide level2">
+<h2>A Simple Color Example</h2>
+<p>Here’s a complete program that demonstrates how to use color codes:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="co">// simCol.cpp -- simple terminal color example</span></span>
+<span id="cb22-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb22-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb22-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb22-5"><a href=""></a></span>
+<span id="cb22-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb22-7"><a href=""></a>    <span class="at">const</span> string RED <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[031m;"</span><span class="op">;</span></span>
+<span id="cb22-8"><a href=""></a>    <span class="at">const</span> string YELLOW <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[033m;"</span><span class="op">;</span></span>
+<span id="cb22-9"><a href=""></a>    <span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span>
+<span id="cb22-10"><a href=""></a>    </span>
+<span id="cb22-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> RED <span class="op">&lt;&lt;</span> <span class="st">"Hello"</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb22-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> YELLOW <span class="op">&lt;&lt;</span> <span class="st">"there"</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb22-13"><a href=""></a>    </span>
+<span id="cb22-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb22-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Output:</strong></p>
+<pre><code>./main
+;Hello
+;there</code></pre>
+<p>The text “Hello” appears in red, and “there” appears in yellow!</p>
+</section>
+<section id="understanding-the-color-code-format" class="slide level2">
+<h2>Understanding the Color Code Format</h2>
+<p>Each color code follows this pattern:</p>
+<pre><code>\033[COLORm</code></pre>
+<p><strong>Breaking it down:</strong> - <code>\033</code> is the escape character (ESC in ASCII) - <code>[</code> starts the color sequence - <code>COLOR</code> is the color code number - <code>m</code> ends the sequence</p>
+</section>
+<section id="common-color-codes" class="slide level2">
+<h2>Common Color Codes</h2>
+<p>Here are the most frequently used foreground (text) color codes:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><code>\033[030m</code> - Black</li>
+<li><code>\033[031m</code> - Red</li>
+<li><code>\033[032m</code> - Green</li>
+<li><code>\033[033m</code> - Yellow</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><code>\033[034m</code> - Blue</li>
+<li><code>\033[035m</code> - Magenta</li>
+<li><code>\033[036m</code> - Cyan</li>
+<li><code>\033[037m</code> - White</li>
+</ul>
+</div></div>
+</section>
+<section id="the-importance-of-norm-reset" class="slide level2">
+<h2>The Importance of NORM (Reset)</h2>
+<p>The <code>NORM</code> constant is crucial:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong><code>\033[0m</code></strong> resets all text attributes back to the terminal’s default. Always use this after colored text to prevent all subsequent output from being colored!</p>
+</section>
+<section id="practical-usage-tips" class="slide level2">
+<h2>Practical Usage Tips</h2>
+</section>
+<section id="storing-colors-as-constants" class="slide level2">
+<h2>Storing Colors as Constants</h2>
+<p>It’s best practice to define color codes as named constants at the beginning of your program:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="at">const</span> string RED <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[031m"</span><span class="op">;</span></span>
+<span id="cb26-2"><a href=""></a><span class="at">const</span> string GREEN <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[032m"</span><span class="op">;</span></span>
+<span id="cb26-3"><a href=""></a><span class="at">const</span> string BLUE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[034m"</span><span class="op">;</span></span>
+<span id="cb26-4"><a href=""></a><span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This approach offers several benefits:</p>
+<ul>
+<li>Makes your code more readable</li>
+<li>Easy to modify colors throughout your program</li>
+<li>Prevents typos in color codes</li>
+</ul>
+</section>
+<section id="using-colors-in-output" class="slide level2">
+<h2>Using Colors in Output</h2>
+<p>To color your text, simply insert the color code before the text and reset after:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> RED <span class="op">&lt;&lt;</span> <span class="st">"Error: File not found!"</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb27-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> GREEN <span class="op">&lt;&lt;</span> <span class="st">"Success! Operation completed."</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb27-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> YELLOW <span class="op">&lt;&lt;</span> <span class="st">"Warning: Low disk space."</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="common-practices" class="slide level2">
+<h2>Common Practices</h2>
+<p><strong>Always reset colors:</strong> Remember to use <code>NORM</code> after colored text to avoid coloring unintended output.</p>
+<p><strong>Use colors meaningfully:</strong></p>
+<ul>
+<li>Red for errors or important warnings</li>
+<li>Green for success messages</li>
+<li>Yellow for caution or warnings</li>
+<li>Blue for informational messages</li>
+</ul>
+<p><strong>Test on your target terminal:</strong> Not all terminals support the same color codes, so test your program on the systems where it will run.</p>
+</section>
+<section id="finding-more-information" class="slide level2">
+<h2>Finding More Information</h2>
+<p>If you want to explore more color options and text effects, you can search online for:</p>
+<p><strong>“How do I output colored text to a Linux terminal?”</strong></p>
+<p>This will lead you to resources about:</p>
+<ul>
+<li>Background colors</li>
+<li>Bold and italic text</li>
+<li>Underlined text</li>
+<li>Bright/bold color variants</li>
+<li>256-color and true color support</li>
+</ul>
+</section>
+<section id="additional-color-codes-to-explore" class="slide level2">
+<h2>Additional Color Codes to Explore</h2>
+<p><strong>Bright/Bold Colors:</strong> Add 60 to the color code or use the bold attribute:</p>
+<ul>
+<li><code>\033[091m</code> - Bright Red</li>
+<li><code>\033[092m</code> - Bright Green</li>
+<li><code>\033[093m</code> - Bright Yellow</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<p><strong>Background Colors:</strong> Use codes 40-47 for background colors: - <code>\033[041m</code> - Red background - <code>\033[042m</code> - Green background - <code>\033[044m</code> - Blue background</p>
+</section>
+<section class="slide level2">
+
+<p><strong>Text Styles:</strong> - <code>\033[1m</code> - Bold - <code>\033[4m</code> - Underline - <code>\033[7m</code> - Reverse (swap foreground and background)</p>
+</section>
+<section id="try-this" class="slide level2">
+<h2>Try This!</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource .cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb28-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb28-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb28-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb28-5"><a href=""></a></span>
+<span id="cb28-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb28-7"><a href=""></a>    <span class="co">// Define color codes as const strings</span></span>
+<span id="cb28-8"><a href=""></a>    <span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span>
+<span id="cb28-9"><a href=""></a>    <span class="at">const</span> string RED <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[031m"</span><span class="op">;</span></span>
+<span id="cb28-10"><a href=""></a>    <span class="at">const</span> string GREEN <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[032m"</span><span class="op">;</span></span>
+<span id="cb28-11"><a href=""></a>    <span class="at">const</span> string YELLOW <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[033m"</span><span class="op">;</span></span>
+<span id="cb28-12"><a href=""></a>    <span class="at">const</span> string BLUE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[034m"</span><span class="op">;</span></span>
+<span id="cb28-13"><a href=""></a>    <span class="at">const</span> string MAGENTA <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[035m"</span><span class="op">;</span></span>
+<span id="cb28-14"><a href=""></a>    <span class="at">const</span> string CYAN <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[036m"</span><span class="op">;</span></span>
+<span id="cb28-15"><a href=""></a>    <span class="at">const</span> string WHITE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[037m"</span><span class="op">;</span></span>
+<span id="cb28-16"><a href=""></a>    </span>
+<span id="cb28-17"><a href=""></a>    <span class="co">// Store them in a vector</span></span>
+<span id="cb28-18"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> colors <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb28-19"><a href=""></a>        NORM<span class="op">,</span>    <span class="co">// 0</span></span>
+<span id="cb28-20"><a href=""></a>        RED<span class="op">,</span>     <span class="co">// 1</span></span>
+<span id="cb28-21"><a href=""></a>        GREEN<span class="op">,</span>   <span class="co">// 2</span></span>
+<span id="cb28-22"><a href=""></a>        YELLOW<span class="op">,</span>  <span class="co">// 3</span></span>
+<span id="cb28-23"><a href=""></a>        BLUE<span class="op">,</span>    <span class="co">// 4</span></span>
+<span id="cb28-24"><a href=""></a>        MAGENTA<span class="op">,</span> <span class="co">// 5</span></span>
+<span id="cb28-25"><a href=""></a>        CYAN<span class="op">,</span>    <span class="co">// 6</span></span>
+<span id="cb28-26"><a href=""></a>        WHITE    <span class="co">// 7</span></span>
+<span id="cb28-27"><a href=""></a>    <span class="op">};</span></span>
+<span id="cb28-28"><a href=""></a>    </span>
+<span id="cb28-29"><a href=""></a>    <span class="co">// Now you can use either the named constants OR the vector</span></span>
+<span id="cb28-30"><a href=""></a>    <span class="co">// This gives you the best of both worlds!</span></span>
+<span id="cb28-31"><a href=""></a>    cout <span class="op">&lt;&lt;</span> RED <span class="op">&lt;&lt;</span> <span class="st">"Using the constant directly"</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb28-32"><a href=""></a>    cout <span class="op">&lt;&lt;</span> colors<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"Using the vector"</span> <span class="op">&lt;&lt;</span> colors<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb28-33"><a href=""></a>    </span>
+<span id="cb28-34"><a href=""></a>    <span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb28-35"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> COLOR<span class="op">:</span>colors<span class="op">)</span></span>
+<span id="cb28-36"><a href=""></a>        cout <span class="op">&lt;&lt;</span> COLOR <span class="op">&lt;&lt;</span> i<span class="op">++</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb28-37"><a href=""></a>    </span>
+<span id="cb28-38"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb28-39"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>This works on OnlineGBD https://www.onlinegdb.com/online_c++_compiler</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="exercise-practice-with-colors" class="slide level2">
+<h2>Exercise: Practice with Colors</h2>
+<p>Now it’s your turn! Try these exercises to practice using terminal colors:</p>
+</section>
+<section id="exercise-1-colorful-greeting" class="slide level2">
+<h2>Exercise 1: Colorful Greeting</h2>
+<p>Add colored text to a simple greeting program:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb29-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb29-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb29-4"><a href=""></a></span>
+<span id="cb29-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb29-6"><a href=""></a>    <span class="at">const</span> string RED <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[031m"</span><span class="op">;</span></span>
+<span id="cb29-7"><a href=""></a>    <span class="at">const</span> string GREEN <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[032m"</span><span class="op">;</span></span>
+<span id="cb29-8"><a href=""></a>    <span class="at">const</span> string BLUE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[034m"</span><span class="op">;</span></span>
+<span id="cb29-9"><a href=""></a>    <span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span>
+<span id="cb29-10"><a href=""></a>    </span>
+<span id="cb29-11"><a href=""></a>    <span class="co">// Your code here: create a colorful greeting</span></span>
+<span id="cb29-12"><a href=""></a>    </span>
+<span id="cb29-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb29-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="exercise-2-menu-system" class="slide level2">
+<h2>Exercise 2: Menu System</h2>
+<p>Create a simple menu with colored options:</p>
+<ul>
+<li>Use one color for the menu title</li>
+<li>Use different colors for different menu items</li>
+<li>Use another color for the prompt</li>
+</ul>
+</section>
+<section id="exercise-3-status-messages" class="slide level2">
+<h2>Exercise 3: Status Messages</h2>
+<p>Write a program that displays different types of status messages:</p>
+<ul>
+<li>Red for errors</li>
+<li>Yellow for warnings<br>
+</li>
+<li>Green for success</li>
+<li>Blue for information</li>
+</ul>
+<p>Remember to add more output and experiment with different color combinations!</p>
+</section>
+<section id="summary-1" class="slide level2">
+<h2>Summary</h2>
+<p>Terminal color codes are a simple way to make your console programs more visually appealing and user-friendly. By using ANSI escape sequences stored in string constants, you can easily add color to any text output. Just remember to:</p>
+<ol type="1">
+<li>Define color codes as constants</li>
+<li>Use meaningful colors for different types of messages</li>
+<li>Always reset to normal after colored text</li>
+<li>Test on your target terminal</li>
+</ol>
+</section>
+<section class="slide level2">
+
+<p>With these tools, you can create more engaging and professional-looking command-line applications!</p>
+</section></section>
+<section>
+<section id="debug-this" class="title-slide slide level1 center">
+<h1>Debug This</h1>
+<aside class="notes">
+<p>.04.02</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="find-the-errors" class="slide level2">
+<h2>Find the Errors</h2>
+<p>The following program has several intentional bugs.</p>
+<p>Can you find them?</p>
+</section>
+<section class="slide level2">
+
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="co">// Shopping List Display Program</span></span>
+<span id="cb30-2"><a href=""></a><span class="co">// This program displays a colorful shopping list using vectors</span></span>
+<span id="cb30-3"><a href=""></a></span>
+<span id="cb30-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb30-5"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb30-6"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb30-7"><a href=""></a></span>
+<span id="cb30-8"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb30-9"><a href=""></a></span>
+<span id="cb30-10"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb30-11"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> shoppingList<span class="op">;</span></span>
+<span id="cb30-12"><a href=""></a>    </span>
+<span id="cb30-13"><a href=""></a>    shoppingList<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Apples"</span><span class="op">);</span></span>
+<span id="cb30-14"><a href=""></a>    shoppingList<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Bread"</span><span class="op">);</span></span>
+<span id="cb30-15"><a href=""></a>    shoppingList<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Milk"</span><span class="op">);</span></span>
+<span id="cb30-16"><a href=""></a>    shoppingList<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Eggs"</span><span class="op">);</span></span>
+<span id="cb30-17"><a href=""></a>    shoppingList<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Cheese"</span><span class="op">);</span></span>
+<span id="cb30-18"><a href=""></a>    </span>
+<span id="cb30-19"><a href=""></a>    <span class="co">// Display header</span></span>
+<span id="cb30-20"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[1;36m"</span><span class="op">;</span>  <span class="co">// Cyan color</span></span>
+<span id="cb30-21"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb30-22"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"     MY SHOPPING LIST"</span><span class="op">;</span></span>
+<span id="cb30-23"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb30-24"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span>  <span class="co">// Reset color</span></span>
+<span id="cb30-25"><a href=""></a>    </span>
+<span id="cb30-26"><a href=""></a>    <span class="co">// Display items</span></span>
+<span id="cb30-27"><a href=""></a>    <span class="dt">int</span> itemNumber <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb30-28"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string item <span class="op">:</span> shopingList<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-29"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[1;33m"</span><span class="op">;</span>  <span class="co">// Yellow color</span></span>
+<span id="cb30-30"><a href=""></a>        cout <span class="op">&lt;&lt;</span> itemNumber <span class="op">&lt;&lt;</span> <span class="st">". "</span> <span class="op">&lt;&lt;</span> item <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb30-31"><a href=""></a>        itemNumber<span class="op">++;</span></span>
+<span id="cb30-32"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb30-33"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span>  <span class="co">// Reset color</span></span>
+<span id="cb30-34"><a href=""></a>    </span>
+<span id="cb30-35"><a href=""></a>    <span class="co">// Display footer</span></span>
+<span id="cb30-36"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[1;32m"</span><span class="op">;</span>  <span class="co">// Green color</span></span>
+<span id="cb30-37"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb30-38"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Total items: "</span> <span class="op">&lt;&lt;</span> shoppingList<span class="op">.</span>size <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb30-39"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb30-40"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span>  <span class="co">// Reset color</span></span>
+<span id="cb30-41"><a href=""></a>    </span>
+<span id="cb30-42"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb30-43"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="error-summary" class="slide level2">
+<h2>Error Summary</h2>
+<p><strong>Spoilers Ahead</strong></p>
+<p>Don’t go any further unless you want all the answers.</p>
+</section>
+<section id="errors-in-this-program" class="slide level2">
+<h2>Errors in This Program</h2>
+<ul>
+<li><strong>Misspelled variable name</strong> - Typo in variable name causes compiler error</li>
+<li><strong>Missing endl</strong> - Output formatting error from missing line break</li>
+<li><strong>Missing parentheses</strong> - Forgot to call a member function</li>
+<li><strong>Missing reference</strong> - For-each loop copies strings instead of using references</li>
+</ul>
+<!-- Slide 1 -->
+<p><strong>Speaker Notes:</strong> Total slides in this section: 5</p>
+</section>
+<section id="line-21---missing-endl" class="slide level2">
+<h2>LINE 21 - MISSING ENDL</h2>
+</section>
+<section id="the-error" class="slide level2">
+<h2>The Error</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"     MY SHOPPING LIST"</span><span class="op">;</span>  <span class="co">// Missing endl!</span></span>
+<span id="cb31-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="the-problem" class="slide level2">
+<h2>The Problem</h2>
+<p>The title line is missing <code>endl</code>, so the next line will print immediately after it on the same line, ruining the formatting.</p>
+</section>
+<section id="why-it-matters" class="slide level2">
+<h2>Why It Matters</h2>
+<p>Without <code>endl</code>, the output will look like this:</p>
+<pre><code>================================
+     MY SHOPPING LIST================================</code></pre>
+<p>Instead of:</p>
+<pre><code>================================
+     MY SHOPPING LIST
+================================</code></pre>
+</section>
+<section id="the-fix" class="slide level2">
+<h2>The Fix</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"     MY SHOPPING LIST"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Add endl</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="key-takeaway" class="slide level2">
+<h2>Key Takeaway</h2>
+<p><code>endl</code> does two things: it adds a newline character AND flushes the output buffer. For proper formatting, use <code>endl</code> at the end of each line you want displayed separately.</p>
+<!-- Slide 2 -->
+</section>
+<section id="line-28---misspelled-variable-name" class="slide level2">
+<h2>LINE 28 - MISSPELLED VARIABLE NAME</h2>
+</section>
+<section id="the-error-1" class="slide level2">
+<h2>The Error</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span>string item <span class="op">:</span> shopingList<span class="op">)</span> <span class="op">{</span>  <span class="co">// Typo: "shoping" not "shopping"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="the-problem-1" class="slide level2">
+<h2>The Problem</h2>
+<p>The variable is declared as <code>shoppingList</code> (with two p’s), but the for-each loop tries to use <code>shopingList</code> (with one p). This is a simple typo, but C++ is case-sensitive and spelling-sensitive.</p>
+</section>
+<section id="why-it-matters-1" class="slide level2">
+<h2>Why It Matters</h2>
+<p>C++ doesn’t know that you meant <code>shoppingList</code> when you typed <code>shopingList</code>. It treats them as completely different identifiers. The compiler will produce an error saying <code>shopingList</code> was not declared.</p>
+</section>
+<section id="the-fix-1" class="slide level2">
+<h2>The Fix</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span>string item <span class="op">:</span> shoppingList<span class="op">)</span> <span class="op">{</span>  <span class="co">// Correct spelling with two p's</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="helpful-compiler-message" class="slide level2">
+<h2>Helpful Compiler Message</h2>
+<p>The compiler actually helps here! It says:</p>
+<pre><code>error: 'shopingList' was not declared in this scope; 
+did you mean 'shoppingList'?</code></pre>
+</section>
+<section id="key-takeaway-1" class="slide level2">
+<h2>Key Takeaway</h2>
+<p>Pay careful attention to spelling and capitalization. Use descriptive variable names, but be consistent. Many IDEs have autocomplete features that can help prevent these typos.</p>
+<!-- Slide 3 -->
+</section>
+<section id="line-38---missing-parentheses-on-function-call" class="slide level2">
+<h2>LINE 38 - MISSING PARENTHESES ON FUNCTION CALL</h2>
+</section>
+<section id="the-error-2" class="slide level2">
+<h2>The Error</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Total items: "</span> <span class="op">&lt;&lt;</span> shoppingList<span class="op">.</span>size <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="the-problem-2" class="slide level2">
+<h2>The Problem</h2>
+<p><code>size</code> is a member function of the vector class, not a variable. Functions must be called with parentheses, even if they take no parameters.</p>
+</section>
+<section id="why-it-matters-2" class="slide level2">
+<h2>Why It Matters</h2>
+<p>Without the parentheses, you’re trying to access <code>size</code> as if it were a data member (variable) of the vector. This causes a compiler error because <code>size</code> is a function, not a variable.</p>
+</section>
+<section id="the-compiler-error" class="slide level2">
+<h2>The Compiler Error</h2>
+<pre><code>error: invalid use of non-static member function</code></pre>
+<p>This error message is telling you that you’re trying to use a function incorrectly.</p>
+</section>
+<section id="the-fix-2" class="slide level2">
+<h2>The Fix</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Total items: "</span> <span class="op">&lt;&lt;</span> shoppingList<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Add ()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="key-takeaway-2" class="slide level2">
+<h2>Key Takeaway</h2>
+<p>Member functions always need parentheses to call them, even when they take no arguments. This applies to functions like <code>size()</code>, <code>empty()</code>, <code>clear()</code>, and many others.</p>
+<!-- Slide 4 -->
+</section>
+<section id="line-28---missing-reference-in-for-each-loop" class="slide level2">
+<h2>LINE 28 - MISSING REFERENCE IN FOR-EACH LOOP</h2>
+</section>
+<section id="the-error-3" class="slide level2">
+<h2>The Error</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span>string item <span class="op">:</span> shoppingList<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb41-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> itemNumber <span class="op">&lt;&lt;</span> <span class="st">". "</span> <span class="op">&lt;&lt;</span> item <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb41-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="the-problem-3" class="slide level2">
+<h2>The Problem</h2>
+<p>Each iteration copies the entire string from the vector into the variable <code>item</code>. For small strings this isn’t terrible, but it’s inefficient and creates unnecessary copies.</p>
+</section>
+<section id="why-it-matters-3" class="slide level2">
+<h2>Why It Matters</h2>
+<p>Every loop iteration makes a copy of the string. With many items or large strings, this wastes memory and time. We only need to read the strings, not copy them.</p>
+</section>
+<section id="the-fix-3" class="slide level2">
+<h2>The Fix</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="at">const</span> string<span class="op">&amp;</span> item <span class="op">:</span> shoppingList<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb42-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> itemNumber <span class="op">&lt;&lt;</span> <span class="st">". "</span> <span class="op">&lt;&lt;</span> item <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb42-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="what-changed" class="slide level2">
+<h2>What Changed</h2>
+<ul>
+<li>Added <code>&amp;</code> to create a reference (alias) to the original string</li>
+<li>Added <code>const</code> to indicate we won’t modify the string</li>
+<li>No copying occurs - much more efficient</li>
+</ul>
+</section>
+<section id="key-takeaway-3" class="slide level2">
+<h2>Key Takeaway</h2>
+<p>In for-each loops with vectors, use <code>const type&amp;</code> when you only need to read the elements. This avoids copying and improves performance.</p>
+<!-- Slide 5 -->
+</section>
+<section id="final-corrected-version" class="slide level2">
+<h2>Final Corrected Version</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb43-1"><a href=""></a><span class="co">// Shopping List Display Program</span></span>
+<span id="cb43-2"><a href=""></a><span class="co">// This program displays a colorful shopping list using vectors</span></span>
+<span id="cb43-3"><a href=""></a></span>
+<span id="cb43-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb43-5"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb43-6"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb43-7"><a href=""></a></span>
+<span id="cb43-8"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb43-9"><a href=""></a></span>
+<span id="cb43-10"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb43-11"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> shoppingList<span class="op">;</span></span>
+<span id="cb43-12"><a href=""></a>    </span>
+<span id="cb43-13"><a href=""></a>    shoppingList<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Apples"</span><span class="op">);</span></span>
+<span id="cb43-14"><a href=""></a>    shoppingList<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Bread"</span><span class="op">);</span></span>
+<span id="cb43-15"><a href=""></a>    shoppingList<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Milk"</span><span class="op">);</span></span>
+<span id="cb43-16"><a href=""></a>    shoppingList<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Eggs"</span><span class="op">);</span></span>
+<span id="cb43-17"><a href=""></a>    shoppingList<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Cheese"</span><span class="op">);</span></span>
+<span id="cb43-18"><a href=""></a>    </span>
+<span id="cb43-19"><a href=""></a>    <span class="co">// Display header</span></span>
+<span id="cb43-20"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[1;36m"</span><span class="op">;</span>  <span class="co">// Cyan color</span></span>
+<span id="cb43-21"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb43-22"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"     MY SHOPPING LIST"</span><span class="op">;</span></span>
+<span id="cb43-23"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb43-24"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span>  <span class="co">// Reset color</span></span>
+<span id="cb43-25"><a href=""></a>    </span>
+<span id="cb43-26"><a href=""></a>    <span class="co">// Display items</span></span>
+<span id="cb43-27"><a href=""></a>    <span class="dt">int</span> itemNumber <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb43-28"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string item <span class="op">:</span> shopingList<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb43-29"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[1;33m"</span><span class="op">;</span>  <span class="co">// Yellow color</span></span>
+<span id="cb43-30"><a href=""></a>        cout <span class="op">&lt;&lt;</span> itemNumber <span class="op">&lt;&lt;</span> <span class="st">". "</span> <span class="op">&lt;&lt;</span> item <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb43-31"><a href=""></a>        itemNumber<span class="op">++;</span></span>
+<span id="cb43-32"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb43-33"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span>  <span class="co">// Reset color</span></span>
+<span id="cb43-34"><a href=""></a>    </span>
+<span id="cb43-35"><a href=""></a>    <span class="co">// Display footer</span></span>
+<span id="cb43-36"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[1;32m"</span><span class="op">;</span>  <span class="co">// Green color</span></span>
+<span id="cb43-37"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb43-38"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Total items: "</span> <span class="op">&lt;&lt;</span> shoppingList<span class="op">.</span>size <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb43-39"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb43-40"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span>  <span class="co">// Reset color</span></span>
+<span id="cb43-41"><a href=""></a>    </span>
+<span id="cb43-42"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb43-43"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section id="key-takaways" class="title-slide slide level1 center">
 <h1>Key Takaways</h1>
@@ -1472,7 +1451,7 @@ Number of Months: 5
         height: 700,
 
         // Factor of the display size that should remain empty around the content
-        margin: 0.1,
+        margin: 1.0e-2,
 
         math: {
           mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
@@ -1669,6 +1648,18 @@ Number of Months: 5
         }
       });
       </script>
+    <script>
+    window.Reveal.on('ready', event => {
+      Reveal.configure({
+        keyboard: {
+          34: 'down',   // Forward button
+          33: 'up',     // Back button
+          116: 'right',  // Start/Play button
+          190: 'left'    // Black Screen button
+        }
+      });
+    });
+    </script>
     
 
 </body></html>

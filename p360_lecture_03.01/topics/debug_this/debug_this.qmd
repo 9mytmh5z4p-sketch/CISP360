@@ -1,0 +1,261 @@
+
+# Debug This
+
+::: notes
+.04.02
+::: 
+
+## Find the Errors
+
+The following program has several intentional bugs.
+
+Can you find them?
+
+---
+
+```cpp
+// Shopping List Display Program
+// This program displays a colorful shopping list using vectors
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+int main() {
+    vector<string> shoppingList;
+    
+    shoppingList.push_back("Apples");
+    shoppingList.push_back("Bread");
+    shoppingList.push_back("Milk");
+    shoppingList.push_back("Eggs");
+    shoppingList.push_back("Cheese");
+    
+    // Display header
+    cout << "\033[1;36m";  // Cyan color
+    cout << "================================" << endl;
+    cout << "     MY SHOPPING LIST";
+    cout << "================================" << endl;
+    cout << "\033[0m";  // Reset color
+    
+    // Display items
+    int itemNumber = 1;
+    for (string item : shopingList) {
+        cout << "\033[1;33m";  // Yellow color
+        cout << itemNumber << ". " << item << endl;
+        itemNumber++;
+    }
+    cout << "\033[0m";  // Reset color
+    
+    // Display footer
+    cout << "\033[1;32m";  // Green color
+    cout << "================================" << endl;
+    cout << "Total items: " << shoppingList.size << endl;
+    cout << "================================" << endl;
+    cout << "\033[0m";  // Reset color
+    
+    return 0;
+}
+```
+
+
+## Error Summary
+
+**Spoilers Ahead**
+
+Don't go any further unless you want all the answers.
+
+## Errors in This Program
+
+- **Misspelled variable name** - Typo in variable name causes compiler error
+- **Missing endl** - Output formatting error from missing line break
+- **Missing parentheses** - Forgot to call a member function
+- **Missing reference** - For-each loop copies strings instead of using references
+
+<!-- Slide 1 -->
+
+**Speaker Notes:** Total slides in this section: 5
+
+---
+
+## LINE 21 - MISSING ENDL
+
+## The Error
+```cpp
+cout << "     MY SHOPPING LIST";  // Missing endl!
+cout << "================================" << endl;
+```
+
+## The Problem
+The title line is missing `endl`, so the next line will print immediately after it on the same line, ruining the formatting.
+
+## Why It Matters
+Without `endl`, the output will look like this:
+```
+================================
+     MY SHOPPING LIST================================
+```
+Instead of:
+```
+================================
+     MY SHOPPING LIST
+================================
+```
+
+## The Fix
+```cpp
+cout << "     MY SHOPPING LIST" << endl;  // Add endl
+```
+
+## Key Takeaway
+`endl` does two things: it adds a newline character AND flushes the output buffer. For proper formatting, use `endl` at the end of each line you want displayed separately.
+
+<!-- Slide 2 -->
+
+---
+
+## LINE 28 - MISSPELLED VARIABLE NAME
+
+## The Error
+```cpp
+for (string item : shopingList) {  // Typo: "shoping" not "shopping"
+```
+
+## The Problem
+The variable is declared as `shoppingList` (with two p's), but the for-each loop tries to use `shopingList` (with one p). This is a simple typo, but C++ is case-sensitive and spelling-sensitive.
+
+## Why It Matters
+C++ doesn't know that you meant `shoppingList` when you typed `shopingList`. It treats them as completely different identifiers. The compiler will produce an error saying `shopingList` was not declared.
+
+## The Fix
+```cpp
+for (string item : shoppingList) {  // Correct spelling with two p's
+```
+
+## Helpful Compiler Message
+The compiler actually helps here! It says:
+```
+error: 'shopingList' was not declared in this scope; 
+did you mean 'shoppingList'?
+```
+
+## Key Takeaway
+Pay careful attention to spelling and capitalization. Use descriptive variable names, but be consistent. Many IDEs have autocomplete features that can help prevent these typos.
+
+<!-- Slide 3 -->
+
+---
+
+## LINE 38 - MISSING PARENTHESES ON FUNCTION CALL
+
+## The Error
+```cpp
+cout << "Total items: " << shoppingList.size << endl;
+```
+
+## The Problem
+`size` is a member function of the vector class, not a variable. Functions must be called with parentheses, even if they take no parameters.
+
+## Why It Matters
+Without the parentheses, you're trying to access `size` as if it were a data member (variable) of the vector. This causes a compiler error because `size` is a function, not a variable.
+
+## The Compiler Error
+```
+error: invalid use of non-static member function
+```
+
+This error message is telling you that you're trying to use a function incorrectly.
+
+## The Fix
+```cpp
+cout << "Total items: " << shoppingList.size() << endl;  // Add ()
+```
+
+## Key Takeaway
+Member functions always need parentheses to call them, even when they take no arguments. This applies to functions like `size()`, `empty()`, `clear()`, and many others.
+
+<!-- Slide 4 -->
+
+---
+
+## LINE 28 - MISSING REFERENCE IN FOR-EACH LOOP
+
+## The Error
+```cpp
+for (string item : shoppingList) {
+    cout << itemNumber << ". " << item << endl;
+}
+```
+
+## The Problem
+Each iteration copies the entire string from the vector into the variable `item`. For small strings this isn't terrible, but it's inefficient and creates unnecessary copies.
+
+## Why It Matters
+Every loop iteration makes a copy of the string. With many items or large strings, this wastes memory and time. We only need to read the strings, not copy them.
+
+## The Fix
+```cpp
+for (const string& item : shoppingList) {
+    cout << itemNumber << ". " << item << endl;
+}
+```
+
+## What Changed
+- Added `&` to create a reference (alias) to the original string
+- Added `const` to indicate we won't modify the string
+- No copying occurs - much more efficient
+
+## Key Takeaway
+In for-each loops with vectors, use `const type&` when you only need to read the elements. This avoids copying and improves performance.
+
+<!-- Slide 5 -->
+
+## Final Corrected Version
+
+```cpp
+// Shopping List Display Program
+// This program displays a colorful shopping list using vectors
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+int main() {
+    vector<string> shoppingList;
+    
+    shoppingList.push_back("Apples");
+    shoppingList.push_back("Bread");
+    shoppingList.push_back("Milk");
+    shoppingList.push_back("Eggs");
+    shoppingList.push_back("Cheese");
+    
+    // Display header
+    cout << "\033[1;36m";  // Cyan color
+    cout << "================================" << endl;
+    cout << "     MY SHOPPING LIST";
+    cout << "================================" << endl;
+    cout << "\033[0m";  // Reset color
+    
+    // Display items
+    int itemNumber = 1;
+    for (string item : shopingList) {
+        cout << "\033[1;33m";  // Yellow color
+        cout << itemNumber << ". " << item << endl;
+        itemNumber++;
+    }
+    cout << "\033[0m";  // Reset color
+    
+    // Display footer
+    cout << "\033[1;32m";  // Green color
+    cout << "================================" << endl;
+    cout << "Total items: " << shoppingList.size << endl;
+    cout << "================================" << endl;
+    cout << "\033[0m";  // Reset color
+    
+    return 0;
+}
+```
+
