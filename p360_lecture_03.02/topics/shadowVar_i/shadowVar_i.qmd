@@ -1,0 +1,84 @@
+# Shadow Variables
+
+## What happens when two variables share the same name?
+
+In C++, you can declare a variable with the same name as another variable in an outer scope. When you do, the inner variable hides the outer one. This section explains how and why this happens.
+
+::: notes
+Total slides in this section: 5
+
+This is a common source of subtle bugs for beginners. The goal is to help students recognize when shadowing is occurring so they can avoid unintended consequences.
+:::
+
+<!-- Slide 1 -->
+
+## What is a Shadow Variable?
+
+A **shadow variable** is a variable declared in an inner scope that shares its name with a variable in an outer scope. The inner variable "shadows" the outer one, meaning the outer variable becomes inaccessible within that inner scope.
+
+```cpp
+int item = 0;                            // Outer variable
+vector<int> items = {10, 20, 30};
+
+for (int item : items) {                 // Shadow variable - hides outer item
+    cout << item << endl;                // Prints 10, 20, 30
+}
+
+cout << "After loop: " << item << endl;  // Prints 0 - outer item is unchanged
+```
+
+::: notes
+A diagram showing two nested scope boxes would be useful here. The outer box contains "item = 0" and the inner box contains its own "item" taking values from the vector. Use arrows to show which item is visible at each point in the code.
+:::
+
+<!-- Slide 2 -->
+
+## Shadow Variable in a For-Each Loop
+
+The loop variable in a for-each loop can shadow an outer variable of the same name.
+
+```cpp
+int value = 100;                          // Outer variable
+vector<int> numbers = {1, 2, 3, 4, 5};
+
+for (int value : numbers) {               // Shadows outer value
+    cout << value << endl;                // Prints 1, 2, 3, 4, 5
+}
+
+cout << "After loop: " << value << endl;  // Prints 100
+```
+
+The outer `value` remains 100 throughout. The loop variable `value` is a separate variable that exists only inside the loop body.
+
+::: notes
+A diagram showing the outer scope with "value = 100" and the loop scope with its own "value" taking on each element of the vector would be helpful. Show the lifecycle of the loop variable being created and destroyed on each iteration.
+:::
+
+<!-- Slide 3 -->
+
+## Why Shadowing Causes Bugs
+
+Shadow variables compile without error, which makes them difficult to detect. A programmer may intend to modify the outer variable but instead modify the shadow variable, leaving the outer variable unchanged.
+
+```cpp
+int total = 0;                           // Intended: accumulate a sum
+vector<int> scores = {85, 92, 78};
+
+for (int total : scores) {               // Shadows outer total
+    cout << total << endl;               // Prints each score
+}
+
+cout << "Total: " << total << endl;      // Prints 0 - never changed!
+```
+
+::: notes
+Contrast this with what the programmer likely intended: accumulating a sum into total. The outer total stays at 0 because the loop variable is a completely separate variable. This is the kind of bug that is easy to introduce and hard to track down.
+:::
+
+<!-- Slide 4 -->
+
+## Summary
+
+A shadow variable occurs when an inner scope declares a variable with the same name as one in an outer scope, hiding the outer variable entirely. Recognizing shadowing — particularly in for-each loops — is essential for avoiding hard-to-find bugs.
+
+<!-- Slide 5 -->

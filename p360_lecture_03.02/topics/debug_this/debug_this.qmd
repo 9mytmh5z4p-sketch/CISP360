@@ -1,0 +1,314 @@
+
+# Debug This
+
+::: notes
+.03.02
+::: 
+
+## Find the Errors
+
+The following program has several intentional bugs.
+
+Can you find them?
+
+---
+
+```cpp
+// Contact Book Program
+// Collects and displays contact information
+#include <iostream>
+#include <string>
+#include <limits>
+using namespace std;
+
+int main() {
+    string name;
+    string phone;
+    string confirmation;
+    string notes;
+    int age;
+
+    cout << "Enter phone number: ";
+    cin >> phone;
+    cout << "Enter age: ";
+    cin >> age;
+    cout << "Enter full name: ";
+    getline(cin, name);
+
+    {
+        string name = "Unknown";
+        cout << "\n--- Contact Summary ---" << endl;
+        cout << "Name:  " << name << endl;
+    }
+    {
+        int age = 0;
+        cout << "Age:   " << age << endl;
+    }
+    cout << "Phone: " << phone << endl;
+
+    cout << "\nAdd notes? (yes/no): ";
+    cin >> confirmation;
+    cout << "Enter notes: ";
+    getline(cin, notes);
+    cout << "Notes: " << notes << endl;
+
+    return 0;
+}
+```
+## Contact Book Debugger
+
+## Errors
+
+- **Missing cin.ignore()** -- getline() reads the leftover newline from cin >>, producing an empty string
+- **Wrong input method** -- cin >> truncates multi-word input at the first space
+- **Variable shadowing on name** -- a declaration inside a nested block hides the name variable from main
+- **Variable shadowing on age** -- same problem, different variable, different block
+- **Missing cin.ignore() (again)** -- the same buffer problem reappears later in the program
+
+<!-- Slide 1 -->
+
+::: notes
+**Speaker Notes:** Total slides in this section: 6
+::: 
+
+---
+
+## LINE 18 - MISSING cin.ignore()<br> AFTER cin >>
+
+**Problem:**
+```cpp
+cin >> age;
+cout << "Enter full name: ";
+getline(cin, name);        // reads the leftover \n, not the user's input
+```
+
+**Issue:** `cin >> age` reads the number but leaves the newline character (`\n`) sitting in the input buffer. The very next `getline()` sees that newline and treats it as a complete (empty) line. The program never actually waits for the user to type a name. `name` becomes an empty string silently -- no error message, no crash.
+
+## The Fix
+
+**Problem:**
+```cpp
+cin >> age;
+cout << "Enter full name: ";
+getline(cin, name);        // reads the leftover \n, not the user's input
+```
+**Fix:**
+```cpp
+cin >> age;
+cin.ignore(numeric_limits<streamsize>::max(), '\n');   // clear the buffer
+cout << "Enter full name: ";
+getline(cin, name);        // now it waits for real input
+```
+
+**Why it matters:** Every time you use `cin >>` and then follow it with `getline()`, the leftover newline will cause this exact problem. The rule from lecture: always place `cin.ignore()` between them.
+
+<!-- Slide 2 -->
+
+---
+
+## LINE 16 - WRONG INPUT METHOD<br> FOR PHONE
+
+**Problem:**
+```cpp
+cout << "Enter phone number: ";
+cin >> phone;              // stops reading at the first space
+```
+
+**Issue:** `cin >>` stops at whitespace. If a user types `555 123 4567`, only `555` is stored in `phone`. The rest (`123 4567`) is left in the input buffer, invisible and unused. No error is reported.
+
+## The Fix
+
+**Problem:**
+```cpp
+cout << "Enter phone number: ";
+cin >> phone;              // stops reading at the first space
+```
+
+**Fix:**
+```cpp
+cout << "Enter phone number: ";
+getline(cin, phone);       // reads the entire line including spaces
+```
+
+**Why it matters:** This is the core difference between `cin >>` and `getline()` from lecture. Use `cin >>` for single tokens (one word, one number). Use `getline()` any time the input can contain spaces.
+
+<!-- Slide 3 -->
+
+---
+
+## LINES 22-26 - VARIABLE SHADOWING<br> ON name
+
+**Problem:**
+```cpp
+string name;               // declared here in main (line 9)
+// ...
+{
+    string name = "Unknown";                          // NEW variable, hides the one above
+    cout << "\n--- Contact Summary ---" << endl;
+    cout << "Name:  " << name << endl;               // prints "Unknown"
+}
+```
+
+**Issue:** The nested block `{ }` declares a brand new variable also called `name`. This does not overwrite the original -- it hides it. Inside that block, every reference to `name` resolves to the inner declaration. The original `name` still exists, but it is invisible here. The program prints "Unknown" every time, regardless of what the user typed.
+
+## The Fix
+
+**Problem:**
+```cpp
+string name;               // declared here in main (line 9)
+// ...
+{
+    string name = "Unknown";                          // NEW variable, hides the one above
+    cout << "\n--- Contact Summary ---" << endl;
+    cout << "Name:  " << name << endl;               // prints "Unknown"
+}
+```
+
+**Fix:**
+```cpp
+cout << "\n--- Contact Summary ---" << endl;
+cout << "Name:  " << name << endl;                   // uses the original variable
+```
+
+**Why it matters:** This is the scope hierarchy from lecture. A variable declared at a lower level (inside a block) is a completely separate variable from one at a higher level (main). The inner one wins inside its block. Removing the inner declaration lets the original variable be visible again.
+
+<!-- Slide 4 -->
+
+---
+
+## LINES 27-30 - VARIABLE SHADOWING<br> ON age
+
+**Problem:**
+```cpp
+int age;                   // declared here in main (line 13)
+// ...
+{
+    int age = 0;                                      // NEW variable, hides the one above
+    cout << "Age:   " << age << endl;                // prints 0
+}
+```
+
+**Issue:** This is the exact same bug as the previous slide, but on a different variable. A new `age` is declared inside a second nested block, initialized to 0. It hides the `age` that was collected from the user. The program prints 0 every time.
+
+## The Fix
+
+**Problem:**
+```cpp
+int age;                   // declared here in main (line 13)
+// ...
+{
+    int age = 0;                                      // NEW variable, hides the one above
+    cout << "Age:   " << age << endl;                // prints 0
+}
+```
+
+**Fix:**
+```cpp
+cout << "Age:   " << age << endl;                    // uses the original variable
+```
+
+**Why it matters:** The rule is the same as the previous slide: a declaration inside a block creates a new variable that shadows any variable of the same name at a higher scope level. If you found the first one by recognizing the pattern, this one tests whether you understood *why* it happened -- not just *where*.
+
+<!-- Slide 5 -->
+
+---
+
+## LINE 33 - MISSING cin.ignore()<br> AFTER cin >> (AGAIN)
+
+**Problem:**
+```cpp
+cin >> confirmation;
+cout << "Enter notes: ";
+getline(cin, notes);       // reads the leftover \n, not the user's input
+```
+
+**Issue:** This is the exact same bug as the one on line 18. `cin >> confirmation` leaves a newline in the buffer. The `getline()` reads that newline as an empty line. `notes` becomes an empty string without any warning.
+
+## The Fix
+
+**Problem:**
+```cpp
+cin >> confirmation;
+cout << "Enter notes: ";
+getline(cin, notes);       // reads the leftover \n, not the user's input
+```
+
+**Fix:**
+```cpp
+cin >> confirmation;
+cin.ignore(numeric_limits<streamsize>::max(), '\n');   // clear the buffer
+cout << "Enter notes: ";
+getline(cin, notes);       // now it waits for real input
+```
+
+**Why it matters:** The rule does not apply only once. It applies every single time `cin >>` is followed by `getline()`, anywhere in the program. If you fixed the first instance but missed this one, the bug reappears here. Always check for this pattern whenever you see the two mixed together.
+
+<!-- Slide 6 -->
+
+## Working Code
+
+::: {.columns}
+::: {.column width="75%"}
+
+```{.cpp} 
+// Contact Book Program
+// Collects and displays contact information
+#include <iostream>
+#include <string>
+#include <limits>
+using namespace std;
+
+int main() {
+    string name;
+    string phone;
+    string confirmation;
+    string notes;
+    int age;
+
+    cout << "Enter phone number: ";
+    getline(cin, phone);
+    cout << "Enter age: ";
+    cin >> age;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter full name: ";
+    getline(cin, name);
+
+    cout << "\n--- Contact Summary ---" << endl;
+    cout << "Name:  " << name << endl;
+    cout << "Age:   " << age << endl;
+    cout << "Phone: " << phone << endl;
+
+    cout << "\nAdd notes? (yes/no): ";
+    cin >> confirmation;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter notes: ";
+    getline(cin, notes);
+    cout << "Notes: " << notes << endl;
+
+    return 0;
+}
+```
+:::
+
+::: {.column width="25%" .smallest-text }
+
+Enter phone number: 1234567890
+Enter age: 25
+Enter full name: fgh tyu
+
+--- Contact Summary ---
+Name:  fgh tyu
+Age:   25
+Phone: 1234567890
+
+Add notes? (yes/no): y
+Enter notes: this is a note
+Notes: this is a note
+
+
+=== Code Execution Successful ===
+
+:::
+::: 
+
+

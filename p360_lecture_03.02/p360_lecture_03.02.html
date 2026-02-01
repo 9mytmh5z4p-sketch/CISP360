@@ -96,6 +96,7 @@
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="p360_lecture_03.02_files/libs/revealjs/dist/theme/quarto-99eeafcedac04850354b682963cedae3.css">
+  <link rel="stylesheet" href="../styles/styles.css">
   <link href="p360_lecture_03.02_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="p360_lecture_03.02_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="p360_lecture_03.02_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -187,68 +188,6 @@
       margin-right: 0; 
     }
   </style>
-  <style>
-  /* ===== Global slide layout ===== */
-
-  /* Left-align titles to match images/code */
-  .reveal h1 {
-    font-weight: 800;
-    text-decoration: underline;
-    text-decoration-thickness: 3px;
-    text-align: center;
-  }
-  .reveal h2 {
-    font-weight: 700;
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-  }
-  .reveal h3 {
-    font-weight: 600;
-  }
-
-  /* Code window sizing */
-  .reveal pre {
-    max-height: 98vh;
-    overflow-y: auto;
-  }
-
-  .reveal pre code {
-    font-size: 0.9em;
-    line-height: 1.20;
-    padding: 0.6em;
-  }
-
-  /* C++ code blocks only (Quarto/Pandoc correct selectors) */
-  .reveal pre.sourceCode.cpp,
-  .reveal pre.sourceCode.cpp code {
-    background-color: #ffffff !important;
-    color: #000000;
-  }
-
-  /* Optional: subtle border for contrast */
-  .reveal pre.sourceCode.cpp {
-    border: 1px solid #ccc;
-  }
-
-  /* Strong, visible line highlighting for code */
-  .reveal pre .line-highlight {
-    background-color: #fff3cd;   /* pale yellow */
-    display: block;
-    width: 100%;
-  }
-
-  /* Optional: emphasize the line number itself */
-  .reveal pre .line-highlight .hljs-ln-numbers {
-    font-weight: bold;
-    color: #b45309;
-  }
-
-  .reveal .highlight-line {
-  background-color: rgba(255, 235, 59, 0.08);
-  border-left: 6px solid #d97706;
-  padding-left: 0.5em;
-  }
-  </style>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -270,13 +209,14 @@ Dr.&nbsp;Caleb Fowler
 <section id="last-time" class="slide level2">
 <h2>Last Time</h2>
 
-</section>
+<img data-src="images/sum0301.png" class="r-stretch quarto-figure-center"><p class="caption">Last Time</p></section>
 <section id="todays-agenda" class="slide level2">
 <h2>Today’s Agenda</h2>
 <ul>
 <li>Scope</li>
+<li>Shadow Variables I</li>
+<li>Advanced <code>cin</code></li>
 <li>Random Numbers</li>
-<li>Colors on the Terminal</li>
 </ul>
 <aside class="notes">
 
@@ -295,7 +235,19 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="scope" class="title-slide slide level1 center">
 <h1>Scope</h1>
-
+<aside class="notes">
+<p>~23</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="type-this-in" class="slide level2">
 <h2>Type this in</h2>
@@ -317,10 +269,9 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb1-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb1-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section class="slide level2">
-
-<p>** Notice This**</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-code-line-numbers="13-16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<section id="notice-this" class="slide level2">
+<h2>** Notice This**</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-code-line-numbers="12-14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb2-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
 <span id="cb2-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
 <span id="cb2-4"><a href=""></a><span class="co">// Normal top matter above</span></span>
@@ -338,9 +289,8 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb2-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb2-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section class="slide level2">
-
-<p>** We Haven’t Seen that Before**</p>
+<section id="we-havent-seen-that-before" class="slide level2">
+<h2>** We Haven’t Seen that Before**</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-code-line-numbers="13-16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a></span>
 <span id="cb3-2"><a href=""></a>    </span>
 <span id="cb3-3"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
@@ -402,9 +352,7 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="what-happened-2" class="slide level2">
 <h2>What happened?</h2>
-</section>
-<section id="what-happened-3" class="slide level2">
-<h2>What happened?</h2>
+<div class="fragment">
 <p>This should have generated an error.</p>
 <pre><code>ERROR!
 /tmp/FGfsFVxFCm/main.cpp: In function 'int main()':
@@ -415,9 +363,10 @@ Dr.&nbsp;Caleb Fowler
 
 === Code Exited With Errors ===</code></pre>
 <p>C++ did not recognize the variable, <strong>but we declared it!</strong></p>
+</div>
 </section>
-<section class="slide level2">
-
+<section id="scope-has-levels" class="slide level2">
+<h2>Scope has <strong>Levels</strong></h2>
 <ul>
 <li>myInt was declared but it was a different level of scope than the <code>cout</code> statement.</li>
 <li>Scope can possess a hierarchy.</li>
@@ -425,8 +374,8 @@ Dr.&nbsp;Caleb Fowler
 <li>To access a variable, the level of scope must be the same or lower than the level upon which the variable was declared.</li>
 </ul>
 </section>
-<section class="slide level2">
-
+<section id="going-up-in-scope" class="slide level2">
+<h2>Going up in Scope</h2>
 <p>We are using the variable at a higher level of scope than what it was declared at. The compiler does not recognize the variable.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb8-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string label <span class="op">:</span> labels<span class="op">)</span> <span class="op">{</span></span>
@@ -497,7 +446,7 @@ Dr.&nbsp;Caleb Fowler
 <p>Without scope, you’d have to manually track and delete every variable, leading to memory leaks.</p>
 </section>
 <section id="fosters-encapsulation-and-information-hiding" class="slide level2">
-<h2>Fosters Encapsulation and Information Hiding</h2>
+<h2>Fosters Encapsulation<br> and Information Hiding</h2>
 <p>Scope lets you hide implementation details:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">void</span> calculateTotal<span class="op">()</span> <span class="op">{</span></span>
 <span id="cb12-2"><a href=""></a>    <span class="dt">int</span> subtotal <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>  <span class="co">// internal calculation</span></span>
@@ -540,9 +489,689 @@ Dr.&nbsp;Caleb Fowler
 <p>Scope helps organize code, manage memory efficiently, prevent bugs, and make programs easier to understand and maintain.</p>
 </section></section>
 <section>
+<section id="shadow-variables" class="title-slide slide level1 center">
+<h1>Shadow Variables</h1>
+
+</section>
+<section id="what-happens-when-two-variables-share-the-same-name" class="slide level2">
+<h2>What happens when two variables share the same name?</h2>
+<p>In C++, you can declare a variable with the same name as another variable in an outer scope. When you do, the inner variable hides the outer one. This section explains how and why this happens.</p>
+<aside class="notes">
+<p>Total slides in this section: 5</p>
+<p>This is a common source of subtle bugs for beginners. The goal is to help students recognize when shadowing is occurring so they can avoid unintended consequences.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="what-is-a-shadow-variable" class="slide level2">
+<h2>What is a Shadow Variable?</h2>
+<p>A <strong>shadow variable</strong> is a variable declared in an inner scope that shares its name with a variable in an outer scope. The inner variable “shadows” the outer one, meaning the outer variable becomes inaccessible within that inner scope.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span> item <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>                            <span class="co">// Outer variable</span></span>
+<span id="cb14-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> items <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">};</span></span>
+<span id="cb14-3"><a href=""></a></span>
+<span id="cb14-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> item <span class="op">:</span> items<span class="op">)</span> <span class="op">{</span>                 <span class="co">// Shadow variable - hides outer item</span></span>
+<span id="cb14-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> item <span class="op">&lt;&lt;</span> endl<span class="op">;</span>                <span class="co">// Prints 10, 20, 30</span></span>
+<span id="cb14-6"><a href=""></a><span class="op">}</span></span>
+<span id="cb14-7"><a href=""></a></span>
+<span id="cb14-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"After loop: "</span> <span class="op">&lt;&lt;</span> item <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Prints 0 - outer item is unchanged</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>A diagram showing two nested scope boxes would be useful here. The outer box contains “item = 0” and the inner box contains its own “item” taking values from the vector. Use arrows to show which item is visible at each point in the code.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 2 -->
+</section>
+<section id="shadow-variable-in-a-for-each-loop" class="slide level2">
+<h2>Shadow Variable in a For-Each Loop</h2>
+<p>The loop variable in a for-each loop can shadow an outer variable of the same name.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">int</span> value <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>                          <span class="co">// Outer variable</span></span>
+<span id="cb15-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers <span class="op">=</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span><span class="op">};</span></span>
+<span id="cb15-3"><a href=""></a></span>
+<span id="cb15-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> value <span class="op">:</span> numbers<span class="op">)</span> <span class="op">{</span>               <span class="co">// Shadows outer value</span></span>
+<span id="cb15-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span>                <span class="co">// Prints 1, 2, 3, 4, 5</span></span>
+<span id="cb15-6"><a href=""></a><span class="op">}</span></span>
+<span id="cb15-7"><a href=""></a></span>
+<span id="cb15-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"After loop: "</span> <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Prints 100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The outer <code>value</code> remains 100 throughout. The loop variable <code>value</code> is a separate variable that exists only inside the loop body.</p>
+<aside class="notes">
+<p>A diagram showing the outer scope with “value = 100” and the loop scope with its own “value” taking on each element of the vector would be helpful. Show the lifecycle of the loop variable being created and destroyed on each iteration.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="why-shadowing-causes-bugs" class="slide level2">
+<h2>Why Shadowing Causes Bugs</h2>
+<p>Shadow variables compile without error, which makes them difficult to detect. A programmer may intend to modify the outer variable but instead modify the shadow variable, leaving the outer variable unchanged.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>                           <span class="co">// Intended: accumulate a sum</span></span>
+<span id="cb16-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">78</span><span class="op">};</span></span>
+<span id="cb16-3"><a href=""></a></span>
+<span id="cb16-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> total <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span>               <span class="co">// Shadows outer total</span></span>
+<span id="cb16-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> endl<span class="op">;</span>               <span class="co">// Prints each score</span></span>
+<span id="cb16-6"><a href=""></a><span class="op">}</span></span>
+<span id="cb16-7"><a href=""></a></span>
+<span id="cb16-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Total: "</span> <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> endl<span class="op">;</span>      <span class="co">// Prints 0 - never changed!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Contrast this with what the programmer likely intended: accumulating a sum into total. The outer total stays at 0 because the loop variable is a completely separate variable. This is the kind of bug that is easy to introduce and hard to track down.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<p>A shadow variable occurs when an inner scope declares a variable with the same name as one in an outer scope, hiding the outer variable entirely. Recognizing shadowing — particularly in for-each loops — is essential for avoiding hard-to-find bugs.</p>
+<!-- Slide 5 -->
+</section></section>
+<section>
+<section id="advanced-input-handling-with-cin" class="title-slide slide level1 center">
+<h1>Advanced Input Handling with <code>cin</code></h1>
+<aside class="notes">
+<p>~15 min</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="introduction" class="slide level2">
+<h2>Introduction</h2>
+<p>In the basic <code>cin</code> lecture, we learned how to read single words and numbers. But real programs need to handle more complex input scenarios:</p>
+<ul>
+<li>Reading full sentences with spaces</li>
+<li>Handling invalid input gracefully</li>
+<li>Mixing different input methods</li>
+<li>Clearing the input buffer</li>
+</ul>
+<p>Today we’ll learn the advanced techniques professional programmers use.</p>
+<!-- Slide 1 -->
+</section>
+<section id="the-whitespace-problem-revisited" class="slide level2">
+<h2>The Whitespace Problem Revisited</h2>
+<p>Remember: <code>cin &gt;&gt;</code> stops reading at the first whitespace (space, tab, or newline).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a>string fullName<span class="op">;</span></span>
+<span id="cb17-2"><a href=""></a></span>
+<span id="cb17-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"What is your full name? "</span><span class="op">;</span></span>
+<span id="cb17-4"><a href=""></a>cin <span class="op">&gt;&gt;</span> fullName<span class="op">;</span>  <span class="co">// User types: John Smith</span></span>
+<span id="cb17-5"><a href=""></a></span>
+<span id="cb17-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Your name is "</span> <span class="op">&lt;&lt;</span> fullName <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Output:</strong> <code>Your name is John</code></p>
+<p><strong>What happened?</strong> - <code>cin &gt;&gt;</code> captured “John” and stopped at the space - “Smith” is left in the input buffer, waiting to be read</p>
+<!-- Slide 2 -->
+</section>
+<section id="solution-getline" class="slide level2">
+<h2>Solution: <code>getline()</code></h2>
+<p><code>getline()</code> reads an entire line of input, including spaces, until the Enter key is pressed.</p>
+<p><strong>Syntax:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> variableName<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Example:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a>string fullName<span class="op">;</span></span>
+<span id="cb19-2"><a href=""></a></span>
+<span id="cb19-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"What is your full name? "</span><span class="op">;</span></span>
+<span id="cb19-4"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> fullName<span class="op">);</span>  <span class="co">// Reads the entire line</span></span>
+<span id="cb19-5"><a href=""></a></span>
+<span id="cb19-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Your name is "</span> <span class="op">&lt;&lt;</span> fullName <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Output:</strong> <code>Your name is John Smith</code></p>
+<p><strong>Key difference:</strong> <code>getline()</code> reads everything until the newline character (<code>\n</code>).</p>
+<!-- Slide 3 -->
+</section>
+<section id="cin-vs-getline" class="slide level2">
+<h2><code>cin &gt;&gt;</code> vs <code>getline()</code></h2>
+<div class="smaller-table">
+<table class="caption-top">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 32%">
+<col style="width: 46%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Aspect</th>
+<th><code>cin &gt;&gt;</code></th>
+<th><code>getline()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Whitespace handling</td>
+<td>Stops at first whitespace</td>
+<td>Reads entire line until newline</td>
+</tr>
+<tr class="even">
+<td>Newline behavior</td>
+<td>Leaves newline in input buffer</td>
+<td>Removes newline from buffer</td>
+</tr>
+<tr class="odd">
+<td>Best use case</td>
+<td>Single words or numeric input</td>
+<td>Sentences or multi-word input</td>
+</tr>
+<tr class="even">
+<td>Typical input type</td>
+<td>Tokens</td>
+<td>Full lines</td>
+</tr>
+<tr class="odd">
+<td>Syntax</td>
+<td><code>cin &gt;&gt; variable;</code></td>
+<td><code>getline(cin, variable);</code></td>
+</tr>
+<tr class="even">
+<td>Common pitfall</td>
+<td>Can cause skipped input when mixed with <code>getline()</code></td>
+<td>Requires buffer cleanup if preceded by <code>cin &gt;&gt;</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Slide 4 -->
+</section>
+<section id="the-mixing-problem" class="slide level2">
+<h2>The Mixing Problem</h2>
+<p><strong>This code has a bug:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb20-2"><a href=""></a>string fullName<span class="op">;</span></span>
+<span id="cb20-3"><a href=""></a></span>
+<span id="cb20-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your age: "</span><span class="op">;</span></span>
+<span id="cb20-5"><a href=""></a>cin <span class="op">&gt;&gt;</span> age<span class="op">;</span>  <span class="co">// User types: 25 [Enter]</span></span>
+<span id="cb20-6"><a href=""></a></span>
+<span id="cb20-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your full name: "</span><span class="op">;</span></span>
+<span id="cb20-8"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> fullName<span class="op">);</span>  <span class="co">// Doesn't wait for input!</span></span>
+<span id="cb20-9"><a href=""></a></span>
+<span id="cb20-10"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Name: "</span> <span class="op">&lt;&lt;</span> fullName <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Output:</strong></p>
+<pre><code>Enter your age: 25
+Enter your full name: Name: </code></pre>
+<p><strong>What went wrong?</strong> The newline from pressing Enter after <code>25</code> was left in the buffer, and <code>getline()</code> immediately read it as an empty line!</p>
+<!-- Slide 5 -->
+</section>
+<section id="solution-cin.ignore" class="slide level2">
+<h2>Solution: <code>cin.ignore()</code></h2>
+<p><code>cin.ignore()</code> clears unwanted characters from the input buffer.</p>
+<p><strong>Syntax:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a>cin<span class="op">.</span>ignore<span class="op">(</span>count<span class="op">,</span> delimiter<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>count</code> - maximum number of characters to ignore</li>
+<li><code>delimiter</code> - stop ignoring when this character is found</li>
+</ul>
+<p><strong>Common usage:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a>cin<span class="op">.</span>ignore<span class="op">(</span><span class="dv">1000</span><span class="op">,</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span>  <span class="co">// Ignore up to 1000 chars or until newline</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Even better (using limits):</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;limits&gt;</span></span>
+<span id="cb24-2"><a href=""></a>cin<span class="op">.</span>ignore<span class="op">(</span>numeric_limits<span class="op">&lt;</span>streamsize<span class="op">&gt;::</span>max<span class="op">(),</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This ignores everything up to and including the newline.</p>
+<!-- Slide 6 -->
+</section>
+<section id="fixed-example-with-cin.ignore" class="slide level2">
+<h2>Fixed Example with <code>cin.ignore()</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb25-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;limits&gt;</span></span>
+<span id="cb25-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb25-4"><a href=""></a></span>
+<span id="cb25-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb25-6"><a href=""></a><span class="op">{</span></span>
+<span id="cb25-7"><a href=""></a>    <span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb25-8"><a href=""></a>    string fullName<span class="op">;</span></span>
+<span id="cb25-9"><a href=""></a>    </span>
+<span id="cb25-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your age: "</span><span class="op">;</span></span>
+<span id="cb25-11"><a href=""></a>    cin <span class="op">&gt;&gt;</span> age<span class="op">;</span></span>
+<span id="cb25-12"><a href=""></a>    </span>
+<span id="cb25-13"><a href=""></a>    cin<span class="op">.</span>ignore<span class="op">(</span>numeric_limits<span class="op">&lt;</span>streamsize<span class="op">&gt;::</span>max<span class="op">(),</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span>  <span class="co">// Clear buffer</span></span>
+<span id="cb25-14"><a href=""></a>    </span>
+<span id="cb25-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your full name: "</span><span class="op">;</span></span>
+<span id="cb25-16"><a href=""></a>    getline<span class="op">(</span>cin<span class="op">,</span> fullName<span class="op">);</span></span>
+<span id="cb25-17"><a href=""></a>    </span>
+<span id="cb25-18"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Name: "</span> <span class="op">&lt;&lt;</span> fullName <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb25-19"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Age: "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb25-20"><a href=""></a>    </span>
+<span id="cb25-21"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb25-22"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Now it works correctly!</strong></p>
+<!-- Slide 7 -->
+</section>
+<section id="handling-invalid-input" class="slide level2">
+<h2>Handling Invalid Input</h2>
+<p>What happens when the user enters text when you expect a number?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="dt">int</span> number<span class="op">;</span></span>
+<span id="cb26-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a number: "</span><span class="op">;</span></span>
+<span id="cb26-3"><a href=""></a>cin <span class="op">&gt;&gt;</span> number<span class="op">;</span>  <span class="co">// User types: "hello"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Result:</strong> <code>cin</code> enters a <strong>fail state</strong> and <code>number</code> contains garbage or remains unchanged.</p>
+<p><strong>How to detect this:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>cin<span class="op">.</span>fail<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb27-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Invalid input!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb27-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>The stream is now broken</strong> - all subsequent <code>cin</code> operations will fail until you fix it!</p>
+<!-- Slide 8 -->
+</section>
+<section id="clearing-the-fail-state" class="slide level2">
+<h2>Clearing the Fail State</h2>
+<p>When <code>cin</code> fails, you need to: 1. Clear the error flags 2. Remove the bad input from the buffer</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="dt">int</span> number<span class="op">;</span></span>
+<span id="cb28-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a number: "</span><span class="op">;</span></span>
+<span id="cb28-3"><a href=""></a>cin <span class="op">&gt;&gt;</span> number<span class="op">;</span></span>
+<span id="cb28-4"><a href=""></a></span>
+<span id="cb28-5"><a href=""></a><span class="cf">if</span> <span class="op">(</span>cin<span class="op">.</span>fail<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb28-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Invalid input! Please enter a number."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb28-7"><a href=""></a>    </span>
+<span id="cb28-8"><a href=""></a>    cin<span class="op">.</span>clear<span class="op">();</span>  <span class="co">// Clear error flags</span></span>
+<span id="cb28-9"><a href=""></a>    cin<span class="op">.</span>ignore<span class="op">(</span>numeric_limits<span class="op">&lt;</span>streamsize<span class="op">&gt;::</span>max<span class="op">(),</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span>  <span class="co">// Remove bad input</span></span>
+<span id="cb28-10"><a href=""></a>    </span>
+<span id="cb28-11"><a href=""></a>    <span class="co">// Now cin is ready to try again</span></span>
+<span id="cb28-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 9 -->
+</section>
+<section id="complete-input-validation-example" class="slide level2">
+<h2>Complete Input Validation Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb29-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;limits&gt;</span></span>
+<span id="cb29-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb29-4"><a href=""></a></span>
+<span id="cb29-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb29-6"><a href=""></a><span class="op">{</span></span>
+<span id="cb29-7"><a href=""></a>    <span class="dt">int</span> number<span class="op">;</span></span>
+<span id="cb29-8"><a href=""></a>    <span class="dt">bool</span> validInput <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb29-9"><a href=""></a>    </span>
+<span id="cb29-10"><a href=""></a>    <span class="cf">while</span> <span class="op">(!</span>validInput<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-11"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a positive number: "</span><span class="op">;</span></span>
+<span id="cb29-12"><a href=""></a>        cin <span class="op">&gt;&gt;</span> number<span class="op">;</span></span>
+<span id="cb29-13"><a href=""></a>        </span>
+<span id="cb29-14"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>cin<span class="op">.</span>fail<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb29-15"><a href=""></a>            cout <span class="op">&lt;&lt;</span> <span class="st">"Error: That's not a number!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb29-16"><a href=""></a>            cin<span class="op">.</span>clear<span class="op">();</span></span>
+<span id="cb29-17"><a href=""></a>            cin<span class="op">.</span>ignore<span class="op">(</span>numeric_limits<span class="op">&lt;</span>streamsize<span class="op">&gt;::</span>max<span class="op">(),</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span></span>
+<span id="cb29-18"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb29-19"><a href=""></a>        <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>number <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-20"><a href=""></a>            cout <span class="op">&lt;&lt;</span> <span class="st">"Error: Number must be positive!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb29-21"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb29-22"><a href=""></a>        <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb29-23"><a href=""></a>            validInput <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb29-24"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb29-25"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb29-26"><a href=""></a>    </span>
+<span id="cb29-27"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"You entered: "</span> <span class="op">&lt;&lt;</span> number <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb29-28"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb29-29"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 10 -->
+</section>
+<section id="common-patterns-reading-multiple-lines" class="slide level2">
+<h2>Common Patterns: Reading Multiple Lines</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a>string address<span class="op">;</span></span>
+<span id="cb30-2"><a href=""></a>string city<span class="op">;</span></span>
+<span id="cb30-3"><a href=""></a>string state<span class="op">;</span></span>
+<span id="cb30-4"><a href=""></a></span>
+<span id="cb30-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your street address: "</span><span class="op">;</span></span>
+<span id="cb30-6"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> address<span class="op">);</span></span>
+<span id="cb30-7"><a href=""></a></span>
+<span id="cb30-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your city: "</span><span class="op">;</span></span>
+<span id="cb30-9"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> city<span class="op">);</span></span>
+<span id="cb30-10"><a href=""></a></span>
+<span id="cb30-11"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your state: "</span><span class="op">;</span></span>
+<span id="cb30-12"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> state<span class="op">);</span></span>
+<span id="cb30-13"><a href=""></a></span>
+<span id="cb30-14"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">Your address:</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb30-15"><a href=""></a>cout <span class="op">&lt;&lt;</span> address <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb30-16"><a href=""></a>cout <span class="op">&lt;&lt;</span> city <span class="op">&lt;&lt;</span> <span class="st">", "</span> <span class="op">&lt;&lt;</span> state <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>When to use:</strong> Forms, surveys, any multi-line text input.</p>
+<!-- Slide 11 -->
+</section>
+<section id="reading-until-a-sentinel-value" class="slide level2">
+<h2>Reading Until a Sentinel Value</h2>
+<p>A <strong>sentinel value</strong> is a special input that signals “stop reading.”</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb31-2"><a href=""></a><span class="dt">int</span> number<span class="op">;</span></span>
+<span id="cb31-3"><a href=""></a></span>
+<span id="cb31-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter numbers to sum (enter -1 to stop):</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb31-5"><a href=""></a></span>
+<span id="cb31-6"><a href=""></a>cin <span class="op">&gt;&gt;</span> number<span class="op">;</span></span>
+<span id="cb31-7"><a href=""></a><span class="cf">while</span> <span class="op">(</span>number <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-8"><a href=""></a>    sum <span class="op">+=</span> number<span class="op">;</span></span>
+<span id="cb31-9"><a href=""></a>    cin <span class="op">&gt;&gt;</span> number<span class="op">;</span></span>
+<span id="cb31-10"><a href=""></a><span class="op">}</span></span>
+<span id="cb31-11"><a href=""></a></span>
+<span id="cb31-12"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Total sum: "</span> <span class="op">&lt;&lt;</span> sum <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Common sentinel values:</strong> -1, 0, “quit”, “exit”, empty string</p>
+<!-- Slide 12 -->
+</section>
+<section id="best-practices-for-input-handling" class="slide level2">
+<h2>Best Practices for Input Handling</h2>
+</section>
+<section id="always-validate-input" class="slide level2">
+<h2>1. Always Validate Input</h2>
+<p>Never trust that users will enter valid data.</p>
+</section>
+<section id="use-cin.ignore-when-mixing-input-methods" class="slide level2">
+<h2>2. Use <code>cin.ignore()</code> <br>When Mixing Input Methods</h2>
+<p>Clear the buffer after <code>cin &gt;&gt;</code> before using <code>getline()</code>.</p>
+</section>
+<section id="provide-clear-error-messages" class="slide level2">
+<h2>3. Provide Clear Error Messages</h2>
+<p>Tell users exactly what went wrong and what they should enter.</p>
+</section>
+<section id="give-users-another-chance" class="slide level2">
+<h2>4. Give Users Another Chance</h2>
+<p>Use loops to allow re-entry of invalid input.</p>
+</section>
+<section id="use-appropriate-input-methods" class="slide level2">
+<h2>5. Use Appropriate Input Methods</h2>
+<ul>
+<li><code>cin &gt;&gt;</code> for single words/numbers</li>
+<li><code>getline()</code> for sentences/multi-word input</li>
+</ul>
+<!-- Slide 13 -->
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="debug-this" class="title-slide slide level1 center">
+<h1>Debug This</h1>
+<aside class="notes">
+<p>.03.02</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="find-the-errors" class="slide level2">
+<h2>Find the Errors</h2>
+<p>The following program has several intentional bugs.</p>
+<p>Can you find them?</p>
+</section>
+<section class="slide level2">
+
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a><span class="co">// Contact Book Program</span></span>
+<span id="cb32-2"><a href=""></a><span class="co">// Collects and displays contact information</span></span>
+<span id="cb32-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb32-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb32-5"><a href=""></a><span class="pp">#include </span><span class="im">&lt;limits&gt;</span></span>
+<span id="cb32-6"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb32-7"><a href=""></a></span>
+<span id="cb32-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb32-9"><a href=""></a>    string name<span class="op">;</span></span>
+<span id="cb32-10"><a href=""></a>    string phone<span class="op">;</span></span>
+<span id="cb32-11"><a href=""></a>    string confirmation<span class="op">;</span></span>
+<span id="cb32-12"><a href=""></a>    string notes<span class="op">;</span></span>
+<span id="cb32-13"><a href=""></a>    <span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb32-14"><a href=""></a></span>
+<span id="cb32-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter phone number: "</span><span class="op">;</span></span>
+<span id="cb32-16"><a href=""></a>    cin <span class="op">&gt;&gt;</span> phone<span class="op">;</span></span>
+<span id="cb32-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter age: "</span><span class="op">;</span></span>
+<span id="cb32-18"><a href=""></a>    cin <span class="op">&gt;&gt;</span> age<span class="op">;</span></span>
+<span id="cb32-19"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter full name: "</span><span class="op">;</span></span>
+<span id="cb32-20"><a href=""></a>    getline<span class="op">(</span>cin<span class="op">,</span> name<span class="op">);</span></span>
+<span id="cb32-21"><a href=""></a></span>
+<span id="cb32-22"><a href=""></a>    <span class="op">{</span></span>
+<span id="cb32-23"><a href=""></a>        string name <span class="op">=</span> <span class="st">"Unknown"</span><span class="op">;</span></span>
+<span id="cb32-24"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">--- Contact Summary ---"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb32-25"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Name:  "</span> <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb32-26"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb32-27"><a href=""></a>    <span class="op">{</span></span>
+<span id="cb32-28"><a href=""></a>        <span class="dt">int</span> age <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb32-29"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Age:   "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb32-30"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb32-31"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Phone: "</span> <span class="op">&lt;&lt;</span> phone <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb32-32"><a href=""></a></span>
+<span id="cb32-33"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">Add notes? (yes/no): "</span><span class="op">;</span></span>
+<span id="cb32-34"><a href=""></a>    cin <span class="op">&gt;&gt;</span> confirmation<span class="op">;</span></span>
+<span id="cb32-35"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter notes: "</span><span class="op">;</span></span>
+<span id="cb32-36"><a href=""></a>    getline<span class="op">(</span>cin<span class="op">,</span> notes<span class="op">);</span></span>
+<span id="cb32-37"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Notes: "</span> <span class="op">&lt;&lt;</span> notes <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb32-38"><a href=""></a></span>
+<span id="cb32-39"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb32-40"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="contact-book-debugger" class="slide level2">
+<h2>Contact Book Debugger</h2>
+</section>
+<section id="errors" class="slide level2">
+<h2>Errors</h2>
+<ul>
+<li><strong>Missing cin.ignore()</strong> – getline() reads the leftover newline from cin &gt;&gt;, producing an empty string</li>
+<li><strong>Wrong input method</strong> – cin &gt;&gt; truncates multi-word input at the first space</li>
+<li><strong>Variable shadowing on name</strong> – a declaration inside a nested block hides the name variable from main</li>
+<li><strong>Variable shadowing on age</strong> – same problem, different variable, different block</li>
+<li><strong>Missing cin.ignore() (again)</strong> – the same buffer problem reappears later in the program</li>
+</ul>
+<!-- Slide 1 -->
+<aside class="notes">
+<p><strong>Speaker Notes:</strong> Total slides in this section: 6</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="line-18---missing-cin.ignore-after-cin" class="slide level2">
+<h2>LINE 18 - MISSING cin.ignore()<br> AFTER cin &gt;&gt;</h2>
+<p><strong>Problem:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a>cin <span class="op">&gt;&gt;</span> age<span class="op">;</span></span>
+<span id="cb33-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter full name: "</span><span class="op">;</span></span>
+<span id="cb33-3"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> name<span class="op">);</span>        <span class="co">// reads the leftover \n, not the user's input</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Issue:</strong> <code>cin &gt;&gt; age</code> reads the number but leaves the newline character (<code>\n</code>) sitting in the input buffer. The very next <code>getline()</code> sees that newline and treats it as a complete (empty) line. The program never actually waits for the user to type a name. <code>name</code> becomes an empty string silently – no error message, no crash.</p>
+</section>
+<section id="the-fix-1" class="slide level2">
+<h2>The Fix</h2>
+<p><strong>Problem:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a>cin <span class="op">&gt;&gt;</span> age<span class="op">;</span></span>
+<span id="cb34-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter full name: "</span><span class="op">;</span></span>
+<span id="cb34-3"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> name<span class="op">);</span>        <span class="co">// reads the leftover \n, not the user's input</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Fix:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a>cin <span class="op">&gt;&gt;</span> age<span class="op">;</span></span>
+<span id="cb35-2"><a href=""></a>cin<span class="op">.</span>ignore<span class="op">(</span>numeric_limits<span class="op">&lt;</span>streamsize<span class="op">&gt;::</span>max<span class="op">(),</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span>   <span class="co">// clear the buffer</span></span>
+<span id="cb35-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter full name: "</span><span class="op">;</span></span>
+<span id="cb35-4"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> name<span class="op">);</span>        <span class="co">// now it waits for real input</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Why it matters:</strong> Every time you use <code>cin &gt;&gt;</code> and then follow it with <code>getline()</code>, the leftover newline will cause this exact problem. The rule from lecture: always place <code>cin.ignore()</code> between them.</p>
+<!-- Slide 2 -->
+</section>
+<section id="line-16---wrong-input-method-for-phone" class="slide level2">
+<h2>LINE 16 - WRONG INPUT METHOD<br> FOR PHONE</h2>
+<p><strong>Problem:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter phone number: "</span><span class="op">;</span></span>
+<span id="cb36-2"><a href=""></a>cin <span class="op">&gt;&gt;</span> phone<span class="op">;</span>              <span class="co">// stops reading at the first space</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Issue:</strong> <code>cin &gt;&gt;</code> stops at whitespace. If a user types <code>555 123 4567</code>, only <code>555</code> is stored in <code>phone</code>. The rest (<code>123 4567</code>) is left in the input buffer, invisible and unused. No error is reported.</p>
+</section>
+<section id="the-fix-2" class="slide level2">
+<h2>The Fix</h2>
+<p><strong>Problem:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter phone number: "</span><span class="op">;</span></span>
+<span id="cb37-2"><a href=""></a>cin <span class="op">&gt;&gt;</span> phone<span class="op">;</span>              <span class="co">// stops reading at the first space</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Fix:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter phone number: "</span><span class="op">;</span></span>
+<span id="cb38-2"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> phone<span class="op">);</span>       <span class="co">// reads the entire line including spaces</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Why it matters:</strong> This is the core difference between <code>cin &gt;&gt;</code> and <code>getline()</code> from lecture. Use <code>cin &gt;&gt;</code> for single tokens (one word, one number). Use <code>getline()</code> any time the input can contain spaces.</p>
+<!-- Slide 3 -->
+</section>
+<section id="lines-22-26---variable-shadowing-on-name" class="slide level2">
+<h2>LINES 22-26 - VARIABLE SHADOWING<br> ON name</h2>
+<p><strong>Problem:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a>string name<span class="op">;</span>               <span class="co">// declared here in main (line 9)</span></span>
+<span id="cb39-2"><a href=""></a><span class="co">// ...</span></span>
+<span id="cb39-3"><a href=""></a><span class="op">{</span></span>
+<span id="cb39-4"><a href=""></a>    string name <span class="op">=</span> <span class="st">"Unknown"</span><span class="op">;</span>                          <span class="co">// NEW variable, hides the one above</span></span>
+<span id="cb39-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">--- Contact Summary ---"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb39-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Name:  "</span> <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> endl<span class="op">;</span>               <span class="co">// prints "Unknown"</span></span>
+<span id="cb39-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Issue:</strong> The nested block <code>{ }</code> declares a brand new variable also called <code>name</code>. This does not overwrite the original – it hides it. Inside that block, every reference to <code>name</code> resolves to the inner declaration. The original <code>name</code> still exists, but it is invisible here. The program prints “Unknown” every time, regardless of what the user typed.</p>
+</section>
+<section id="the-fix-3" class="slide level2">
+<h2>The Fix</h2>
+<p><strong>Problem:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a>string name<span class="op">;</span>               <span class="co">// declared here in main (line 9)</span></span>
+<span id="cb40-2"><a href=""></a><span class="co">// ...</span></span>
+<span id="cb40-3"><a href=""></a><span class="op">{</span></span>
+<span id="cb40-4"><a href=""></a>    string name <span class="op">=</span> <span class="st">"Unknown"</span><span class="op">;</span>                          <span class="co">// NEW variable, hides the one above</span></span>
+<span id="cb40-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">--- Contact Summary ---"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb40-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Name:  "</span> <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> endl<span class="op">;</span>               <span class="co">// prints "Unknown"</span></span>
+<span id="cb40-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Fix:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">--- Contact Summary ---"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb41-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Name:  "</span> <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> endl<span class="op">;</span>                   <span class="co">// uses the original variable</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Why it matters:</strong> This is the scope hierarchy from lecture. A variable declared at a lower level (inside a block) is a completely separate variable from one at a higher level (main). The inner one wins inside its block. Removing the inner declaration lets the original variable be visible again.</p>
+<!-- Slide 4 -->
+</section>
+<section id="lines-27-30---variable-shadowing-on-age" class="slide level2">
+<h2>LINES 27-30 - VARIABLE SHADOWING<br> ON age</h2>
+<p><strong>Problem:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a><span class="dt">int</span> age<span class="op">;</span>                   <span class="co">// declared here in main (line 13)</span></span>
+<span id="cb42-2"><a href=""></a><span class="co">// ...</span></span>
+<span id="cb42-3"><a href=""></a><span class="op">{</span></span>
+<span id="cb42-4"><a href=""></a>    <span class="dt">int</span> age <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>                                      <span class="co">// NEW variable, hides the one above</span></span>
+<span id="cb42-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Age:   "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span>                <span class="co">// prints 0</span></span>
+<span id="cb42-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Issue:</strong> This is the exact same bug as the previous slide, but on a different variable. A new <code>age</code> is declared inside a second nested block, initialized to 0. It hides the <code>age</code> that was collected from the user. The program prints 0 every time.</p>
+</section>
+<section id="the-fix-4" class="slide level2">
+<h2>The Fix</h2>
+<p><strong>Problem:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb43-1"><a href=""></a><span class="dt">int</span> age<span class="op">;</span>                   <span class="co">// declared here in main (line 13)</span></span>
+<span id="cb43-2"><a href=""></a><span class="co">// ...</span></span>
+<span id="cb43-3"><a href=""></a><span class="op">{</span></span>
+<span id="cb43-4"><a href=""></a>    <span class="dt">int</span> age <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>                                      <span class="co">// NEW variable, hides the one above</span></span>
+<span id="cb43-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Age:   "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span>                <span class="co">// prints 0</span></span>
+<span id="cb43-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Fix:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb44-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Age:   "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span>                    <span class="co">// uses the original variable</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Why it matters:</strong> The rule is the same as the previous slide: a declaration inside a block creates a new variable that shadows any variable of the same name at a higher scope level. If you found the first one by recognizing the pattern, this one tests whether you understood <em>why</em> it happened – not just <em>where</em>.</p>
+<!-- Slide 5 -->
+</section>
+<section id="line-33---missing-cin.ignore-after-cin-again" class="slide level2">
+<h2>LINE 33 - MISSING cin.ignore()<br> AFTER cin &gt;&gt; (AGAIN)</h2>
+<p><strong>Problem:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb45-1"><a href=""></a>cin <span class="op">&gt;&gt;</span> confirmation<span class="op">;</span></span>
+<span id="cb45-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter notes: "</span><span class="op">;</span></span>
+<span id="cb45-3"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> notes<span class="op">);</span>       <span class="co">// reads the leftover \n, not the user's input</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Issue:</strong> This is the exact same bug as the one on line 18. <code>cin &gt;&gt; confirmation</code> leaves a newline in the buffer. The <code>getline()</code> reads that newline as an empty line. <code>notes</code> becomes an empty string without any warning.</p>
+</section>
+<section id="the-fix-5" class="slide level2">
+<h2>The Fix</h2>
+<p><strong>Problem:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb46-1"><a href=""></a>cin <span class="op">&gt;&gt;</span> confirmation<span class="op">;</span></span>
+<span id="cb46-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter notes: "</span><span class="op">;</span></span>
+<span id="cb46-3"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> notes<span class="op">);</span>       <span class="co">// reads the leftover \n, not the user's input</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Fix:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb47-1"><a href=""></a>cin <span class="op">&gt;&gt;</span> confirmation<span class="op">;</span></span>
+<span id="cb47-2"><a href=""></a>cin<span class="op">.</span>ignore<span class="op">(</span>numeric_limits<span class="op">&lt;</span>streamsize<span class="op">&gt;::</span>max<span class="op">(),</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span>   <span class="co">// clear the buffer</span></span>
+<span id="cb47-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter notes: "</span><span class="op">;</span></span>
+<span id="cb47-4"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> notes<span class="op">);</span>       <span class="co">// now it waits for real input</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Why it matters:</strong> The rule does not apply only once. It applies every single time <code>cin &gt;&gt;</code> is followed by <code>getline()</code>, anywhere in the program. If you fixed the first instance but missed this one, the bug reappears here. Always check for this pattern whenever you see the two mixed together.</p>
+<!-- Slide 6 -->
+</section>
+<section id="working-code" class="slide level2">
+<h2>Working Code</h2>
+<div class="columns">
+<div class="column" style="width:75%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb48-1"><a href=""></a><span class="co">// Contact Book Program</span></span>
+<span id="cb48-2"><a href=""></a><span class="co">// Collects and displays contact information</span></span>
+<span id="cb48-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb48-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb48-5"><a href=""></a><span class="pp">#include </span><span class="im">&lt;limits&gt;</span></span>
+<span id="cb48-6"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb48-7"><a href=""></a></span>
+<span id="cb48-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb48-9"><a href=""></a>    string name<span class="op">;</span></span>
+<span id="cb48-10"><a href=""></a>    string phone<span class="op">;</span></span>
+<span id="cb48-11"><a href=""></a>    string confirmation<span class="op">;</span></span>
+<span id="cb48-12"><a href=""></a>    string notes<span class="op">;</span></span>
+<span id="cb48-13"><a href=""></a>    <span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb48-14"><a href=""></a></span>
+<span id="cb48-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter phone number: "</span><span class="op">;</span></span>
+<span id="cb48-16"><a href=""></a>    getline<span class="op">(</span>cin<span class="op">,</span> phone<span class="op">);</span></span>
+<span id="cb48-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter age: "</span><span class="op">;</span></span>
+<span id="cb48-18"><a href=""></a>    cin <span class="op">&gt;&gt;</span> age<span class="op">;</span></span>
+<span id="cb48-19"><a href=""></a>    cin<span class="op">.</span>ignore<span class="op">(</span>numeric_limits<span class="op">&lt;</span>streamsize<span class="op">&gt;::</span>max<span class="op">(),</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span></span>
+<span id="cb48-20"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter full name: "</span><span class="op">;</span></span>
+<span id="cb48-21"><a href=""></a>    getline<span class="op">(</span>cin<span class="op">,</span> name<span class="op">);</span></span>
+<span id="cb48-22"><a href=""></a></span>
+<span id="cb48-23"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">--- Contact Summary ---"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb48-24"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Name:  "</span> <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb48-25"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Age:   "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb48-26"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Phone: "</span> <span class="op">&lt;&lt;</span> phone <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb48-27"><a href=""></a></span>
+<span id="cb48-28"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">Add notes? (yes/no): "</span><span class="op">;</span></span>
+<span id="cb48-29"><a href=""></a>    cin <span class="op">&gt;&gt;</span> confirmation<span class="op">;</span></span>
+<span id="cb48-30"><a href=""></a>    cin<span class="op">.</span>ignore<span class="op">(</span>numeric_limits<span class="op">&lt;</span>streamsize<span class="op">&gt;::</span>max<span class="op">(),</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span></span>
+<span id="cb48-31"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter notes: "</span><span class="op">;</span></span>
+<span id="cb48-32"><a href=""></a>    getline<span class="op">(</span>cin<span class="op">,</span> notes<span class="op">);</span></span>
+<span id="cb48-33"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Notes: "</span> <span class="op">&lt;&lt;</span> notes <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb48-34"><a href=""></a></span>
+<span id="cb48-35"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb48-36"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column smallest-text" style="width:25%;">
+<p>Enter phone number: 1234567890 Enter age: 25 Enter full name: fgh tyu</p>
+<p>— Contact Summary — Name: fgh tyu Age: 25 Phone: 1234567890</p>
+<p>Add notes? (yes/no): y Enter notes: this is a note Notes: this is a note</p>
+<p>=== Code Execution Successful ===</p>
+</div></div>
+</section></section>
+<section>
 <section id="dates-random-numbers-in-c" class="title-slide slide level1 center">
 <h1>Dates &amp; Random Numbers in C++</h1>
-
+<aside class="notes">
+<p>~16 min</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="working-with-dates-and-times" class="slide level2">
 <h2>Working with Dates and Times</h2>
@@ -550,22 +1179,22 @@ Dr.&nbsp;Caleb Fowler
 <p>C++ provides functionality to work with dates and times through the <code>&lt;ctime&gt;</code> library.</p>
 </section>
 <section id="getting-the-current-date-and-time" class="slide level2">
-<h2>Getting the Current Date and Time</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="co">// dateTime.cpp -- date &amp; time example</span></span>
-<span id="cb14-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb14-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb14-4"><a href=""></a></span>
-<span id="cb14-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb14-6"><a href=""></a>    <span class="dt">time_t</span> now <span class="op">=</span> time<span class="op">(</span><span class="kw">nullptr</span><span class="op">);</span></span>
-<span id="cb14-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> asctime<span class="op">(</span>localtime<span class="op">(&amp;</span>now<span class="op">))</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb14-8"><a href=""></a>    </span>
-<span id="cb14-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb14-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<h2>Getting the<br> Current Date and Time</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb49-1"><a href=""></a><span class="co">// dateTime.cpp -- date &amp; time example</span></span>
+<span id="cb49-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb49-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb49-4"><a href=""></a></span>
+<span id="cb49-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb49-6"><a href=""></a>    <span class="dt">time_t</span> now <span class="op">=</span> time<span class="op">(</span><span class="kw">nullptr</span><span class="op">);</span></span>
+<span id="cb49-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> asctime<span class="op">(</span>localtime<span class="op">(&amp;</span>now<span class="op">))</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb49-8"><a href=""></a>    </span>
+<span id="cb49-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb49-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Output:</strong></p>
 <pre><code>Wed Feb  1 18:19:01 2023</code></pre>
 </section>
 <section id="understanding-the-datetime-components" class="slide level2">
-<h2>Understanding the Date/Time Components</h2>
+<h2>Understanding the <br>Date/Time Components</h2>
 <p><strong><code>time_t</code></strong> is a data type that represents time as a number (typically seconds since January 1, 1970).</p>
 <p><strong><code>time(nullptr)</code></strong> gets the current time and stores it in a <code>time_t</code> variable.</p>
 <p><strong><code>localtime(&amp;now)</code></strong> converts the <code>time_t</code> value to a structure containing the broken-down local time (year, month, day, hour, minute, second).</p>
@@ -573,7 +1202,9 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="practical-uses" class="slide level2">
 <h2>Practical Uses</h2>
-<h3 id="date-and-time">Date and Time</h3>
+</section>
+<section id="date-and-time" class="slide level2">
+<h2>Date and Time</h2>
 <ul>
 <li>Logging and timestamps</li>
 <li>Scheduling and timing events</li>
@@ -588,21 +1219,23 @@ Dr.&nbsp;Caleb Fowler
 <section id="basic-random-number-generation" class="slide level2">
 <h2>Basic Random Number Generation</h2>
 <p>The simplest way to generate random numbers in C++ is using the <code>rand()</code> function from the <code>&lt;cstdlib&gt;</code> library.</p>
-<h3 id="a-simple-example">A Simple Example</h3>
+</section>
+<section id="a-simple-example" class="slide level2">
+<h2>A Simple Example</h2>
 <p>Type this in.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="co">//3-30.cpp -- random numbers</span></span>
-<span id="cb16-2"><a href=""></a><span class="co">// generates the same numbers</span></span>
-<span id="cb16-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb16-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span><span class="pp">     </span><span class="co">// for rand</span></span>
-<span id="cb16-5"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb16-6"><a href=""></a></span>
-<span id="cb16-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb16-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb16-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb16-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb16-11"><a href=""></a>    </span>
-<span id="cb16-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb16-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb51-1"><a href=""></a><span class="co">//3-30.cpp -- random numbers</span></span>
+<span id="cb51-2"><a href=""></a><span class="co">// generates the same numbers</span></span>
+<span id="cb51-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb51-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span><span class="pp">     </span><span class="co">// for rand</span></span>
+<span id="cb51-5"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb51-6"><a href=""></a></span>
+<span id="cb51-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb51-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb51-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb51-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb51-11"><a href=""></a>    </span>
+<span id="cb51-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb51-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Rerun and examine the output. What do you notice about the numbers?</p>
 </section>
 <section class="slide level2">
@@ -610,30 +1243,32 @@ Dr.&nbsp;Caleb Fowler
 <p><strong>Problem:</strong> This program will generate the same sequence of “random” numbers every time you run it!</p>
 <p><strong>Why?</strong> Because the starting value of the random number generator or seed, does not change. This leads to the same result every time it’s run.</p>
 <p>To get different random numbers each time the program runs, we need to “seed” the random number generator with a different number using <code>srand()</code>.</p>
-<h3 id="using-time-as-a-seed">Using Time as a Seed</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="co">//3-32.cpp -- useful random numbers</span></span>
-<span id="cb17-2"><a href=""></a><span class="co">// generates the same numbers</span></span>
-<span id="cb17-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb17-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span><span class="pp">     </span><span class="co">// for rand</span></span>
-<span id="cb17-5"><a href=""></a><span class="pp">#include </span><span class="im">&lt;ctime&gt;</span><span class="pp">       </span><span class="co">// for time</span></span>
-<span id="cb17-6"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb17-7"><a href=""></a></span>
-<span id="cb17-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb17-9"><a href=""></a>    <span class="dt">unsigned</span> seed<span class="op">;</span></span>
-<span id="cb17-10"><a href=""></a>    <span class="co">// seed = 100;              // for debugging</span></span>
-<span id="cb17-11"><a href=""></a>    seed <span class="op">=</span> time<span class="op">(</span><span class="dv">0</span><span class="op">);</span>             <span class="co">// different random numbers</span></span>
-<span id="cb17-12"><a href=""></a>    srand<span class="op">(</span>seed<span class="op">);</span>                <span class="co">// randomize</span></span>
-<span id="cb17-13"><a href=""></a>    </span>
-<span id="cb17-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb17-15"><a href=""></a>    </span>
-<span id="cb17-16"><a href=""></a>    <span class="co">// 6 sided die</span></span>
-<span id="cb17-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb17-18"><a href=""></a>    </span>
-<span id="cb17-19"><a href=""></a>    <span class="co">// random number between 8 and 12</span></span>
-<span id="cb17-20"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">(</span>rand<span class="op">()</span> <span class="op">%</span> <span class="op">(</span><span class="dv">12</span> <span class="op">-</span> <span class="dv">8</span> <span class="op">+</span> <span class="dv">1</span><span class="op">))</span> <span class="op">+</span> <span class="dv">8</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb17-21"><a href=""></a>    </span>
-<span id="cb17-22"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb17-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="using-time-as-a-seed" class="slide level2">
+<h2>Using Time as a Seed</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb52-1"><a href=""></a><span class="co">//3-32.cpp -- useful random numbers</span></span>
+<span id="cb52-2"><a href=""></a><span class="co">// generates the same numbers</span></span>
+<span id="cb52-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb52-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span><span class="pp">     </span><span class="co">// for rand</span></span>
+<span id="cb52-5"><a href=""></a><span class="pp">#include </span><span class="im">&lt;ctime&gt;</span><span class="pp">       </span><span class="co">// for time</span></span>
+<span id="cb52-6"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb52-7"><a href=""></a></span>
+<span id="cb52-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb52-9"><a href=""></a>    <span class="dt">unsigned</span> seed<span class="op">;</span></span>
+<span id="cb52-10"><a href=""></a>    <span class="co">// seed = 100;              // for debugging</span></span>
+<span id="cb52-11"><a href=""></a>    seed <span class="op">=</span> time<span class="op">(</span><span class="dv">0</span><span class="op">);</span>             <span class="co">// different random numbers</span></span>
+<span id="cb52-12"><a href=""></a>    srand<span class="op">(</span>seed<span class="op">);</span>                <span class="co">// randomize</span></span>
+<span id="cb52-13"><a href=""></a>    </span>
+<span id="cb52-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb52-15"><a href=""></a>    </span>
+<span id="cb52-16"><a href=""></a>    <span class="co">// 6 sided die</span></span>
+<span id="cb52-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb52-18"><a href=""></a>    </span>
+<span id="cb52-19"><a href=""></a>    <span class="co">// random number between 8 and 12</span></span>
+<span id="cb52-20"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">(</span>rand<span class="op">()</span> <span class="op">%</span> <span class="op">(</span><span class="dv">12</span> <span class="op">-</span> <span class="dv">8</span> <span class="op">+</span> <span class="dv">1</span><span class="op">))</span> <span class="op">+</span> <span class="dv">8</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb52-21"><a href=""></a>    </span>
+<span id="cb52-22"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb52-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
 <p>Type this in and run. We use the seed for debugging.</p>
 <style type="text/css">
@@ -654,21 +1289,27 @@ Dr.&nbsp;Caleb Fowler
 <p><strong><code>srand(seed)</code></strong> initializes the random number generator with the seed value, ensuring different sequences of random numbers.</p>
 </section>
 <section id="generating-random-numbers-in-specific-ranges" class="slide level2">
-<h2>Generating Random Numbers in Specific Ranges</h2>
-<h3 id="simulating-a-six-sided-die">Simulating a Six-Sided Die</h3>
+<h2>Generating Random Numbers<br> in Specific Ranges</h2>
+</section>
+<section id="simulating-a-six-sided-die" class="slide level2">
+<h2>Simulating a Six-Sided Die</h2>
 <p>To generate a random number between 1 and 6:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a>rand<span class="op">()</span> <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb53-1"><a href=""></a>rand<span class="op">()</span> <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>How it works:</strong> - <code>rand() % 6</code> produces values from 0 to 5 - Adding 1 shifts the range to 1 to 6</p>
-<h3 id="random-numbers-in-any-range">Random Numbers in Any Range</h3>
+</section>
+<section id="random-numbers-in-any-range" class="slide level2">
+<h2>Random Numbers in Any Range</h2>
 <p>To generate a random number between a minimum and maximum value:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="op">(</span>rand<span class="op">()</span> <span class="op">%</span> <span class="op">(</span>max <span class="op">-</span> min <span class="op">+</span> <span class="dv">1</span><span class="op">))</span> <span class="op">+</span> min</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb54-1"><a href=""></a><span class="op">(</span>rand<span class="op">()</span> <span class="op">%</span> <span class="op">(</span>max <span class="op">-</span> min <span class="op">+</span> <span class="dv">1</span><span class="op">))</span> <span class="op">+</span> min</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Example:</strong> For a random number between 8 and 12:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="op">(</span>rand<span class="op">()</span> <span class="op">%</span> <span class="op">(</span><span class="dv">12</span> <span class="op">-</span> <span class="dv">8</span> <span class="op">+</span> <span class="dv">1</span><span class="op">))</span> <span class="op">+</span> <span class="dv">8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb55-1"><a href=""></a><span class="op">(</span>rand<span class="op">()</span> <span class="op">%</span> <span class="op">(</span><span class="dv">12</span> <span class="op">-</span> <span class="dv">8</span> <span class="op">+</span> <span class="dv">1</span><span class="op">))</span> <span class="op">+</span> <span class="dv">8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This formula works because: - <code>12 - 8 + 1 = 5</code> (there are 5 possible values: 8, 9, 10, 11, 12) - <code>rand() % 5</code> produces 0, 1, 2, 3, or 4 - Adding 8 shifts these to 8, 9, 10, 11, or 12</p>
 </section>
 <section id="practical-uses-1" class="slide level2">
 <h2>Practical Uses</h2>
-<h3 id="random-numbers-1">Random Numbers</h3>
+</section>
+<section id="random-numbers-1" class="slide level2">
+<h2>Random Numbers</h2>
 <ul>
 <li>Game development (dice rolls, random events)</li>
 <li>Simulations and modeling</li>
@@ -681,218 +1322,13 @@ Dr.&nbsp;Caleb Fowler
 <p><strong>Pseudo-random vs.&nbsp;True Random:</strong> The <code>rand()</code> function generates pseudo-random numbers. They appear random but follow a deterministic sequence based on the seed. For most applications, this is sufficient.</p>
 <p><strong>Better Alternatives:</strong> Modern C++ (C++11 and later) provides more sophisticated random number generation through the <code>&lt;random&gt;</code> library, which offers better statistical properties and more control over distributions.</p>
 </section></section>
-<section id="terminal-color-codes-in-c" class="title-slide slide level1 center">
-<h1>Terminal Color Codes in C++</h1>
-
-</section>
-
-<section>
-<section id="introduction-to-terminal-colors" class="title-slide slide level1 center">
-<h1>Introduction to Terminal Colors</h1>
-<p>Making your console programs more visually appealing is easy with terminal color codes! By using special escape sequences, you can change the color of text displayed in the terminal, making your output more readable and engaging.</p>
-</section>
-<section id="what-are-ansi-escape-codes" class="slide level2">
-<h2>What Are ANSI Escape Codes?</h2>
-<p>ANSI escape codes are special character sequences that tell the terminal to change text attributes like color, background, and style. These codes work on most modern terminals, including Linux, macOS, and Windows (Windows 10 and later).</p>
-</section></section>
-<section>
-<section id="basic-color-implementation" class="title-slide slide level1 center">
-<h1>Basic Color Implementation</h1>
-
-</section>
-<section id="a-simple-color-example" class="slide level2">
-<h2>A Simple Color Example</h2>
-<p>Here’s a complete program that demonstrates how to use color codes:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="co">// simCol.cpp -- simple terminal color example</span></span>
-<span id="cb21-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb21-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb21-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb21-5"><a href=""></a></span>
-<span id="cb21-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb21-7"><a href=""></a>    <span class="at">const</span> string RED <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[031m;"</span><span class="op">;</span></span>
-<span id="cb21-8"><a href=""></a>    <span class="at">const</span> string YELLOW <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[033m;"</span><span class="op">;</span></span>
-<span id="cb21-9"><a href=""></a>    <span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span>
-<span id="cb21-10"><a href=""></a>    </span>
-<span id="cb21-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> RED <span class="op">&lt;&lt;</span> <span class="st">"Hello"</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb21-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> YELLOW <span class="op">&lt;&lt;</span> <span class="st">"there"</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb21-13"><a href=""></a>    </span>
-<span id="cb21-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb21-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>./main
-;Hello
-;there</code></pre>
-<p>The text “Hello” appears in red, and “there” appears in yellow!</p>
-</section>
-<section id="understanding-the-color-code-format" class="slide level2">
-<h2>Understanding the Color Code Format</h2>
-<p>Each color code follows this pattern:</p>
-<pre><code>\033[COLORm</code></pre>
-<p><strong>Breaking it down:</strong> - <code>\033</code> is the escape character (ESC in ASCII) - <code>[</code> starts the color sequence - <code>COLOR</code> is the color code number - <code>m</code> ends the sequence</p>
-</section>
-<section id="common-color-codes" class="slide level2">
-<h2>Common Color Codes</h2>
-<p>Here are the most frequently used foreground (text) color codes:</p>
-<ul>
-<li><code>\033[030m</code> - Black</li>
-<li><code>\033[031m</code> - Red</li>
-<li><code>\033[032m</code> - Green</li>
-<li><code>\033[033m</code> - Yellow</li>
-<li><code>\033[034m</code> - Blue</li>
-<li><code>\033[035m</code> - Magenta</li>
-<li><code>\033[036m</code> - Cyan</li>
-<li><code>\033[037m</code> - White</li>
-</ul>
-</section>
-<section id="the-importance-of-norm-reset" class="slide level2">
-<h2>The Importance of NORM (Reset)</h2>
-<p>The <code>NORM</code> constant is crucial:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong><code>\033[0m</code></strong> resets all text attributes back to the terminal’s default. Always use this after colored text to prevent all subsequent output from being colored!</p>
-</section></section>
-<section>
-<section id="practical-usage-tips" class="title-slide slide level1 center">
-<h1>Practical Usage Tips</h1>
-
-</section>
-<section id="storing-colors-as-constants" class="slide level2">
-<h2>Storing Colors as Constants</h2>
-<p>It’s best practice to define color codes as named constants at the beginning of your program:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="at">const</span> string RED <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[031m"</span><span class="op">;</span></span>
-<span id="cb25-2"><a href=""></a><span class="at">const</span> string GREEN <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[032m"</span><span class="op">;</span></span>
-<span id="cb25-3"><a href=""></a><span class="at">const</span> string BLUE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[034m"</span><span class="op">;</span></span>
-<span id="cb25-4"><a href=""></a><span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This approach offers several benefits: - Makes your code more readable - Easy to modify colors throughout your program - Prevents typos in color codes</p>
-</section>
-<section id="using-colors-in-output" class="slide level2">
-<h2>Using Colors in Output</h2>
-<p>To color your text, simply insert the color code before the text and reset after:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> RED <span class="op">&lt;&lt;</span> <span class="st">"Error: File not found!"</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb26-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> GREEN <span class="op">&lt;&lt;</span> <span class="st">"Success! Operation completed."</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb26-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> YELLOW <span class="op">&lt;&lt;</span> <span class="st">"Warning: Low disk space."</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="best-practices" class="slide level2">
-<h2>Best Practices</h2>
-<p><strong>Always reset colors:</strong> Remember to use <code>NORM</code> after colored text to avoid coloring unintended output.</p>
-<p><strong>Use colors meaningfully:</strong> - Red for errors or important warnings - Green for success messages - Yellow for caution or warnings - Blue for informational messages</p>
-<p><strong>Test on your target terminal:</strong> Not all terminals support the same color codes, so test your program on the systems where it will run.</p>
-</section></section>
-<section>
-<section id="finding-more-information" class="title-slide slide level1 center">
-<h1>Finding More Information</h1>
-<p>If you want to explore more color options and text effects, you can search online for:</p>
-<p><strong>“How do I output colored text to a Linux terminal?”</strong></p>
-<p>This will lead you to resources about: - Background colors - Bold and italic text - Underlined text - Bright/bold color variants - 256-color and true color support</p>
-</section>
-<section id="additional-color-codes-to-explore" class="slide level2">
-<h2>Additional Color Codes to Explore</h2>
-<p><strong>Bright/Bold Colors:</strong> Add 60 to the color code or use the bold attribute: - <code>\033[091m</code> - Bright Red - <code>\033[092m</code> - Bright Green - <code>\033[093m</code> - Bright Yellow</p>
-<p><strong>Background Colors:</strong> Use codes 40-47 for background colors: - <code>\033[041m</code> - Red background - <code>\033[042m</code> - Green background - <code>\033[044m</code> - Blue background</p>
-<p><strong>Text Styles:</strong> - <code>\033[1m</code> - Bold - <code>\033[4m</code> - Underline - <code>\033[7m</code> - Reverse (swap foreground and background)</p>
-</section>
-<section id="try-this" class="slide level2">
-<h2>Try This!</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource .cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb27-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb27-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb27-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb27-5"><a href=""></a></span>
-<span id="cb27-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb27-7"><a href=""></a>    <span class="co">// Define color codes as const strings</span></span>
-<span id="cb27-8"><a href=""></a>    <span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span>
-<span id="cb27-9"><a href=""></a>    <span class="at">const</span> string RED <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[031m"</span><span class="op">;</span></span>
-<span id="cb27-10"><a href=""></a>    <span class="at">const</span> string GREEN <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[032m"</span><span class="op">;</span></span>
-<span id="cb27-11"><a href=""></a>    <span class="at">const</span> string YELLOW <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[033m"</span><span class="op">;</span></span>
-<span id="cb27-12"><a href=""></a>    <span class="at">const</span> string BLUE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[034m"</span><span class="op">;</span></span>
-<span id="cb27-13"><a href=""></a>    <span class="at">const</span> string MAGENTA <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[035m"</span><span class="op">;</span></span>
-<span id="cb27-14"><a href=""></a>    <span class="at">const</span> string CYAN <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[036m"</span><span class="op">;</span></span>
-<span id="cb27-15"><a href=""></a>    <span class="at">const</span> string WHITE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[037m"</span><span class="op">;</span></span>
-<span id="cb27-16"><a href=""></a>    </span>
-<span id="cb27-17"><a href=""></a>    <span class="co">// Store them in a vector</span></span>
-<span id="cb27-18"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> colors <span class="op">=</span> <span class="op">{</span></span>
-<span id="cb27-19"><a href=""></a>        NORM<span class="op">,</span>    <span class="co">// 0</span></span>
-<span id="cb27-20"><a href=""></a>        RED<span class="op">,</span>     <span class="co">// 1</span></span>
-<span id="cb27-21"><a href=""></a>        GREEN<span class="op">,</span>   <span class="co">// 2</span></span>
-<span id="cb27-22"><a href=""></a>        YELLOW<span class="op">,</span>  <span class="co">// 3</span></span>
-<span id="cb27-23"><a href=""></a>        BLUE<span class="op">,</span>    <span class="co">// 4</span></span>
-<span id="cb27-24"><a href=""></a>        MAGENTA<span class="op">,</span> <span class="co">// 5</span></span>
-<span id="cb27-25"><a href=""></a>        CYAN<span class="op">,</span>    <span class="co">// 6</span></span>
-<span id="cb27-26"><a href=""></a>        WHITE    <span class="co">// 7</span></span>
-<span id="cb27-27"><a href=""></a>    <span class="op">};</span></span>
-<span id="cb27-28"><a href=""></a>    </span>
-<span id="cb27-29"><a href=""></a>    <span class="co">// Now you can use either the named constants OR the vector</span></span>
-<span id="cb27-30"><a href=""></a>    <span class="co">// This gives you the best of both worlds!</span></span>
-<span id="cb27-31"><a href=""></a>    cout <span class="op">&lt;&lt;</span> RED <span class="op">&lt;&lt;</span> <span class="st">"Using the constant directly"</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb27-32"><a href=""></a>    cout <span class="op">&lt;&lt;</span> colors<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"Using the vector"</span> <span class="op">&lt;&lt;</span> colors<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb27-33"><a href=""></a>    </span>
-<span id="cb27-34"><a href=""></a>    <span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb27-35"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> COLOR<span class="op">:</span>colors<span class="op">)</span></span>
-<span id="cb27-36"><a href=""></a>        cout <span class="op">&lt;&lt;</span> COLOR <span class="op">&lt;&lt;</span> i<span class="op">++</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb27-37"><a href=""></a>    </span>
-<span id="cb27-38"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb27-39"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>This works on OnlineGBD https://www.onlinegdb.com/online_c++_compiler</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section></section>
-<section>
-<section id="exercise-practice-with-colors" class="title-slide slide level1 center">
-<h1>Exercise: Practice with Colors</h1>
-<p>Now it’s your turn! Try these exercises to practice using terminal colors:</p>
-</section>
-<section id="exercise-1-colorful-greeting" class="slide level2">
-<h2>Exercise 1: Colorful Greeting</h2>
-<p>Add colored text to a simple greeting program:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb28-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb28-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb28-4"><a href=""></a></span>
-<span id="cb28-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb28-6"><a href=""></a>    <span class="at">const</span> string RED <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[031m"</span><span class="op">;</span></span>
-<span id="cb28-7"><a href=""></a>    <span class="at">const</span> string GREEN <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[032m"</span><span class="op">;</span></span>
-<span id="cb28-8"><a href=""></a>    <span class="at">const</span> string BLUE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[034m"</span><span class="op">;</span></span>
-<span id="cb28-9"><a href=""></a>    <span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span>
-<span id="cb28-10"><a href=""></a>    </span>
-<span id="cb28-11"><a href=""></a>    <span class="co">// Your code here: create a colorful greeting</span></span>
-<span id="cb28-12"><a href=""></a>    </span>
-<span id="cb28-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb28-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="exercise-2-menu-system" class="slide level2">
-<h2>Exercise 2: Menu System</h2>
-<p>Create a simple menu with colored options: - Use one color for the menu title - Use different colors for different menu items - Use another color for the prompt</p>
-</section>
-<section id="exercise-3-status-messages" class="slide level2">
-<h2>Exercise 3: Status Messages</h2>
-<p>Write a program that displays different types of status messages: - Red for errors - Yellow for warnings<br>
-- Green for success - Blue for information</p>
-<p>Remember to add more output and experiment with different color combinations!</p>
-</section></section>
-<section id="summary" class="title-slide slide level1 center">
-<h1>Summary</h1>
-<p>Terminal color codes are a simple way to make your console programs more visually appealing and user-friendly. By using ANSI escape sequences stored in string constants, you can easily add color to any text output. Just remember to:</p>
-<ol type="1">
-<li>Define color codes as constants</li>
-<li>Use meaningful colors for different types of messages</li>
-<li>Always reset to normal after colored text</li>
-<li>Test on your target terminal</li>
-</ol>
-<p>With these tools, you can create more engaging and professional-looking command-line applications!</p>
-</section>
-
 <section id="key-takaways" class="title-slide slide level1 center">
 <h1>Key Takaways</h1>
-
+<ol type="1">
+<li><p><strong>Scope and Shadow Variables.</strong> Scope enforces a hierarchy of variable visibility defined by brace-delimited blocks — a variable is accessible only at the level it was declared or below — and a shadow variable occurs when an inner block redeclares a name that already exists in an outer scope, silently hiding the original.</p></li>
+<li><p><strong>Advanced Input Handling with <code>cin</code>.</strong> <code>getline()</code> must be used in place of <code>cin &gt;&gt;</code> whenever input can contain spaces, and <code>cin.ignore()</code> is required between any <code>cin &gt;&gt;</code> and a subsequent <code>getline()</code> to discard the leftover newline character that would otherwise be read as an empty input.</p></li>
+<li><p><strong>Random Number Generation.</strong> <code>rand()</code> produces a deterministic sequence by default; calling <code>srand()</code> with a time-based seed before use ensures a different sequence on each run, and the modulo operator combined with an offset constrains the output to any desired range.</p></li>
+</ol>
 </section>
 
 <section id="next-time" class="title-slide slide level1 center">
@@ -1282,6 +1718,18 @@ Dr.&nbsp;Caleb Fowler
         }
       });
       </script>
+    <script>
+    window.Reveal.on('ready', event => {
+      Reveal.configure({
+        keyboard: {
+          34: 'down',   // Forward button
+          33: 'up',     // Back button
+          116: 'right',  // Start/Play button
+          190: 'left'    // Black Screen button
+        }
+      });
+    });
+    </script>
     
 
 </body></html>
