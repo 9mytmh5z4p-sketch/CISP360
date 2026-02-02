@@ -1,0 +1,358 @@
+---
+title: "CISP 360 \n Structured Programming"
+subtitle: "Introduction to C++"
+author: "Dr. Caleb Fowler"
+
+format:
+  html:
+    filters:
+      - plantuml-filter.lua
+  revealjs:
+    css: ../styles/styles.css
+    theme: serif
+    slide-number: true
+    navigation-mode: vertical
+    transition: slide
+    incremental: false
+    scrollable: false
+    controls: true
+    hash: true
+    history: true
+    title-slide: false
+    footer: "CISP 360 · Fowler"
+    keyboard: true  # Keep this as true to enable the system
+    include-after-body: 
+      - ../styles/slides.js
+    include-in-header:
+      - text: |
+          <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+engine: jupyter
+execute:
+  eval: true
+  echo: true
+
+resources:
+ - topics/**/images/**
+
+---
+---
+title: "CISP 360 - JavaScript Features Demo"
+subtitle: "Testing All Custom Functions"
+author: "Dr. Caleb Fowler"
+format:
+  revealjs:
+    css: ../styles/styles.css
+    include-after-body: ../styles/slides.js
+    theme: serif
+    slide-number: true
+---
+
+## Welcome to the Demo! {.center}
+
+This presentation tests all custom JavaScript features.
+
+**Features to test:**
+
+1. Keyboard Mappings ⌨️
+2. Code Execution Simulator 🖥️
+3. Variable Tracker 📊
+4. Timer ⏱️
+5. Interactive Quiz ❓
+6. Confetti 🎉
+7. Slide Bookmarks ⭐
+8. Progress Tracker 📈
+9. Dark Mode Toggle 🌓
+
+---
+
+## Test 1: Keyboard Mappings ⌨️
+
+**Try these keys:**
+
+- **Page Down (34)** → Go to next vertical slide
+- **Page Up (33)** → Go to previous vertical slide
+- **F5 (116)** → Go to next horizontal slide
+- **Period (190)** → Go to previous horizontal slide
+
+**Status:** Test by pressing the keys above!
+
+<div style="margin-top: 2em; padding: 1em; background: #f0f0f0; border-radius: 5px;">
+If the keys work, you should navigate through slides differently than arrow keys.
+</div>
+
+---
+
+## Test 2: Code Execution Simulator 🖥️
+
+Click "Next Step" to execute code line by line:
+```{.cpp .line-1}
+int x = 5;
+```
+```{.cpp .line-2}
+int y = 10;
+```
+```{.cpp .line-3}
+int z = x + y;
+```
+
+<div id="variable-tracker" style="margin: 1em 0; padding: 1em; background: #fff3cd; border: 2px solid #856404; border-radius: 5px;">
+Variables will appear here...
+</div>
+
+<button onclick="executeNextStep()" style="padding: 10px 20px; font-size: 1.2em; cursor: pointer;">▶ Next Step</button>
+<button onclick="executionStep = 0; document.getElementById('variable-tracker').innerHTML = 'Variables will appear here...'" style="padding: 10px 20px; font-size: 1.2em; cursor: pointer;">↻ Reset</button>
+
+<script>
+initCodeSimulator([
+  { line: 1, variables: { x: 5 } },
+  { line: 2, variables: { x: 5, y: 10 } },
+  { line: 3, variables: { x: 5, y: 10, z: 15 } }
+]);
+</script>
+
+---
+
+## Test 3: Progressive Line Highlighting 🎯
+
+This demonstrates highlighting specific lines of code:
+```{.cpp}
+void greet(string name) {     // Line 1
+    cout << "Hello, ";         // Line 2
+    cout << name << endl;      // Line 3
+}                              // Line 4
+```
+
+<button onclick="highlightLine(1)" style="padding: 8px 16px; margin: 5px;">Highlight Line 1</button>
+<button onclick="highlightLine(2)" style="padding: 8px 16px; margin: 5px;">Highlight Line 2</button>
+<button onclick="highlightLine(3)" style="padding: 8px 16px; margin: 5px;">Highlight Line 3</button>
+
+<div style="margin-top: 1em; font-size: 0.8em; color: #666;">
+Note: This requires adding .line-1, .line-2, etc. classes to code blocks
+</div>
+
+---
+
+## Test 4: Timer ⏱️
+
+**5-Minute Coding Exercise:**
+
+Write a function that takes two integers and returns their sum.
+
+<div class="timer" id="exercise-timer" style="font-size: 3em; font-weight: bold; color: #2c3e50; margin: 1em 0;">5:00</div>
+
+<button onclick="startTimer(5, 'exercise-timer')" style="padding: 10px 20px; font-size: 1.2em; cursor: pointer; background: #27ae60; color: white; border: none; border-radius: 5px;">▶ Start Timer</button>
+
+<button onclick="startTimer(0.1, 'exercise-timer')" style="padding: 10px 20px; font-size: 1em; cursor: pointer; margin-left: 10px;">⚡ Quick Test (6 seconds)</button>
+
+---
+
+## Test 5: Interactive Quiz - Question 1 ❓
+
+**What is the output of this code?**
+```{.cpp}
+int x = 10;
+int y = 3;
+cout << x / y;
+```
+
+<div style="margin: 2em 0;">
+<button onclick="checkAnswer('q1', 'A', 'B')" style="display: block; width: 100%; padding: 15px; margin: 10px 0; font-size: 1.2em; cursor: pointer; background: #3498db; color: white; border: none; border-radius: 5px;">A. 3.333</button>
+
+<button onclick="checkAnswer('q1', 'B', 'B')" style="display: block; width: 100%; padding: 15px; margin: 10px 0; font-size: 1.2em; cursor: pointer; background: #3498db; color: white; border: none; border-radius: 5px;">B. 3</button>
+
+<button onclick="checkAnswer('q1', 'C', 'B')" style="display: block; width: 100%; padding: 15px; margin: 10px 0; font-size: 1.2em; cursor: pointer; background: #3498db; color: white; border: none; border-radius: 5px;">C. 10</button>
+</div>
+
+<div id="feedback-q1" style="font-size: 1.5em; font-weight: bold; margin-top: 1em;"></div>
+
+---
+
+## Test 6: Interactive Quiz - Question 2 ❓
+
+**What does `void` mean in a function?**
+```{.cpp}
+void displayMessage() {
+    cout << "Hello!" << endl;
+}
+```
+
+<div style="margin: 2em 0;">
+<button onclick="checkAnswer('q2', 'A', 'C')" style="display: block; width: 100%; padding: 15px; margin: 10px 0; font-size: 1.2em; cursor: pointer; background: #9b59b6; color: white; border: none; border-radius: 5px;">A. Returns void type</button>
+
+<button onclick="checkAnswer('q2', 'B', 'C')" style="display: block; width: 100%; padding: 15px; margin: 10px 0; font-size: 1.2em; cursor: pointer; background: #9b59b6; color: white; border: none; border-radius: 5px;">B. Returns empty string</button>
+
+<button onclick="checkAnswer('q2', 'C', 'C')" style="display: block; width: 100%; padding: 15px; margin: 10px 0; font-size: 1.2em; cursor: pointer; background: #9b59b6; color: white; border: none; border-radius: 5px;">C. Returns nothing</button>
+</div>
+
+<div id="feedback-q2" style="font-size: 1.5em; font-weight: bold; margin-top: 1em;"></div>
+
+---
+
+## Test 7: Confetti Celebration 🎉
+
+Click the button to trigger confetti!
+
+<button onclick="showConfetti()" style="padding: 20px 40px; font-size: 1.5em; cursor: pointer; background: #e74c3c; color: white; border: none; border-radius: 10px; margin: 2em 0;">
+🎉 Celebrate! 🎉
+</button>
+
+<div style="margin-top: 2em; padding: 1em; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px;">
+<strong>Note:</strong> This requires the canvas-confetti library. Include it in your YAML:
+<pre style="background: #f8f9fa; padding: 10px; margin-top: 10px;">
+include-in-header:
+  - text: |
+      &lt;script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"&gt;&lt;/script&gt;
+</pre>
+</div>
+
+---
+
+## Test 8: Slide Bookmarks ⭐
+
+Bookmark important slides for later review!
+
+<div style="text-align: center; margin: 2em 0;">
+<button onclick="toggleBookmark(Reveal.getIndices().h)" style="padding: 15px 30px; font-size: 1.5em; cursor: pointer; background: #f39c12; color: white; border: none; border-radius: 5px;">
+<span class="bookmark-icon" data-slide="0">☆</span> Toggle Bookmark
+</button>
+</div>
+
+<div style="margin-top: 2em; padding: 1em; background: #fff3cd; border: 1px solid #856404; border-radius: 5px;">
+**How it works:**
+- Click to bookmark this slide
+- Bookmarks are saved in browser localStorage
+- Persists across sessions
+- Click again to remove bookmark
+</div>
+
+<script>
+// Update bookmark icon on load
+setTimeout(() => {
+  updateBookmarkIcon(Reveal.getIndices().h);
+}, 100);
+</script>
+
+---
+
+## Test 9: Progress Tracker 📈
+
+Look at the **bottom-right corner** of the screen!
+
+<div id="progress-tracker" style="position: fixed; bottom: 60px; right: 20px; background: rgba(0, 0, 0, 0.8); color: white; padding: 10px 15px; border-radius: 5px; font-size: 1em; z-index: 1000;">
+Slide 9 of 12 (75%)
+</div>
+
+<div style="margin-top: 3em; padding: 1.5em; background: #e8f4f8; border-left: 5px solid #3498db; border-radius: 3px;">
+**The progress tracker shows:**
+- Current slide number
+- Total slide count  
+- Percentage complete
+
+It updates automatically as you navigate!
+</div>
+
+---
+
+## Test 10: Dark Mode Toggle 🌓
+
+Switch between light and dark themes!
+
+<div style="text-align: center; margin: 3em 0;">
+<button onclick="toggleDarkMode()" style="padding: 20px 40px; font-size: 1.5em; cursor: pointer; background: #34495e; color: white; border: none; border-radius: 10px;">
+🌓 Toggle Dark Mode
+</button>
+</div>
+
+<div style="margin-top: 2em; padding: 1.5em; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px;">
+**Features:**
+- ✅ Instantly switches theme
+- ✅ Saves preference to localStorage
+- ✅ Persists across sessions
+- ✅ Applies to all slides
+</div>
+
+<div style="margin-top: 1em; font-size: 0.9em; color: #666; text-align: center;">
+Refresh the page to see if your preference was saved!
+</div>
+
+---
+
+## Test 11: Auto-Pause Videos 📹
+
+<div style="padding: 2em; background: #e8f5e9; border-left: 5px solid #4caf50; border-radius: 3px; margin: 2em 0;">
+
+**This feature automatically pauses videos when you leave a slide.**
+
+To test:
+1. Insert a video on this slide
+2. Play the video
+3. Navigate away (use arrow keys)
+4. Come back - video should be paused
+
+</div>
+```html
+<!-- Example video embedding -->
+<video controls width="400">
+  <source src="demo.mp4" type="video/mp4">
+</video>
+```
+
+<div style="margin-top: 1em; font-size: 0.9em; color: #666;">
+Feature prevents awkward situations where videos play in background!
+</div>
+
+---
+
+## All Tests Summary ✅
+
+<div style="font-size: 0.9em;">
+
+| Feature | Status | How to Test |
+|---------|--------|-------------|
+| ⌨️ Keyboard Mappings | ✅ | Press Page Down/Up, F5, Period |
+| 🖥️ Code Simulator | ✅ | Click "Next Step" on slide 2 |
+| 📊 Variable Tracker | ✅ | Shows during code execution |
+| ⏱️ Timer | ✅ | Click "Start Timer" on slide 4 |
+| ❓ Interactive Quiz | ✅ | Answer questions on slides 5-6 |
+| 🎉 Confetti | ⚠️ | Needs canvas-confetti library |
+| ⭐ Bookmarks | ✅ | Click bookmark button on slide 8 |
+| 📈 Progress Tracker | ✅ | Look bottom-right corner |
+| 🌓 Dark Mode | ✅ | Click toggle on slide 10 |
+| 📹 Video Pause | ✅ | Needs video element to test |
+
+</div>
+
+---
+
+## Installation Checklist 📋
+
+**To use all features, ensure you have:**
+
+1. **slides.js** in your styles folder ✅
+2. **CSS updates** in styles.css ✅
+3. **YAML configuration** includes slides.js ✅
+4. **canvas-confetti** library (for confetti only):
+```yaml
+format:
+  revealjs:
+    include-in-header:
+      - text: |
+          <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+```
+
+---
+
+## Thank You! 🎓
+
+**All JavaScript features demonstrated!**
+
+Questions? Try navigating with:
+- **Keyboard shortcuts** (Page Down/Up, F5, Period)
+- **Bookmark** this slide for reference
+- **Toggle dark mode** for better viewing
+- Check **progress tracker** in bottom-right
+
+<div style="margin-top: 2em; padding: 1em; background: #d1ecf1; border: 1px solid #bee5eb; border-radius: 5px; text-align: center;">
+Ready to use these features in your CISP 360 lectures! 🚀
+</div>
