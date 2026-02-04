@@ -2,7 +2,16 @@
 # Return of Void
 
 ::: notes
-~ 16 min
+~ 14 min
+::: 
+
+
+## Remember void?
+
+We last saw void when we were looking at variable types.
+
+::: notes
+It's a type, but we can't declare variables with it.
 ::: 
 
 ## Void Functions in C++
@@ -24,18 +33,17 @@ We start here because these tend to be the simplest class of functions.
 **void** means "nothing" or "empty"
 
 When you use `void` as a return type, you're telling C++:
+
 > "This function does something, but it doesn't give back a value."
 
 **Think of it like:**
+
 - A light switch: It turns on a light (action), but doesn't give you anything back
 - A printer: It prints a document (action), but doesn't return a value
-- Saying "Hello": You speak (action), but you don't return something
 
 ---
 
-## Your First Void Function
-
-
+## A Void Function
 
 ::: {.columns}
 ::: {.column width="75%"}
@@ -63,15 +71,16 @@ int main() {
 Hello, World!
 ```
 
+:::
+:::
+
 **Notice:**
+
 - `void` means no return value
 - No `return` statement needed (or use `return;` with nothing after it)
 - Just call the function by its name with `()`
+ 
 
-:::
-::: 
-
----
 
 ## Void Function Syntax
 
@@ -83,6 +92,7 @@ void functionName() {
 ```
 
 **Parts:**
+
 - `void` - The return type (nothing returned)
 - `functionName` - The name you choose
 - `()` - Parentheses (empty for now)
@@ -121,11 +131,15 @@ Let's get started...
 
 ---
 
-## Example: Multiple Void Functions
+## Example: Multiple Void Functions 
 
 ```cpp
 #include <iostream>
 using namespace std;
+
+void displayHeader()
+void displayMenu()
+void displayFooter()
 
 void displayHeader() {
     cout << "*** GRADE CALCULATOR ***" << endl;
@@ -150,11 +164,16 @@ int main() {
 }
 ```
 
----
-
 ## Why Use Void Functions?
 
-**1. Organize your code**
+1. **Organize your code**
+2. **Avoid repetition**
+3. **Make code readable**
+
+---
+
+## Organize your code
+
 ```cpp
 void displayTitle() { /* ... */ }
 void displayMenu() { /* ... */ }
@@ -163,7 +182,8 @@ void displayResults() { /* ... */ }
 
 ---
 
-**2. Avoid repetition**
+## Avoid repetition
+
 ```cpp
 void printLine() {
     cout << "------------------------" << endl;
@@ -180,41 +200,10 @@ int main() {
 
 ---
 
-**3. Make code readable**
+## Make code readable
+
 - `displayWelcomeMessage()` is clearer than 10 lines of cout
 - Functions act as labels for what the code does
-
----
-
-## Void Functions Can Have Code
-
-Void functions can contain any valid C++ code:
-
-```cpp
-#include <iostream>
-#include <vector>
-using namespace std;
-
-void displayScores() {
-    vector<int> scores = {85, 92, 78, 95, 88};
-    
-    cout << "Test Scores: ";
-    for (int score : scores) {
-        cout << score << " ";
-    }
-    cout << endl;
-}
-
-int main() {
-    displayScores();
-    return 0;
-}
-```
-
-**Output:**
-```
-Test Scores: 85 92 78 95 88
-```
 
 ---
 
@@ -242,7 +231,69 @@ Access denied.
 
 The function exits at `return;` and never reaches the "Access granted" line.
 
+## Example:<br> Clean Code with Void Functions
+
+**Before (messy main):**
+```cpp
+int main() {
+    cout << "=== CALCULATOR ===" << endl;
+    cout << "1. Add" << endl;
+    cout << "2. Subtract" << endl;
+    cout << "Select: ";
+    // ... more code ...
+    cout << "=== END ===" << endl;
+    return 0;
+}
+```
+
 ---
+
+**After (organized with void functions):**
+```cpp
+void displayTitle() { /* ... */ }
+void displayMenu() { /* ... */ }
+void displayFooter() { /* ... */ }
+
+int main() {
+    displayTitle();
+    displayMenu();
+    // ... main logic ...
+    displayFooter();
+    return 0;
+}
+```
+
+Much cleaner and easier to understand!
+
+
+## Summary
+
+**Void Functions:**
+
+- Use `void` as return type when no value is returned
+- Perfect for displaying output or performing actions
+- Make code more organized and readable
+- Don't use `return` with a value
+- Can't be used in expressions or assignments
+
+
+## Appendix<br> Additional Materials
+
+* Common Mistakes
+
+::: notes
+Don't cover this in class - not a good use of time.
+::: 
+
+
+
+
+## Common Mistakes
+
+- Trying to Return a Value
+- Using Return Value
+
+
 
 ## Common Mistake: Trying to Return a Value
 
@@ -283,62 +334,6 @@ void value not ignored as it ought to be
 greet();  // Correct!
 ```
 
----
-
-## When to Use Void Functions
-
-Use `void` functions when you want to:
-
-- **Display output** - Print to screen  
-- **Perform actions** - Do something without returning data  
-- **Organize code** - Break main() into logical sections  
-- **Modify global data** - Change variables (later topic)  
-- **Modify parameters** - Change arguments passed by reference (later topic)  
-
-**Don't use void when you need to:**
-
-- Calculate and return a result  
-- Get user input and give it back  
-- Process data and provide an answer  
-
----
-
-## Example: Clean Code with Void Functions
-
-**Before (messy main):**
-```cpp
-int main() {
-    cout << "=== CALCULATOR ===" << endl;
-    cout << "1. Add" << endl;
-    cout << "2. Subtract" << endl;
-    cout << "Select: ";
-    // ... more code ...
-    cout << "=== END ===" << endl;
-    return 0;
-}
-```
-
----
-
-**After (organized with void functions):**
-```cpp
-void displayTitle() { /* ... */ }
-void displayMenu() { /* ... */ }
-void displayFooter() { /* ... */ }
-
-int main() {
-    displayTitle();
-    displayMenu();
-    // ... main logic ...
-    displayFooter();
-    return 0;
-}
-```
-
-Much cleaner and easier to understand!
-
----
-
 ## Practice: Create Your Own
 
 **Try creating these void functions:**
@@ -350,43 +345,4 @@ Much cleaner and easier to understand!
 
 **Then call them from main()!**
 
----
-
-## Summary
-
-**Void Functions:**
-- Use `void` as return type when no value is returned
-- Perfect for displaying output or performing actions
-- Make code more organized and readable
-- Don't use `return` with a value
-- Can't be used in expressions or assignments
-
----
-
-**Key Syntax:**
-```cpp
-void functionName() {
-    // Do something
-    // No return value needed
-}
-```
-
-**Next:** Functions with parameters - giving functions data to work with!
-
----
-
-## Questions to Consider
-
-::: {.incremental}
-
-1. Why would you create a function that doesn't return anything?
-2. Can you have multiple void functions in one program?
-3. Can a void function call another void function?
-4. What happens if you forget the `void` keyword?
-
-::: 
-
-::: notes
-**Answer:** C++ assumes `int` return type by default (but don't rely on this - always be explicit!). I thought this was main only.
-::: 
 

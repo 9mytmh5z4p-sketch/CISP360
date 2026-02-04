@@ -20,9 +20,9 @@ if [ -z "$QMD_FILE" ]; then
     exit 1
 fi
 
-# Render the Quarto presentation
+# Render as RevealJS with no-execute flag
 echo "Rendering Quarto presentation: $QMD_FILE"
-quarto render "$QMD_FILE"
+quarto render "$QMD_FILE" --no-execute
 
 # Check if render was successful
 if [ $? -ne 0 ]; then
@@ -32,3 +32,4 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Render successful!"
+open "${QMD_FILE%.qmd}.html"  # Auto-open the slides

@@ -4,9 +4,7 @@
 Target duration: ~20 minutes
 :::
 
-## Agenda
-
-Today's topics:
+## Topics:
 
 - Understanding parameters and arguments
 - Passing data into functions
@@ -35,6 +33,7 @@ void displayName() {
 
 **Solution:** Give functions the ability to receive and process different data.
 
+
 ## Parameters: Receiving Data
 
 **Parameters** are variables in the function definition that receive data.
@@ -46,6 +45,7 @@ void displayName(string name) {
 ```
 
 **Anatomy:**
+
 - `string` is the data type
 - `name` is the parameter variable
 - Parameters exist only inside the function
@@ -53,6 +53,7 @@ void displayName(string name) {
 ::: notes
 A diagram showing the function definition with the parameter highlighted would be useful here.
 :::
+
 
 ## Arguments vs Parameters
 
@@ -72,6 +73,7 @@ int main() {
 ```
 
 The argument value is copied into the parameter variable.
+
 
 ## Single Parameter Example
 
@@ -114,7 +116,8 @@ int main() {
 }
 ```
 
-**Key rules:**
+## Key Rules
+
 - Separate parameters with commas
 - Each parameter needs a type
 - Order matters - arguments must match parameter order
@@ -144,6 +147,7 @@ int main() {
 Consider showing a visual matching of arguments to parameters with arrows. Demonstrate the compiler error message for type mismatch.
 :::
 
+
 ## Function Prototypes
 
 **Problem:** C++ requires functions to be defined before they're called.
@@ -169,6 +173,7 @@ void displayStudent(string name, int age, double gpa) {
 Explain that prototypes are especially important when working with multiple files. The prototype is like a table of contents - it tells the compiler what to expect.
 :::
 
+
 ## Prototype Syntax
 
 ```cpp
@@ -184,7 +189,7 @@ int getChoice();
 double calculateTax(double amount);
 ```
 
-**Best practice:** Include parameter names for readability. They don't have to match the definition's names, but usually do.
+**Common practice:** Include parameter names for readability. They don't have to match the definition's names, but usually do.
 
 ::: notes
 Show students where prototypes typically go: after includes and namespace, before main. Mention that professional code often puts prototypes in header files (.h).
@@ -203,6 +208,7 @@ int add(int a, int b) {
 ```
 
 **Key components:**
+
 - `int` is the return type
 - `return` statement sends the value back
 - Return type must match the returned value
@@ -285,44 +291,31 @@ char getLetterGrade(int score) {
 
 **Important:** Once a return executes, the function immediately exits.
 
-## Common Mistake: Missing Return
+## Round-Trip Method
 
 ```cpp
-int getValue() {
-    int x = 10;
-    // ERROR - no return statement
-}
-```
+#include <iostream>
+#include <iomanip>
+using namespace std;
 
-**Compiler error:** Control reaches end of non-void function.
-
-**Fix:**
-```cpp
-int getValue() {
-    int x = 10;
-    return x;
-}
-```
-
-**Rule:** Non-void functions must return a value on all code paths.
-
-## Common Mistake: Argument Count and Type
-
-```cpp
-void displayInfo(string name, int age) {
-    cout << name << " is " << age << endl;
-}
+int CalcYears(boolean);
 
 int main() {
-    displayInfo("Alice");           // ERROR - missing argument
-    displayInfo("Bob", 20, 3.5);    // ERROR - too many arguments
-    displayInfo("Charlie", "20");   // ERROR - wrong type
-    displayInfo("David", 25);       // CORRECT
-    return 0;
+    int age = 0;
+
+    age = CalcYears(true);
+    cout << age << endl;
+}
+
+int CalcYears(boolean isDog) {
+    if (isDog) return 7;
+    return 3;
 }
 ```
 
-**Fix:** Match the exact number, order, and types of parameters.
+---
+
+![](topics/function_data_to_and_fro/images/round_trip_method.png){width="10%"}
 
 ## Example: Temperature Conversion
 
@@ -375,7 +368,7 @@ char determineGrade(double average) {
 
 **Output:** `Grade: B`
 
-## Comprehensive Example: Grade Calculator
+## Example: Grade Calculator
 
 ```cpp
 #include <iostream>
@@ -426,3 +419,49 @@ void displayResults(string name, double avg, char grade) {
 
 Walk through the flow: main calls calculateAverage with 3 test scores, stores result, calls determineGrade with the average, then displayResults shows the output. This demonstrates how functions work together to solve a complete problem.
 :::
+
+## Appendix
+
+- Common Mistakes
+
+## Common Mistake: Missing Return
+
+```cpp
+int getValue() {
+    int x = 10;
+    // ERROR - no return statement
+}
+```
+
+**Compiler error:** Control reaches end of non-void function.
+
+**Fix:**
+```cpp
+int getValue() {
+    int x = 10;
+    return x;
+}
+```
+
+**Rule:** Non-void functions must return a value on all code paths.
+
+## Common Mistake:<br> Argument Count and Type
+
+```cpp
+void displayInfo(string name, int age) {
+    cout << name << " is " << age << endl;
+}
+
+int main() {
+    displayInfo("Alice");           // ERROR - missing argument
+    displayInfo("Bob", 20, 3.5);    // ERROR - too many arguments
+    displayInfo("Charlie", "20");   // ERROR - wrong type
+    displayInfo("David", 25);       // CORRECT
+    return 0;
+}
+```
+
+**Fix:** Match the exact number, order, and types of parameters.
+
+
+
