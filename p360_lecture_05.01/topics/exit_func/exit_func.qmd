@@ -1,0 +1,100 @@
+# The exit() Function
+
+How can a C++ program terminate immediately from anywhere in the code? The exit() function provides a way to end program execution from any point in your program.
+
+::: notes
+Total slides in this section: 5
+
+This introduction poses a question that engages students to think about program termination beyond simply reaching the end of main().
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## What is exit()?
+
+The exit() function terminates the program immediately, regardless of where it is called in the code. It requires including the cstdlib header file.
+
+```cpp
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+int main() {
+    cout << "Program starting..." << endl;
+    exit(0);  // Program ends here
+    cout << "This will never print" << endl;
+    return 0;
+}
+```
+
+When exit() is called, the program stops execution immediately and returns control to the operating system. Any code after the exit() call will not execute.
+
+::: notes
+A flowchart showing program flow with exit() being called would be helpful here, illustrating how execution stops immediately and skips remaining code.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Exit Status Codes
+
+The exit() function accepts an integer parameter that indicates the program's termination status to the operating system.
+
+```cpp
+#include <cstdlib>
+
+exit(0);              // Success - same as EXIT_SUCCESS
+exit(EXIT_SUCCESS);   // Predefined constant for success
+exit(EXIT_FAILURE);   // Predefined constant for failure
+exit(1);              // Non-zero indicates error
+```
+
+A status code of zero or EXIT_SUCCESS indicates successful termination. Non-zero values or EXIT_FAILURE indicate that an error occurred during execution.
+
+::: notes
+A simple table showing common exit codes and their meanings would help students understand the convention (0 = success, non-zero = various error conditions).
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## exit() vs return from main()
+
+While both exit() and return from main() terminate the program, they have important differences in behavior and usage.
+
+```cpp
+// Using return from main()
+int main() {
+    cout << "Returning from main" << endl;
+    return 0;  // Only works in main()
+}
+
+// Using exit()
+void checkError(bool hasError) {
+    if (hasError) {
+        exit(EXIT_FAILURE);  // Can be called from any function
+    }
+}
+```
+
+The return statement only terminates the current function and can only end the program when used in main(). The exit() function can be called from any function and immediately terminates the entire program.
+
+Both methods properly clean up static objects and flush output buffers before termination.
+
+::: notes
+A comparison diagram showing two parallel execution paths would be useful: one showing return only working in main(), and another showing exit() working from any function in the call stack.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
+The exit() function provides a mechanism to terminate program execution from any location in the code. It accepts a status code parameter to communicate success or failure to the operating system.
+
+<!-- Slide 5 -->

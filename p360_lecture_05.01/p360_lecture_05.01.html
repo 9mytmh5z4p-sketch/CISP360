@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="p360_lecture_05.01_files/libs/clipboard/clipboard.min.js"></script>
+<script src="p360_lecture_05.01_files/libs/quarto-html/tabby.min.js"></script>
+<script src="p360_lecture_05.01_files/libs/quarto-html/popper.min.js"></script>
+<script src="p360_lecture_05.01_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="p360_lecture_05.01_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="p360_lecture_05.01_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="p360_lecture_05.01_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.26">
+
+  <meta name="author" content="Dr.&nbsp;Caleb Fowler">
+  <title>CISP 360 Structured Programming</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="p360_lecture_05.01_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="p360_lecture_05.01_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="p360_lecture_05.01_files/libs/revealjs/dist/theme/quarto-99eeafcedac04850354b682963cedae3.css">
+  <link rel="stylesheet" href="../styles/styles.css">
+  <link href="p360_lecture_05.01_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="p360_lecture_05.01_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="p360_lecture_05.01_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="p360_lecture_05.01_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">CISP 360 Structured Programming</h1>
+  <p class="subtitle">Introduction to C++</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Dr.&nbsp;Caleb Fowler 
+</div>
+</div>
+</div>
+
+</section>
+<section id="last-time" class="slide level2">
+<h2>Last Time</h2>
+<ul>
+<li class="fragment">Local and global variables</li>
+<li class="fragment">Memory and functions</li>
+</ul>
+</section>
+<section id="todays-agenda" class="slide level2">
+<h2>Today’s Agenda</h2>
+<h3 id="function-odds-n-ends">Function Odds n Ends</h3>
+<ul>
+<li>Function Overloading</li>
+<li>Static Local Variables</li>
+<li>Reference Variables</li>
+<li>Pass by Reference</li>
+<li>Reference Variables as Parameters</li>
+<li>Default Arguments</li>
+<li>Exit() Function</li>
+</ul>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section>
+<section id="function-overloading" class="title-slide slide level1 center">
+<h1>Function Overloading</h1>
+
+</section>
+<section id="what-if-you-need-different-versions-of-the-same-operation" class="slide level2">
+<h2>What if you need different versions of the same operation?</h2>
+<p>In C++, you can define multiple functions with the same name as long as they have different parameter lists. This feature, called function overloading, allows you to create intuitive interfaces where related operations share a common name.</p>
+<aside class="notes">
+<p>Total slides in this section: 11</p>
+<p>Function overloading is a form of compile-time polymorphism that makes code more readable and maintainable. Students should already be comfortable with function declarations, parameters, and return types before this section.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="what-is-function-overloading" class="slide level2">
+<h2>What is Function Overloading?</h2>
+<p><strong>Function overloading</strong> allows you to define multiple functions with the same name but different parameter lists. The compiler distinguishes between these functions based on the arguments provided when the function is called.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="dt">int</span> max<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">);</span></span>
+<span id="cb1-2"><a href=""></a><span class="dt">double</span> max<span class="op">(</span><span class="dt">double</span> a<span class="op">,</span> <span class="dt">double</span> b<span class="op">);</span></span>
+<span id="cb1-3"><a href=""></a><span class="dt">int</span> max<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> c<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>All three functions are named <code>max</code>, but each has a unique parameter list. The compiler selects the appropriate version based on the arguments you provide.</p>
+<!-- Slide 2 -->
+</section>
+<section id="function-signatures" class="slide level2">
+<h2>Function Signatures</h2>
+<p>The <strong>function signature</strong> consists of the function name and its parameter list (the number and types of parameters). Two functions have different signatures if they differ in the number of parameters, the types of parameters, or both.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">void</span> print<span class="op">(</span><span class="dt">int</span> value<span class="op">);</span>           <span class="co">// Signature: print(int)</span></span>
+<span id="cb2-2"><a href=""></a><span class="dt">void</span> print<span class="op">(</span><span class="dt">double</span> value<span class="op">);</span>        <span class="co">// Signature: print(double)</span></span>
+<span id="cb2-3"><a href=""></a><span class="dt">void</span> print<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">);</span>        <span class="co">// Signature: print(int, int)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The signature does NOT include the return type or parameter names - only the parameter types and count matter for distinguishing overloaded functions.</p>
+<aside class="notes">
+<p>A visual diagram would be helpful here showing the components of a function signature. Show the function name and parameter types highlighted, with return type and parameter names grayed out to emphasize they’re not part of the signature. Emphasize that understanding signatures is fundamental to understanding how overloading works - the compiler uses only the signature to distinguish between functions.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="overloading-by-number-of-parameters" class="slide level2">
+<h2>Overloading by Number of Parameters</h2>
+<p>You can overload functions by providing different numbers of parameters.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">double</span> calculateArea<span class="op">(</span><span class="dt">double</span> side<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href=""></a>    <span class="cf">return</span> side <span class="op">*</span> side<span class="op">;</span>                    <span class="co">// Square</span></span>
+<span id="cb3-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb3-4"><a href=""></a></span>
+<span id="cb3-5"><a href=""></a><span class="dt">double</span> calculateArea<span class="op">(</span><span class="dt">double</span> length<span class="op">,</span> <span class="dt">double</span> width<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-6"><a href=""></a>    <span class="cf">return</span> length <span class="op">*</span> width<span class="op">;</span>                 <span class="co">// Rectangle</span></span>
+<span id="cb3-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb3-8"><a href=""></a></span>
+<span id="cb3-9"><a href=""></a><span class="dt">double</span> calculateArea<span class="op">(</span><span class="dt">double</span> a<span class="op">,</span> <span class="dt">double</span> b<span class="op">,</span> <span class="dt">double</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-10"><a href=""></a>    <span class="co">// Triangle using Heron's formula</span></span>
+<span id="cb3-11"><a href=""></a>    <span class="dt">double</span> s <span class="op">=</span> <span class="op">(</span>a <span class="op">+</span> b <span class="op">+</span> c<span class="op">)</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb3-12"><a href=""></a>    <span class="cf">return</span> sqrt<span class="op">(</span>s <span class="op">*</span> <span class="op">(</span>s <span class="op">-</span> a<span class="op">)</span> <span class="op">*</span> <span class="op">(</span>s <span class="op">-</span> b<span class="op">)</span> <span class="op">*</span> <span class="op">(</span>s <span class="op">-</span> c<span class="op">));</span></span>
+<span id="cb3-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Each version calculates area for a different shape based on how many parameters are provided.</p>
+<aside class="notes">
+<p>Emphasize that the function name suggests a common operation (calculating area) but the implementation differs based on the number of parameters. This makes the API intuitive - users don’t need to remember different function names for related operations. The triangle version uses all three side lengths, making it a natural three-parameter overload.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="overloading-by-parameter-types" class="slide level2">
+<h2>Overloading by Parameter Types</h2>
+<p>You can overload functions by using different parameter types, even with the same number of parameters.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">void</span> display<span class="op">(</span><span class="dt">int</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Integer: "</span> <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb4-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb4-4"><a href=""></a></span>
+<span id="cb4-5"><a href=""></a><span class="dt">void</span> display<span class="op">(</span><span class="dt">double</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Double: "</span> <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb4-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb4-8"><a href=""></a></span>
+<span id="cb4-9"><a href=""></a><span class="dt">void</span> display<span class="op">(</span>string value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"String: "</span> <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb4-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The compiler chooses the correct version based on the type of argument passed.</p>
+<!-- Slide 5 -->
+</section>
+<section id="combining-both-techniques" class="slide level2">
+<h2>Combining Both Techniques</h2>
+<p>Functions can be overloaded by both the number and types of parameters simultaneously.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span> sum<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-2"><a href=""></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb5-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb5-4"><a href=""></a></span>
+<span id="cb5-5"><a href=""></a><span class="dt">double</span> sum<span class="op">(</span><span class="dt">double</span> a<span class="op">,</span> <span class="dt">double</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-6"><a href=""></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb5-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb5-8"><a href=""></a></span>
+<span id="cb5-9"><a href=""></a><span class="dt">int</span> sum<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-10"><a href=""></a>    <span class="cf">return</span> a <span class="op">+</span> b <span class="op">+</span> c<span class="op">;</span></span>
+<span id="cb5-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This creates a flexible family of related functions that handle different scenarios.</p>
+<aside class="notes">
+<p>Point out that we have overloading by type (int vs.&nbsp;double with two parameters) and by number (two parameters vs.&nbsp;three parameters). This demonstrates that you can mix both techniques to create a comprehensive set of overloads. Students might ask why not also have a three-parameter double version - explain that you add overloads as needed, not exhaustively for every possible combination.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 6 -->
+</section>
+<section id="return-type-is-not-enough" class="slide level2">
+<h2>Return Type is Not Enough</h2>
+<p>Two functions cannot be overloaded if they differ only in return type. The parameter list must be different.</p>
+<p><strong>Invalid overloading:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="dt">int</span> getValue<span class="op">();</span></span>
+<span id="cb6-2"><a href=""></a><span class="dt">double</span> getValue<span class="op">();</span>       <span class="co">// ERROR: conflicts with int getValue()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Valid overloading:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">int</span> getValue<span class="op">(</span><span class="dt">int</span> x<span class="op">);</span></span>
+<span id="cb7-2"><a href=""></a><span class="dt">double</span> getValue<span class="op">(</span><span class="dt">double</span> x<span class="op">);</span>   <span class="co">// OK: different parameter types</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The compiler determines which function to call based on the arguments at the call site, not on how you use the return value, so return type alone cannot distinguish functions.</p>
+<aside class="notes">
+<p>Explain why this makes sense: when you write getValue(), the compiler has no way to know which version you want based solely on what you do with the result later. Consider: int x = getValue(); - both versions could work here. The decision must be made at the call site based on the arguments provided, before the compiler even knows what you’ll do with the return value.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 7 -->
+</section>
+<section id="how-the-compiler-chooses" class="slide level2">
+<h2>How the Compiler Chooses</h2>
+<p>When you call an overloaded function, the compiler follows a process called <strong>overload resolution</strong> to determine which version to use.</p>
+<p>The compiler examines the arguments you provide and compares them against all available overloaded versions. It selects the function whose parameters best match the types and number of arguments supplied.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">void</span> process<span class="op">(</span><span class="dt">int</span> x<span class="op">);</span></span>
+<span id="cb8-2"><a href=""></a><span class="dt">void</span> process<span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb8-3"><a href=""></a></span>
+<span id="cb8-4"><a href=""></a>process<span class="op">(</span><span class="dv">5</span><span class="op">);</span>        <span class="co">// Calls process(int)</span></span>
+<span id="cb8-5"><a href=""></a>process<span class="op">(</span><span class="fl">5.0</span><span class="op">);</span>      <span class="co">// Calls process(double)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If the compiler cannot determine a single best match (ambiguity), it generates a compiler error rather than guessing.</p>
+<aside class="notes">
+<p>Overload resolution is complex, but at this level students need to understand the basic principle: the compiler picks the best match based on the arguments. A flowchart showing the decision process would be helpful. Mention that ambiguity errors occur when two or more overloads are equally good matches - the compiler won’t arbitrarily choose one.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 8 -->
+</section>
+<section id="exact-match-priority" class="slide level2">
+<h2>Exact Match Priority</h2>
+<p>The compiler prefers exact matches over conversions. If an exact match exists, it will be chosen.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="dt">void</span> show<span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"int version"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb9-4"><a href=""></a></span>
+<span id="cb9-5"><a href=""></a><span class="dt">void</span> show<span class="op">(</span><span class="dt">double</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"double version"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb9-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb9-8"><a href=""></a></span>
+<span id="cb9-9"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-10"><a href=""></a>    show<span class="op">(</span><span class="dv">10</span><span class="op">);</span>      <span class="co">// Exact match with int version</span></span>
+<span id="cb9-11"><a href=""></a>    show<span class="op">(</span><span class="fl">10.5</span><span class="op">);</span>    <span class="co">// Exact match with double version</span></span>
+<span id="cb9-12"><a href=""></a>    show<span class="op">(</span><span class="fl">10.0</span><span class="op">);</span>    <span class="co">// Exact match with double version</span></span>
+<span id="cb9-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If no exact match exists, the compiler considers type conversions. For example, if only <code>show(double)</code> existed, calling <code>show(10)</code> would still work by converting the int to double.</p>
+<aside class="notes">
+<p>Students should understand that 10 is an int literal, 10.5 and 10.0 are double literals. The compiler doesn’t need to convert anything when there’s an exact match. If only show(double) existed, calling show(10) would work through automatic conversion, but it’s not the best match if show(int) is available. Exact matches are always preferred to avoid unnecessary conversions.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 9 -->
+</section>
+<section id="practical-example" class="slide level2">
+<h2>Practical Example</h2>
+<p>Function overloading is commonly used for operations that logically do the same thing but work with different data types or quantities.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">void</span> printReport<span class="op">(</span>string title<span class="op">,</span> <span class="dt">int</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> title <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb10-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb10-4"><a href=""></a></span>
+<span id="cb10-5"><a href=""></a><span class="dt">void</span> printReport<span class="op">(</span>string title<span class="op">,</span> <span class="dt">double</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> title <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb10-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb10-8"><a href=""></a></span>
+<span id="cb10-9"><a href=""></a><span class="dt">void</span> printReport<span class="op">(</span>string title<span class="op">,</span> <span class="dt">int</span> value1<span class="op">,</span> <span class="dt">int</span> value2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> title <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> value1 <span class="op">&lt;&lt;</span> <span class="st">", "</span> <span class="op">&lt;&lt;</span> value2 <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb10-11"><a href=""></a><span class="op">}</span></span>
+<span id="cb10-12"><a href=""></a></span>
+<span id="cb10-13"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb10-14"><a href=""></a>    printReport<span class="op">(</span><span class="st">"Count"</span><span class="op">,</span> <span class="dv">42</span><span class="op">);</span></span>
+<span id="cb10-15"><a href=""></a>    printReport<span class="op">(</span><span class="st">"Average"</span><span class="op">,</span> <span class="fl">87.5</span><span class="op">);</span></span>
+<span id="cb10-16"><a href=""></a>    printReport<span class="op">(</span><span class="st">"Range"</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">100</span><span class="op">);</span></span>
+<span id="cb10-17"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This provides a consistent interface for printing different types of reports.</p>
+<aside class="notes">
+<p>Emphasize that from the caller’s perspective, printReport is a single conceptual operation - reporting a value. The overloading handles the details of different types and formats automatically. This is cleaner than having printReportInt, printReportDouble, printReportRange, etc. Point out how the three calls look similar and intuitive despite calling different underlying functions.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 10 -->
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<p>Function overloading allows multiple functions to share the same name as long as their signatures (number and/or types of parameters) differ. The compiler automatically selects the correct version based on the arguments provided at the call site.</p>
+<!-- Slide 11 -->
+</section></section>
+<section>
+<section id="default-arguments" class="title-slide slide level1 center">
+<h1>Default Arguments</h1>
+
+</section>
+<section id="how-can-you-make-function-parameters-optional" class="slide level2">
+<h2>How can you make function parameters optional?</h2>
+<p>In C++, you can provide default values for function parameters, allowing callers to omit those arguments. Default arguments make functions more flexible by providing sensible fallback values when arguments aren’t supplied.</p>
+<aside class="notes">
+<p>Total slides in this section: 8</p>
+<p>Default arguments are a powerful feature that reduces the need for function overloading in many cases. This section focuses on syntax, rules, and practical applications.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="what-are-default-arguments" class="slide level2">
+<h2>What are Default Arguments?</h2>
+<p>A <strong>default argument</strong> is a value provided in a function declaration that will be used if the caller doesn’t supply that argument. They eliminate the need to write multiple versions of similar functions, making your code more maintainable.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">void</span> printMessage<span class="op">(</span>string msg<span class="op">,</span> <span class="dt">int</span> times <span class="op">=</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb11-2"><a href=""></a></span>
+<span id="cb11-3"><a href=""></a>printMessage<span class="op">(</span><span class="st">"Hello"</span><span class="op">);</span>        <span class="co">// Uses default: times = 1</span></span>
+<span id="cb11-4"><a href=""></a>printMessage<span class="op">(</span><span class="st">"Hello"</span><span class="op">,</span> <span class="dv">3</span><span class="op">);</span>     <span class="co">// Overrides default: times = 3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The function behaves as if the missing argument was provided with the default value.</p>
+<!-- Slide 2 -->
+</section>
+<section id="simple-example" class="slide level2">
+<h2>Simple Example</h2>
+<p>Here’s a function that displays a greeting with an optional recipient name.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">void</span> greet<span class="op">(</span>string name <span class="op">=</span> <span class="st">"Guest"</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Welcome, "</span> <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">"!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb12-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb12-4"><a href=""></a></span>
+<span id="cb12-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb12-6"><a href=""></a>    greet<span class="op">();</span>              <span class="co">// Output: Welcome, Guest!</span></span>
+<span id="cb12-7"><a href=""></a>    greet<span class="op">(</span><span class="st">"Alice"</span><span class="op">);</span>       <span class="co">// Output: Welcome, Alice!</span></span>
+<span id="cb12-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb12-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>When <code>greet()</code> is called without arguments, the default value “Guest” is used automatically.</p>
+<aside class="notes">
+<p>Emphasize that the function can be called with or without the argument. The default makes the parameter optional from the caller’s perspective, but the function body always receives a value - there’s never an “uninitialized” or “missing” parameter inside the function. This is a key distinction from other languages.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="multiple-default-arguments" class="slide level2">
+<h2>Multiple Default Arguments</h2>
+<p>Functions can have multiple parameters with default values. All calls are valid as long as required parameters are provided.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">void</span> displayInfo<span class="op">(</span>string name<span class="op">,</span> <span class="dt">int</span> age <span class="op">=</span> <span class="dv">18</span><span class="op">,</span> string city <span class="op">=</span> <span class="st">"Unknown"</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">", "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> <span class="st">" years old, from "</span> <span class="op">&lt;&lt;</span> city <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb13-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb13-4"><a href=""></a></span>
+<span id="cb13-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-6"><a href=""></a>    displayInfo<span class="op">(</span><span class="st">"Alice"</span><span class="op">);</span>                    <span class="co">// Output: Alice, 18 years old, from Unknown</span></span>
+<span id="cb13-7"><a href=""></a>    displayInfo<span class="op">(</span><span class="st">"Bob"</span><span class="op">,</span> <span class="dv">25</span><span class="op">);</span>                  <span class="co">// Output: Bob, 25 years old, from Unknown</span></span>
+<span id="cb13-8"><a href=""></a>    displayInfo<span class="op">(</span><span class="st">"Charlie"</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="st">"Boston"</span><span class="op">);</span>    <span class="co">// Output: Charlie, 30 years old, from Boston</span></span>
+<span id="cb13-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Walk through each call showing which parameters use defaults and which are supplied. Point out that you can override just the first default (age) while still using subsequent defaults (city), but you cannot skip a default to override one further right - arguments are matched left-to-right. This ties directly into the ordering rule on the next slide.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="parameter-ordering-rule" class="slide level2">
+<h2>Parameter Ordering Rule</h2>
+<p>Default arguments must follow a specific ordering rule: once a parameter has a default value, all subsequent parameters to its right must also have defaults.</p>
+<p><strong>Valid:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">void</span> func1<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b <span class="op">=</span> <span class="dv">5</span><span class="op">,</span> <span class="dt">int</span> c <span class="op">=</span> <span class="dv">10</span><span class="op">);</span>        <span class="co">// Correct</span></span>
+<span id="cb14-2"><a href=""></a><span class="dt">void</span> func2<span class="op">(</span><span class="dt">int</span> a <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">int</span> b <span class="op">=</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">int</span> c <span class="op">=</span> <span class="dv">3</span><span class="op">);</span>    <span class="co">// Correct</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Invalid:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">void</span> func3<span class="op">(</span><span class="dt">int</span> a <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> c <span class="op">=</span> <span class="dv">3</span><span class="op">);</span>         <span class="co">// ERROR: gap in defaults</span></span>
+<span id="cb15-2"><a href=""></a><span class="dt">void</span> func4<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b <span class="op">=</span> <span class="dv">5</span><span class="op">,</span> <span class="dt">int</span> c<span class="op">);</span>             <span class="co">// ERROR: default before non-default</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Violating this rule results in a compiler error. The rule ensures that arguments can be matched to parameters unambiguously from left to right.</p>
+<aside class="notes">
+<p>A visual diagram would be helpful here showing valid and invalid parameter sequences with arrows indicating the left-to-right matching rule. Explain that this prevents ambiguity when the compiler tries to match supplied arguments to parameters. If func3 were allowed, calling it with two arguments would be ambiguous - should they map to (a,b) or (a,c)?</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 5 -->
+</section>
+<section id="where-to-specify-defaults" class="slide level2">
+<h2>Where to Specify Defaults</h2>
+<p>Default arguments must be specified in the function prototype, not in the function definition when both are present.</p>
+<p><strong>Correct approach:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="co">// Prototype - defaults specified here</span></span>
+<span id="cb16-2"><a href=""></a><span class="dt">void</span> calculatePrice<span class="op">(</span><span class="dt">double</span> base<span class="op">,</span> <span class="dt">double</span> tax <span class="op">=</span> <span class="fl">0.08</span><span class="op">,</span> <span class="dt">double</span> discount <span class="op">=</span> <span class="fl">0.0</span><span class="op">);</span></span>
+<span id="cb16-3"><a href=""></a></span>
+<span id="cb16-4"><a href=""></a><span class="co">// Definition - NO defaults here</span></span>
+<span id="cb16-5"><a href=""></a><span class="dt">void</span> calculatePrice<span class="op">(</span><span class="dt">double</span> base<span class="op">,</span> <span class="dt">double</span> tax<span class="op">,</span> <span class="dt">double</span> discount<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-6"><a href=""></a>    <span class="dt">double</span> total <span class="op">=</span> base <span class="op">*</span> <span class="op">(</span><span class="dv">1</span> <span class="op">+</span> tax<span class="op">)</span> <span class="op">-</span> discount<span class="op">;</span></span>
+<span id="cb16-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Total: $"</span> <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb16-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Note:</strong> If you have only a definition with no separate prototype, the defaults can appear in that single definition.</p>
+<p><strong>Incorrect approach:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">void</span> calculatePrice<span class="op">(</span><span class="dt">double</span> base<span class="op">,</span> <span class="dt">double</span> tax<span class="op">,</span> <span class="dt">double</span> discount<span class="op">);</span>  <span class="co">// Prototype with no defaults</span></span>
+<span id="cb17-2"><a href=""></a></span>
+<span id="cb17-3"><a href=""></a><span class="dt">void</span> calculatePrice<span class="op">(</span><span class="dt">double</span> base<span class="op">,</span> <span class="dt">double</span> tax <span class="op">=</span> <span class="fl">0.08</span><span class="op">,</span> <span class="dt">double</span> discount <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// ERROR: defaults in definition</span></span>
+<span id="cb17-4"><a href=""></a>    <span class="co">// Function body</span></span>
+<span id="cb17-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Explain that the compiler needs to know about default values at the point where the function is called, which is why they must be in the prototype when you have separate prototypes and definitions. The common case in well-structured code is separate prototypes (in headers) and definitions (in source files). For simple programs with everything in one file and no prototype, putting defaults in the definition is acceptable.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 6 -->
+</section>
+<section id="practical-use-case" class="slide level2">
+<h2>Practical Use Case</h2>
+<p>Default arguments are useful when a function has logical default behavior that most callers will use.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">void</span> saveFile<span class="op">(</span>string filename<span class="op">,</span> <span class="dt">bool</span> createBackup <span class="op">=</span> <span class="kw">true</span><span class="op">,</span> </span>
+<span id="cb18-2"><a href=""></a>              string format <span class="op">=</span> <span class="st">"txt"</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Saving "</span> <span class="op">&lt;&lt;</span> filename <span class="op">&lt;&lt;</span> <span class="st">"."</span> <span class="op">&lt;&lt;</span> format <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb18-4"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>createBackup<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Creating backup..."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb18-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb18-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb18-8"><a href=""></a></span>
+<span id="cb18-9"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb18-10"><a href=""></a>    saveFile<span class="op">(</span><span class="st">"data"</span><span class="op">);</span>                          <span class="co">// Uses both defaults</span></span>
+<span id="cb18-11"><a href=""></a>    saveFile<span class="op">(</span><span class="st">"report"</span><span class="op">,</span> <span class="kw">false</span><span class="op">);</span>                 <span class="co">// Custom backup setting</span></span>
+<span id="cb18-12"><a href=""></a>    saveFile<span class="op">(</span><span class="st">"output"</span><span class="op">,</span> <span class="kw">true</span><span class="op">,</span> <span class="st">"csv"</span><span class="op">);</span>           <span class="co">// All custom values</span></span>
+<span id="cb18-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb18-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This eliminates the need for multiple function versions while keeping the interface simple for common cases.</p>
+<aside class="notes">
+<p>Emphasize that good default values represent the “normal” or “most common” usage. Users who need different behavior can override specific parameters while still benefiting from sensible defaults for the rest.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 7 -->
+</section>
+<section id="summary-1" class="slide level2">
+<h2>Summary</h2>
+<p>Default arguments allow you to specify default values for function parameters, making those parameters optional when the function is called. Defaults must be specified in the function prototype and must appear from right to left with no gaps.</p>
+<!-- Slide 8 -->
+</section></section>
+<section>
+<section id="pass-by-reference" class="title-slide slide level1 center">
+<h1>Pass by Reference</h1>
+<p>Why can’t a function change the value of a variable we pass to it? Today we’ll learn how to give functions the power to modify the original variables.</p>
+<aside class="notes">
+<p>Total slides: 10</p>
+<p>Consider including a simple diagram showing a function call with a variable being passed.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="review-pass-by-value" class="slide level2">
+<h2>Review: Pass by Value</h2>
+<p>When we pass a variable to a function, C++ makes a copy of that value. The function works with the copy, not the original variable.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">void</span> addTen<span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-2"><a href=""></a>    x <span class="op">=</span> x <span class="op">+</span> <span class="dv">10</span><span class="op">;</span>  <span class="co">// changes the copy only</span></span>
+<span id="cb19-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb19-4"><a href=""></a></span>
+<span id="cb19-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb19-6"><a href=""></a>    <span class="dt">int</span> num <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb19-7"><a href=""></a>    addTen<span class="op">(</span>num<span class="op">);</span></span>
+<span id="cb19-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> num<span class="op">;</span>  <span class="co">// still prints 5</span></span>
+<span id="cb19-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Consider a diagram showing two separate memory locations: one for ‘num’ in main, one for ‘x’ in the function.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 2 -->
+</section>
+<section id="what-is-pass-by-reference" class="slide level2">
+<h2>What is Pass by Reference?</h2>
+<p>Pass by reference allows a function to work directly with the original variable instead of a copy. Changes made inside the function affect the original variable.</p>
+<p>Think of it as giving the function access to the actual storage location of your variable.</p>
+<aside class="notes">
+<p>A diagram showing a single memory location accessed by both main and the function would be helpful here.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="syntax-for-pass-by-reference" class="slide level2">
+<h2>Syntax for Pass by Reference</h2>
+<p>To pass by reference, add an ampersand (<code>&amp;</code>) after the type in the parameter list.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">void</span> addTen<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> x<span class="op">)</span> <span class="op">{</span>  <span class="co">// note the &amp;</span></span>
+<span id="cb20-2"><a href=""></a>    x <span class="op">=</span> x <span class="op">+</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb20-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb20-4"><a href=""></a></span>
+<span id="cb20-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb20-6"><a href=""></a>    <span class="dt">int</span> num <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb20-7"><a href=""></a>    addTen<span class="op">(</span>num<span class="op">);</span></span>
+<span id="cb20-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> num<span class="op">;</span>  <span class="co">// now prints 15</span></span>
+<span id="cb20-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The only change is adding <code>&amp;</code> to the parameter declaration.</p>
+<!-- Slide 4 -->
+</section>
+<section id="how-pass-by-reference-works" class="slide level2">
+<h2>How Pass by Reference Works</h2>
+<p>When you pass by reference, the parameter and the original variable are two different names for the same memory location. Changing one changes the other because they’re actually the same variable.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="dt">void</span> demo<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> ref<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-2"><a href=""></a>    ref <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>  <span class="co">// changes the original</span></span>
+<span id="cb21-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb21-4"><a href=""></a></span>
+<span id="cb21-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb21-6"><a href=""></a>    <span class="dt">int</span> original <span class="op">=</span> <span class="dv">50</span><span class="op">;</span></span>
+<span id="cb21-7"><a href=""></a>    demo<span class="op">(</span>original<span class="op">);</span>  <span class="co">// original is now 100</span></span>
+<span id="cb21-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 5 -->
+</section>
+<section id="example-swapping-two-variables" class="slide level2">
+<h2>Example: Swapping Two Variables</h2>
+<p>Pass by reference is essential when a function needs to modify multiple variables.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="dt">void</span> swap<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> a<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-2"><a href=""></a>    <span class="dt">int</span> temp <span class="op">=</span> a<span class="op">;</span></span>
+<span id="cb22-3"><a href=""></a>    a <span class="op">=</span> b<span class="op">;</span></span>
+<span id="cb22-4"><a href=""></a>    b <span class="op">=</span> temp<span class="op">;</span></span>
+<span id="cb22-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb22-6"><a href=""></a></span>
+<span id="cb22-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb22-8"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb22-9"><a href=""></a>    swap<span class="op">(</span>x<span class="op">,</span> y<span class="op">);</span></span>
+<span id="cb22-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> x <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> y<span class="op">;</span>  <span class="co">// prints 20 10</span></span>
+<span id="cb22-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Consider a visual diagram showing the three steps of the swap operation with memory addresses.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 6 -->
+</section>
+<section id="when-to-use-pass-by-reference" class="slide level2">
+<h2>When to Use Pass by Reference</h2>
+<p>Use pass by reference when a function needs to modify the original variable. Common scenarios include functions that update values, swap variables, or return multiple results.</p>
+<p>Use pass by value when the function should not change the original variable.</p>
+<!-- Slide 7 -->
+</section>
+<section id="pass-by-reference-with-const" class="slide level2">
+<h2>Pass by Reference with Const</h2>
+<p>Use <code>const</code> with pass by reference when you want to avoid copying without allowing changes. This prevents accidental modifications.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">void</span> display<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">&amp;</span> num<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> num<span class="op">;</span>     <span class="co">// can read the value</span></span>
+<span id="cb23-3"><a href=""></a>    <span class="co">// num = 10;     // error: can't modify</span></span>
+<span id="cb23-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>const</code> keyword protects the original variable from being changed.</p>
+<!-- Slide 8 -->
+</section>
+<section id="common-practices" class="slide level2">
+<h2>Common Practices</h2>
+<p>Always use <code>const</code> with reference parameters unless the function needs to modify the variable. This documents your intent and prevents errors.</p>
+<p>Use descriptive parameter names that indicate the parameter will be modified. Names like <code>result</code>, <code>output</code>, or <code>updated</code> signal that a parameter may change.</p>
+<!-- Slide 9 -->
+</section>
+<section id="summary-2" class="slide level2">
+<h2>Summary</h2>
+<p>Pass by reference uses the <code>&amp;</code> symbol to allow functions to modify original variables. It creates an alias to the original variable rather than a copy.</p>
+<!-- Slide 10 -->
+</section></section>
+<section>
+<section id="reference-variables" class="title-slide slide level1 center">
+<h1>Reference Variables</h1>
+
+</section>
+<section id="what-if-you-could-give-a-variable-a-second-name" class="slide level2">
+<h2>What if you could give a variable a second name?</h2>
+<p>In C++, you can create an alias for an existing variable using a reference. A reference is simply another name for the same memory location, allowing you to access and modify the original variable through different identifiers.</p>
+<aside class="notes">
+<p>Total slides in this section: 7</p>
+<p>This concept is fundamental for understanding how C++ handles data efficiently. References provide a way to work with variables under different names without copying data.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="what-is-a-reference-variable" class="slide level2">
+<h2>What is a Reference Variable?</h2>
+<p>A <strong>reference variable</strong> is an alias for another variable. It is not a separate variable but rather an alternative name for an existing variable. Any operation performed on the reference affects the original variable directly.</p>
+<p>Think of a reference as a nickname - just as “Bob” and “Robert” refer to the same person, a reference and the original variable refer to the same memory location. Both names have equal status and access.</p>
+<aside class="notes">
+<p>A diagram would be useful here showing a memory location with two labels pointing to it - one for the original variable name and one for the reference name. This visualizes that they are truly the same entity, not two separate variables.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 2 -->
+</section>
+<section id="creating-and-using-reference-variables" class="slide level2">
+<h2>Creating and Using Reference Variables</h2>
+<p>References are created using the <code>&amp;</code> symbol in the declaration. A reference must be initialized when it is declared.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">85</span><span class="op">;</span></span>
+<span id="cb24-2"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> scoreRef <span class="op">=</span> score<span class="op">;</span>         <span class="co">// scoreRef is a reference to score</span></span>
+<span id="cb24-3"><a href=""></a></span>
+<span id="cb24-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"score: "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span>         <span class="co">// Output: 85</span></span>
+<span id="cb24-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"scoreRef: "</span> <span class="op">&lt;&lt;</span> scoreRef <span class="op">&lt;&lt;</span> endl<span class="op">;</span>   <span class="co">// Output: 85</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The syntax <code>int&amp; scoreRef</code> declares <code>scoreRef</code> as a reference to an integer. The <code>&amp;</code> is part of the type, not the variable name.</p>
+<aside class="notes">
+<p>Walk through the declaration step-by-step. Emphasize that the &amp; goes with the type (int&amp;) and that the reference must be initialized immediately - you cannot declare a reference and initialize it later.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="references-as-aliases" class="slide level2">
+<h2>References as Aliases</h2>
+<p>Modifying a reference modifies the original variable, and vice versa. They are truly two names for the same thing.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="dt">int</span> value <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb25-2"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> valueRef <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb25-3"><a href=""></a></span>
+<span id="cb25-4"><a href=""></a>valueRef <span class="op">=</span> <span class="dv">20</span><span class="op">;</span>                  <span class="co">// Changes value through the reference</span></span>
+<span id="cb25-5"><a href=""></a></span>
+<span id="cb25-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span>          <span class="co">// Output: 20</span></span>
+<span id="cb25-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> valueRef <span class="op">&lt;&lt;</span> endl<span class="op">;</span>       <span class="co">// Output: 20</span></span>
+<span id="cb25-8"><a href=""></a></span>
+<span id="cb25-9"><a href=""></a>value <span class="op">=</span> <span class="dv">30</span><span class="op">;</span>                     <span class="co">// Changes value directly</span></span>
+<span id="cb25-10"><a href=""></a></span>
+<span id="cb25-11"><a href=""></a>cout <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span>          <span class="co">// Output: 30</span></span>
+<span id="cb25-12"><a href=""></a>cout <span class="op">&lt;&lt;</span> valueRef <span class="op">&lt;&lt;</span> endl<span class="op">;</span>       <span class="co">// Output: 30</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>A diagram showing the timeline of changes would be helpful. Show how modifying either name affects the single shared value, reinforcing that there is only one variable with two names. Students often expect a reference to be a copy, so emphasize that changes through either name affect the same memory location.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="reference-rules" class="slide level2">
+<h2>Reference Rules</h2>
+<p>References have strict requirements that distinguish them from regular variables.</p>
+<p><strong>Must be initialized at declaration:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> ref<span class="op">;</span>                      <span class="co">// ERROR - reference must be initialized</span></span>
+<span id="cb26-2"><a href=""></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb26-3"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> ref <span class="op">=</span> x<span class="op">;</span>                  <span class="co">// Correct</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Cannot be rebound to a different variable:</strong></p>
+<p>Once a reference is bound to a variable, it remains bound to that variable forever.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb27-2"><a href=""></a><span class="dt">int</span> b <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb27-3"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> ref <span class="op">=</span> a<span class="op">;</span>                  <span class="co">// ref is bound to a</span></span>
+<span id="cb27-4"><a href=""></a>ref <span class="op">=</span> b<span class="op">;</span>                       <span class="co">// Assigns b's value (20) to a through ref</span></span>
+<span id="cb27-5"><a href=""></a>                               <span class="co">// ref still refers to a, NOT to b</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>The second rule confuses many students. Emphasize that ref = b does NOT make ref refer to b. Instead, it assigns the value of b into a (through ref). The reference relationship cannot be changed after initialization. You might demonstrate this by printing the addresses of a, b, and ref to show that ref always points to a.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 5 -->
+</section>
+<section id="practical-example-1" class="slide level2">
+<h2>Practical Example</h2>
+<p>References are useful when you want to work with a variable under a more descriptive name without copying it.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="dt">int</span> totalPoints <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb28-2"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> score <span class="op">=</span> totalPoints<span class="op">;</span>       <span class="co">// score is an alias for totalPoints</span></span>
+<span id="cb28-3"><a href=""></a></span>
+<span id="cb28-4"><a href=""></a>score <span class="op">+=</span> <span class="dv">10</span><span class="op">;</span>                    <span class="co">// Award 10 points</span></span>
+<span id="cb28-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Score: "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span>             <span class="co">// Output: 10</span></span>
+<span id="cb28-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Total: "</span> <span class="op">&lt;&lt;</span> totalPoints <span class="op">&lt;&lt;</span> endl<span class="op">;</span>       <span class="co">// Output: 10</span></span>
+<span id="cb28-7"><a href=""></a></span>
+<span id="cb28-8"><a href=""></a>score <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span>                     <span class="co">// Award 5 more points</span></span>
+<span id="cb28-9"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Final score: "</span> <span class="op">&lt;&lt;</span> totalPoints <span class="op">&lt;&lt;</span> endl<span class="op">;</span> <span class="co">// Output: 15</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This improves code readability by providing a meaningful context-specific name for the same data without creating a copy.</p>
+<aside class="notes">
+<p>Emphasize the efficiency aspect - no data is duplicated. The reference provides a different name that might be more meaningful in a particular context (e.g., “score” in a game function vs.&nbsp;“totalPoints” in the main program) while still referring to the same underlying variable.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 6 -->
+</section>
+<section id="summary-3" class="slide level2">
+<h2>Summary</h2>
+<p>A reference variable is an alias that provides an alternative name for an existing variable. References must be initialized when declared and cannot be reassigned to refer to different variables.</p>
+<!-- Slide 7 -->
+</section></section>
+<section>
+<section id="reference-variables-as-parameters" class="title-slide slide level1 center">
+<h1>Reference Variables as Parameters</h1>
+<p>How can functions modify the original variables passed to them? Reference variables provide an alternative way to pass arguments to functions in C++.</p>
+<aside class="notes">
+<p>Total slides in this section: 3</p>
+<p>This introduction poses a question that the lecture will answer, engaging students to think about parameter passing mechanisms before diving into the technical details.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="using-reference-parameters" class="slide level2">
+<h2>Using Reference Parameters</h2>
+<p>When a parameter is declared with an ampersand, it becomes a reference to the original variable rather than a copy.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="dt">void</span> increment<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> num<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-2"><a href=""></a>    num<span class="op">++;</span>  <span class="co">// Modifies the original variable</span></span>
+<span id="cb29-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb29-4"><a href=""></a></span>
+<span id="cb29-5"><a href=""></a><span class="dt">void</span> displayValue<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">&amp;</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Value: "</span> <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Cannot modify value</span></span>
+<span id="cb29-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb29-8"><a href=""></a></span>
+<span id="cb29-9"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb29-10"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb29-11"><a href=""></a>    increment<span class="op">(</span>x<span class="op">);</span>  <span class="co">// x is now 6</span></span>
+<span id="cb29-12"><a href=""></a>    displayValue<span class="op">(</span>x<span class="op">);</span>  <span class="co">// Outputs: Value: 6</span></span>
+<span id="cb29-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb29-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Reference parameters allow functions to modify the original arguments. Adding <code>const</code> prevents modification while still avoiding copies.</p>
+<aside class="notes">
+<p>A diagram showing two memory boxes would be helpful here: one showing pass-by-value with separate copies, and another showing pass-by-reference with both variables pointing to the same memory location.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 2 -->
+</section>
+<section id="reference-variables-as-return-values" class="slide level2">
+<h2>Reference Variables as Return Values</h2>
+<p>Returning a reference to a local variable creates a dangling reference that points to memory that no longer exists after the function ends.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="co">// DANGEROUS - Do not do this</span></span>
+<span id="cb30-2"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> badFunction<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb30-3"><a href=""></a>    <span class="dt">int</span> localVar <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb30-4"><a href=""></a>    <span class="cf">return</span> localVar<span class="op">;</span>  <span class="co">// localVar is destroyed when function ends</span></span>
+<span id="cb30-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb30-6"><a href=""></a></span>
+<span id="cb30-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb30-8"><a href=""></a>    <span class="dt">int</span><span class="op">&amp;</span> ref <span class="op">=</span> badFunction<span class="op">();</span>  <span class="co">// ref points to invalid memory</span></span>
+<span id="cb30-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> ref <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Undefined behavior</span></span>
+<span id="cb30-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb30-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Local variables are destroyed when their function scope ends, making any reference to them invalid and causing unpredictable program behavior.</p>
+<aside class="notes">
+<p>A memory diagram showing the stack frame being destroyed when the function returns would illustrate why the reference becomes invalid.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section></section>
+<section>
+<section id="whats-the-output" class="title-slide slide level1 center">
+<h1>What’s the Output?</h1>
+<aside class="notes">
+<p>Focus: pass by reference and variable modification, basic level, 23 lines</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="exercise-goals" class="slide level2">
+<h2>Exercise Goals</h2>
+<ul>
+<li>Review of code syntax</li>
+<li>Check understanding of syntax</li>
+<li>Understand how reference parameters modify original variables</li>
+<li>Observe cumulative effects of multiple reference modifications</li>
+</ul>
+</section>
+<section id="what-to-do" class="slide level2">
+<h2>What to Do</h2>
+<ul>
+<li>Using the given code …</li>
+<li>Trace how variables change through reference parameters</li>
+<li>Compute the output (MANUALLY)</li>
+</ul>
+</section>
+<section id="whats-the-output-1" class="slide level2">
+<h2>What’s the Output?</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="co">//WhatsTheOutput_References.cpp</span></span>
+<span id="cb31-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb31-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb31-4"><a href=""></a><span class="dt">void</span> addFive<span class="op">(</span><span class="dt">int</span><span class="op">&amp;);</span></span>
+<span id="cb31-5"><a href=""></a><span class="dt">void</span> doubleValue<span class="op">(</span><span class="dt">int</span><span class="op">&amp;);</span></span>
+<span id="cb31-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb31-7"><a href=""></a>    <span class="dt">int</span> a <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> b <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb31-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> a <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> b <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb31-9"><a href=""></a>    addFive<span class="op">(</span>a<span class="op">);</span></span>
+<span id="cb31-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> a <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> b <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb31-11"><a href=""></a>    doubleValue<span class="op">(</span>b<span class="op">);</span></span>
+<span id="cb31-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> a <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> b <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb31-13"><a href=""></a>    addFive<span class="op">(</span>b<span class="op">);</span></span>
+<span id="cb31-14"><a href=""></a>    doubleValue<span class="op">(</span>a<span class="op">);</span></span>
+<span id="cb31-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> a <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> b <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb31-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb31-17"><a href=""></a><span class="op">}</span></span>
+<span id="cb31-18"><a href=""></a><span class="dt">void</span> addFive<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> num<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-19"><a href=""></a>    num <span class="op">=</span> num <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb31-20"><a href=""></a><span class="op">}</span></span>
+<span id="cb31-21"><a href=""></a><span class="dt">void</span> doubleValue<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> num<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-22"><a href=""></a>    num <span class="op">=</span> num <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb31-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:75%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a><span class="co">//WhatsTheOutput_References.cpp</span></span>
+<span id="cb32-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb32-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb32-4"><a href=""></a><span class="dt">void</span> addFive<span class="op">(</span><span class="dt">int</span><span class="op">&amp;);</span></span>
+<span id="cb32-5"><a href=""></a><span class="dt">void</span> doubleValue<span class="op">(</span><span class="dt">int</span><span class="op">&amp;);</span></span>
+<span id="cb32-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb32-7"><a href=""></a>    <span class="dt">int</span> a <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> b <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb32-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> a <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> b <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb32-9"><a href=""></a>    addFive<span class="op">(</span>a<span class="op">);</span></span>
+<span id="cb32-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> a <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> b <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb32-11"><a href=""></a>    doubleValue<span class="op">(</span>b<span class="op">);</span></span>
+<span id="cb32-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> a <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> b <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb32-13"><a href=""></a>    addFive<span class="op">(</span>b<span class="op">);</span></span>
+<span id="cb32-14"><a href=""></a>    doubleValue<span class="op">(</span>a<span class="op">);</span></span>
+<span id="cb32-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> a <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> b <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb32-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb32-17"><a href=""></a><span class="op">}</span></span>
+<span id="cb32-18"><a href=""></a><span class="dt">void</span> addFive<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> num<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-19"><a href=""></a>    num <span class="op">=</span> num <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb32-20"><a href=""></a><span class="op">}</span></span>
+<span id="cb32-21"><a href=""></a><span class="dt">void</span> doubleValue<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> num<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-22"><a href=""></a>    num <span class="op">=</span> num <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb32-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:25%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a>Output</span>
+<span id="cb33-2"><a href=""></a><span class="co">// 10 3</span></span>
+<span id="cb33-3"><a href=""></a><span class="co">// 15 3</span></span>
+<span id="cb33-4"><a href=""></a><span class="co">// 15 6</span></span>
+<span id="cb33-5"><a href=""></a><span class="co">// 30 11</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section></section>
+<section>
+<section id="static-local-variables" class="title-slide slide level1 center">
+<h1>Static Local Variables</h1>
+<p>How can a function remember information between calls without using global variables? Today we’ll explore static local variables and their unique behavior.</p>
+<aside class="notes">
+<p>Total slides: 8</p>
+<p>Consider including a diagram showing multiple function calls and how a variable persists between them.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="review-regular-local-variables" class="slide level2">
+<h2>Review: Regular Local Variables</h2>
+<p>Regular local variables are created when a function is called and destroyed when the function exits. Each time the function runs, the variable starts fresh with no memory of previous calls.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a><span class="dt">void</span> counter<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb34-2"><a href=""></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb34-3"><a href=""></a>    count<span class="op">++;</span></span>
+<span id="cb34-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> count<span class="op">;</span>  <span class="co">// always prints 1</span></span>
+<span id="cb34-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Consider a diagram showing the creation and destruction of a local variable across multiple function calls.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 2 -->
+</section>
+<section id="what-is-a-static-local-variable" class="slide level2">
+<h2>What is a Static Local Variable?</h2>
+<p>A static local variable retains its value between function calls. It is initialized only once and persists for the entire program lifetime, but remains local to its function.</p>
+<p>This gives us the persistence of a global variable with the scope protection of a local variable.</p>
+<!-- Slide 3 -->
+</section>
+<section id="syntax-and-initialization" class="slide level2">
+<h2>Syntax and Initialization</h2>
+<p>To declare a static local variable, use the <code>static</code> keyword before the type. The initialization expression is evaluated only once, during the first function call.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="dt">void</span> counter<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb35-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">// initialized once</span></span>
+<span id="cb35-3"><a href=""></a>    count<span class="op">++;</span></span>
+<span id="cb35-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> count<span class="op">;</span>  <span class="co">// prints 1, 2, 3, 4...</span></span>
+<span id="cb35-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Subsequent calls skip the initialization entirely and use the existing value.</p>
+<!-- Slide 4 -->
+</section>
+<section id="lifetime-vs.-scope" class="slide level2">
+<h2>Lifetime vs.&nbsp;Scope</h2>
+<p>Static local variables have function scope but program lifetime. They can only be accessed within their function, but they exist for the entire duration of the program.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="dt">void</span> demo<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb36-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb36-3"><a href=""></a>    x <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb36-4"><a href=""></a><span class="op">}</span></span>
+<span id="cb36-5"><a href=""></a></span>
+<span id="cb36-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb36-7"><a href=""></a>    demo<span class="op">();</span>  <span class="co">// x becomes 15</span></span>
+<span id="cb36-8"><a href=""></a>    demo<span class="op">();</span>  <span class="co">// x becomes 20</span></span>
+<span id="cb36-9"><a href=""></a>    <span class="co">// cout &lt;&lt; x;  // error: x not accessible here</span></span>
+<span id="cb36-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Consider a timeline diagram showing the variable existing throughout program execution but only accessible during function calls.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 5 -->
+</section>
+<section id="example-function-call-counter" class="slide level2">
+<h2>Example: Function Call Counter</h2>
+<p>Static local variables are ideal for tracking how many times a function has been called.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a><span class="dt">void</span> trackCalls<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb37-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> callCount <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb37-3"><a href=""></a>    callCount<span class="op">++;</span></span>
+<span id="cb37-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Called "</span> <span class="op">&lt;&lt;</span> callCount <span class="op">&lt;&lt;</span> <span class="st">" times</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb37-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb37-6"><a href=""></a></span>
+<span id="cb37-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb37-8"><a href=""></a>    trackCalls<span class="op">();</span>  <span class="co">// Called 1 times</span></span>
+<span id="cb37-9"><a href=""></a>    trackCalls<span class="op">();</span>  <span class="co">// Called 2 times</span></span>
+<span id="cb37-10"><a href=""></a>    trackCalls<span class="op">();</span>  <span class="co">// Called 3 times</span></span>
+<span id="cb37-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 6 -->
+</section>
+<section id="use-cases-for-static-local-variables" class="slide level2">
+<h2>Use Cases for Static Local Variables</h2>
+<p>Use static local variables for function call counters to track usage without polluting global scope. They keep the counter encapsulated within the function.</p>
+<p>Use them for caching computed values to avoid recalculating expensive operations. For example, a function that computes factorials can store the last result and reuse it if called with the same input.</p>
+<!-- Slide 7 -->
+</section>
+<section id="summary-4" class="slide level2">
+<h2>Summary</h2>
+<p>Static local variables persist between function calls while maintaining local scope. They combine the longevity of global variables with the encapsulation benefits of local variables.</p>
+<!-- Slide 8 -->
+</section></section>
+<section>
+<section id="whats-the-output-2" class="title-slide slide level1 center">
+<h1>What’s the Output?</h1>
+<aside class="notes">
+<p>Focus: static local variables, basic level, 21 lines</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="exercise-goals-1" class="slide level2">
+<h2>Exercise Goals</h2>
+<ul>
+<li>Review of code syntax</li>
+<li>Check understanding of syntax</li>
+<li>Understand how static local variables persist across function calls</li>
+<li>Contrast static variables with regular local variables</li>
+<li>Observe that static variables initialize only once</li>
+</ul>
+</section>
+<section id="what-to-do-1" class="slide level2">
+<h2>What to Do</h2>
+<ul>
+<li>Using the given code …</li>
+<li>Trace how static and regular variables behave differently</li>
+<li>Compute the output (MANUALLY)</li>
+</ul>
+</section>
+<section id="whats-the-output-3" class="slide level2">
+<h2>What’s the Output?</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a><span class="co">//WhatsTheOutput_Static.cpp</span></span>
+<span id="cb38-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb38-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb38-4"><a href=""></a></span>
+<span id="cb38-5"><a href=""></a><span class="dt">void</span> compareVars<span class="op">();</span></span>
+<span id="cb38-6"><a href=""></a></span>
+<span id="cb38-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb38-8"><a href=""></a>    compareVars<span class="op">();</span></span>
+<span id="cb38-9"><a href=""></a>    compareVars<span class="op">();</span></span>
+<span id="cb38-10"><a href=""></a>    compareVars<span class="op">();</span></span>
+<span id="cb38-11"><a href=""></a>    compareVars<span class="op">();</span></span>
+<span id="cb38-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb38-13"><a href=""></a><span class="op">}</span></span>
+<span id="cb38-14"><a href=""></a></span>
+<span id="cb38-15"><a href=""></a><span class="dt">void</span> compareVars<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb38-16"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> staticVar <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb38-17"><a href=""></a>    <span class="dt">int</span> regularVar <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb38-18"><a href=""></a>    staticVar<span class="op">++;</span></span>
+<span id="cb38-19"><a href=""></a>    regularVar<span class="op">++;</span></span>
+<span id="cb38-20"><a href=""></a>    cout <span class="op">&lt;&lt;</span> staticVar <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> regularVar <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb38-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:75%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a><span class="co">//WhatsTheOutput_Static.cpp</span></span>
+<span id="cb39-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb39-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb39-4"><a href=""></a></span>
+<span id="cb39-5"><a href=""></a><span class="dt">void</span> compareVars<span class="op">();</span></span>
+<span id="cb39-6"><a href=""></a></span>
+<span id="cb39-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb39-8"><a href=""></a>    compareVars<span class="op">();</span></span>
+<span id="cb39-9"><a href=""></a>    compareVars<span class="op">();</span></span>
+<span id="cb39-10"><a href=""></a>    compareVars<span class="op">();</span></span>
+<span id="cb39-11"><a href=""></a>    compareVars<span class="op">();</span></span>
+<span id="cb39-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb39-13"><a href=""></a><span class="op">}</span></span>
+<span id="cb39-14"><a href=""></a></span>
+<span id="cb39-15"><a href=""></a><span class="dt">void</span> compareVars<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb39-16"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> staticVar <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb39-17"><a href=""></a>    <span class="dt">int</span> regularVar <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb39-18"><a href=""></a>    staticVar<span class="op">++;</span></span>
+<span id="cb39-19"><a href=""></a>    regularVar<span class="op">++;</span></span>
+<span id="cb39-20"><a href=""></a>    cout <span class="op">&lt;&lt;</span> staticVar <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> regularVar <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb39-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:25%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a>Output</span>
+<span id="cb40-2"><a href=""></a><span class="co">// 1 1</span></span>
+<span id="cb40-3"><a href=""></a><span class="co">// 2 1</span></span>
+<span id="cb40-4"><a href=""></a><span class="co">// 3 1</span></span>
+<span id="cb40-5"><a href=""></a><span class="co">// 4 1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section></section>
+<section>
+<section id="the-exit-function" class="title-slide slide level1 center">
+<h1>The exit() Function</h1>
+<p>How can a C++ program terminate immediately from anywhere in the code? The exit() function provides a way to end program execution from any point in your program.</p>
+<aside class="notes">
+<p>Total slides in this section: 5</p>
+<p>This introduction poses a question that engages students to think about program termination beyond simply reaching the end of main().</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="what-is-exit" class="slide level2">
+<h2>What is exit()?</h2>
+<p>The exit() function terminates the program immediately, regardless of where it is called in the code. It requires including the cstdlib header file.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb41-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span></span>
+<span id="cb41-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb41-4"><a href=""></a></span>
+<span id="cb41-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb41-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Program starting..."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb41-7"><a href=""></a>    exit<span class="op">(</span><span class="dv">0</span><span class="op">);</span>  <span class="co">// Program ends here</span></span>
+<span id="cb41-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"This will never print"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb41-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb41-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>When exit() is called, the program stops execution immediately and returns control to the operating system. Any code after the exit() call will not execute.</p>
+<aside class="notes">
+<p>A flowchart showing program flow with exit() being called would be helpful here, illustrating how execution stops immediately and skips remaining code.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 2 -->
+</section>
+<section id="exit-status-codes" class="slide level2">
+<h2>Exit Status Codes</h2>
+<p>The exit() function accepts an integer parameter that indicates the program’s termination status to the operating system.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span></span>
+<span id="cb42-2"><a href=""></a></span>
+<span id="cb42-3"><a href=""></a>exit<span class="op">(</span><span class="dv">0</span><span class="op">);</span>              <span class="co">// Success - same as EXIT_SUCCESS</span></span>
+<span id="cb42-4"><a href=""></a>exit<span class="op">(</span>EXIT_SUCCESS<span class="op">);</span>   <span class="co">// Predefined constant for success</span></span>
+<span id="cb42-5"><a href=""></a>exit<span class="op">(</span>EXIT_FAILURE<span class="op">);</span>   <span class="co">// Predefined constant for failure</span></span>
+<span id="cb42-6"><a href=""></a>exit<span class="op">(</span><span class="dv">1</span><span class="op">);</span>              <span class="co">// Non-zero indicates error</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A status code of zero or EXIT_SUCCESS indicates successful termination. Non-zero values or EXIT_FAILURE indicate that an error occurred during execution.</p>
+<aside class="notes">
+<p>A simple table showing common exit codes and their meanings would help students understand the convention (0 = success, non-zero = various error conditions).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="exit-vs-return-from-main" class="slide level2">
+<h2>exit() vs return from main()</h2>
+<p>While both exit() and return from main() terminate the program, they have important differences in behavior and usage.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb43-1"><a href=""></a><span class="co">// Using return from main()</span></span>
+<span id="cb43-2"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb43-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Returning from main"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb43-4"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">// Only works in main()</span></span>
+<span id="cb43-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb43-6"><a href=""></a></span>
+<span id="cb43-7"><a href=""></a><span class="co">// Using exit()</span></span>
+<span id="cb43-8"><a href=""></a><span class="dt">void</span> checkError<span class="op">(</span><span class="dt">bool</span> hasError<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb43-9"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>hasError<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb43-10"><a href=""></a>        exit<span class="op">(</span>EXIT_FAILURE<span class="op">);</span>  <span class="co">// Can be called from any function</span></span>
+<span id="cb43-11"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb43-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The return statement only terminates the current function and can only end the program when used in main(). The exit() function can be called from any function and immediately terminates the entire program.</p>
+<p>Both methods properly clean up static objects and flush output buffers before termination.</p>
+<aside class="notes">
+<p>A comparison diagram showing two parallel execution paths would be useful: one showing return only working in main(), and another showing exit() working from any function in the call stack.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="summary-5" class="slide level2">
+<h2>Summary</h2>
+<p>The exit() function provides a mechanism to terminate program execution from any location in the code. It accepts a status code parameter to communicate success or failure to the operating system.</p>
+<!-- Slide 5 -->
+</section></section>
+<section>
+<section id="code-this-budget-analyzer" class="title-slide slide level1 center">
+<h1>Code This: Budget Analyzer</h1>
+<p><strong>Estimated Time:</strong> 20 minutes</p>
+<aside class="notes">
+<p>See answer.cpp for solution</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="problem-description" class="slide level2">
+<h2>Problem Description</h2>
+<p>Write a program that analyzes household budgets using function overloading. Your program will calculate expenses across different time periods (monthly, quarterly, and annual with growth) using overloaded functions with the same name but different parameters. You’ll work with individual expense categories and display formatted results.</p>
+</section>
+<section id="background-function-overloading" class="slide level2">
+<h2>Background: Function Overloading</h2>
+<p>Function overloading allows you to create multiple functions with the <strong>same name</strong> but <strong>different parameter lists</strong>. The compiler determines which function to call based on the arguments you provide.</p>
+<p>Example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb44-1"><a href=""></a><span class="dt">double</span> calculate<span class="op">(</span><span class="dt">double</span> amount<span class="op">);</span>                    <span class="co">// 1 parameter</span></span>
+<span id="cb44-2"><a href=""></a><span class="dt">double</span> calculate<span class="op">(</span><span class="dt">double</span> amount<span class="op">,</span> <span class="dt">int</span> months<span class="op">);</span>        <span class="co">// 2 parameters</span></span>
+<span id="cb44-3"><a href=""></a><span class="dt">double</span> calculate<span class="op">(</span><span class="dt">double</span> amount<span class="op">,</span> <span class="dt">double</span> rate<span class="op">,</span> <span class="dt">int</span> year<span class="op">);</span> <span class="co">// 3 parameters</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Each function performs a related but different calculation based on the number and type of parameters.</p>
+</section>
+<section id="understanding-the-calculations" class="slide level2">
+<h2>Understanding the Calculations</h2>
+<p><strong>Monthly Expense:</strong> - Simply returns the monthly amount - Example: If rent is $1200/month, monthly expense is $1200</p>
+<p><strong>Quarterly Expense:</strong> - Multiplies monthly amount by number of months in the quarter - Formula: <code>amount * months</code> - Example: $300/month for 3 months = $900 quarterly</p>
+<p><strong>Annual Expense with Growth:</strong> - Calculates expense for a future year considering growth rate - Formula: <code>amount * (1 + growth_rate) ^ year</code> - Growth rate is a decimal (5% = 0.05) - Example: $100/month with 5% growth in year 2 = $100 * (1.05)^2 = $110.25</p>
+</section>
+<section id="requirements" class="slide level2">
+<h2>Requirements</h2>
+<p>Your program must include the following overloaded functions named <strong>calculate</strong>:</p>
+<ol type="1">
+<li><strong>calculate(double amount)</strong> - Calculates monthly expense
+<ul>
+<li>Takes: monthly expense amount</li>
+<li>Returns: the amount unchanged (monthly expense)</li>
+<li>Return type: double</li>
+</ul></li>
+<li><strong>calculate(double amount, int months)</strong> - Calculates quarterly expense
+<ul>
+<li>Takes: monthly expense amount and number of months in quarter</li>
+<li>Returns: amount * months</li>
+<li>Return type: double</li>
+</ul></li>
+<li><strong>calculate(double amount, double growthRate, int year)</strong> - Calculates annual expense with growth
+<ul>
+<li>Takes: monthly expense amount, growth rate (as decimal), and year number</li>
+<li>Returns: amount adjusted for growth over specified years</li>
+<li>Formula: amount * pow((1 + growthRate), year)</li>
+<li>Return type: double</li>
+<li>Note: Use pow() function from <cmath> library</cmath></li>
+</ul></li>
+</ol>
+<p>Your program must also include:</p>
+<ol start="4" type="1">
+<li><strong>displayExpense</strong> - A void function that displays expense information
+<ul>
+<li>Takes: category name (string), amount (double), and type (string)</li>
+<li>Displays formatted output showing the category, amount with 2 decimal places, and type</li>
+<li>Return type: void</li>
+</ul></li>
+</ol>
+</section>
+<section id="sample-output" class="slide level2">
+<h2>Sample Output</h2>
+<p>Your program should display:</p>
+<pre><code>Budget Analyzer
+===============
+
+Monthly Expenses:
+Rent: $1200.00 (Monthly)
+Groceries: $450.00 (Monthly)
+
+Quarterly Expenses:
+Utilities: $270.00 (Quarterly - 3 months)
+Insurance: $600.00 (Quarterly - 3 months)
+
+Annual Expenses with Growth:
+Healthcare (Year 1): $257.50 (Annual with 3% growth)
+Healthcare (Year 2): $265.22 (Annual with 3% growth)
+Transportation (Year 1): $189.00 (Annual with 5% growth)
+Transportation (Year 2): $198.45 (Annual with 5% growth)
+
+===============
+Total Monthly Baseline: $1650.00</code></pre>
+</section>
+<section id="your-task" class="slide level2">
+<h2>Your Task</h2>
+<ol type="1">
+<li>Write function prototypes for the three overloaded calculate functions and displayExpense</li>
+<li>Implement the main() function to:
+<ul>
+<li>Create individual variables for each expense amount</li>
+<li>Call calculate(amount) for monthly expenses</li>
+<li>Call calculate(amount, months) for quarterly expenses<br>
+</li>
+<li>Call calculate(amount, rate, year) for annual expenses with growth</li>
+<li>Use displayExpense to show each result</li>
+<li>Calculate and display the total monthly baseline (sum of base monthly expenses)</li>
+</ul></li>
+<li>Implement all function definitions below main()</li>
+</ol>
+</section>
+<section id="starter-code-structure" class="slide level2">
+<h2>Starter Code Structure</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb46-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb46-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb46-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cmath&gt;</span></span>
+<span id="cb46-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
+<span id="cb46-5"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb46-6"><a href=""></a></span>
+<span id="cb46-7"><a href=""></a><span class="co">// Write your function prototypes here</span></span>
+<span id="cb46-8"><a href=""></a></span>
+<span id="cb46-9"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb46-10"><a href=""></a>    <span class="co">// Set output formatting</span></span>
+<span id="cb46-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb46-12"><a href=""></a>    </span>
+<span id="cb46-13"><a href=""></a>    <span class="co">// Your code here</span></span>
+<span id="cb46-14"><a href=""></a>    </span>
+<span id="cb46-15"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb46-16"><a href=""></a><span class="op">}</span></span>
+<span id="cb46-17"><a href=""></a></span>
+<span id="cb46-18"><a href=""></a><span class="co">// Write your function definitions here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="tips" class="slide level2">
+<h2>Tips</h2>
+<ul>
+<li><p>Remember to use function prototypes before main()</p></li>
+<li><p>Use <code>#include &lt;cmath&gt;</code> for the pow() function</p></li>
+<li><p>Use <code>#include &lt;iomanip&gt;</code> and <code>cout &lt;&lt; fixed &lt;&lt; setprecision(2)</code> for 2 decimal places</p></li>
+<li><p>Create individual variables for each expense: <code>double rent = 1200.00;</code></p></li>
+<li><p>The compiler chooses the correct calculate function based on the number of arguments you pass</p></li>
+<li><p>To calculate total monthly baseline:</p>
+<ul>
+<li>Add only the base monthly amounts (Rent + Groceries)</li>
+<li>Do NOT include quarterly or annual expenses in this total</li>
+<li>Formula: <code>total = rent + groceries</code></li>
+</ul></li>
+<li><p>For annual expenses with growth, call the function separately for year 1 and year 2:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb47-1"><a href=""></a><span class="dt">double</span> year1 <span class="op">=</span> calculate<span class="op">(</span>healthcare<span class="op">,</span> <span class="fl">0.03</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb47-2"><a href=""></a><span class="dt">double</span> year2 <span class="op">=</span> calculate<span class="op">(</span>healthcare<span class="op">,</span> <span class="fl">0.03</span><span class="op">,</span> <span class="dv">2</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Use simple if statements when you need conditional logic</p></li>
+<li><p>Display results immediately after calculating each expense</p></li>
+</ul>
+</section>
+<section id="data-to-use" class="slide level2">
+<h2>Data to Use</h2>
+<p><strong>Monthly Expenses:</strong> - Rent: $1200.00 - Groceries: $450.00</p>
+<p><strong>Quarterly Expenses (3 months):</strong> - Utilities: $90.00/month - Insurance: $200.00/month</p>
+<p><strong>Annual Expenses with Growth:</strong> - Healthcare: $250.00/month, 3% growth (0.03), calculate for years 1 and 2 - Transportation: $180.00/month, 5% growth (0.05), calculate for years 1 and 2</p>
+</section>
+<section id="example-of-using-overloaded-functions" class="slide level2">
+<h2>Example of Using Overloaded Functions</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb48-1"><a href=""></a><span class="dt">double</span> rent <span class="op">=</span> <span class="fl">1200.00</span><span class="op">;</span></span>
+<span id="cb48-2"><a href=""></a><span class="dt">double</span> utilities <span class="op">=</span> <span class="fl">90.00</span><span class="op">;</span></span>
+<span id="cb48-3"><a href=""></a><span class="dt">double</span> healthcare <span class="op">=</span> <span class="fl">250.00</span><span class="op">;</span></span>
+<span id="cb48-4"><a href=""></a></span>
+<span id="cb48-5"><a href=""></a><span class="co">// Calls calculate(double amount)</span></span>
+<span id="cb48-6"><a href=""></a><span class="dt">double</span> monthly <span class="op">=</span> calculate<span class="op">(</span>rent<span class="op">);</span></span>
+<span id="cb48-7"><a href=""></a></span>
+<span id="cb48-8"><a href=""></a><span class="co">// Calls calculate(double amount, int months)</span></span>
+<span id="cb48-9"><a href=""></a><span class="dt">double</span> quarterly <span class="op">=</span> calculate<span class="op">(</span>utilities<span class="op">,</span> <span class="dv">3</span><span class="op">);</span></span>
+<span id="cb48-10"><a href=""></a></span>
+<span id="cb48-11"><a href=""></a><span class="co">// Calls calculate(double amount, double rate, int year)</span></span>
+<span id="cb48-12"><a href=""></a><span class="dt">double</span> annual <span class="op">=</span> calculate<span class="op">(</span>healthcare<span class="op">,</span> <span class="fl">0.03</span><span class="op">,</span> <span class="dv">2</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The compiler automatically selects the correct function based on the number and types of arguments!</p>
+</section>
+<section id="challenge-optional---if-you-finish-early" class="slide level2">
+<h2>Challenge (Optional - if you finish early)</h2>
+<ol type="1">
+<li>Add another overloaded calculate function for bi-weekly expenses: calculate(double amount, int payPeriods)</li>
+<li>Add more expense categories with different calculation types</li>
+<li>Calculate the total annual budget (multiply monthly baseline by 12 and add growth projections)</li>
+<li>Ask the user to input their own expense amounts using cin</li>
+</ol>
+</section>
+<section id="important-notes" class="slide level2">
+<h2>Important Notes</h2>
+<ul>
+<li>All three calculate functions must have the same name: <strong>calculate</strong></li>
+<li>The functions differ only in their parameter lists (this is function overloading)</li>
+<li>Work with individual variables, not vectors, to keep the focus on function overloading</li>
+<li>Use simple if statements when needed for logic</li>
+<li>The total monthly baseline is the sum of the base monthly expense amounts only</li>
+<li>Keep your code organized with clear variable names</li>
+</ul>
+</section></section>
+<section id="key-takaways" class="title-slide slide level1 center">
+<h1>Key Takaways</h1>
+
+</section>
+
+<section id="next-time" class="title-slide slide level1 center">
+<h1>Next Time</h1>
+<ul>
+<li>Relational Operators</li>
+<li>if Statement</li>
+<li>if/else Statement</li>
+<li>if/else if Statement</li>
+<li>Logical Operators</li>
+<li>Nested if Statements</li>
+</ul>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>CISP 360 · Fowler</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="p360_lecture_05.01_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="p360_lecture_05.01_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="p360_lecture_05.01_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="p360_lecture_05.01_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="p360_lecture_05.01_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="p360_lecture_05.01_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="p360_lecture_05.01_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="p360_lecture_05.01_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="p360_lecture_05.01_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="p360_lecture_05.01_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'h.v',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 5.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    <script>
+    window.Reveal.on('ready', event => {
+      Reveal.configure({
+        keyboard: {
+          34: 'down',   // Forward button
+          33: 'up',     // Back button
+          116: 'right',  // Start/Play button
+          190: 'left'    // Black Screen button
+          79: null        // Disable 'O' for overview
+        }
+      });
+    });
+    </script>
+    
+
+</body></html>

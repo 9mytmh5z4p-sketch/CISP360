@@ -1,0 +1,167 @@
+# Default Arguments
+
+## How can you make function parameters optional?
+
+In C++, you can provide default values for function parameters, allowing callers to omit those arguments. Default arguments make functions more flexible by providing sensible fallback values when arguments aren't supplied.
+
+::: notes
+Total slides in this section: 8
+
+Default arguments are a powerful feature that reduces the need for function overloading in many cases. This section focuses on syntax, rules, and practical applications.
+:::
+
+<!-- Slide 1 -->
+
+## What are Default Arguments?
+
+A **default argument** is a value provided in a function declaration that will be used if the caller doesn't supply that argument. They eliminate the need to write multiple versions of similar functions, making your code more maintainable.
+
+```cpp
+void printMessage(string msg, int times = 1);
+
+printMessage("Hello");        // Uses default: times = 1
+printMessage("Hello", 3);     // Overrides default: times = 3
+```
+
+The function behaves as if the missing argument was provided with the default value.
+
+<!-- Slide 2 -->
+
+## Simple Example
+
+Here's a function that displays a greeting with an optional recipient name.
+
+```cpp
+void greet(string name = "Guest") {
+    cout << "Welcome, " << name << "!" << endl;
+}
+
+int main() {
+    greet();              // Output: Welcome, Guest!
+    greet("Alice");       // Output: Welcome, Alice!
+    return 0;
+}
+```
+
+When `greet()` is called without arguments, the default value "Guest" is used automatically.
+
+::: notes
+Emphasize that the function can be called with or without the argument. The default makes the parameter optional from the caller's perspective, but the function body always receives a value - there's never an "uninitialized" or "missing" parameter inside the function. This is a key distinction from other languages.
+:::
+
+<!-- Slide 3 -->
+
+## Multiple Default Arguments
+
+Functions can have multiple parameters with default values. All calls are valid as long as required parameters are provided.
+
+```cpp
+void displayInfo(string name, int age = 18, string city = "Unknown") {
+    cout << name << ", " << age << " years old, from " << city << endl;
+}
+
+int main() {
+    displayInfo("Alice");                    // Output: Alice, 18 years old, from Unknown
+    displayInfo("Bob", 25);                  // Output: Bob, 25 years old, from Unknown
+    displayInfo("Charlie", 30, "Boston");    // Output: Charlie, 30 years old, from Boston
+    return 0;
+}
+```
+
+::: notes
+Walk through each call showing which parameters use defaults and which are supplied. Point out that you can override just the first default (age) while still using subsequent defaults (city), but you cannot skip a default to override one further right - arguments are matched left-to-right. This ties directly into the ordering rule on the next slide.
+:::
+
+<!-- Slide 4 -->
+
+## Parameter Ordering Rule
+
+Default arguments must follow a specific ordering rule: once a parameter has a default value, all subsequent parameters to its right must also have defaults.
+
+**Valid:**
+```cpp
+void func1(int a, int b = 5, int c = 10);        // Correct
+void func2(int a = 1, int b = 2, int c = 3);    // Correct
+```
+
+**Invalid:**
+```cpp
+void func3(int a = 1, int b, int c = 3);         // ERROR: gap in defaults
+void func4(int a, int b = 5, int c);             // ERROR: default before non-default
+```
+
+Violating this rule results in a compiler error. The rule ensures that arguments can be matched to parameters unambiguously from left to right.
+
+::: notes
+A visual diagram would be helpful here showing valid and invalid parameter sequences with arrows indicating the left-to-right matching rule. Explain that this prevents ambiguity when the compiler tries to match supplied arguments to parameters. If func3 were allowed, calling it with two arguments would be ambiguous - should they map to (a,b) or (a,c)?
+:::
+
+<!-- Slide 5 -->
+
+## Where to Specify Defaults
+
+Default arguments must be specified in the function prototype, not in the function definition when both are present.
+
+**Correct approach:**
+```cpp
+// Prototype - defaults specified here
+void calculatePrice(double base, double tax = 0.08, double discount = 0.0);
+
+// Definition - NO defaults here
+void calculatePrice(double base, double tax, double discount) {
+    double total = base * (1 + tax) - discount;
+    cout << "Total: $" << total << endl;
+}
+```
+
+**Note:** If you have only a definition with no separate prototype, the defaults can appear in that single definition.
+
+**Incorrect approach:**
+```cpp
+void calculatePrice(double base, double tax, double discount);  // Prototype with no defaults
+
+void calculatePrice(double base, double tax = 0.08, double discount = 0.0) {  // ERROR: defaults in definition
+    // Function body
+}
+```
+
+::: notes
+Explain that the compiler needs to know about default values at the point where the function is called, which is why they must be in the prototype when you have separate prototypes and definitions. The common case in well-structured code is separate prototypes (in headers) and definitions (in source files). For simple programs with everything in one file and no prototype, putting defaults in the definition is acceptable.
+:::
+
+<!-- Slide 6 -->
+
+## Practical Use Case
+
+Default arguments are useful when a function has logical default behavior that most callers will use.
+
+```cpp
+void saveFile(string filename, bool createBackup = true, 
+              string format = "txt") {
+    cout << "Saving " << filename << "." << format << endl;
+    if (createBackup) {
+        cout << "Creating backup..." << endl;
+    }
+}
+
+int main() {
+    saveFile("data");                          // Uses both defaults
+    saveFile("report", false);                 // Custom backup setting
+    saveFile("output", true, "csv");           // All custom values
+    return 0;
+}
+```
+
+This eliminates the need for multiple function versions while keeping the interface simple for common cases.
+
+::: notes
+Emphasize that good default values represent the "normal" or "most common" usage. Users who need different behavior can override specific parameters while still benefiting from sensible defaults for the rest.
+:::
+
+<!-- Slide 7 -->
+
+## Summary
+
+Default arguments allow you to specify default values for function parameters, making those parameters optional when the function is called. Defaults must be specified in the function prototype and must appear from right to left with no gaps.
+
+<!-- Slide 8 -->
