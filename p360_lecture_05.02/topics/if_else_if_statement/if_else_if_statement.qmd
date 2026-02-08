@@ -1,0 +1,263 @@
+# The if/else if Statement
+
+How can a program choose between multiple different options when only one should execute? Now, we'll learn how if/else if statements let us handle multiple mutually exclusive conditions efficiently.
+
+::: notes
+Total slides: 8
+
+Consider including a visual showing a decision tree with multiple branches.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The Problem:<br> Multiple Mutually Exclusive Conditions
+
+Sometimes we need to check several conditions where only one outcome should occur. Using multiple independent if statements can lead to problems when multiple conditions are true.
+
+```{.cpp code-line-numbers="3,6"} 
+int score = 85;
+if (score >= 60) {
+    cout << "Pass";
+}
+if (score >= 80) {
+    cout << "Honor Roll";  // both execute, printing "PassHonor Roll"
+}
+```
+
+We need a way to execute only the most appropriate condition and skip the rest.
+
+<!-- Slide 2 -->
+
+---
+
+## Introduction to if/else if Syntax
+
+The if/else if structure allows us to check multiple conditions in sequence, executing only the first one that is true.
+
+```cpp
+if (condition1) {
+    // executes if condition1 is true
+} else if (condition2) {
+    // executes if condition1 is false AND condition2 is true
+} else if (condition3) {
+    // executes if condition1 and condition2 are false AND condition3 is true
+} else {
+    // executes if all conditions are false
+}
+```
+
+The final else clause is optional but provides a default action.
+
+::: notes
+Consider a flowchart showing the sequential decision-making process.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## How if/else if Chains Are<br> Evaluated
+
+The program evaluates conditions from top to bottom and stops at the first true condition. Once a condition is true and its code executes, all remaining conditions are skipped.
+
+## Topics
+
+::: {.columns}
+::: {.column width="70%"}
+```cpp
+int x = 15;
+if (x > 20) {
+    cout << "Large";
+} else if (x > 10) {
+    cout << "Medium";  // this executes
+} else if (x > 5) {
+    cout << "Small";   // this is skipped
+}
+```
+:::
+
+::: {.column width="30%"}
+
+Only one block executes, even if multiple conditions could be true.
+
+:::
+::: 
+
+
+
+::: notes
+Consider a diagram showing the flow of control stopping after the first true condition.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Example: Grade Calculator
+
+A complete if/else if/else chain provides comprehensive coverage of all possibilities.
+
+```cpp
+int score = 87;
+
+if (score >= 90) {
+    cout << "Grade: A";
+} else if (score >= 80) {
+    cout << "Grade: B";
+} else if (score >= 70) {
+    cout << "Grade: C";
+} else if (score >= 60) {
+    cout << "Grade: D";
+} else {    //else clause ensures every possible score receives a grade.
+    cout << "Grade: F";
+}
+```
+
+<!-- Slide 5 -->
+
+---
+
+## Common Use Cases
+
+Grade assignment systems use if/else if chains to categorize numeric scores into letter grades. Each range is mutually exclusive, making this structure ideal.
+
+## Common Use Cases
+
+Menu-driven programs use if/else if to handle user selections where only one option should execute. The structure ensures that selecting option 1 doesn't also trigger option 2.
+
+## Common Use Cases
+
+Categorization tasks like age groups, temperature ranges, or price tiers benefit from if/else if chains. The sequential checking stops as soon as the correct category is found.
+
+<!-- Slide 6 -->
+
+---
+
+## When to Use if/else if vs<br> Multiple if Statements
+
+Use if/else if chains when conditions are mutually exclusive and only one action should occur. This is more efficient because it stops checking after finding the first true condition.
+
+. . . 
+
+Use multiple independent if statements when multiple conditions might be true and you want all corresponding actions to execute. Each if statement is checked regardless of the others.
+
+## Example
+
+```cpp
+// if/else if: only one executes
+if (temp > 90) { cout << "Hot"; }
+else if (temp > 70) { cout << "Warm"; }
+
+// Multiple ifs: both could execute
+if (temp > 70) { cout << "Above 70"; }
+if (temp < 100) { cout << "Below 100"; }
+```
+
+<!-- Slide 7 -->
+
+---
+
+## Summary
+
+The if/else if statement allows checking multiple mutually exclusive conditions efficiently by stopping at the first true condition. Use it when only one of several options should execute.
+
+<!-- Slide 8 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Title Slide -->
+
+---
+
+## Common Practices
+
+Always arrange conditions from most specific to least specific when ranges overlap. This ensures more restrictive conditions are checked first and prevents them from being skipped.
+
+Include a final else clause when you want to handle all possible cases. This provides a default action and makes your code more robust by ensuring no valid input is ignored.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+Reversing the order of conditions can cause incorrect results. Placing `score >= 60` before `score >= 90` means all scores above 60 will match the first condition and never reach the higher grade checks.
+
+Forgetting that only one block executes can lead to logic errors. If you need multiple actions for overlapping conditions, you need multiple independent if statements, not an if/else if chain.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Menu selection
+int choice;
+cout << "Enter choice (1-3): ";
+cin >> choice;
+
+if (choice == 1) {
+    cout << "Starting new game\n";
+} else if (choice == 2) {
+    cout << "Loading saved game\n";
+} else if (choice == 3) {
+    cout << "Exiting\n";
+} else {
+    cout << "Invalid choice\n";
+}
+
+// Age categorization
+int age = 25;
+if (age < 13) {
+    cout << "Child";
+} else if (age < 20) {
+    cout << "Teenager";
+} else if (age < 65) {
+    cout << "Adult";
+} else {
+    cout << "Senior";
+}
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write an if/else if/else chain that assigns shipping costs: free for orders >= $100, $10 for orders >= $50, $15 for orders < $50.
+2. Create a program that categorizes a temperature in Fahrenheit: freezing (< 32), cold (32-50), moderate (51-70), warm (71-85), hot (> 85).
+3. What will this code output if x = 25? `if (x > 30) cout << "A"; else if (x > 20) cout << "B"; else if (x > 10) cout << "C";`
+4. Write an if/else if chain for a traffic light system that takes a char input ('R', 'Y', 'G') and outputs the appropriate action.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+When searching for help or using AI assistants, try these search terms:
+
+- "C++ if else if statement tutorial"
+- "C++ multiple conditions mutually exclusive"
+- "C++ else if chain examples"
+- "difference between if else if and multiple if statements C++"
+- "C++ conditional statement flow control"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+1. Why is the order of conditions important in an if/else if chain when checking numeric ranges?
+2. In what situations would multiple independent if statements be more appropriate than an if/else if chain?
+3. How does adding a final else clause improve the robustness of your code?
+4. What happens if you have overlapping conditions in an if/else if chain and why does order matter?
+
+<!-- Appendix Slide 6 -->
