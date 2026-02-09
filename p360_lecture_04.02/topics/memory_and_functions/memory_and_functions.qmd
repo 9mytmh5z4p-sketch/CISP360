@@ -1,7 +1,7 @@
 # C++ Memory Model and Functions
 
 ::: notes
-~24
+~15
 ::: 
 
 ## Learning Objectives
@@ -123,7 +123,7 @@ This copying happens when the stack frame is created. The original `value` in `m
 :::
 
 
-## Variable Scope and Lifetime
+## Variable Scope vs. Lifetime
 
 Scope determines where in your code a variable can be accessed. Lifetime determines how long the variable exists in memory. For local variables, both scope and lifetime are limited to the function.
 
@@ -142,30 +142,6 @@ Each function has its own stack frame with its own local variables. Variables in
 
 ::: notes
 **Speaker Notes:** Create a diagram showing two separate stack frames side by side, each containing their own local variables, with an X mark showing that variables cannot cross between frames.
-:::
-
-
-## Global Variables and the Data Segment
-
-Global variables are declared outside all functions. These variables are stored in the data segment, not on the stack. They exist for the entire program execution and can be accessed from any function.
-
-```cpp
-int globalCounter = 0;   // Stored in data segment
-
-void increment() {
-    globalCounter++;     // Accesses the global
-}
-
-int main() {
-    increment();
-    return 0;
-}
-```
-
-Global variables have program-wide scope and lifetime. Use them sparingly as they can make programs harder to understand and debug.
-
-::: notes
-**Speaker Notes:** Add a diagram showing the data segment as separate from the stack, with globalCounter residing there while function frames come and go on the stack.
 :::
 
 
@@ -198,22 +174,6 @@ int main() {
 
 The values 4 and 7 are copied into `a` and `b` in `multiply`'s stack frame. This happens automatically when the function is called.
 
-## Return Values and Memory
-
-When a function returns a value, that value is copied back to the caller before the function's stack frame is destroyed. The return value can be assigned to a variable or used directly in an expression.
-
-```cpp
-int square(int n) {
-    int result = n * n;
-    return result;       // result's value is copied
-}                        // result is then destroyed
-
-int main() {
-    int x = square(5);   // 25 is copied to x
-}
-```
-
-The local variable `result` is destroyed when `square` ends, but its value has already been copied to the caller. This is why returning a value is safe—you get the data even though the original variable disappears.
 
 ## Multiple Function Calls
 
@@ -269,19 +229,6 @@ Creating and destroying stack frames takes a small amount of time, but for most 
 
 Write clear, well-organized functions without worrying about performance. Functions are an efficient way to structure your programs.
 
-## Memory and Program Organization
-
-Organizing your program with functions doesn't just help with code clarity. It also helps manage memory efficiently by keeping local data scoped to where it's needed. When a function finishes, its local variables are automatically cleaned up.
-
-This automatic memory management is one of the stack's greatest advantages. You declare variables when you need them, and C++ handles cleanup when they're no longer needed.
-
-## Visualizing Stack Growth
-
-As your program runs, the stack grows and shrinks dynamically with function calls. Calling a function makes the stack grow. Returning from a function makes it shrink. This dynamic behavior happens automatically and very quickly.
-
-::: notes
-**Speaker Notes:** Create an animation showing the stack growing as functions are called and shrinking as they return. Use a vertical representation with frames stacking on top of each other. Label the current "stack top."
-::: 
 
 ## Common Misconceptions
 
@@ -289,26 +236,16 @@ As your program runs, the stack grows and shrinks dynamically with function call
 
 **Reality:** Each function's local variables are isolated in its own stack frame.
 
----
+. . . 
 
 **Misconception:** When you pass a variable to a function, the function works with the original variable. 
 
 **Reality:** The function receives a copy of the value by default.
 
----
+. . . 
 
 **Misconception:** Global variables and local variables are stored in the same place. 
 
 **Reality:** Globals are in the data segment while locals are on the stack.
 
-## Good Practices
-
-- Keep functions focused and avoid excessive local variables to minimize stack frame size. Use meaningful variable names even though they occupy the same amount of memory as short names. The clarity is worth it.
-
-- Limit your use of global variables because they make programs harder to understand and debug. Prefer passing data through function parameters. This makes the flow of data explicit and easier to track.
-
-
-## Questions for Reflection
-
-What would happen if you tried to use a local variable after its function has ended? Why does pass by value prevent a function from changing the original variable? How do global variables differ from local variables in terms of where they're stored and how long they exist?
 

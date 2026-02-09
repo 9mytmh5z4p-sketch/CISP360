@@ -22,3 +22,15 @@
 
 - H2 has a css nowrap added.
 - this now uses the global style sheet.
+
+###### Lecture 3.1
+- the debugging portion was god-awful boring.
+- students seemed alternately terrified and bored.
+- the debugging activity had a reference variable in it! GD! Claude!
+
+###### Lecture 3.2
+
+- slide 4.7 add more context.
+- They don't tell a compelling story. Slides just info dump.
+
+
