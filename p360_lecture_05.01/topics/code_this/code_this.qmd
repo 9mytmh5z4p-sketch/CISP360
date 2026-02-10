@@ -1,126 +1,102 @@
-# Code This: Budget Analyzer
+# Code This: Cryptography Encoder/Decoder
 
-**Estimated Time:** 20 minutes
+**Estimated Time:** 25 minutes
 
 ::: notes
-See answer.cpp for solution
+See ceasar_cypher_solution.cpp
 ::: 
 
 ## Problem Description
 
-Write a program that analyzes household budgets using function overloading. Your program will calculate expenses across different time periods (monthly, quarterly, and annual with growth) using overloaded functions with the same name but different parameters. You'll work with individual expense categories and display formatted results.
+Write a program that encodes and decodes secret messages using a Caesar cipher. A Caesar cipher shifts each letter in a message by a fixed number of positions in the alphabet. Your program should use multiple functions to break down the encoding and decoding process into logical steps.
 
-## Background: Function Overloading
+## Background: How Caesar Cipher Works
 
-Function overloading allows you to create multiple functions with the **same name** but **different parameter lists**. The compiler determines which function to call based on the arguments you provide.
+A Caesar cipher shifts each letter by a certain number of positions:
 
-Example:
-```cpp
-double calculate(double amount);                    // 1 parameter
-double calculate(double amount, int months);        // 2 parameters
-double calculate(double amount, double rate, int year); // 3 parameters
-```
+- With a shift of 3: A becomes D, B becomes E, C becomes F, etc.
+- The alphabet wraps around: X becomes A, Y becomes B, Z becomes C
+- Numbers, spaces, and punctuation remain unchanged
+- Example: "HELLO" with shift 3 becomes "KHOOR"
 
-Each function performs a related but different calculation based on the number and type of parameters.
+## Character Shifting Guide
 
-## Understanding the Calculations
+In C++, characters are stored as numbers (ASCII values). You can perform arithmetic on them:
 
-**Monthly Expense:**
-- Simply returns the monthly amount
-- Example: If rent is $1200/month, monthly expense is $1200
+- 'A' has the value 65, 'B' is 66, 'C' is 67, etc.
+- 'a' has the value 97, 'b' is 98, 'c' is 99, etc.
 
-**Quarterly Expense:**
-- Multiplies monthly amount by number of months in the quarter
-- Formula: `amount * months`
-- Example: $300/month for 3 months = $900 quarterly
+To shift a character:
 
-**Annual Expense with Growth:**
-- Calculates expense for a future year considering growth rate
-- Formula: `amount * (1 + growth_rate) ^ year`
-- Growth rate is a decimal (5% = 0.05)
-- Example: $100/month with 5% growth in year 2 = $100 * (1.05)^2 = $110.25
+1. Subtract the base character to get position (0-25): `'C' - 'A'` gives 2
+2. Add the shift amount: `2 + 3` gives 5
+3. Use modulo to wrap around: `5 % 26` gives 5
+4. Add back the base character: `5 + 'A'` gives 'F'
+
+Formula for uppercase: `char(((originalChar - 'A' + shift) % 26) + 'A')`
+Formula for lowercase: `char(((originalChar - 'a' + shift) % 26) + 'a')`
 
 ## Requirements
 
-Your program must include the following overloaded functions named **calculate**:
+Your program must include the following functions:
 
-1. **calculate(double amount)** - Calculates monthly expense
-   - Takes: monthly expense amount
-   - Returns: the amount unchanged (monthly expense)
-   - Return type: double
+1. **isUpperCase** - Takes a character and returns true if it is an uppercase letter (A-Z), false otherwise.
+   - Return type: bool
+   - Hint: Check if the character is between 'A' and 'Z'
 
-2. **calculate(double amount, int months)** - Calculates quarterly expense
-   - Takes: monthly expense amount and number of months in quarter
-   - Returns: amount * months
-   - Return type: double
+2. **isLowerCase** - Takes a character and returns true if it is a lowercase letter (a-z), false otherwise.
+   - Return type: bool
+   - Hint: Check if the character is between 'a' and 'z'
 
-3. **calculate(double amount, double growthRate, int year)** - Calculates annual expense with growth
-   - Takes: monthly expense amount, growth rate (as decimal), and year number
-   - Returns: amount adjusted for growth over specified years
-   - Formula: amount * pow((1 + growthRate), year)
-   - Return type: double
-   - Note: Use pow() function from <cmath> library
+3. **shiftCharacter** - Takes a character and a shift amount (integer) and returns the shifted character.
+   - Return type: char
+   - If uppercase, shift within A-Z using the formula above
+   - If lowercase, shift within a-z using the formula above
+   - If not a letter, return the character unchanged
+   - Use the isUpperCase and isLowerCase functions
 
-Your program must also include:
+4. **encodeMessage** - Takes a message (string) and shift amount (integer) and returns the encoded message as a string.
+   - Return type: string
+   - Process each character in the message using shiftCharacter
+   - Build and return the encoded string
 
-4. **displayExpense** - A void function that displays expense information
-   - Takes: category name (string), amount (double), and type (string)
-   - Displays formatted output showing the category, amount with 2 decimal places, and type
+5. **displayResults** - A void function that takes the original message, encoded message, and shift amount as parameters and displays them in a formatted output.
    - Return type: void
+   - Display the original message, shift amount, and encoded message
 
 ## Sample Output
 
-Your program should display:
+For the message "Hello World" with a shift of 3, your program should display:
 
 ```
-Budget Analyzer
-===============
-
-Monthly Expenses:
-Rent: $1200.00 (Monthly)
-Groceries: $450.00 (Monthly)
-
-Quarterly Expenses:
-Utilities: $270.00 (Quarterly - 3 months)
-Insurance: $600.00 (Quarterly - 3 months)
-
-Annual Expenses with Growth:
-Healthcare (Year 1): $257.50 (Annual with 3% growth)
-Healthcare (Year 2): $265.22 (Annual with 3% growth)
-Transportation (Year 1): $189.00 (Annual with 5% growth)
-Transportation (Year 2): $198.45 (Annual with 5% growth)
-
-===============
-Total Monthly Baseline: $1650.00
+Caesar Cipher Encoder
+=====================
+Original Message: Hello World
+Shift Amount: 3
+Encoded Message: Khoor Zruog
+=====================
 ```
 
 ## Your Task
 
-1. Write function prototypes for the three overloaded calculate functions and displayExpense
+1. Write function prototypes for all five functions
 2. Implement the main() function to:
-   - Create individual variables for each expense amount
-   - Call calculate(amount) for monthly expenses
-   - Call calculate(amount, months) for quarterly expenses  
-   - Call calculate(amount, rate, year) for annual expenses with growth
-   - Use displayExpense to show each result
-   - Calculate and display the total monthly baseline (sum of base monthly expenses)
-3. Implement all function definitions below main()
+   - Create a string variable with the message "Hello World"
+   - Create an integer variable for the shift amount (3)
+   - Call encodeMessage to encode the message
+   - Call displayResults to display the original and encoded messages
+3. Implement all five function definitions below main()
 
 ## Starter Code Structure
 
 ```cpp
 #include <iostream>
 #include <string>
-#include <cmath>
-#include <iomanip>
 using namespace std;
 
 // Write your function prototypes here
 
 int main() {
-    // Set output formatting
-    cout << fixed << setprecision(2);
-    
     // Your code here
     
     return 0;
@@ -132,67 +108,32 @@ int main() {
 ## Tips
 
 - Remember to use function prototypes before main()
-- Use `#include <cmath>` for the pow() function
-- Use `#include <iomanip>` and `cout << fixed << setprecision(2)` for 2 decimal places
-- Create individual variables for each expense: `double rent = 1200.00;`
-- The compiler chooses the correct calculate function based on the number of arguments you pass
-- To calculate total monthly baseline:
-  - Add only the base monthly amounts (Rent + Groceries)
-  - Do NOT include quarterly or annual expenses in this total
-  - Formula: `total = rent + groceries`
-- For annual expenses with growth, call the function separately for year 1 and year 2:
-  ```cpp
-  double year1 = calculate(healthcare, 0.03, 1);
-  double year2 = calculate(healthcare, 0.03, 2);
-  ```
-- Use simple if statements when you need conditional logic
-- Display results immediately after calculating each expense
-
-## Data to Use
-
-**Monthly Expenses:**
-- Rent: $1200.00
-- Groceries: $450.00
-
-**Quarterly Expenses (3 months):**
-- Utilities: $90.00/month
-- Insurance: $200.00/month
-
-**Annual Expenses with Growth:**
-- Healthcare: $250.00/month, 3% growth (0.03), calculate for years 1 and 2
-- Transportation: $180.00/month, 5% growth (0.05), calculate for years 1 and 2
-
-## Example of Using Overloaded Functions
-
-```cpp
-double rent = 1200.00;
-double utilities = 90.00;
-double healthcare = 250.00;
-
-// Calls calculate(double amount)
-double monthly = calculate(rent);
-
-// Calls calculate(double amount, int months)
-double quarterly = calculate(utilities, 3);
-
-// Calls calculate(double amount, double rate, int year)
-double annual = calculate(healthcare, 0.03, 2);
-```
-
-The compiler automatically selects the correct function based on the number and types of arguments!
+- For isUpperCase: use the condition `(ch >= 'A' && ch <= 'Z')`
+- For isLowerCase: use the condition `(ch >= 'a' && ch <= 'z')`
+- In shiftCharacter, use if statements to check if uppercase, else if for lowercase, else return unchanged
+- The modulo operator (%) makes the alphabet wrap around: `(2 + 25) % 26 = 1`
+- In encodeMessage, use a loop to process each character: `for(int i = 0; i < message.length(); i++)`
+- Build the encoded string by concatenating: `result = result + shiftCharacter(message[i], shift);`
+- Test with the given values first: "Hello World" with shift 3
 
 ## Challenge (Optional - if you finish early)
 
-1. Add another overloaded calculate function for bi-weekly expenses: calculate(double amount, int payPeriods)
-2. Add more expense categories with different calculation types
-3. Calculate the total annual budget (multiply monthly baseline by 12 and add growth projections)
-4. Ask the user to input their own expense amounts using cin
+1. Add a **decodeMessage** function that reverses the encoding (hint: shift by negative amount)
+2. Modify your program to ask the user for their message and shift amount using cin
+3. Allow the user to choose whether to encode or decode
 
-## Important Notes
+## Example of Character Shifting Logic
 
-- All three calculate functions must have the same name: **calculate**
-- The functions differ only in their parameter lists (this is function overloading)
-- Work with individual variables, not vectors, to keep the focus on function overloading
-- Use simple if statements when needed for logic
-- The total monthly baseline is the sum of the base monthly expense amounts only
-- Keep your code organized with clear variable names
+Here's how to shift the letter 'C' by 3:
+```cpp
+char letter = 'C';
+int shift = 3;
+// Step 1: Get position (0-25)
+int position = letter - 'A';  // 'C' - 'A' = 2
+// Step 2: Add shift
+int newPosition = position + shift;  // 2 + 3 = 5
+// Step 3: Wrap around using modulo
+newPosition = newPosition % 26;  // 5 % 26 = 5
+// Step 4: Convert back to character
+char newLetter = newPosition + 'A';  // 5 + 'A' = 'F'
+```

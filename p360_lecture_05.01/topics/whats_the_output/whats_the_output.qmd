@@ -1,47 +1,47 @@
 # What's the Output?
 
 ::: notes
-Focus: pass by reference and variable modification, basic level, 23 lines
+Focus: return values, basic level, 24 lines
 ::: 
 
 ## Exercise Goals
 
 - Review of code syntax
 - Check understanding of syntax
-- Understand how reference parameters modify original variables
-- Observe cumulative effects of multiple reference modifications
+- Understand how return values work in functions
 
 ## What to Do
 
 - Using the given code ...
-- Trace how variables change through reference parameters
-- Compute the output (MANUALLY)
+- Trace each function call and its return value
+- Compute the output (**MANUALLY**)
 
 ## What's the Output?
 
 ```{.cpp} 
-//WhatsTheOutput_References.cpp
+//WhatsTheOutput_Functions.cpp
 #include <iostream>
 using namespace std;
-void addFive(int&);
-void doubleValue(int&);
+int add(int, int);
+int multiply(int, int);
+int subtract(int, int);
 int main() {
-    int a = 10, b = 3;
-    cout << a << " " << b << endl;
-    addFive(a);
-    cout << a << " " << b << endl;
-    doubleValue(b);
-    cout << a << " " << b << endl;
-    addFive(b);
-    doubleValue(a);
-    cout << a << " " << b << endl;
+    int x = 5, y = 3;
+    cout << add(x, y) << endl;
+    cout << multiply(x, y) << endl;
+    cout << subtract(x, y) << endl;
+    cout << add(10, 20) << endl;
+    cout << add(x, y) + 10 << endl;
     return 0;
 }
-void addFive(int& num) {
-    num = num + 5;
+int add(int a, int b) {
+    return a + b;
 }
-void doubleValue(int& num) {
-    num = num * 2;
+int multiply(int a, int b) {
+    return a * b;
+}
+int subtract(int a, int b) {
+    return a - b;
 }
 ```
 
@@ -50,38 +50,40 @@ void doubleValue(int& num) {
 ::: {.columns}
 ::: {.column width="75%"}
 ```{.cpp} 
-//WhatsTheOutput_References.cpp
+//WhatsTheOutput_Functions.cpp
 #include <iostream>
 using namespace std;
-void addFive(int&);
-void doubleValue(int&);
+int add(int, int);
+int multiply(int, int);
+int subtract(int, int);
 int main() {
-    int a = 10, b = 3;
-    cout << a << " " << b << endl;
-    addFive(a);
-    cout << a << " " << b << endl;
-    doubleValue(b);
-    cout << a << " " << b << endl;
-    addFive(b);
-    doubleValue(a);
-    cout << a << " " << b << endl;
+    int x = 5, y = 3;
+    cout << add(x, y) << endl;
+    cout << multiply(x, y) << endl;
+    cout << subtract(x, y) << endl;
+    cout << add(10, 20) << endl;
+    cout << add(x, y) + 10 << endl;
     return 0;
 }
-void addFive(int& num) {
-    num = num + 5;
+int add(int a, int b) {
+    return a + b;
 }
-void doubleValue(int& num) {
-    num = num * 2;
+int multiply(int a, int b) {
+    return a * b;
+}
+int subtract(int a, int b) {
+    return a - b;
 }
 ```
 :::
 ::: {.column width="25%"}
 ```{.cpp} 
 Output
-// 10 3
-// 15 3
-// 15 6
-// 30 11
+// 8
+// 15
+// 2
+// 30
+// 18
 ```
 :::
 :::

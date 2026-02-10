@@ -1,0 +1,251 @@
+# C++ Memory Model and Functions
+
+::: notes
+~15
+::: 
+
+## Learning Objectives
+
+By the end of this lecture, you will understand how C++ organizes memory during program execution. You will learn how function calls interact with memory and how this affects your programs. This foundational knowledge will help you write more efficient and correct C++ code.
+
+## What is Memory?
+
+Memory is where your computer stores data while your program runs. Think of it as a giant warehouse with numbered storage locations. Each location has an address and can hold a piece of data.
+
+When you declare a variable in C++, the computer reserves space in memory to store that variable's value. Understanding where and how this happens is crucial for effective programming.
+
+::: notes
+**Speaker Notes:** Show a diagram of memory as a vertical array of boxes, each box numbered sequentially and containing sample values. Keep addresses abstract (Box 1, Box 2, Box 3) to avoid confusion about address spacing.
+:::
+
+
+## Memory Regions Overview
+
+C++ divides memory into different regions that serve specific purposes. For understanding functions, we'll focus on two key regions: the stack and the data segment. The stack manages function calls and local variables, while the data segment stores global variables.
+
+These regions are organized and managed differently, which affects how and when you can access the data they contain. Understanding these two regions will help you predict how your functions behave.
+
+::: notes
+**Speaker Notes:** Display a simple diagram showing the stack and data segment as two distinct regions, with labels indicating "Function local variables" and "Global variables" respectively.
+:::
+
+
+## The Stack
+
+The stack is a special memory region that manages function calls and local variables. It operates like a stack of plates: the last item added is the first one removed. This "last in, first out" behavior perfectly matches how function calls work.
+
+When you call a function, C++ creates a new "frame" on the stack. When the function finishes, that frame is removed. This automatic management makes the stack fast and efficient.
+
+::: notes
+**Speaker Notes:** Illustrate with a physical stack metaphor—show plates being added and removed from a stack, with each plate labeled as a function name.
+:::
+
+
+## Local Variables and the Stack
+
+Local variables are variables declared inside a function. These variables are stored in that function's stack frame. They are created when the function executes and destroyed when the function ends.
+
+```cpp
+void example() {
+    int x = 10;      // x is created here
+    int y = 20;      // y is created here
+}                    // x and y are destroyed here
+```
+
+C++ handles this creation and destruction automatically for you. You don't need to manually manage this memory, making your programs simpler and less error-prone.
+
+::: notes
+**Speaker Notes:** Show a timeline diagram illustrating variables being created at declaration and destroyed at the closing brace of the function.
+:::
+
+
+## Stack Frame Anatomy
+
+When a function is called, its stack frame contains several pieces of information. The frame stores the function's parameters, its local variables, and information needed to return to the caller. All of this data is organized in a structured section of memory.
+
+```cpp
+int add(int a, int b) {
+    int sum = a + b;
+    return sum;
+}
+```
+
+The stack frame for `add` contains the parameters `a` and `b`, plus the local variable `sum`.
+
+::: notes
+**Speaker Notes:** Draw a rectangular box labeled "add() stack frame" containing three slots labeled "a", "b", and "sum" with example values like a=3, b=4, sum=7.
+:::
+
+
+## Function Call Example
+
+```cpp
+int main() {
+    int x = 5;
+    int y = 10;
+    int result = add(x, y);
+    return 0;
+}
+
+int add(int a, int b) {
+    int sum = a + b;
+    return sum;
+}
+```
+
+When `main` calls `add`, a new stack frame is created for `add` on top of `main`'s frame. The values of `x` and `y` are copied into `a` and `b`. After `add` completes, its frame is removed.
+
+::: notes
+**Speaker Notes:** Show an animated sequence: (1) main's frame with x and y, (2) add's frame appearing on top, (3) add's frame disappearing, leaving only main's frame.
+:::
+
+
+## Pass by Value
+
+When you pass arguments to a function in C++, the default behavior is "pass by value." This means the function receives a copy of the data. Changes to parameters inside the function do not affect the original variables.
+
+```cpp
+void increment(int num) {
+    num = num + 1;       // Changes only the copy
+}
+
+int main() {
+    int value = 10;
+    increment(value);
+    cout << value;       // Prints 10 - unchanged!
+}
+```
+
+This copying happens when the stack frame is created. The original `value` in `main` and the parameter `num` in `increment` are separate memory locations, which is why modifying `num` doesn't change `value`.
+
+::: notes
+**Speaker Notes:** Show two separate memory boxes labeled "main: value" and "increment: num" to illustrate they are different locations, even though num receives a copy of value's data.
+:::
+
+
+## Variable Scope vs. Lifetime
+
+Scope determines where in your code a variable can be accessed. Lifetime determines how long the variable exists in memory. For local variables, both scope and lifetime are limited to the function.
+
+```cpp
+void funcA() {
+    int x = 5;       // x only accessible in funcA
+}                    // x destroyed here
+
+void funcB() {
+    int y = 10;
+    // cout << x;   // ERROR: Cannot access x from funcA
+}
+```
+
+Each function has its own stack frame with its own local variables. Variables in one function are completely separate from variables in another, even if they have the same name.
+
+::: notes
+**Speaker Notes:** Create a diagram showing two separate stack frames side by side, each containing their own local variables, with an X mark showing that variables cannot cross between frames.
+:::
+
+
+## Stack Memory Limitations
+
+The stack has a fixed size limit set by the operating system, typically a few megabytes. If your program uses too much stack space, you'll get a "stack overflow" error. This commonly happens with very large local variables.
+
+```cpp
+void problematic() {
+    int huge[1000000];  // Very large array
+    // May exceed stack space limits
+}
+```
+
+Each local variable takes up stack space. Very large arrays or deeply nested function calls can exhaust the available stack memory. Keep your local variables reasonably sized to avoid this problem.
+
+## Function Parameters on the Stack
+
+Function parameters are part of the function's stack frame. When you call a function with arguments, those values are copied onto the stack as parameters. The function then works with these copies.
+
+```cpp
+int multiply(int a, int b) {
+    return a * b;
+}
+
+int main() {
+    int result = multiply(4, 7);
+}
+```
+
+The values 4 and 7 are copied into `a` and `b` in `multiply`'s stack frame. This happens automatically when the function is called.
+
+
+## Multiple Function Calls
+
+Each function call creates its own independent stack frame. Multiple calls to the same function create separate frames with separate copies of the local variables. This isolation is a key feature of the stack.
+
+```cpp
+int calculate(int n) {
+    int temp = n * 2;
+    return temp;
+}
+
+int main() {
+    int a = calculate(5);    // One frame created and destroyed
+    int b = calculate(10);   // Different frame created and destroyed
+}
+```
+
+The `temp` variable in the first call is completely independent from the `temp` in the second call. Even though they have the same name, they are two separate variables in two different memory locations that don't interact with each other.
+
+::: notes
+**Speaker Notes:** Show two separate stack frames appearing one after another, each labeled "calculate()" with different values for temp.
+:::
+
+
+## Nested Function Calls
+
+When one function calls another, their stack frames stack on top of each other. The most recently called function is at the top of the stack. When that function returns, its frame is removed and control returns to the function below it.
+
+```cpp
+int add(int a, int b) {
+    return a + b;
+}
+
+int compute(int x) {
+    int result = add(x, 10);
+    return result;
+}
+
+int main() {
+    int value = compute(5);
+}
+```
+
+Stack frames appear in order: main, then compute, then add. They are removed in reverse order: add, then compute, then main.
+
+::: notes
+**Speaker Notes:** Animate three stack frames building up and then collapsing in reverse order, showing the call stack growing and shrinking.
+::: 
+
+## Function Call Overhead
+
+Creating and destroying stack frames takes a small amount of time, but for most programs this overhead is negligible. The benefits of functions—code organization, reusability, and readability—far outweigh any minimal performance cost.
+
+Write clear, well-organized functions without worrying about performance. Functions are an efficient way to structure your programs.
+
+
+## Common Misconceptions
+
+**Misconception:** Variables declared in one function can be accessed from another. 
+
+**Reality:** Each function's local variables are isolated in its own stack frame.
+
+. . . 
+
+**Misconception:** When you pass a variable to a function, the function works with the original variable. 
+
+**Reality:** The function receives a copy of the value by default.
+
+. . . 
+
+**Misconception:** Global variables and local variables are stored in the same place. 
+
+**Reality:** Globals are in the data segment while locals are on the stack.
+
+

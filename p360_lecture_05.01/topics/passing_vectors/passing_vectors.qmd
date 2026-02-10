@@ -1,0 +1,453 @@
+# Passing Vectors to and from Functions
+
+## How do you work with vectors inside functions?
+
+Functions can accept vectors as parameters and return vectors as results, allowing you to organize vector operations into reusable code. This section explains the syntax and mechanics of passing vectors to functions and returning them back to the caller.
+
+::: notes
+Total slides in main content: 10 (not including 7 appendix slides)
+
+This section assumes students understand basic function syntax, function parameters and return types, and basic vector operations. We're now showing how to combine these concepts to work with vectors in functions.
+:::
+
+<!-- Slide 1 -->
+
+## Why Pass Vectors to Functions?
+
+Functions that work with vectors allow you to organize data processing logic and reuse common operations across your program.
+
+**Common use cases:**
+
+- Calculate statistics (sum, average, maximum, minimum)
+- Transform data (multiply all elements, convert values)
+- Filter data (extract elements meeting criteria)
+- Search operations (find specific values or patterns)
+
+Separating vector operations into functions makes your code more modular, testable, and easier to understand.
+
+::: notes
+Motivate this section by connecting to what students already know about functions: they organize code and enable reuse. With vectors, functions become even more powerful because they can process entire collections of data. Give concrete examples from real programs: grade calculators that process student scores, data analysis tools that compute statistics, games that manage lists of objects.
+:::
+
+<!-- Slide 2 -->
+
+## Passing a Vector to a Function
+
+To pass a vector to a function, declare a vector parameter in the function signature using the same syntax as declaring a vector variable.
+
+```cpp
+void printVector(vector<int>);
+
+int main() {
+    vector<int> scores = {85, 92, 78, 90};
+    printVector(scores);  // Pass vector to function
+    return 0;
+}
+void printVector(vector<int> numbers) {
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << numbers[i] << " ";
+    }
+    cout << endl;
+}
+```
+
+The function receives the vector and can access all its elements using normal vector operations.
+
+::: notes
+A diagram showing main() with the scores vector and an arrow pointing to the function with the numbers parameter would be helpful. Emphasize that the syntax is straightforward - just like any other parameter, but with the vector<type> declaration.
+:::
+
+<!-- Slide 3 -->
+
+## How Vector Parameters Work
+
+When you pass a vector to a function, C++ creates a copy of the entire vector for the function to use. The function works with this copy, not the original vector.
+
+```cpp
+void printVector(vector<int>);
+
+int main() {
+    vector<int> original = {1, 2, 3};
+    printVector(original);  // A copy is made
+    return 0;
+}
+void printVector(vector<int> numbers) {
+    // numbers is a copy of the argument vector
+    cout << numbers.size() << " elements" << endl;
+}
+```
+
+This copy behavior means the function has its own independent version of the vector data.
+
+::: notes
+A memory diagram would be very helpful here: show two separate memory locations, one labeled "original in main()" containing boxes [1][2][3], and one labeled "numbers (copy) in printVector()" also containing boxes [1][2][3]. Draw them side-by-side to emphasize they are separate. Use arrows to show the values are the same but the locations are different. This visual reinforces that they are truly separate entities in memory.
+:::
+
+<!-- Slide 4 -->
+
+## Modifying Vector Parameters
+
+Since the function receives a copy, modifying the vector parameter inside the function does not change the original vector.
+
+```cpp
+void doubleValues(vector<int>);
+
+int main() {
+    vector<int> data = {5, 10, 15};
+    
+    doubleValues(data);  // Passes a copy of data
+    
+    // data is still {5, 10, 15} - unchanged!
+    cout << data[0] << endl;  // Prints 5, not 10
+    
+    return 0;
+}
+void doubleValues(vector<int> numbers) {
+    for (int i = 0; i < numbers.size(); i++) {
+        numbers[i] = numbers[i] * 2;  // Modifies the copy
+    }
+    // When function ends, the copy is destroyed
+}
+```
+
+::: notes
+This is a critical concept that often confuses beginners. Walk through the execution step by step: (1) data in main has {5, 10, 15}, (2) doubleValues receives a copy with {5, 10, 15}, (3) function modifies its copy to {10, 20, 30}, (4) function ends and the copy is destroyed, (5) data in main is still {5, 10, 15}. Draw a timeline or sequence diagram showing these steps. Emphasize this is different from what students might expect if they're thinking of the parameter as a "pointer" or "reference" to the original. Later when they learn about pass-by-reference (&), they'll see how to modify the original.
+:::
+
+<!-- Slide 5 -->
+
+## Returning a Vector from a Function
+
+Functions can return vectors just like they return other data types. Declare the return type as `vector<type>` and use the return statement with a vector.
+
+```cpp
+vector<int> createSequence(int);
+
+int main() {
+    vector<int> sequence = createSequence(5);
+    // sequence now contains {1, 2, 3, 4, 5}
+    return 0;
+}
+vector<int> createSequence(int count) {
+    vector<int> result;
+    for (int i = 1; i <= count; i++) {
+        result.push_back(i);
+    }
+    return result;  // Return the vector
+}
+```
+
+::: notes
+Emphasize that the return type must match: if you're returning a vector of integers, the function signature must say vector<int>. The return statement sends the vector back to the caller. Point out that in main(), we receive the returned vector and store it in the sequence variable.
+:::
+
+<!-- Slide 6 -->
+
+## Complete Example: Vector Processing
+
+
+```cpp
+vector<int> getEvenNumbers(vector<int> );
+
+int main() {
+    vector<int> data = {1, 2, 3, 4, 5, 6};
+    vector<int> evenOnly = getEvenNumbers(data);
+    
+    // Use the result
+    cout << "Found " << evenOnly.size() << " even numbers" << endl;
+    // evenOnly contains {2, 4, 6}
+    
+    return 0;
+}
+vector<int> getEvenNumbers(vector<int> numbers) {
+    vector<int> evens;
+    
+    for (int i = 0; i < numbers.size(); i++) {
+        if (numbers[i] % 2 == 0) {
+            evens.push_back(numbers[i]);
+        }
+    }
+    
+    return evens;
+}
+```
+
+::: notes
+This example ties together both concepts: passing a vector (data) and receiving a returned vector (evenOnly). Walk through the logic: the function examines each element of its copy of numbers, builds a new vector with just the even values, and returns that new vector. In main, we capture the returned vector and can use it for further processing. This pattern (input → process → output) is fundamental.
+:::
+
+<!-- Slide 7 -->
+
+## Multiple Vector Parameters
+
+Functions can accept multiple vector parameters, allowing operations that involve multiple data sets.
+
+```cpp
+vector<int> concatenateVectors(vector<int> first, vector<int> second) {
+    vector<int> combined;
+    
+    for (int i = 0; i < first.size(); i++) {
+        combined.push_back(first[i]);
+    }
+    
+    for (int i = 0; i < second.size(); i++) {
+        combined.push_back(second[i]);
+    }
+    
+    return combined;
+}
+```
+
+Each vector parameter is an independent copy that the function can read from.
+
+::: notes
+Emphasize that both first and second are copies of the arguments passed in. The function creates a third vector (combined) to hold the result. Point out that this pattern is common when you need to combine, compare, or process multiple collections. Each parameter follows the same copy rules - the originals remain unchanged.
+:::
+
+<!-- Slide 8 -->
+
+## Practical Application
+
+
+```cpp
+vector<double> calculateGrades(vector<int> );
+
+int main() {
+    vector<int> testScores = {85, 92, 78, 95, 88};
+    vector<double> scaledGrades = calculateGrades(testScores);
+    // Use scaledGrades for GPA calculation, analytics, etc.
+    return 0;
+}
+// Convert percentage scores to 0.0-1.0 scale for statistical analysis
+vector<double> calculateGrades(vector<int> scores) {
+    vector<double> grades;
+    
+    for (int i = 0; i < scores.size(); i++) {
+        double grade = scores[i] / 100.0;  // Convert to 0.0-1.0 scale
+        grades.push_back(grade);
+    }
+    
+    return grades;
+}
+```
+
+This pattern of taking input data, processing it, and returning results is fundamental to program design.
+
+::: notes
+Point out that this demonstrates a common real-world pattern: transformation functions that convert data from one form to another. The 0.0-1.0 scale is useful for statistical calculations, weighted averages, and standardized scoring systems. The function is self-contained and reusable - you could call calculateGrades with different test score vectors throughout your program. This separation of concerns (data collection vs. processing vs. analysis) is good design.
+:::
+
+<!-- Slide 9 -->
+
+## Summary
+
+Functions can accept vectors as parameters (receiving a copy) and return vectors as results using the `vector<type>` syntax. Since parameters are copied, modifications inside the function don't affect the original vector - later you'll learn about references which allow modifying the original.
+
+::: notes
+Reinforce the two key points: (1) passing and returning vectors uses straightforward syntax similar to other types, and (2) the copy behavior means functions work with independent data. The forward reference to learning about references prepares students for upcoming material and explains why the copy behavior might seem limiting. When they learn pass-by-reference with the & symbol, they'll understand both approaches and when to use each.
+:::
+
+<!-- Slide 10 -->
+
+## Appendix
+
+<!-- Slide 11 -->
+
+## Good Practices
+
+**Use descriptive function and parameter names** - Name functions to indicate what they do (getEvenNumbers, calculateAverage) and name parameters to show what data they represent (scores, values, data).
+
+**Keep functions focused on a single task** - Each function should do one thing well. If a function filters data, that's all it should do - don't mix filtering with calculations or output.
+
+**Document what the function expects** - Add comments explaining what values the input vector should contain and what the returned vector will contain. This helps users understand how to call your function correctly.
+
+**Return results rather than printing** - Design functions to return vectors so callers can decide what to do with the results. This makes functions more flexible and reusable than functions that print directly.
+
+<!-- Slide 12 -->
+
+## Common Mistakes
+
+**Expecting parameter modifications to persist:**
+```cpp
+void doubleVector(vector<int> v) {
+    for (int i = 0; i < v.size(); i++) {
+        v[i] *= 2;  // Modifies copy only
+    }
+}
+// Original vector is unchanged after calling this function
+```
+
+## Common Mistakes
+
+**Forgetting to return the vector:**
+```cpp
+vector<int> processData(vector<int> input) {
+    vector<int> result;
+    // ... processing code ...
+    // WRONG: forgot return statement
+}
+```
+
+## Common Mistakes
+
+**Mismatched vector types:**
+```cpp
+vector<int> getData() {
+    vector<double> data = {1.5, 2.5};
+    return data;  // ERROR: returns vector<double>, not vector<int>
+}
+```
+
+## Common Mistakes
+
+**Not using the returned vector:**
+```cpp
+getFilteredData(myVector);  // WRONG: return value is discarded
+vector<int> filtered = getFilteredData(myVector);  // CORRECT
+```
+
+<!-- Slide 13 -->
+
+## More Examples
+
+**Example 1: Finding maximum value**
+```cpp
+int findMax(vector<int> numbers) {
+    // Assumes vector is not empty
+    int max = numbers[0];
+    for (int i = 1; i < numbers.size(); i++) {
+        if (numbers[i] > max) {
+            max = numbers[i];
+        }
+    }
+    return max;
+}
+```
+
+## More Examples
+
+**Example 2: Reversing a vector**
+```cpp
+vector<int> reverseVector(vector<int> original) {
+    vector<int> reversed;
+    for (int i = original.size() - 1; i >= 0; i--) {
+        reversed.push_back(original[i]);
+    }
+    return reversed;
+}
+```
+
+## More Examples
+
+**Example 3: Calculating sum**
+```cpp
+int calculateSum(vector<int> numbers) {
+    int sum = 0;
+    for (int i = 0; i < numbers.size(); i++) {
+        sum += numbers[i];
+    }
+    return sum;
+}
+```
+
+## More Examples
+
+**Example 4: Filtering by threshold**
+```cpp
+vector<int> getAboveThreshold(vector<int> values, int threshold) {
+    vector<int> result;
+    for (int i = 0; i < values.size(); i++) {
+        if (values[i] > threshold) {
+            result.push_back(values[i]);
+        }
+    }
+    return result;
+}
+```
+
+## More Examples
+
+**Example 5: Creating a filled vector**
+```cpp
+vector<int> createFilledVector(int size, int value) {
+    vector<int> filled;
+    for (int i = 0; i < size; i++) {
+        filled.push_back(value);
+    }
+    return filled;
+}
+```
+
+<!-- Slide 14 -->
+
+## Practice Problems
+
+**Problem 1:** Write a function `countOccurrences` that takes a vector of integers and a target value, and returns how many times the target appears in the vector.
+
+**Problem 2:** Write a function `getFirstN` that takes a vector and an integer n, and returns a new vector containing only the first n elements of the original vector.
+
+**Problem 3:** Write a function `doubleAllValues` that takes a vector of integers and returns a new vector where each element is twice the value of the corresponding element in the input.
+
+**Problem 4:** Write a function `combineVectors` that takes two vectors of integers and returns a new vector containing all elements from the first vector followed by all elements from the second vector.
+
+**Problem 5:** Write a function `getPositives` that takes a vector of integers and returns a new vector containing only the positive values (greater than zero).
+
+**Problem 6:** Write a function `calculateAverage` that takes a vector of doubles and returns the average value as a double.
+
+**Problem 7:** Write a function `removeValue` that takes a vector and a value to remove, and returns a new vector with all occurrences of that value removed.
+
+<!-- Slide 15 -->
+
+## AI Search Terms
+
+**Core concepts:**
+
+- "C++ pass vector to function"
+- "C++ return vector from function"
+- "C++ vector function parameters"
+
+**Understanding behavior:**
+
+- "C++ vector pass by value"
+- "what happens when passing vector to function C++"
+- "C++ vector parameter copying"
+
+## AI Search Terms
+
+**Syntax and examples:**
+
+- "C++ function with vector parameter example"
+- "how to return vector from function C++"
+- "C++ vector function signature"
+
+**Troubleshooting:**
+
+- "C++ vector not modified in function"
+- "C++ vector function not changing original"
+- "return vector from function C++"
+
+<!-- Slide 16 -->
+
+## Questions for Reflection
+
+**Conceptual understanding:**
+
+- Why doesn't modifying a vector parameter inside a function affect the original vector?
+- What is the difference between a function that modifies a vector parameter and a function that returns a new vector?
+
+**Application:**
+
+- When would you write a function that takes a vector and returns a single value versus a function that returns another vector?
+- How do you decide what to name a function that processes vectors?
+
+**Design decisions:**
+
+- If you need a function to process a large vector, what should you consider about the copying behavior?
+- When should you split vector processing into multiple smaller functions versus keeping it in one larger function?
+
+**Code analysis:**
+
+- If you see a function with a vector parameter but no return statement, what can you infer about what the function does?
+- Given a function signature `vector<int> processData(vector<int> input)`, what can you determine about how the function works?
+
+<!-- Slide 17 -->
