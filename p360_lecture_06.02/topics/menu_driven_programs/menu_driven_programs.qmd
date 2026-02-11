@@ -1,0 +1,481 @@
+# Menu-Driven Programs
+
+## How can you let users choose what your program does?
+
+Menu-driven programs present users with a list of options and execute different actions based on their selection. This approach gives users control over program flow and makes applications more interactive and user-friendly.
+
+::: notes
+Total slides in main content: 10 (not including 7 appendix slides)
+
+This section assumes students understand basic input/output (cin/cout), if/else statements, and for-each loops. We're showing how to structure programs that respond to user choices.
+:::
+
+<!-- Slide 1 -->
+
+## What is a Menu-Driven Program?
+
+A **menu-driven program** displays a list of choices to the user, accepts their selection, and performs the corresponding action. This pattern is common in applications ranging from ATMs to text-based games to system utilities.
+
+The key characteristic is that the user, not the programmer, determines which functionality executes. The program responds dynamically to user input rather than following a fixed sequence of operations.
+
+Menu-driven programs improve usability by making available actions visible and letting users work at their own pace.
+
+::: notes
+Give real-world examples: restaurant menus (hence the name), ATM screens with buttons, phone system prompts ("Press 1 for..., Press 2 for..."). Emphasize that menus make programs more flexible and user-friendly compared to hard-coded sequences.
+:::
+
+<!-- Slide 2 -->
+
+## Basic Menu Structure
+
+Every menu-driven program follows a three-part pattern:
+
+**Part 1: Display the menu** - Show available options with clear labels (usually numbered)
+
+**Part 2: Get user input** - Read the user's choice using cin
+
+**Part 3: Process the choice** - Execute the appropriate action using conditional statements
+
+This structure separates presentation (what options exist), input (what the user wants), and logic (what action to take).
+
+::: notes
+Draw a flowchart showing these three boxes in sequence: [Display Menu] → [Get Choice] → [Process Choice]. This visual reinforces the linear flow. Point out that professional programs often wrap this in a loop to repeat, but we'll start with single execution. Remove any mention of switch statements since students haven't learned those yet - we'll use if/else exclusively.
+:::
+
+<!-- Slide 3 -->
+
+## Displaying the Menu
+
+The menu display shows users what actions are available and how to select them.
+
+```cpp
+cout << "=== Student Grade System ===" << endl;
+cout << "1. Add new grade" << endl;
+cout << "2. Calculate average" << endl;
+cout << "3. Display all grades" << endl;
+cout << "4. Exit" << endl;
+cout << "Enter your choice: ";
+```
+
+Use clear, descriptive text for each option. Numbering options (1, 2, 3...) is standard because it's simple for users to type single digits.
+
+::: notes
+Emphasize formatting: blank lines or separators improve readability. The title line with === makes it clear this is a menu. Each option should be an action verb ("Add", "Calculate", "Display"). The final prompt "Enter your choice:" tells users what to do next. Show students that good menus guide users without requiring instructions.
+:::
+
+<!-- Slide 4 -->
+
+## Getting User Choice
+
+After displaying the menu, read the user's selection into a variable.
+
+```cpp
+int choice;
+cin >> choice;
+```
+
+The variable (commonly named `choice` or `option`) stores the user's input. We use `int` because menu options are typically numbers.
+
+The program then uses this variable to determine what action to take.
+
+::: notes
+Point out that we declare the variable before cin, not during. The variable name should be meaningful - "choice" immediately tells you this holds a user selection. Mention that professional programs validate input (check if it's in range), but we're focusing on basic structure now. That's covered later or in the Common Mistakes appendix.
+:::
+
+<!-- Slide 5 -->
+
+## Processing the Choice
+
+Use if/else statements to execute different code based on the user's choice.
+
+```cpp
+if (choice == 1) {
+    cout << "You selected option 1" << endl;
+    // Code for first action would go here
+} else if (choice == 2) {
+    cout << "You selected option 2" << endl;
+    // Code for second action would go here
+} else if (choice == 3) {
+    cout << "You selected option 3" << endl;
+    // Code for third action would go here
+} else if (choice == 4) {
+    cout << "Goodbye!" << endl;
+} else {
+    cout << "Invalid choice" << endl;
+}
+```
+
+Each branch corresponds to one menu option.
+
+::: notes
+Walk through the logic: compare choice to each valid number, execute the matching block. The final else catches invalid input. We're using generic messages here to focus on structure - in the next slide, you'll see a complete working example. Point out that choice == 1 matches the first menu item, choice == 2 matches the second, etc. The variable name "choice" clearly indicates this holds a user selection.
+:::
+
+<!-- Slide 6 -->
+
+## Single-Iteration Menu Example
+
+Here's a complete menu program that runs once and performs a calculation.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "=== Simple Calculator ===" << endl;
+    cout << "1. Add two numbers" << endl;
+    cout << "2. Multiply two numbers" << endl;
+    cout << "Choice: ";
+    
+    int choice;
+    cin >> choice;
+    
+    if (choice == 1) {
+        double a, b;
+        cout << "Enter two numbers: ";
+        cin >> a >> b;
+        cout << "Sum: " << (a + b) << endl;
+    } else if (choice == 2) {
+        double a, b;
+        cout << "Enter two numbers: ";
+        cin >> a >> b;
+        cout << "Product: " << (a * b) << endl;
+    } else {
+        cout << "Invalid choice" << endl;
+    }
+    
+    return 0;
+}
+```
+
+This demonstrates the complete three-part structure: display menu, get choice, process choice.
+
+::: notes
+Walk through each section: the cout statements display the menu, cin gets the choice, if/else processes it. Each valid choice prompts for additional input (the two numbers) and displays a result. Invalid choices get feedback. The program then ends - later, students will learn to wrap this in a loop to repeat the menu. Point out that we removed the "Exit" option since this is a single iteration program.
+:::
+
+<!-- Slide 7 -->
+
+## Menu with Vector Processing
+
+Building on the simple menu, we can use menu choices to control how a for-each loop processes vector data. This gives users choice over operations on collections.
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    // Sample data for demonstration
+    vector<int> numbers = {10, 20, 30, 40, 50};
+    
+    cout << "=== Vector Operations ===" << endl;
+    cout << "1. Display all numbers" << endl;
+    cout << "2. Display numbers doubled" << endl;
+    cout << "3. Display numbers squared" << endl;
+    cout << "Choice: ";
+    
+    int choice;
+    cin >> choice;
+    
+    // Each choice uses the same for-each loop structure
+    // but performs a different operation on each element
+    if (choice == 1) {
+        for (int num : numbers) {
+            cout << num << " ";
+        }
+    } else if (choice == 2) {
+        for (int num : numbers) {
+            cout << (num * 2) << " ";
+        }
+    } else if (choice == 3) {
+        for (int num : numbers) {
+            cout << (num * num) << " ";
+        }
+    }
+    cout << endl;
+    
+    return 0;
+}
+```
+
+The menu choice determines which operation the for-each loop performs on each element. Notice the loop structure is identical - only the operation inside changes.
+
+::: notes
+This is a key pattern: the menu selects the operation, the for-each loop applies it to all elements. Point out that the vector and for-each loop are the same in all three branches - only the calculation/output inside the loop changes. This is intentional: we're applying different operations to the same data based on user choice. Emphasize that this combines two concepts they know: menus (user choice) and for-each loops (processing collections). The vector is initialized with sample data - in real programs, this might come from file input or user entry.
+:::
+
+<!-- Slide 8 -->
+
+## Menu Flow and User Experience
+
+Good menu design guides users through a clear sequence of interactions.
+
+**Clear presentation** - Options like "1. Calculate average" are better than "1. Average" because they state the complete action
+
+**Predictable input** - If menu options are numbered 1-3, users know to enter a single digit
+
+**Immediate feedback** - After choosing option 2, display "Calculating..." or "Result: 42" to confirm the action
+
+Example of good flow:
+```
+=== Calculator ===
+1. Add numbers
+2. Multiply numbers
+Choice: 1
+Enter two numbers: 5 10
+Sum: 15
+```
+
+The user sees clear options, knows what to enter, and gets immediate confirmation.
+
+::: notes
+Walk through the example: User sees the menu title and options, understands they should enter 1 or 2, types their choice, gets a specific prompt for the next input, sees the result. Each step flows naturally to the next. Compare to poor design: no title, vague options like "1. Math", unclear prompts, no confirmation of results. Emphasize that good menus "guide" users - they never wonder what to do next. The three-part structure (display, input, process) creates this conversational flow.
+:::
+
+<!-- Slide 9 -->
+
+## Summary
+
+Menu-driven programs display options, read user input, and execute corresponding actions using conditional statements. The menu pattern with vector processing combines user choice with for-each loops to perform different operations on collections.
+
+::: notes
+Reinforce the two key concepts: (1) the basic three-part menu structure (display, input, process) works for any interactive program, and (2) menus can control how loops process data, not just perform simple operations. These patterns are building blocks students will use throughout programming. As they learn more loop types, they'll create repeating menus; as they learn functions, they'll organize menu actions better. The core pattern stays the same. Today's single-iteration menus are the foundation for more complex programs.
+:::
+
+<!-- Slide 10 -->
+
+## Appendix
+
+<!-- Slide 11 -->
+
+## Good Practices
+
+**Use clear, action-oriented menu text** - Each option should be a command or question that clearly states what will happen. Instead of "1. Grades", write "1. Calculate grade average".
+
+**Number options starting from 1** - Users find this more natural than starting from 0. Reserve 0 for special cases like "Exit" or "Return to main menu" if you use it at all.
+
+**Include an exit or quit option** - Give users a clear way to stop the program. This is especially important in looping menus that students will create later.
+
+**Provide feedback for every choice** - When a user selects an option, confirm what's happening ("Calculating average..." or "3 items found"). This reassures users the program is working.
+
+**Keep menus concise** - Limit to 5-7 options per menu. If you have more choices, organize them into submenus or categories.
+
+<!-- Slide 12 -->
+
+## Common Mistakes
+
+**Forgetting the final else for invalid input:**
+```cpp
+// Without handling invalid input
+if (choice == 1) {
+    // action 1
+} else if (choice == 2) {
+    // action 2
+}
+// What if user enters 5? Program does nothing - confusing!
+
+// Better:
+if (choice == 1) {
+    // action 1
+} else if (choice == 2) {
+    // action 2
+} else {
+    cout << "Invalid choice. Please try again." << endl;
+}
+```
+
+**Menu text doesn't match the logic:**
+```cpp
+cout << "1. Add numbers" << endl;
+cout << "2. Subtract numbers" << endl;
+// But in the logic:
+if (choice == 1) {
+    // subtraction code - WRONG!
+}
+```
+
+**Using unclear variable names:**
+```cpp
+int x;  // What is x?
+cin >> x;
+// Better:
+int choice;
+cin >> choice;
+```
+
+**Not displaying the menu before getting input:**
+```cpp
+// User sees nothing, then is expected to enter a number
+int choice;
+cin >> choice;  // User has no idea what to enter!
+```
+
+<!-- Slide 13 -->
+
+## More Examples
+
+**Example 1: Text formatting menu**
+```cpp
+vector<string> words = {"hello", "world", "menu"};
+
+cout << "1. Display uppercase" << endl;
+cout << "2. Display lowercase" << endl;
+cout << "3. Display length" << endl;
+cout << "Choice: ";
+
+int choice;
+cin >> choice;
+
+if (choice == 1) {
+    for (string word : words) {
+        for (char c : word) {
+            cout << (char)toupper(c);
+        }
+        cout << " ";
+    }
+} else if (choice == 2) {
+    for (string word : words) {
+        for (char c : word) {
+            cout << (char)tolower(c);
+        }
+        cout << " ";
+    }
+} else if (choice == 3) {
+    for (string word : words) {
+        cout << word.length() << " ";
+    }
+}
+cout << endl;
+```
+
+**Example 2: Temperature conversion menu**
+```cpp
+cout << "=== Temperature Converter ===" << endl;
+cout << "1. Celsius to Fahrenheit" << endl;
+cout << "2. Fahrenheit to Celsius" << endl;
+cout << "Choice: ";
+
+int choice;
+cin >> choice;
+
+double temp;
+cout << "Enter temperature: ";
+cin >> temp;
+
+if (choice == 1) {
+    double result = (temp * 9.0/5.0) + 32;
+    cout << temp << "C = " << result << "F" << endl;
+} else if (choice == 2) {
+    double result = (temp - 32) * 5.0/9.0;
+    cout << temp << "F = " << result << "C" << endl;
+} else {
+    cout << "Invalid choice" << endl;
+}
+```
+
+**Example 3: Data analysis menu**
+```cpp
+vector<double> scores = {85.5, 92.0, 78.5, 95.0, 88.5};
+
+cout << "=== Score Analysis ===" << endl;
+cout << "1. Display all scores" << endl;
+cout << "2. Display scores above 90" << endl;
+cout << "3. Display scores below 80" << endl;
+cout << "Choice: ";
+
+int choice;
+cin >> choice;
+
+if (choice == 1) {
+    for (double score : scores) {
+        cout << score << " ";
+    }
+} else if (choice == 2) {
+    for (double score : scores) {
+        if (score > 90) {
+            cout << score << " ";
+        }
+    }
+} else if (choice == 3) {
+    for (double score : scores) {
+        if (score < 80) {
+            cout << score << " ";
+        }
+    }
+}
+cout << endl;
+```
+
+<!-- Slide 14 -->
+
+## Practice Problems
+
+**Problem 1:** Create a menu with three options: 1) Print "Hello", 2) Print "Goodbye", 3) Exit. Display the menu, get the user's choice, and perform the appropriate action.
+
+**Problem 2:** Write a menu-driven program that has two options for processing a vector of integers {5, 10, 15, 20}: 1) Display each number, 2) Display each number plus 10.
+
+**Problem 3:** Create a menu with options to: 1) Display even numbers, 2) Display odd numbers, 3) Display all numbers, from a vector containing {1, 2, 3, 4, 5, 6}.
+
+**Problem 4:** Write a menu program that gives three choices for processing a vector of strings {"apple", "banana", "cherry"}: 1) Display first letter of each, 2) Display length of each, 3) Display each string in reverse order.
+
+**Problem 5:** Create a shape area calculator menu with options: 1) Calculate square area (user enters side), 2) Calculate rectangle area (user enters length and width), 3) Calculate circle area (user enters radius).
+
+**Problem 6:** Write a menu that processes a vector of test scores and allows the user to: 1) Display all scores, 2) Count how many scores are passing (>= 60), 3) Find the highest score.
+
+**Problem 7:** Create a unit converter menu: 1) Convert meters to feet (multiply by 3.28084), 2) Convert kilometers to miles (multiply by 0.621371), 3) Convert kilograms to pounds (multiply by 2.20462).
+
+<!-- Slide 15 -->
+
+## AI Search Terms
+
+**Core concepts:**
+- "C++ menu driven program"
+- "C++ user menu example"
+- "text-based menu in C++"
+
+**Implementation:**
+- "how to create menu in C++"
+- "C++ menu with switch statement"
+- "C++ menu with if else"
+
+**Menu patterns:**
+- "C++ interactive menu"
+- "C++ command line menu"
+- "simple menu program C++"
+
+**With vectors:**
+- "C++ menu with vector processing"
+- "menu driven vector operations C++"
+- "user choice with for-each loop C++"
+
+**Design:**
+- "menu driven program structure"
+- "C++ user interface console"
+- "C++ menu best practices"
+
+<!-- Slide 16 -->
+
+## Questions for Reflection
+
+**Conceptual understanding:**
+- Why are menu-driven programs considered more user-friendly than programs with fixed sequences of operations?
+- How does separating the menu structure into three parts (display, input, process) improve code organization?
+
+**Application:**
+- What types of programs benefit most from a menu-driven approach?
+- How would you decide whether to use a menu or command-line arguments for a particular program?
+
+**Design decisions:**
+- When designing menu options, what makes a good option description versus a poor one?
+- How does adding a menu change the way you need to think about program flow?
+
+**Code analysis:**
+- If you see a menu program with 15 options on one screen, what problems might users encounter?
+- How does combining menus with for-each loops give users more control over data processing?
+
+**Extension thinking:**
+- What would you need to add to make a menu that repeats until the user chooses to exit?
+- How could you organize a program with multiple related menus (like a main menu and submenus)?
+
+<!-- Slide 17 -->

@@ -1,0 +1,220 @@
+# Code This: Coffee Shop Order Processor
+
+**Estimated Time:** 20 minutes
+
+::: notes
+See answer.cpp for solution
+::: 
+
+## Problem Description
+
+Write a program that automatically processes coffee shop orders stored in a vector. Your program will use a menu-driven approach where drink codes are pre-loaded in a vector, and the system processes each order without requiring user input. This simulates an automated order processing system like those used in modern coffee shops.
+
+## Background: Automated Menu Processing
+
+Traditional menu-driven programs ask users to select options repeatedly. In this assignment, you'll create an automated system where:
+- Drink codes are stored in a vector (e.g., 1 for Espresso, 2 for Latte, etc.)
+- The program processes each code automatically using a for-each loop
+- A switch statement handles different drink types
+- Functions calculate prices, track orders, and generate summaries
+- No user input is required - the system processes pre-loaded orders
+
+This approach is used in real-world systems like mobile app orders, batch processing, and automated kiosks.
+
+## The Coffee Shop Menu
+
+Your coffee shop offers 5 drinks:
+
+| Code | Drink Name        | Price  |
+|------|-------------------|--------|
+| 1    | Espresso          | $2.50  |
+| 2    | Latte             | $3.75  |
+| 3    | Cappuccino        | $4.00  |
+| 4    | Mocha             | $4.50  |
+| 5    | Americano         | $3.00  |
+
+Any other code should be treated as "Unknown Item" with a price of $0.00.
+
+## Requirements
+
+Your program must include the following functions:
+
+1. **getDrinkName** - Takes a drink code (integer) and returns the drink name as a string.
+   - Return type: string
+   - Use a switch statement to return the appropriate drink name
+   - For codes 1-5, return the drink name
+   - For any other code, return "Unknown Item"
+
+2. **getDrinkPrice** - Takes a drink code (integer) and returns the price as a double.
+   - Return type: double
+   - Use a switch statement to return the appropriate price
+   - For codes 1-5, return the price
+   - For any other code, return 0.00
+
+3. **processOrder** - Takes a drink code (integer) and order number (integer), and displays the order details.
+   - Return type: void
+   - Parameters: int code, int orderNumber
+   - Call getDrinkName and getDrinkPrice to get drink information
+   - Display the order number, drink name, and price in a formatted line
+   - Example: "Order #1: Espresso - $2.50"
+
+4. **displayMenu** - Takes no parameters and displays the coffee shop menu.
+   - Return type: void
+   - Display a formatted menu showing all drink options with codes and prices
+
+5. **calculateTotal** - Takes a vector of drink codes and returns the total cost.
+   - Return type: double
+   - Parameters: vector<int> orders
+   - Use a for-each loop to process each code in the vector
+   - Call getDrinkPrice for each code and sum the prices
+   - Return the total
+   - Note: This function demonstrates separation of concerns - calculating the total is separate from displaying orders
+
+## Sample Output
+
+For a vector containing orders {1, 2, 1, 4, 3}, your program should display:
+
+```
+========================================
+     COFFEE SHOP ORDER PROCESSOR
+========================================
+
+MENU:
+1. Espresso          - $2.50
+2. Latte             - $3.75
+3. Cappuccino        - $4.00
+4. Mocha             - $4.50
+5. Americano         - $3.00
+
+========================================
+PROCESSING ORDERS...
+========================================
+
+Order #1: Espresso - $2.50
+Order #2: Latte - $3.75
+Order #3: Espresso - $2.50
+Order #4: Mocha - $4.50
+Order #5: Cappuccino - $4.00
+
+========================================
+SUMMARY
+========================================
+Total Orders: 5
+Total Cost: $17.25
+========================================
+```
+
+## Your Task
+
+1. Write function prototypes for all five functions
+2. Implement the main() function following these steps in order:
+   - Set output formatting with fixed and setprecision(2)
+   - Display the title header "COFFEE SHOP ORDER PROCESSOR"
+   - Create a vector of integers: {1, 2, 1, 4, 3}
+   - Call displayMenu to show the menu
+   - Display "PROCESSING ORDERS..." header
+   - Create an order counter variable (starts at 1)
+   - Use a for-each loop to process each order code:
+     - Call processOrder with the code and counter
+     - Increment the counter
+   - Display the summary section
+   - Display total number of orders (use vector.size())
+   - Call calculateTotal and display the result
+3. Implement all five function definitions below main()
+
+## Starter Code Structure
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+// Write your function prototypes here
+
+int main() {
+    // Set output formatting for currency
+    cout << fixed << setprecision(2);
+    
+    // Your code here
+    
+    return 0;
+}
+
+// Write your function definitions here
+```
+
+## Tips
+
+- Remember to use function prototypes for all functions before main()
+- Use `#include <vector>` to work with vectors
+- Use `#include <iomanip>` and `cout << fixed << setprecision(2)` for 2 decimal places
+- Create your vector: `vector<int> orders = {1, 2, 1, 4, 3};`
+- For-each loop syntax: `for(int code : orders)`
+- In switch statements, use `break` after each case
+- Don't forget the `default` case in your switch statements
+- To get vector size: `orders.size()`
+
+**Loop Structure with Counter:**
+```cpp
+int orderNum = 1;
+for(int code : orders) {
+    processOrder(code, orderNum);
+    orderNum++;
+}
+```
+
+**Output Formatting Tips:**
+- Create separator lines: `cout << "========================================" << endl;`
+- Center text by adding spaces before it
+- Use consistent spacing between sections
+- Display currency with $ symbol: `cout << "$" << price << endl;`
+
+## Example of Switch Statement for Drink Names
+
+```cpp
+string getDrinkName(int code) {
+    string name;
+    
+    switch(code) {
+        case 1:
+            name = "Espresso";
+            break;
+        case 2:
+            name = "Latte";
+            break;
+        // Continue for other cases...
+        default:
+            name = "Unknown Item";
+            break;
+    }
+    
+    return name;
+}
+```
+
+## Challenge (Optional - if you finish early)
+
+1. Add a **getDiscountedPrice** function that applies a 10% discount if ordering 3 or more of the same drink
+2. Create a function that finds and displays the most popular drink from the orders
+3. Add drink size options (Small, Medium, Large) with different pricing
+4. Calculate and display average order price
+
+## Important Notes
+
+- All orders are pre-loaded in the vector - no user input required
+- The program processes orders automatically using a for-each loop
+- Switch statements must handle all drink codes (1-5) plus a default case
+- Use proper formatting for currency display
+- Keep track of order numbers starting from 1
+- The total should be calculated by processing the entire vector
+
+## Processing Flow
+
+1. Display the menu
+2. Loop through the orders vector using for-each
+3. For each order code:
+   - Call processOrder to display the order
+   - Increment order counter
+4. After loop completes, display summary with total orders and total cost

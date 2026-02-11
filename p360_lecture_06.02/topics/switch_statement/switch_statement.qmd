@@ -1,0 +1,545 @@
+# The Switch Statement
+
+## Is there a cleaner way to handle multiple equality comparisons?
+
+When you need to compare a variable against many specific values, if/else chains can become long and repetitive. The switch statement provides a more readable alternative for handling multiple equality comparisons against a single variable.
+
+::: notes
+Total slides in main content: 8 (not including 7 appendix slides)
+
+This section assumes students understand if/else statements, comparison operators, and basic control flow. We're introducing switch as an alternative structure for specific comparison patterns.
+:::
+
+<!-- Slide 1 -->
+
+## What is the Switch Statement?
+
+The **switch statement** evaluates an expression once and compares its value against multiple case labels. When a match is found, the corresponding code block executes.
+
+Switch works with specific individual values (integers, characters, enums) and performs equality comparisons only. It cannot handle ranges or relational operators like > or <.
+
+The switch statement is designed for situations where you're checking one variable against multiple specific values, making code more organized than long if/else chains.
+
+::: notes
+Emphasize the key constraint: switch only does equality (==) checks, not <, >, <=, >=. It's for "menu-like" comparisons where you have distinct options. Give examples: checking day of week (1-7), menu choices (1, 2, 3), grade letters ('A', 'B', 'C'). Contrast with if/else which can handle any boolean condition. The term "specific individual values" means exact matches - not ranges like "between 1 and 10" but rather "exactly 1 or exactly 2 or exactly 3".
+:::
+
+<!-- Slide 2 -->
+
+## Basic Switch Syntax
+
+The switch statement has a specific structure with keywords for different parts.
+
+```cpp
+switch (expression) {
+    case value1:
+        // statements for value1
+        break;
+    case value2:
+        // statements for value2
+        break;
+    case value3:
+        // statements for value3
+        break;
+    default:
+        // statements when no case matches
+}
+```
+
+**Key components:** The `switch` keyword takes an expression to evaluate. Each `case` label specifies a value to compare against. The `break` statement exits the switch. The `default` case handles values that don't match any case (break not required here since it's last).
+
+::: notes
+Walk through each keyword: switch(expression) evaluates once at the start. case value: marks entry points. break exits the switch structure. default is like the final else - it catches everything not matched. Point out the colon after each case value, not a semicolon. Show that each case can have multiple statements without needing braces. Note that default doesn't need break since nothing comes after it, but adding break is harmless and some style guides prefer it for consistency.
+:::
+
+<!-- Slide 3 -->
+
+## How Switch Works
+
+The switch statement evaluates the expression once, then jumps to the matching case label and executes code until reaching a break statement.
+
+```cpp
+int choice = 2;
+
+switch (choice) {
+    case 1:
+        cout << "You selected option 1" << endl;
+        break;
+    case 2:
+        cout << "You selected option 2" << endl;  // Execution starts here
+        break;                                      // Execution stops here
+    case 3:
+        cout << "You selected option 3" << endl;
+        break;
+    default:
+        cout << "Invalid choice" << endl;
+}
+```
+
+When `choice` is 2, execution jumps directly to `case 2:`, executes that code block, then exits at the `break`. Other cases are not evaluated or executed. **Understanding break behavior is crucial** - the next slide covers what happens when break is omitted.
+
+::: notes
+Draw a flowchart showing: [Evaluate expression once] → [Find matching case] → [Execute from that case] → [Stop at break]. Emphasize the jump behavior - unlike if/else which checks conditions sequentially, switch finds the match and jumps there. The break is crucial - without it, execution continues to the next case (which we'll cover next). Set up the transition: "You might wonder what happens if we forget or omit the break statement."
+:::
+
+<!-- Slide 4 -->
+
+## Fall-Through Behavior
+
+Without a `break` statement, execution continues into the next case. This is called "fall-through" and is most often an accidental bug, though it can be used intentionally.
+
+**Accidental fall-through (common bug):**
+```cpp
+switch (grade) {
+    case 'A':
+        cout << "Excellent!" << endl;
+        // Forgot break - BUG!
+    case 'B':
+        cout << "Good job!" << endl;
+        break;
+}
+// If grade is 'A', BOTH messages print
+```
+
+**Intentional fall-through (grouping cases):**
+```cpp
+switch (day) {
+    case 1:  // Monday
+    case 2:  // Tuesday
+    case 3:  // Wednesday
+    case 4:  // Thursday
+    case 5:  // Friday
+        cout << "Weekday" << endl;
+        break;
+    case 6:  // Saturday
+    case 7:  // Sunday
+        cout << "Weekend" << endl;
+        break;
+}
+// Multiple cases share the same code
+```
+
+Forgetting break is one of the most common switch errors. Always add a comment when fall-through is intentional.
+
+::: notes
+This is CRITICAL - forgetting break is a common bug that can be hard to debug. Walk through the accidental example: if grade is 'A', it prints "Excellent!" then falls through to case 'B' and prints "Good job!" too. Show the correct version with break after case 'A'. For intentional use: explain that cases 1-5 all "fall through" to the same code, which is clean when multiple values need identical handling. When using intentional fall-through, add comments like "// fall through" or "// Monday" so readers know it's deliberate. The weekday/weekend example is clearer than using abstract numbers because the comments explain the grouping logic.
+:::
+
+<!-- Slide 5 -->
+
+## Switch vs If/Else
+
+Choose switch when comparing one variable against multiple specific values. Use if/else for more complex conditions.
+
+**Use switch when:**
+- Comparing one variable against multiple specific values (menu choices, grade letters, days)
+- All comparisons are equality checks (==)
+- The code becomes more readable than if/else chains
+
+**Use if/else when:**
+- Checking multiple different variables
+- Using relational operators (<, >, <=, >=)
+- Checking ranges (score >= 90)
+- Combining conditions with && or ||
+
+**Example - Same logic both ways:**
+```cpp
+// Using switch (cleaner for this case)
+switch (day) {
+    case 1: cout << "Monday"; break;
+    case 2: cout << "Tuesday"; break;
+    case 3: cout << "Wednesday"; break;
+}
+
+// Using if/else (more verbose)
+if (day == 1) {
+    cout << "Monday";
+} else if (day == 2) {
+    cout << "Tuesday";
+} else if (day == 3) {
+    cout << "Wednesday";
+}
+
+// Must use if/else (switch can't handle ranges)
+if (score >= 90) {
+    grade = 'A';
+} else if (score >= 80) {
+    grade = 'B';
+}
+```
+
+::: notes
+Walk through the comparison: the switch version is more compact and its intent is clearer - we're selecting from discrete day values. The if/else version works but is more repetitive. Emphasize that switch is specialized for "this variable equals X or Y or Z" scenarios, while if/else is general-purpose. The range example shows where if/else is required - switch can't do >= checks. Good switch examples: user menus, month numbers, command characters. Poor switch candidates: age ranges, comparing multiple variables, complex conditions.
+:::
+
+<!-- Slide 6 -->
+
+## Complete Example
+
+Here's a full program using a switch statement to process a menu choice.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "=== Shape Calculator ===" << endl;
+    cout << "1. Square area" << endl;
+    cout << "2. Circle area" << endl;
+    cout << "3. Triangle area" << endl;
+    cout << "Enter choice: ";
+    
+    int choice;
+    cin >> choice;
+    
+    switch (choice) {
+        case 1: {
+            double side;
+            cout << "Enter side length: ";
+            cin >> side;
+            cout << "Area: " << (side * side) << endl;
+            break;
+        }
+        case 2: {
+            double radius;
+            cout << "Enter radius: ";
+            cin >> radius;
+            cout << "Area: " << (3.14159 * radius * radius) << endl;
+            break;
+        }
+        case 3: {
+            double base, height;
+            cout << "Enter base and height: ";
+            cin >> base >> height;
+            cout << "Area: " << (0.5 * base * height) << endl;
+            break;
+        }
+        default:
+            cout << "Invalid choice" << endl;
+    }
+    
+    return 0;
+}
+```
+
+This demonstrates a typical use case: menu-driven program where switch makes the intent clear. Note the braces around each case that declares variables.
+
+::: notes
+Walk through the complete program: menu display, user input, switch processing. Point out the braces { } around each case block - these are needed when declaring variables inside cases because it creates proper scope. Without braces, variable declarations can cause compilation issues or unexpected behavior. The default case handles invalid input gracefully. This pattern (display menu → get choice → switch on choice) is very common in interactive programs. Each case is self-contained: get additional input if needed, perform calculation, display result, break.
+:::
+
+<!-- Slide 7 -->
+
+## Summary
+
+The switch statement provides a clean way to compare one variable against multiple specific values using case labels and break statements. Use switch for equality comparisons on discrete values, and if/else for ranges, relational operators, or complex conditions.
+
+::: notes
+Reinforce the key points: (1) switch is for single-variable equality checks with multiple values, (2) break prevents fall-through (unless you want it), (3) default handles unmatched cases, and (4) choose switch vs if/else based on the comparison pattern, not just preference. Students should recognize when switch improves readability and when if/else is more appropriate or necessary.
+:::
+
+<!-- Slide 8 -->
+
+## Appendix
+
+<!-- Slide 9 -->
+
+## Good Practices
+
+**Always include a default case** - Even if you think you've covered all values, add default for unexpected input or future code changes. It handles errors gracefully and makes code more robust.
+
+**Use break consistently** - Always include break unless you specifically want fall-through behavior. When intentionally using fall-through, add a comment like `// fall through` to signal it's deliberate, not a mistake.
+
+**Group related cases together** - When multiple cases share logic, list them together with comments explaining the grouping. This makes the shared behavior explicit and easier to understand.
+
+**Keep case blocks simple** - If a case requires complex logic or many lines, consider extracting that code into a separate function. This keeps the switch structure clean and readable.
+
+**Place default at the end** - While default can technically appear anywhere, placing it last matches reader expectations and makes the code more intuitive to follow.
+
+<!-- Slide 10 -->
+
+## Common Mistakes
+
+**Forgetting break statements:**
+```cpp
+switch (grade) {
+    case 'A':
+        cout << "Excellent" << endl;
+        // Missing break!
+    case 'B':
+        cout << "Good" << endl;
+        break;
+}
+// If grade is 'A', both "Excellent" and "Good" print
+```
+
+**Using non-constant expressions in case labels:**
+```cpp
+int x = 10;
+switch (choice) {
+    case x:  // ERROR: case must be a constant value
+        break;
+    case 5 + 3:  // OK: evaluated at compile time
+        break;
+}
+```
+
+**Trying to use ranges or relational operators:**
+```cpp
+switch (score) {
+    case >= 90:  // ERROR: switch only does equality
+        grade = 'A';
+        break;
+}
+// Must use if/else for ranges
+```
+
+**Declaring variables without scope:**
+```cpp
+switch (choice) {
+    case 1:
+        int x = 10;  // Potentially problematic
+        cout << x << endl;
+        break;
+    case 2:
+        x = 20;  // May reference uninitialized x
+        break;
+}
+// Better: use braces to create scope
+switch (choice) {
+    case 1: {
+        int x = 10;
+        cout << x << endl;
+        break;
+    }
+}
+```
+
+**Missing default case:**
+```cpp
+switch (choice) {
+    case 1:
+        // action 1
+        break;
+    case 2:
+        // action 2
+        break;
+    // No default - silent failure for other values
+}
+```
+
+<!-- Slide 11 -->
+
+## More Examples
+
+**Example 1: Day of week**
+```cpp
+int day;
+cout << "Enter day (1-7): ";
+cin >> day;
+
+switch (day) {
+    case 1:
+        cout << "Monday" << endl;
+        break;
+    case 2:
+        cout << "Tuesday" << endl;
+        break;
+    case 3:
+        cout << "Wednesday" << endl;
+        break;
+    case 4:
+        cout << "Thursday" << endl;
+        break;
+    case 5:
+        cout << "Friday" << endl;
+        break;
+    case 6:
+    case 7:
+        cout << "Weekend!" << endl;
+        break;
+    default:
+        cout << "Invalid day" << endl;
+        break;
+}
+```
+
+**Example 2: Character classification**
+```cpp
+char ch;
+cout << "Enter a character: ";
+cin >> ch;
+
+switch (ch) {
+    case 'a':
+    case 'e':
+    case 'i':
+    case 'o':
+    case 'u':
+    case 'A':
+    case 'E':
+    case 'I':
+    case 'O':
+    case 'U':
+        cout << ch << " is a vowel" << endl;
+        break;
+    default:
+        cout << ch << " is not a vowel" << endl;
+        break;
+}
+```
+
+**Example 3: Simple calculator**
+```cpp
+double a, b;
+char operation;
+
+cout << "Enter two numbers: ";
+cin >> a >> b;
+cout << "Enter operation (+, -, *, /): ";
+cin >> operation;
+
+switch (operation) {
+    case '+':
+        cout << "Result: " << (a + b) << endl;
+        break;
+    case '-':
+        cout << "Result: " << (a - b) << endl;
+        break;
+    case '*':
+        cout << "Result: " << (a * b) << endl;
+        break;
+    case '/':
+        if (b != 0) {
+            cout << "Result: " << (a / b) << endl;
+        } else {
+            cout << "Error: Division by zero" << endl;
+        }
+        break;
+    default:
+        cout << "Invalid operation" << endl;
+        break;
+}
+```
+
+**Example 4: Month days**
+```cpp
+int month;
+cout << "Enter month (1-12): ";
+cin >> month;
+
+cout << "Days in month: ";
+switch (month) {
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 12:
+        cout << "31" << endl;
+        break;
+    case 4:
+    case 6:
+    case 9:
+    case 11:
+        cout << "30" << endl;
+        break;
+    case 2:
+        cout << "28 or 29" << endl;
+        break;
+    default:
+        cout << "Invalid month" << endl;
+        break;
+}
+```
+
+<!-- Slide 12 -->
+
+## Practice Problems
+
+**Problem 1:** Write a switch statement that converts a numeric grade (1-5) to a letter grade: 1='A', 2='B', 3='C', 4='D', 5='F'. Include a default case for invalid input.
+
+**Problem 2:** Create a switch statement that takes a month number (1-12) and prints the corresponding season: 12,1,2 = Winter; 3,4,5 = Spring; 6,7,8 = Summer; 9,10,11 = Fall.
+
+**Problem 3:** Write a switch statement that classifies a character as: uppercase letter, lowercase letter, digit, or other. Use the ASCII ranges: 'A'-'Z', 'a'-'z', '0'-'9'.
+
+**Problem 4:** Create a traffic light controller using switch with fall-through: 'R' or 'r' = "Stop", 'Y' or 'y' = "Caution", 'G' or 'g' = "Go", default = "Invalid light color".
+
+**Problem 5:** Write a switch statement for a vending machine that takes a product code (1-4) and displays price: 1=$1.50, 2=$2.00, 3=$1.75, 4=$2.25, invalid=$0.00.
+
+**Problem 6:** Convert the following if/else to a switch statement:
+```cpp
+if (choice == 1) {
+    cout << "New game" << endl;
+} else if (choice == 2) {
+    cout << "Load game" << endl;
+} else if (choice == 3) {
+    cout << "Options" << endl;
+} else if (choice == 4) {
+    cout << "Quit" << endl;
+} else {
+    cout << "Invalid choice" << endl;
+}
+```
+
+**Problem 7:** Write a switch statement for a simple text-based game menu with options: 1=Start Game, 2=Load Game, 3=Settings, 4=Quit. Display appropriate messages for each choice and handle invalid input.
+
+<!-- Slide 13 -->
+
+## AI Search Terms
+
+**Core concepts:**
+- "C++ switch statement"
+- "switch vs if else C++"
+- "C++ switch case syntax"
+
+**Understanding behavior:**
+- "C++ switch fall through"
+- "switch statement break keyword"
+- "C++ switch default case"
+
+**Usage patterns:**
+- "when to use switch statement C++"
+- "C++ switch with multiple cases"
+- "switch statement for menu C++"
+
+**Common issues:**
+- "C++ switch statement variable declaration"
+- "switch case constant expression C++"
+- "C++ switch with char and int"
+
+**Advanced topics:**
+- "C++ switch statement scope"
+- "switch with enum C++"
+- "C++ switch statement performance"
+
+<!-- Slide 14 -->
+
+## Questions for Reflection
+
+**Conceptual understanding:**
+- Why does the switch statement only work with equality comparisons and not with relational operators like < or >?
+- What is the purpose of the break statement in switch, and what happens when you omit it?
+
+**Application:**
+- Given a problem requiring multiple comparisons, how do you decide whether to use switch or if/else?
+- When might intentional fall-through behavior be useful in a switch statement?
+
+**Design decisions:**
+- Why is it considered good practice to always include a default case, even if you think all possible values are covered?
+- How does grouping multiple case labels together improve code readability?
+
+**Code analysis:**
+- If you see a switch statement without any break statements, what would you suspect about the programmer's intent?
+- What are the trade-offs between using one switch with many cases versus multiple if/else statements?
+
+**Problem-solving:**
+- How would you refactor a long if/else chain that checks the same variable against many values?
+- What approach would you take if you need switch-like behavior but also need to check ranges or complex conditions?
+
+**Debugging:**
+- If your switch statement is executing multiple cases when you expect only one, what is the most likely cause?
+- How can you use the default case to help debug unexpected input values?
+
+<!-- Slide 15 -->

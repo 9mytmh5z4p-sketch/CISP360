@@ -1,0 +1,328 @@
+# Using Functions with Menus
+
+How can we make menu-driven programs more organized and easier to maintain? Today we'll learn how to use functions to separate menu display, user choice handling, and action execution into modular, reusable components.
+
+::: notes
+Total slides: 8
+
+Consider including a visual showing a menu program broken into function modules.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Why Use Functions with Menus?
+
+Functions improve menu programs by separating concerns into distinct, manageable pieces. Each function handles one specific task, making code easier to read, test, and modify.
+
+Without functions, menu code becomes long and difficult to maintain as programs grow. Functions allow us to reuse menu display logic, isolate action code, and change implementations without affecting other parts of the program.
+
+Modular design also makes debugging easier because problems can be isolated to specific functions. When a menu action fails, you know exactly which function to examine.
+
+<!-- Slide 2 -->
+
+---
+
+## Creating a Function to Display the Menu
+
+A display function shows menu options to the user and returns no value. This function can be called whenever the menu needs to appear.
+
+```cpp
+void displayMenu() {
+    cout << "=== Main Menu ===" << endl;
+    cout << "1. Process Data" << endl;
+    cout << "2. View Results" << endl;
+    cout << "3. Save File" << endl;
+    cout << "4. Exit" << endl;
+    cout << "Enter choice: ";
+}
+```
+
+Separating display logic into its own function means you can update menu text without touching the rest of your program. This function has no parameters and no return value because it only performs output.
+
+::: notes
+Consider a diagram showing the displayMenu function as a reusable module that can be called multiple times.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Creating Functions to Handle Menu Actions
+
+Action functions perform the work associated with each menu choice. Each function should do one specific task and can have parameters and return values as needed.
+
+```cpp
+void processData() {
+    cout << "Processing data..." << endl;
+    // Data processing logic here
+}
+
+void viewResults() {
+    cout << "Displaying results..." << endl;
+    // Result display logic here
+}
+
+void saveFile() {
+    cout << "Saving file..." << endl;
+    // File saving logic here
+}
+```
+
+Each action function encapsulates the logic for one menu option. This makes the code modular and allows you to test each action independently.
+
+<!-- Slide 4 -->
+
+---
+
+## Integrating Display and Action Functions
+
+The main function orchestrates the menu by calling the display function, getting user input, and using a switch statement to call the appropriate action function.
+
+```cpp
+int main() {
+    int choice;
+    
+    displayMenu();
+    cin >> choice;
+    
+    switch (choice) {
+        case 1:
+            processData();
+            break;
+        case 2:
+            viewResults();
+            break;
+        case 3:
+            saveFile();
+            break;
+        case 4:
+            cout << "Exiting..." << endl;
+            break;
+        default:
+            cout << "Invalid choice!" << endl;
+    }
+    
+    return 0;
+}
+```
+
+::: notes
+Consider a flowchart showing how main calls displayMenu, then calls action functions based on user input.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Complete Program Example
+
+This complete program demonstrates all components working together with proper function declarations and organization.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+// Function declarations
+void displayMenu();
+void processData();
+void viewResults();
+void saveFile();
+
+int main() {
+    int choice;
+    
+    displayMenu();
+    cin >> choice;
+    
+    switch (choice) {
+        case 1:
+            processData();
+            break;
+        case 2:
+            viewResults();
+            break;
+        case 3:
+            saveFile();
+            break;
+        case 4:
+            cout << "Exiting program..." << endl;
+            break;
+        default:
+            cout << "Invalid choice!" << endl;
+    }
+    
+    return 0;
+}
+
+// Function definitions
+void displayMenu() {
+    cout << "=== Main Menu ===" << endl;
+    cout << "1. Process Data" << endl;
+    cout << "2. View Results" << endl;
+    cout << "3. Save File" << endl;
+    cout << "4. Exit" << endl;
+    cout << "Enter choice: ";
+}
+
+void processData() {
+    cout << "Processing data..." << endl;
+    cout << "Data processed successfully!" << endl;
+}
+
+void viewResults() {
+    cout << "Displaying results..." << endl;
+    cout << "Result: 42" << endl;
+}
+
+void saveFile() {
+    cout << "Saving file..." << endl;
+    cout << "File saved successfully!" << endl;
+}
+```
+
+::: notes
+Note: This example executes once without looping to focus on function structure and organization. Real menu programs typically wrap the menu display and selection logic in a loop to allow multiple operations.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Function Organization and Program Structure
+
+Function declarations should appear at the top of the program, before main, so the compiler knows about all functions. Function definitions can appear after main or in separate files for larger programs.
+
+The main function should focus on program flow and coordination, calling other functions to do the actual work. Keep main clean by delegating tasks to specialized functions rather than implementing everything directly.
+
+Group related functions together and use consistent naming conventions. Functions that perform actions should have verb-based names like processData or saveFile that clearly indicate what they do.
+
+::: notes
+Consider a diagram showing program structure with declarations at top, main in middle, and definitions at bottom.
+:::
+
+<!-- Slide 7 -->
+
+---
+
+## Summary
+
+Functions make menu programs modular by separating display logic and action handling into reusable components. This organization improves code readability, maintainability, and allows independent testing of each menu function.
+
+<!-- Slide 8 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Common Practices
+
+Always declare functions before main so the compiler knows about them when they are called. Place all function declarations together at the top of your file for easy reference.
+
+Use void return type for action functions that perform tasks without returning values. Reserve return values for functions that need to provide data back to the caller, such as validation functions.
+
+Give functions descriptive names that indicate their purpose in the menu system. Names like displayMainMenu or processUserInput are clearer than generic names like function1 or doStuff.
+
+Keep each function focused on a single task. If a function becomes too long or handles multiple unrelated actions, split it into smaller, more focused functions.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+Forgetting to declare functions before using them causes compiler errors. C++ requires function declarations to appear before the functions are called in code.
+
+Putting too much logic in main defeats the purpose of using functions. Main should primarily coordinate function calls, not implement all the menu logic directly.
+
+Naming functions inconsistently makes code harder to understand. Stick to a naming convention like using verbs for action functions (processData, displayMenu) throughout your program.
+
+Creating functions that depend on each other in circular ways leads to design problems. Each function should be as independent as possible to maintain modularity.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Menu with return value function
+int getUserChoice() {
+    int choice;
+    displayMenu();
+    cin >> choice;
+    return choice;
+}
+
+// Menu with parameter function
+void displayCustomMenu(string title) {
+    cout << "=== " << title << " ===" << endl;
+    cout << "1. Option A" << endl;
+    cout << "2. Option B" << endl;
+}
+
+// Action function with parameter
+void processItem(int itemNumber) {
+    cout << "Processing item " << itemNumber << endl;
+}
+
+// Using the functions
+int main() {
+    displayCustomMenu("Settings Menu");
+    int choice = getUserChoice();
+    
+    switch (choice) {
+        case 1:
+            processItem(100);
+            break;
+        case 2:
+            processItem(200);
+            break;
+    }
+    
+    return 0;
+}
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Create a function displayCalculatorMenu that shows options for addition, subtraction, multiplication, and division.
+2. Write four separate functions (add, subtract, multiply, divide) that each take two double parameters and display the result.
+3. Build a complete program that uses displayCalculatorMenu and calls the appropriate calculation function based on user choice.
+4. Modify your calculator program to include a getValidChoice function that returns the user's menu selection and can be called from main.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+When searching for help or using AI assistants, try these search terms:
+
+- "C++ function modularization with menus"
+- "C++ menu driven program with functions"
+- "C++ function declarations and definitions"
+- "C++ organizing code with functions"
+- "C++ switch statement with function calls"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+1. What are the advantages of separating menu display from menu action handling into different functions?
+2. How does using functions improve the maintainability of a menu-driven program as it grows larger?
+3. Why should main focus on coordination rather than implementing all the logic directly?
+4. When would you want a menu function to return a value versus having no return value?
+
+<!-- Appendix Slide 6 -->

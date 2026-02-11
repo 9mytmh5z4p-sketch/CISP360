@@ -1,0 +1,372 @@
+# The Conditional Operator
+
+## Is there a shorter way to write simple if/else statements?
+
+C++ provides the conditional operator (also called the ternary operator) as a compact alternative to if/else for simple conditions. This operator allows you to write conditional logic in a single expression, making your code more concise when appropriate.
+
+::: notes
+Total slides in main content: 8 (not including 7 appendix slides)
+
+This section assumes students understand if/else statements, boolean expressions, and basic operators. We're introducing a more compact syntax for simple conditional assignments and expressions.
+:::
+
+<!-- Slide 1 -->
+
+## What is the Conditional Operator?
+
+The **conditional operator** (`?:`) is C++'s only ternary operator, meaning it takes three operands: a condition, a value if true, and a value if false. It evaluates a condition and returns one of two values based on the result.
+
+**Syntax:**
+```
+condition ? value_if_true : value_if_false
+```
+
+**Example:**
+```cpp
+int age = 20;
+string status = (age >= 18) ? "adult" : "minor";
+// status is "adult" because age >= 18 is true
+```
+
+The operator evaluates the condition, then returns either the value after `?` (if true) or the value after `:` (if false).
+
+::: notes
+A diagram showing the flow would be helpful: draw a decision diamond with "condition" at the top, branching to "value_if_true" on the true path and "value_if_false" on the false path, then both converging to "result". Emphasize that this is an expression that produces a value, not a statement like if/else. The term "ternary" literally means three - this operator has three parts (condition, true value, false value), unlike binary operators like + or - which have two operands.
+:::
+
+<!-- Slide 2 -->
+
+## Simple Examples
+
+The conditional operator is commonly used for simple assignments based on conditions.
+
+```cpp
+// Determining pass/fail status
+int score = 75;
+string result = (score >= 60) ? "Pass" : "Fail";
+
+// Finding the larger of two numbers
+int a = 10, b = 20;
+int max = (a > b) ? a : b;
+
+// Setting a sign indicator
+int value = -5;
+string sign = (value > 0) ? "positive" : "non-positive";
+
+// Applying a discount
+double price = 100.0;
+double finalPrice = (price > 50.0) ? price * 0.9 : price;
+```
+
+Each example shows a condition followed by two possible values to assign.
+
+::: notes
+Walk through each example with students. Point out the pattern: condition in parentheses, question mark, true value, colon, false value. The sign example uses "non-positive" to correctly include both negative numbers and zero. For teaching purposes, you could also show (value > 0) ? "positive" : (value < 0) ? "negative" : "zero" as a nested example, but save that for later.
+:::
+
+<!-- Slide 3 -->
+
+## How It Works
+
+The conditional operator evaluates expressions in a specific order: condition first, then only one of the two result expressions.
+
+```cpp
+int x = 10;
+int y = (x > 5) ? x * 2 : x * 3;
+```
+
+**When x = 10 (condition is true):**
+1. Evaluate `(x > 5)` → true
+2. Evaluate `x * 2` → 20
+3. Skip `x * 3` (not evaluated)
+4. Return 20 and assign to y
+
+**When x = 3 (condition is false):**
+1. Evaluate `(x > 5)` → false
+2. Skip `x * 2` (not evaluated)
+3. Evaluate `x * 3` → 9
+4. Return 9 and assign to y
+
+Only the chosen branch is evaluated, similar to how only one branch of an if/else executes.
+
+::: notes
+Walk through both scenarios step-by-step with students. Emphasize the short-circuit behavior - the unchosen expression is not evaluated. This matters if expressions have side effects (like function calls with cout or modifications). Draw a timeline showing: condition check → branch selection → single evaluation → result. This mirrors if/else behavior and helps students understand that despite the compact syntax, the logic is the same.
+:::
+
+<!-- Slide 4 -->
+
+## Nested Conditional Operators
+
+Conditional operators can be nested to handle multiple conditions. **Format with line breaks for readability** - align each condition vertically.
+
+```cpp
+int score = 85;
+string grade = (score >= 90) ? "A" :
+               (score >= 80) ? "B" :
+               (score >= 70) ? "C" :
+               (score >= 60) ? "D" : "F";
+```
+
+This is equivalent to:
+```cpp
+string grade;
+if (score >= 90) grade = "A";
+else if (score >= 80) grade = "B";
+else if (score >= 70) grade = "C";
+else if (score >= 60) grade = "D";
+else grade = "F";
+```
+
+The nested conditional evaluates from left to right, returning the first matching condition.
+
+::: notes
+The formatting shown is CRITICAL for readability. Without proper formatting (all on one line), nested conditionals become incomprehensible. Show students what it looks like without formatting first, then show the formatted version. Point out that while this works, the if/else version might be clearer for complex logic. Nested conditionals work well for 2-3 levels but become problematic beyond that. This example shows the maximum complexity you should use with the conditional operator.
+:::
+
+<!-- Slide 5 -->
+
+## When to Use the Conditional Operator
+
+The conditional operator is best suited for simple, clear conditions where conciseness improves readability.
+
+**Good uses:**
+- Simple assignments based on a single condition
+- Inline value selection in function arguments or return statements
+- Concise null checks or default values
+
+**When to prefer if/else:**
+- Complex conditions requiring multiple statements in each branch
+- Logic that needs detailed comments or debugging
+- Nested conditions more than 2-3 levels deep
+
+**Rule of thumb:** If you have to read the expression twice to understand it, or if it doesn't fit on one readable line, use if/else instead.
+
+::: notes
+Emphasize that brevity is not always better - clarity should be the primary goal. The conditional operator shines when it makes intent clearer by reducing boilerplate. Show examples of both good and poor uses. A specific test: can someone unfamiliar with the code understand what it does in 3-5 seconds? If not, use if/else. Another guideline: if you need comments to explain the conditional operator, it's probably too complex.
+:::
+
+<!-- Slide 6 -->
+
+## Practical Applications
+
+The conditional operator commonly appears in several programming patterns where conciseness improves clarity.
+
+**Setting default values:**
+```cpp
+int input = getUserInput();
+int value = (input > 0) ? input : 10;  // Default to 10 if invalid
+```
+
+**Inline calculations:**
+```cpp
+double total = price * ((hasDiscount) ? 0.9 : 1.0);  // Apply 10% discount
+```
+
+**Function return values:**
+```cpp
+int getAbsolute(int num) {
+    return (num >= 0) ? num : -num;  // One-line absolute value
+}
+```
+
+**Output formatting (pluralization):**
+```cpp
+cout << count << " item" << ((count == 1) ? "" : "s") << endl;
+// Avoids awkward "1 items"
+```
+
+These examples show the operator reducing boilerplate while keeping intent clear.
+
+::: notes
+Walk through why each example benefits from the conditional operator. Default values: avoids 3-line if/else for a simple check. Inline calculations: the conditional is part of a larger expression. Function returns: keeps simple logic on one line. Pluralization: the conditional operator handles the special case inline, which is cleaner than an if/else that interrupts the cout flow. Emphasize these are patterns where the conditional operator genuinely improves readability, not just reduces line count.
+:::
+
+<!-- Slide 7 -->
+
+## Summary
+
+The conditional operator (`?:`) provides a compact way to choose between two values based on a condition, using the syntax `condition ? value_if_true : value_if_false`. Use it for simple, clear conditions, but prefer if/else when complexity would reduce readability.
+
+::: notes
+Reinforce that the conditional operator is a tool for improving code clarity in specific situations, not a replacement for all if/else statements. The key decision: does the conditional operator make the code easier or harder to understand? Students should always prioritize readability. As they gain experience, they'll develop intuition for when the conditional operator is appropriate.
+:::
+
+<!-- Slide 8 -->
+
+## Appendix
+
+<!-- Slide 9 -->
+
+## Good Practices
+
+**Use parentheses around the condition for clarity** - While not always required, parentheses around the condition `(x > 5)` make the expression easier to read and prevent precedence confusion.
+
+**Format nested conditionals with line breaks** - Place each condition on its own line when nesting, aligning the `?` and `:` operators vertically to show the structure clearly.
+
+**Limit nesting depth** - Avoid nesting conditional operators more than 2-3 levels deep. Beyond that, if/else statements are almost always clearer.
+
+**Keep expressions simple** - The conditional operator works best with simple value selections. If either branch requires multiple operations or statements, use if/else instead.
+
+**Match types carefully** - Ensure both possible return values have compatible types. The compiler will find a common type, but mismatches can lead to unexpected conversions.
+
+<!-- Slide 10 -->
+
+## Common Mistakes
+
+**Missing parentheses causing precedence issues:**
+```cpp
+int result = x > 5 ? 10 : 20;  // Works but unclear
+int result = (x > 5) ? 10 : 20;  // Better: intention is clear
+```
+
+**Trying to use statements instead of expressions:**
+```cpp
+int x = (condition) ? cout << "yes" : cout << "no";  // WRONG: cout is a statement
+// Use if/else for actions, not assignments
+```
+
+**Overly complex nested conditions:**
+```cpp
+// Hard to read:
+int val = a > b ? c > d ? e : f : g > h ? i : j;
+
+// Better as if/else:
+int val;
+if (a > b) {
+    val = (c > d) ? e : f;
+} else {
+    val = (g > h) ? i : j;
+}
+```
+
+**Type mismatches:**
+```cpp
+int result = (x > 0) ? 10 : "negative";  // ERROR: incompatible types
+int result = (x > 0) ? 10 : -10;  // Correct: both are ints
+```
+
+**Forgetting the colon:**
+```cpp
+int max = (a > b) ? a;  // ERROR: missing : and value_if_false
+int max = (a > b) ? a : b;  // Correct
+```
+
+<!-- Slide 11 -->
+
+## More Examples
+
+**Example 1: Determining even or odd**
+```cpp
+int num = 7;
+string parity = (num % 2 == 0) ? "even" : "odd";
+```
+
+**Example 2: Applying tax based on region**
+```cpp
+string region = "CA";
+double taxRate = (region == "CA") ? 0.0875 : 0.05;
+double total = price * (1 + taxRate);
+```
+
+**Example 3: Setting boundary values**
+```cpp
+int score = 105;
+int bounded = (score > 100) ? 100 : (score < 0) ? 0 : score;
+// Clamps score between 0 and 100
+```
+
+**Example 4: Formatting output**
+```cpp
+int hours = 3;
+cout << "It took " << hours << " hour" 
+     << ((hours != 1) ? "s" : "") << endl;
+```
+
+**Example 5: Selecting minimum value**
+```cpp
+int a = 15, b = 23, c = 8;
+int min = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+```
+
+**Example 6: Setting access level**
+```cpp
+bool isAdmin = false;
+bool isOwner = true;
+string access = (isAdmin || isOwner) ? "full" : "limited";
+```
+
+<!-- Slide 12 -->
+
+## Practice Problems
+
+**Problem 1:** Create a conditional operator expression that converts a boolean `isValid` to a string: "valid" if true, "invalid" if false.
+
+**Problem 2:** Write a conditional operator that calculates shipping cost: $5 if order total is under $50, otherwise free (0).
+
+**Problem 3:** Use the conditional operator to find the maximum of two integers `a` and `b`.
+
+**Problem 4:** Write a conditional operator expression that returns the absolute difference between two numbers `x` and `y`.
+
+**Problem 5:** Write a conditional operator that assigns "positive", "negative", or "zero" to a variable `sign` based on an integer `num`.
+
+**Problem 6:** Use the conditional operator to find the maximum of three integers `a`, `b`, and `c`.
+
+**Problem 7:** Write a conditional operator that assigns a letter grade ("A", "B", "C", "D", or "F") based on a numeric `score` (90+, 80-89, 70-79, 60-69, below 60).
+
+**Problem 8:** Use the conditional operator to set a variable `season` based on an integer `month` (12-2 = "winter", 3-5 = "spring", 6-8 = "summer", 9-11 = "fall").
+
+
+<!-- Slide 13 -->
+
+## AI Search Terms
+
+**Core concepts:**
+- "C++ conditional operator"
+- "C++ ternary operator"
+- "C++ ?: operator"
+
+**Understanding syntax:**
+- "C++ ternary operator syntax"
+- "how does ?: operator work in C++"
+- "C++ conditional operator examples"
+
+**Nested usage:**
+- "C++ nested ternary operator"
+- "nested conditional operator C++"
+- "chaining ?: operators C++"
+
+**Best practices:**
+- "when to use ternary operator vs if else"
+- "C++ conditional operator readability"
+- "C++ ternary operator style guide"
+
+**Troubleshooting:**
+- "C++ ternary operator type mismatch"
+- "conditional operator precedence C++"
+- "ternary operator not working C++"
+
+<!-- Slide 14 -->
+
+## Questions for Reflection
+
+**Conceptual understanding:**
+- Why is the conditional operator called a "ternary" operator?
+- How does the conditional operator differ from an if/else statement in terms of what it produces?
+
+**Application:**
+- When does using the conditional operator improve code readability versus reducing it?
+- How would you decide whether to use a conditional operator or an if/else statement for a particular situation?
+
+**Design decisions:**
+- What makes nested conditional operators harder to read than nested if/else statements?
+- In what scenarios would a conditional operator be preferable in a function return statement?
+
+**Code analysis:**
+- If you see a conditional operator with three levels of nesting, what would you suggest to improve it?
+- How can you tell if the two branches of a conditional operator have compatible types?
+
+**Problem-solving:**
+- How would you convert a complex nested conditional operator expression into an equivalent if/else structure?
+- What debugging strategies would you use if a conditional operator isn't returning the value you expect?
+
+<!-- Slide 15 -->

@@ -1,0 +1,322 @@
+# Program Menu Architectures
+
+How can we organize user choices in a program to make them intuitive and easy to implement? Today we'll explore three common menu architectures: numeric, alphabetical, and alphanumeric menus.
+
+::: notes
+Total slides: 8
+
+Consider including a visual showing three different menu styles side by side.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## What Are Program Menus?
+
+Program menus present users with a list of options and allow them to select one by entering a specific value. Menus provide a structured way for users to interact with a program and make choices.
+
+The architecture of a menu refers to the type of input it accepts for selection. Common architectures include numeric (1, 2, 3), alphabetical (A, B, C), and alphanumeric (mixing both).
+
+::: notes
+Consider a diagram showing a simple menu with numbered options and an input prompt.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Numeric Menu Architecture
+
+Numeric menus use integer values for selection and are the most common menu type. Users enter numbers to choose options.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    int choice;
+    
+    cout << "=== Main Menu ===" << endl;
+    cout << "1. Start New Game" << endl;
+    cout << "2. Load Saved Game" << endl;
+    cout << "3. View High Scores" << endl;
+    cout << "4. Exit" << endl;
+    cout << "Enter your choice: ";
+    cin >> choice;
+    
+    switch (choice) {
+        case 1:
+            cout << "Starting new game..." << endl;
+            break;
+        case 2:
+            cout << "Loading saved game..." << endl;
+            break;
+        case 3:
+            cout << "Displaying high scores..." << endl;
+            break;
+        case 4:
+            cout << "Exiting program..." << endl;
+            break;
+        default:
+            cout << "Invalid choice!" << endl;
+    }
+    
+    return 0;
+}
+```
+
+<!-- Slide 3 -->
+
+---
+
+## Alphabetical Menu Architecture
+
+Alphabetical menus use single character letters for selection and work well for options with memorable letter associations. Users enter letters (typically uppercase) to choose options.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    char choice;
+    
+    cout << "=== File Menu ===" << endl;
+    cout << "N - New Document" << endl;
+    cout << "O - Open Document" << endl;
+    cout << "S - Save Document" << endl;
+    cout << "Q - Quit" << endl;
+    cout << "Enter your choice: ";
+    cin >> choice;
+    
+    switch (choice) {
+        case 'N':
+        case 'n':
+            cout << "Creating new document..." << endl;
+            break;
+        case 'O':
+        case 'o':
+            cout << "Opening document..." << endl;
+            break;
+        case 'S':
+        case 's':
+            cout << "Saving document..." << endl;
+            break;
+        case 'Q':
+        case 'q':
+            cout << "Quitting program..." << endl;
+            break;
+        default:
+            cout << "Invalid choice!" << endl;
+    }
+    
+    return 0;
+}
+```
+
+<!-- Slide 4 -->
+
+---
+
+## Alphanumeric Menu Architecture
+
+Alphanumeric menus combine both numbers and letters for selection, offering flexibility when you have many options or want to group related choices. This architecture uses character input to handle both types.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    char choice;
+    
+    cout << "=== System Menu ===" << endl;
+    cout << "1 - View System Status" << endl;
+    cout << "2 - Run Diagnostics" << endl;
+    cout << "3 - Update System" << endl;
+    cout << "A - Advanced Settings" << endl;
+    cout << "B - Backup Data" << endl;
+    cout << "X - Exit" << endl;
+    cout << "Enter your choice: ";
+    cin >> choice;
+    
+    switch (choice) {
+        case '1':
+            cout << "Displaying system status..." << endl;
+            break;
+        case '2':
+            cout << "Running diagnostics..." << endl;
+            break;
+        case '3':
+            cout << "Updating system..." << endl;
+            break;
+        case 'A':
+        case 'a':
+            cout << "Opening advanced settings..." << endl;
+            break;
+        case 'B':
+        case 'b':
+            cout << "Starting backup..." << endl;
+            break;
+        case 'X':
+        case 'x':
+            cout << "Exiting system..." << endl;
+            break;
+        default:
+            cout << "Invalid choice!" << endl;
+    }
+    
+    return 0;
+}
+```
+
+<!-- Slide 5 -->
+
+---
+
+## Comparing Menu Architectures
+
+Numeric menus are best for simple, sequential options where the order matters or when options don't have obvious letter associations. They are the most straightforward for users to understand.
+
+Alphabetical menus work well when options have meaningful letter associations, like N for New or S for Save. They can be faster for experienced users who memorize the letter shortcuts.
+
+Alphanumeric menus are useful when you have many options or want to group related items, such as numbered operations and lettered settings. They provide flexibility but require users to remember both number and letter conventions.
+
+::: notes
+Consider a comparison table showing the three menu types with their advantages and typical use cases.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Implementing Menus with Switch Statements
+
+Switch statements provide clean, readable menu implementations for all three architectures. For numeric menus, use int as the choice variable and integer cases.
+
+For alphabetical menus, use char as the choice variable and include both uppercase and lowercase cases for user convenience. For alphanumeric menus, use char and include character literals for numbers ('1', '2') and letters.
+
+Always include a default case to handle invalid input gracefully. This ensures the program responds appropriately when users enter values outside the menu options.
+
+<!-- Slide 7 -->
+
+---
+
+## Summary
+
+Program menus organize user choices using numeric, alphabetical, or alphanumeric architectures, each suited to different use cases. Switch statements provide an effective way to implement all three menu types cleanly and efficiently.
+
+<!-- Slide 8 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Common Practices
+
+Use consistent formatting across all menu options with clear separators or headers to improve readability. Align the option indicators (numbers or letters) and use consistent spacing between options.
+
+Include both uppercase and lowercase cases in alphabetical and alphanumeric menus to accommodate different user input styles. This improves user experience by being more forgiving of case variations.
+
+Place the most commonly used options first in your menu to reduce the time users spend navigating. Exit or quit options should typically appear last as they are used less frequently during normal operation.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+Forgetting to include a default case in switch statements leaves invalid input unhandled. Always provide feedback when users enter invalid choices so they know what went wrong.
+
+Using int variables for alphabetical or alphanumeric menus creates type mismatch problems. Character-based menus must use char variables to properly handle letter input.
+
+Mixing architectures inconsistently within the same program confuses users. If you start with numeric menus in one part of your program, maintain that pattern unless there's a compelling reason to switch.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Numeric menu for calculator operations
+cout << "1. Addition" << endl;
+cout << "2. Subtraction" << endl;
+cout << "3. Multiplication" << endl;
+cout << "4. Division" << endl;
+cin >> choice;
+switch (choice) {
+    case 1: cout << "Add mode"; break;
+    case 2: cout << "Subtract mode"; break;
+    case 3: cout << "Multiply mode"; break;
+    case 4: cout << "Divide mode"; break;
+    default: cout << "Invalid"; break;
+}
+
+// Alphabetical menu for text formatting
+cout << "B - Bold" << endl;
+cout << "I - Italic" << endl;
+cout << "U - Underline" << endl;
+cin >> choice;
+switch (choice) {
+    case 'B': case 'b': cout << "Bold applied"; break;
+    case 'I': case 'i': cout << "Italic applied"; break;
+    case 'U': case 'u': cout << "Underline applied"; break;
+    default: cout << "Invalid"; break;
+}
+
+// Alphanumeric menu for game controls
+cout << "1 - Easy Mode" << endl;
+cout << "2 - Normal Mode" << endl;
+cout << "3 - Hard Mode" << endl;
+cout << "C - Custom Settings" << endl;
+cin >> choice;
+switch (choice) {
+    case '1': cout << "Easy selected"; break;
+    case '2': cout << "Normal selected"; break;
+    case '3': cout << "Hard selected"; break;
+    case 'C': case 'c': cout << "Custom mode"; break;
+    default: cout << "Invalid"; break;
+}
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Create a numeric menu with 5 options for a library system: check out book, return book, search catalog, view account, and exit.
+2. Design an alphabetical menu for a photo editor with options for Rotate, Crop, Filter, Brightness, and Save using appropriate letter choices.
+3. Build an alphanumeric menu that combines 3 numbered report options with 2 lettered export options (PDF and Excel).
+4. Modify the numeric menu example to handle a banking system with deposit, withdrawal, check balance, and transfer options.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+When searching for help or using AI assistants, try these search terms:
+
+- "C++ menu system with switch statement"
+- "C++ character input menu implementation"
+- "C++ numeric menu example"
+- "C++ switch statement menu design patterns"
+- "C++ user interface menu programming"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+1. What are the advantages and disadvantages of numeric menus compared to alphabetical menus?
+2. When might an alphanumeric menu be more appropriate than a purely numeric or alphabetical menu?
+3. Why is it important to include both uppercase and lowercase cases in character-based menus?
+4. How does the choice of menu architecture affect the user experience and program maintainability?
+
+<!-- Appendix Slide 6 -->
