@@ -1,0 +1,277 @@
+# The if/else Statement
+
+## How do programs make<br> decisions?
+
+Programs need to execute different code based on conditions. The if/else statement allows your program to choose between alternative paths of execution based on whether a boolean expression evaluates to true or false.
+
+::: notes
+Total slides in main content: 5 (not including 7 appendix slides)
+
+This section assumes students understand boolean expressions, comparison operators, and basic C++ syntax. We're now introducing the fundamental control structure for making decisions in code.
+:::
+
+<!-- Slide 1 -->
+
+## The if Statement
+
+Recall, in an **if statement** a block of code is executed only when a condition is true. If the condition is false, the code block is skipped entirely. The braces `{ }` define the block of code to execute.
+
+```cpp
+int age = 20;
+
+if (age >= 18) {
+    cout << "You are an adult." << endl;  // Executes: age is 20
+}
+
+// If age were 15, the message would not print at all
+
+cout << "Program continues..." << endl;  // Always executes
+```
+
+::: notes
+A flowchart would be helpful here showing the decision diamond with "condition true?" leading to either executing the block or skipping it, then both paths converging to continue program execution. Demonstrate both scenarios: show what happens with age = 20 (message prints) and age = 15 (message skipped). Emphasize that the braces define the scope of the if block.
+:::
+
+<!-- Slide 2 -->
+
+## The if/else Statement
+
+The **if/else statement** provides two paths: one for when the condition is true, another for when it is false. Exactly one branch will always execute.
+
+```cpp
+int score = 75;
+
+if (score >= 60) {
+    cout << "You passed!" << endl;
+} else {
+    cout << "You failed." << endl;
+}
+
+cout << "Grade recorded." << endl;  // Always executes after if/else
+```
+
+<!-- Slide 3 -->
+
+## The if/else Statement
+
+```cpp
+int score = 75;
+
+if (score >= 60) {
+    cout << "You passed!" << endl;
+} else {
+    cout << "You failed." << endl;
+}
+
+cout << "Grade recorded." << endl;  // Always executes after if/else
+```
+
+If `score >= 60` is true, the first block executes. Otherwise, the else block executes. The program then continues after the entire if/else structure.
+
+::: notes
+A flowchart showing the two-path decision would be effective: the condition diamond branches to two different action boxes, then both paths merge back together for subsequent code. Emphasize that one and only one branch executes - never both, never neither. Walk through examples with score = 75 (passes) and score = 45 (fails) to show both paths. Note that "Grade recorded" prints regardless of which branch executed.
+:::
+
+<!-- Slide 3a -->
+
+## Variable Scope in if/else Blocks
+
+Just like with any code blocks, variables declared inside if or else blocks exist only within that block. They cannot be accessed outside their declaring block.
+
+```cpp
+if (temperature > 100) {
+    string message = "Too hot!";
+    cout << message << endl;       // OK: message exists here
+} else {
+    string status = "Temperature OK";
+    cout << status << endl;        // OK: status exists here
+}
+
+// cout << message << endl;         // ERROR: message doesn't exist here
+// cout << status << endl;          // ERROR: status doesn't exist here
+```
+
+::: notes
+A diagram showing nested scope boxes would be helpful - the outer program scope contains the if/else structure, and within that are separate scopes for the if block and else block. Emphasize that this is the same scope rule as any code block with braces - it's not unique to if/else. Point out that message and status are completely different variables in separate scopes. Mention that if you need a variable after the if/else, declare it before the structure, as shown in the earlier absolute value example.
+:::
+
+<!-- Slide 4 -->
+
+## Summary
+
+The if statement executes code when a condition is true, while the if/else statement chooses between two alternative paths based on a condition. Variables declared inside if or else blocks are local to those blocks and cannot be accessed outside them.
+
+::: notes
+Reinforce the two key concepts: (1) if/else controls program flow based on conditions, and (2) scope rules apply to if/else blocks just like any other blocks. These are foundational concepts students will use constantly. Remind them that they already know boolean expressions and comparison operators, so now they can use those to make decisions in their programs.
+:::
+
+<!-- Slide 5 -->
+
+## Appendix
+
+<!-- Slide 6 -->
+
+## Good Practices
+
+**Use braces even for single statements** - Always use `{ }` around if and else blocks, even if they contain only one statement. This prevents errors when adding more code later and makes the structure visually clear.
+
+**Make conditions clear and readable** - Write conditions that are easy to understand. For example, use `if (isAdult)` rather than `if (age >= 18)` when the boolean variable already exists, or use `if (temperature > MAX_SAFE_TEMP)` rather than magic numbers.
+
+**Declare shared variables before the if/else** - If both branches need to use or modify the same variable, declare it before the if/else structure, not inside the blocks. Example: declare `int result;` before the if/else, then assign values in each branch.
+
+**Avoid redundant conditions in else** - Don't write `else if (condition == false)` when you can simply write `else`. The else branch already handles the case where the if condition is false.
+
+<!-- Slide 7 -->
+
+## Common Mistakes
+
+**Using assignment (=) instead of comparison (==):**
+```cpp
+if (x = 5) {  // WRONG: assigns 5 to x, always true
+    // ...
+}
+
+if (x == 5) {  // CORRECT: compares x to 5
+    // ...
+}
+```
+
+**Forgetting braces with multiple statements:**
+```cpp
+if (score >= 90)
+    cout << "Excellent!" << endl;
+    grade = 'A';  // WRONG: always executes, not part of if
+
+if (score >= 90) {
+    cout << "Excellent!" << endl;
+    grade = 'A';  // CORRECT: both statements in if block
+}
+```
+
+**Adding semicolon after the condition:**
+```cpp
+// What the programmer intended:
+if (x > 0) {
+    cout << x;
+}
+
+// What they accidentally wrote:
+if (x > 0);  // WRONG: semicolon creates empty if statement
+{
+    cout << x;  // This always executes (not part of if)
+}
+```
+
+<!-- Slide 8 -->
+
+## More Examples
+
+**Example 1: Checking eligibility**
+```cpp
+int age = 16;
+bool hasLicense = true;
+
+if (age >= 16 && hasLicense) {
+    cout << "You can drive." << endl;
+} else {
+    cout << "You cannot drive yet." << endl;
+}
+```
+
+**Example 2: Absolute value**
+```cpp
+int number = -42;
+int absolute;
+
+if (number >= 0) {
+    absolute = number;
+} else {
+    absolute = -number;
+}
+
+cout << "Absolute value: " << absolute << endl;
+```
+
+**Example 3: Determining even or odd**
+```cpp
+int num = 17;
+
+if (num % 2 == 0) {
+    cout << num << " is even." << endl;
+} else {
+    cout << num << " is odd." << endl;
+}
+```
+
+**Example 4: Temperature warning system**
+```cpp
+double temp = 102.5;
+
+if (temp > 100.0) {
+    cout << "WARNING: Temperature critical!" << endl;
+    cout << "Shutting down system..." << endl;
+} else {
+    cout << "Temperature normal: " << temp << endl;
+    cout << "System operating normally." << endl;
+}
+```
+
+<!-- Slide 9 -->
+
+## Practice Problems
+
+**Problem 1:** Write an if/else statement that prints "Positive" if a variable `x` is greater than zero, and "Not positive" otherwise.
+
+**Problem 2:** Given integer variables `hours` and `minutes` representing time (0-23 hours, 0-59 minutes), write code that prints "Time to wake up!" if the time is 6:30 AM or later (i.e., hour is past 6, or hour is exactly 6 and minutes are at least 30). Otherwise print "Keep sleeping."
+
+**Problem 3:** Write an if/else statement that assigns the larger of two numbers `a` and `b` to a variable `max`. Declare `max` in the correct scope so it can be used after the if/else.
+
+**Problem 4:** Create code that determines if a year is a leap year using this rule: if the year is divisible by 4, it's a leap year. Print an appropriate message.
+
+**Problem 5:** Write code that checks a student's attendance percentage. If it's >= 75, print "Eligible for exam." If it's less than 75, print two separate messages: "Not eligible" and "Must meet with advisor."
+
+<!-- Slide 10 -->
+
+## AI Search Terms
+
+**Core concepts:**
+- "C++ if else statement tutorial"
+- "C++ conditional statements beginner"
+- "if else syntax C++"
+
+**Understanding control flow:**
+- "C++ if statement flowchart"
+- "how if else works in C++"
+- "C++ boolean conditions in if statements"
+
+**Scope and variables:**
+- "C++ variable scope in if else blocks"
+- "declaring variables inside if statement C++"
+- "C++ block scope explained"
+
+**Troubleshooting:**
+- "C++ if statement not working"
+- "difference between = and == in C++ if"
+- "C++ if else common errors"
+
+<!-- Slide 11 -->
+
+## Questions for Reflection
+
+**Conceptual understanding:**
+- Why does C++ require boolean expressions in if statements rather than allowing any expression?
+- What happens to variables declared inside an if block once that block finishes executing?
+
+**Application:**
+- When would you choose to use just an if statement versus an if/else statement?
+- How does the compiler determine which branch of an if/else to execute?
+
+**Design decisions:**
+- Why is it important to always use braces with if/else statements even for single-line blocks?
+- In what situations might you need to declare a variable before an if/else structure rather than inside one of the blocks?
+
+**Code analysis:**
+- If you see code where both the if and else blocks assign values to the same variable, what does that tell you about how that variable should be declared?
+- How would you explain to a peer why their if statement is executing even when they think the condition should be false?
+
+<!-- Slide 12 -->
