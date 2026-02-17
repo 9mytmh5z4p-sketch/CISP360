@@ -1,0 +1,231 @@
+# Comparing Vector Elements
+
+How can we determine if values stored in vectors are equal, greater than, or less than each other? Today we'll explore comparing individual vector elements and comparing entire vectors using both manual and built-in comparison methods.
+
+::: notes
+Total slides: 6
+
+Consider including a visual showing two vectors with arrows pointing to elements being compared.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Comparing Individual Vector Elements
+
+Individual vector elements can be compared using relational operators just like regular variables. Access elements using bracket notation and apply operators such as ==, !=, <, >, <=, and >=.
+
+```cpp
+vector<int> scores = {85, 92, 78, 95};
+
+if (scores[0] == scores[2]) {
+    cout << "First and third scores are equal" << endl;
+}
+
+if (scores[1] > scores[0]) {
+    cout << "Second score is higher than first" << endl;
+}
+
+bool isLower = (scores[2] < scores[3]);
+```
+
+Each comparison evaluates to a boolean value that can be used in conditionals or stored in variables. The elements being compared must be of compatible types that support the comparison operator being used.
+
+<!-- Slide 2 -->
+
+---
+
+## Manual Element-by-Element Comparison
+
+Comparing vectors element-by-element manually is possible but requires accessing elements by position, which is challenging with for-each loops alone. For-each loops iterate through one vector at a time without providing corresponding positions.
+
+```cpp
+// For-each can only compare if vectors contain comparable objects
+vector<int> values = {10, 20, 30};
+
+// Can check properties of individual elements
+for (int val : values) {
+    if (val > 25) {
+        cout << val << " is greater than 25" << endl;
+    }
+}
+```
+
+Fortunately, C++ provides built-in operators that handle element-by-element comparison automatically, eliminating the need for manual iteration. These built-in operators are more convenient and less error-prone for comparing entire vectors.
+
+::: notes
+Consider a diagram showing the limitation of for-each loops when comparing two vectors simultaneously.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Comparing Entire Vectors with Built-in Operators
+
+C++ provides built-in comparison operators that work directly on entire vectors. These operators (==, !=, <, >, <=, >=) compare vectors without requiring manual loops.
+
+```cpp
+vector<int> vec1 = {10, 20, 30};
+vector<int> vec2 = {10, 20, 30};
+vector<int> vec3 = {10, 25, 30};
+
+if (vec1 == vec2) {
+    cout << "vec1 and vec2 are equal" << endl;
+}
+
+if (vec1 != vec3) {
+    cout << "vec1 and vec3 are different" << endl;
+}
+
+if (vec1 < vec3) {
+    cout << "vec1 is less than vec3" << endl;
+}
+```
+
+The == operator returns true only if both vectors have the same size and all corresponding elements are equal. The != operator returns true if vectors differ in size or any elements differ.
+
+<!-- Slide 4 -->
+
+---
+
+## Understanding Lexicographic Comparison
+
+The relational operators <, >, <=, and >= perform lexicographic comparison, similar to dictionary ordering. Vectors are compared element-by-element from left to right until a difference is found.
+
+```cpp
+vector<int> vec1 = {10, 20, 30};
+vector<int> vec2 = {10, 25, 30};
+vector<int> vec3 = {10, 20};
+
+// vec1 < vec2 is true (20 < 25 at index 1)
+// vec3 < vec1 is true (shorter vector is less if all elements match)
+```
+
+When elements differ at a position, that difference determines the result regardless of later elements. If all elements match but one vector is shorter, the shorter vector is considered less than the longer one.
+
+::: notes
+Consider a visual showing step-by-step lexicographic comparison with arrows indicating where the comparison stops.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
+Vector elements can be compared individually using relational operators, or entire vectors can be compared using built-in operators. Built-in comparison operators use lexicographic ordering to determine relationships between vectors.
+
+<!-- Slide 6 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Common Practices
+
+Always verify that vectors have compatible types before comparing them. Comparing vectors of different element types will result in compilation errors.
+
+Check vector sizes before manual element-by-element comparison to avoid accessing invalid indices. Attempting to access elements beyond the vector size causes runtime errors.
+
+Use built-in comparison operators (==, !=, <, >, <=, >=) when comparing entire vectors for simplicity and clarity. Reserve manual element-by-element comparison for cases requiring custom comparison logic.
+
+Store comparison results in boolean variables with descriptive names when the logic is complex. This improves code readability and makes the purpose of the comparison clear.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+Comparing vectors of different sizes without checking lengths first leads to accessing invalid indices. Always verify both vectors have the same size before manual element-by-element iteration.
+
+Assuming that vector comparison works like array comparison is incorrect. Unlike arrays, vectors support direct comparison operators that handle the comparison logic automatically.
+
+Forgetting that lexicographic comparison stops at the first difference can lead to unexpected results. Elements after the first difference do not affect the comparison outcome.
+
+Using == to compare vectors of floating-point numbers may produce unexpected results due to precision issues. Consider using a tolerance-based comparison for floating-point vectors instead.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Finding maximum element by comparing with each element
+vector<int> numbers = {45, 12, 67, 23, 89};
+int maxValue = numbers[0];
+
+for (int num : numbers) {
+    if (num > maxValue) {
+        maxValue = num;
+    }
+}
+cout << "Maximum: " << maxValue << endl;
+
+// Checking if all elements are positive
+vector<int> values = {5, 10, 15, 20};
+bool allPositive = true;
+
+for (int val : values) {
+    if (val <= 0) {
+        allPositive = false;
+        break;
+    }
+}
+
+// Comparing vectors with different sizes
+vector<string> names1 = {"Alice", "Bob"};
+vector<string> names2 = {"Alice", "Bob", "Charlie"};
+
+if (names1 != names2) {
+    cout << "Name lists differ" << endl;
+}
+if (names1 < names2) {
+    cout << "names1 is less (shorter)" << endl;
+}
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write code that compares the first and last elements of a vector and prints which one is larger.
+2. Create two vectors of integers and write code to determine if they are exactly equal using the == operator.
+3. Given a vector of test scores, write code using a for-each loop to count how many scores are above 90.
+4. Compare two vectors lexicographically and explain why vector {1, 5, 10} is less than vector {1, 6, 2}.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+When searching for help or using AI assistants, try these search terms:
+
+- "C++ vector element comparison"
+- "C++ comparing entire vectors"
+- "C++ vector lexicographic comparison"
+- "C++ vector equality operator"
+- "C++ vector relational operators"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+1. What is the difference between comparing individual vector elements and comparing entire vectors?
+2. How does lexicographic comparison determine which vector is "less than" another?
+3. When would you choose manual element-by-element comparison over built-in comparison operators?
+4. Why might comparing floating-point vectors with == produce unexpected results?
+
+<!-- Appendix Slide 6 -->

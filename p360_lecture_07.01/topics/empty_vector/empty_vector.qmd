@@ -1,0 +1,217 @@
+# Checking if a Vector is Empty
+
+How can we determine whether a vector contains any elements before trying to access or process its data? Today we'll learn what empty vectors are and explore two methods for checking if a vector is empty.
+
+::: notes
+Total slides: 6
+
+Consider including a visual showing an empty vector container versus one with elements.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## What is an Empty Vector?
+
+An empty vector is a vector that contains zero elements. It is a valid, initialized container that exists in memory but currently holds no data.
+
+Empty vectors commonly occur when you create a new vector without initial values, after removing all elements, or when no data has been added yet. Checking if a vector is empty prevents errors that occur when trying to access elements that don't exist.
+
+Understanding empty vectors is crucial for input validation, loop termination conditions, and ensuring your program handles edge cases correctly. Attempting to access elements in an empty vector using bracket notation causes undefined behavior.
+
+::: notes
+Consider a diagram showing an empty vector box with "size: 0" label versus a vector with elements.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Using the empty Method
+
+The `.empty()` method returns a boolean value indicating whether the vector contains zero elements. This is the most direct and readable way to check for an empty vector.
+
+```cpp
+vector<int> numbers;
+
+if (numbers.empty()) {
+    cout << "Vector is empty" << endl;
+} else {
+    cout << "Vector has elements" << endl;
+}
+
+vector<string> names = {"Alice", "Bob"};
+if (!names.empty()) {
+    cout << "First name: " << names[0] << endl;
+}
+```
+
+The method returns true when the vector has no elements and false when it contains one or more elements. Use `.empty()` before accessing elements to avoid runtime errors.
+
+<!-- Slide 3 -->
+
+---
+
+## Using size to Check for Empty Vectors
+
+Checking if `.size()` equals zero is another way to determine if a vector is empty. This method explicitly compares the number of elements to zero.
+
+```cpp
+vector<double> prices;
+
+if (prices.size() == 0) {
+    cout << "No prices available" << endl;
+}
+
+vector<char> letters = {'a', 'b', 'c'};
+if (letters.size() != 0) {
+    cout << "Vector contains " << letters.size() << " elements" << endl;
+}
+```
+
+The `.size()` method returns the number of elements in the vector. Comparing this value to zero achieves the same result as `.empty()` but is less direct.
+
+<!-- Slide 4 -->
+
+---
+
+## Comparing the Two Approaches
+
+Both `.empty()` and `.size() == 0` correctly determine if a vector is empty, but they differ in clarity and intent. The `.empty()` method explicitly states the question being asked and is more readable.
+
+Use `.empty()` when you only need to know whether the vector has elements or not. Use `.size()` when you need the actual count of elements for other purposes, such as displaying how many items exist.
+
+```cpp
+vector<int> data = {5, 10, 15};
+
+// Preferred when only checking emptiness
+if (data.empty()) { /* ... */ }
+
+// Better when you need the size value
+if (data.size() > 0) {
+    cout << "Processing " << data.size() << " items" << endl;
+}
+```
+
+::: notes
+Consider a comparison table showing .empty() vs .size() == 0 with their use cases.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
+A vector is empty when it contains zero elements, and checking for emptiness prevents errors when accessing vector data. Use `.empty()` for clarity when checking emptiness, or `.size() == 0` when you also need the element count.
+
+<!-- Slide 6 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Common Practices
+
+Always check if a vector is empty before accessing its first or last element using bracket notation. This prevents undefined behavior that can crash your program or produce incorrect results.
+
+Use `.empty()` rather than `.size() == 0` when you only care about whether the vector has elements. This makes your code's intent clearer to other programmers reading your code.
+
+Check for empty vectors at the beginning of functions that process vector data. This allows you to handle the empty case explicitly or return early if there's nothing to process.
+
+Combine emptiness checks with meaningful error messages or default behaviors. Don't silently ignore empty vectors when they might indicate a problem in your program logic.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+Forgetting to check if a vector is empty before accessing elements leads to undefined behavior. Always verify the vector has elements before using bracket notation or calling methods like `.front()` or `.back()`.
+
+Assuming that an uninitialized vector pointer is the same as an empty vector is incorrect. A null pointer is different from a valid vector object that happens to be empty.
+
+Using `.size() > 0` instead of `!.empty()` is less clear when you only need a true/false answer. The `.empty()` method better communicates the intent of checking for no elements.
+
+Checking only once at the start of a program and not rechecking after operations that might empty the vector creates bugs. Vectors can become empty during execution through operations like `.clear()` or `.pop_back()`.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Safe element access
+vector<int> scores;
+if (!scores.empty()) {
+    cout << "First score: " << scores[0] << endl;
+    cout << "Last score: " << scores[scores.size() - 1] << endl;
+} else {
+    cout << "No scores to display" << endl;
+}
+
+// Processing only if data exists
+vector<string> tasks = getUserTasks();
+if (tasks.empty()) {
+    cout << "No tasks today!" << endl;
+} else {
+    for (string task : tasks) {
+        cout << "- " << task << endl;
+    }
+}
+
+// Validating input
+vector<double> measurements;
+readMeasurements(measurements);
+
+if (measurements.empty()) {
+    cout << "Error: No measurements recorded" << endl;
+    return;
+}
+
+double average = calculateAverage(measurements);
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write code that creates an empty vector of integers and uses `.empty()` to verify it contains no elements.
+2. Create a vector with three strings, then write an if statement that prints "Vector has data" only if the vector is not empty.
+3. Write a function that takes a vector as a parameter and returns true if the vector is empty, false otherwise.
+4. Given a vector that may or may not have elements, write code that safely accesses and prints the first element only if the vector is not empty.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+When searching for help or using AI assistants, try these search terms:
+
+- "C++ vector empty method"
+- "C++ check if vector is empty"
+- "C++ vector size vs empty"
+- "C++ vector empty check before access"
+- "C++ preventing empty vector errors"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+1. What is the difference between an empty vector and an uninitialized vector variable?
+2. Why is it important to check if a vector is empty before accessing its elements?
+3. When would you choose `.empty()` over `.size() == 0` and vice versa?
+4. What operations can make a non-empty vector become empty during program execution?
+
+<!-- Appendix Slide 6 -->
