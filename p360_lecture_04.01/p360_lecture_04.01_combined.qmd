@@ -1,0 +1,1636 @@
+---
+title: "CISP 360 \n Structured Programming"
+subtitle: "Introduction to C++"
+author: "Dr. Caleb Fowler"
+version: "1.0.1"
+# Changelog:
+# 1.0.0 (2026-02-03) - Added versioning to YAML to keep track across lectures.
+# 1.0.1 (2026-02-03) - Disable 'O' for overview
+
+format:
+  revealjs:
+    margin: 0.05      # A touch more space on slide
+    css: ../styles/styles.css
+    theme: serif
+    slide-number: true
+    navigation-mode: vertical
+    transition: slide
+    incremental: false
+    scrollable: false
+    controls: true
+    hash: true
+    history: true
+    title-slide: false
+    footer: "CISP 360 · Fowler"
+    keyboard: true  # Keep this as true to enable the system
+    include-after-body:
+      - text: |
+          <script>
+          window.Reveal.on('ready', event => {
+            Reveal.configure({
+              keyboard: {
+                34: 'down',   // Forward button
+                33: 'up',     // Back button
+                116: 'right',  // Start/Play button
+                190: 'left'    // Black Screen button
+                79: null        // Disable 'O' for overview
+              }
+            });
+          });
+          </script>
+
+engine: jupyter
+execute:
+  eval: true
+  echo: true
+
+resources:
+ - topics/**/images/**
+---
+
+## Last Time
+
+- Scope
+- Shadow Variables I
+- Advanced `cin`
+- Random Numbers
+
+::: notes
+<p>Welcome back everyone! <pause> Last time, we covered four important concepts. We explored scope - understanding where variables are visible and accessible in your code. We looked at shadow variables and how local variables can hide variables from outer scopes. We also learned advanced cin techniques for reading input more effectively, and finally we worked with random number generation in C++. These concepts gave us more control over how our programs handle data and manage information flow. Today, we're taking the next big step by learning how to organize our code using functions.</p>
+:::
+
+
+## Today's Agenda
+
+- Function Centric Architecture
+- Functions
+- Void Functions
+- Passing Data In and Out of Functions
+
+::: notes
+<p>Today's lecture is all about functions - one of the most fundamental organizing principles in programming. We'll start by understanding function-centric architecture - the overall philosophy of how we structure programs around functions. Then we'll learn how to create and use functions in C++. We'll explore void functions, which perform actions without returning values, and finally we'll see how to pass data into functions and get results back. By the end of today, you'll be able to break complex problems into smaller, manageable pieces using functions.</p>
+:::
+
+
+# Function Centered Architecture
+
+::: notes
+<p>Let's begin with the big picture - what is function-centric architecture and why does it matter? This sets the foundation for everything we'll do today.</p>
+:::
+
+## Function Centered Architecture
+
+Function-centric architecture refers to a program design approach where the code is organized primarily around functions (procedures) rather than objects or classes.
+
+A function is a block of code we assign a name to. We call the name to execute the code.
+
+::: notes
+<p>Function-centric architecture is one of the primary ways we organize code. At its core, it's simple: we take blocks of code, give them meaningful names, and then call those names when we want to execute that code. Think of it like creating custom commands - instead of writing the same code over and over, we package it up, name it, and reuse it. This approach separates our program's data from its behavior, with functions operating on data rather than bundling them together. While this might seem basic now, it's the foundation of structured programming and will serve you well throughout your programming journey.</p>
+:::
+
+## Other Architectures
+
+- Object Oriented
+- Spaghetti Coding
+
+::: notes
+<p>Before we dive deeper into function-centric architecture, it's worth knowing there are other ways to organize code. Object-oriented programming, which we'll study later in this course, bundles data and functions together into objects. And then there's spaghetti coding - which isn't really an architecture at all, it's what happens when you don't use any organizing principles. Let's see what that looks like.</p>
+:::
+
+## Object-Oriented Architecture
+
+- Organized around classes/objects.
+- Data and functions bundled together (mini programs).
+- Focus: "What entities/objects exist?"
+
+::: notes
+<p>In object-oriented programming, which we'll cover later in the course, we organize code around objects that represent real-world entities. Each object contains both its data and the functions that operate on that data - they're bundled together into self-contained units. The design process starts by asking "what things exist in my problem domain?" rather than "what tasks do I need to perform?" We won't spend more time on this now, but I wanted you to see the contrast with the function-centric approach we're learning today.</p>
+:::
+
+
+## Spaghetti Coding
+
+Just type it in as you go along.
+
+::: notes
+<p>Now let's look at what happens when you have no architecture at all - what we call spaghetti coding. This is when you just start typing code without any planning or organization. It's called spaghetti code because the logic gets so tangled and messy, like a plate of spaghetti. Let me show you an example using the goto statement, which allows you to jump around in your code randomly.</p>
+:::
+
+---
+
+```{.cpp }
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> scores = {85, 92, 78, 95, 88};
+    int index;
+    int total;
+    double average;
+    int highest;
+
+    // Jump to display section
+    goto display_scores;
+
+display_scores:
+    index = 0;
+display_loop:
+    if (index >= scores.size()) goto display_done;
+    cout << scores[index] << " ";
+    index++;
+    goto display_loop;
+
+display_done:
+    cout << endl;
+    goto calculate_average;
+
+calculate_average:
+    total = 0;
+    index = 0;
+avg_loop:
+    if (index >= scores.size()) goto avg_done;
+    total += scores[index];
+    index++;
+    goto avg_loop;
+
+avg_done:
+    average = static_cast<double>(total) / scores.size();
+    cout << "Average: " << average << endl;
+    goto find_highest;
+
+find_highest:
+    highest = scores[0];
+    index = 0;
+high_loop:
+    if (index >= scores.size()) goto high_done;
+    if (scores[index] > highest) {
+        highest = scores[index];
+    }
+    index++;
+    goto high_loop;
+
+high_done:
+    cout << "Highest: " << highest << endl;
+    goto program_end;
+
+program_end:
+    return 0;
+}
+```
+
+::: notes
+<p>Look at line 14 on your screen - we immediately jump to display_scores. Then line 24 jumps to calculate_average. Then line 37 jumps to find_highest. Notice how the flow jumps all over the place? To understand this code, you have to mentally jump around following all these goto statements. This style was common in early BASIC and FORTRAN, but we've learned better approaches since then.</p>
+:::
+
+## Why is this bad code?
+
+- Unreadable - Jump around to understand flow
+- Unmaintainable - Hard to modify without breaking
+- Not reusable - Can't call "display" from elsewhere
+- Error-prone - Easy to create infinite loops or skip code
+- Hard to debug - Control flow is non-linear
+- No abstraction - All details exposed in one place
+
+**Never, ever, code like this.**
+
+::: notes
+<p>This spaghetti code has serious problems. It's unreadable - you have to jump around mentally to follow the logic. It's unmaintainable - change one part and you risk breaking everything. There's no reusability - you can't call "display scores" from elsewhere, you'd have to copy all that code. <pause> In 1968, computer scientist Edsger Dijkstra wrote a famous paper called "Go To Statement Considered Harmful" that helped establish structured programming. Modern C++ strongly discourages goto - it's considered a code smell. Never, ever code like this!</p>
+:::
+
+## Function Centric Architecture
+
+1. Functions are the primary building blocks of Structured Code
+
+- The program is decomposed into a collection of functions
+- Each function performs a specific task
+- Functions call other functions to accomplish complex operations
+
+::: notes
+<p>Now let's see the right way to structure code. In function-centric architecture, functions are our primary building blocks. We take a complex problem and decompose it into a collection of functions, where each function has one specific job to do. Then, to accomplish complex operations, we have functions call other functions. This creates a hierarchy of functionality - high-level functions coordinate the big picture by calling lower-level functions that handle specific details.</p>
+:::
+
+## Function Centric Architecture (cont)
+
+1. Functions are the primary building blocks of Structured Code
+2. Data and behavior are separated
+
+- Data is typically stored in variables or structs
+- Functions operate on that data
+- Data is passed to functions as parameters
+
+::: notes
+<p>The second key principle is separating data from behavior. Our data lives in variables or structs, and our functions operate on that data. This is different from object-oriented programming where data and behavior are bundled together. Here, we keep them separate - data is stored in one place, and we pass that data to functions as parameters when we need to do something with it. This separation makes it easier to understand what data exists in your program and what operations you can perform on it.</p>
+:::
+
+## Function Centric Architecture (cont)
+
+1. Functions are the primary building blocks of Structured Code
+2. Data and behavior are separated
+3. Top-down design approach:
+
+- Start with the main problem
+- Break it into smaller sub-problems (functions)
+- Each sub-problem becomes a function
+
+::: notes
+<p>The third principle is using a top-down design approach. When faced with a problem, we start at the highest level - what's the main thing we're trying to accomplish? Then we break that down into smaller sub-problems. Each sub-problem becomes a function. If a sub-problem is still too complex, we break it down further into even smaller functions. This creates a natural hierarchy where main() coordinates the high-level logic, calling functions that handle the major tasks, and those functions might call other functions to handle details. <pause> Think of it like managing a project - you don't do everything yourself, you delegate tasks to team members, and they might delegate sub-tasks to others. That's exactly how function-centric architecture works.</p>
+:::
+
+## Example
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function declarations
+double calculateAverage(vector<int> scores);
+void displayScores(vector<int> scores);
+int findHighest(vector<int> scores);
+
+int main() {
+    vector<int> scores = {85, 92, 78, 95, 88};
+
+    displayScores(scores);
+    cout << "Average: " << calculateAverage(scores) << endl;
+    cout << "Highest: " << findHighest(scores) << endl;
+
+    return 0;
+}
+
+double calculateAverage(vector<int> scores) {
+    int total = 0;
+    for (int score : scores) {
+        total += score;
+    }
+    return static_cast<double>(total) / scores.size();
+}
+
+void displayScores(vector<int> scores) {
+    for (int score : scores) {
+        cout << score << " ";
+    }
+    cout << endl;
+}
+
+int findHighest(vector<int> scores) {
+    int highest = scores[0];
+    for (int score : scores) {
+        if (score > highest) {
+            highest = score;
+        }
+    }
+    return highest;
+}
+```
+
+::: notes
+<p>Now look at this code - it's doing exactly the same thing as that messy spaghetti code we saw earlier, but it's so much better! <pause> Notice how main() is clean and readable - it tells a story: display the scores, show the average, show the highest score. Each of these operations is delegated to a specialized function. <slow down> Look at the function declarations at the top - these tell the compiler what functions exist and what they do. Then below main, we have the actual implementations. Each function has one clear job: calculateAverage adds up scores and divides by the count, displayScores prints them out, and findHighest finds the maximum value. Compare this to the goto-based spaghetti code - isn't this so much clearer? You can read it top to bottom and understand exactly what's happening. This is the power of function-centric architecture.</p>
+:::
+
+## Use Cases
+
+- Introductory programming courses
+- Simple, straightforward problems
+- Mathematical computations
+- Small to medium programs
+- Scripts and utilities
+
+::: notes
+<p>Function-centric architecture works great for certain types of programs. It's perfect for learning programming, which is why we're using it in this course. It's also well-suited for straightforward problems where the solution is a series of steps, mathematical computations where you need to perform calculations, and small to medium-sized programs and utilities. When your program is primarily about performing a sequence of operations on data, function-centric architecture is an excellent choice.</p>
+:::
+
+## Anti-Use Cases
+
+- Large, complex systems
+- Programs modeling real-world entities
+- Systems requiring data encapsulation
+- Projects with many developers
+
+::: notes
+<p>However, function-centric architecture has its limitations. For large, complex systems with hundreds of thousands of lines of code, it can become difficult to manage all the functions and data flowing between them. When you're modeling real-world entities - like customers, orders, and products - object-oriented programming often provides a more natural fit. Similarly, if you need strong data encapsulation where data is protected and can only be accessed through specific interfaces, objects work better. And on large projects with many developers, the encapsulation and modularity of object-oriented design helps teams work independently without stepping on each other's toes. <pause> But for now, function-centric architecture will serve us well as we learn the fundamentals of structured programming.</p>
+:::
+
+## Conceptual Process
+
+
+::: {.columns}
+::: {.column width="50%"}
+
+- Here's some code
+
+:::
+
+::: {.column width="50%"}
+
+![](topics/function_centric_architecture/images/cb1.png){width="50%" style="margin-top: -3em;"}
+
+:::
+:::
+
+
+::: notes
+<p>Let me show you the thought process behind creating functions. Imagine you're writing code and you have a bunch of statements all mixed together in your main function. The diagram on your right shows this visually - just a block of code statements.</p>
+:::
+
+---
+
+::: {.columns}
+::: {.column width="50%"}
+
+- Say several sections repeat
+- This duplicate code will diverge at some point.
+
+:::
+
+::: {.column width="50%"}
+
+![](topics/function_centric_architecture/images/cb2.png){width="50%"}
+
+:::
+:::
+
+
+::: notes
+<p>Now notice on your screen - several sections of this code are repeated in different places, shown here with matching colors. This duplication is a red flag. Even if the code is identical now, duplicate code tends to diverge over time. Someone will update one copy but forget to update the other, and suddenly you have bugs and inconsistencies. This is where functions come to the rescue.</p>
+:::
+
+## Solution
+
+::: {.columns}
+::: {.column width="50%"}
+
+- Pull the duplicated code out.
+- Give it a name.
+- Call the duplicated code in the main part of the program.
+
+:::
+
+::: {.column width="50%"}
+![](topics/function_centric_architecture/images/cb3.png){width="50%"}
+:::
+:::
+
+::: notes
+<p>The solution is to extract that duplicated code, give it a meaningful name, and then call that function wherever you need that behavior. Look at the diagram - we've pulled out the repeated sections into separate functions, and now the main code just calls those functions by name. Now there's only one copy of each piece of logic. If you need to change how something works, you change it in one place and all uses of that function automatically get the update. This is the DRY principle - Don't Repeat Yourself - one of the most important principles in programming.</p>
+:::
+
+## Full Solution
+
+```
+
+statement
+statement
+function_name
+statement
+function_name
+statement
+statement
+function_name
+
+function_name
+statement
+statement
+
+```
+
+::: notes
+<p>Here's the conceptual view of our refactored code. The main part of the program is now a clean sequence of statements and function calls. Below that, we have the function definitions with their implementation details. This gives us a nice separation - the main logic reads like a high-level outline, and the details are tucked away in their named functions. This makes code much easier to understand, maintain, and debug.</p>
+:::
+
+
+# Coding Functions
+
+::: notes
+<p><pause> Now that we understand the philosophy behind functions, let's learn the mechanics - how do we actually create and use functions in C++?</p>
+:::
+
+## How We Create Functions
+
+::: notes
+<p>When looking for opportunities to create functions, a good place to start is with clutter code - things like headers and footers, prompts, and housekeeping tasks that don't relate to your main logic. These are perfect candidates to extract into functions. Let's see how we create a function.</p>
+:::
+
+## Creating a Function
+
+```{.cpp }
+// 6-1.cpp -- Demo of functions
+#include <iostream>
+using namespace std;
+
+// Function Prototype
+void DisplayMessage();
+
+int main() {                          // function 1
+    cout << "Hello from main()\n";
+    DisplayMessage();                 // call function 2
+    cout << "Hello from main() again\n";
+
+    return 0;
+}
+
+void DisplayMessage() {
+    cout << "Hello from DisplayMessage()\n";
+}
+```
+
+::: notes
+<p>Here's a complete example of a simple function. Let me walk you through the three key parts. <pause> At the top, after our includes, we have the function prototype on line 6 - that's the declaration that tells the compiler "a function called DisplayMessage exists." <pause> In main, we call that function on line 10. <pause> And then at the bottom, starting at line 16, we have the actual function definition - the implementation that contains the code to execute. Notice the function is defined below main. This is the standard style in C++ when using function prototypes.</p>
+:::
+
+## Function Prototype
+
+"*A function prototype eliminates the need to place a function definition before all calls to the function.*"
+
+-- Textbook, p.332.
+
+::: notes
+<p>The function prototype is crucial to understand. <slow down> C++ reads your code from top to bottom, and it needs to know about a function before you can call it. Without prototypes, you'd have to define every function before main, which means main would be at the bottom of your file. Prototypes solve this problem - they tell the compiler "trust me, this function exists, here's its signature, I'll give you the full definition later." This lets us write our code in a more logical order, with main at the top where we naturally start reading.</p>
+:::
+
+## Function Prototype Example
+
+```{.cpp code-line-numbers="6|16"}
+// 6-1.cpp -- Demo of functions
+#include <iostream>
+using namespace std;
+
+// Function Prototype
+void DisplayMessage();
+
+int main() {                 // function 1
+    cout << "Hello from main()\n";
+    DisplayMessage();        // call function 2
+    cout << "Hello from main() again\n";
+
+    return 0;
+}
+
+void DisplayMessage() {
+    cout << "Hello from DisplayMessage()\n";
+}
+```
+
+::: notes
+<p>Notice on line 6 - this is the prototype. It looks just like the function definition, but it ends with a semicolon and has no body. <pause> Then look down at line 16 - this is the full definition with the actual implementation in curly braces. The prototype up top makes it possible to call the function from main even though the definition comes later in the file.</p>
+:::
+
+## Where's the code?
+
+
+::: {.columns}
+::: {.column width="65%"}
+
+```{.cpp code-line-numbers="16-18"}
+// 6-1.cpp -- Demo of functions
+#include <iostream>
+using namespace std;
+
+// Function Prototype
+void DisplayMessage();
+
+int main() {                 // function 1
+    cout << "Hello from main()\n";
+    DisplayMessage();        // call function 2
+    cout << "Hello from main() again\n";
+
+    return 0;
+}
+
+void DisplayMessage() {
+    cout << "Hello from DisplayMessage()\n";
+}
+```
+:::
+
+::: {.column width="35%"}
+
+ Notice how the function itself is BELOW main()
+
+:::
+:::
+
+::: notes
+<p>Look at lines 16 through 18 - the actual function body is below main. This is the conventional style in C++ and it has advantages: when someone opens your file, they see main first, which tells them what the program does at a high level. The implementation details of each function are below, where they don't clutter up the main logic. Think of it like reading a book with footnotes - the main narrative flows smoothly, and the details are available when you need them.</p>
+:::
+
+## Function Location
+
+A function can go above or below main().
+
+The style in this language is to place them below main() AND use function prototypes.
+
+
+::: notes
+<p>Students often ask: "Can't I just put the function above main and skip the prototype?" Yes, technically that works. But the established C++ style is to use prototypes and place definitions below main. This keeps the high-level logic at the top of the file where you naturally start reading. Following language conventions makes your code more readable to other programmers and shows you're writing professional, idiomatic code.</p>
+:::
+
+## Function Calls in a Function
+
+::: {.columns}
+::: {.column width="75%"}
+
+```{.cpp code-line-numbers="14|15|16|8|9|10|4|5|11|17"}
+#include <iostream>
+using namespace std;
+
+void Deeper() {
+    cout << "Now inside function Deeper()\n";
+}
+
+void Deep() {
+    cout << "Hello from Deep()\n";
+    Deeper();
+    cout << "Now back in Deep() again\n";
+}
+
+int main() {                 // function 1
+    cout << "Hello from main()\n";
+    Deep();
+    cout << "Hello from main() again\n";
+
+    return 0;
+}
+```
+:::
+
+::: {.column width="25%"}
+
+![Output](topics/functions/images/funcDemo2Out.png)
+
+:::
+:::
+
+::: notes
+<p>Functions can call other functions - this is where the power of structured programming really shines. <slow down> Let's trace through this execution step by step. Line 14 prints "Hello from main." Line 15 calls Deep(). <pause> Execution jumps to line 8, which prints "Hello from Deep." Line 9 calls Deeper(). <pause> Execution jumps to line 4, which prints "Now inside function Deeper." Line 5 ends the function, so we return to line 10. <pause> Line 10 prints "Now back in Deep." Line 11 ends Deep(), so we return to line 16. <pause> Line 16 prints "Hello from main again." Look at the output on the right - this is exactly what we see. This call chain - main calls Deep, Deep calls Deeper - is fundamental to how we build complex programs from simple functions.</p>
+:::
+
+## with Function Prototype
+
+::: {.columns}
+::: {.column width="75%"}
+
+```{.cpp code-line-numbers="10|11|17|18|19|23|24|20|12"}
+// 6-4.cpp -- Functions calling functions
+#include <iostream>
+using namespace std;
+
+// Function Prototype
+void Deep();
+void Deeper();
+
+int main() {
+    cout << "Hello from main()\n";
+    Deep();
+    cout << "Hello from main() again\n";
+
+    return 0;
+}
+
+void Deep() {
+    cout << "Hello from Deep()\n";
+    Deeper();
+    cout << "Now back in Deep() again\n";
+}
+
+void Deeper() {
+    cout << "Now inside function Deeper()\n";
+}
+```
+:::
+
+::: {.column width="25%"}
+
+![Output](topics/functions/images/funcDemo2aOut.png)
+
+:::
+:::
+
+::: notes
+<p>Here's the same program written in the proper C++ style with prototypes. Notice lines 6 and 7 declare both functions up top. Now the definitions can go in any order below main - the prototypes have already told the compiler everything it needs to know. The execution and output are identical to before, but the code organization is cleaner and more professional. This is the style you should use in your own programs.</p>
+:::
+
+## We can call but not define
+
+Notice we did not define a function inside another function, we just called it.
+
+Defining a function inside a function is called **nesting** and is not allowed with functions in this language.
+
+
+
+::: notes
+<p>This is an important point that often confuses beginners: we called Deeper() from inside Deep(), but we didn't define Deeper() inside Deep(). Defining a function inside another function is called nesting, and C++ does not allow this. All function definitions must be at the same level. <pause> You can call functions from within other functions all day long - that's encouraged! But the definitions themselves must all be separate, top-level definitions. Students sometimes ask "Can I put one function inside another?" The answer is no - you can call it, but not define it there.</p>
+:::
+
+---
+
+![Output](topics/functions/images/funcSketch.jpg){width="25%"}
+
+::: notes
+<p>Here's a quick visual sketch showing the function call relationships. Remember, functions calling other functions is how we build complex programs from simple building blocks.</p>
+:::
+
+
+# Return of Void
+
+::: notes
+<p><pause> Now we're going to dive deeper into a special type of function - void functions. These are functions that perform actions but don't return any value.</p>
+:::
+
+
+## Remember void?
+
+We last saw void when we were looking at variable types.
+
+::: notes
+<p>You may remember seeing void before when we studied variable types. It was unusual because it's a type, but we can't actually declare variables with it. Now we'll see where void is actually used - in functions that don't return values.</p>
+:::
+
+## Void Functions in C++
+
+Usually when we create a function, we need to pass data back and forth between the function and the calling code.
+
+**But what if a function doesn't need to return anything?**
+
+That's where `void` comes in!
+
+::: notes
+<p>We start with void functions because they're the simplest category of functions to understand. Most functions we write will need to accept input data, process it, and return results. But sometimes a function just needs to do something - print a message, draw a line on the screen, play a sound - without computing and returning a value. These action-oriented functions use void as their return type.</p>
+:::
+
+---
+
+## What is void?
+
+**void** means "nothing" or "empty"
+
+When you use `void` as a return type, you're telling C++:
+
+> "This function does something, but it doesn't give back a value."
+
+**Think of it like:**
+
+- A light switch: It turns on a light (action), but doesn't give you anything back
+- A printer: It prints a document (action), but doesn't return a value
+
+::: notes
+<p><slow down> Void literally means "nothing" or "empty." When you declare a function with void as its return type, you're making a promise to the compiler: "This function will do something useful, but it won't compute and return a value for you to use." <pause> Think of everyday actions that are like this. When you flip a light switch, it turns on the light - that's the action - but the switch doesn't hand you anything back. When you send a document to a printer, it prints the pages, but it doesn't return a value. These are void operations in the real world. In programming, void functions work the same way - they perform actions with side effects, but don't produce a value you can capture or use in an expression.</p>
+:::
+
+---
+
+## A Void Function
+
+::: {.columns}
+::: {.column width="75%"}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+void greet() {
+    cout << "Hello, World!" << endl;
+}
+
+int main() {
+    greet();  // Call the function
+
+    return 0;
+}
+```
+:::
+
+::: {.column width="25%"}
+
+**Output:**
+```
+Hello, World!
+```
+
+:::
+:::
+
+**Notice:**
+
+- `void` means no return value
+- No `return` statement needed (or use `return;` with nothing after it)
+- Just call the function by its name with `()`
+
+
+::: notes
+<p>Here's our first void function example. Look at line 4 - the function is declared with void as the return type. The function body simply prints "Hello, World!" Notice there's no return statement - with void functions, you don't need one. The function just runs its code and when it reaches the closing brace, it automatically returns control to the caller. In main on line 9, we call the function by writing its name followed by parentheses. We don't assign the result to anything because there is no result - it's void. The function just does its job of printing and then we move on to the next statement.</p>
+:::
+
+
+## Void Function Syntax
+
+```cpp
+void functionName() {
+    // Code to execute
+    // No return statement required
+}
+```
+
+**Parts:**
+
+- `void` - The return type (nothing returned)
+- `functionName` - The name you choose
+- `()` - Parentheses (empty for now)
+- `{ }` - Curly braces contain the function body
+
+::: notes
+<p>Let's break down the anatomy of a void function. The first word, void, is the return type - it says "this function returns nothing." Next is the function name - choose something descriptive that explains what the function does. Then we have parentheses - they're empty in these examples, but soon we'll learn how to put parameters inside them to pass data into the function. Finally, curly braces contain the function body - all the statements that execute when the function is called. No return statement is required since we're not returning a value.</p>
+:::
+
+---
+
+## Example: Display a Message
+
+```cpp
+#include <iostream>
+using namespace std;
+
+void displayWelcome() {
+    cout << "================================" << endl;
+    cout << "   WELCOME TO MY PROGRAM!       " << endl;
+    cout << "================================" << endl;
+}
+
+int main() {
+    displayWelcome();
+
+    cout << "Let's get started..." << endl;
+
+    return 0;
+}
+```
+
+**Output:**
+```
+================================
+   WELCOME TO MY PROGRAM!
+================================
+Let's get started...
+```
+
+::: notes
+<p>Here's a practical example. The displayWelcome function prints a formatted banner - three lines that create a nice header for our program. In main, we just call displayWelcome() and it does its job. This is much cleaner than having those three cout statements cluttering up main. The function name acts as a label that tells us what this code does - it displays a welcome message. This readability benefit is one of the key reasons we use functions.</p>
+:::
+
+---
+
+## Example: Multiple Void Functions
+
+```cpp
+#include <iostream>
+using namespace std;
+
+void displayHeader()
+void displayMenu()
+void displayFooter()
+
+void displayHeader() {
+    cout << "*** GRADE CALCULATOR ***" << endl;
+}
+
+void displayMenu() {
+    cout << "1. Enter grades" << endl;
+    cout << "2. Calculate average" << endl;
+    cout << "3. Exit" << endl;
+}
+
+void displayFooter() {
+    cout << "*** END OF PROGRAM ***" << endl;
+}
+
+int main() {
+    displayHeader();
+    displayMenu();
+    displayFooter();
+
+    return 0;
+}
+```
+
+::: notes
+<p>This example shows how multiple void functions work together to create a complete program interface. Notice the three prototypes at the top, then main calls each function in sequence to build the user interface. Each function has one clear responsibility: displayHeader shows the title, displayMenu shows the options, and displayFooter shows the closing message. This separation of concerns makes the code modular - if you want to change the menu, you only edit displayMenu. If you want to enhance the header, you only edit displayHeader. Everything is organized and easy to maintain.</p>
+:::
+
+## Why Use Void Functions?
+
+1. **Organize your code**
+2. **Avoid repetition**
+3. **Make code readable**
+
+::: notes
+<p>Void functions serve three critical purposes in programming. First, they organize your code into logical chunks. Second, they help you avoid repetition by letting you write code once and call it many times. Third, they make your code more readable by replacing blocks of detailed code with a single descriptive function name. Let's look at examples of each.</p>
+:::
+
+---
+
+## Organize your code
+
+```cpp
+void displayTitle() { /* ... */ }
+void displayMenu() { /* ... */ }
+void displayResults() { /* ... */ }
+```
+
+::: notes
+<p>Organization means breaking your program into logical sections. Instead of one massive main function with hundreds of lines, you have clear, named sections. When someone reads your main function, they see displayTitle, displayMenu, displayResults - they instantly understand the program's structure without reading implementation details.</p>
+:::
+
+---
+
+## Avoid repetition
+
+```cpp
+void printLine() {
+    cout << "------------------------" << endl;
+}
+
+int main() {
+    printLine();  // Use multiple times
+    cout << "Section 1" << endl;
+    printLine();
+    cout << "Section 2" << endl;
+    printLine();
+}
+```
+
+::: notes
+<p>Avoiding repetition is crucial for maintainability. Look at this printLine function - imagine if instead of calling printLine three times, you had copied that cout statement three times. Now what happens if you want to change the line to use equals signs instead of dashes? Without the function, you'd have to find and change all three copies. With the function, you change it once and all uses automatically get the update. This is the DRY principle in action.</p>
+:::
+
+---
+
+## Make code readable
+
+- `displayWelcomeMessage()` is clearer than 10 lines of cout
+- Functions act as labels for what the code does
+
+::: notes
+<p>Readability is perhaps the most important benefit. Compare reading "displayWelcomeMessage()" versus reading through 10 lines of detailed cout statements with ASCII art and formatting. The function name tells you immediately what's happening. The implementation details are tucked away where they don't distract from the main logic. Good function names act as documentation - they explain what the code does in plain English. This makes code much easier to understand, maintain, and debug.</p>
+:::
+
+---
+
+## Using return in Void Functions
+
+Void functions can use `return` to exit early (no value after it):
+
+```cpp
+void checkAge() {
+    int age = 15;
+
+    if (age < 18) {
+        cout << "Access denied." << endl;
+        return;  // Exit function early
+    }
+
+    cout << "Access granted." << endl;
+}
+```
+
+**Output:**
+```
+Access denied.
+```
+
+The function exits at `return;` and never reaches the "Access granted" line.
+
+::: notes
+<p>Even though void functions don't return values, they can still use the return keyword to exit early. Notice line 6 - just the word return followed by a semicolon, with no value. This immediately exits the function and returns control to the caller. Any code after that return statement won't execute. This is useful for validation or error checking - if you detect a problem early in the function, you can return immediately rather than executing the rest of the code. Just remember: return with no value for void functions, and we'll see later how to return values from non-void functions.</p>
+:::
+
+## Example:<br> Clean Code with Void Functions
+
+**Before (messy main):**
+```cpp
+int main() {
+    cout << "=== CALCULATOR ===" << endl;
+    cout << "1. Add" << endl;
+    cout << "2. Subtract" << endl;
+    cout << "Select: ";
+    // ... more code ...
+    cout << "=== END ===" << endl;
+    return 0;
+}
+```
+
+::: notes
+<p>Look at this before picture - main is cluttered with all the display details. It's hard to see the actual program logic because it's buried in cout statements.</p>
+:::
+
+---
+
+**After (organized with void functions):**
+```cpp
+void displayTitle() { /* ... */ }
+void displayMenu() { /* ... */ }
+void displayFooter() { /* ... */ }
+
+int main() {
+    displayTitle();
+    displayMenu();
+    // ... main logic ...
+    displayFooter();
+    return 0;
+}
+```
+
+Much cleaner and easier to understand!
+
+::: notes
+<p>Now look at the after version. Main reads like a table of contents: display title, display menu, do the main logic, display footer. The implementation details are hidden away in their respective functions. This is dramatically cleaner and easier to understand. When you come back to this code six months later, or when someone else reads your code, they'll thank you for this organization. This transformation from cluttered to clean is what good function design achieves.</p>
+:::
+
+
+## Summary
+
+**Void Functions:**
+
+- Use `void` as return type when no value is returned
+- Perfect for displaying output or performing actions
+- Make code more organized and readable
+- Don't use `return` with a value
+- Can't be used in expressions or assignments
+
+
+::: notes
+<p>Let's summarize void functions. They use void as their return type because they don't return values. They're perfect for operations that produce side effects like displaying output or modifying global state. They make your code more organized and readable by giving meaningful names to blocks of code. Remember you can't return a value from a void function - return must be used alone. And because void functions don't produce values, you can't use them in expressions or assignments like you can with functions that return values. <pause> Next, we'll learn how to make functions more flexible by passing data into them.</p>
+:::
+
+
+# Passing Data To and From Functions
+
+::: notes
+<p><pause> Now we're ready for the really powerful stuff - passing data into functions and getting results back. This is what makes functions truly flexible and reusable.</p>
+:::
+
+## Topics:
+
+- Understanding parameters and arguments
+- Passing data into functions
+- Returning data from functions
+- Function prototypes
+- Common mistakes and how to avoid them
+- Practical examples
+
+::: notes
+<p>This section builds on void functions by adding the ability to pass data back and forth. We'll learn the difference between parameters and arguments, how to send data into functions, how to get computed results back, and see practical examples that tie it all together. This is where functions become truly powerful tools for organizing complex programs.</p>
+:::
+
+## Why Functions Need Data
+
+Consider this function:
+
+```cpp
+void displayName() {
+    cout << "Hello, Alice!" << endl;
+}
+```
+
+**Problem:** This only works for Alice. What about Bob or Charlie?
+
+**Challenge:** How can we make one function work for any name?
+
+**Solution:** Give functions the ability to receive and process different data.
+
+
+::: notes
+<p><slow down> Look at this function - it greets Alice, but what if we want to greet Bob? Or Charlie? Or any of a hundred different people? Do we write a hundred different functions? Of course not! We need a way to make one flexible function that can work with different data each time it's called. <pause> This is the fundamental problem that parameters solve. By giving functions the ability to receive data when they're called, we make them flexible and reusable. One function can serve many different purposes depending on what data you pass to it.</p>
+:::
+
+## Parameters: Receiving Data
+
+**Parameters** are variables in the function definition that receive data.
+
+```cpp
+void displayName(string name) {
+    cout << "Hello, " << name << "!" << endl;
+}
+```
+
+**Anatomy:**
+
+- `string` is the data type
+- `name` is the parameter variable
+- Parameters exist only inside the function
+
+::: notes
+<p>Parameters are the solution to our problem. <pause> Look at the function definition - inside the parentheses, we've declared a string variable called name. This is a parameter. When someone calls this function, they must provide a string value, and that value gets copied into this name parameter. Inside the function, name is just like any other variable - you can use it in expressions, print it, whatever you need. The key difference is that its value comes from the caller, not from code inside the function. <slow down> Also notice that parameters only exist inside the function - they're local to that function and disappear when the function ends.</p>
+:::
+
+
+## Arguments vs Parameters
+
+**Parameter:** Variable in the function definition (placeholder)
+
+**Argument:** Actual value passed when calling the function (real data)
+
+```cpp
+void displayName(string name) {     // name is a PARAMETER
+    cout << "Hello, " << name << "!" << endl;
+}
+
+int main() {
+    displayName("Alice");           // "Alice" is an ARGUMENT
+    return 0;
+}
+```
+
+The argument value is copied into the parameter variable.
+
+
+::: notes
+<p>This distinction confuses many beginners, so let me be very clear: parameters versus arguments. <pause> Look at line 1: name is the PARAMETER - it's the variable in the function definition, like a placeholder. Now look at line 7: "Alice" is the ARGUMENT - it's the actual value we pass when calling the function. <pause> When you call displayName("Alice"), the argument "Alice" is copied into the parameter name. Think of parameters as the formal specification - "I need a string" - and arguments as the actual data - "here's Alice". Students often mix these terms up, but now you know the difference!</p>
+:::
+
+
+## Single Parameter Example
+
+```cpp
+#include <iostream>
+using namespace std;
+
+void greet(string person) {
+    cout << "Welcome, " << person << "!" << endl;
+}
+
+int main() {
+    greet("Alice");
+    greet("Bob");
+    greet("Charlie");
+    return 0;
+}
+```
+
+**Output:**
+```
+Welcome, Alice!
+Welcome, Bob!
+Welcome, Charlie!
+```
+
+::: notes
+<p>Here's a complete example showing the power of parameters. We have one function, greet, but we call it three times with three different arguments. Each call copies its argument into the person parameter, and the function greets that person. One function, three different behaviors, all because we can pass in different data. This is the essence of reusable code - write once, use many times with different inputs.</p>
+:::
+
+## Multiple Parameters
+
+Functions can accept multiple pieces of data:
+
+```cpp
+void displayProduct(string name, double price) {
+    cout << name << " costs $" << price << endl;
+}
+
+int main() {
+    displayProduct("Laptop", 899.99);
+    displayProduct("Mouse", 24.50);
+    return 0;
+}
+```
+
+## Key Rules
+
+- Separate parameters with commas
+- Each parameter needs a type
+- Order matters - arguments must match parameter order
+
+::: notes
+<p>When you need multiple pieces of data, you can have multiple parameters. Notice in the function definition, we separate parameters with commas, and each parameter must have its own type specification. A common mistake: you can't write "string name, price" - you must write "string name, double price". Each parameter needs its type! <pause> Order is critical: when you call the function, your arguments must match the parameter order exactly. First argument goes to first parameter, second to second, and so on. Mix up the order and you'll get compiler errors or runtime bugs. <pause> So remember: separate with commas, each gets a type, and order matters!</p>
+:::
+
+## Parameter Order and Types
+
+Arguments must match parameters in **order** and **type**:
+
+```cpp
+void displayStudent(string name, int age, double gpa) {
+    cout << name << " is " << age << " years old" << endl;
+    cout << "GPA: " << gpa << endl;
+}
+
+int main() {
+    displayStudent("Alice", 20, 3.8);     // Correct
+    displayStudent(20, "Alice", 3.8);     // ERROR - wrong types
+    return 0;
+}
+```
+
+::: notes
+<p>Look carefully at line 11 - this is correct. We pass a string for name, an int for age, and a double for gpa. They match in both order and type. <pause> Now look at line 12 - this will cause a compiler error! We're trying to pass an int where a string is expected, and vice versa. The compiler checks these type matches and will refuse to compile code that doesn't match. <pause> This type checking is one of C++'s safety features - it catches mistakes before your program even runs. Always ensure your arguments match the parameters in number, order, and type!</p>
+:::
+
+
+## Function Prototypes
+
+**Problem:** C++ requires functions to be defined before they're called.
+
+**Solution:** Declare the function's signature at the top with a **prototype**.
+
+```cpp
+// Prototype (declaration) - tells compiler function exists
+void displayStudent(string name, int age, double gpa);
+
+int main() {
+    displayStudent("Alice", 20, 3.8);  // Can call here
+    return 0;
+}
+
+// Definition (implementation) - actual code
+void displayStudent(string name, int age, double gpa) {
+    cout << name << " is " << age << " years old" << endl;
+}
+```
+
+::: notes
+<p>Function prototypes become even more important when functions have parameters. The prototype must include all the parameter types in the correct order. The prototype tells the compiler "this function exists, it takes these types of parameters in this order, and it returns this type." Then later in the file, you provide the full definition with the implementation. <pause> Prototypes are especially important when working with multiple files - you can put prototypes in a header file that gets included everywhere, while the implementations stay in separate source files. For now, just remember: prototype at the top with parameter types, definition below main with the actual code.</p>
+:::
+
+
+## Prototype Syntax
+
+```cpp
+// Full prototype with parameter names (recommended)
+double calculateAverage(double score1, double score2, double score3);
+
+// Parameter names optional, but less clear
+double calculateAverage(double, double, double);
+
+// Multiple prototypes
+void displayMenu();
+int getChoice();
+double calculateTax(double amount);
+```
+
+**Common practice:** Include parameter names for readability. They don't have to match the definition's names, but usually do.
+
+::: notes
+<p>When writing prototypes, you have a choice: you can include parameter names or just types. Technically the compiler only needs the types to check your function calls, so "double calculateAverage(double, double, double);" works. But this is much less readable than "double calculateAverage(double score1, double score2, double score3);". <pause> The version with names is self-documenting - you can see what each parameter represents without looking at the implementation. Best practice is to include descriptive parameter names in your prototypes. They don't have to exactly match the names in the definition, but usually they do because it would be confusing if they didn't.</p>
+:::
+
+## Return Values: Sending Data Back
+
+**So far:** Functions receive data through parameters (input)
+
+**Now:** Functions can send data back through return values (output)
+
+```cpp
+int add(int a, int b) {
+    return a + b;
+}
+```
+
+**Key components:**
+
+- `int` is the return type
+- `return` statement sends the value back
+- Return type must match the returned value
+
+::: notes
+<p><slow down> Now we complete the picture: parameters let data flow into functions, and return values let data flow back out. <pause> Look at this add function. The return type is int - this means the function promises to compute and return an integer value. Inside the function, the return statement does two things: it computes a + b, and it sends that value back to whoever called the function. <pause> The return type in the function header must match the type of value you actually return. If you say you're returning an int, you must return an int. The compiler enforces this match. <pause> Think of parameters as inputs and return values as outputs - together they make functions powerful, flexible tools for computation.</p>
+:::
+
+## Using Return Values
+
+```cpp
+int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    // Store in a variable
+    int result = add(5, 3);
+    cout << "Result: " << result << endl;
+
+    // Use directly in expression
+    cout << "Sum: " << add(10, 20) << endl;
+
+    // Pass to another function
+    cout << add(5, add(2, 3)) << endl;
+
+    return 0;
+}
+```
+
+::: notes
+<p>Return values are incredibly flexible - you can use them in multiple ways. <pause> Most commonly, you store the result in a variable, like line 8 does. <pause> Or you can use the function call directly in an expression, like line 11 - the function executes, returns its value, and that value gets inserted right into the expression. <pause> You can even nest function calls, like line 14. <slow down> Let's trace this: first add(2, 3) executes and returns 5. Then that 5 becomes an argument to the outer add call, so we're computing add(5, 5), which returns 10. Then 10 gets printed. This demonstrates function composition - using the output of one function as the input to another. This is a powerful technique for building complex computations from simple functions.</p>
+:::
+
+## Return Type Must Match
+
+The return statement must match the function's return type:
+
+```cpp
+int getValue() {
+    return 3.14;        // WARNING - truncated to 3
+}
+
+double getNumber() {
+    return 42;          // OK - converts to 42.0
+}
+
+string getName() {
+    return 123;         // ERROR - cannot convert int to string
+}
+```
+
+**Rule:** The compiler will error or warn if types don't match or convert properly.
+
+::: notes
+<p>The compiler is strict about return types matching. <pause> In the first example, we're returning 3.14 from a function declared to return int. The compiler will truncate it to 3 and usually give you a warning about losing precision. <pause> In the second example, returning 42 from a double function is fine - int converts safely to double as 42.0. <pause> In the third example, trying to return an int from a string function is a hard error - there's no automatic conversion from int to string. <pause> The lesson is: pay attention to your return types and make sure what you return matches what you declared. The compiler's type checking is trying to help you avoid bugs.</p>
+:::
+
+## Multiple Return Statements
+
+Functions can have multiple returns, but only one executes:
+
+```cpp
+char getLetterGrade(int score) {
+    if (score >= 90) {
+        return 'A';
+    }
+    if (score >= 80) {
+        return 'B';
+    }
+    if (score >= 70) {
+        return 'C';
+    }
+    if (score >= 60) {
+        return 'D';
+    }
+    return 'F';
+}
+```
+
+**Important:** Once a return executes, the function immediately exits.
+
+::: notes
+<p>Functions can have multiple return statements - this is common when you have different cases or conditions. <slow down> But here's the key: once any return executes, the function immediately exits. The rest of the code doesn't run. <pause> Trace through this grading function: if the score is 92, the first if condition is true, so we return 'A' and exit immediately. The other if statements never even execute. <pause> If the score is 75, the first two ifs are false, the third is true, so we return 'C' and exit. <pause> If the score is 50, all the ifs are false, so we reach the final return statement and return 'F'. <pause> This pattern of multiple returns is very common for decision-making functions. Just remember: first return that executes ends the function.</p>
+:::
+
+## Round-Trip Method
+
+```cpp
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int CalcYears(boolean);
+
+int main() {
+    int age = 0;
+
+    age = CalcYears(true);
+    cout << age << endl;
+}
+
+int CalcYears(boolean isDog) {
+    if (isDog) return 7;
+    return 3;
+}
+```
+
+::: notes
+<p><slow down> Now let me show you what I call the round-trip method - this is THE most important pattern you'll learn today. Look at line 7 in main: we declare age and initialize it to zero. Line 9 is where the magic happens - we call CalcYears with the argument true, and assign the return value to age. <pause> Let's trace the round trip: execution jumps to line 14, the parameter isDog receives true. Line 15 checks if isDog is true - it is, so we return 7. That 7 travels back to line 9 and gets stored in age. Line 10 prints age, which is now 7. <pause> <slow down> This pattern - send data out through arguments, get results back through return values - is absolutely fundamental. You'll use this constantly. Data makes a round trip: out to the function, back with a result. Master this and you master function-based programming!</p>
+:::
+
+---
+
+![](topics/function_data_to_and_fro/images/round_trip_method.png){width="5%"}
+
+::: notes
+<p>This diagram visually shows the round trip: data flows from the caller into the function through parameters, the function computes a result, and that result flows back to the caller through the return value. This bidirectional data flow is what makes functions so powerful.</p>
+:::
+
+## Example: Temperature Conversion
+
+```cpp
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+double celsiusToFahrenheit(double celsius);  // Prototype
+
+int main() {
+    double tempC = 25.0;
+    double tempF = celsiusToFahrenheit(tempC);
+
+    cout << fixed << setprecision(1);
+    cout << tempC << "°C = " << tempF << "°F" << endl;
+
+    return 0;
+}
+
+double celsiusToFahrenheit(double celsius) {
+    return (celsius * 9.0 / 5.0) + 32.0;
+}
+```
+
+**Output:** `25.0°C = 77.0°F`
+
+::: notes
+<p>Here's a practical example of the round-trip method. We have a temperature in Celsius stored in tempC. We call celsiusToFahrenheit, passing tempC as the argument. The function receives it in the celsius parameter, performs the conversion calculation, and returns the Fahrenheit value. We capture that return value in tempF. Then we print both temperatures. <pause> This is a perfect example of functional decomposition - we've extracted the conversion formula into its own function with a descriptive name. Now we can convert temperatures anywhere in our program just by calling this function. Clean, reusable, self-documenting code.</p>
+:::
+
+## Example: Grade Determination
+
+```cpp
+#include <iostream>
+using namespace std;
+
+char determineGrade(double average);  // Prototype
+
+int main() {
+    char grade = determineGrade(87.5);
+    cout << "Grade: " << grade << endl;
+    return 0;
+}
+
+char determineGrade(double average) {
+    if (average >= 90) return 'A';
+    if (average >= 80) return 'B';
+    if (average >= 70) return 'C';
+    if (average >= 60) return 'D';
+    return 'F';
+}
+```
+
+**Output:** `Grade: B`
+
+::: notes
+<p>Here's another example showing multiple return statements. The determineGrade function takes a numeric average and returns a letter grade character. Notice how clean the logic is with multiple returns - we check each grade threshold and immediately return if we match. For an average of 87.5, the first two conditions are true, so we return 'B' and exit. This is efficient and readable. The round-trip is clear: we send 87.5 in, get 'B' back, store it in grade, and print it.</p>
+:::
+
+## Example: Grade Calculator
+
+```cpp
+#include <iostream>
+using namespace std;
+
+// Prototypes
+double calculateAverage(int s1, int s2, int s3);
+char determineGrade(double average);
+void displayResults(string name, double avg, char grade);
+
+int main() {
+    string student = "Alice";
+    double avg = calculateAverage(85, 92, 88);
+    char grade = determineGrade(avg);
+    displayResults(student, avg, grade);
+    return 0;
+}
+```
+
+**Output:**
+```
+Alice's average: 88.3333
+Letter grade: B
+```
+
+::: notes
+<p>This example brings everything together - the complete workflow of a well-designed program! <pause> Look at the prototypes: calculateAverage takes three scores and returns a double, determineGrade takes a double and returns a char, and displayResults is void taking multiple parameters. Now follow the flow in main: line 11 calculates the average, returning 88.333 which we store in avg. Line 12 calls determineGrade with that average, returning 'B' stored in grade. Line 13 calls displayResults to show everything. <pause> This is beautiful organization: main coordinates the high-level workflow by calling specialized functions, each function does one job well, and together they solve the complete problem. This IS structured, function-centric programming! Each function is simple because it has one clear job - calculateAverage adds and divides, determineGrade checks thresholds, displayResults formats output. This is how you should structure your programs!</p>
+:::
+
+
+# What's the Output?
+
+::: notes
+<p><pause> Now let's test your understanding with an exercise. This is a chance to trace through code and predict what it will print.</p>
+:::
+
+## Exercise Goals
+
+- Review of code syntax
+- Check understanding of syntax
+
+::: notes
+<p>The goal of this exercise is twofold: first, to review and reinforce the syntax we've learned - function prototypes, function calls, parameters, and return values. Second, to check your understanding by having you trace through execution and predict output. This kind of code-reading skill is essential for debugging and understanding programs.</p>
+:::
+
+## What to Do
+
+- Using the given code ...
+- Compute the output
+
+::: notes
+<p>Your task is simple: read through the code carefully, trace the execution flow, and determine what will be printed. Think about what values get passed to parameters, what gets computed, and what gets returned.</p>
+:::
+
+## What's the Output?
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+double calculateArea(double radius);
+
+int main() {
+    double radius = 5.0;
+    double area = calculateArea(radius);
+
+    cout << "Radius: " << radius << endl;
+    cout << "Area: " << area << endl;
+
+    double newRadius = 3.0;
+    cout << "New area: " << calculateArea(newRadius) << endl;
+
+    return 0;
+}
+
+double calculateArea(double radius) {
+    return 3.14 * radius * radius;
+}
+```
+
+::: notes
+<p><pause> Take a moment to read through this code and think about what it will output. <pause> Notice we have a calculateArea function that computes the area of a circle given a radius. In main, we call it twice with different radii. <pause> Can you determine what will be printed? Think it through before we reveal the answer on the next slide.</p>
+:::
+
+---
+
+::: {.columns}
+::: {.column width="75%"}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+double calculateArea(double radius);
+
+int main() {
+    double radius = 5.0;
+    double area = calculateArea(radius);
+
+    cout << "Radius: " << radius << endl;
+    cout << "Area: " << area << endl;
+
+    double newRadius = 3.0;
+    cout << "New area: " << calculateArea(newRadius) << endl;
+
+    return 0;
+}
+
+double calculateArea(double radius) {
+    return 3.14 * radius * radius;
+}
+```
+:::
+
+::: {.column width="25%"}
+
+```{.cpp}
+
+Radius: 5
+Area: 78.5
+New area: 28.26
+
+```
+
+:::
+:::
+
+::: notes
+<p>Here's the answer. <pause> First, radius is 5.0, and we compute its area: 3.14 times 5 times 5 equals 78.5. We print "Radius: 5" and "Area: 78.5". <pause> Then we create newRadius as 3.0 and call calculateArea directly in the cout statement. The function computes 3.14 times 3 times 3, which is 28.26, and that value gets printed immediately. <pause> Did you get it right? If so, excellent! If not, go back and trace through step by step. This kind of code tracing is an essential skill that will help you debug and understand programs throughout your career.</p>
+:::
+
+
+# Code This: Pizza Order Calculator
+
+**Estimated Time:** 20 minutes
+
+::: notes
+<p><pause> Now it's time for you to practice! This is a hands-on coding exercise where you'll apply everything we've learned today to build a complete program from scratch.</p>
+:::
+
+## Problem Description
+
+Write a program that calculates the cost of a pizza order. Your program should use multiple functions to break down the calculation into logical steps.
+
+
+::: notes
+<p>You're going to build a pizza order calculator - a practical program that demonstrates everything we've covered: function prototypes, void functions, functions with parameters, and functions that return values. The key is breaking the problem down into logical steps, with each step implemented as a function. This is exactly how professional programmers approach problems - divide and conquer.</p>
+:::
+
+## Requirements
+
+Your program must include the following functions:
+
+1. **calculatePizzaCost** - Takes the pizza size (small, medium, or large) as a character ('S', 'M', or 'L') and returns the base cost as a double.
+   - Small: $8.99
+   - Medium: $12.99
+   - Large: $16.99
+
+2. **calculateToppingsCost** - Takes the number of toppings as an integer and returns the total topping cost as a double.
+   - Each topping costs $1.50
+
+::: notes
+<p>Let's break down the requirements. <pause> First, you need calculatePizzaCost - this takes a char parameter for size and returns a double. Use an if statement or switch to determine the price based on size. <pause> Second, calculateToppingsCost takes an int for number of toppings and returns the total cost. This is a simple multiplication: number times 1.50.</p>
+:::
+
+## Requirements (cont)
+
+3. **calculateTotal** - Takes the pizza cost and toppings cost as parameters and returns the final total as a double.
+
+4. **displayReceipt** - A void function that takes the pizza size (char), number of toppings (int), and total cost (double) as parameters and displays a formatted receipt.
+
+::: notes
+<p>Third, calculateTotal takes two parameters - pizza cost and toppings cost - and returns their sum. Simple but demonstrates passing multiple parameters and returning a result. <pause> Finally, displayReceipt is a void function that takes three pieces of information and displays a nicely formatted receipt. This demonstrates void functions and working with multiple parameter types.</p>
+:::
+
+## Sample Output
+
+For a medium pizza with 3 toppings, your program should display:
+
+```
+Pizza Order Receipt
+-------------------
+Size: M
+Toppings: 3
+-------------------
+Total: $17.49
+```
+
+::: notes
+<p>Here's what your output should look like. Notice the formatting - nice clean lines separating sections, and the dollar amount formatted with two decimal places. Use the iomanip library's fixed and setprecision for proper dollar formatting. Your challenge is to make your output match this format exactly.</p>
+:::
+
+## Your Task
+
+1. Write function prototypes for all four functions
+2. Implement the main() function to:
+   - Create variables for pizza size ('M') and number of toppings (3)
+   - Call the functions in the correct order
+   - Display the receipt
+3. Implement all four function definitions below main()
+
+::: notes
+<p><slow down> Here's your implementation strategy. First, write all four prototypes at the top of your file - this declares what functions exist. <pause> Second, write main: create variables for size and toppings, then call your functions in the logical order - calculate pizza cost, calculate toppings cost, calculate total, display receipt. Think through what order makes sense. <pause> Third, implement each function below main. Start with the simplest ones and work up to the more complex ones. Test as you go - get one function working before moving to the next. This incremental approach will help you avoid bugs and make debugging easier.</p>
+:::
+
+## Starter Code Structure
+
+```cpp
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+// Write your function prototypes here
+
+int main() {
+    // Your code here
+
+    return 0;
+}
+
+// Write your function definitions here
+```
+
+::: notes
+<p>Here's your starter template. Notice we've included iomanip for formatting. Your job is to fill in the prototypes, implement main, and write all four function definitions. Remember the pattern: prototypes declare what exists, main coordinates the workflow, definitions provide the implementations.</p>
+:::
+
+## Tips
+
+- Remember to use function prototypes before main()
+- The displayReceipt function should use cout with proper formatting
+- Use setprecision(2) and fixed for dollar amounts
+- Make sure your function calls pass arguments in the correct order
+- Test with the given values first: size 'M' and 3 toppings
+
+::: notes
+<p>Some tips to help you succeed: <pause> Don't forget those prototypes - they must come before main. <pause> Use fixed and setprecision(2) to format dollar amounts correctly. <pause> Pay careful attention to argument order when calling functions - the order must match the parameter order. <pause> Start by testing with the given example - medium pizza with 3 toppings - so you can verify your output matches the expected output. Once that works, try other combinations to make sure your logic is sound. <pause> Take your time, think through the logic, and remember everything we've learned today. You've got this!</p>
+:::
+
+## Challenge (Optional - if you finish early)
+
+Modify your program to ask the user for their pizza size and number of toppings using cin, then display the receipt with their choices.
+
+::: notes
+<p>If you finish early and want an extra challenge, modify your program to read the pizza size and number of toppings from the user using cin. This adds interactivity to your program. You'll need to add input validation to make sure they enter valid sizes and non-negative topping counts. This optional challenge will give you practice with user input and validation logic.</p>
+:::
+
+
+# Key Takaways
+
+1. **Function-Centric Architecture**. A program design approach organizing code around functions as primary building blocks, separating data and behavior through a top-down design where main problems are broken into smaller sub-problems implemented as functions.
+2. **Void Functions**. Functions declared with void return type perform actions without returning values, used to organize code, avoid repetition, and improve readability through descriptive function names that act as labels for code blocks.
+3. **Passing Data and Function Prototypes**. Functions accept input through parameters and return output via return statements, with function prototypes declared before main to enable forward references and organize code with definitions below main.
+
+::: notes
+<p><slow down> Let's wrap up with the key takeaways from today's lecture. <pause> First, function-centric architecture is a design philosophy where functions are your primary organizational tool. You break big problems into smaller sub-problems, implement each as a function, and separate data from the operations on that data. This creates code that's modular, maintainable, and understandable. <pause> Second, void functions are your tool for organizing code that performs actions without computing return values. They help you avoid code duplication, give meaningful names to code blocks, and keep your main logic clean and readable. <pause> Third, by combining parameters and return values, you create flexible, reusable functions. Parameters bring data in, return values send results back. Function prototypes let you organize your code with declarations at the top and implementations below main. <pause> These three concepts form the foundation of structured, function-based programming. Master them and you'll be able to write clean, professional, maintainable code.</p>
+:::
+
+# Next Time
+
+
+- Local and global variables
+- Memory and functions
+
+::: notes
+<p>Next time, we'll dive deeper into how functions work with variables and memory. We'll explore the difference between local and global variables, understand variable scope in detail, and see how memory is managed when functions are called. This will complete your understanding of how functions really work under the hood. <pause> Great work today everyone! Make sure to practice with the pizza calculator exercise - hands-on coding is how these concepts really sink in. See you next time!</p>
+:::

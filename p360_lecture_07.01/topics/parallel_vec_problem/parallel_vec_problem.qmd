@@ -1,0 +1,199 @@
+# Parallel Vectors
+
+What do we do when a single piece of information about a person — like their name — isn't enough, and we also need to store their score, age, or grade? Today we'll explore a technique for keeping related data connected across multiple vectors.
+
+::: notes
+Total slides: 5
+
+Consider a visual showing two columns of data — names and scores — with dotted lines connecting related pairs.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The Problem: Related Data in Separate Vectors
+
+Sometimes a single vector is not enough. A student has a name and a score. A product has a name and a price. Storing just one piece loses the relationship to the other.
+
+```cpp
+// This stores names — but with no connection to scores
+vector<string> names = {"Alice", "Bob", "Carol"};
+
+// This stores scores — but with no connection to names
+vector<int> scores = {92, 85, 78};
+
+// How do we know which score belongs to which name?
+```
+
+When data lives in separate, unconnected vectors, the relationship between items is lost. We need a way to keep related pieces of data tied together.
+
+::: notes
+Consider a diagram showing two disconnected vectors with a question mark between them, emphasizing the missing link.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Parallel Vectors — Position as the Link
+
+Parallel vectors solve this by using position as a silent agreement between two or more vectors. Element 0 in one vector corresponds to element 0 in all other vectors.
+
+```cpp
+vector<string> names  = {"Alice", "Bob",  "Carol"};
+vector<int>    scores = {92,      85,     78     };
+
+// Position 0: Alice scored 92
+// Position 1: Bob scored 85
+// Position 2: Carol scored 78
+```
+
+The vectors themselves have no built-in connection — the programmer maintains the relationship by ensuring all vectors stay the same size and are always updated together. This is both the power and the responsibility of parallel vectors.
+
+::: notes
+Consider a diagram showing two vectors side by side with numbered brackets and arrows connecting position 0 to position 0, position 1 to position 1, and so on.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Accessing Parallel Vectors — Where For-Each Falls Short
+
+For-each loops are excellent at visiting every element in one vector. The problem is that they work on a single vector at a time and provide no position information.
+
+```cpp
+vector<string> names  = {"Alice", "Bob",  "Carol"};
+vector<int>    scores = {92,      85,     78     };
+
+// For-each on names — no way to reach the matching score
+for (string name : names) {
+    cout << name << endl;  // works, but we've lost the score
+}
+
+// For-each on scores — no way to reach the matching name
+for (int score : scores) {
+    cout << score << endl;  // works, but we've lost the name
+}
+
+// What we want but cannot do with for-each:
+// desired output: "Alice scored 92"
+// cout << name << " scored " << matchingScore << endl;
+```
+
+To print "Alice scored 92" we need to access position 0 in both vectors simultaneously. For-each gives us no way to do that.
+
+::: notes
+Consider a diagram showing two vectors with a for-each loop touching only one at a time, with a red X over the connection between them.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Where This Leaves Us
+
+Parallel vectors are a genuine and widely-used technique for storing related data. The concept is sound — position is the link — but acting on that link requires knowing which position you are at.
+
+For-each loops, by design, do not expose position. To work with parallel vectors properly, you need a loop that gives you an index: a number you can use to access the same position in multiple vectors at the same time.
+
+That tool is coming. Indexed loops will unlock parallel vectors, STL algorithms, and a new class of problems you cannot yet solve. You now know exactly what they are for.
+
+::: notes
+Consider a forward-looking visual: two parallel vectors connected by a numbered index, with the index labeled "coming soon."
+
+Instructor note: This slide is intentionally a cliffhanger. Resist the urge to show the solution now. The goal is to leave students with a clear, concrete problem they are motivated to solve. Indexed loops will land with much more impact if students already understand what they unlock.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Common Practices
+
+Always update all parallel vectors together whenever you add, remove, or modify data. Adding a name without adding a corresponding score immediately breaks the position relationship.
+
+Keep parallel vectors the same size at all times and consider checking with `.size()` comparisons as a defensive guard. A size mismatch means the parallel relationship has been broken.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+Adding an element to one parallel vector but forgetting to add a corresponding element to the others corrupts the relationship silently. There is no built-in enforcement — the programmer is solely responsible for keeping them in sync.
+
+Assuming you can use for-each to process parallel vectors leads to incomplete solutions. For-each can only work on one vector at a time and provides no way to access a matching position in a second vector.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Parallel vectors for a product catalog
+vector<string> products = {"Apple", "Banana", "Cherry"};
+vector<double> prices   = {0.99,    0.49,     2.99   };
+vector<int>    quantity = {50,      120,      30     };
+
+// Position 0: Apple, $0.99, 50 in stock
+// Position 1: Banana, $0.49, 120 in stock
+// Position 2: Cherry, $2.99, 30 in stock
+
+// What we CAN do with for-each (limited):
+for (double price : prices) {
+    if (price < 1.00) {
+        cout << "Under a dollar: $" << price << endl;
+    }
+}
+
+// What we CANNOT yet do:
+// Print each product name alongside its price and quantity
+// Find the product name that matches the lowest price
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Create two parallel vectors: one of strings for city names and one of ints for populations. Add three cities with their populations.
+2. Using only what you know, write code that prints all city names using a for-each loop. What information is missing from that output?
+3. Write code that uses `.size()` to check whether your two parallel vectors are the same length and prints a message if they are not.
+4. Think about this: what would you need in order to print each city name next to its population? What kind of loop would help?
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+When searching for help or using AI assistants, try these search terms:
+
+- "C++ parallel vectors example"
+- "C++ multiple vectors same index"
+- "C++ storing related data vectors"
+- "C++ indexed loop parallel arrays"
+- "C++ vector index position access"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+1. Why does position work as the link between parallel vectors, and what responsibility does that place on the programmer?
+2. What specific problem with for-each loops prevents them from working with parallel vectors?
+3. What would happen to your data if you added an element to one parallel vector but forgot to add a matching element to the others?
+4. What do you think an indexed loop would need to provide that for-each does not?
+
+<!-- Appendix Slide 6 -->
