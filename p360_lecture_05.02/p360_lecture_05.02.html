@@ -687,156 +687,6 @@ Dr.&nbsp;Caleb Fowler
 <!-- Slide 8 -->
 </section></section>
 <section>
-<section id="pass-by-reference" class="title-slide slide level1 center">
-<h1>Pass by Reference</h1>
-<p>Why can’t a function change the value of a variable we pass to it? Today we’ll learn how to give functions the power to modify the original variables.</p>
-<aside class="notes">
-<p>Total slides: 10</p>
-<p>Consider including a simple diagram showing a function call with a variable being passed.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="review-pass-by-value" class="slide level2">
-<h2>Review: Pass by Value</h2>
-<p>When we pass a variable to a function, C++ makes a copy of that value. The function works with the copy, not the original variable.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">void</span> addTen<span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb19-2"><a href=""></a>    x <span class="op">=</span> x <span class="op">+</span> <span class="dv">10</span><span class="op">;</span>  <span class="co">// changes the copy only</span></span>
-<span id="cb19-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb19-4"><a href=""></a></span>
-<span id="cb19-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb19-6"><a href=""></a>    <span class="dt">int</span> num <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb19-7"><a href=""></a>    addTen<span class="op">(</span>num<span class="op">);</span></span>
-<span id="cb19-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> num<span class="op">;</span>  <span class="co">// still prints 5</span></span>
-<span id="cb19-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Consider a diagram showing two separate memory locations: one for ‘num’ in main, one for ‘x’ in the function.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 2 -->
-</section>
-<section id="what-is-pass-by-reference" class="slide level2">
-<h2>What is Pass by Reference?</h2>
-<p>Pass by reference allows a function to work directly with the original variable instead of a copy. Changes made inside the function affect the original variable.</p>
-<p>Think of it as giving the function access to the actual storage location of your variable.</p>
-<aside class="notes">
-<p>A diagram showing a single memory location accessed by both main and the function would be helpful here.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 3 -->
-</section>
-<section id="syntax-for-pass-by-reference" class="slide level2">
-<h2>Syntax for Pass by Reference</h2>
-<p>To pass by reference, add an ampersand (<code>&amp;</code>) after the type in the parameter list.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">void</span> addTen<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> x<span class="op">)</span> <span class="op">{</span>  <span class="co">// note the &amp;</span></span>
-<span id="cb20-2"><a href=""></a>    x <span class="op">=</span> x <span class="op">+</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb20-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb20-4"><a href=""></a></span>
-<span id="cb20-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb20-6"><a href=""></a>    <span class="dt">int</span> num <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb20-7"><a href=""></a>    addTen<span class="op">(</span>num<span class="op">);</span></span>
-<span id="cb20-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> num<span class="op">;</span>  <span class="co">// now prints 15</span></span>
-<span id="cb20-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The only change is adding <code>&amp;</code> to the parameter declaration.</p>
-<!-- Slide 4 -->
-</section>
-<section id="how-pass-by-reference-works" class="slide level2">
-<h2>How Pass by Reference Works</h2>
-<p>When you pass by reference, the parameter and the original variable are two different names for the same memory location. Changing one changes the other because they’re actually the same variable.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="dt">void</span> demo<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> ref<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb21-2"><a href=""></a>    ref <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>  <span class="co">// changes the original</span></span>
-<span id="cb21-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb21-4"><a href=""></a></span>
-<span id="cb21-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb21-6"><a href=""></a>    <span class="dt">int</span> original <span class="op">=</span> <span class="dv">50</span><span class="op">;</span></span>
-<span id="cb21-7"><a href=""></a>    demo<span class="op">(</span>original<span class="op">);</span>  <span class="co">// original is now 100</span></span>
-<span id="cb21-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 5 -->
-</section>
-<section id="example-swapping-two-variables" class="slide level2">
-<h2>Example: Swapping Two Variables</h2>
-<p>Pass by reference is essential when a function needs to modify multiple variables.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="dt">void</span> swap<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> a<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb22-2"><a href=""></a>    <span class="dt">int</span> temp <span class="op">=</span> a<span class="op">;</span></span>
-<span id="cb22-3"><a href=""></a>    a <span class="op">=</span> b<span class="op">;</span></span>
-<span id="cb22-4"><a href=""></a>    b <span class="op">=</span> temp<span class="op">;</span></span>
-<span id="cb22-5"><a href=""></a><span class="op">}</span></span>
-<span id="cb22-6"><a href=""></a></span>
-<span id="cb22-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb22-8"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
-<span id="cb22-9"><a href=""></a>    swap<span class="op">(</span>x<span class="op">,</span> y<span class="op">);</span></span>
-<span id="cb22-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> x <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> y<span class="op">;</span>  <span class="co">// prints 20 10</span></span>
-<span id="cb22-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Consider a visual diagram showing the three steps of the swap operation with memory addresses.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 6 -->
-</section>
-<section id="when-to-use-pass-by-reference" class="slide level2">
-<h2>When to Use Pass by Reference</h2>
-<p>Use pass by reference when a function needs to modify the original variable. Common scenarios include functions that update values, swap variables, or return multiple results.</p>
-<p>Use pass by value when the function should not change the original variable.</p>
-<!-- Slide 7 -->
-</section>
-<section id="pass-by-reference-with-const" class="slide level2">
-<h2>Pass by Reference with Const</h2>
-<p>Use <code>const</code> with pass by reference when you want to avoid copying without allowing changes. This prevents accidental modifications.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">void</span> display<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">&amp;</span> num<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb23-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> num<span class="op">;</span>     <span class="co">// can read the value</span></span>
-<span id="cb23-3"><a href=""></a>    <span class="co">// num = 10;     // error: can't modify</span></span>
-<span id="cb23-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The <code>const</code> keyword protects the original variable from being changed.</p>
-<!-- Slide 8 -->
-</section>
-<section id="common-practices" class="slide level2">
-<h2>Common Practices</h2>
-<p>Always use <code>const</code> with reference parameters unless the function needs to modify the variable. This documents your intent and prevents errors.</p>
-<p>Use descriptive parameter names that indicate the parameter will be modified. Names like <code>result</code>, <code>output</code>, or <code>updated</code> signal that a parameter may change.</p>
-<!-- Slide 9 -->
-</section>
-<section id="summary-2" class="slide level2">
-<h2>Summary</h2>
-<p>Pass by reference uses the <code>&amp;</code> symbol to allow functions to modify original variables. It creates an alias to the original variable rather than a copy.</p>
-<!-- Slide 10 -->
-</section></section>
-<section>
 <section id="reference-variables" class="title-slide slide level1 center">
 <h1>Reference Variables</h1>
 
@@ -888,11 +738,11 @@ Dr.&nbsp;Caleb Fowler
 <section id="creating-and-using-reference-variables" class="slide level2">
 <h2>Creating and Using Reference Variables</h2>
 <p>References are created using the <code>&amp;</code> symbol in the declaration. A reference must be initialized when it is declared.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">85</span><span class="op">;</span></span>
-<span id="cb24-2"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> scoreRef <span class="op">=</span> score<span class="op">;</span>         <span class="co">// scoreRef is a reference to score</span></span>
-<span id="cb24-3"><a href=""></a></span>
-<span id="cb24-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"score: "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span>         <span class="co">// Output: 85</span></span>
-<span id="cb24-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"scoreRef: "</span> <span class="op">&lt;&lt;</span> scoreRef <span class="op">&lt;&lt;</span> endl<span class="op">;</span>   <span class="co">// Output: 85</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">85</span><span class="op">;</span></span>
+<span id="cb19-2"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> scoreRef <span class="op">=</span> score<span class="op">;</span>         <span class="co">// scoreRef is a reference to score</span></span>
+<span id="cb19-3"><a href=""></a></span>
+<span id="cb19-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"score: "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span>         <span class="co">// Output: 85</span></span>
+<span id="cb19-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"scoreRef: "</span> <span class="op">&lt;&lt;</span> scoreRef <span class="op">&lt;&lt;</span> endl<span class="op">;</span>   <span class="co">// Output: 85</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The syntax <code>int&amp; scoreRef</code> declares <code>scoreRef</code> as a reference to an integer. The <code>&amp;</code> is part of the type, not the variable name.</p>
 <aside class="notes">
 <p>Walk through the declaration step-by-step. Emphasize that the &amp; goes with the type (int&amp;) and that the reference must be initialized immediately - you cannot declare a reference and initialize it later.</p>
@@ -912,18 +762,18 @@ Dr.&nbsp;Caleb Fowler
 <section id="references-as-aliases" class="slide level2">
 <h2>References as Aliases</h2>
 <p>Modifying a reference modifies the original variable, and vice versa. They are truly two names for the same thing.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="dt">int</span> value <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb25-2"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> valueRef <span class="op">=</span> value<span class="op">;</span></span>
-<span id="cb25-3"><a href=""></a></span>
-<span id="cb25-4"><a href=""></a>valueRef <span class="op">=</span> <span class="dv">20</span><span class="op">;</span>                  <span class="co">// Changes value through the reference</span></span>
-<span id="cb25-5"><a href=""></a></span>
-<span id="cb25-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span>          <span class="co">// Output: 20</span></span>
-<span id="cb25-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> valueRef <span class="op">&lt;&lt;</span> endl<span class="op">;</span>       <span class="co">// Output: 20</span></span>
-<span id="cb25-8"><a href=""></a></span>
-<span id="cb25-9"><a href=""></a>value <span class="op">=</span> <span class="dv">30</span><span class="op">;</span>                     <span class="co">// Changes value directly</span></span>
-<span id="cb25-10"><a href=""></a></span>
-<span id="cb25-11"><a href=""></a>cout <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span>          <span class="co">// Output: 30</span></span>
-<span id="cb25-12"><a href=""></a>cout <span class="op">&lt;&lt;</span> valueRef <span class="op">&lt;&lt;</span> endl<span class="op">;</span>       <span class="co">// Output: 30</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">int</span> value <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb20-2"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> valueRef <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb20-3"><a href=""></a></span>
+<span id="cb20-4"><a href=""></a>valueRef <span class="op">=</span> <span class="dv">20</span><span class="op">;</span>                  <span class="co">// Changes value through the reference</span></span>
+<span id="cb20-5"><a href=""></a></span>
+<span id="cb20-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span>          <span class="co">// Output: 20</span></span>
+<span id="cb20-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> valueRef <span class="op">&lt;&lt;</span> endl<span class="op">;</span>       <span class="co">// Output: 20</span></span>
+<span id="cb20-8"><a href=""></a></span>
+<span id="cb20-9"><a href=""></a>value <span class="op">=</span> <span class="dv">30</span><span class="op">;</span>                     <span class="co">// Changes value directly</span></span>
+<span id="cb20-10"><a href=""></a></span>
+<span id="cb20-11"><a href=""></a>cout <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span>          <span class="co">// Output: 30</span></span>
+<span id="cb20-12"><a href=""></a>cout <span class="op">&lt;&lt;</span> valueRef <span class="op">&lt;&lt;</span> endl<span class="op">;</span>       <span class="co">// Output: 30</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
 <p>A diagram showing the timeline of changes would be helpful. Show how modifying either name affects the single shared value, reinforcing that there is only one variable with two names. Students often expect a reference to be a copy, so emphasize that changes through either name affect the same memory location.</p>
 <style type="text/css">
@@ -943,16 +793,16 @@ Dr.&nbsp;Caleb Fowler
 <h2>Reference Rules</h2>
 <p>References have strict requirements that distinguish them from regular variables.</p>
 <p><strong>Must be initialized at declaration:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> ref<span class="op">;</span>                      <span class="co">// ERROR - reference must be initialized</span></span>
-<span id="cb26-2"><a href=""></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb26-3"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> ref <span class="op">=</span> x<span class="op">;</span>                  <span class="co">// Correct</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> ref<span class="op">;</span>                      <span class="co">// ERROR - reference must be initialized</span></span>
+<span id="cb21-2"><a href=""></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb21-3"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> ref <span class="op">=</span> x<span class="op">;</span>                  <span class="co">// Correct</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Cannot be rebound to a different variable:</strong></p>
 <p>Once a reference is bound to a variable, it remains bound to that variable forever.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb27-2"><a href=""></a><span class="dt">int</span> b <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
-<span id="cb27-3"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> ref <span class="op">=</span> a<span class="op">;</span>                  <span class="co">// ref is bound to a</span></span>
-<span id="cb27-4"><a href=""></a>ref <span class="op">=</span> b<span class="op">;</span>                       <span class="co">// Assigns b's value (20) to a through ref</span></span>
-<span id="cb27-5"><a href=""></a>                               <span class="co">// ref still refers to a, NOT to b</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb22-2"><a href=""></a><span class="dt">int</span> b <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb22-3"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> ref <span class="op">=</span> a<span class="op">;</span>                  <span class="co">// ref is bound to a</span></span>
+<span id="cb22-4"><a href=""></a>ref <span class="op">=</span> b<span class="op">;</span>                       <span class="co">// Assigns b's value (20) to a through ref</span></span>
+<span id="cb22-5"><a href=""></a>                               <span class="co">// ref still refers to a, NOT to b</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
 <p>The second rule confuses many students. Emphasize that ref = b does NOT make ref refer to b. Instead, it assigns the value of b into a (through ref). The reference relationship cannot be changed after initialization. You might demonstrate this by printing the addresses of a, b, and ref to show that ref always points to a.</p>
 <style type="text/css">
@@ -971,15 +821,15 @@ Dr.&nbsp;Caleb Fowler
 <section id="practical-example-1" class="slide level2">
 <h2>Practical Example</h2>
 <p>References are useful when you want to work with a variable under a more descriptive name without copying it.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="dt">int</span> totalPoints <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb28-2"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> score <span class="op">=</span> totalPoints<span class="op">;</span>       <span class="co">// score is an alias for totalPoints</span></span>
-<span id="cb28-3"><a href=""></a></span>
-<span id="cb28-4"><a href=""></a>score <span class="op">+=</span> <span class="dv">10</span><span class="op">;</span>                    <span class="co">// Award 10 points</span></span>
-<span id="cb28-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Score: "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span>             <span class="co">// Output: 10</span></span>
-<span id="cb28-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Total: "</span> <span class="op">&lt;&lt;</span> totalPoints <span class="op">&lt;&lt;</span> endl<span class="op">;</span>       <span class="co">// Output: 10</span></span>
-<span id="cb28-7"><a href=""></a></span>
-<span id="cb28-8"><a href=""></a>score <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span>                     <span class="co">// Award 5 more points</span></span>
-<span id="cb28-9"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Final score: "</span> <span class="op">&lt;&lt;</span> totalPoints <span class="op">&lt;&lt;</span> endl<span class="op">;</span> <span class="co">// Output: 15</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">int</span> totalPoints <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb23-2"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> score <span class="op">=</span> totalPoints<span class="op">;</span>       <span class="co">// score is an alias for totalPoints</span></span>
+<span id="cb23-3"><a href=""></a></span>
+<span id="cb23-4"><a href=""></a>score <span class="op">+=</span> <span class="dv">10</span><span class="op">;</span>                    <span class="co">// Award 10 points</span></span>
+<span id="cb23-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Score: "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span>             <span class="co">// Output: 10</span></span>
+<span id="cb23-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Total: "</span> <span class="op">&lt;&lt;</span> totalPoints <span class="op">&lt;&lt;</span> endl<span class="op">;</span>       <span class="co">// Output: 10</span></span>
+<span id="cb23-7"><a href=""></a></span>
+<span id="cb23-8"><a href=""></a>score <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span>                     <span class="co">// Award 5 more points</span></span>
+<span id="cb23-9"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Final score: "</span> <span class="op">&lt;&lt;</span> totalPoints <span class="op">&lt;&lt;</span> endl<span class="op">;</span> <span class="co">// Output: 15</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This improves code readability by providing a meaningful context-specific name for the same data without creating a copy.</p>
 <aside class="notes">
 <p>Emphasize the efficiency aspect - no data is duplicated. The reference provides a different name that might be more meaningful in a particular context (e.g., “score” in a game function vs.&nbsp;“totalPoints” in the main program) while still referring to the same underlying variable.</p>
@@ -996,10 +846,160 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 6 -->
 </section>
-<section id="summary-3" class="slide level2">
+<section id="summary-2" class="slide level2">
 <h2>Summary</h2>
 <p>A reference variable is an alias that provides an alternative name for an existing variable. References must be initialized when declared and cannot be reassigned to refer to different variables.</p>
 <!-- Slide 7 -->
+</section></section>
+<section>
+<section id="pass-by-reference" class="title-slide slide level1 center">
+<h1>Pass by Reference</h1>
+<p>Why can’t a function change the value of a variable we pass to it? Today we’ll learn how to give functions the power to modify the original variables.</p>
+<aside class="notes">
+<p>Total slides: 10</p>
+<p>Consider including a simple diagram showing a function call with a variable being passed.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="review-pass-by-value" class="slide level2">
+<h2>Review: Pass by Value</h2>
+<p>When we pass a variable to a function, C++ makes a copy of that value. The function works with the copy, not the original variable.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">void</span> addTen<span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-2"><a href=""></a>    x <span class="op">=</span> x <span class="op">+</span> <span class="dv">10</span><span class="op">;</span>  <span class="co">// changes the copy only</span></span>
+<span id="cb24-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb24-4"><a href=""></a></span>
+<span id="cb24-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb24-6"><a href=""></a>    <span class="dt">int</span> num <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb24-7"><a href=""></a>    addTen<span class="op">(</span>num<span class="op">);</span></span>
+<span id="cb24-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> num<span class="op">;</span>  <span class="co">// still prints 5</span></span>
+<span id="cb24-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Consider a diagram showing two separate memory locations: one for ‘num’ in main, one for ‘x’ in the function.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 2 -->
+</section>
+<section id="what-is-pass-by-reference" class="slide level2">
+<h2>What is Pass by Reference?</h2>
+<p>Pass by reference allows a function to work directly with the original variable instead of a copy. Changes made inside the function affect the original variable.</p>
+<p>Think of it as giving the function access to the actual storage location of your variable.</p>
+<aside class="notes">
+<p>A diagram showing a single memory location accessed by both main and the function would be helpful here.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="syntax-for-pass-by-reference" class="slide level2">
+<h2>Syntax for Pass by Reference</h2>
+<p>To pass by reference, add an ampersand (<code>&amp;</code>) after the type in the parameter list.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="dt">void</span> addTen<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> x<span class="op">)</span> <span class="op">{</span>  <span class="co">// note the &amp;</span></span>
+<span id="cb25-2"><a href=""></a>    x <span class="op">=</span> x <span class="op">+</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb25-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb25-4"><a href=""></a></span>
+<span id="cb25-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb25-6"><a href=""></a>    <span class="dt">int</span> num <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb25-7"><a href=""></a>    addTen<span class="op">(</span>num<span class="op">);</span></span>
+<span id="cb25-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> num<span class="op">;</span>  <span class="co">// now prints 15</span></span>
+<span id="cb25-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The only change is adding <code>&amp;</code> to the parameter declaration.</p>
+<!-- Slide 4 -->
+</section>
+<section id="how-pass-by-reference-works" class="slide level2">
+<h2>How Pass by Reference Works</h2>
+<p>When you pass by reference, the parameter and the original variable are two different names for the same memory location. Changing one changes the other because they’re actually the same variable.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="dt">void</span> demo<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> ref<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-2"><a href=""></a>    ref <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>  <span class="co">// changes the original</span></span>
+<span id="cb26-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb26-4"><a href=""></a></span>
+<span id="cb26-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb26-6"><a href=""></a>    <span class="dt">int</span> original <span class="op">=</span> <span class="dv">50</span><span class="op">;</span></span>
+<span id="cb26-7"><a href=""></a>    demo<span class="op">(</span>original<span class="op">);</span>  <span class="co">// original is now 100</span></span>
+<span id="cb26-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 5 -->
+</section>
+<section id="example-swapping-two-variables" class="slide level2">
+<h2>Example: Swapping Two Variables</h2>
+<p>Pass by reference is essential when a function needs to modify multiple variables.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">void</span> swap<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> a<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-2"><a href=""></a>    <span class="dt">int</span> temp <span class="op">=</span> a<span class="op">;</span></span>
+<span id="cb27-3"><a href=""></a>    a <span class="op">=</span> b<span class="op">;</span></span>
+<span id="cb27-4"><a href=""></a>    b <span class="op">=</span> temp<span class="op">;</span></span>
+<span id="cb27-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb27-6"><a href=""></a></span>
+<span id="cb27-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb27-8"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb27-9"><a href=""></a>    swap<span class="op">(</span>x<span class="op">,</span> y<span class="op">);</span></span>
+<span id="cb27-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> x <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> y<span class="op">;</span>  <span class="co">// prints 20 10</span></span>
+<span id="cb27-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Consider a visual diagram showing the three steps of the swap operation with memory addresses.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 6 -->
+</section>
+<section id="when-to-use-pass-by-reference" class="slide level2">
+<h2>When to Use Pass by Reference</h2>
+<p>Use pass by reference when a function needs to modify the original variable. Common scenarios include functions that update values, swap variables, or return multiple results.</p>
+<p>Use pass by value when the function should not change the original variable.</p>
+<!-- Slide 7 -->
+</section>
+<section id="pass-by-reference-with-const" class="slide level2">
+<h2>Pass by Reference with Const</h2>
+<p>Use <code>const</code> with pass by reference when you want to avoid copying without allowing changes. This prevents accidental modifications.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="dt">void</span> display<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">&amp;</span> num<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> num<span class="op">;</span>     <span class="co">// can read the value</span></span>
+<span id="cb28-3"><a href=""></a>    <span class="co">// num = 10;     // error: can't modify</span></span>
+<span id="cb28-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>const</code> keyword protects the original variable from being changed.</p>
+<!-- Slide 8 -->
+</section>
+<section id="common-practices" class="slide level2">
+<h2>Common Practices</h2>
+<p>Always use <code>const</code> with reference parameters unless the function needs to modify the variable. This documents your intent and prevents errors.</p>
+<p>Use descriptive parameter names that indicate the parameter will be modified. Names like <code>result</code>, <code>output</code>, or <code>updated</code> signal that a parameter may change.</p>
+<!-- Slide 9 -->
+</section>
+<section id="summary-3" class="slide level2">
+<h2>Summary</h2>
+<p>Pass by reference uses the <code>&amp;</code> symbol to allow functions to modify original variables. It creates an alias to the original variable rather than a copy.</p>
+<!-- Slide 10 -->
 </section></section>
 <section>
 <section id="reference-variables-as-parameters" class="title-slide slide level1 center">
