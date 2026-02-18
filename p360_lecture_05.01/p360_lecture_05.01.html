@@ -259,96 +259,161 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section class="slide level2">
 
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="co">// This program should calculate the average of three scores and display a grade</span></span>
-<span id="cb1-2"><a href=""></a><span class="co">// There are 5 bugs hidden in this code - can you find them all?</span></span>
-<span id="cb1-3"><a href=""></a></span>
-<span id="cb1-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb1-5"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb1-6"><a href=""></a></span>
-<span id="cb1-7"><a href=""></a><span class="dt">double</span> calculateAverage<span class="op">(</span><span class="dt">int</span> score1<span class="op">,</span> <span class="dt">int</span> score2<span class="op">,</span> <span class="dt">int</span> score3<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb1-8"><a href=""></a>    <span class="dt">int</span> sum <span class="op">=</span> score1 <span class="op">+</span> score2 <span class="op">+</span> score3<span class="op">;</span></span>
-<span id="cb1-9"><a href=""></a>    <span class="cf">return</span> sum <span class="op">/</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb1-10"><a href=""></a><span class="op">}</span></span>
-<span id="cb1-11"><a href=""></a></span>
-<span id="cb1-12"><a href=""></a><span class="dt">void</span> displayGrade<span class="op">(</span><span class="dt">double</span> average<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb1-13"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>average <span class="op">&gt;=</span> <span class="dv">90</span><span class="op">)</span></span>
-<span id="cb1-14"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Grade: A"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb1-15"><a href=""></a>    <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>average <span class="op">=</span> <span class="dv">80</span><span class="op">)</span></span>
-<span id="cb1-16"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Grade: B"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb1-17"><a href=""></a>    <span class="cf">else</span></span>
-<span id="cb1-18"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Grade: C or lower"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb1-19"><a href=""></a><span class="op">}</span></span>
-<span id="cb1-20"><a href=""></a></span>
-<span id="cb1-21"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb1-22"><a href=""></a>    <span class="dt">int</span> s1 <span class="op">=</span> <span class="dv">85</span><span class="op">,</span> s2 <span class="op">=</span> <span class="dv">92</span><span class="op">,</span> s3 <span class="op">=</span> <span class="dv">88</span><span class="op">;</span></span>
-<span id="cb1-23"><a href=""></a>    <span class="dt">double</span> avg <span class="op">=</span> calculateAverage<span class="op">(</span>s1<span class="op">,</span> s2<span class="op">,</span> s3<span class="op">);</span></span>
-<span id="cb1-24"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average score: "</span> <span class="op">&lt;&lt;</span> avg <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb1-25"><a href=""></a>    displayGrade<span class="op">(</span>avg<span class="op">);</span></span>
-<span id="cb1-26"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="co">// Contact Book Program - Debug This!</span></span>
+<span id="cb1-2"><a href=""></a><span class="co">// This program collects contact information and displays it</span></span>
+<span id="cb1-3"><a href=""></a><span class="co">// There are 5 bugs hidden in this code - can you find them all?</span></span>
+<span id="cb1-4"><a href=""></a></span>
+<span id="cb1-5"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb1-6"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb1-7"><a href=""></a><span class="pp">#include </span><span class="im">&lt;limits&gt;</span></span>
+<span id="cb1-8"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb1-9"><a href=""></a></span>
+<span id="cb1-10"><a href=""></a><span class="dt">int</span> getAge<span class="op">();</span></span>
+<span id="cb1-11"><a href=""></a>string getName<span class="op">();</span></span>
+<span id="cb1-12"><a href=""></a></span>
+<span id="cb1-13"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-14"><a href=""></a>    string name<span class="op">;</span></span>
+<span id="cb1-15"><a href=""></a>    string phone<span class="op">;</span></span>
+<span id="cb1-16"><a href=""></a>    <span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb1-17"><a href=""></a>    </span>
+<span id="cb1-18"><a href=""></a>    age <span class="op">=</span> getAge<span class="op">();</span></span>
+<span id="cb1-19"><a href=""></a>    name <span class="op">=</span> getName<span class="op">();</span></span>
+<span id="cb1-20"><a href=""></a>    </span>
+<span id="cb1-21"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your phone: "</span><span class="op">;</span></span>
+<span id="cb1-22"><a href=""></a>    cin <span class="op">&gt;&gt;</span> phone<span class="op">;</span></span>
+<span id="cb1-23"><a href=""></a>    </span>
+<span id="cb1-24"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>age <span class="op">&gt;=</span> <span class="dv">18</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-25"><a href=""></a>        string status <span class="op">=</span> <span class="st">"Adult"</span><span class="op">;</span></span>
+<span id="cb1-26"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb1-27"><a href=""></a>    </span>
+<span id="cb1-28"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">=== Contact Info ==="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-29"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Name: "</span> <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-30"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Age: "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-31"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Status: "</span> <span class="op">&lt;&lt;</span> status <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-32"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Phone: "</span> <span class="op">&lt;&lt;</span> phone <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-33"><a href=""></a>    </span>
+<span id="cb1-34"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-35"><a href=""></a><span class="op">}</span></span>
+<span id="cb1-36"><a href=""></a></span>
+<span id="cb1-37"><a href=""></a><span class="dt">int</span> getAge<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-38"><a href=""></a>    <span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb1-39"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your age: "</span><span class="op">;</span></span>
+<span id="cb1-40"><a href=""></a>    cin <span class="op">&gt;&gt;</span> age<span class="op">;</span></span>
+<span id="cb1-41"><a href=""></a>    <span class="cf">return</span> age<span class="op">;</span></span>
+<span id="cb1-42"><a href=""></a><span class="op">}</span></span>
+<span id="cb1-43"><a href=""></a></span>
+<span id="cb1-44"><a href=""></a>string getName<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-45"><a href=""></a>    string name<span class="op">;</span></span>
+<span id="cb1-46"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your full name: "</span><span class="op">;</span></span>
+<span id="cb1-47"><a href=""></a>    getline<span class="op">(</span>cin<span class="op">,</span> name<span class="op">);</span></span>
+<span id="cb1-48"><a href=""></a>    <span class="cf">return</span> name<span class="op">;</span></span>
+<span id="cb1-49"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="spoilers-ahead" class="slide level2">
+<h2>Spoilers Ahead</h2>
 </section>
 <section id="errors" class="slide level2">
 <h2>Errors</h2>
 <ul>
-<li>Integer division - loses decimal precision</li>
-<li>Assignment vs.&nbsp;comparison - the classic = vs &gt;= mistake we discussed earlier!</li>
-<li>Type mismatch - using int when double is needed</li>
-<li>Missing range check - logic error in conditionals</li>
-<li>Incomplete logic - simplified grading scale</li>
+<li><strong>Missing cin.ignore()</strong> - getline reads leftover newline instead of user input</li>
+<li><strong>Wrong input method</strong> - cin &gt;&gt; truncates phone number at first space</li>
+<li><strong>Variable scope error</strong> - status declared inside if block, not accessible outside</li>
+<li><strong>Uninitialized variable</strong> - status never set if age &lt; 18</li>
+<li><strong>Variable shadowing</strong> - status declared inside if block shadows outer status (if it existed)</li>
 </ul>
 </section>
-<section id="line-9---integer-division-bug" class="slide level2">
-<h2>LINE 9 - INTEGER DIVISION BUG</h2>
-<p>Problem: return sum / 3; Issue: Integer division truncates the decimal Fix: return sum / 3.0; Or: Change sum to double type</p>
+<section id="line-48---missing-cin.ignore" class="slide level2">
+<h2>LINE 48 - MISSING cin.ignore()</h2>
+<p><strong>Problem:</strong> <code>getAge()</code> uses <code>cin &gt;&gt; age</code> which leaves <code>\n</code> in buffer. Then <code>getName()</code> calls <code>getline()</code> immediately.</p>
+<p><strong>Issue:</strong> The newline left by <code>cin &gt;&gt; age</code> is immediately read by <code>getline()</code>, making name an empty string.</p>
+<p><strong>Fix:</strong> Add <code>cin.ignore(numeric_limits&lt;streamsize&gt;::max(), '\n');</code> at the end of <code>getAge()</code> before returning.</p>
 </section>
-<section id="line-16---assignment-vs-comparison-bug" class="slide level2">
-<h2>LINE 16 - ASSIGNMENT VS COMPARISON BUG</h2>
-<p>Problem: else if (average = 80) Issue: Using = (assignment) instead of &gt;= (comparison) Fix: else if (average &gt;= 80)</p>
+<section id="line-23---wrong-input-method" class="slide level2">
+<h2>LINE 23 - WRONG INPUT METHOD</h2>
+<p><strong>Problem:</strong> <code>cin &gt;&gt; phone;</code></p>
+<p><strong>Issue:</strong> Using <code>cin &gt;&gt;</code> stops at the first space. Phone “555 123 4567” becomes “555”.</p>
+<p><strong>Fix:</strong> Change to <code>getline(cin, phone);</code></p>
 </section>
-<section id="line-9---logic-error-integer-vs-double" class="slide level2">
-<h2>LINE 9 - LOGIC ERROR (Integer vs Double)</h2>
-<p>Problem: int sum = score1 + score2 + score3; Issue: Using int when function returns double causes precision loss Fix: double sum = score1 + score2 + score3;</p>
+<section id="lines-25-27---variable-scope-error" class="slide level2">
+<h2>LINES 25-27 - VARIABLE SCOPE ERROR</h2>
+<p><strong>Problem:</strong> <code>status</code> is declared inside the if block but used outside it (line 32).</p>
+<p><strong>Issue:</strong> Variables declared inside <code>{ }</code> blocks only exist within that block. Compiler error: “status was not declared in this scope”.</p>
+<p><strong>Fix:</strong> Declare <code>string status;</code> before the if statement (line 24).</p>
 </section>
-<section id="line-16---missing-range-check" class="slide level2">
-<h2>LINE 16 - MISSING RANGE CHECK</h2>
-<p>Problem: else if (average &gt;= 80) doesn’t check upper bound Issue: Score of 95 would be both A and B Fix: else if (average &gt;= 80 &amp;&amp; average &lt; 90)</p>
+<section id="line-24---uninitialized-variable" class="slide level2">
+<h2>LINE 24 - UNINITIALIZED VARIABLE</h2>
+<p><strong>Problem:</strong> If we declare <code>status</code> before the if block, it’s still uninitialized when age &lt; 18.</p>
+<p><strong>Issue:</strong> <code>status</code> contains garbage or empty string when printed if the user is under 18.</p>
+<p><strong>Fix:</strong> Initialize when declared: <code>string status = "Minor";</code></p>
 </section>
-<section id="line-18---incomplete-grading-logic" class="slide level2">
-<h2>LINE 18 - INCOMPLETE GRADING LOGIC</h2>
-<p>Problem: Only checks for C or lower Issue: Doesn’t distinguish between D, F, etc. Optional: Could add more detailed grade ranges</p>
-</section>
-<section id="front-matter" class="slide level2">
-<h2>Front Matter</h2>
-<p>This does not use function prototypes.</p>
+<section id="line-26---variable-shadowing-bonus" class="slide level2">
+<h2>LINE 26 - VARIABLE SHADOWING (BONUS)</h2>
+<p><strong>Problem:</strong> Even after declaring status outside, <code>string status = "Adult";</code> creates a NEW variable inside the if block.</p>
+<p><strong>Issue:</strong> This shadows the outer status. The inner variable is destroyed when the block ends, leaving outer status unchanged.</p>
+<p><strong>Fix:</strong> Change to <code>status = "Adult";</code> (assignment, not declaration).</p>
 </section>
 <section id="working-code" class="slide level2">
 <h2>Working Code</h2>
 <div class="columns">
 <div class="column" style="width:75%;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb2-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb2-3"><a href=""></a></span>
-<span id="cb2-4"><a href=""></a><span class="dt">double</span> calculateAverage<span class="op">(</span><span class="dt">int</span> score1<span class="op">,</span> <span class="dt">int</span> score2<span class="op">,</span> <span class="dt">int</span> score3<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-5"><a href=""></a>    <span class="dt">double</span> sum <span class="op">=</span> score1 <span class="op">+</span> score2 <span class="op">+</span> score3<span class="op">;</span></span>
-<span id="cb2-6"><a href=""></a>    <span class="cf">return</span> sum <span class="op">/</span> <span class="fl">3.0</span><span class="op">;</span></span>
-<span id="cb2-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb2-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb2-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;limits&gt;</span></span>
+<span id="cb2-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb2-5"><a href=""></a></span>
+<span id="cb2-6"><a href=""></a><span class="dt">int</span> getAge<span class="op">();</span></span>
+<span id="cb2-7"><a href=""></a>string getName<span class="op">();</span></span>
 <span id="cb2-8"><a href=""></a></span>
-<span id="cb2-9"><a href=""></a><span class="dt">void</span> displayGrade<span class="op">(</span><span class="dt">double</span> average<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-10"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>average <span class="op">&gt;=</span> <span class="dv">90</span><span class="op">)</span></span>
-<span id="cb2-11"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Grade: A"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb2-12"><a href=""></a>    <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>average <span class="op">&gt;=</span> <span class="dv">80</span> <span class="op">&amp;&amp;</span> average <span class="op">&lt;</span> <span class="dv">90</span><span class="op">)</span></span>
-<span id="cb2-13"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Grade: B"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb2-14"><a href=""></a>    <span class="cf">else</span></span>
-<span id="cb2-15"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Grade: C or lower"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb2-16"><a href=""></a><span class="op">}</span></span>
-<span id="cb2-17"><a href=""></a></span>
-<span id="cb2-18"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb2-19"><a href=""></a>    <span class="dt">int</span> s1 <span class="op">=</span> <span class="dv">85</span><span class="op">,</span> s2 <span class="op">=</span> <span class="dv">92</span><span class="op">,</span> s3 <span class="op">=</span> <span class="dv">88</span><span class="op">;</span></span>
-<span id="cb2-20"><a href=""></a>    <span class="dt">double</span> avg <span class="op">=</span> calculateAverage<span class="op">(</span>s1<span class="op">,</span> s2<span class="op">,</span> s3<span class="op">);</span></span>
-<span id="cb2-21"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average score: "</span> <span class="op">&lt;&lt;</span> avg <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb2-22"><a href=""></a>    displayGrade<span class="op">(</span>avg<span class="op">);</span></span>
-<span id="cb2-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-9"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-10"><a href=""></a>    string name<span class="op">;</span></span>
+<span id="cb2-11"><a href=""></a>    string phone<span class="op">;</span></span>
+<span id="cb2-12"><a href=""></a>    <span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb2-13"><a href=""></a>    </span>
+<span id="cb2-14"><a href=""></a>    age <span class="op">=</span> getAge<span class="op">();</span></span>
+<span id="cb2-15"><a href=""></a>    name <span class="op">=</span> getName<span class="op">();</span></span>
+<span id="cb2-16"><a href=""></a>    </span>
+<span id="cb2-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your phone: "</span><span class="op">;</span></span>
+<span id="cb2-18"><a href=""></a>    getline<span class="op">(</span>cin<span class="op">,</span> phone<span class="op">);</span></span>
+<span id="cb2-19"><a href=""></a>    </span>
+<span id="cb2-20"><a href=""></a>    string status <span class="op">=</span> <span class="st">"Minor"</span><span class="op">;</span></span>
+<span id="cb2-21"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>age <span class="op">&gt;=</span> <span class="dv">18</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-22"><a href=""></a>        status <span class="op">=</span> <span class="st">"Adult"</span><span class="op">;</span></span>
+<span id="cb2-23"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb2-24"><a href=""></a>    </span>
+<span id="cb2-25"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">=== Contact Info ==="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-26"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Name: "</span> <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-27"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Age: "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-28"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Status: "</span> <span class="op">&lt;&lt;</span> status <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-29"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Phone: "</span> <span class="op">&lt;&lt;</span> phone <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-30"><a href=""></a>    </span>
+<span id="cb2-31"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-32"><a href=""></a><span class="op">}</span></span>
+<span id="cb2-33"><a href=""></a></span>
+<span id="cb2-34"><a href=""></a><span class="dt">int</span> getAge<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-35"><a href=""></a>    <span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb2-36"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your age: "</span><span class="op">;</span></span>
+<span id="cb2-37"><a href=""></a>    cin <span class="op">&gt;&gt;</span> age<span class="op">;</span></span>
+<span id="cb2-38"><a href=""></a>    cin<span class="op">.</span>ignore<span class="op">(</span>numeric_limits<span class="op">&lt;</span>streamsize<span class="op">&gt;::</span>max<span class="op">(),</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span></span>
+<span id="cb2-39"><a href=""></a>    <span class="cf">return</span> age<span class="op">;</span></span>
+<span id="cb2-40"><a href=""></a><span class="op">}</span></span>
+<span id="cb2-41"><a href=""></a></span>
+<span id="cb2-42"><a href=""></a>string getName<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-43"><a href=""></a>    string name<span class="op">;</span></span>
+<span id="cb2-44"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your full name: "</span><span class="op">;</span></span>
+<span id="cb2-45"><a href=""></a>    getline<span class="op">(</span>cin<span class="op">,</span> name<span class="op">);</span></span>
+<span id="cb2-46"><a href=""></a>    <span class="cf">return</span> name<span class="op">;</span></span>
+<span id="cb2-47"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:25%;">
-<p>Expected Output: Average score: 88.3333 Grade: B</p>
+<p><strong>Expected Output:</strong></p>
+<pre><code>Enter your age: 25
+Enter your full name: John Smith
+Enter your phone: 555 123 4567
+
+=== Contact Info ===
+Name: John Smith
+Age: 25
+Status: Adult
+Phone: 555 123 4567</code></pre>
 </div></div>
 </section></section>
 <section>
@@ -404,19 +469,19 @@ Dr.&nbsp;Caleb Fowler
 <section id="passing-a-vector-to-a-function" class="slide level2">
 <h2>Passing a Vector to a Function</h2>
 <p>To pass a vector to a function, declare a vector parameter in the function signature using the same syntax as declaring a vector variable.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">void</span> printVector<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;);</span></span>
-<span id="cb3-2"><a href=""></a></span>
-<span id="cb3-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb3-4"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">90</span><span class="op">};</span></span>
-<span id="cb3-5"><a href=""></a>    printVector<span class="op">(</span>scores<span class="op">);</span>  <span class="co">// Pass vector to function</span></span>
-<span id="cb3-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb3-8"><a href=""></a><span class="dt">void</span> printVector<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb3-9"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> numbers<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb3-10"><a href=""></a>        cout <span class="op">&lt;&lt;</span> numbers<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb3-11"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb3-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb3-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">void</span> printVector<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;);</span></span>
+<span id="cb4-2"><a href=""></a></span>
+<span id="cb4-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-4"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">90</span><span class="op">};</span></span>
+<span id="cb4-5"><a href=""></a>    printVector<span class="op">(</span>scores<span class="op">);</span>  <span class="co">// Pass vector to function</span></span>
+<span id="cb4-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb4-8"><a href=""></a><span class="dt">void</span> printVector<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-9"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> numbers<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb4-10"><a href=""></a>        cout <span class="op">&lt;&lt;</span> numbers<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
+<span id="cb4-11"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb4-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb4-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The function receives the vector and can access all its elements using normal vector operations.</p>
 <aside class="notes">
 <p>A diagram showing main() with the scores vector and an arrow pointing to the function with the numbers parameter would be helpful. Emphasize that the syntax is straightforward - just like any other parameter, but with the vector<type> declaration.</type></p>
@@ -436,17 +501,17 @@ Dr.&nbsp;Caleb Fowler
 <section id="how-vector-parameters-work" class="slide level2">
 <h2>How Vector Parameters Work</h2>
 <p>When you pass a vector to a function, C++ creates a copy of the entire vector for the function to use. The function works with this copy, not the original vector.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">void</span> printVector<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;);</span></span>
-<span id="cb4-2"><a href=""></a></span>
-<span id="cb4-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb4-4"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> original <span class="op">=</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">};</span></span>
-<span id="cb4-5"><a href=""></a>    printVector<span class="op">(</span>original<span class="op">);</span>  <span class="co">// A copy is made</span></span>
-<span id="cb4-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb4-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb4-8"><a href=""></a><span class="dt">void</span> printVector<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-9"><a href=""></a>    <span class="co">// numbers is a copy of the argument vector</span></span>
-<span id="cb4-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> numbers<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" elements"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb4-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">void</span> printVector<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;);</span></span>
+<span id="cb5-2"><a href=""></a></span>
+<span id="cb5-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb5-4"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> original <span class="op">=</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">};</span></span>
+<span id="cb5-5"><a href=""></a>    printVector<span class="op">(</span>original<span class="op">);</span>  <span class="co">// A copy is made</span></span>
+<span id="cb5-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb5-8"><a href=""></a><span class="dt">void</span> printVector<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-9"><a href=""></a>    <span class="co">// numbers is a copy of the argument vector</span></span>
+<span id="cb5-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> numbers<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" elements"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb5-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This copy behavior means the function has its own independent version of the vector data.</p>
 <aside class="notes">
 <p>A memory diagram would be very helpful here: show two separate memory locations, one labeled “original in main()” containing boxes [1][2][3], and one labeled “numbers (copy) in printVector()” also containing boxes [1][2][3]. Draw them side-by-side to emphasize they are separate. Use arrows to show the values are the same but the locations are different. This visual reinforces that they are truly separate entities in memory.</p>
@@ -466,24 +531,24 @@ Dr.&nbsp;Caleb Fowler
 <section id="modifying-vector-parameters" class="slide level2">
 <h2>Modifying Vector Parameters</h2>
 <p>Since the function receives a copy, modifying the vector parameter inside the function does not change the original vector.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">void</span> doubleValues<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;);</span></span>
-<span id="cb5-2"><a href=""></a></span>
-<span id="cb5-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb5-4"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> data <span class="op">=</span> <span class="op">{</span><span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">15</span><span class="op">};</span></span>
-<span id="cb5-5"><a href=""></a>    </span>
-<span id="cb5-6"><a href=""></a>    doubleValues<span class="op">(</span>data<span class="op">);</span>  <span class="co">// Passes a copy of data</span></span>
-<span id="cb5-7"><a href=""></a>    </span>
-<span id="cb5-8"><a href=""></a>    <span class="co">// data is still {5, 10, 15} - unchanged!</span></span>
-<span id="cb5-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> data<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Prints 5, not 10</span></span>
-<span id="cb5-10"><a href=""></a>    </span>
-<span id="cb5-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb5-12"><a href=""></a><span class="op">}</span></span>
-<span id="cb5-13"><a href=""></a><span class="dt">void</span> doubleValues<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-14"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> numbers<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb5-15"><a href=""></a>        numbers<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> numbers<span class="op">[</span>i<span class="op">]</span> <span class="op">*</span> <span class="dv">2</span><span class="op">;</span>  <span class="co">// Modifies the copy</span></span>
-<span id="cb5-16"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb5-17"><a href=""></a>    <span class="co">// When function ends, the copy is destroyed</span></span>
-<span id="cb5-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="dt">void</span> doubleValues<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;);</span></span>
+<span id="cb6-2"><a href=""></a></span>
+<span id="cb6-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-4"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> data <span class="op">=</span> <span class="op">{</span><span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">15</span><span class="op">};</span></span>
+<span id="cb6-5"><a href=""></a>    </span>
+<span id="cb6-6"><a href=""></a>    doubleValues<span class="op">(</span>data<span class="op">);</span>  <span class="co">// Passes a copy of data</span></span>
+<span id="cb6-7"><a href=""></a>    </span>
+<span id="cb6-8"><a href=""></a>    <span class="co">// data is still {5, 10, 15} - unchanged!</span></span>
+<span id="cb6-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> data<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Prints 5, not 10</span></span>
+<span id="cb6-10"><a href=""></a>    </span>
+<span id="cb6-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-12"><a href=""></a><span class="op">}</span></span>
+<span id="cb6-13"><a href=""></a><span class="dt">void</span> doubleValues<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-14"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> numbers<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb6-15"><a href=""></a>        numbers<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> numbers<span class="op">[</span>i<span class="op">]</span> <span class="op">*</span> <span class="dv">2</span><span class="op">;</span>  <span class="co">// Modifies the copy</span></span>
+<span id="cb6-16"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb6-17"><a href=""></a>    <span class="co">// When function ends, the copy is destroyed</span></span>
+<span id="cb6-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
 <p>This is a critical concept that often confuses beginners. Walk through the execution step by step: (1) data in main has {5, 10, 15}, (2) doubleValues receives a copy with {5, 10, 15}, (3) function modifies its copy to {10, 20, 30}, (4) function ends and the copy is destroyed, (5) data in main is still {5, 10, 15}. Draw a timeline or sequence diagram showing these steps. Emphasize this is different from what students might expect if they’re thinking of the parameter as a “pointer” or “reference” to the original. Later when they learn about pass-by-reference (&amp;), they’ll see how to modify the original.</p>
 <style type="text/css">
@@ -502,20 +567,20 @@ Dr.&nbsp;Caleb Fowler
 <section id="returning-a-vector-from-a-function" class="slide level2">
 <h2>Returning a Vector from a Function</h2>
 <p>Functions can return vectors just like they return other data types. Declare the return type as <code>vector&lt;type&gt;</code> and use the return statement with a vector.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> createSequence<span class="op">(</span><span class="dt">int</span><span class="op">);</span></span>
-<span id="cb6-2"><a href=""></a></span>
-<span id="cb6-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb6-4"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> sequence <span class="op">=</span> createSequence<span class="op">(</span><span class="dv">5</span><span class="op">);</span></span>
-<span id="cb6-5"><a href=""></a>    <span class="co">// sequence now contains {1, 2, 3, 4, 5}</span></span>
-<span id="cb6-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb6-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb6-8"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> createSequence<span class="op">(</span><span class="dt">int</span> count<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb6-9"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> result<span class="op">;</span></span>
-<span id="cb6-10"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> count<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb6-11"><a href=""></a>        result<span class="op">.</span>push_back<span class="op">(</span>i<span class="op">);</span></span>
-<span id="cb6-12"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb6-13"><a href=""></a>    <span class="cf">return</span> result<span class="op">;</span>  <span class="co">// Return the vector</span></span>
-<span id="cb6-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> createSequence<span class="op">(</span><span class="dt">int</span><span class="op">);</span></span>
+<span id="cb7-2"><a href=""></a></span>
+<span id="cb7-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-4"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> sequence <span class="op">=</span> createSequence<span class="op">(</span><span class="dv">5</span><span class="op">);</span></span>
+<span id="cb7-5"><a href=""></a>    <span class="co">// sequence now contains {1, 2, 3, 4, 5}</span></span>
+<span id="cb7-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb7-8"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> createSequence<span class="op">(</span><span class="dt">int</span> count<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-9"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> result<span class="op">;</span></span>
+<span id="cb7-10"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> count<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb7-11"><a href=""></a>        result<span class="op">.</span>push_back<span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb7-12"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb7-13"><a href=""></a>    <span class="cf">return</span> result<span class="op">;</span>  <span class="co">// Return the vector</span></span>
+<span id="cb7-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
 <p>Emphasize that the return type must match: if you’re returning a vector of integers, the function signature must say vector<int>. The return statement sends the vector back to the caller. Point out that in main(), we receive the returned vector and store it in the sequence variable.</int></p>
 <style type="text/css">
@@ -533,29 +598,29 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="complete-example-vector-processing" class="slide level2">
 <h2>Complete Example: Vector Processing</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> getEvenNumbers<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="op">);</span></span>
-<span id="cb7-2"><a href=""></a></span>
-<span id="cb7-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb7-4"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> data <span class="op">=</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">6</span><span class="op">};</span></span>
-<span id="cb7-5"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> evenOnly <span class="op">=</span> getEvenNumbers<span class="op">(</span>data<span class="op">);</span></span>
-<span id="cb7-6"><a href=""></a>    </span>
-<span id="cb7-7"><a href=""></a>    <span class="co">// Use the result</span></span>
-<span id="cb7-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Found "</span> <span class="op">&lt;&lt;</span> evenOnly<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" even numbers"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb7-9"><a href=""></a>    <span class="co">// evenOnly contains {2, 4, 6}</span></span>
-<span id="cb7-10"><a href=""></a>    </span>
-<span id="cb7-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb7-12"><a href=""></a><span class="op">}</span></span>
-<span id="cb7-13"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> getEvenNumbers<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-14"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> evens<span class="op">;</span></span>
-<span id="cb7-15"><a href=""></a>    </span>
-<span id="cb7-16"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> numbers<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb7-17"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>numbers<span class="op">[</span>i<span class="op">]</span> <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-18"><a href=""></a>            evens<span class="op">.</span>push_back<span class="op">(</span>numbers<span class="op">[</span>i<span class="op">]);</span></span>
-<span id="cb7-19"><a href=""></a>        <span class="op">}</span></span>
-<span id="cb7-20"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb7-21"><a href=""></a>    </span>
-<span id="cb7-22"><a href=""></a>    <span class="cf">return</span> evens<span class="op">;</span></span>
-<span id="cb7-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> getEvenNumbers<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="op">);</span></span>
+<span id="cb8-2"><a href=""></a></span>
+<span id="cb8-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-4"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> data <span class="op">=</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">6</span><span class="op">};</span></span>
+<span id="cb8-5"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> evenOnly <span class="op">=</span> getEvenNumbers<span class="op">(</span>data<span class="op">);</span></span>
+<span id="cb8-6"><a href=""></a>    </span>
+<span id="cb8-7"><a href=""></a>    <span class="co">// Use the result</span></span>
+<span id="cb8-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Found "</span> <span class="op">&lt;&lt;</span> evenOnly<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" even numbers"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb8-9"><a href=""></a>    <span class="co">// evenOnly contains {2, 4, 6}</span></span>
+<span id="cb8-10"><a href=""></a>    </span>
+<span id="cb8-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-12"><a href=""></a><span class="op">}</span></span>
+<span id="cb8-13"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> getEvenNumbers<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-14"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> evens<span class="op">;</span></span>
+<span id="cb8-15"><a href=""></a>    </span>
+<span id="cb8-16"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> numbers<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb8-17"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>numbers<span class="op">[</span>i<span class="op">]</span> <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-18"><a href=""></a>            evens<span class="op">.</span>push_back<span class="op">(</span>numbers<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb8-19"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb8-20"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb8-21"><a href=""></a>    </span>
+<span id="cb8-22"><a href=""></a>    <span class="cf">return</span> evens<span class="op">;</span></span>
+<span id="cb8-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
 <p>This example ties together both concepts: passing a vector (data) and receiving a returned vector (evenOnly). Walk through the logic: the function examines each element of its copy of numbers, builds a new vector with just the even values, and returns that new vector. In main, we capture the returned vector and can use it for further processing. This pattern (input → process → output) is fundamental.</p>
 <style type="text/css">
@@ -574,19 +639,19 @@ Dr.&nbsp;Caleb Fowler
 <section id="multiple-vector-parameters" class="slide level2">
 <h2>Multiple Vector Parameters</h2>
 <p>Functions can accept multiple vector parameters, allowing operations that involve multiple data sets.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> concatenateVectors<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> first<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> second<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb8-2"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> combined<span class="op">;</span></span>
-<span id="cb8-3"><a href=""></a>    </span>
-<span id="cb8-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> first<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb8-5"><a href=""></a>        combined<span class="op">.</span>push_back<span class="op">(</span>first<span class="op">[</span>i<span class="op">]);</span></span>
-<span id="cb8-6"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb8-7"><a href=""></a>    </span>
-<span id="cb8-8"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> second<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb8-9"><a href=""></a>        combined<span class="op">.</span>push_back<span class="op">(</span>second<span class="op">[</span>i<span class="op">]);</span></span>
-<span id="cb8-10"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb8-11"><a href=""></a>    </span>
-<span id="cb8-12"><a href=""></a>    <span class="cf">return</span> combined<span class="op">;</span></span>
-<span id="cb8-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> concatenateVectors<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> first<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> second<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> combined<span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a>    </span>
+<span id="cb9-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> first<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb9-5"><a href=""></a>        combined<span class="op">.</span>push_back<span class="op">(</span>first<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb9-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb9-7"><a href=""></a>    </span>
+<span id="cb9-8"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> second<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb9-9"><a href=""></a>        combined<span class="op">.</span>push_back<span class="op">(</span>second<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb9-10"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb9-11"><a href=""></a>    </span>
+<span id="cb9-12"><a href=""></a>    <span class="cf">return</span> combined<span class="op">;</span></span>
+<span id="cb9-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each vector parameter is an independent copy that the function can read from.</p>
 <aside class="notes">
 <p>Emphasize that both first and second are copies of the arguments passed in. The function creates a third vector (combined) to hold the result. Point out that this pattern is common when you need to combine, compare, or process multiple collections. Each parameter follows the same copy rules - the originals remain unchanged.</p>
@@ -605,25 +670,25 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="practical-application" class="slide level2">
 <h2>Practical Application</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> calculateGrades<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="op">);</span></span>
-<span id="cb9-2"><a href=""></a></span>
-<span id="cb9-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb9-4"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> testScores <span class="op">=</span> <span class="op">{</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
-<span id="cb9-5"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> scaledGrades <span class="op">=</span> calculateGrades<span class="op">(</span>testScores<span class="op">);</span></span>
-<span id="cb9-6"><a href=""></a>    <span class="co">// Use scaledGrades for GPA calculation, analytics, etc.</span></span>
-<span id="cb9-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb9-8"><a href=""></a><span class="op">}</span></span>
-<span id="cb9-9"><a href=""></a><span class="co">// Convert percentage scores to 0.0-1.0 scale for statistical analysis</span></span>
-<span id="cb9-10"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> calculateGrades<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-11"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> grades<span class="op">;</span></span>
-<span id="cb9-12"><a href=""></a>    </span>
-<span id="cb9-13"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> scores<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb9-14"><a href=""></a>        <span class="dt">double</span> grade <span class="op">=</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">/</span> <span class="fl">100.0</span><span class="op">;</span>  <span class="co">// Convert to 0.0-1.0 scale</span></span>
-<span id="cb9-15"><a href=""></a>        grades<span class="op">.</span>push_back<span class="op">(</span>grade<span class="op">);</span></span>
-<span id="cb9-16"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb9-17"><a href=""></a>    </span>
-<span id="cb9-18"><a href=""></a>    <span class="cf">return</span> grades<span class="op">;</span></span>
-<span id="cb9-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> calculateGrades<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="op">);</span></span>
+<span id="cb10-2"><a href=""></a></span>
+<span id="cb10-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb10-4"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> testScores <span class="op">=</span> <span class="op">{</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
+<span id="cb10-5"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> scaledGrades <span class="op">=</span> calculateGrades<span class="op">(</span>testScores<span class="op">);</span></span>
+<span id="cb10-6"><a href=""></a>    <span class="co">// Use scaledGrades for GPA calculation, analytics, etc.</span></span>
+<span id="cb10-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-8"><a href=""></a><span class="op">}</span></span>
+<span id="cb10-9"><a href=""></a><span class="co">// Convert percentage scores to 0.0-1.0 scale for statistical analysis</span></span>
+<span id="cb10-10"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> calculateGrades<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-11"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> grades<span class="op">;</span></span>
+<span id="cb10-12"><a href=""></a>    </span>
+<span id="cb10-13"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> scores<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb10-14"><a href=""></a>        <span class="dt">double</span> grade <span class="op">=</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">/</span> <span class="fl">100.0</span><span class="op">;</span>  <span class="co">// Convert to 0.0-1.0 scale</span></span>
+<span id="cb10-15"><a href=""></a>        grades<span class="op">.</span>push_back<span class="op">(</span>grade<span class="op">);</span></span>
+<span id="cb10-16"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb10-17"><a href=""></a>    </span>
+<span id="cb10-18"><a href=""></a>    <span class="cf">return</span> grades<span class="op">;</span></span>
+<span id="cb10-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This pattern of taking input data, processing it, and returning results is fundamental to program design.</p>
 <aside class="notes">
 <p>Point out that this demonstrates a common real-world pattern: transformation functions that convert data from one form to another. The 0.0-1.0 scale is useful for statistical calculations, weighted averages, and standardized scoring systems. The function is self-contained and reusable - you could call calculateGrades with different test score vectors throughout your program. This separation of concerns (data collection vs.&nbsp;processing vs.&nbsp;analysis) is good design.</p>
@@ -673,96 +738,96 @@ Dr.&nbsp;Caleb Fowler
 <section id="common-mistakes" class="slide level2">
 <h2>Common Mistakes</h2>
 <p><strong>Expecting parameter modifications to persist:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">void</span> doubleVector<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> v<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb10-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> v<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb10-3"><a href=""></a>        v<span class="op">[</span>i<span class="op">]</span> <span class="op">*=</span> <span class="dv">2</span><span class="op">;</span>  <span class="co">// Modifies copy only</span></span>
-<span id="cb10-4"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb10-5"><a href=""></a><span class="op">}</span></span>
-<span id="cb10-6"><a href=""></a><span class="co">// Original vector is unchanged after calling this function</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">void</span> doubleVector<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> v<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> v<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb11-3"><a href=""></a>        v<span class="op">[</span>i<span class="op">]</span> <span class="op">*=</span> <span class="dv">2</span><span class="op">;</span>  <span class="co">// Modifies copy only</span></span>
+<span id="cb11-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb11-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb11-6"><a href=""></a><span class="co">// Original vector is unchanged after calling this function</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="common-mistakes-1" class="slide level2">
 <h2>Common Mistakes</h2>
 <p><strong>Forgetting to return the vector:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> processData<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> input<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb11-2"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> result<span class="op">;</span></span>
-<span id="cb11-3"><a href=""></a>    <span class="co">// ... processing code ...</span></span>
-<span id="cb11-4"><a href=""></a>    <span class="co">// WRONG: forgot return statement</span></span>
-<span id="cb11-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> processData<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> input<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-2"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> result<span class="op">;</span></span>
+<span id="cb12-3"><a href=""></a>    <span class="co">// ... processing code ...</span></span>
+<span id="cb12-4"><a href=""></a>    <span class="co">// WRONG: forgot return statement</span></span>
+<span id="cb12-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="common-mistakes-2" class="slide level2">
 <h2>Common Mistakes</h2>
 <p><strong>Mismatched vector types:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> getData<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb12-2"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> data <span class="op">=</span> <span class="op">{</span><span class="fl">1.5</span><span class="op">,</span> <span class="fl">2.5</span><span class="op">};</span></span>
-<span id="cb12-3"><a href=""></a>    <span class="cf">return</span> data<span class="op">;</span>  <span class="co">// ERROR: returns vector&lt;double&gt;, not vector&lt;int&gt;</span></span>
-<span id="cb12-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> getData<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> data <span class="op">=</span> <span class="op">{</span><span class="fl">1.5</span><span class="op">,</span> <span class="fl">2.5</span><span class="op">};</span></span>
+<span id="cb13-3"><a href=""></a>    <span class="cf">return</span> data<span class="op">;</span>  <span class="co">// ERROR: returns vector&lt;double&gt;, not vector&lt;int&gt;</span></span>
+<span id="cb13-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="common-mistakes-3" class="slide level2">
 <h2>Common Mistakes</h2>
 <p><strong>Not using the returned vector:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a>getFilteredData<span class="op">(</span>myVector<span class="op">);</span>  <span class="co">// WRONG: return value is discarded</span></span>
-<span id="cb13-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> filtered <span class="op">=</span> getFilteredData<span class="op">(</span>myVector<span class="op">);</span>  <span class="co">// CORRECT</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a>getFilteredData<span class="op">(</span>myVector<span class="op">);</span>  <span class="co">// WRONG: return value is discarded</span></span>
+<span id="cb14-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> filtered <span class="op">=</span> getFilteredData<span class="op">(</span>myVector<span class="op">);</span>  <span class="co">// CORRECT</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <!-- Slide 13 -->
 </section>
 <section id="more-examples" class="slide level2">
 <h2>More Examples</h2>
 <p><strong>Example 1: Finding maximum value</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span> findMax<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb14-2"><a href=""></a>    <span class="co">// Assumes vector is not empty</span></span>
-<span id="cb14-3"><a href=""></a>    <span class="dt">int</span> max <span class="op">=</span> numbers<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
-<span id="cb14-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> numbers<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb14-5"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>numbers<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> max<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb14-6"><a href=""></a>            max <span class="op">=</span> numbers<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb14-7"><a href=""></a>        <span class="op">}</span></span>
-<span id="cb14-8"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb14-9"><a href=""></a>    <span class="cf">return</span> max<span class="op">;</span></span>
-<span id="cb14-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">int</span> findMax<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href=""></a>    <span class="co">// Assumes vector is not empty</span></span>
+<span id="cb15-3"><a href=""></a>    <span class="dt">int</span> max <span class="op">=</span> numbers<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb15-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> numbers<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb15-5"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>numbers<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> max<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-6"><a href=""></a>            max <span class="op">=</span> numbers<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb15-7"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb15-8"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb15-9"><a href=""></a>    <span class="cf">return</span> max<span class="op">;</span></span>
+<span id="cb15-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="more-examples-1" class="slide level2">
 <h2>More Examples</h2>
 <p><strong>Example 2: Reversing a vector</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> reverseVector<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> original<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb15-2"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> reversed<span class="op">;</span></span>
-<span id="cb15-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> original<span class="op">.</span>size<span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> i<span class="op">--)</span> <span class="op">{</span></span>
-<span id="cb15-4"><a href=""></a>        reversed<span class="op">.</span>push_back<span class="op">(</span>original<span class="op">[</span>i<span class="op">]);</span></span>
-<span id="cb15-5"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb15-6"><a href=""></a>    <span class="cf">return</span> reversed<span class="op">;</span></span>
-<span id="cb15-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> reverseVector<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> original<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> reversed<span class="op">;</span></span>
+<span id="cb16-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> original<span class="op">.</span>size<span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> i<span class="op">--)</span> <span class="op">{</span></span>
+<span id="cb16-4"><a href=""></a>        reversed<span class="op">.</span>push_back<span class="op">(</span>original<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb16-5"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb16-6"><a href=""></a>    <span class="cf">return</span> reversed<span class="op">;</span></span>
+<span id="cb16-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="more-examples-2" class="slide level2">
 <h2>More Examples</h2>
 <p><strong>Example 3: Calculating sum</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span> calculateSum<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb16-2"><a href=""></a>    <span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb16-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> numbers<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb16-4"><a href=""></a>        sum <span class="op">+=</span> numbers<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb16-5"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb16-6"><a href=""></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
-<span id="cb16-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">int</span> calculateSum<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href=""></a>    <span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb17-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> numbers<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb17-4"><a href=""></a>        sum <span class="op">+=</span> numbers<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb17-5"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb17-6"><a href=""></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb17-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="more-examples-3" class="slide level2">
 <h2>More Examples</h2>
 <p><strong>Example 4: Filtering by threshold</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> getAboveThreshold<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> values<span class="op">,</span> <span class="dt">int</span> threshold<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb17-2"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> result<span class="op">;</span></span>
-<span id="cb17-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> values<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb17-4"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>values<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> threshold<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb17-5"><a href=""></a>            result<span class="op">.</span>push_back<span class="op">(</span>values<span class="op">[</span>i<span class="op">]);</span></span>
-<span id="cb17-6"><a href=""></a>        <span class="op">}</span></span>
-<span id="cb17-7"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb17-8"><a href=""></a>    <span class="cf">return</span> result<span class="op">;</span></span>
-<span id="cb17-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> getAboveThreshold<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> values<span class="op">,</span> <span class="dt">int</span> threshold<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> result<span class="op">;</span></span>
+<span id="cb18-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> values<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb18-4"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>values<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> threshold<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-5"><a href=""></a>            result<span class="op">.</span>push_back<span class="op">(</span>values<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb18-6"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb18-7"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb18-8"><a href=""></a>    <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb18-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="more-examples-4" class="slide level2">
 <h2>More Examples</h2>
 <p><strong>Example 5: Creating a filled vector</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> createFilledVector<span class="op">(</span><span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> value<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-2"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> filled<span class="op">;</span></span>
-<span id="cb18-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb18-4"><a href=""></a>        filled<span class="op">.</span>push_back<span class="op">(</span>value<span class="op">);</span></span>
-<span id="cb18-5"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb18-6"><a href=""></a>    <span class="cf">return</span> filled<span class="op">;</span></span>
-<span id="cb18-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> createFilledVector<span class="op">(</span><span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-2"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> filled<span class="op">;</span></span>
+<span id="cb19-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb19-4"><a href=""></a>        filled<span class="op">.</span>push_back<span class="op">(</span>value<span class="op">);</span></span>
+<span id="cb19-5"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb19-6"><a href=""></a>    <span class="cf">return</span> filled<span class="op">;</span></span>
+<span id="cb19-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <!-- Slide 14 -->
 </section>
 <section id="practice-problems" class="slide level2">
@@ -866,35 +931,6 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="whats-the-output-1" class="slide level2">
 <h2>What’s the Output?</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="co">//WhatsTheOutput_Functions.cpp</span></span>
-<span id="cb19-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb19-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb19-4"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
-<span id="cb19-5"><a href=""></a><span class="dt">int</span> multiply<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
-<span id="cb19-6"><a href=""></a><span class="dt">int</span> subtract<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
-<span id="cb19-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb19-8"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb19-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> add<span class="op">(</span>x<span class="op">,</span> y<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> multiply<span class="op">(</span>x<span class="op">,</span> y<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> subtract<span class="op">(</span>x<span class="op">,</span> y<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> add<span class="op">(</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> add<span class="op">(</span>x<span class="op">,</span> y<span class="op">)</span> <span class="op">+</span> <span class="dv">10</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb19-15"><a href=""></a><span class="op">}</span></span>
-<span id="cb19-16"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb19-17"><a href=""></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
-<span id="cb19-18"><a href=""></a><span class="op">}</span></span>
-<span id="cb19-19"><a href=""></a><span class="dt">int</span> multiply<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb19-20"><a href=""></a>    <span class="cf">return</span> a <span class="op">*</span> b<span class="op">;</span></span>
-<span id="cb19-21"><a href=""></a><span class="op">}</span></span>
-<span id="cb19-22"><a href=""></a><span class="dt">int</span> subtract<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb19-23"><a href=""></a>    <span class="cf">return</span> a <span class="op">-</span> b<span class="op">;</span></span>
-<span id="cb19-24"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<div class="columns">
-<div class="column" style="width:75%;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="co">//WhatsTheOutput_Functions.cpp</span></span>
 <span id="cb20-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb20-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
@@ -919,13 +955,42 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb20-22"><a href=""></a><span class="dt">int</span> subtract<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb20-23"><a href=""></a>    <span class="cf">return</span> a <span class="op">-</span> b<span class="op">;</span></span>
 <span id="cb20-24"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:75%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="co">//WhatsTheOutput_Functions.cpp</span></span>
+<span id="cb21-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb21-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb21-4"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
+<span id="cb21-5"><a href=""></a><span class="dt">int</span> multiply<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
+<span id="cb21-6"><a href=""></a><span class="dt">int</span> subtract<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
+<span id="cb21-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb21-8"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb21-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> add<span class="op">(</span>x<span class="op">,</span> y<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> multiply<span class="op">(</span>x<span class="op">,</span> y<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> subtract<span class="op">(</span>x<span class="op">,</span> y<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> add<span class="op">(</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> add<span class="op">(</span>x<span class="op">,</span> y<span class="op">)</span> <span class="op">+</span> <span class="dv">10</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-15"><a href=""></a><span class="op">}</span></span>
+<span id="cb21-16"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-17"><a href=""></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb21-18"><a href=""></a><span class="op">}</span></span>
+<span id="cb21-19"><a href=""></a><span class="dt">int</span> multiply<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-20"><a href=""></a>    <span class="cf">return</span> a <span class="op">*</span> b<span class="op">;</span></span>
+<span id="cb21-21"><a href=""></a><span class="op">}</span></span>
+<span id="cb21-22"><a href=""></a><span class="dt">int</span> subtract<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-23"><a href=""></a>    <span class="cf">return</span> a <span class="op">-</span> b<span class="op">;</span></span>
+<span id="cb21-24"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:25%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a>Output</span>
-<span id="cb21-2"><a href=""></a><span class="co">// 8</span></span>
-<span id="cb21-3"><a href=""></a><span class="co">// 15</span></span>
-<span id="cb21-4"><a href=""></a><span class="co">// 2</span></span>
-<span id="cb21-5"><a href=""></a><span class="co">// 30</span></span>
-<span id="cb21-6"><a href=""></a><span class="co">// 18</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a>Output</span>
+<span id="cb22-2"><a href=""></a><span class="co">// 8</span></span>
+<span id="cb22-3"><a href=""></a><span class="co">// 15</span></span>
+<span id="cb22-4"><a href=""></a><span class="co">// 2</span></span>
+<span id="cb22-5"><a href=""></a><span class="co">// 30</span></span>
+<span id="cb22-6"><a href=""></a><span class="co">// 18</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 </section></section>
 <section>
@@ -965,14 +1030,14 @@ Dr.&nbsp;Caleb Fowler
 <section id="block-scope" class="slide level2">
 <h2>Block Scope</h2>
 <p>The technical term for what we were referring to is known as <strong>block scope</strong>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="dt">void</span> demo<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb22-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span>          <span class="co">// Function scope</span></span>
-<span id="cb22-3"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb22-4"><a href=""></a>        <span class="dt">int</span> y <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>     <span class="co">// Block scope (if block)</span></span>
-<span id="cb22-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> y<span class="op">;</span>      <span class="co">// Valid</span></span>
-<span id="cb22-6"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb22-7"><a href=""></a>    <span class="co">// cout &lt;&lt; y;       // ERROR: y doesn't exist here</span></span>
-<span id="cb22-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">void</span> demo<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb23-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span>          <span class="co">// Function scope</span></span>
+<span id="cb23-3"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-4"><a href=""></a>        <span class="dt">int</span> y <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>     <span class="co">// Block scope (if block)</span></span>
+<span id="cb23-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> y<span class="op">;</span>      <span class="co">// Valid</span></span>
+<span id="cb23-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb23-7"><a href=""></a>    <span class="co">// cout &lt;&lt; y;       // ERROR: y doesn't exist here</span></span>
+<span id="cb23-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
 <p><strong>Speaker Notes:</strong> Show nested boxes representing the function scope containing the if-block scope, illustrating how inner scopes are contained within outer scopes. Block scope is even more restrictive than function scope.</p>
 <style type="text/css">
@@ -989,18 +1054,18 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="block-scope-examples" class="slide level2">
 <h2>Block Scope Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb23-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb23-3"><a href=""></a>        <span class="dt">int</span> temp <span class="op">=</span> i <span class="op">*</span> <span class="dv">2</span><span class="op">;</span>       <span class="co">// temp exists only in loop</span></span>
-<span id="cb23-4"><a href=""></a>        cout <span class="op">&lt;&lt;</span> temp <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb23-5"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb23-6"><a href=""></a>    <span class="co">// cout &lt;&lt; i;               // ERROR: i doesn't exist here</span></span>
-<span id="cb23-7"><a href=""></a>    <span class="co">// cout &lt;&lt; temp;            // ERROR: temp doesn't exist here</span></span>
-<span id="cb23-8"><a href=""></a>    </span>
-<span id="cb23-9"><a href=""></a>    <span class="dt">int</span> i <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>                <span class="co">// Valid: loop's i no longer exists</span></span>
-<span id="cb23-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> i<span class="op">;</span>                  <span class="co">// Prints 100</span></span>
-<span id="cb23-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb23-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb24-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb24-3"><a href=""></a>        <span class="dt">int</span> temp <span class="op">=</span> i <span class="op">*</span> <span class="dv">2</span><span class="op">;</span>       <span class="co">// temp exists only in loop</span></span>
+<span id="cb24-4"><a href=""></a>        cout <span class="op">&lt;&lt;</span> temp <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
+<span id="cb24-5"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb24-6"><a href=""></a>    <span class="co">// cout &lt;&lt; i;               // ERROR: i doesn't exist here</span></span>
+<span id="cb24-7"><a href=""></a>    <span class="co">// cout &lt;&lt; temp;            // ERROR: temp doesn't exist here</span></span>
+<span id="cb24-8"><a href=""></a>    </span>
+<span id="cb24-9"><a href=""></a>    <span class="dt">int</span> i <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>                <span class="co">// Valid: loop's i no longer exists</span></span>
+<span id="cb24-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> i<span class="op">;</span>                  <span class="co">// Prints 100</span></span>
+<span id="cb24-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb24-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Loop variables like <code>i</code> and variables declared within the loop have block scope limited to that loop.</p>
 </section>
 <section id="functions-add-another-dimension-to-scope" class="slide level2">
@@ -1013,12 +1078,12 @@ Dr.&nbsp;Caleb Fowler
 <section id="local-variables" class="slide level2">
 <h2>Local Variables</h2>
 <p>Local variables are declared inside a function or block of code. They can only be accessed within the function or block where they are declared. Once the function or block ends, the local variable ceases to exist.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="co">// Assumes: #include &lt;iostream&gt; and using namespace std;</span></span>
-<span id="cb24-2"><a href=""></a><span class="dt">void</span> example<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb24-3"><a href=""></a>    <span class="dt">int</span> localVar <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>  <span class="co">// Local to example()</span></span>
-<span id="cb24-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> localVar<span class="op">;</span>   <span class="co">// Valid: inside the function</span></span>
-<span id="cb24-5"><a href=""></a><span class="op">}</span></span>
-<span id="cb24-6"><a href=""></a><span class="co">// localVar does not exist here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="co">// Assumes: #include &lt;iostream&gt; and using namespace std;</span></span>
+<span id="cb25-2"><a href=""></a><span class="dt">void</span> example<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb25-3"><a href=""></a>    <span class="dt">int</span> localVar <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>  <span class="co">// Local to example()</span></span>
+<span id="cb25-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> localVar<span class="op">;</span>   <span class="co">// Valid: inside the function</span></span>
+<span id="cb25-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb25-6"><a href=""></a><span class="co">// localVar does not exist here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The scope of <code>localVar</code> is limited to the <code>example()</code> function.</p>
 </section>
 <section id="local-variable-characteristics" class="slide level2">
@@ -1042,18 +1107,18 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="local-variable-examples" class="slide level2">
 <h2>Local Variable Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
-<span id="cb25-2"><a href=""></a></span>
-<span id="cb25-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb25-4"><a href=""></a>    <span class="dt">int</span> result <span class="op">=</span> add<span class="op">(</span><span class="dv">5</span><span class="op">,</span> <span class="dv">3</span><span class="op">);</span></span>
-<span id="cb25-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> result<span class="op">;</span>     <span class="co">// Prints 8</span></span>
-<span id="cb25-6"><a href=""></a>    <span class="co">// cout &lt;&lt; sum;     // ERROR: sum doesn't exist here</span></span>
-<span id="cb25-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb25-8"><a href=""></a><span class="op">}</span></span>
-<span id="cb25-9"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb25-10"><a href=""></a>    <span class="dt">int</span> sum <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span>    <span class="co">// sum is local to add()</span></span>
-<span id="cb25-11"><a href=""></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
-<span id="cb25-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
+<span id="cb26-2"><a href=""></a></span>
+<span id="cb26-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb26-4"><a href=""></a>    <span class="dt">int</span> result <span class="op">=</span> add<span class="op">(</span><span class="dv">5</span><span class="op">,</span> <span class="dv">3</span><span class="op">);</span></span>
+<span id="cb26-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> result<span class="op">;</span>     <span class="co">// Prints 8</span></span>
+<span id="cb26-6"><a href=""></a>    <span class="co">// cout &lt;&lt; sum;     // ERROR: sum doesn't exist here</span></span>
+<span id="cb26-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb26-8"><a href=""></a><span class="op">}</span></span>
+<span id="cb26-9"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-10"><a href=""></a>    <span class="dt">int</span> sum <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span>    <span class="co">// sum is local to add()</span></span>
+<span id="cb26-11"><a href=""></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb26-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each function has its own local variables. The <code>sum</code> variable exists only inside <code>add()</code> and cannot be accessed from <code>main()</code>.</p>
 </section>
 <section id="global-variables" class="slide level2">
@@ -1062,25 +1127,25 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section class="slide level2">
 
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb26-2"><a href=""></a></span>
-<span id="cb26-3"><a href=""></a><span class="dt">int</span> globalVar <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>    <span class="co">// Global variable</span></span>
-<span id="cb26-4"><a href=""></a></span>
-<span id="cb26-5"><a href=""></a><span class="dt">void</span> function1<span class="op">();</span></span>
-<span id="cb26-6"><a href=""></a><span class="dt">void</span> function2<span class="op">();</span></span>
-<span id="cb26-7"><a href=""></a></span>
-<span id="cb26-8"><a href=""></a></span>
-<span id="cb26-9"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb26-10"><a href=""></a>    <span class="co">// main stuff, has access to global var</span></span>
-<span id="cb26-11"><a href=""></a><span class="op">}</span></span>
-<span id="cb26-12"><a href=""></a></span>
-<span id="cb26-13"><a href=""></a><span class="dt">void</span> function1<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb26-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> globalVar<span class="op">;</span>  <span class="co">// Can access globalVar</span></span>
-<span id="cb26-15"><a href=""></a><span class="op">}</span></span>
-<span id="cb26-16"><a href=""></a></span>
-<span id="cb26-17"><a href=""></a><span class="dt">void</span> function2<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb26-18"><a href=""></a>    globalVar <span class="op">=</span> <span class="dv">200</span><span class="op">;</span>    <span class="co">// Can modify globalVar</span></span>
-<span id="cb26-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb27-2"><a href=""></a></span>
+<span id="cb27-3"><a href=""></a><span class="dt">int</span> globalVar <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>    <span class="co">// Global variable</span></span>
+<span id="cb27-4"><a href=""></a></span>
+<span id="cb27-5"><a href=""></a><span class="dt">void</span> function1<span class="op">();</span></span>
+<span id="cb27-6"><a href=""></a><span class="dt">void</span> function2<span class="op">();</span></span>
+<span id="cb27-7"><a href=""></a></span>
+<span id="cb27-8"><a href=""></a></span>
+<span id="cb27-9"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb27-10"><a href=""></a>    <span class="co">// main stuff, has access to global var</span></span>
+<span id="cb27-11"><a href=""></a><span class="op">}</span></span>
+<span id="cb27-12"><a href=""></a></span>
+<span id="cb27-13"><a href=""></a><span class="dt">void</span> function1<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb27-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> globalVar<span class="op">;</span>  <span class="co">// Can access globalVar</span></span>
+<span id="cb27-15"><a href=""></a><span class="op">}</span></span>
+<span id="cb27-16"><a href=""></a></span>
+<span id="cb27-17"><a href=""></a><span class="dt">void</span> function2<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb27-18"><a href=""></a>    globalVar <span class="op">=</span> <span class="dv">200</span><span class="op">;</span>    <span class="co">// Can modify globalVar</span></span>
+<span id="cb27-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>All functions in the program can see and use <code>globalVar</code>.</p>
 </section>
 <section id="global-variable-characteristics" class="slide level2">
@@ -1104,25 +1169,25 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="global-variable-examples" class="slide level2">
 <h2>Global Variable Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb27-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb27-3"><a href=""></a></span>
-<span id="cb27-4"><a href=""></a><span class="dt">int</span> counter <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>        <span class="co">// Global variable</span></span>
-<span id="cb27-5"><a href=""></a></span>
-<span id="cb27-6"><a href=""></a><span class="dt">void</span> increment<span class="op">();</span></span>
-<span id="cb27-7"><a href=""></a></span>
-<span id="cb27-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb27-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> counter<span class="op">;</span>    <span class="co">// Prints 0</span></span>
-<span id="cb27-10"><a href=""></a>    increment<span class="op">();</span></span>
-<span id="cb27-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> counter<span class="op">;</span>    <span class="co">// Prints 1</span></span>
-<span id="cb27-12"><a href=""></a>    increment<span class="op">();</span></span>
-<span id="cb27-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> counter<span class="op">;</span>    <span class="co">// Prints 2</span></span>
-<span id="cb27-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb27-15"><a href=""></a><span class="op">}</span></span>
-<span id="cb27-16"><a href=""></a></span>
-<span id="cb27-17"><a href=""></a><span class="dt">void</span> increment<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb27-18"><a href=""></a>    counter<span class="op">++;</span>          <span class="co">// Modifies the global counter</span></span>
-<span id="cb27-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb28-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb28-3"><a href=""></a></span>
+<span id="cb28-4"><a href=""></a><span class="dt">int</span> counter <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>        <span class="co">// Global variable</span></span>
+<span id="cb28-5"><a href=""></a></span>
+<span id="cb28-6"><a href=""></a><span class="dt">void</span> increment<span class="op">();</span></span>
+<span id="cb28-7"><a href=""></a></span>
+<span id="cb28-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb28-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> counter<span class="op">;</span>    <span class="co">// Prints 0</span></span>
+<span id="cb28-10"><a href=""></a>    increment<span class="op">();</span></span>
+<span id="cb28-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> counter<span class="op">;</span>    <span class="co">// Prints 1</span></span>
+<span id="cb28-12"><a href=""></a>    increment<span class="op">();</span></span>
+<span id="cb28-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> counter<span class="op">;</span>    <span class="co">// Prints 2</span></span>
+<span id="cb28-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb28-15"><a href=""></a><span class="op">}</span></span>
+<span id="cb28-16"><a href=""></a></span>
+<span id="cb28-17"><a href=""></a><span class="dt">void</span> increment<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb28-18"><a href=""></a>    counter<span class="op">++;</span>          <span class="co">// Modifies the global counter</span></span>
+<span id="cb28-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <code>counter</code> variable persists across multiple function calls and can be modified by any function.</p>
 </section>
 <section id="comparing-local-and-global-variables" class="slide level2">
@@ -1173,36 +1238,36 @@ Dr.&nbsp;Caleb Fowler
 <section id="variable-shadowing" class="slide level2">
 <h2>Variable Shadowing</h2>
 <p>Remember, Shadowing occurs when a local variable has the same name as a global variable. The local variable “shadows” or hides the global variable within its scope. In the local scope, the local variable is accessed, not the global one.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="dt">int</span> value <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>        <span class="co">// Global variable</span></span>
-<span id="cb28-2"><a href=""></a></span>
-<span id="cb28-3"><a href=""></a><span class="dt">void</span> test<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb28-4"><a href=""></a>    <span class="dt">int</span> value <span class="op">=</span> <span class="dv">50</span><span class="op">;</span>     <span class="co">// Local variable shadows global</span></span>
-<span id="cb28-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> value<span class="op">;</span>      <span class="co">// Prints 50, not 100</span></span>
-<span id="cb28-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="dt">int</span> value <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>        <span class="co">// Global variable</span></span>
+<span id="cb29-2"><a href=""></a></span>
+<span id="cb29-3"><a href=""></a><span class="dt">void</span> test<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb29-4"><a href=""></a>    <span class="dt">int</span> value <span class="op">=</span> <span class="dv">50</span><span class="op">;</span>     <span class="co">// Local variable shadows global</span></span>
+<span id="cb29-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> value<span class="op">;</span>      <span class="co">// Prints 50, not 100</span></span>
+<span id="cb29-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The local <code>value</code> hides the global <code>value</code> inside the <code>test()</code> function.</p>
 </section>
 <section id="shadowing-with-a-function" class="slide level2">
 <h2>Shadowing with a Function</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
-<span id="cb29-2"><a href=""></a></span>
-<span id="cb29-3"><a href=""></a><span class="dt">void</span> PrintStuff<span class="op">(</span><span class="dt">int</span><span class="op">);</span></span>
-<span id="cb29-4"><a href=""></a></span>
-<span id="cb29-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb29-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score<span class="op">;</span>      <span class="co">// 20</span></span>
-<span id="cb29-7"><a href=""></a></span>
-<span id="cb29-8"><a href=""></a>    <span class="dt">int</span> score <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
-<span id="cb29-9"><a href=""></a>    PrintStuff<span class="op">(</span>score<span class="op">);</span></span>
-<span id="cb29-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score<span class="op">;</span>      <span class="co">// 30</span></span>
-<span id="cb29-11"><a href=""></a></span>
-<span id="cb29-12"><a href=""></a>    <span class="op">{</span></span>
-<span id="cb29-13"><a href=""></a>        <span class="dt">int</span> score <span class="op">=</span> <span class="dv">50</span><span class="op">;</span></span>
-<span id="cb29-14"><a href=""></a>        cout <span class="op">&lt;&lt;</span> score<span class="op">;</span>  <span class="co">// 50</span></span>
-<span id="cb29-15"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb29-16"><a href=""></a><span class="op">}</span></span>
-<span id="cb29-17"><a href=""></a><span class="dt">void</span> PrintStuff<span class="op">(</span><span class="dt">int</span> score<span class="op">)</span> <span class="op">{</span> <span class="co">//help keep track </span></span>
-<span id="cb29-18"><a href=""></a>    score <span class="op">=</span> <span class="dv">40</span><span class="op">;</span></span>
-<span id="cb29-19"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score<span class="op">;</span>          <span class="co">// 40</span></span>
-<span id="cb29-20"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb30-2"><a href=""></a></span>
+<span id="cb30-3"><a href=""></a><span class="dt">void</span> PrintStuff<span class="op">(</span><span class="dt">int</span><span class="op">);</span></span>
+<span id="cb30-4"><a href=""></a></span>
+<span id="cb30-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb30-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score<span class="op">;</span>      <span class="co">// 20</span></span>
+<span id="cb30-7"><a href=""></a></span>
+<span id="cb30-8"><a href=""></a>    <span class="dt">int</span> score <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
+<span id="cb30-9"><a href=""></a>    PrintStuff<span class="op">(</span>score<span class="op">);</span></span>
+<span id="cb30-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score<span class="op">;</span>      <span class="co">// 30</span></span>
+<span id="cb30-11"><a href=""></a></span>
+<span id="cb30-12"><a href=""></a>    <span class="op">{</span></span>
+<span id="cb30-13"><a href=""></a>        <span class="dt">int</span> score <span class="op">=</span> <span class="dv">50</span><span class="op">;</span></span>
+<span id="cb30-14"><a href=""></a>        cout <span class="op">&lt;&lt;</span> score<span class="op">;</span>  <span class="co">// 50</span></span>
+<span id="cb30-15"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb30-16"><a href=""></a><span class="op">}</span></span>
+<span id="cb30-17"><a href=""></a><span class="dt">void</span> PrintStuff<span class="op">(</span><span class="dt">int</span> score<span class="op">)</span> <span class="op">{</span> <span class="co">//help keep track </span></span>
+<span id="cb30-18"><a href=""></a>    score <span class="op">=</span> <span class="dv">40</span><span class="op">;</span></span>
+<span id="cb30-19"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score<span class="op">;</span>          <span class="co">// 40</span></span>
+<span id="cb30-20"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each scope level can have its own variable with the same name. The most local version is always accessed.</p>
 <aside class="notes">
 <p><strong>Speaker Notes:</strong> Create a diagram showing three nested rectangles representing global scope, function scope, and block scope, each containing a variable named ‘x’ with different values.</p>
@@ -1227,25 +1292,25 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="practical-application-1" class="slide level2">
 <h2>Practical Application</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb30-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb30-3"><a href=""></a></span>
-<span id="cb30-4"><a href=""></a><span class="dt">int</span> totalScore <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>     <span class="co">// Global: tracks cumulative score</span></span>
-<span id="cb30-5"><a href=""></a></span>
-<span id="cb30-6"><a href=""></a><span class="dt">void</span> addPoints<span class="op">(</span><span class="dt">int</span> points<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb30-7"><a href=""></a>    <span class="dt">int</span> bonus <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>     <span class="co">// Local: temporary calculation</span></span>
-<span id="cb30-8"><a href=""></a>    <span class="dt">int</span> earned <span class="op">=</span> points <span class="op">+</span> bonus<span class="op">;</span></span>
-<span id="cb30-9"><a href=""></a>    totalScore <span class="op">+=</span> earned<span class="op">;</span></span>
-<span id="cb30-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Earned: "</span> <span class="op">&lt;&lt;</span> earned <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb30-11"><a href=""></a><span class="op">}</span></span>
-<span id="cb30-12"><a href=""></a></span>
-<span id="cb30-13"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb30-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Total: "</span> <span class="op">&lt;&lt;</span> totalScore <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Prints 0</span></span>
-<span id="cb30-15"><a href=""></a>    addPoints<span class="op">(</span><span class="dv">50</span><span class="op">);</span>                             <span class="co">// Earned: 60</span></span>
-<span id="cb30-16"><a href=""></a>    addPoints<span class="op">(</span><span class="dv">30</span><span class="op">);</span>                             <span class="co">// Earned: 40</span></span>
-<span id="cb30-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Total: "</span> <span class="op">&lt;&lt;</span> totalScore <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Prints 100</span></span>
-<span id="cb30-18"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb30-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb31-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb31-3"><a href=""></a></span>
+<span id="cb31-4"><a href=""></a><span class="dt">int</span> totalScore <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>     <span class="co">// Global: tracks cumulative score</span></span>
+<span id="cb31-5"><a href=""></a></span>
+<span id="cb31-6"><a href=""></a><span class="dt">void</span> addPoints<span class="op">(</span><span class="dt">int</span> points<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-7"><a href=""></a>    <span class="dt">int</span> bonus <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>     <span class="co">// Local: temporary calculation</span></span>
+<span id="cb31-8"><a href=""></a>    <span class="dt">int</span> earned <span class="op">=</span> points <span class="op">+</span> bonus<span class="op">;</span></span>
+<span id="cb31-9"><a href=""></a>    totalScore <span class="op">+=</span> earned<span class="op">;</span></span>
+<span id="cb31-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Earned: "</span> <span class="op">&lt;&lt;</span> earned <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb31-11"><a href=""></a><span class="op">}</span></span>
+<span id="cb31-12"><a href=""></a></span>
+<span id="cb31-13"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb31-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Total: "</span> <span class="op">&lt;&lt;</span> totalScore <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Prints 0</span></span>
+<span id="cb31-15"><a href=""></a>    addPoints<span class="op">(</span><span class="dv">50</span><span class="op">);</span>                             <span class="co">// Earned: 60</span></span>
+<span id="cb31-16"><a href=""></a>    addPoints<span class="op">(</span><span class="dv">30</span><span class="op">);</span>                             <span class="co">// Earned: 40</span></span>
+<span id="cb31-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Total: "</span> <span class="op">&lt;&lt;</span> totalScore <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// Prints 100</span></span>
+<span id="cb31-18"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb31-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This example shows appropriate use of both global and local variables. The global <code>totalScore</code> persists across function calls, while local variables handle temporary computations.</p>
 <aside class="notes">
 <p><strong>Speaker Notes:</strong> Walk through the execution step-by-step: (1) totalScore starts at 0 in data segment, (2) first addPoints call creates bonus=10 and earned=60 on stack, adds 60 to totalScore, then destroys local variables, (3) second addPoints call creates new bonus=10 and earned=40 on stack, adds 40 to totalScore making it 100, then destroys local variables, (4) totalScore persists throughout in data segment while local variables come and go on the stack.</p>
@@ -1294,34 +1359,6 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="whats-the-output-3" class="slide level2">
 <h2>What’s the Output?</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb31-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb31-3"><a href=""></a><span class="dt">int</span> multiply<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
-<span id="cb31-4"><a href=""></a><span class="dt">int</span> subtract<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
-<span id="cb31-5"><a href=""></a><span class="dt">int</span> compute<span class="op">(</span><span class="dt">int</span><span class="op">);</span></span>
-<span id="cb31-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb31-7"><a href=""></a>    <span class="dt">int</span> a <span class="op">=</span> <span class="dv">4</span><span class="op">,</span> b <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb31-8"><a href=""></a>    <span class="dt">int</span> result1 <span class="op">=</span> multiply<span class="op">(</span>a<span class="op">,</span> b<span class="op">)</span> <span class="op">+</span> subtract<span class="op">(</span>b<span class="op">,</span> a<span class="op">);</span></span>
-<span id="cb31-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> result1 <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb31-10"><a href=""></a>    <span class="dt">int</span> result2 <span class="op">=</span> compute<span class="op">(</span>multiply<span class="op">(</span><span class="dv">3</span><span class="op">,</span> <span class="dv">2</span><span class="op">));</span></span>
-<span id="cb31-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> result2 <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb31-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> multiply<span class="op">(</span>result1<span class="op">,</span> <span class="dv">2</span><span class="op">)</span> <span class="op">-</span> compute<span class="op">(</span><span class="dv">5</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb31-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb31-14"><a href=""></a><span class="op">}</span></span>
-<span id="cb31-15"><a href=""></a><span class="dt">int</span> multiply<span class="op">(</span><span class="dt">int</span> x<span class="op">,</span> <span class="dt">int</span> y<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb31-16"><a href=""></a>    <span class="cf">return</span> x <span class="op">*</span> y<span class="op">;</span></span>
-<span id="cb31-17"><a href=""></a><span class="op">}</span></span>
-<span id="cb31-18"><a href=""></a><span class="dt">int</span> subtract<span class="op">(</span><span class="dt">int</span> x<span class="op">,</span> <span class="dt">int</span> y<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb31-19"><a href=""></a>    <span class="cf">return</span> x <span class="op">-</span> y<span class="op">;</span></span>
-<span id="cb31-20"><a href=""></a><span class="op">}</span></span>
-<span id="cb31-21"><a href=""></a><span class="dt">int</span> compute<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb31-22"><a href=""></a>    <span class="cf">return</span> n <span class="op">+</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb31-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
-
-<div class="columns">
-<div class="column" style="width:75%;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb32-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
 <span id="cb32-3"><a href=""></a><span class="dt">int</span> multiply<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
@@ -1345,11 +1382,39 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb32-21"><a href=""></a><span class="dt">int</span> compute<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb32-22"><a href=""></a>    <span class="cf">return</span> n <span class="op">+</span> <span class="dv">10</span><span class="op">;</span></span>
 <span id="cb32-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:75%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb33-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb33-3"><a href=""></a><span class="dt">int</span> multiply<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
+<span id="cb33-4"><a href=""></a><span class="dt">int</span> subtract<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
+<span id="cb33-5"><a href=""></a><span class="dt">int</span> compute<span class="op">(</span><span class="dt">int</span><span class="op">);</span></span>
+<span id="cb33-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb33-7"><a href=""></a>    <span class="dt">int</span> a <span class="op">=</span> <span class="dv">4</span><span class="op">,</span> b <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb33-8"><a href=""></a>    <span class="dt">int</span> result1 <span class="op">=</span> multiply<span class="op">(</span>a<span class="op">,</span> b<span class="op">)</span> <span class="op">+</span> subtract<span class="op">(</span>b<span class="op">,</span> a<span class="op">);</span></span>
+<span id="cb33-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> result1 <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb33-10"><a href=""></a>    <span class="dt">int</span> result2 <span class="op">=</span> compute<span class="op">(</span>multiply<span class="op">(</span><span class="dv">3</span><span class="op">,</span> <span class="dv">2</span><span class="op">));</span></span>
+<span id="cb33-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> result2 <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb33-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> multiply<span class="op">(</span>result1<span class="op">,</span> <span class="dv">2</span><span class="op">)</span> <span class="op">-</span> compute<span class="op">(</span><span class="dv">5</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb33-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb33-14"><a href=""></a><span class="op">}</span></span>
+<span id="cb33-15"><a href=""></a><span class="dt">int</span> multiply<span class="op">(</span><span class="dt">int</span> x<span class="op">,</span> <span class="dt">int</span> y<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb33-16"><a href=""></a>    <span class="cf">return</span> x <span class="op">*</span> y<span class="op">;</span></span>
+<span id="cb33-17"><a href=""></a><span class="op">}</span></span>
+<span id="cb33-18"><a href=""></a><span class="dt">int</span> subtract<span class="op">(</span><span class="dt">int</span> x<span class="op">,</span> <span class="dt">int</span> y<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb33-19"><a href=""></a>    <span class="cf">return</span> x <span class="op">-</span> y<span class="op">;</span></span>
+<span id="cb33-20"><a href=""></a><span class="op">}</span></span>
+<span id="cb33-21"><a href=""></a><span class="dt">int</span> compute<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb33-22"><a href=""></a>    <span class="cf">return</span> n <span class="op">+</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb33-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:25%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a>Output</span>
-<span id="cb33-2"><a href=""></a><span class="co">//  21</span></span>
-<span id="cb33-3"><a href=""></a><span class="co">//  16</span></span>
-<span id="cb33-4"><a href=""></a><span class="co">//  27</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a>Output</span>
+<span id="cb34-2"><a href=""></a><span class="co">//  21</span></span>
+<span id="cb34-3"><a href=""></a><span class="co">//  16</span></span>
+<span id="cb34-4"><a href=""></a><span class="co">//  27</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 </section></section>
 <section>
@@ -1430,10 +1495,10 @@ Dr.&nbsp;Caleb Fowler
 <section id="local-variables-and-the-stack" class="slide level2">
 <h2>Local Variables and the Stack</h2>
 <p>Local variables are variables declared inside a function. These variables are stored in that function’s stack frame. They are created when the function executes and destroyed when the function ends.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a><span class="dt">void</span> example<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb34-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>      <span class="co">// x is created here</span></span>
-<span id="cb34-3"><a href=""></a>    <span class="dt">int</span> y <span class="op">=</span> <span class="dv">20</span><span class="op">;</span>      <span class="co">// y is created here</span></span>
-<span id="cb34-4"><a href=""></a><span class="op">}</span>                    <span class="co">// x and y are destroyed here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="dt">void</span> example<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb35-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>      <span class="co">// x is created here</span></span>
+<span id="cb35-3"><a href=""></a>    <span class="dt">int</span> y <span class="op">=</span> <span class="dv">20</span><span class="op">;</span>      <span class="co">// y is created here</span></span>
+<span id="cb35-4"><a href=""></a><span class="op">}</span>                    <span class="co">// x and y are destroyed here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>C++ handles this creation and destruction automatically for you. You don’t need to manually manage this memory, making your programs simpler and less error-prone.</p>
 <aside class="notes">
 <p><strong>Speaker Notes:</strong> Show a timeline diagram illustrating variables being created at declaration and destroyed at the closing brace of the function.</p>
@@ -1452,10 +1517,10 @@ Dr.&nbsp;Caleb Fowler
 <section id="stack-frame-anatomy" class="slide level2">
 <h2>Stack Frame Anatomy</h2>
 <p>When a function is called, its stack frame contains several pieces of information. The frame stores the function’s parameters, its local variables, and information needed to return to the caller. All of this data is organized in a structured section of memory.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb35-2"><a href=""></a>    <span class="dt">int</span> sum <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span></span>
-<span id="cb35-3"><a href=""></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
-<span id="cb35-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb36-2"><a href=""></a>    <span class="dt">int</span> sum <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb36-3"><a href=""></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb36-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The stack frame for <code>add</code> contains the parameters <code>a</code> and <code>b</code>, plus the local variable <code>sum</code>.</p>
 <aside class="notes">
 <p><strong>Speaker Notes:</strong> Draw a rectangular box labeled “add() stack frame” containing three slots labeled “a”, “b”, and “sum” with example values like a=3, b=4, sum=7.</p>
@@ -1473,17 +1538,17 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="function-call-example" class="slide level2">
 <h2>Function Call Example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb36-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb36-3"><a href=""></a>    <span class="dt">int</span> y <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb36-4"><a href=""></a>    <span class="dt">int</span> result <span class="op">=</span> add<span class="op">(</span>x<span class="op">,</span> y<span class="op">);</span></span>
-<span id="cb36-5"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb36-6"><a href=""></a><span class="op">}</span></span>
-<span id="cb36-7"><a href=""></a></span>
-<span id="cb36-8"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb36-9"><a href=""></a>    <span class="dt">int</span> sum <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span></span>
-<span id="cb36-10"><a href=""></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
-<span id="cb36-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb37-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb37-3"><a href=""></a>    <span class="dt">int</span> y <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb37-4"><a href=""></a>    <span class="dt">int</span> result <span class="op">=</span> add<span class="op">(</span>x<span class="op">,</span> y<span class="op">);</span></span>
+<span id="cb37-5"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb37-6"><a href=""></a><span class="op">}</span></span>
+<span id="cb37-7"><a href=""></a></span>
+<span id="cb37-8"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb37-9"><a href=""></a>    <span class="dt">int</span> sum <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb37-10"><a href=""></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb37-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>When <code>main</code> calls <code>add</code>, a new stack frame is created for <code>add</code> on top of <code>main</code>’s frame. The values of <code>x</code> and <code>y</code> are copied into <code>a</code> and <code>b</code>. After <code>add</code> completes, its frame is removed.</p>
 <aside class="notes">
 <p><strong>Speaker Notes:</strong> Show an animated sequence: (1) main’s frame with x and y, (2) add’s frame appearing on top, (3) add’s frame disappearing, leaving only main’s frame.</p>
@@ -1502,15 +1567,15 @@ Dr.&nbsp;Caleb Fowler
 <section id="pass-by-value" class="slide level2">
 <h2>Pass by Value</h2>
 <p>When you pass arguments to a function in C++, the default behavior is “pass by value.” This means the function receives a copy of the data. Changes to parameters inside the function do not affect the original variables.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a><span class="dt">void</span> increment<span class="op">(</span><span class="dt">int</span> num<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb37-2"><a href=""></a>    num <span class="op">=</span> num <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>       <span class="co">// Changes only the copy</span></span>
-<span id="cb37-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb37-4"><a href=""></a></span>
-<span id="cb37-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb37-6"><a href=""></a>    <span class="dt">int</span> value <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb37-7"><a href=""></a>    increment<span class="op">(</span>value<span class="op">);</span></span>
-<span id="cb37-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> value<span class="op">;</span>       <span class="co">// Prints 10 - unchanged!</span></span>
-<span id="cb37-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a><span class="dt">void</span> increment<span class="op">(</span><span class="dt">int</span> num<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb38-2"><a href=""></a>    num <span class="op">=</span> num <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>       <span class="co">// Changes only the copy</span></span>
+<span id="cb38-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb38-4"><a href=""></a></span>
+<span id="cb38-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb38-6"><a href=""></a>    <span class="dt">int</span> value <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb38-7"><a href=""></a>    increment<span class="op">(</span>value<span class="op">);</span></span>
+<span id="cb38-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> value<span class="op">;</span>       <span class="co">// Prints 10 - unchanged!</span></span>
+<span id="cb38-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This copying happens when the stack frame is created. The original <code>value</code> in <code>main</code> and the parameter <code>num</code> in <code>increment</code> are separate memory locations, which is why modifying <code>num</code> doesn’t change <code>value</code>.</p>
 <aside class="notes">
 <p><strong>Speaker Notes:</strong> Show two separate memory boxes labeled “main: value” and “increment: num” to illustrate they are different locations, even though num receives a copy of value’s data.</p>
@@ -1529,14 +1594,14 @@ Dr.&nbsp;Caleb Fowler
 <section id="variable-scope-vs.-lifetime" class="slide level2">
 <h2>Variable Scope vs.&nbsp;Lifetime</h2>
 <p>Scope determines where in your code a variable can be accessed. Lifetime determines how long the variable exists in memory. For local variables, both scope and lifetime are limited to the function.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a><span class="dt">void</span> funcA<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb38-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span>       <span class="co">// x only accessible in funcA</span></span>
-<span id="cb38-3"><a href=""></a><span class="op">}</span>                    <span class="co">// x destroyed here</span></span>
-<span id="cb38-4"><a href=""></a></span>
-<span id="cb38-5"><a href=""></a><span class="dt">void</span> funcB<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb38-6"><a href=""></a>    <span class="dt">int</span> y <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb38-7"><a href=""></a>    <span class="co">// cout &lt;&lt; x;   // ERROR: Cannot access x from funcA</span></span>
-<span id="cb38-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a><span class="dt">void</span> funcA<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb39-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span>       <span class="co">// x only accessible in funcA</span></span>
+<span id="cb39-3"><a href=""></a><span class="op">}</span>                    <span class="co">// x destroyed here</span></span>
+<span id="cb39-4"><a href=""></a></span>
+<span id="cb39-5"><a href=""></a><span class="dt">void</span> funcB<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb39-6"><a href=""></a>    <span class="dt">int</span> y <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb39-7"><a href=""></a>    <span class="co">// cout &lt;&lt; x;   // ERROR: Cannot access x from funcA</span></span>
+<span id="cb39-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each function has its own stack frame with its own local variables. Variables in one function are completely separate from variables in another, even if they have the same name.</p>
 <aside class="notes">
 <p><strong>Speaker Notes:</strong> Create a diagram showing two separate stack frames side by side, each containing their own local variables, with an X mark showing that variables cannot cross between frames.</p>
@@ -1555,36 +1620,36 @@ Dr.&nbsp;Caleb Fowler
 <section id="stack-memory-limitations" class="slide level2">
 <h2>Stack Memory Limitations</h2>
 <p>The stack has a fixed size limit set by the operating system, typically a few megabytes. If your program uses too much stack space, you’ll get a “stack overflow” error. This commonly happens with very large local variables.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a><span class="dt">void</span> problematic<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb39-2"><a href=""></a>    <span class="dt">int</span> huge<span class="op">[</span><span class="dv">1000000</span><span class="op">];</span>  <span class="co">// Very large array</span></span>
-<span id="cb39-3"><a href=""></a>    <span class="co">// May exceed stack space limits</span></span>
-<span id="cb39-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a><span class="dt">void</span> problematic<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb40-2"><a href=""></a>    <span class="dt">int</span> huge<span class="op">[</span><span class="dv">1000000</span><span class="op">];</span>  <span class="co">// Very large array</span></span>
+<span id="cb40-3"><a href=""></a>    <span class="co">// May exceed stack space limits</span></span>
+<span id="cb40-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each local variable takes up stack space. Very large arrays or deeply nested function calls can exhaust the available stack memory. Keep your local variables reasonably sized to avoid this problem.</p>
 </section>
 <section id="function-parameters-on-the-stack" class="slide level2">
 <h2>Function Parameters on the Stack</h2>
 <p>Function parameters are part of the function’s stack frame. When you call a function with arguments, those values are copied onto the stack as parameters. The function then works with these copies.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a><span class="dt">int</span> multiply<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb40-2"><a href=""></a>    <span class="cf">return</span> a <span class="op">*</span> b<span class="op">;</span></span>
-<span id="cb40-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb40-4"><a href=""></a></span>
-<span id="cb40-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb40-6"><a href=""></a>    <span class="dt">int</span> result <span class="op">=</span> multiply<span class="op">(</span><span class="dv">4</span><span class="op">,</span> <span class="dv">7</span><span class="op">);</span></span>
-<span id="cb40-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a><span class="dt">int</span> multiply<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb41-2"><a href=""></a>    <span class="cf">return</span> a <span class="op">*</span> b<span class="op">;</span></span>
+<span id="cb41-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb41-4"><a href=""></a></span>
+<span id="cb41-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb41-6"><a href=""></a>    <span class="dt">int</span> result <span class="op">=</span> multiply<span class="op">(</span><span class="dv">4</span><span class="op">,</span> <span class="dv">7</span><span class="op">);</span></span>
+<span id="cb41-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The values 4 and 7 are copied into <code>a</code> and <code>b</code> in <code>multiply</code>’s stack frame. This happens automatically when the function is called.</p>
 </section>
 <section id="multiple-function-calls" class="slide level2">
 <h2>Multiple Function Calls</h2>
 <p>Each function call creates its own independent stack frame. Multiple calls to the same function create separate frames with separate copies of the local variables. This isolation is a key feature of the stack.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a><span class="dt">int</span> calculate<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb41-2"><a href=""></a>    <span class="dt">int</span> temp <span class="op">=</span> n <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb41-3"><a href=""></a>    <span class="cf">return</span> temp<span class="op">;</span></span>
-<span id="cb41-4"><a href=""></a><span class="op">}</span></span>
-<span id="cb41-5"><a href=""></a></span>
-<span id="cb41-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb41-7"><a href=""></a>    <span class="dt">int</span> a <span class="op">=</span> calculate<span class="op">(</span><span class="dv">5</span><span class="op">);</span>    <span class="co">// One frame created and destroyed</span></span>
-<span id="cb41-8"><a href=""></a>    <span class="dt">int</span> b <span class="op">=</span> calculate<span class="op">(</span><span class="dv">10</span><span class="op">);</span>   <span class="co">// Different frame created and destroyed</span></span>
-<span id="cb41-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a><span class="dt">int</span> calculate<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb42-2"><a href=""></a>    <span class="dt">int</span> temp <span class="op">=</span> n <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb42-3"><a href=""></a>    <span class="cf">return</span> temp<span class="op">;</span></span>
+<span id="cb42-4"><a href=""></a><span class="op">}</span></span>
+<span id="cb42-5"><a href=""></a></span>
+<span id="cb42-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb42-7"><a href=""></a>    <span class="dt">int</span> a <span class="op">=</span> calculate<span class="op">(</span><span class="dv">5</span><span class="op">);</span>    <span class="co">// One frame created and destroyed</span></span>
+<span id="cb42-8"><a href=""></a>    <span class="dt">int</span> b <span class="op">=</span> calculate<span class="op">(</span><span class="dv">10</span><span class="op">);</span>   <span class="co">// Different frame created and destroyed</span></span>
+<span id="cb42-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <code>temp</code> variable in the first call is completely independent from the <code>temp</code> in the second call. Even though they have the same name, they are two separate variables in two different memory locations that don’t interact with each other.</p>
 <aside class="notes">
 <p><strong>Speaker Notes:</strong> Show two separate stack frames appearing one after another, each labeled “calculate()” with different values for temp.</p>
@@ -1603,18 +1668,18 @@ Dr.&nbsp;Caleb Fowler
 <section id="nested-function-calls" class="slide level2">
 <h2>Nested Function Calls</h2>
 <p>When one function calls another, their stack frames stack on top of each other. The most recently called function is at the top of the stack. When that function returns, its frame is removed and control returns to the function below it.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb42-2"><a href=""></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
-<span id="cb42-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb42-4"><a href=""></a></span>
-<span id="cb42-5"><a href=""></a><span class="dt">int</span> compute<span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb42-6"><a href=""></a>    <span class="dt">int</span> result <span class="op">=</span> add<span class="op">(</span>x<span class="op">,</span> <span class="dv">10</span><span class="op">);</span></span>
-<span id="cb42-7"><a href=""></a>    <span class="cf">return</span> result<span class="op">;</span></span>
-<span id="cb42-8"><a href=""></a><span class="op">}</span></span>
-<span id="cb42-9"><a href=""></a></span>
-<span id="cb42-10"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb42-11"><a href=""></a>    <span class="dt">int</span> value <span class="op">=</span> compute<span class="op">(</span><span class="dv">5</span><span class="op">);</span></span>
-<span id="cb42-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb43-1"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb43-2"><a href=""></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb43-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb43-4"><a href=""></a></span>
+<span id="cb43-5"><a href=""></a><span class="dt">int</span> compute<span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb43-6"><a href=""></a>    <span class="dt">int</span> result <span class="op">=</span> add<span class="op">(</span>x<span class="op">,</span> <span class="dv">10</span><span class="op">);</span></span>
+<span id="cb43-7"><a href=""></a>    <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb43-8"><a href=""></a><span class="op">}</span></span>
+<span id="cb43-9"><a href=""></a></span>
+<span id="cb43-10"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb43-11"><a href=""></a>    <span class="dt">int</span> value <span class="op">=</span> compute<span class="op">(</span><span class="dv">5</span><span class="op">);</span></span>
+<span id="cb43-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Stack frames appear in order: main, then compute, then add. They are removed in reverse order: add, then compute, then main.</p>
 <aside class="notes">
 <p><strong>Speaker Notes:</strong> Animate three stack frames building up and then collapsing in reverse order, showing the call stack growing and shrinking.</p>
@@ -1757,19 +1822,19 @@ Encoded Message: Khoor Zruog
 </section>
 <section id="starter-code-structure" class="slide level2">
 <h2>Starter Code Structure</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb44-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb44-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb44-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb44-4"><a href=""></a></span>
-<span id="cb44-5"><a href=""></a><span class="co">// Write your function prototypes here</span></span>
-<span id="cb44-6"><a href=""></a></span>
-<span id="cb44-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb44-8"><a href=""></a>    <span class="co">// Your code here</span></span>
-<span id="cb44-9"><a href=""></a>    </span>
-<span id="cb44-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb44-11"><a href=""></a><span class="op">}</span></span>
-<span id="cb44-12"><a href=""></a></span>
-<span id="cb44-13"><a href=""></a><span class="co">// Write your function definitions here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb45-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb45-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb45-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb45-4"><a href=""></a></span>
+<span id="cb45-5"><a href=""></a><span class="co">// Write your function prototypes here</span></span>
+<span id="cb45-6"><a href=""></a></span>
+<span id="cb45-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb45-8"><a href=""></a>    <span class="co">// Your code here</span></span>
+<span id="cb45-9"><a href=""></a>    </span>
+<span id="cb45-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb45-11"><a href=""></a><span class="op">}</span></span>
+<span id="cb45-12"><a href=""></a></span>
+<span id="cb45-13"><a href=""></a><span class="co">// Write your function definitions here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="tips" class="slide level2">
 <h2>Tips</h2>
@@ -1795,16 +1860,16 @@ Encoded Message: Khoor Zruog
 <section id="example-of-character-shifting-logic" class="slide level2">
 <h2>Example of Character Shifting Logic</h2>
 <p>Here’s how to shift the letter ‘C’ by 3:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb45-1"><a href=""></a><span class="dt">char</span> letter <span class="op">=</span> <span class="ch">'C'</span><span class="op">;</span></span>
-<span id="cb45-2"><a href=""></a><span class="dt">int</span> shift <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb45-3"><a href=""></a><span class="co">// Step 1: Get position (0-25)</span></span>
-<span id="cb45-4"><a href=""></a><span class="dt">int</span> position <span class="op">=</span> letter <span class="op">-</span> <span class="ch">'A'</span><span class="op">;</span>  <span class="co">// 'C' - 'A' = 2</span></span>
-<span id="cb45-5"><a href=""></a><span class="co">// Step 2: Add shift</span></span>
-<span id="cb45-6"><a href=""></a><span class="dt">int</span> newPosition <span class="op">=</span> position <span class="op">+</span> shift<span class="op">;</span>  <span class="co">// 2 + 3 = 5</span></span>
-<span id="cb45-7"><a href=""></a><span class="co">// Step 3: Wrap around using modulo</span></span>
-<span id="cb45-8"><a href=""></a>newPosition <span class="op">=</span> newPosition <span class="op">%</span> <span class="dv">26</span><span class="op">;</span>  <span class="co">// 5 % 26 = 5</span></span>
-<span id="cb45-9"><a href=""></a><span class="co">// Step 4: Convert back to character</span></span>
-<span id="cb45-10"><a href=""></a><span class="dt">char</span> newLetter <span class="op">=</span> newPosition <span class="op">+</span> <span class="ch">'A'</span><span class="op">;</span>  <span class="co">// 5 + 'A' = 'F'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb46-1"><a href=""></a><span class="dt">char</span> letter <span class="op">=</span> <span class="ch">'C'</span><span class="op">;</span></span>
+<span id="cb46-2"><a href=""></a><span class="dt">int</span> shift <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb46-3"><a href=""></a><span class="co">// Step 1: Get position (0-25)</span></span>
+<span id="cb46-4"><a href=""></a><span class="dt">int</span> position <span class="op">=</span> letter <span class="op">-</span> <span class="ch">'A'</span><span class="op">;</span>  <span class="co">// 'C' - 'A' = 2</span></span>
+<span id="cb46-5"><a href=""></a><span class="co">// Step 2: Add shift</span></span>
+<span id="cb46-6"><a href=""></a><span class="dt">int</span> newPosition <span class="op">=</span> position <span class="op">+</span> shift<span class="op">;</span>  <span class="co">// 2 + 3 = 5</span></span>
+<span id="cb46-7"><a href=""></a><span class="co">// Step 3: Wrap around using modulo</span></span>
+<span id="cb46-8"><a href=""></a>newPosition <span class="op">=</span> newPosition <span class="op">%</span> <span class="dv">26</span><span class="op">;</span>  <span class="co">// 5 % 26 = 5</span></span>
+<span id="cb46-9"><a href=""></a><span class="co">// Step 4: Convert back to character</span></span>
+<span id="cb46-10"><a href=""></a><span class="dt">char</span> newLetter <span class="op">=</span> newPosition <span class="op">+</span> <span class="ch">'A'</span><span class="op">;</span>  <span class="co">// 5 + 'A' = 'F'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section id="key-takaways" class="title-slide slide level1 center">
 <h1>Key Takaways</h1>
