@@ -1,0 +1,87 @@
+# What's the Output?
+
+::: notes
+Focus: pass by reference and variable modification, basic level, 23 lines
+::: 
+
+## Exercise Goals
+
+- Review of code syntax
+- Check understanding of syntax
+- Understand how reference parameters modify original variables
+- Observe cumulative effects of multiple reference modifications
+
+## What to Do
+
+- Using the given code ...
+- Trace how variables change through reference parameters
+- Compute the output (MANUALLY)
+
+## What's the Output?
+
+```{.cpp} 
+//WhatsTheOutput_References.cpp
+#include <iostream>
+using namespace std;
+void addFive(int&);
+void doubleValue(int&);
+int main() {
+    int a = 10, b = 3;
+    cout << a << " " << b << endl;
+    addFive(a);
+    cout << a << " " << b << endl;
+    doubleValue(b);
+    cout << a << " " << b << endl;
+    addFive(b);
+    doubleValue(a);
+    cout << a << " " << b << endl;
+    return 0;
+}
+void addFive(int& num) {
+    num = num + 5;
+}
+void doubleValue(int& num) {
+    num = num * 2;
+}
+```
+
+---
+
+::: {.columns}
+::: {.column width="75%"}
+```{.cpp} 
+//WhatsTheOutput_References.cpp
+#include <iostream>
+using namespace std;
+void addFive(int&);
+void doubleValue(int&);
+int main() {
+    int a = 10, b = 3;
+    cout << a << " " << b << endl;
+    addFive(a);
+    cout << a << " " << b << endl;
+    doubleValue(b);
+    cout << a << " " << b << endl;
+    addFive(b);
+    doubleValue(a);
+    cout << a << " " << b << endl;
+    return 0;
+}
+void addFive(int& num) {
+    num = num + 5;
+}
+void doubleValue(int& num) {
+    num = num * 2;
+}
+```
+:::
+::: {.column width="25%"}
+```{.cpp} 
+Output
+// 10 3
+// 15 3
+// 15 6
+// 30 11
+```
+:::
+:::

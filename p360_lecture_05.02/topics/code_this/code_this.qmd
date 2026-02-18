@@ -1,0 +1,203 @@
+# Code This: Budget Analyzer
+
+**Estimated Time:** 20 minutes
+
+::: notes
+See answer.cpp for solution
+::: 
+
+## Problem Description
+
+Write a program that analyzes household budgets using function overloading. Your program will calculate expenses across different time periods (monthly, quarterly, and annual with growth) using overloaded functions with the same name but different parameters. You'll work with individual expense categories and display formatted results.
+
+## Background: Function Overloading
+
+Function overloading allows you to create multiple functions with the **same name** but **different parameter lists**. The compiler determines which function to call based on the arguments you provide.
+
+Example:
+```cpp
+double calculate(double amount);                    // 1 parameter
+double calculate(double amount, int months);        // 2 parameters
+double calculate(double amount, double rate, int year); // 3 parameters
+```
+
+Each function performs a related but different calculation based on the number and type of parameters.
+
+## Understanding the Calculations
+
+**Monthly Expense:**
+- Simply returns the monthly amount
+- Example: If rent is $1200/month, monthly expense is $1200
+
+**Quarterly Expense:**
+- Multiplies monthly amount by number of months in the quarter
+- Formula: `amount * months`
+- Example: $300/month for 3 months = $900 quarterly
+
+**Annual Expense with Growth:**
+- Calculates expense for a future year considering growth rate
+- Formula: `amount * (1 + growth_rate) ^ year`
+- Growth rate is a decimal (5% = 0.05)
+- Example: $100/month with 5% growth in year 2 = $100 * (1.05)^2 = $110.25
+
+## Requirements
+
+Your program must include the following overloaded functions named **calculate**:
+
+1. **calculate(double amount)** - Calculates monthly expense
+   - Takes: monthly expense amount
+   - Returns: the amount unchanged (monthly expense)
+   - Return type: double
+
+2. **calculate(double amount, int months)** - Calculates quarterly expense
+   - Takes: monthly expense amount and number of months in quarter
+   - Returns: amount * months
+   - Return type: double
+
+## Requirements(cont)
+
+3. **calculate(double amount, double growthRate, int year)** - Calculates annual expense with growth
+   - Takes: monthly expense amount, growth rate (as decimal), and year number
+   - Returns: amount adjusted for growth over specified years
+   - Formula: amount * pow((1 + growthRate), year)
+   - Return type: double
+   - Note: Use pow() function from <cmath> library
+
+Your program must also include:
+
+4. **displayExpense** - A void function that displays expense information
+   - Takes: category name (string), amount (double), and type (string)
+   - Displays formatted output showing the category, amount with 2 decimal places, and type
+   - Return type: void
+
+## Sample Output
+
+Your program should display:
+
+```
+Budget Analyzer
+===============
+
+Monthly Expenses:
+Rent: $1200.00 (Monthly)
+Groceries: $450.00 (Monthly)
+
+Quarterly Expenses:
+Utilities: $270.00 (Quarterly - 3 months)
+Insurance: $600.00 (Quarterly - 3 months)
+
+Annual Expenses with Growth:
+Healthcare (Year 1): $257.50 (Annual with 3% growth)
+Healthcare (Year 2): $265.22 (Annual with 3% growth)
+Transportation (Year 1): $189.00 (Annual with 5% growth)
+Transportation (Year 2): $198.45 (Annual with 5% growth)
+
+===============
+Total Monthly Baseline: $1650.00
+```
+
+## Your Task
+
+1. Write function prototypes for the three overloaded calculate functions and displayExpense
+2. Implement the main() function to:
+   - Create individual variables for each expense amount
+   - Call calculate(amount) for monthly expenses
+   - Call calculate(amount, months) for quarterly expenses  
+   - Call calculate(amount, rate, year) for annual expenses with growth
+   - Use displayExpense to show each result
+   - Calculate and display the total monthly baseline (sum of base monthly expenses)
+3. Implement all function definitions below main()
+
+## Starter Code Structure
+
+```cpp
+#include <iostream>
+#include <string>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+// Write your function prototypes here
+
+int main() {
+    // Set output formatting
+    cout << fixed << setprecision(2);
+    
+    // Your code here
+    
+    return 0;
+}
+
+// Write your function definitions here
+```
+
+## Tips
+
+- Remember to use function prototypes before main()
+- Use `#include <cmath>` for the pow() function
+- Use `#include <iomanip>` and `cout << fixed << setprecision(2)` for 2 decimal places
+- Create individual variables for each expense: `double rent = 1200.00;`
+- The compiler chooses the correct calculate function based on the number of arguments you pass
+- To calculate total monthly baseline:
+  - Add only the base monthly amounts (Rent + Groceries)
+  - Do NOT include quarterly or annual expenses in this total
+  - Formula: `total = rent + groceries`
+
+## Tips(cont)
+
+- For annual expenses with growth, call the function separately for year 1 and year 2:
+  ```cpp
+  double year1 = calculate(healthcare, 0.03, 1);
+  double year2 = calculate(healthcare, 0.03, 2);
+  ```
+- Use simple if statements when you need conditional logic
+- Display results immediately after calculating each expense
+
+## Data to Use
+
+**Monthly Expenses:**
+- Rent: $1200.00
+- Groceries: $450.00
+
+**Quarterly Expenses (3 months):**
+- Utilities: $90.00/month
+- Insurance: $200.00/month
+
+**Annual Expenses with Growth:**
+- Healthcare: $250.00/month, 3% growth (0.03), calculate for years 1 and 2
+- Transportation: $180.00/month, 5% growth (0.05), calculate for years 1 and 2
+
+## Example of Using Overloaded Functions
+
+```cpp
+double rent = 1200.00;
+double utilities = 90.00;
+double healthcare = 250.00;
+
+// Calls calculate(double amount)
+double monthly = calculate(rent);
+
+// Calls calculate(double amount, int months)
+double quarterly = calculate(utilities, 3);
+
+// Calls calculate(double amount, double rate, int year)
+double annual = calculate(healthcare, 0.03, 2);
+```
+
+The compiler automatically selects the correct function based on the number and types of arguments!
+
+## Challenge (Optional - if you finish early)
+
+1. Add another overloaded calculate function for bi-weekly expenses: calculate(double amount, int payPeriods)
+2. Add more expense categories with different calculation types
+3. Calculate the total annual budget (multiply monthly baseline by 12 and add growth projections)
+4. Ask the user to input their own expense amounts using cin
+
+## Important Notes
+
+- All three calculate functions must have the same name: **calculate**
+- The functions differ only in their parameter lists (this is function overloading)
+- Work with individual variables, not vectors, to keep the focus on function overloading
+- Use simple if statements when needed for logic
+- The total monthly baseline is the sum of the base monthly expense amounts only
+- Keep your code organized with clear variable names
