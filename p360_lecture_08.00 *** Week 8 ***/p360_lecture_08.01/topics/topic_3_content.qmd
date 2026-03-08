@@ -1,0 +1,247 @@
+# The Do-While Loop
+
+## The Do-While Loop
+
+What if you need the loop body to run at least once, regardless of the condition? The do-while loop puts the condition at the bottom — so the body always executes first.
+
+::: notes
+Total slides: 8
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Exit-Condition Loop
+
+- The while loop checks its condition before running. 
+- The do-while loop checks its condition after running. This one difference changes everything about when to use it.
+
+::: {.columns}
+::: {.column width="50%"}
+
+```{.cpp} 
+while (condition) {
+    // may never run
+}
+```
+:::
+
+::: {.column width="50%"}
+
+```{.cpp} 
+do {
+    // always runs at least once
+} while (condition)
+```
+
+:::
+::: 
+
+
+## Exit-Condition Loop
+
+The do-while is an **exit-condition loop**. The body executes first; only then is the condition evaluated.
+
+::: notes
+[Graphic suggestion: Two flowcharts side by side — while with the condition diamond above the block, do-while with the condition diamond below the block. Arrow looping back from condition to the top of the block in both.]
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Syntax
+
+```cpp
+do {
+    // body — always executes at least once
+} while (condition);
+//               ^ note the semicolon — required
+```
+
+Do not forget the semicolon after the closing parenthesis. It is the one place in C++ where a control structure ends with a semicolon.
+
+<!-- Slide 3 -->
+
+---
+
+## When to Use Do-While
+
+Use a do-while loop when the program must execute the body before it has any information to test.
+
+Two classic cases:
+
+- **Menus** — display the menu, get a choice, then decide whether to repeat.
+- **Input validation** — prompt the user, get input, then check if it is acceptable.
+
+In both cases, you cannot evaluate the condition until after you have run the body at least once.
+
+<!-- Slide 4 -->
+
+---
+
+## Menu-Driven Programs
+
+- Menus display and run at least once.
+- A menu must be shown before the user can choose. 
+- The choice is what the loop condition tests — so the display and input must come first.
+- If the user enters 0, the loop exits immediately after that pass.
+
+```cpp
+int choice;
+
+do {
+    cout << "1. New Game\n";
+    cout << "2. Load Game\n";
+    cout << "0. Quit\n";
+    cout << "Choice: ";
+    cin >> choice;
+
+    if (choice == 1) startNewGame();
+    if (choice == 2) loadGame();
+
+} while (choice != 0);
+```
+
+
+::: notes
+Instructor note: This is the canonical do-while example. Walk students through how the condition at the bottom serves as the "should we go again?" test after every menu interaction.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Input Validation (Alternative to While)
+
+Do-while is also a clean option for input validation when you want to prompt first and check afterward.
+
+```cpp
+int score;
+
+do {
+    cout << "Enter a score (0-100): ";
+    cin >> score;
+} while (score < 0 || score > 100);
+
+// score is guaranteed valid here
+```
+
+Compare this to the while version, which requires a priming read before the loop. The do-while eliminates that duplication.
+
+<!-- Slide 6 -->
+
+---
+
+## Comparing While and Do-While
+
+::: {.columns}
+::: {.column width="50%"}
+
+```{.cpp} 
+// While — may skip the body entirely
+int x = 10;
+while (x < 5) {
+    cout << x;   // never prints
+}
+```
+:::
+
+::: {.column width="50%"}
+
+```{.cpp} 
+// Do-while — always runs the body once
+int y = 10;
+do {
+    cout << y;   // prints 10
+} while (y < 5);
+```
+
+:::
+::: 
+
+If there is any chance the body should be skipped on the first pass, use while. If the body must run at least once, use do-while.
+
+<!-- Slide 7 -->
+
+---
+
+## Summary
+
+The do-while loop runs its body first and tests its condition last. Use it for menus and input validation where you need at least one execution before you can evaluate whether to continue.
+
+<!-- Slide 8 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Use do-while for menus and input validation. These are the two situations it was designed for.
+- Prefer while over do-while when there is any possibility the loop should not run at all — the entry-condition is safer by default.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Forgetting the semicolon after `} while (condition);` — this is a syntax error unique to do-while.
+- Using do-while when the loop might legitimately need to run zero times — the body will execute once regardless.
+- Putting the update to the loop control variable after the while condition instead of inside the body, causing the condition to never change.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Keep asking until a positive number is entered
+int n;
+do {
+    cout << "Enter a positive number: ";
+    cin >> n;
+} while (n <= 0);
+
+cout << "You entered: " << n << "\n";
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a do-while loop that asks the user to guess a number between 1 and 10, looping until they guess correctly.
+2. Write a do-while menu with three options: "Add", "Subtract", and "Quit". Loop until the user selects Quit.
+3. Rewrite this while loop as a do-while: `int x = 0; while (x != 5) { cin >> x; }` — is the behavior identical? Explain.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ do while loop syntax"
+- "C++ exit condition loop"
+- "C++ do while menu driven program"
+- "C++ do while vs while difference"
+- "C++ input validation do while"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- Can every do-while loop be rewritten as a while loop? What would you have to add to make it work?
+- In what situation might you choose a do-while for input validation over a while, even though both can work?
+
+<!-- Appendix Slide 6 -->
