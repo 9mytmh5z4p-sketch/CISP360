@@ -1,98 +1,213 @@
-# Lab Exercise — Practicing Loops
+# Code This
 
-## Lab Exercise — Practicing Loops
+## Code This
 
-You have seen all three loops. Now write one. This exercise asks you to solve the same problem using each loop type, then compare your solutions with for-each.
+Six progressive tasks — one per slide. Each isolates a single loop concept. Write your solution before advancing to the answer.
 
 ::: notes
-Total slides: 6
+Total slides: 13
+
+Timing: 13 min for this topic. Running total across all topics + wrapper: ~64 min of 75 available. 11-min buffer.
+
+Task progression: for (known count) → while (unknown count) → do-while (act first, then check) → range-based for (every element). Each task forces students to justify their loop choice, not just get the code running.
 :::
 
 <!-- Slide 1 -->
 
 ---
 
-## The Problem
+## Task 1 — Times Table Strip
 
-Write a program that calculates how far a vehicle travels. The client enters the speed (mph) and total travel time (hours). The program prints the cumulative distance at each 1-hour mark.
+**`for` loop · Easy**
 
-```
-Example: 3 hours at 40 mph
+Given a number N entered by the user, print the first 10 multiples of N (N×1 through N×10).
 
-Hour    Distance
-----    --------
-   1          40
-   2          80
-   3         120
-```
+You know exactly how many lines to print before the loop starts.
 
 <!-- Slide 2 -->
 
 ---
 
-## Your Assignment
+## Task 1 — Answer
 
-Solve the problem three times — once with each loop type. Your solutions should produce identical output.
+```cpp
+int n;
+cout << "Enter a number: ";
+cin >> n;
 
-- **Row 1** — solve with a `while` loop
-- **Row 2** — solve with a `do-while` loop
-- **Row 3** — solve with a `for` loop
-
-When your row is done, pick your best example and paste it into the class discussion thread. We will compare solutions and talk about the tradeoffs.
-
-::: notes
-Instructor note: Give ~15 minutes. Then run the debrief slide before showing the for-each contrast. Watch for: students using do-while incorrectly if speed=0 is entered. Good teaching moment.
-:::
+for (int i = 1; i <= 10; i = i + 1) {
+    cout << n << " x " << i << " = " << n * i << "\n";
+}
+```
 
 <!-- Slide 3 -->
 
 ---
 
-## For-Each — Why It Doesn't Fit Here
+## Task 2 — Guess the Number
 
-After writing your loop solutions, try to imagine writing this program with for-each. You will immediately run into a wall.
+**`while` loop · Easy**
 
-```cpp
-// For-each needs a collection. We don't have one.
-// The iteration is driven by a count (travel time),
-// not by elements in a container.
+The program has a secret number: 42. Keep asking the user to guess. Print `Too low`, `Too high`, or `Correct!` after each guess. Loop until they get it right.
 
-// The closest you could get would be to build a vector first:
-vector<int> hours = {1, 2, 3};
-for (int h : hours) {
-    cout << h << "\t" << h * speed << "\n";
-}
-// But now you've done extra work just to use for-each.
-// A for loop is the right tool here.
-```
-
-For-each iterates over existing data. For loops generate data through counting. These are different tasks.
+You don't know how many guesses they'll need.
 
 <!-- Slide 4 -->
 
 ---
 
-## Debrief
+## Task 2 — Answer
 
-- What worked in your solution?
-- What felt awkward — and why?
-- Which loop type felt most natural for this problem?
+```cpp
+int secret = 42;
+int guess;
 
-Connect your answer to the decision framework: known count, must run once, or neither.
+cout << "Guess the number: ";
+cin >> guess;
 
-::: notes
-Instructor note: Expected answer is for loop — the count is known (travel time entered by user before the loop starts). Students using while can explain why it also works but requires a separate counter. Do-while works but invites an off-by-one if not careful.
-:::
+while (guess != secret) {
+    if (guess < secret)
+        cout << "Too low. Try again: ";
+    else
+        cout << "Too high. Try again: ";
+    cin >> guess;
+}
+
+cout << "Correct!\n";
+```
 
 <!-- Slide 5 -->
 
 ---
 
-## Summary
+## Task 3 — Menu Selector
 
-When iteration count is known in advance, the for loop expresses intent most clearly. For-each cannot replace counter-controlled loops — it requires a collection, not a count.
+**`do-while` loop · Easy**
+
+Display a menu with 3 options. Ask the user to pick one (1, 2, or 3). If they enter anything else, show the menu again and ask again.
+
+The menu must appear at least once before you can check whether the input is valid.
 
 <!-- Slide 6 -->
+
+---
+
+## Task 3 — Answer
+
+```cpp
+int choice;
+
+do {
+    cout << "1. Start\n";
+    cout << "2. Settings\n";
+    cout << "3. Quit\n";
+    cout << "Choose (1-3): ";
+    cin >> choice;
+} while (choice < 1 || choice > 3);
+
+cout << "You selected option " << choice << "\n";
+```
+
+<!-- Slide 7 -->
+
+---
+
+## Task 4 — Running Total
+
+**`for` loop · Medium**
+
+Ask the user how many numbers they want to enter (N). Read exactly N numbers. After each one, print the running total.
+
+The count is fixed and known before the loop starts.
+
+<!-- Slide 8 -->
+
+---
+
+## Task 4 — Answer
+
+```cpp
+int n, num, total = 0;
+
+cout << "How many numbers? ";
+cin >> n;
+
+for (int i = 1; i <= n; i = i + 1) {
+    cout << "Enter number " << i << ": ";
+    cin >> num;
+    total = total + num;
+    cout << "Running total: " << total << "\n";
+}
+```
+
+<!-- Slide 9 -->
+
+---
+
+## Task 5 — Validated Input
+
+**`do-while` loop · Medium**
+
+Ask the user to enter a number between 1 and 100. If they enter something outside that range, tell them and ask again. Once valid, print `You entered: X`.
+
+The prompt must fire before any check is possible.
+
+<!-- Slide 10 -->
+
+---
+
+## Task 5 — Answer
+
+```cpp
+int n;
+
+do {
+    cout << "Enter a number (1-100): ";
+    cin >> n;
+    if (n < 1 || n > 100)
+        cout << "Out of range. Try again.\n";
+} while (n < 1 || n > 100);
+
+cout << "You entered: " << n << "\n";
+```
+
+<!-- Slide 11 -->
+
+---
+
+## Task 6 — List Analyser
+
+**Range-based `for` · Medium**
+
+Given a hardcoded `vector<int>` of 6 numbers, find and print the largest value, the smallest value, and the sum. Use a range-based `for` loop.
+
+No index needed — you want every element.
+
+<!-- Slide 12 -->
+
+---
+
+## Task 6 — Answer
+
+```cpp
+vector<int> nums = {14, 3, 27, 8, 19, 5};
+
+int largest  = nums[0];
+int smallest = nums[0];
+int sum      = 0;
+
+for (int n : nums) {
+    if (n > largest)  largest  = n;
+    if (n < smallest) smallest = n;
+    sum = sum + n;
+}
+
+cout << "Largest:  " << largest  << "\n";
+cout << "Smallest: " << smallest << "\n";
+cout << "Sum:      " << sum      << "\n";
+```
+
+<!-- Slide 13 -->
 
 ---
 
@@ -104,8 +219,8 @@ When iteration count is known in advance, the for loop expresses intent most cle
 
 ## Common Practices
 
-- Choose your loop type before writing a single line of code. Ask: do I know the count? Must the body run once? The answer determines the loop.
-- Print a header row before the loop and use `setw()` or tabs for alignment — clean output is part of the deliverable.
+- Before writing any loop, state out loud which type you're using and why. If you can't justify the choice, reconsider it.
+- Initialize accumulator variables (`total`, `sum`, `largest`) before the loop, not inside it — reinitializing every iteration resets the accumulated value.
 
 <!-- Appendix Slide 1 -->
 
@@ -113,61 +228,28 @@ When iteration count is known in advance, the for loop expresses intent most cle
 
 ## Common Mistakes
 
-- Off-by-one: starting the counter at 1 but running the condition as `<= hours` versus starting at 0 with `< hours` — both work, but be consistent.
-- Using do-while for this problem without checking whether the user could enter 0 hours — the body would run once and print distance for hour 1 before the loop exits.
-- Forgetting to read the user's input before the loop starts.
+- Hardcoding the loop bound instead of using a variable — `i <= 10` is fine for Task 1, but `i <= n` is required once the count comes from the user.
+- Forgetting the priming read before a `while` loop that validates input — the condition must have something to test before the first check.
+- Initializing `largest` and `smallest` to 0 instead of `nums[0]` — if all values are negative, 0 is never the correct answer.
 
 <!-- Appendix Slide 2 -->
 
 ---
 
-## More Examples
+## AI Search Terms
 
-```cpp
-// Reference solution — for loop
-int speed, hours;
-cout << "Speed (mph): ";
-cin >> speed;
-cout << "Travel time (hours): ";
-cin >> hours;
-
-cout << "Hour\tDistance\n";
-cout << "----\t--------\n";
-
-for (int h = 1; h <= hours; h++) {
-    cout << h << "\t" << h * speed << "\n";
-}
-```
+- "C++ for loop accumulator pattern"
+- "C++ while loop unknown iterations"
+- "C++ do while input validation"
+- "C++ range-based for loop find max min"
 
 <!-- Appendix Slide 3 -->
 
 ---
 
-## Practice Problems
-
-1. Extend the program to also print the distance in kilometers (1 mile ≈ 1.609 km).
-2. Modify the program to accept a step size other than 1 hour (e.g., every 30 minutes).
-3. Rewrite the solution using a while loop. Is the result harder or easier to read?
-4. What would happen if the user enters 0 for travel time? Handle this case gracefully.
-
-<!-- Appendix Slide 4 -->
-
----
-
-## AI Search Terms
-
-- "C++ for loop table output"
-- "C++ setw formatting output"
-- "C++ counter controlled loop example"
-- "C++ for loop vs while loop same problem"
-
-<!-- Appendix Slide 5 -->
-
----
-
 ## Questions for Reflection
 
-- After writing the same program three ways, which loop felt most natural? Does "most natural" align with the decision framework?
-- Why might a program that works correctly with a do-while loop still be considered the wrong choice for this problem?
+- Tasks 3 and 5 both use `do-while`. What is the structural difference between a menu and input validation — or are they the same pattern?
+- For Task 2, could you rewrite the solution using a `do-while`? Would the behavior be identical?
 
-<!-- Appendix Slide 6 -->
+<!-- Appendix Slide 4 -->
