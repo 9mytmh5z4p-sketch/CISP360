@@ -2,12 +2,13 @@
 
 | Topic | Emphasis | Time Budget | Optional | Prerequisites | Tone Flag | Note |
 |-------|----------|-------------|----------|---------------|-----------|------|
-|  Recap of things we CAN’T do with for-each| | 2 | | | |  parallel vectors, menu driven programs |
-| 5.1 The While loop | | | | | |   |
-| 5.7 Do .. While loop | | | | | |   |
-| 5.8 For loop | | | | | |   |
-| 5.9 Which Loop to use? | | | | | | menu driven programs w/ do loops  |
-| Lab Exercise practicing loops| | | | | |  Include a for-each for contrast |
+| Recap — Things we CAN’T do with for-each | | 2 | | | | parallel vectors, menu driven programs |
+| 5.1 The While loop | | | | | | |
+| 5.7 Do-While loop | | | | | | |
+| 5.8 For loop | | | | | | |
+| 5.9 Which Loop to use? | | | | | | menu driven programs w/ do loops |
+| Code This | | 13 | | | | 6 progressive tasks; task+answer slide pairs; for/while/do-while/range-for |
+| Lab Exercise practicing loops | | | | | | Solve same problem with all three loops; include a for-each for contrast |
 
 ---
 

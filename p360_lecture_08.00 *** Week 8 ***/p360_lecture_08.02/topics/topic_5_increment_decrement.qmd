@@ -1,0 +1,224 @@
+# Increment & Decrement Operators
+
+## Increment & Decrement Operators
+
+You have been writing `i = i + 1` since Week 8. C++ has a shorthand for exactly this — and it shows up in almost every loop you will ever read.
+
+::: notes
+Total slides: 7
+
+Note: Students have been writing i = i + 1 and i = i - 1 throughout 08.01. This topic gives them the shorthand they've been doing the long way. Explicitly connect to prior usage.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The Operators
+
+::: {.columns}
+::: {.column width="50%"}
+**Increment**
+
+`++` adds 1 to a variable.
+
+```{.cpp}
+int x = 5;
+x++;      // x is now 6
+// same as: x = x + 1
+```
+:::
+
+::: {.column width="50%"}
+**Decrement**
+
+`--` subtracts 1 from a variable.
+
+```{.cpp}
+int x = 5;
+x--;      // x is now 4
+// same as: x = x - 1
+```
+:::
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## In a Loop
+
+Every `i = i + 1` in your prior loops can now be written as `i++`.
+
+::: {.columns}
+::: {.column width="50%"}
+**Before**
+
+```{.cpp}
+for (int i = 1; i <= 5;
+     i = i + 1) {
+    cout << i << "\n";
+}
+```
+:::
+
+::: {.column width="50%"}
+**After**
+
+```{.cpp}
+for (int i = 1; i <= 5;
+     i++) {
+    cout << i << "\n";
+}
+```
+:::
+:::
+
+The behavior is identical. `i++` is the standard form — you will see it in every C++ textbook and codebase.
+
+<!-- Slide 3 -->
+
+---
+
+## Pre vs Post
+
+`++` can go before or after the variable. In a standalone statement, the result is the same.
+
+::: {.columns}
+::: {.column width="50%"}
+**Post-increment**
+
+`x++`
+
+Uses the current value, *then* increments.
+:::
+
+::: {.column width="50%"}
+**Pre-increment**
+
+`++x`
+
+Increments first, *then* uses the new value.
+:::
+:::
+
+::: notes
+Instructor note: The difference only matters when the expression is used as a value (e.g., inside cout or as a function argument). In a for loop update position, both are equivalent. Keep this simple for now — the distinction matters more in later topics.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Where It Matters
+
+In a standalone statement, `x++` and `++x` are equivalent. The difference appears when the expression produces a value.
+
+```cpp
+int x = 5;
+cout << x++;   // prints 5, then x becomes 6
+cout << ++x;   // x becomes 7, then prints 7
+```
+
+For loop update expressions (`i++` in a for header), the distinction never matters — use `i++` by convention.
+
+<!-- Slide 5 -->
+
+---
+
+## Compound Assignment
+
+`++` and `--` are special cases of a broader family of shorthand operators.
+
+| Shorthand | Equivalent |
+|-----------|------------|
+| `x++` | `x = x + 1` |
+| `x--` | `x = x - 1` |
+| `x += 5` | `x = x + 5` |
+| `x -= 3` | `x = x - 3` |
+| `x *= 2` | `x = x * 2` |
+
+<!-- Slide 6 -->
+
+---
+
+## Summary
+
+`++` and `--` are shorthand for adding or subtracting 1. Use `i++` in for loop headers — it is the standard form. Post-increment and pre-increment differ only when the expression is used as a value.
+
+<!-- Slide 7 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Use `i++` (post-increment) in for loop headers — it is the conventional form and matches what you'll find in textbooks and examples.
+- Use `+=` and `-=` for step sizes other than 1 (e.g., `i += 2` to count by twos).
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Using `++i` and `i++` interchangeably inside expressions — they produce different values when used as part of a larger expression.
+- Applying `++` to a floating-point variable expecting a fractional increment — `++` always adds exactly 1.
+- Writing `x++ = 5` — you cannot assign to the result of a post-increment expression.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Count down using --
+for (int i = 10; i >= 1; i--) {
+    cout << i << " ";
+}
+cout << "\nLiftoff!\n";
+
+// Step by 2 using +=
+for (int i = 0; i <= 20; i += 2) {
+    cout << i << " ";
+}
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Rewrite this loop using `++`: `int i = 0; while (i < 10) { cout << i; i = i + 1; }`
+2. What is the output? `int x = 3; cout << x++ << " " << x;`
+3. What is the output? `int x = 3; cout << ++x << " " << x;`
+4. Write a for loop that counts from 100 to 0 in steps of 10 using `--` or `-=`.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ increment decrement operators"
+- "C++ pre increment vs post increment"
+- "C++ compound assignment operators"
+- "C++ i++ vs ++i difference"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- Why does C++ have `++` at all, when `i = i + 1` does the same thing? What does shorthand add to a program?
+- In what situation would the choice between `i++` and `++i` actually change the behavior of your program?
+
+<!-- Appendix Slide 6 -->

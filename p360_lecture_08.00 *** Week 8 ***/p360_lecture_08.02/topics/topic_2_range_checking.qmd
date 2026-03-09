@@ -1,0 +1,183 @@
+# Range Checking
+
+## Range Checking
+
+How do you know whether to trust a piece of input? Trust is not binary — it is earned in layers. Each layer filters out a different class of bad data.
+
+::: notes
+Total slides: 6
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The Gauntlet of Trust
+
+Input passes through a series of checks, from broadest to narrowest. Each check earns a higher level of trust.
+
+::: {.columns}
+::: {.column width="40%"}
+**Low trust**
+
+Is there data?
+
+Is it the right type?
+
+**High trust**
+
+Is it in range?
+:::
+
+::: {.column width="60%"}
+- Empty or whitespace input fails the first check immediately.
+- Wrong type (a letter where a number is expected) fails the second.
+- Out-of-range values (age = 500) fail the third.
+:::
+:::
+
+::: notes
+[Graphic suggestion: Vertical funnel or gauntlet diagram with three gates labeled "Has data?", "Right type?", "In range?" — input flows down and gets filtered at each gate.]
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Level 1 — Is There Data?
+
+The broadest check: did the user enter anything at all?
+
+- Empty input or whitespace-only input should fail immediately.
+- Use `string` and `getline()` — not `cin >>` — so you can catch empty strings before type conversion.
+- A blank entry with `cin >>` simply blocks, waiting for real input. You never see it as blank.
+
+<!-- Slide 3 -->
+
+---
+
+## Level 2 — Is It the Right Type?
+
+Did the user enter the kind of data the program expects?
+
+- Entering "abc" when an integer is expected is a type mismatch.
+- `cin >>` does not protect you — it silently fails and leaves garbage in the stream.
+- Robust type checking requires reading as a string first, then converting and validating.
+
+::: notes
+Instructor note: Full type-safe validation is beyond the scope of this lecture. The key takeaway is awareness — students should know this layer exists. The textbook's Figure 5-3 shows the full pattern.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Level 3 — Is It in Range?
+
+The narrowest check: is the value within the set of values the program can handle?
+
+```cpp
+int age;
+cout << "Enter your age (1-120): ";
+cin >> age;
+
+while (age < 1 || age > 120) {
+    cout << "Age must be between 1 and 120. Try again: ";
+    cin >> age;
+}
+```
+
+This is range checking — the most common form of input validation in introductory programs.
+
+<!-- Slide 5 -->
+
+---
+
+## Rules of Thumb
+
+- Use a `string` data type when reading input that needs full validation.
+- Use `getline()`, not `cin >>`, to catch empty and whitespace input.
+- Move from broadest to narrowest check — empty first, type second, range last.
+- Display as specific an error message as possible.
+- Always allow the client to reenter incorrect data.
+
+<!-- Slide 6 -->
+
+---
+
+## Summary
+
+The Gauntlet of Trust is a layered approach to input validation: check for data first, then type, then range. Move from broadest to narrowest. Each layer filters a different class of bad input.
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Always perform range checking when the valid values form a continuous interval (e.g., 1–100, 0.0–1.0).
+- Combine range checking with a specific error message that states the valid range explicitly.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Checking range before checking type — a type mismatch corrupts the value before the range check runs.
+- Using `cin >>` to read input intended for full validation — it cannot detect empty strings or type errors cleanly.
+- Writing `age > 1 && age < 120` instead of `age >= 1 && age <= 120` — off-by-one on the boundary values.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Validate a percentage (0.0 to 100.0)
+double pct;
+cout << "Enter a percentage (0-100): ";
+cin >> pct;
+
+while (pct < 0.0 || pct > 100.0) {
+    cout << "Must be between 0 and 100. Try again: ";
+    cin >> pct;
+}
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a range check that validates a test score between 0 and 100.
+2. Write a range check for a month number (1–12). What is your error message?
+3. Why is range checking alone insufficient for validating a credit card number?
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ input validation range check while loop"
+- "C++ getline vs cin input validation"
+- "C++ validate integer in range"
+- "C++ gauntlet of trust input validation layers"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- At what point does a range check become impractical? What would you do instead?
+- Why does it matter which check comes first — empty, type, or range?
+
+<!-- Appendix Slide 6 -->

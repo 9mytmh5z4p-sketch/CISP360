@@ -1,0 +1,238 @@
+# Input Validation with the While Loop
+
+## Input Validation with the While Loop
+
+You know the concepts. Now here is the standard pattern for putting them into code — a while loop that enforces the Gauntlet before the rest of the program sees any data.
+
+::: notes
+Total slides: 8
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The Standard Pattern
+
+```cpp
+// 1. Read input once before the loop (priming read)
+cout << "Enter a value: ";
+cin >> value;
+
+// 2. Loop while the input is invalid
+while (/* invalid condition */) {
+    cout << "Specific error message. Try again: ";
+    cin >> value;
+}
+
+// 3. Input is guaranteed valid here
+```
+
+- Read before the loop so the condition has something to test.
+- Loop while the data is *bad* — not while it is good.
+- After the loop, proceed with confidence.
+
+<!-- Slide 2 -->
+
+---
+
+## Range Validation
+
+```cpp
+int score;
+cout << "Enter a score (0-100): ";
+cin >> score;
+
+while (score < 0 || score > 100) {
+    cout << "Score must be between 0 and 100. Try again: ";
+    cin >> score;
+}
+
+cout << "Score accepted: " << score << "\n";
+```
+
+<!-- Slide 3 -->
+
+---
+
+## Multiple Conditions
+
+A single validation loop can enforce multiple rules simultaneously.
+
+```cpp
+int month;
+cout << "Enter a month (1-12): ";
+cin >> month;
+
+while (month < 1 || month > 12) {
+    cout << "Month must be between 1 and 12. Try again: ";
+    cin >> month;
+}
+```
+
+Combine conditions with `||` — the loop continues as long as *any* condition is violated.
+
+<!-- Slide 4 -->
+
+---
+
+## Validating Against a Set
+
+When valid values are not a continuous range, list them explicitly.
+
+```cpp
+char grade;
+cout << "Enter a grade (A, B, C, D, or F): ";
+cin >> grade;
+
+while (grade != 'A' && grade != 'B' && grade != 'C'
+    && grade != 'D' && grade != 'F') {
+    cout << "Invalid grade. Enter A, B, C, D, or F: ";
+    cin >> grade;
+}
+```
+
+This is the "keep everything out" strategy in code.
+
+<!-- Slide 5 -->
+
+---
+
+## The Error Message Matters
+
+::: {.columns}
+::: {.column width="50%"}
+**Vague — unhelpful**
+
+```{.cpp}
+cout << "Invalid input.\n"
+     << "Try again: ";
+```
+:::
+
+::: {.column width="50%"}
+**Specific — actionable**
+
+```{.cpp}
+cout << "Age must be between "
+     << "1 and 120.\n"
+     << "Try again: ";
+```
+:::
+:::
+
+The client cannot fix what they do not understand. Always state what the valid range or set is.
+
+<!-- Slide 6 -->
+
+---
+
+## Validation Before Processing
+
+```cpp
+int n;
+cout << "How many students (1-30)? ";
+cin >> n;
+
+while (n < 1 || n > 30) {
+    cout << "Must be between 1 and 30. Try again: ";
+    cin >> n;
+}
+
+// n is guaranteed 1-30 — safe to use in a for loop
+for (int i = 1; i <= n; i = i + 1) {
+    int score;
+    cout << "Score for student " << i << ": ";
+    cin >> score;
+}
+```
+
+::: notes
+Instructor note: This connects input validation directly to the for loop from 08.01. Validating n before the loop prevents a for loop from running a negative or zero number of times.
+:::
+
+<!-- Slide 7 -->
+
+---
+
+## Summary
+
+The standard input validation pattern: prime the read before the loop, loop while input is invalid, give a specific error message and reprompt. After the loop, the data is safe to use.
+
+<!-- Slide 8 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Always prime the read — read once before the loop so the condition is meaningful on the first check.
+- State the valid range or valid set explicitly in every error message.
+- Validate all user input before it reaches any calculation or loop that depends on it.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Placing `cin >> value` only inside the loop body without a priming read — the condition has nothing to test on the first pass.
+- Using `&&` instead of `||` in the loop condition — `score < 0 && score > 100` is never true; use `||`.
+- Forgetting to re-read the variable inside the loop body, causing an infinite loop.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Validate a password length (6-20 characters)
+string password;
+cout << "Enter a password (6-20 characters): ";
+cin >> password;
+
+while (password.length() < 6 || password.length() > 20) {
+    cout << "Password must be 6-20 characters. Try again: ";
+    cin >> password;
+}
+cout << "Password accepted.\n";
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a validation loop that accepts a temperature in Fahrenheit between -50 and 150.
+2. Write a validation loop that accepts only 'Y' or 'N' from the user.
+3. What is wrong with this validation? `while (x > 0 && x < 10)` — when would this loop never exit?
+4. Add input validation to a program that asks for the number of items in a shopping cart (1–99).
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ input validation while loop pattern"
+- "C++ priming read before while loop"
+- "C++ validate user input range"
+- "C++ multiple conditions while loop validation"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- Why is the priming read necessary? Could you replace it with a do-while? What would change?
+- A validation loop protects the program from bad input — but what does it *not* protect against?
+
+<!-- Appendix Slide 6 -->
