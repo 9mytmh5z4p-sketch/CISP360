@@ -1,0 +1,205 @@
+# Inline Validation Design
+
+## Inline Validation Design
+
+What does it mean to validate input right where it's used, rather than in a separate validation function? 
+
+::: notes
+Total slides: 6
+
+Consider a visual diagram showing the flow: Input → if condition → respond (accept or reject).
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The Basic Structure
+
+- Checking input in place. 
+    + Read a value, 
+    + Test it with a condition, and 
+    + React immediately. 
+- This is the clearest approach for single-point checks that don't require re-prompting.
+
+<!-- Slide 2 -->
+
+---
+
+## Range Checking Inline
+
+Range checking verifies that a value falls between a minimum and maximum. Use AND (`&&`) to test both boundaries at once.
+
+```cpp
+const int MIN_AGE = 0;
+const int MAX_AGE = 120;
+
+int age;
+cin >> age;
+
+if (age < MIN_AGE || age > MAX_AGE) {
+    cout << "Invalid age." << endl;
+}
+```
+
+<!-- Slide 3 -->
+
+---
+
+## Type Failure Check and cin Recovery
+
+When `cin >> x` fails the input stream enters a failed state. You must clear the error flag and discard bad input.
+
+```cpp
+int count;
+if (!(cin >> count)) {
+    cout << "Error: expected an integer." << endl;
+    cin.clear();                    // Clear the fail flag
+    cin.ignore(10000, '\n');        // Skip to next line
+}
+```
+
+
+<!-- Slide 4 -->
+
+---
+
+## The isDirty Flag Pattern
+
+When multiple conditions can invalidate input, use a boolean flag to track validity. Set the flag to true if any check fails, then use it to decide how to proceed.
+
+```cpp
+bool isDirty = false;
+
+if (name.length() == 0) {   // test for errors here
+    isDirty = true;
+}
+if (age < 0) {              // and here
+    isDirty = true;
+}
+
+if (isDirty) {              // display error message here
+    cout << "Input rejected." << endl;
+}
+```
+
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
+Inline validation is the simplest approach: read input, test it with a condition, respond immediately in an `if` block.
+
+<!-- Slide 6 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Appendix Contents
+
+- [Common Practices](#common-practices)
+- [Common Mistakes](#common-mistakes)
+- [More Examples](#more-examples)
+- [Practice Problems](#practice-problems)
+- [AI Search Terms](#ai-search-terms)
+- [Questions for Reflection](#questions-for-reflection)
+
+<!-- Appendix Slide 0 -->
+
+---
+
+## Common Practices
+
+Always use named constants for range boundaries (`MIN_VALUE`, `MAX_VALUE`) instead of hardcoding numbers. This makes code self-documenting and simplifies maintenance.
+
+When `cin >>` fails, always call both `cin.clear()` and `cin.ignore(10000, '\n')` to reset the stream and skip the bad input. The `10000` parameter is a large number that safely discards any remaining characters on the line.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+**Forgetting to clear the input stream** — After a type mismatch, if you don't call `cin.clear()`, the stream remains in a failed state and all subsequent reads will fail silently.
+
+**Using magic numbers for bounds** — Hardcoding `if (age > 120)` instead of `if (age > MAX_AGE)` makes code harder to maintain and understand. Always use constants.
+
+**Mixing validation logic** — Don't scatter checks across multiple unrelated `if` statements. Group related validation checks together or use a `isDirty` flag to keep logic coherent.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+**Example 1: Email string length check**
+
+```cpp
+string email;
+cin >> email;
+
+if (email.length() == 0) {
+    cout << "Email cannot be empty." << endl;
+}
+```
+
+**Example 2: Character classification inline**
+
+```cpp
+char grade;
+cin >> grade;
+
+if (!isupper(grade)) {
+    cout << "Grade must be uppercase A–F." << endl;
+}
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write code to validate that a temperature is between -50 and 150 degrees Fahrenheit. Use named constants and print an error message if out of range.
+
+2. Write code to read an integer and check if the input operation failed. If it did, clear the stream and print an error message.
+
+3. Use a `isDirty` flag to validate that a username is non-empty and contains no spaces. Set the flag to true if either check fails.
+
+4. Write code to validate that a character input is a lowercase letter using `islower()`.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ validate input with if statement"
+- "C++ cin.clear() cin.ignore() stream recovery"
+- "C++ range checking logic"
+- "C++ check input type failure"
+- "C++ isupper islower isdigit character classification"
+- "C++ named constants for bounds"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+1. When should you use inline validation instead of a loop-until-valid approach?
+
+2. Why must you call both `cin.clear()` and `cin.ignore()` after a type failure, not just one?
+
+3. When is a `isDirty` flag useful, and when might simpler direct `if` statements be clearer?
+
+4. How does using named constants improve the readability and maintainability of validation code?
+
+<!-- Appendix Slide 6 -->

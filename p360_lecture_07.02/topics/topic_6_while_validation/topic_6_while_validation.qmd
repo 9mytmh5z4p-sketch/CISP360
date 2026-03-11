@@ -1,0 +1,212 @@
+# Input Validation with the While Loop
+
+## Input Validation with the While Loop
+
+How can a while loop become a tool for re-prompting users until they provide valid input? When the loop condition checks validity directly, the loop runs as long as the input is bad—exactly the pattern we need for validation.
+
+::: notes
+Total slides: 6
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The While Loop Validation Pattern
+
+- Runs AS LONG AS the input is invalid. 
+    + The key difference from other loops: the condition is "input is bad," not "input is good."
+
+- Requires a priming read before the loop
+        + get input once, 
+        + then check it. 
+        + iff invalid, the loop body re-prompts and checks input again.
+
+<!-- Slide 2 -->
+
+---
+
+## Example: Range Validation
+
+```cpp
+const int MIN = 1, MAX = 10;        // const eliminates magic numbers
+int val;
+cout << "Enter a number (1-10): ";
+cin >> val;   //....................... Priming read
+while (val < MIN || val > MAX) {
+    cout << "Invalid. Enter a number (1-10): ";
+    cin >> val;         // ............ another read needed here
+}
+```
+
+The loop condition `val < MIN || val > MAX` means "keep looping if the value is out of range." Once the user enters a valid value, the condition becomes false and the loop exits.
+
+<!-- Slide 3 -->
+
+---
+
+## Example: Input Type Mismatches
+
+When cin fails to read the expected type, the stream enters a fail state. You must clear this state and discard the invalid input before trying again.
+
+```cpp
+#include <limits>   // required for numeric_limits
+
+int val;
+cout << "Enter an integer: ";
+while (!(cin >> val)) {
+    cin.clear();        // ............. reset fail bit
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');    // discard leftover input
+    cout << "Not an integer. Try again: ";
+}
+```
+
+<!-- Slide 4 -->
+
+---
+
+
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
+Use a while loop with a priming read: get input once before the loop, then loop while the input is invalid. Always include error handling with `cin.clear()` and `cin.ignore()` for type mismatches.
+
+<!-- Slide 6 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Appendix Contents
+
+- [Common Practices](#common-practices)
+- [Common Mistakes](#common-mistakes)
+- [More Examples](#more-examples)
+- [Practice Problems](#practice-problems)
+- [AI Search Terms](#ai-search-terms)
+- [Questions for Reflection](#questions-for-reflection)
+
+<!-- Appendix Slide 0 -->
+
+---
+
+## Common Practices
+
+**Always include a priming read.** Get the initial value before entering the loop. Without it, the loop condition checks an uninitialized variable, causing undefined behavior.
+
+**Clear the stream after a failed extraction.** If the user enters non-numeric input, `cin >> val` fails silently. Use `cin.clear()` to reset the stream state and `cin.ignore()` to remove the bad input.
+
+**Use OR (||) for range boundaries.** The condition `value < MIN || value > MAX` clearly expresses "out of range." This is more intuitive than double negation.
+
+**Define bounds as named constants.** Constants make validation logic readable and maintainable. A new reader immediately sees the valid range.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+**Forgetting the priming read.** If you call `cin >> val` inside the loop body only, the condition checks an uninitialized variable on the first iteration, causing a crash or nonsense behavior.
+
+**Using AND (&&) instead of OR (||) in range checks.** The condition `val > MIN && val < MAX` means "loop while the value is valid," which is backwards. Always use OR for "out of range" checks.
+
+**Not clearing the stream after cin failure.** If you don't call `cin.clear()` and `cin.ignore()`, the stream remains in a fail state and all future cin operations fail silently.
+
+**Comparing different types in the condition.** If `val` is `int` but `MIN` is `double`, unexpected type conversions may occur. Keep all bounds the same type as the input variable.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+**Validating positive integers only:**
+
+```cpp
+int count;
+cout << "Enter positive count: ";
+cin >> count;
+while (count <= 0) {
+    cout << "Count must be positive. Try again: ";
+    cin >> count;
+}
+```
+
+**Validating with both range and type checking:**
+
+```cpp
+int score;
+cout << "Enter score (0-100): ";
+while (!(cin >> score) || score < 0 || score > 100) {
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Invalid. Enter score (0-100): ";
+}
+```
+
+**Validating character input:**
+
+```cpp
+char response;
+cout << "Continue? (Y/N): ";
+cin >> response;
+while (response != 'Y' && response != 'N') {
+    cout << "Enter Y or N: ";
+    cin >> response;
+}
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a while loop that prompts for an integer between 10 and 50. Include input error handling.
+
+2. Write a while loop that prompts for a positive real number (double). If the user enters a non-numeric value, clear the stream and re-prompt.
+
+3. Write a while loop that repeatedly asks "Try again?" and accepts only 'Y' or 'N' (uppercase). Re-prompt on invalid input.
+
+4. Write code that validates a month (1-12). Use named constants for the bounds and display the valid range in the error message.
+
+5. Write a program segment that reads a sequence of positive integers until the user enters -1. Validate each input using a while loop.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "while loop input validation C++"
+- "cin.clear() and cin.ignore() example"
+- "priming read C++ loop"
+- "validate integer input C++ while loop"
+- "stream state error handling C++"
+- "range checking with while loop"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+1. Why is a priming read necessary before a while validation loop?
+
+2. What happens if you use `while (val >= MIN && val <= MAX)` instead of the correct OR form?
+
+3. When would a do-while loop be a better choice than a while loop for validation?
+
+4. What does `cin.clear()` do, and why is it insufficient without `cin.ignore()`?
+
+5. How would you validate that a string input is not empty?
+
+<!-- Appendix Slide 6 -->

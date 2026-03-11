@@ -1,0 +1,311 @@
+# Loop-Until-Valid Design
+
+## Loop-Until-Valid Design
+
+- Inline validation is one and done code.
+- What if we need to keep asking the user for input until they provide a valid answer?
+
+::: notes
+Total slides: 6
+Users tend to hate their programs ending because of an incorrect input.
+Consider a visual flowchart: Prompt → Read → Test condition → if invalid, loop back; if valid, exit.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The Concept: Loop Condition as Validation
+
+- Keep re-prompting until the user enters valid data. 
+    + The loop condition IS your validation test. 
+    + When the condition becomes false, the loop exits and you have a guaranteed valid input.
+
+<!-- Slide 2 -->
+
+---
+
+## What kind of loop?
+
+1. while loop
+2. do while loop
+3. for loop
+4. for-each loop
+
+<!-- Slide 3 -->
+
+---
+
+## What kind of loop?
+
+1. **while loop**
+2. **do while loop**
+3. for loop
+4. for-each loop
+
+
+<!-- Slide 4 -->
+
+---
+
+## While Loop Validation
+
+- Runs AS LONG AS the input is invalid. 
+    + The key difference from other loops: the condition is "input is bad," not "input is good."
+
+- Requires a priming read before the loop
+    + get input once, 
+    + then check it. 
+    + if invalid, the loop body re-prompts and checks input again.
+
+<!-- Slide 2 -->
+
+---
+
+## Example: Range Validation
+
+```cpp
+const int MIN = 1, MAX = 10;        // const eliminates magic numbers
+int val;
+cout << "Enter a number (1-10): ";
+cin >> val;   //....................... Priming read
+while (val < MIN || val > MAX) {
+    cout << "Invalid. Enter a number (1-10): ";
+    cin >> val;         // ............ another read needed here
+}
+```
+
+The loop condition `val < MIN || val > MAX` means "keep looping if the value is out of range." Once the user enters a valid value, the condition becomes false and the loop exits.
+
+<!-- Slide 3 -->
+
+---
+
+## Example: Input Type Mismatches
+
+When cin fails to read the expected type, the stream enters a fail state. You must clear this state and discard the invalid input before trying again.
+
+```cpp
+#include <limits>   // required for numeric_limits
+
+int val;
+cout << "Enter an integer: ";
+while (!(cin >> val)) {
+    cin.clear();        // ............. reset fail bit
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');    // discard leftover input
+    cout << "Not an integer. Try again: ";
+}
+```
+
+<!-- Slide 4 -->
+
+---
+
+## Do While Loop Validation
+
+- executes the body first, then checks the condition.
+- a do-while never needs a priming read. The prompt and cin are inside the loop and always execute at least once.
+
+---
+
+## Example: Simple Do-While Validation
+
+```cpp
+const int MIN = 1, MAX = 10;
+int val;
+do {
+    cout << "Enter a number (1-10): ";
+    cin >> val;
+} while (val < MIN || val > MAX);
+```
+
+The loop body runs first, gets the input, and then checks the condition. If invalid, it loops back to the beginning of the do block and re-prompts. No priming read needed.
+
+<!-- Slide 3 -->
+
+---
+
+## Example: Handling cin Failures
+
+Stream error handling inside a do-while works the same as in a while loop. Clear the fail state and discard bad input before looping.
+
+```cpp
+int val;
+do {        // .............................. prompt loop
+    cout << "Enter an integer (1-100): ";
+    if (!(cin >> val)) {        // ......... check the type
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        val = -1;  //........................Force invalid to loop again
+    }
+} while (val < 1 || val > 100);     //.......numeric range validation
+```
+
+
+<!-- Slide 5 -->
+
+---
+
+## While vs Do-While
+
+::: {.columns}
+::: {.column width="50%"}
+
+```{.cpp} 
+int val;
+cout << "Enter (1-10): ";
+cin >> val; //..................priming read
+while (val < 1 || val > 10) {
+    cout << "Enter (1-10): ";
+    cin >> val;
+}
+```
+:::
+
+::: {.column width="50%"}
+
+```{.cpp} 
+int val;
+do {    
+    cout << "Enter (1-10): ";
+    cin >> val;
+} while (val < 1 || val > 10);
+```
+
+:::
+::: 
+
+* Do-While is more concise.
+    * One cin statement instead of two
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
+Use a while loop with a priming read: get input once before the loop, then loop while the input is invalid. Always include error handling with `cin.clear()` and `cin.ignore()` for type mismatches.
+
+A do-while loop validates input without a priming read. The body executes first, then the condition at the bottom decides whether to repeat. Use do-while when the prompt and input must run at least once.
+
+<!-- Slide 6 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Appendix Contents
+
+- [Common Practices](#common-practices)
+- [Common Mistakes](#common-mistakes)
+- [More Examples](#more-examples)
+- [Practice Problems](#practice-problems)
+- [AI Search Terms](#ai-search-terms)
+- [Questions for Reflection](#questions-for-reflection)
+
+<!-- Appendix Slide 0 -->
+
+---
+
+## Common Practices
+
+Always include the re-prompt message in the loop body so the user sees it after an invalid entry. The initial prompt appears before the loop; the reprompt appears inside it.
+
+Use named constants for range bounds (`MIN_SCORE`, `MAX_SCORE`) in both the output message and the loop condition. This keeps the bounds consistent and self-documenting.
+
+Choose whitelist when you have a small set of acceptable values and blacklist when you want to reject only a few specific inputs. Avoid long lists of whitelisted values; use a range loop instead.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+**Forgetting the reprompt inside the loop** — The loop condition repeats, but if you don't print a new prompt inside the loop body, the user won't know they need to re-enter data.
+
+**Using AND in a whitelist when you need OR** — The condition `response == "yes" && response == "no"` is always false (one variable cannot equal two different strings). Use OR: `response != "yes" && response != "no"`.
+
+**Mixing whitelist and blacklist logic** — Don't test `response == "yes" && response != "no"` in the loop condition. Pick one approach and stick with it for clarity.
+
+**Not handling type failures in the loop** — If the user enters text when you expect a number, `cin >>` fails and the loop repeats on old input. Clear the stream inside the loop if needed.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+**Example 1: Do-while reprompt (guarantees at least one prompt)**
+
+```cpp
+int age;
+do {
+    cout << "Enter age (0-150): ";
+    cin >> age;
+} while (age < 0 || age > 150);
+```
+
+The `do-while` structure ensures the prompt appears at least once before the condition is checked.
+
+**Example 2: Whitelist with multiple acceptable responses**
+
+```cpp
+string suit;
+cout << "Enter card suit (hearts/diamonds/clubs/spades): ";
+cin >> suit;
+
+while (suit != "hearts" && suit != "diamonds" &&
+       suit != "clubs" && suit != "spades") {
+    cout << "Invalid suit. Try again: ";
+    cin >> suit;
+}
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a loop that prompts for a number between 1 and 10 (inclusive) and re-prompts until valid input is received.
+
+2. Write a whitelist loop that accepts only "rock", "paper", or "scissors". Re-prompt if input doesn't match any of these.
+
+3. Write a do-while loop that prompts for a password and requires the user to enter it at least once, even if it's valid on the first try.
+
+4. Write a blacklist loop that rejects the word "admin" but accepts any other input.
+
+5. Combine range checking and input type failure: write a loop that validates both that the input is an integer and that it falls within a range.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ while loop validation re-prompt"
+- "C++ whitelist blacklist input validation"
+- "C++ do-while loop input validation"
+- "C++ keep asking user until valid input"
+- "C++ loop condition validation test"
+- "C++ reprompt user C++"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+1. When should you use loop-until-valid instead of inline validation with an error message?
+
+2. Why is the whitelist approach using OR (`&&` between `!=` checks) logically correct for continuing the loop?
+
+3. What is the advantage of a do-while loop for input validation compared to a standard while loop?
+
+4. How would you handle a type failure (user enters text instead of a number) inside a range loop?
+
+<!-- Appendix Slide 6 -->
