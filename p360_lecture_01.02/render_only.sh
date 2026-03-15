@@ -12,7 +12,7 @@ conda activate quarto
 echo "Working in directory: $(pwd)"
 
 # Find the .qmd file in the current directory
-QMD_FILE=$(ls *.qmd 2>/dev/null | head -n 1)
+QMD_FILE=$(ls p360_lecture_*.qmd 2>/dev/null | head -n 1)
 
 if [ -z "$QMD_FILE" ]; then
     echo "Error: No .qmd file found in this directory!"

@@ -1,9 +1,13 @@
 # _quarto.yml — p360 Lectures project configuration
 #
 # Shared front matter for all lectures.
-# Per-lecture .qmd files keep only:
-#   - version / changelog (as YAML comments, not YAML keys)
-#   - resources: - topics/**/images/**  (glob is relative to each lecture folder)
+# Per-lecture .qmd files have no YAML frontmatter — all settings come from here.
+#
+# Version tracking here:
+# version: 1.0.0 
+# Changelog:
+# 1.0.0 (YYYY-MM-DD) - Week X, Lecture Y: description
+# 1.0.1 2026-03-15 - Changed directory structure, cleaned up css and moved YAML
 #
 # CSS path is relative to the project root (not individual lecture subfolders).
 # Quarto resolves it correctly when rendering from any subdirectory.
@@ -43,12 +47,30 @@ format:
       - text: |
           <script>
           window.Reveal.on('ready', event => {
+            function atSectionBoundary() {
+              var routes = Reveal.availableRoutes();
+              return !routes.up || !routes.down;
+            }
+            function goRight() {
+              if (atSectionBoundary()) {
+                var h = Reveal.getIndices().h;
+                Reveal.slide(h + 1, 0);
+              }
+            }
+            function goLeft() {
+              if (atSectionBoundary()) {
+                var h = Reveal.getIndices().h;
+                Reveal.slide(h - 1, 0);
+              }
+            }
             Reveal.configure({
               keyboard: {
                 34: 'down',
                 33: 'up',
-                116: 'right',
-                190: 'left',
+                116: goRight,
+                190: goLeft,
+                37: goLeft,
+                39: goRight,
                 79: null
               }
             });

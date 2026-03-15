@@ -1,0 +1,124 @@
+<!-- Topic 4: State Tracking Patterns -->
+<!-- Total slides: 8 -->
+
+# State Tracking Patterns
+
+---
+
+## How does a loop remember what happened on previous iterations? {.smaller}
+
++ uses variables updated on every pass. 
++ When the loop ends, those variables hold a result computed across all iterations.
+
+::: notes
+Total slides: 8
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Counters
+
+A **counter** increments (or decrements) each time a condition is met.
+
+- Initialize to zero before the loop
+- Increment inside the body when the condition holds
+- The final value is the count of qualifying iterations
+
+Use when you need to know how many times something happened.
+
+<!-- Slide 2 -->
+
+---
+
+## Counter — Code
+
+```{.cpp}
+int count = 0;
+
+for (int val : scores) {
+    if (val >= 90)
+        count++;            // tells us how many times the loop executed
+}
+
+cout << "High scores: " << count << "\n";
+```
+
+`count` is initialized outside, updated inside, and read after. This is the counter pattern.
+
+<!-- Slide 3 -->
+
+---
+
+## Running Totals (Accumulators)
+
+An **accumulator** adds each value to a running sum.
+
+- Initialize to zero **before** the loop
+- Add each element to the accumulator inside the body
+- Divide after the loop to compute an average
+
+Use when you need a sum or average over a collection or stream of values.
+
+<!-- Slide 4 -->
+
+---
+
+## Accumulator — Code
+
+```{.cpp}
+double total = 0.0;
+
+for (int val : scores) {
+    total += val;
+}
+
+double average = total / scores.size();
+cout << "Average: " << average << "\n";
+```
+
+The accumulator pattern requires `total` initialized to zero — any other starting value corrupts the result.
+
+<!-- Slide 5 -->
+
+---
+
+## Maximum / Minimum Tracking
+
+A **max/min tracker** keeps the largest (or smallest) value seen so far.
+
+- Initialize to the first element — not to zero
+- Compare each element; update if it beats the current record
+- Common mistake: initializing to zero when all values are negative
+
+Use when you need the extreme value in a dataset.
+
+<!-- Slide 6 -->
+
+---
+
+## Max / Min Tracking — Code
+
+```{.cpp}
+int maxVal = scores[0];
+
+for (int i = 1; i < scores.size(); i++) {
+    if (scores[i] > maxVal)
+        maxVal = scores[i]; //.... replace maxVal when we find a higher one
+}
+
+cout << "High score: " << maxVal << "\n";
+```
+
+Starting at index 1 and initializing to `scores[0]` avoids the empty-comparison problem.
+
+<!-- Slide 7 -->
+
+---
+
+## Summary
+
+State tracking patterns turn a loop into a computation. Counters count, accumulators sum, and max/min trackers find extremes. In every case: initialize before the loop, update inside, read after.
+
+<!-- Slide 8 -->

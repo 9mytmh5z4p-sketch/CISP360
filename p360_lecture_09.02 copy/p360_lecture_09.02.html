@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="p360_lecture_09.02_files/libs/clipboard/clipboard.min.js"></script>
+<script src="p360_lecture_09.02_files/libs/quarto-html/tabby.min.js"></script>
+<script src="p360_lecture_09.02_files/libs/quarto-html/popper.min.js"></script>
+<script src="p360_lecture_09.02_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="p360_lecture_09.02_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="p360_lecture_09.02_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="p360_lecture_09.02_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.26">
+
+  <meta name="author" content="Dr.&nbsp;Caleb Fowler">
+  <title>CISP 360 Structured Programming</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="p360_lecture_09.02_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="p360_lecture_09.02_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="p360_lecture_09.02_files/libs/revealjs/dist/theme/quarto-99eeafcedac04850354b682963cedae3.css">
+  <link rel="stylesheet" href="../styles/styles.css">
+  <link href="p360_lecture_09.02_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="p360_lecture_09.02_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="p360_lecture_09.02_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="p360_lecture_09.02_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">CISP 360 Structured Programming</h1>
+  <p class="subtitle">Introduction to C++</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Dr.&nbsp;Caleb Fowler 
+</div>
+</div>
+</div>
+
+</section>
+<section id="last-time" class="slide level2">
+<h2>Last Time</h2>
+<ul>
+<li class="fragment"><strong>How the Compiler Works</strong></li>
+<li class="fragment"><strong>Data Types, Overflow, and Casting</strong></li>
+<li class="fragment"><strong>Signed vs Unsigned, Fixed-Width Integers</strong></li>
+</ul>
+<aside class="notes">
+<ol type="1">
+<li><strong>How the Compiler Works</strong>: Three stages — preprocessing, compilation, linking. The symbol table tracks every identifier’s name, type, and scope.</li>
+<li><strong>Data Types, Overflow, and Casting</strong>: Signed overflow is undefined behavior; unsigned wraps. Use static_cast&lt;&gt; for intentional conversions; integer division truncates.</li>
+<li><strong>Signed vs Unsigned, Fixed-Width Integers</strong>: Use int by default; size_t for indices and sizes; fixed-width types (int32_t, uint64_t) when exact bit width matters.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="todays-agenda" class="slide level2">
+<h2>Today’s Agenda</h2>
+<ul>
+<li>Review of Menu-Driven Programs</li>
+<li>Core Loop Patterns</li>
+<li>Control Patterns: Sentinel, Flag, Validation</li>
+<li>State Tracking Patterns: Counters, Accumulators, Min/Max</li>
+<li>Structural Patterns: Traversal</li>
+<li>Nested Loops</li>
+<li>Coding Exercise</li>
+</ul>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Topic 1: Review of Menu-Driven Programs -->
+<!-- Total slides: 4 -->
+</section>
+<section>
+<section id="menu-driven-programs" class="title-slide slide level1 center">
+<h1>Menu-Driven Programs</h1>
+
+</section>
+<section id="what-keeps-a-menu-program-running-between-choices" class="slide level2 smaller">
+<h2>What keeps a menu program running between choices?</h2>
+<p>Menu-driven programs combine a loop with a decision structure — the loop keeps the menu alive, the decision routes each choice. This is a pattern worth naming.</p>
+<aside class="notes">
+<p>Total slides: 4</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="menu-driven-program-structure" class="slide level2">
+<h2>Menu-Driven Program Structure</h2>
+<p>A menu program has three parts working together:</p>
+<ul>
+<li><strong>The loop</strong> — keeps the program running until the user chooses to quit</li>
+<li><strong>The menu display</strong> — shows options each iteration</li>
+<li><strong>The dispatcher</strong> — an <code>if/else</code> or <code>switch</code> that acts on the choice</li>
+</ul>
+<p>The do-while is a natural fit: display first, then check whether to continue.</p>
+<!-- Slide 2 -->
+</section>
+<section id="light-input-validation-on-the-choice" class="slide level2">
+<h2>Light Input Validation on the Choice</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="dt">int</span> choice<span class="op">;</span></span>
+<span id="cb1-2"><a href=""></a><span class="cf">do</span> <span class="op">{</span></span>
+<span id="cb1-3"><a href=""></a>    displayMenu<span class="op">();</span></span>
+<span id="cb1-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> choice<span class="op">;</span></span>
+<span id="cb1-5"><a href=""></a></span>
+<span id="cb1-6"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>choice <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">||</span> choice <span class="op">&gt;</span> <span class="dv">4</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-7"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Invalid choice. Enter 1-4.</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb1-8"><a href=""></a>        <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb1-9"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb1-10"><a href=""></a></span>
+<span id="cb1-11"><a href=""></a>    dispatch<span class="op">(</span>choice<span class="op">);</span></span>
+<span id="cb1-12"><a href=""></a></span>
+<span id="cb1-13"><a href=""></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>choice <span class="op">!=</span> <span class="dv">4</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Validate the choice before dispatching. <code>continue</code> skips the dispatch and re-displays the menu.</p>
+<!-- Slide 3 -->
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<p>A menu-driven program is a do-while loop wrapped around a dispatcher — the loop provides persistence, the condition provides exit. Light input validation catches bad choices before they reach the dispatcher.</p>
+<!-- Slide 4 -->
+<!-- Topic 2: Core Loop Patterns -->
+<!-- Total slides: 4 -->
+</section></section>
+<section>
+<section id="core-loop-patterns" class="title-slide slide level1 center">
+<h1>Core Loop Patterns</h1>
+
+</section>
+<section id="you-know-three-loop-types-but-what-are-loops-actually-for" class="slide level2 smaller">
+<h2>You know three loop types — but what are loops actually for?</h2>
+<p>Knowing the syntax of <code>while</code>, <code>for</code>, and <code>do-while</code> is not the same as knowing when and why to use them. Loop patterns are the recurring solutions that show up across every program you will write.</p>
+<aside class="notes">
+<p>Total slides: 4</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="three-pattern-categories" class="slide level2">
+<h2>Three Pattern Categories</h2>
+<p>Loops fall into three conceptual groups based on what they do:</p>
+<ul>
+<li><strong>Control Patterns</strong> — decide when to stop: sentinel loops, flag-controlled loops, input validation loops</li>
+<li><strong>State Tracking Patterns</strong> — accumulate information across iterations: counters, running totals, min/max tracking</li>
+<li><strong>Structural Patterns</strong> — move through a collection: iteration over arrays and vectors</li>
+</ul>
+<p>Each category has a different purpose. The syntax follows from the purpose.</p>
+<!-- Slide 2 -->
+</section>
+<section id="what-loops-are-used-for" class="slide level2">
+<h2>What Loops Are Used For</h2>
+<p>Every loop you write does one of these four things:</p>
+<ol type="1">
+<li>Repeat an action a controlled number of times</li>
+<li>Process every element in a collection</li>
+<li>Track or accumulate information over time</li>
+<li>Keep running until a condition occurs</li>
+</ol>
+<p>When you are stuck on a loop problem, identify which of these applies first.</p>
+<!-- Slide 3 -->
+</section>
+<section id="summary-1" class="slide level2">
+<h2>Summary</h2>
+<p>Loops are not just syntax — they are patterns. Classifying a loop by what it does (control, state tracking, structural) tells you which variables to initialize, what the condition should test, and what belongs in the body.</p>
+<!-- Slide 4 -->
+<!-- Topic 3: Control Patterns -->
+<!-- Total slides: 8 -->
+</section></section>
+<section>
+<section id="control-patterns" class="title-slide slide level1 center">
+<h1>Control Patterns</h1>
+
+</section>
+<section id="how-do-you-stop-a-loop-that-doesnt-know-in-advance-when-to-stop" class="slide level2 smaller">
+<h2>How do you stop a loop that doesn’t know in advance when to stop?</h2>
+<p>Control patterns manage termination. The loop keeps running until a specific value appears, a flag changes, or input passes validation. Each variant handles a different kind of stopping condition.</p>
+<aside class="notes">
+<p>Total slides: 8</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="sentinel-loop" class="slide level2">
+<h2>Sentinel Loop</h2>
+<p>A <strong>sentinel</strong> is a special value that signals the end of input — not real data, just a stop signal.</p>
+<ul>
+<li>The loop reads values until it sees the sentinel</li>
+<li>The sentinel must be outside the valid data range</li>
+<li>Common sentinels: <code>-1</code>, <code>0</code>, <code>"quit"</code>, <code>EOF</code></li>
+</ul>
+<p>Use when the number of inputs is unknown and a special value can mark the end.</p>
+<!-- Slide 2 -->
+</section>
+<section id="sentinel-loop-code" class="slide level2">
+<h2>Sentinel Loop — Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span> value<span class="op">;</span></span>
+<span id="cb2-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a number (-1 to quit): "</span><span class="op">;</span></span>
+<span id="cb2-3"><a href=""></a>cin <span class="op">&gt;&gt;</span> value<span class="op">;</span></span>
+<span id="cb2-4"><a href=""></a></span>
+<span id="cb2-5"><a href=""></a><span class="cf">while</span> <span class="op">(</span>value <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-6"><a href=""></a>    process<span class="op">(</span>value<span class="op">);</span></span>
+<span id="cb2-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a number (-1 to quit): "</span><span class="op">;</span></span>
+<span id="cb2-8"><a href=""></a>    cin <span class="op">&gt;&gt;</span> value<span class="op">;</span></span>
+<span id="cb2-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The priming read runs before the loop. The same read repeats at the bottom of the body.</p>
+<!-- Slide 3 -->
+</section>
+<section id="flag-controlled-loop" class="slide level2">
+<h2>Flag-Controlled Loop</h2>
+<p>A <strong>flag</strong> is a boolean variable that starts as <code>true</code> (or <code>false</code>) and flips when a condition is met.</p>
+<ul>
+<li>More flexible than a sentinel — the stopping condition can be complex</li>
+<li>The flag can be set from anywhere inside the loop body</li>
+<li>Clear naming matters: <code>done</code>, <code>found</code>, <code>isValid</code></li>
+</ul>
+<p>Use when the exit condition involves logic that’s hard to express in a single comparison.</p>
+<!-- Slide 4 -->
+</section>
+<section id="flag-controlled-loop-code" class="slide level2">
+<h2>Flag-Controlled Loop — Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">bool</span> done <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb3-2"><a href=""></a></span>
+<span id="cb3-3"><a href=""></a><span class="cf">while</span> <span class="op">(!</span>done<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-4"><a href=""></a>    <span class="dt">int</span> input <span class="op">=</span> getInput<span class="op">();</span></span>
+<span id="cb3-5"><a href=""></a></span>
+<span id="cb3-6"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>input <span class="op">==</span> QUIT_CODE <span class="op">||</span> attemptsExceeded<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb3-7"><a href=""></a>        done <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb3-8"><a href=""></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb3-9"><a href=""></a>        process<span class="op">(</span>input<span class="op">);</span></span>
+<span id="cb3-10"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb3-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The flag decouples the exit decision from the loop header. Either condition can trigger it.</p>
+<!-- Slide 5 -->
+</section>
+<section id="input-validation-loop" class="slide level2">
+<h2>Input Validation Loop</h2>
+<p>An input validation loop rejects bad input and reprompts until the user provides something acceptable.</p>
+<ul>
+<li>Prompt, read, test — repeat until the input is valid</li>
+<li>Give a specific error message on each rejection</li>
+<li>The do-while matches this pattern well: prompt once, then loop while invalid</li>
+</ul>
+<p>This is a control pattern: the loop exists entirely to enforce a stopping condition on input quality.</p>
+<!-- Slide 6 -->
+</section>
+<section id="input-validation-loop-code" class="slide level2">
+<h2>Input Validation Loop — Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb4-2"><a href=""></a><span class="cf">do</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter age (1-120): "</span><span class="op">;</span></span>
+<span id="cb4-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> age<span class="op">;</span></span>
+<span id="cb4-5"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>age <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">||</span> age <span class="op">&gt;</span> <span class="dv">120</span><span class="op">)</span></span>
+<span id="cb4-6"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Invalid. Age must be between 1 and 120.</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb4-7"><a href=""></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>age <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">||</span> age <span class="op">&gt;</span> <span class="dv">120</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The condition is the same in both places — once to check, once to decide whether to loop.</p>
+<!-- Slide 7 -->
+</section>
+<section id="summary-2" class="slide level2">
+<h2>Summary</h2>
+<p>Control patterns share one purpose: managing when the loop ends. Sentinels use a special value, flags use a boolean, and validation loops enforce input quality. Choose based on what kind of stopping condition your problem has.</p>
+<!-- Slide 8 -->
+<!-- Topic 4: State Tracking Patterns -->
+<!-- Total slides: 8 -->
+</section></section>
+<section>
+<section id="state-tracking-patterns" class="title-slide slide level1 center">
+<h1>State Tracking Patterns</h1>
+
+</section>
+<section id="how-does-a-loop-remember-what-happened-on-previous-iterations" class="slide level2 smaller">
+<h2>How does a loop remember what happened on previous iterations?</h2>
+<p>State tracking patterns use variables that are updated on every pass. By the time the loop ends, those variables hold a result computed across all iterations — a count, a total, or an extreme value.</p>
+<aside class="notes">
+<p>Total slides: 8</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="counters" class="slide level2">
+<h2>Counters</h2>
+<p>A <strong>counter</strong> increments (or decrements) each time a condition is met.</p>
+<ul>
+<li>Initialize to zero before the loop</li>
+<li>Increment inside the body when the condition holds</li>
+<li>The final value is the count of qualifying iterations</li>
+</ul>
+<p>Use when you need to know how many times something happened.</p>
+<!-- Slide 2 -->
+</section>
+<section id="counter-code" class="slide level2">
+<h2>Counter — Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-2"><a href=""></a></span>
+<span id="cb5-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> val <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-4"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>val <span class="op">&gt;=</span> <span class="dv">90</span><span class="op">)</span></span>
+<span id="cb5-5"><a href=""></a>        count<span class="op">++;</span></span>
+<span id="cb5-6"><a href=""></a><span class="op">}</span></span>
+<span id="cb5-7"><a href=""></a></span>
+<span id="cb5-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"High scores: "</span> <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>count</code> is initialized outside, updated inside, and read after. This is the counter pattern.</p>
+<!-- Slide 3 -->
+</section>
+<section id="running-totals-accumulators" class="slide level2">
+<h2>Running Totals (Accumulators)</h2>
+<p>An <strong>accumulator</strong> adds each value to a running sum.</p>
+<ul>
+<li>Initialize to zero before the loop</li>
+<li>Add each element to the accumulator inside the body</li>
+<li>Divide after the loop to compute an average</li>
+</ul>
+<p>Use when you need a sum or average over a collection or stream of values.</p>
+<!-- Slide 4 -->
+</section>
+<section id="accumulator-code" class="slide level2">
+<h2>Accumulator — Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="dt">double</span> total <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb6-2"><a href=""></a></span>
+<span id="cb6-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> val <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-4"><a href=""></a>    total <span class="op">+=</span> val<span class="op">;</span></span>
+<span id="cb6-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb6-6"><a href=""></a></span>
+<span id="cb6-7"><a href=""></a><span class="dt">double</span> average <span class="op">=</span> total <span class="op">/</span> scores<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb6-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The accumulator pattern requires <code>total</code> initialized to zero — any other starting value corrupts the result.</p>
+<!-- Slide 5 -->
+</section>
+<section id="maximum-minimum-tracking" class="slide level2">
+<h2>Maximum / Minimum Tracking</h2>
+<p>A <strong>max/min tracker</strong> keeps the largest (or smallest) value seen so far.</p>
+<ul>
+<li>Initialize to the first element — not to zero</li>
+<li>Compare each element; update if it beats the current record</li>
+<li>Common mistake: initializing to zero when all values are negative</li>
+</ul>
+<p>Use when you need the extreme value in a dataset.</p>
+<!-- Slide 6 -->
+</section>
+<section id="max-min-tracking-code" class="slide level2">
+<h2>Max / Min Tracking — Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">int</span> maxVal <span class="op">=</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb7-2"><a href=""></a></span>
+<span id="cb7-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> scores<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb7-4"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> maxVal<span class="op">)</span></span>
+<span id="cb7-5"><a href=""></a>        maxVal <span class="op">=</span> scores<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb7-6"><a href=""></a><span class="op">}</span></span>
+<span id="cb7-7"><a href=""></a></span>
+<span id="cb7-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"High score: "</span> <span class="op">&lt;&lt;</span> maxVal <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Starting at index 1 and initializing to <code>scores[0]</code> avoids the empty-comparison problem.</p>
+<!-- Slide 7 -->
+</section>
+<section id="summary-3" class="slide level2">
+<h2>Summary</h2>
+<p>State tracking patterns turn a loop into a computation. Counters count, accumulators sum, and max/min trackers find extremes. In every case: initialize before the loop, update inside, read after.</p>
+<!-- Slide 8 -->
+<!-- Topic 5: Structural Patterns -->
+<!-- Total slides: 4 -->
+</section></section>
+<section>
+<section id="structural-patterns" class="title-slide slide level1 center">
+<h1>Structural Patterns</h1>
+
+</section>
+<section id="how-does-a-loop-move-through-every-element-in-a-collection" class="slide level2 smaller">
+<h2>How does a loop move through every element in a collection?</h2>
+<p>Structural patterns are about traversal — visiting each element in a vector or array exactly once. The loop structure follows directly from whether you need the index or just the value.</p>
+<aside class="notes">
+<p>Total slides: 4</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="two-ways-to-traverse-a-collection" class="slide level2">
+<h2>Two Ways to Traverse a Collection</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Range-for (value only)</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> val <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> val <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb8-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Clean and safe — no index, no bounds error. Use when you only need the value.</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Index loop (when position matters)</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> scores<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> i <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use when you need the index — to compare adjacent elements, modify in place, or track position.</p>
+</div></div>
+<!-- Slide 2 -->
+</section>
+<section id="choosing-the-right-traversal" class="slide level2">
+<h2>Choosing the Right Traversal</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Need</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Read each value</td>
+<td>range-for</td>
+</tr>
+<tr class="even">
+<td>Modify elements in place</td>
+<td>index loop</td>
+</tr>
+<tr class="odd">
+<td>Compare adjacent elements</td>
+<td>index loop</td>
+</tr>
+<tr class="even">
+<td>Build a parallel result</td>
+<td>index loop</td>
+</tr>
+<tr class="odd">
+<td>Print with position numbers</td>
+<td>index loop</td>
+</tr>
+</tbody>
+</table>
+<p>Default to range-for. Switch to index loop when position matters.</p>
+<!-- Slide 3 -->
+</section>
+<section id="summary-4" class="slide level2">
+<h2>Summary</h2>
+<p>Structural patterns are traversals. Range-for is the right default — it reads clearly and eliminates bounds errors. Use an index loop only when the position itself is part of the computation.</p>
+<!-- Slide 4 -->
+<!-- Topic 6: Nested Loops -->
+<!-- Total slides: 6 -->
+</section></section>
+<section>
+<section id="nested-loops" class="title-slide slide level1 center">
+<h1>Nested Loops</h1>
+
+</section>
+<section id="what-happens-when-a-loop-contains-another-loop" class="slide level2 smaller">
+<h2>What happens when a loop contains another loop?</h2>
+<p>A nested loop runs its entire inner loop body on every single iteration of the outer loop. Understanding the execution order — and the cost — is essential before writing one.</p>
+<aside class="notes">
+<p>Total slides: 6</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="how-nested-loops-execute" class="slide level2">
+<h2>How Nested Loops Execute</h2>
+<ul>
+<li>The <strong>outer loop</strong> controls the number of full passes</li>
+<li>The <strong>inner loop</strong> runs completely on each outer pass</li>
+<li>Total iterations = outer count × inner count</li>
+</ul>
+<p>A 5-iteration outer loop containing a 10-iteration inner loop executes 50 total iterations.</p>
+<aside class="notes">
+<p>[Graphic suggestion: a simple grid showing outer rows × inner columns, each cell = one inner iteration]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 2 -->
+</section>
+<section id="execution-trace" class="slide level2">
+<h2>Execution Trace</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">3</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> <span class="dv">3</span><span class="op">;</span> j<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb10-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> i <span class="op">&lt;&lt;</span> <span class="st">","</span> <span class="op">&lt;&lt;</span> j <span class="op">&lt;&lt;</span> <span class="st">"  "</span><span class="op">;</span></span>
+<span id="cb10-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb10-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb10-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 3 -->
+</section>
+<section id="execution-trace-output" class="slide level2">
+<h2>Execution Trace — Output</h2>
+<pre><code>0,0  0,1  0,2
+1,0  1,1  1,2
+2,0  2,1  2,2</code></pre>
+<p><code>i</code> changes once per row. <code>j</code> cycles through all values for every value of <code>i</code>.</p>
+<!-- Slide 4 -->
+</section>
+<section id="when-to-use-nested-loops" class="slide level2">
+<h2>When to Use Nested Loops</h2>
+<ul>
+<li>Processing a 2D structure (grid, table, matrix)</li>
+<li>Comparing every element to every other element</li>
+<li>Generating all combinations of two sets</li>
+</ul>
+<p>Keep nesting to two levels when possible. Three or more levels are hard to reason about and usually signal a design problem.</p>
+<!-- Slide 5 -->
+</section>
+<section id="summary-5" class="slide level2">
+<h2>Summary</h2>
+<p>A nested loop multiplies iteration counts — outer × inner. Use them for 2D problems and combination generation. Keep nesting shallow; if you need three levels, consider whether a function call can flatten the structure.</p>
+<!-- Slide 6 -->
+<!-- Topic 7: Coding Exercise — Nested Loops -->
+<!-- Total slides: 3 -->
+</section></section>
+<section>
+<section id="coding-exercise" class="title-slide slide level1 center">
+<h1>Coding Exercise</h1>
+
+</section>
+<section id="lets-write-it" class="slide level2 smaller">
+<h2>Let’s write it</h2>
+<p>Apply nested loops to a concrete problem. Work through it before looking at the solution.</p>
+<aside class="notes">
+<p>Total slides: 3</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="the-task" class="slide level2">
+<h2>The Task</h2>
+<p>Write a program that prints a multiplication table for values 1 through 5.</p>
+<p>Expected output:</p>
+<pre><code> 1  2  3  4  5
+ 2  4  6  8 10
+ 3  6  9 12 15
+ 4  8 12 16 20
+ 5 10 15 20 25</code></pre>
+<ul>
+<li>Outer loop controls the row (<code>i</code>)</li>
+<li>Inner loop controls the column (<code>j</code>)</li>
+<li>Each cell prints <code>i * j</code>, formatted to width 3</li>
+</ul>
+<!-- Slide 2 -->
+</section>
+<section id="solution" class="slide level2">
+<h2>Solution</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb13-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
+<span id="cb13-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb13-4"><a href=""></a></span>
+<span id="cb13-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-6"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb13-7"><a href=""></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;=</span> <span class="dv">5</span><span class="op">;</span> j<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb13-8"><a href=""></a>            cout <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">3</span><span class="op">)</span> <span class="op">&lt;&lt;</span> i <span class="op">*</span> j<span class="op">;</span></span>
+<span id="cb13-9"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb13-10"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb13-11"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb13-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>setw(3)</code> right-aligns each value in a field of width 3. The newline after the inner loop ends each row.</p>
+<!-- Slide 3 -->
+</section>
+<section class="slide level2">
+
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="key-takeaways" class="title-slide slide level1 center">
+<h1>Key Takeaways</h1>
+<ul>
+<li>Every loop belongs to a category: control (when to stop), state tracking (what to remember), or structural (how to traverse). Identify the category first, then choose the syntax.</li>
+<li>State tracking variables follow one rule: initialize before the loop, update inside, read after.</li>
+<li>Nested loops multiply iteration counts. Keep nesting to two levels; flatten deeper structures with functions.</li>
+</ul>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="next-time" class="title-slide slide level1 center">
+<h1>Next Time</h1>
+
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="appendix" class="title-slide slide level1 center">
+<h1>Appendix</h1>
+
+</section>
+<section id="menu-driven-programs-good-practices" class="slide level2">
+<h2>Menu-Driven Programs: Good Practices</h2>
+<ul>
+<li>Use <code>do-while</code> so the menu displays before the first check</li>
+<li>Validate input before dispatching — never let garbage reach your switch/if</li>
+<li>Define an explicit quit value and check for it in the loop condition</li>
+</ul>
+</section>
+<section id="menu-driven-programs-common-mistakes" class="slide level2">
+<h2>Menu-Driven Programs: Common Mistakes</h2>
+<ul>
+<li>Forgetting to re-display the menu at the top of the loop body</li>
+<li>Validating after dispatching instead of before</li>
+<li>Using <code>while(true)</code> with no clear exit path</li>
+</ul>
+</section>
+<section id="menu-driven-programs-more-examples" class="slide level2">
+<h2>Menu-Driven Programs: More Examples</h2>
+<ul>
+<li>A calculator menu with +, -, *, /, quit</li>
+<li>A student record system: add, delete, search, print, exit</li>
+<li>A game loop: play again, view scores, quit</li>
+</ul>
+</section>
+<section id="menu-driven-programs-practice-problems" class="slide level2">
+<h2>Menu-Driven Programs: Practice Problems</h2>
+<ol type="1">
+<li>Write a menu that lets a user add numbers to a running total until they choose quit, then prints the total.</li>
+<li>Modify the above to reject any menu choice outside the valid range and reprompt.</li>
+</ol>
+</section>
+<section id="menu-driven-programs-ai-search-terms" class="slide level2">
+<h2>Menu-Driven Programs: AI Search Terms</h2>
+<ul>
+<li><code>c++ do-while menu driven program</code></li>
+<li><code>c++ input validation menu loop</code></li>
+<li><code>c++ switch statement menu example</code></li>
+</ul>
+</section>
+<section id="menu-driven-programs-questions-for-reflection" class="slide level2">
+<h2>Menu-Driven Programs: Questions for Reflection</h2>
+<ul>
+<li>Why is <code>do-while</code> a better fit for menus than <code>while</code>?</li>
+<li>What happens if you validate input after the dispatch instead of before?</li>
+<li>When would a flag-controlled loop be better than a sentinel in a menu?</li>
+</ul>
+</section>
+<section id="control-patterns-good-practices" class="slide level2">
+<h2>Control Patterns: Good Practices</h2>
+<ul>
+<li>Choose your sentinel carefully — it must be outside the valid data range</li>
+<li>Name flags descriptively: <code>done</code>, <code>found</code>, <code>isValid</code> — not <code>flag</code> or <code>f</code></li>
+<li>In validation loops, give a specific error message, not just “invalid input”</li>
+</ul>
+</section>
+<section id="control-patterns-common-mistakes" class="slide level2">
+<h2>Control Patterns: Common Mistakes</h2>
+<ul>
+<li>Initializing a sentinel loop without a priming read</li>
+<li>Forgetting to update the sentinel variable inside the loop body</li>
+<li>Using a flag but never setting it to <code>true</code> — infinite loop</li>
+</ul>
+</section>
+<section id="control-patterns-more-examples" class="slide level2">
+<h2>Control Patterns: More Examples</h2>
+<ul>
+<li>Read integers from the user until <code>-999</code> is entered (sentinel)</li>
+<li>Search a vector and stop when a target is found (flag: <code>found</code>)</li>
+<li>Prompt for a password until a valid format is entered (validation)</li>
+</ul>
+</section>
+<section id="control-patterns-practice-problems" class="slide level2">
+<h2>Control Patterns: Practice Problems</h2>
+<ol type="1">
+<li>Write a sentinel loop that reads positive integers and stops at -1. Print the count of values entered.</li>
+<li>Rewrite the above using a flag-controlled loop instead.</li>
+<li>Write an input validation loop that accepts only odd numbers between 1 and 99.</li>
+</ol>
+</section>
+<section id="control-patterns-ai-search-terms" class="slide level2">
+<h2>Control Patterns: AI Search Terms</h2>
+<ul>
+<li><code>c++ sentinel loop example</code></li>
+<li><code>c++ flag controlled loop boolean</code></li>
+<li><code>c++ input validation do while loop</code></li>
+</ul>
+</section>
+<section id="control-patterns-questions-for-reflection" class="slide level2">
+<h2>Control Patterns: Questions for Reflection</h2>
+<ul>
+<li>What makes a sentinel value “safe”? What could go wrong if you choose poorly?</li>
+<li>A flag-controlled loop and a sentinel loop can often solve the same problem. When does one read more clearly than the other?</li>
+</ul>
+</section>
+<section id="state-tracking-good-practices" class="slide level2">
+<h2>State Tracking: Good Practices</h2>
+<ul>
+<li>Always initialize accumulators to zero and max/min trackers to the first element</li>
+<li>Do all state updates inside the loop; read the result after</li>
+<li>Use meaningful variable names: <code>total</code>, <code>count</code>, <code>maxScore</code> — not <code>x</code>, <code>temp</code></li>
+</ul>
+</section>
+<section id="state-tracking-common-mistakes" class="slide level2">
+<h2>State Tracking: Common Mistakes</h2>
+<ul>
+<li>Initializing a max tracker to <code>0</code> — fails when all values are negative</li>
+<li>Reading the accumulator inside the loop before it is complete</li>
+<li>Forgetting to initialize the counter, causing undefined behavior</li>
+</ul>
+</section>
+<section id="state-tracking-more-examples" class="slide level2">
+<h2>State Tracking: More Examples</h2>
+<ul>
+<li>Count how many students passed (score &gt;= 60)</li>
+<li>Compute the average of a vector of doubles</li>
+<li>Find the highest and lowest temperatures in a dataset simultaneously</li>
+</ul>
+</section>
+<section id="state-tracking-practice-problems" class="slide level2">
+<h2>State Tracking: Practice Problems</h2>
+<ol type="1">
+<li>Read 10 integers. Print the count of even numbers and the sum of odd numbers.</li>
+<li>Read integers until -1. Track the maximum, minimum, and running average.</li>
+<li>Count how many values in a vector are above the vector’s own average (two-pass solution).</li>
+</ol>
+</section>
+<section id="state-tracking-ai-search-terms" class="slide level2">
+<h2>State Tracking: AI Search Terms</h2>
+<ul>
+<li><code>c++ accumulator pattern loop</code></li>
+<li><code>c++ find max min in array loop</code></li>
+<li><code>c++ running average loop</code></li>
+</ul>
+</section>
+<section id="state-tracking-questions-for-reflection" class="slide level2">
+<h2>State Tracking: Questions for Reflection</h2>
+<ul>
+<li>Why is initializing a max tracker to <code>scores[0]</code> safer than initializing to <code>0</code> or <code>INT_MIN</code>?</li>
+<li>A counter and an accumulator are both state tracking patterns. What is the structural difference between them?</li>
+</ul>
+</section>
+<section id="structural-patterns-good-practices" class="slide level2">
+<h2>Structural Patterns: Good Practices</h2>
+<ul>
+<li>Default to range-for when you only need values — it eliminates off-by-one errors</li>
+<li>Use <code>size_t</code> or <code>int</code> consistently for index variables; mixing signed and unsigned invites warnings</li>
+<li>If you modify elements inside a range-for, use a reference: <code>for (int&amp; val : scores)</code></li>
+</ul>
+</section>
+<section id="structural-patterns-common-mistakes" class="slide level2">
+<h2>Structural Patterns: Common Mistakes</h2>
+<ul>
+<li>Using an index loop when range-for would be cleaner</li>
+<li>Off-by-one: <code>i &lt;= scores.size()</code> instead of <code>i &lt; scores.size()</code></li>
+<li>Forgetting <code>&amp;</code> in range-for when you intend to modify elements</li>
+</ul>
+</section>
+<section id="structural-patterns-more-examples" class="slide level2">
+<h2>Structural Patterns: More Examples</h2>
+<ul>
+<li>Print every other element using an index loop</li>
+<li>Double every value in a vector using range-for with reference</li>
+<li>Find the index of the maximum value (requires an index loop)</li>
+</ul>
+</section>
+<section id="structural-patterns-practice-problems" class="slide level2">
+<h2>Structural Patterns: Practice Problems</h2>
+<ol type="1">
+<li>Print all elements of a vector in reverse order.</li>
+<li>Use range-for with a reference to replace all negative values with zero.</li>
+<li>Find both the value and the index of the maximum element in a vector.</li>
+</ol>
+</section>
+<section id="structural-patterns-ai-search-terms" class="slide level2">
+<h2>Structural Patterns: AI Search Terms</h2>
+<ul>
+<li><code>c++ range based for loop vector</code></li>
+<li><code>c++ for loop vector index</code></li>
+<li><code>c++ modify vector elements in loop</code></li>
+</ul>
+</section>
+<section id="structural-patterns-questions-for-reflection" class="slide level2">
+<h2>Structural Patterns: Questions for Reflection</h2>
+<ul>
+<li>When does an index loop give you something a range-for cannot?</li>
+<li>What bug does range-for eliminate by design?</li>
+</ul>
+</section>
+<section id="nested-loops-good-practices" class="slide level2">
+<h2>Nested Loops: Good Practices</h2>
+<ul>
+<li>Keep nesting to two levels — deeper nesting should trigger a refactor</li>
+<li>Use distinct, meaningful loop variables: <code>row</code>/<code>col</code>, <code>i</code>/<code>j</code> — never reuse the same variable name</li>
+<li>Calculate expected iteration count (outer × inner) before writing — surprises here are expensive</li>
+</ul>
+</section>
+<section id="nested-loops-common-mistakes" class="slide level2">
+<h2>Nested Loops: Common Mistakes</h2>
+<ul>
+<li>Using <code>i</code> for both the outer and inner loop variable — shadows the outer, causes wrong results</li>
+<li>Forgetting that the inner loop resets on every outer iteration</li>
+<li>Placing a statement that should be outside the inner loop inside it (e.g., printing a newline per cell instead of per row)</li>
+</ul>
+</section>
+<section id="nested-loops-more-examples" class="slide level2">
+<h2>Nested Loops: More Examples</h2>
+<ul>
+<li>Print a right triangle of asterisks (outer = row, inner = number of stars per row)</li>
+<li>Check whether any two elements in a vector are equal (all-pairs comparison)</li>
+<li>Generate all pairs (i, j) where i &lt; j from a vector</li>
+</ul>
+</section>
+<section id="nested-loops-practice-problems" class="slide level2">
+<h2>Nested Loops: Practice Problems</h2>
+<ol type="1">
+<li>Print a 5×5 grid of asterisks.</li>
+<li>Print a lower-left triangle: row 1 has 1 star, row 2 has 2 stars, etc.</li>
+<li>Given a vector, print all pairs of elements where the first is less than the second.</li>
+</ol>
+</section>
+<section id="nested-loops-ai-search-terms" class="slide level2">
+<h2>Nested Loops: AI Search Terms</h2>
+<ul>
+<li><code>c++ nested for loop example</code></li>
+<li><code>c++ nested loop 2d array</code></li>
+<li><code>c++ nested loop multiplication table</code></li>
+</ul>
+</section>
+<section id="nested-loops-questions-for-reflection" class="slide level2">
+<h2>Nested Loops: Questions for Reflection</h2>
+<ul>
+<li>How do you calculate the total number of iterations in a nested loop before running it?</li>
+<li>What is the cost of adding a third level of nesting? When is it justified?</li>
+</ul>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>CISP 360 · Fowler</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="p360_lecture_09.02_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="p360_lecture_09.02_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="p360_lecture_09.02_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="p360_lecture_09.02_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="p360_lecture_09.02_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="p360_lecture_09.02_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="p360_lecture_09.02_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="p360_lecture_09.02_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="p360_lecture_09.02_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="p360_lecture_09.02_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'h.v',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 5.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    <script>
+    window.Reveal.on('ready', event => {
+      function atSectionBoundary() {
+        var routes = Reveal.availableRoutes();
+        return !routes.up || !routes.down;
+      }
+      function goRight() {
+        if (atSectionBoundary()) {
+          var h = Reveal.getIndices().h;
+          Reveal.slide(h + 1, 0);
+        }
+      }
+      function goLeft() {
+        if (atSectionBoundary()) {
+          var h = Reveal.getIndices().h;
+          Reveal.slide(h - 1, 0);
+        }
+      }
+      Reveal.configure({
+        keyboard: {
+          34: 'down',
+          33: 'up',
+          116: goRight,
+          190: goLeft,
+          37: goLeft,
+          39: goRight,
+          79: null
+        }
+      });
+    });
+    </script>
+    
+
+</body></html>
