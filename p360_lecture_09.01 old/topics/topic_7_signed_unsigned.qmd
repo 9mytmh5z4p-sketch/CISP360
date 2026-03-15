@@ -1,0 +1,202 @@
+# Signed vs Unsigned Variables
+
+## Signed vs Unsigned Variables
+
+How does a variable store negative numbers, and when should you choose signed over unsigned? The difference is not just range — it affects overflow behavior, comparison logic, and compatibility with standard library types. Most of these bugs appear silently.
+
+::: notes
+Total slides: 9
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Signed: How Negatives Are Stored
+
+A signed integer uses the most significant bit (MSB) as a sign bit. In two's complement — the format used on all modern hardware — a 1 in the MSB means negative, 0 means non-negative. A 32-bit signed `int` uses 31 bits for magnitude and 1 bit for the sign.
+
+::: notes
+[Graphic suggestion: 32-bit layout showing bit 31 as the sign bit and bits 0–30 as the value bits.]
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Unsigned: All Bits for Magnitude
+
+An unsigned variable has no sign bit — all bits represent magnitude. A 32-bit `unsigned int` uses all 32 bits, doubling the positive range compared to a signed `int`.
+
+| Type | Minimum | Maximum |
+|------|---------|---------|
+| `int` (signed) | −2,147,483,648 | 2,147,483,647 |
+| `unsigned int` | 0 | 4,294,967,295 |
+| `short` (signed) | −32,768 | 32,767 |
+| `unsigned short` | 0 | 65,535 |
+
+<!-- Slide 3 -->
+
+---
+
+## When to Use Unsigned
+
+Use unsigned when:
+
+- The value can never be negative (sizes, counts, array indices)
+- Performing bit manipulation (flags, masks, bitwise operations)
+- Matching the type returned by `.size()` on containers — it returns `size_t`, which is unsigned
+
+```cpp
+for (size_t i = 0; i < vec.size(); ++i) {
+    // size_t is unsigned; matches vec.size() type exactly
+}
+```
+
+<!-- Slide 4 -->
+
+---
+
+## When to Use Signed
+
+Use signed for all general arithmetic unless there is a specific reason for unsigned. Signed is the default for `int`, `short`, and `long`. If a variable can ever be negative — even theoretically — use signed.
+
+```cpp
+int temperature = -15;    // can be negative
+int balance     = -200;   // account overdraft
+int velocity    = -50;    // moving in reverse
+```
+
+<!-- Slide 5 -->
+
+---
+
+## Mixing Signed and Unsigned: The Trap
+
+When a signed and unsigned value are compared or combined in an expression, the signed value is implicitly converted to unsigned. A negative signed value becomes a very large positive unsigned value.
+
+<!-- Slide 6 -->
+
+---
+
+## Mixing Signed and Unsigned — Code
+
+```cpp
+int   s =  -5;
+unsigned int u = 10;
+
+if (s < u) {
+    cout << "s < u\n";   // Looks like it should print...
+} else {
+    cout << "NOT s < u\n";  // ...but this prints instead
+}
+```
+
+`-5` is converted to `unsigned int`: it becomes 4,294,967,291. The comparison `4294967291 < 10` is false. Enable `-Wsign-compare` to catch this at compile time.
+
+::: notes
+This is a real source of security bugs in C++ — bounds checks that silently invert.
+:::
+
+<!-- Slide 7 -->
+
+---
+
+## Overflow Behavior Differs
+
+```cpp
+int s = INT_MAX;
+s++;              // Undefined behavior — do not rely on this
+
+unsigned int u = UINT_MAX;
+u++;              // Well-defined: wraps to 0
+```
+
+Signed overflow is undefined. Unsigned overflow is defined modular arithmetic. This is one of the few places where the two types behave fundamentally differently at the language level.
+
+<!-- Slide 8 -->
+
+---
+
+## Summary
+
+Signed is the safe default for general arithmetic; unsigned is appropriate for sizes, indices, and bit operations. Mixing the two in comparisons or arithmetic silently converts signed to unsigned — a common source of logic bugs. Enable sign-comparison warnings and address them rather than casting them away.
+
+<!-- Slide 9 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Default to `int` for general arithmetic; switch to unsigned only when the domain guarantees non-negative values.
+- Use `size_t` for container indices and loop counters over containers — it matches `.size()` and avoids sign-comparison warnings.
+- Enable `-Wsign-compare` (or equivalent) in your compiler settings and treat the warnings as errors.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Comparing `int` to the result of `.size()` — `.size()` returns `size_t` (unsigned), and a negative `int` silently becomes a huge positive value.
+- Decrementing an unsigned counter past zero in a loop — the loop never terminates because the underflow wraps to a large positive value.
+- Assuming signed and unsigned overflow behave the same way — they follow different rules with different consequences.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Infinite loop due to unsigned underflow
+for (unsigned int i = 10; i >= 0; i--) {
+    cout << i << "\n";  // When i is 0, i-- wraps to UINT_MAX
+}
+
+// Safe: use signed int instead
+for (int i = 10; i >= 0; i--) {
+    cout << i << "\n";  // Terminates correctly
+}
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Predict the output: `int x = -1; unsigned int y = 1; cout << (x < y);` — and explain why.
+2. Rewrite this loop correctly: `for (int i = 0; i < vec.size(); ++i) {}`
+3. What is the minimum and maximum value of `unsigned short`? Verify with `numeric_limits`.
+4. Write a loop that counts down from 5 to 0 using `unsigned int`. What change prevents an infinite loop?
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ signed vs unsigned integer"
+- "C++ sign-compare warning Wsign-compare"
+- "C++ size_t container loop"
+- "C++ unsigned integer underflow wraparound"
+- "two's complement signed representation"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- Why does C++ default to signed integers rather than unsigned?
+- How would you design a function parameter to make clear that negative values are not accepted?
+- What category of real-world bug is most commonly caused by sign/unsigned mismatches?
+
+<!-- Appendix Slide 6 -->

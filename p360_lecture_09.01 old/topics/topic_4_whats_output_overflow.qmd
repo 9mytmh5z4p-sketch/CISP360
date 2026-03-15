@@ -1,0 +1,260 @@
+# What's the Output? — Overflow & Underflow
+
+## What's the Output? — Overflow & Underflow
+
+Overflow and underflow produce values outside a type's representable range. Before running each example, predict the output — then check your reasoning against the answer. Getting the prediction wrong is the point: it reveals exactly where your mental model needs work.
+
+::: notes
+Total slides: 11
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## How to Use These Exercises
+
+Read the code, predict what prints, then advance to the answer slide. If your prediction was wrong, focus on the answer explanation — not just the output, but why that output occurs.
+
+<!-- Slide 2 -->
+
+---
+
+## What's the Output? — Short Overflow
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    short s = 32767;
+    s++;
+    cout << s << endl;
+}
+```
+
+::: notes
+Answer: -32768
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Output — Short Overflow
+
+```
+-32768
+```
+
+A `short` holds values from −32,768 to 32,767. Incrementing 32,767 moves past the maximum. The bit pattern rolls over to the minimum value, −32,768. This is undefined behavior for signed types — many compilers produce this result on x86, but it is not guaranteed.
+
+::: notes
+Emphasize: signed overflow = undefined behavior. Students often think "it wraps, so it's fine." It is not.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## What's the Output? — Unsigned Underflow
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    unsigned int u = 0;
+    u--;
+    cout << u << endl;
+}
+```
+
+::: notes
+Answer: 4294967295
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Output — Unsigned Underflow
+
+```
+4294967295
+```
+
+Decrementing an `unsigned int` past zero wraps to the maximum value. On a 32-bit system, that is 2³² − 1 = 4,294,967,295. Unlike signed overflow, unsigned wraparound is **well-defined** in C++ — this behavior is guaranteed.
+
+::: notes
+Contrast with slide 3: unsigned wrap-around is safe and predictable; signed wrap-around is undefined. This distinction matters.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## What's the Output? — INT_MAX + 1
+
+```cpp
+#include <iostream>
+#include <climits>
+using namespace std;
+
+int main() {
+    int x = INT_MAX;
+    cout << x + 1 << endl;
+}
+```
+
+::: notes
+Answer: undefined behavior — on most x86 compilers this prints -2147483648, but it is NOT guaranteed.
+:::
+
+<!-- Slide 7 -->
+
+---
+
+## Output — INT_MAX + 1
+
+```
+-2147483648   ← common result, not guaranteed
+```
+
+Adding 1 to `INT_MAX` (2,147,483,647) causes signed integer overflow — undefined behavior. Many compilers produce −2,147,483,648 due to two's complement wrap, but an optimizer may eliminate the operation entirely or produce something else. Never rely on this.
+
+::: notes
+Good moment to ask: "If the output is undefined, why does it appear consistent?" Answer: modern x86 hardware happens to wrap, but the compiler isn't obligated to use that behavior.
+:::
+
+<!-- Slide 8 -->
+
+---
+
+## What's the Output? — Float Underflow
+
+```cpp
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    float f = 1e-50f;
+    cout << fixed << setprecision(10) << f << endl;
+}
+```
+
+::: notes
+Answer: 0.0000000000
+:::
+
+<!-- Slide 9 -->
+
+---
+
+## Output — Float Underflow
+
+```
+0.0000000000
+```
+
+The smallest normalized `float` is approximately 1.18 × 10⁻³⁸. The value 1 × 10⁻⁵⁰ is far below that range and rounds to zero. Floating-point underflow rounds to zero rather than wrapping — precision is lost silently. No error, no warning.
+
+::: notes
+Float underflow is gradual: the value becomes 0.0 without crashing. Contrast with integer underflow. Practical risk: silent loss of precision in scientific or financial calculations.
+:::
+
+<!-- Slide 10 -->
+
+---
+
+## Pattern: What to Watch For
+
+- **Signed types**: never exceed `INT_MAX` or go below `INT_MIN` — the behavior is undefined.
+- **Unsigned types**: expect wrap-around; whether that is a bug depends on intent.
+- **Float**: very small results silently become zero — check for underflow in precision-sensitive code.
+
+<!-- Slide 11 -->
+
+---
+
+## Summary
+
+Signed integer overflow is undefined — do not rely on wrap-around. Unsigned wrap-around is defined and predictable. Floating-point underflow rounds to zero silently. All three require awareness and preventive design.
+
+<!-- Slide 11 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Use `numeric_limits<T>::max()` and `min()` to check values before operations that might overflow.
+- Treat signed and unsigned overflow differently — they have different rules and different risks.
+- Add range-checking to input validation when values will be used in arithmetic.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Assuming signed overflow wraps reliably across all compilers — it does not.
+- Using `unsigned` to "avoid" negatives but not accounting for underflow wrap when decrementing.
+- Ignoring floating-point underflow because no exception is raised — silent precision loss is a real bug.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+unsigned char c = 0;
+c--;
+cout << (int)c;   // 255 (wraps to max for unsigned char)
+
+unsigned char c2 = 255;
+c2 += 2;
+cout << (int)c2;  // 1 (wraps: 255 + 2 = 257, 257 % 256 = 1)
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. What does this print? `short s = -32768; s--; cout << s;`
+2. Write a safe increment function for `int` that prints an error instead of overflowing.
+3. Predict the output: `unsigned int x = 1; cout << (x - 2);`
+4. What is the minimum positive `float` your system can represent? Use `<limits>` to find out.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ signed integer overflow undefined behavior"
+- "C++ unsigned wraparound well-defined"
+- "C++ INT_MAX climits"
+- "C++ float underflow smallest value"
+- "C++ numeric_limits float min"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- Why is signed overflow undefined but unsigned overflow well-defined?
+- How would you build a test suite to catch overflow bugs in a financial calculation library?
+- What strategy would you use to debug a program that silently produces wrong numeric results?
+
+<!-- Appendix Slide 6 -->

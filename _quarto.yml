@@ -1,0 +1,56 @@
+# _quarto.yml — p360 Lectures project configuration
+#
+# Shared front matter for all lectures.
+# Per-lecture .qmd files keep only:
+#   - version / changelog (as YAML comments, not YAML keys)
+#   - resources: - topics/**/images/**  (glob is relative to each lecture folder)
+#
+# CSS path is relative to the project root (not individual lecture subfolders).
+# Quarto resolves it correctly when rendering from any subdirectory.
+
+project:
+  type: default
+
+title: "CISP 360 \n Structured Programming"
+subtitle: "Introduction to C++"
+author: "Dr. Caleb Fowler"
+
+filters:
+  - plantuml-filter.lua
+
+engine: jupyter
+execute:
+  eval: true
+  echo: true
+
+format:
+  revealjs:
+    margin: 0.05
+    css: styles/styles.css
+    theme: serif
+    slide-number: true
+    navigation-mode: vertical
+    transition: slide
+    incremental: false
+    scrollable: false
+    controls: true
+    hash: true
+    history: true
+    title-slide: false
+    footer: "CISP 360 · Fowler"
+    keyboard: true
+    include-after-body:
+      - text: |
+          <script>
+          window.Reveal.on('ready', event => {
+            Reveal.configure({
+              keyboard: {
+                34: 'down',
+                33: 'up',
+                116: 'right',
+                190: 'left',
+                79: null
+              }
+            });
+          });
+          </script>

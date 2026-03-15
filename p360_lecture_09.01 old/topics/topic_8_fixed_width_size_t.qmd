@@ -1,0 +1,218 @@
+# Fixed Width Integers and size_t
+
+## Fixed Width Integers and size_t
+
+If `int` is 4 bytes on one system and 2 bytes on another, how do you write code that behaves identically everywhere? C++ provides fixed-width integer types that guarantee an exact size regardless of platform. This section also introduces `size_t`, the standard type for anything that measures a size in memory.
+
+::: notes
+Total slides: 9
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The Problem: Platform-Dependent Sizes
+
+The standard types `int`, `short`, and `long` have minimum guaranteed sizes but no maximum. In practice, `int` is 4 bytes on most modern systems, but embedded and legacy platforms differ. Code that assumes a fixed size silently breaks when compiled elsewhere.
+
+::: notes
+
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Fixed-Width Types from `<cstdint>`
+
+`<cstdint>` provides types with guaranteed sizes:
+
+| Type | Signed | Unsigned |
+|------|--------|----------|
+| 8-bit | `int8_t` | `uint8_t` |
+| 16-bit | `int16_t` | `uint16_t` |
+| 32-bit | `int32_t` | `uint32_t` |
+| 64-bit | `int64_t` | `uint64_t` |
+
+If the platform cannot provide that exact size, the type does not exist — you get a compile error rather than silent data corruption.
+
+<!-- Slide 3 -->
+
+---
+
+## Using Fixed-Width Types
+
+```cpp
+#include <cstdint>
+#include <iostream>
+using namespace std;
+
+int main() {
+    int32_t  count   = 2000000000;   // guaranteed 32-bit signed
+    uint8_t  flags   = 0b10101010;   // guaranteed 8-bit unsigned
+    int64_t  balance = -900000000000LL;
+
+    cout << count   << "\n";
+    cout << (int)flags << "\n";
+    cout << balance << "\n";
+}
+```
+
+<!-- Slide 4 -->
+
+---
+
+## When to Use Fixed-Width Types
+
+Use fixed-width types when:
+
+- The exact bit width matters: network protocols, binary file formats, hardware registers
+- Code must be portable across platforms with different word sizes
+- You need bit manipulation with a known field width
+
+Do not use them for general arithmetic where the exact size does not matter — the standard `int` and `long` are fine there.
+
+<!-- Slide 5 -->
+
+---
+
+## What Is size_t?
+
+`size_t` is the unsigned integer type returned by `sizeof()` and by `.size()` on any container. It is guaranteed to be large enough to represent the size of any object in memory on the current platform — typically 4 bytes on 32-bit systems and 8 bytes on 64-bit systems.
+
+```cpp
+cout << sizeof(int)   << "\n";  // returns size_t
+cout << sizeof(double) << "\n";
+
+vector<int> v = {1, 2, 3};
+cout << v.size() << "\n";       // also returns size_t
+```
+
+<!-- Slide 6 -->
+
+---
+
+## Using size_t for Loop Indices
+
+```cpp
+vector<string> names = {"Alice", "Bob", "Carol"};
+
+for (size_t i = 0; i < names.size(); ++i) {
+    cout << names[i] << "\n";
+}
+```
+
+Comparing `int` to `size_t` triggers a sign-comparison warning. Using `size_t` for the loop counter eliminates the warning and is semantically correct — an index into a container cannot be negative.
+
+::: notes
+
+:::
+
+<!-- Slide 7 -->
+
+---
+
+## Fast and Least Variants (Brief)
+
+`<cstdint>` also defines:
+
+- `int_fast32_t` — at least 32 bits; the fastest available type of that width on the platform
+- `int_least8_t` — the smallest type with at least 8 bits
+
+These exist for performance-sensitive code. At the introductory level, use the exact-width types (`int32_t`) unless you have a specific reason to choose otherwise.
+
+<!-- Slide 8 -->
+
+---
+
+## Summary
+
+Fixed-width integer types guarantee an exact size on any platform. Use them when bit width matters — protocols, file formats, hardware. Use `size_t` for sizes, indices, and anything that measures memory or container length. For everything else, `int` is fine.
+
+<!-- Slide 9 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Include `<cstdint>` whenever you use fixed-width types.
+- Use `size_t` for loop indices over containers to avoid sign-comparison warnings.
+- Choose `int32_t` over `int` when you are writing cross-platform code that assumes a specific range.
+- Never hardcode sizes like `4` for `int` — use `sizeof()` or the appropriate `size_t` instead.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Using `int8_t` for small numbers and then printing it directly — it may print as a character since `int8_t` is often `signed char`.
+- Assuming `size_t` is always 64 bits — it is platform-dependent (32 bits on 32-bit systems).
+- Mixing `int` and `size_t` in comparisons without a cast — the signed `int` is silently converted to unsigned.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+#include <cstdint>
+#include <iostream>
+using namespace std;
+
+int main() {
+    uint32_t pixel = 0xFF8800FF;    // RGBA color packed in 32 bits
+    uint8_t  r = (pixel >> 24) & 0xFF;
+    uint8_t  g = (pixel >> 16) & 0xFF;
+    uint8_t  b = (pixel >> 8)  & 0xFF;
+
+    cout << "R: " << (int)r << "\n";  // 255
+    cout << "G: " << (int)g << "\n";  // 136
+    cout << "B: " << (int)b << "\n";  // 0
+}
+```
+
+Packing and unpacking data into exact-width fields is one of the primary use cases for fixed-width types.
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a program that prints `sizeof` for `int8_t`, `int16_t`, `int32_t`, and `int64_t`.
+2. Rewrite a loop that uses `int i` to iterate over a `vector<string>` using `size_t` instead.
+3. What is the maximum value of `uint16_t`? Calculate it as 2^16 − 1 and verify with `numeric_limits`.
+4. When would you choose `int_fast32_t` over `int32_t`?
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ fixed width integer types cstdint"
+- "C++ int32_t uint64_t portable types"
+- "C++ size_t vs int loop index"
+- "C++ int_fast32_t int_least8_t"
+- "C++ cross-platform integer types"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- Why does the C++ standard allow `int` to have different sizes instead of mandating 32 bits?
+- What could go wrong if you read a binary file format using `int` on a 32-bit and then a 64-bit system?
+- Why does `size_t` need to be unsigned rather than signed?
+
+<!-- Appendix Slide 6 -->

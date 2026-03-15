@@ -1,0 +1,100 @@
+---
+title: "CISP 360 \n Structured Programming"
+subtitle: "Introduction to C++"
+author: "Dr. Caleb Fowler"
+version: "1.0.0"
+# Changelog:
+# 1.0.0 (2026-03-13) - Week 9, Lecture 1: Compiler internals, types, overflow, casting
+
+format:
+  revealjs:
+    margin: 0.05
+    css: ../styles/styles.css
+    theme: serif
+    slide-number: true
+    navigation-mode: vertical
+    transition: slide
+    incremental: false
+    scrollable: false
+    controls: true
+    hash: true
+    history: true
+    title-slide: false
+    footer: "CISP 360 · Fowler"
+    keyboard: true
+    include-after-body:
+      - text: |
+          <script>
+          window.Reveal.on('ready', event => {
+            Reveal.configure({
+              keyboard: {
+                34: 'down',
+                33: 'up',
+                116: 'right',
+                190: 'left',
+                79: null
+              }
+            });
+          });
+          </script>
+
+engine: jupyter
+execute:
+  eval: true
+  echo: true
+
+resources:
+ - topics/**/images/**
+
+---
+
+## Last Time
+
+::: {.incremental}
+1. **The While Loop**: An entry-condition loop that keeps running as long as its condition is true. Initialize the loop control variable before the loop, test in the condition, update inside the body.
+2. **Do-While and For Loops**: Do-while is an exit-condition loop — it always runs at least once. For is a counter-controlled loop with init/condition/update in one line.
+3. **Which Loop to Use**: For a known count, use for. When it must run at least once, use do-while. For everything else, use while.
+:::
+
+---
+
+## Today's Agenda
+
+- How the compiler works
+- The symbol table
+- Overflow and underflow
+- Data type conversion and casting
+- Signed vs unsigned variables
+- Fixed-width integers and size_t
+- Determining variable size
+
+::: notes
+
+:::
+
+---
+
+{{< include topics/topic_1_compiler_works.qmd >}}
+{{< include topics/topic_2_symbol_table.qmd >}}
+{{< include topics/topic_3_overflow_underflow.qmd >}}
+{{< include topics/topic_4_whats_output_overflow.qmd >}}
+{{< include topics/topic_5_type_conversion_casting.qmd >}}
+{{< include topics/topic_6_whats_output_casting.qmd >}}
+{{< include topics/topic_7_signed_unsigned.qmd >}}
+{{< include topics/topic_8_fixed_width_size_t.qmd >}}
+{{< include topics/topic_9_determining_variable_size.qmd >}}
+
+---
+
+# Key Takeaways
+
+- The compiler checks types at compile time — most errors you can make with data types are caught before the program runs.
+- Signed integer overflow is undefined behavior. Unsigned overflow wraps predictably.
+- Use `static_cast<>` for intentional conversions. Integer division truncates — cast one operand to get a decimal result.
+- Default to `int`; use `size_t` for indices and sizes; use fixed-width types when exact bit width matters.
+
+---
+
+# Next Time
+
+- Strings in depth: `string` operations, input, and manipulation
