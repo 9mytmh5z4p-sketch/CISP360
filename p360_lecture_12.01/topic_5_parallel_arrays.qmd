@@ -1,0 +1,97 @@
+<!-- Topic 5: Parallel Arrays -->
+<!-- Total slides: 6 -->
+
+# Parallel Arrays
+
+---
+
+## Multiple arrays, one index? {.smaller}
+
+- You've seen parallel vectors — parallel arrays are the same pattern
+- One shared index ties corresponding elements across multiple arrays
+
+::: notes
+Total slides: 6
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## What are parallel arrays?
+
+Three separate arrays, one student per index:
+
+```
+index:    0        1        2        3
+names:  "Alice"  "Bob"   "Carol"  "Dave"
+scores:   91       78       84       95
+grades:  'A'      'C'      'B'      'A'
+```
+
+- `names[2]`, `scores[2]`, and `grades[2]` all describe Carol
+- The index is the only link between the arrays
+
+::: notes
+[Graphic suggestion: three horizontal arrays stacked vertically, each cell aligned by column, with vertical lines connecting index 2 across all three arrays to highlight the shared index relationship]
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Declaration
+
+```{.cpp}
+const int SIZE = 4;
+
+string names[SIZE]  = {"Alice", "Bob", "Carol", "Dave"};
+int    scores[SIZE] = {91, 78, 84, 95};
+char   grades[SIZE] = {'A', 'C', 'B', 'A'};
+```
+
+- All arrays share the same `SIZE` constant — use one named constant for all of them
+- Adding or removing a student requires updating every array
+
+<!-- Slide 3 -->
+
+---
+
+## Access and display
+
+```{.cpp}
+for (int i = 0; i < SIZE; i++) {
+    cout << names[i] << "  "
+         << scores[i] << "  "
+         << grades[i] << "\n";
+}
+```
+
+Output:
+```
+Alice  91  A
+Bob    78  C
+Carol  84  B
+Dave   95  A
+```
+
+<!-- Slide 4 -->
+
+---
+
+## Parallel arrays vs. structs
+
+- Parallel arrays keep related data apart — updating one record means touching every array
+- A struct keeps all fields for one record together in one place
+- Use parallel arrays for simple, short-lived data; prefer structs when records need to be inserted, deleted, or passed around
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
+- Parallel arrays share a common index — `arr1[i]`, `arr2[i]`, `arr3[i]` all describe the same entity
+- All arrays must use the same size constant; every structural change must be applied consistently across all of them
+
+<!-- Slide 6 -->

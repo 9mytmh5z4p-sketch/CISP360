@@ -1,0 +1,62 @@
+<!-- Topic 1: Closer Look — Arrays & Memory -->
+<!-- Total slides: 4 -->
+
+# Closer Look — Arrays & Memory
+
+---
+
+## Where does an array actually live? {.smaller}
+
+- Every variable occupies a location in memory with a numeric address
+- Array elements are stored contiguously — one right after the next, no gaps
+
+::: notes
+Total slides: 4
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Contiguous storage
+
+```
+int scores[5] = {91, 78, 84, 95, 62};
+```
+
+```
+Address:  0x1000  0x1004  0x1008  0x100C  0x1010
+Value:      91      78      84      95      62
+Index:     [0]     [1]     [2]     [3]     [4]
+```
+
+- Each `int` occupies 4 bytes — so addresses advance by 4
+- The array's address is the address of its first element
+
+::: notes
+[Graphic suggestion: five labeled boxes side by side, each 4 units wide, with the hex address below each box and the value inside; an arrow labeled "arr" points to the left edge of box 0]
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## What an index really does
+
+```
+scores[2]   →   go to scores' start address, skip forward 2 × 4 bytes, read
+```
+
+- `scores[i]` is shorthand for "start + i elements forward"
+- This is why out-of-bounds access doesn't crash immediately — it just reads the wrong memory location
+
+<!-- Slide 3 -->
+
+---
+
+## Summary
+
+- Array elements occupy consecutive memory addresses; each element is one element-size apart
+- The array's address equals the address of element zero — everything follows from that
+
+<!-- Slide 4 -->

@@ -1,0 +1,121 @@
+<!-- Topic 4: C-Strings -->
+<!-- Total slides: 7 -->
+
+# C-Strings
+
+---
+
+## What was a string before std::string? {.smaller}
+
+- A C-string is a `char` array where the last element is the null terminator `'\0'`
+- The terminator tells functions where the string ends — without it, nothing works correctly
+
+::: notes
+Total slides: 7
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The null terminator
+
+```
+char name[6] = {'A', 'l', 'i', 'c', 'e', '\0'};
+```
+
+```
+index:  0    1    2    3    4    5
+value: 'A'  'l'  'i'  'c'  'e'  '\0'
+```
+
+- The array must be at least one element longer than the text it holds
+- `'\0'` has integer value 0 — it is not the character `'0'`
+
+::: notes
+[Graphic suggestion: a six-cell array with each character labeled above its index; the last cell highlighted in a different color containing '\0' with the label "null terminator"]
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Declaration options
+
+```{.cpp}
+char name1[6] = "Alice";        // compiler adds '\0'
+char name2[]  = "Alice";        // size inferred: 6 (5 chars + '\0')
+char name3[6];                  // uninitialized — garbage + no terminator
+```
+
+- String literal initialization is the safe path — the compiler places `'\0'` automatically
+- An uninitialized char array has no terminator; using it as a string is undefined behavior
+
+<!-- Slide 3 -->
+
+---
+
+## Input and output
+
+```{.cpp}
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+char name[50];
+
+cout << "Enter name: ";
+cin >> name;            // reads until whitespace; adds '\0'
+cout << name << "\n";   // cout stops at '\0'
+```
+
+- `cin >>` stops at the first whitespace and always adds `'\0'`
+- The array must be large enough — `cin >>` does not check bounds
+
+<!-- Slide 4 -->
+
+---
+
+## Functions from \<cstring\>
+
+```{.cpp}
+char a[] = "Hello";
+char b[] = "World";
+char c[20];
+
+strlen(a);          // 5 — characters before '\0', not counting it
+strcpy(c, a);       // copies a into c, including '\0'
+strcat(c, b);       // appends b onto c: "HelloWorld"
+strcmp(a, b);       // < 0: a < b, 0: equal, > 0: a > b
+```
+
+- All functions depend on `'\0'` — a missing terminator causes undefined behavior
+- Always make the destination array large enough before calling `strcpy` or `strcat`
+
+<!-- Slide 5 -->
+
+---
+
+## C-strings vs std::string
+
+| | C-string (`char[]`) | `std::string` |
+|---|---|---|
+| Header | `<cstring>` | `<string>` |
+| Null terminator | Required, manual | Managed automatically |
+| Length | `strlen()` | `.length()` |
+| Assignment | `strcpy()` | `=` |
+| Concatenation | `strcat()` | `+` |
+| Bounds checking | None | Via `.at()` |
+
+- Prefer `std::string` for new code; C-strings appear in legacy code and C library interfaces
+
+<!-- Slide 6 -->
+
+---
+
+## Summary
+
+- A C-string is a `char` array terminated by `'\0'` — the terminator is what makes it a string
+- Use string literal initialization and `<cstring>` functions; prefer `std::string` whenever possible
+
+<!-- Slide 7 -->

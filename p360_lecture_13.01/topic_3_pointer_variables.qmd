@@ -1,0 +1,107 @@
+<!-- Topic 3: Pointer Variables -->
+<!-- Total slides: 6 -->
+
+# Pointer Variables
+
+---
+
+## Storing an address for later use {.smaller}
+
+- A pointer variable holds a memory address as its value
+- Two new operators: `*` in a declaration means "pointer to"; `*` in an expression means "go to that address"
+
+::: notes
+Total slides: 6
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Declaration
+
+```{.cpp}
+int   x   = 42;    // x holds an int value
+int*  ptr;         // ptr holds the address of an int
+```
+
+- `int*` is read as "pointer to int" — it is a type
+- `ptr` is a variable whose value is a memory address
+- An uninitialized pointer holds a garbage address — do not dereference it
+
+<!-- Slide 2 -->
+
+---
+
+## Assigning an address
+
+```{.cpp}
+int  x   = 42;
+int* ptr = &x;     // ptr now holds the address of x
+```
+
+- The types must match: `int*` holds the address of an `int`, `double*` holds the address of a `double`
+- `ptr` and `x` are separate variables — `ptr` stores where `x` lives, not a copy of its value
+
+::: notes
+[Graphic suggestion: two boxes side by side — box labeled "x" containing 42, box labeled "ptr" containing an arrow pointing to x's box; the arrow is labeled with x's address]
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Dereferencing
+
+```{.cpp}
+int  x   = 42;
+int* ptr = &x;
+
+cout << ptr  << "\n";    // the address (e.g. 0x7ff...)
+cout << *ptr << "\n";    // 42 — the value at that address
+
+*ptr = 99;               // changes x through the pointer
+cout << x    << "\n";    // 99
+```
+
+- `*ptr` means "follow the pointer and access what's there"
+- Writing to `*ptr` modifies the original variable
+
+<!-- Slide 4 -->
+
+---
+
+## Complete example
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+void show(int* ptr);
+
+int main() {
+    int score = 88;
+    int* p    = &score;
+
+    show(p);
+    *p = 95;
+    show(p);
+    return 0;
+}
+
+void show(int* ptr) {
+    cout << "address: " << ptr  << "\n";
+    cout << "value:   " << *ptr << "\n";
+}
+```
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
+- A pointer variable stores a memory address; `int* ptr` declares a pointer to int
+- `&` gets an address; `*` follows it — assign with `ptr = &x`, read or write with `*ptr`
+
+<!-- Slide 6 -->

@@ -1,0 +1,77 @@
+<!-- Topic 2: Pointers to Constants and Constant Pointers -->
+<!-- Total slides: 5 -->
+
+# Pointers to Constants and Constant Pointers
+
+---
+
+## Where does const go — and what does it protect? {.smaller}
+
+- `const` can restrict what a pointer points to, or restrict the pointer itself
+- Position relative to `*` determines which one is locked
+
+::: notes
+Total slides: 5
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Three combinations
+
+```{.cpp}
+int x = 10;
+int y = 20;
+
+const int* p1 = &x;    // pointer to const int
+int* const p2 = &x;    // const pointer to int
+const int* const p3 = &x;  // const pointer to const int
+```
+
+- Read right-to-left from the variable name: `p1` is a pointer (`*`) to a const int
+- `p2` is a const pointer (`* const`) to a regular int
+- `p3` is a const pointer to a const int — nothing can change
+
+<!-- Slide 2 -->
+
+---
+
+## Pointer to const — data is read-only
+
+```{.cpp}
+const int* p = &x;
+
+*p = 99;    // error — cannot modify through this pointer
+p  = &y;    // OK — the pointer itself can point elsewhere
+```
+
+- Use this in function parameters to promise "I will not change what you passed me"
+- The underlying variable is not truly const — `x` itself can still be modified directly
+
+<!-- Slide 3 -->
+
+---
+
+## Const pointer — address is locked
+
+```{.cpp}
+int* const p = &x;
+
+*p = 99;    // OK — the data can be modified
+p  = &y;    // error — the pointer cannot be reassigned
+```
+
+- Useful when you need a fixed alias to a variable — the address never changes
+- Less common than pointer-to-const
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
+- `const int* p` locks the data (read-only); `int* const p` locks the address — position of `const` relative to `*` determines which
+- Use `const int*` in function parameters to protect caller data — it is the most common application
+
+<!-- Slide 5 -->

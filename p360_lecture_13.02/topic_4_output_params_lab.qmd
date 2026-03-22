@@ -1,0 +1,127 @@
+<!-- Topic 4: Lab — Multiple Output Parameters -->
+<!-- Total slides: 8 -->
+
+# Lab — Multiple Output Parameters
+
+---
+
+## Returning more than one value from a function {.smaller}
+
+- A function can only `return` one value — pointer parameters let it write back multiple results
+- This is the pointer-parameter version of the pass-by-reference technique students already know
+
+::: notes
+Total slides: 8
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The problem
+
+A function that finds both the minimum and maximum of an array needs to produce two results. Options:
+
+- Return a struct — requires defining a type
+- Use output parameters — write results directly into caller-provided variables via pointers
+
+Output parameters are the classic C approach and appear throughout legacy code and system libraries.
+
+<!-- Slide 2 -->
+
+---
+
+## Function signature
+
+```{.cpp}
+void minMax(const int arr[], int size, int* outMin, int* outMax);
+```
+
+- `outMin` and `outMax` are output parameters — the caller passes addresses of variables to receive the results
+- `const int arr[]` protects the array — it is read-only inside the function
+
+<!-- Slide 3 -->
+
+---
+
+## Task — implement minMax
+
+```{.cpp}
+void minMax(const int arr[], int size, int* outMin, int* outMax) {
+    // your code here
+}
+```
+
+Rules:
+- Do not return anything — write results through `outMin` and `outMax`
+- Assume `size >= 1`
+
+Five minutes.
+
+<!-- Slide 4 -->
+
+---
+
+## Solution
+
+```{.cpp}
+void minMax(const int arr[], int size, int* outMin, int* outMax) {
+    *outMin = arr[0];
+    *outMax = arr[0];
+    for (int i = 1; i < size; i++) {
+        if (arr[i] < *outMin) *outMin = arr[i];
+        if (arr[i] > *outMax) *outMax = arr[i];
+    }
+}
+```
+
+<!-- Slide 5 -->
+
+---
+
+## Calling minMax
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+void minMax(const int arr[], int size, int* outMin, int* outMax);
+
+int main() {
+    int scores[6] = {91, 78, 84, 95, 62, 88};
+    int lo, hi;
+
+    minMax(scores, 6, &lo, &hi);
+    cout << "Min: " << lo << "\n";   // 62
+    cout << "Max: " << hi << "\n";   // 95
+    return 0;
+}
+```
+
+- `&lo` and `&hi` give `minMax` the addresses it needs to write the results back
+
+<!-- Slide 6 -->
+
+---
+
+## Task — minMaxAvg
+
+Extend minMax to also compute the average:
+
+```{.cpp}
+void minMaxAvg(const int arr[], int size,
+               int* outMin, int* outMax, double* outAvg);
+```
+
+Five minutes.
+
+<!-- Slide 7 -->
+
+---
+
+## Summary
+
+- Output pointer parameters let one function produce multiple results without a struct or global
+- The caller declares variables, passes their addresses, and reads the results after the call
+
+<!-- Slide 8 -->

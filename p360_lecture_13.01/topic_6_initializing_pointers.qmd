@@ -1,0 +1,45 @@
+<!-- Topic 6: Initializing Pointers -->
+<!-- Total slides: 3 -->
+
+# Initializing Pointers
+
+---
+
+## What's in a pointer before you assign it? {.smaller}
+
+- An uninitialized pointer holds a garbage address — dereferencing it is undefined behavior
+- Always initialize a pointer, even if you don't have an address to give it yet
+
+::: notes
+Total slides: 3
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## nullptr and wild pointers
+
+```{.cpp}
+int* p1;             // wild pointer — garbage address, never safe to dereference
+
+int* p2 = nullptr;   // initialized to "no address" — safe to test
+
+if (p2 != nullptr) {
+    cout << *p2 << "\n";   // only dereference after confirming it's valid
+}
+```
+
+- `nullptr` (C++11) is a typed null pointer constant — it compares equal to no valid address
+- A pointer that once pointed to a deleted or out-of-scope variable is called a *dangling pointer*; it has the same problem as a wild pointer
+
+<!-- Slide 2 -->
+
+---
+
+## Summary
+
+- Always initialize pointers: use `nullptr` when no target is available yet, or assign a valid address immediately
+- Never dereference an uninitialized or dangling pointer — check for `nullptr` first
+
+<!-- Slide 3 -->

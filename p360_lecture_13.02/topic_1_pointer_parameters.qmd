@@ -1,0 +1,88 @@
+<!-- Topic 1: Pointers as Function Parameters -->
+<!-- Total slides: 5 -->
+
+# Pointers as Function Parameters
+
+---
+
+## Pass-by-reference without the reference syntax {.smaller}
+
+- A pointer parameter gives a function the address of the caller's variable
+- The function can modify the caller's data by dereferencing that address
+
+::: notes
+Total slides: 5
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The mechanism
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+void doubleIt(int* ptr);
+
+int main() {
+    int x = 5;
+    doubleIt(&x);         // pass the address of x
+    cout << x << "\n";    // 10
+    return 0;
+}
+
+void doubleIt(int* ptr) {
+    *ptr = *ptr * 2;      // modify through the pointer
+}
+```
+
+- `&x` passes the address; `*ptr` inside the function reaches back to `x`
+- Without the dereference, you'd change a local copy of the pointer — not the original value
+
+<!-- Slide 2 -->
+
+---
+
+## Pointer parameter vs. reference parameter
+
+```{.cpp}
+void byPointer(int* p) { *p = 99; }   // caller must pass &x
+void byRef(int& r)     { r  = 99; }   // caller passes x directly
+```
+
+| | Pointer parameter | Reference parameter |
+|---|---|---|
+| Call site | `f(&x)` | `f(x)` |
+| Inside function | `*p = ...` | `r = ...` |
+| Can be null | Yes | No |
+| Reassignable | Yes | No |
+
+- References are cleaner syntax; pointers expose the mechanism and allow `nullptr`
+
+<!-- Slide 3 -->
+
+---
+
+## Passing an array (review)
+
+```{.cpp}
+void fill(int arr[], int size, int val);
+// equivalent — int arr[] decays to int*:
+void fill(int* arr, int size, int val);
+```
+
+- Array parameters are always pointers — the caller's array is always modified
+- This is why `const int arr[]` (or `const int* arr`) protects the caller's data
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
+- A pointer parameter accepts an address; the function modifies the caller's variable through `*ptr`
+- Pointer parameters and reference parameters achieve the same effect — pointers are more explicit and can be `nullptr`
+
+<!-- Slide 5 -->

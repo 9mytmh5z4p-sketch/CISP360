@@ -1,0 +1,99 @@
+<!-- Topic 3: Returning Pointers from Functions -->
+<!-- Total slides: 5 -->
+
+# Returning Pointers from Functions
+
+---
+
+## Can a function hand back an address? {.smaller}
+
+- Yes — but only if what it points to still exists when the caller uses it
+- Returning the address of a local variable is the most common pointer mistake
+
+::: notes
+Total slides: 5
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The dangling pointer trap
+
+```{.cpp}
+int* broken() {
+    int x = 42;
+    return &x;     // x is destroyed when broken() returns
+}                  // the returned pointer now points to dead memory
+```
+
+- `x` lives on the stack — it is destroyed when the function exits
+- The caller gets an address that refers to memory the program no longer owns
+- Dereferencing it is undefined behavior — it may appear to work, then crash unpredictably
+
+<!-- Slide 2 -->
+
+---
+
+## Valid: returning a pointer to static storage
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int* getCounter();
+
+int main() {
+    int* c = getCounter();
+    (*c)++;
+    cout << *c << "\n";   // 1
+    return 0;
+}
+
+int* getCounter() {
+    static int count = 0;   // persists across calls
+    return &count;
+}
+```
+
+- `static` local variables live for the entire program — their address is always valid
+
+<!-- Slide 3 -->
+
+---
+
+## Valid: returning a pointer to a caller-provided buffer
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int* findFirst(int arr[], int size, int target);
+
+int main() {
+    int scores[5] = {91, 78, 84, 95, 62};
+    int* found = findFirst(scores, 5, 84);
+    if (found != nullptr)
+        cout << *found << "\n";   // 84
+    return 0;
+}
+
+int* findFirst(int arr[], int size, int target) {
+    for (int i = 0; i < size; i++)
+        if (arr[i] == target) return &arr[i];
+    return nullptr;
+}
+```
+
+- The array belongs to `main` — the returned pointer is still valid after the function returns
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
+- Never return the address of a local variable — it is destroyed when the function exits
+- Safe returns: address of a `static` variable, address of heap memory, or address of caller-provided storage
+
+<!-- Slide 5 -->
