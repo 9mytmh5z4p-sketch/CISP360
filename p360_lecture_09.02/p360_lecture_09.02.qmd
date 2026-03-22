@@ -1,287 +1,54 @@
-# Last Time
+## Last Time
 
 ::: {.incremental}
-+ **How the Compiler Works**
-+ **Data Types, Overflow, and Casting**
-+ **Signed vs Unsigned, Fixed-Width Integers**
++ **The While Loop**
++ **Do-While and For Loops**
++ **Which Loop to Use**
 :::
 
 ::: notes
-1. **How the Compiler Works**: Three stages — preprocessing, compilation, linking. The symbol table tracks every identifier's name, type, and scope.
-2. **Data Types, Overflow, and Casting**: Signed overflow is undefined behavior; unsigned wraps. Use static_cast<> for intentional conversions; integer division truncates.
-3. **Signed vs Unsigned, Fixed-Width Integers**: Use int by default; size_t for indices and sizes; fixed-width types (int32_t, uint64_t) when exact bit width matters.
-:::
+1. **The While Loop**: An entry-condition loop that keeps running as long as its condition is true. Initialize the loop control variable before the loop, test in the condition, update inside the body.
+2. **Do-While and For Loops**: Do-while is an exit-condition loop — it always runs at least once. For is a counter-controlled loop with init/condition/update in one line.
+3. **Which Loop to Use**: For a known count, use for. When it must run at least once, use do-while. For everything else, use while.
+::: 
 
+---
 
-# Today's Agenda
+## Today's Agenda
 
-- Review of Menu-Driven Programs
-- Core Loop Patterns
-  - Control Patterns
-  - State Tracking Patterns
-  - Structural Patterns
-- Nested Loops
-- Coding Exercise
+- How the compiler works
+- The symbol table
+- Overflow and underflow
+- Data type conversion and casting
+- Signed vs unsigned variables
+- Fixed-width integers and size_t
+- Determining variable size
 
 ::: notes
 
 :::
 
-{{< include topic_1_menu_driven_review.qmd >}}
-{{< include topic_2_loop_patterns_overview.qmd >}}
-{{< include topic_3_control_patterns.qmd >}}
-{{< include topic_4_state_tracking.qmd >}}
-{{< include topic_5_structural_patterns.qmd >}}
-{{< include topic_6_nested_loops.qmd >}}
-{{< include topic_7_coding_exercise.qmd >}}
+---
+
+{{< include topic_1_compiler_works.qmd >}}
+{{< include topic_2_symbol_table.qmd >}}
+{{< include topic_3_overflow_underflow.qmd >}}
+{{< include topic_4_whats_output_overflow.qmd >}}
+{{< include topic_5_type_conversion_casting.qmd >}}
+{{< include topic_6_whats_output_casting.qmd >}}
+{{< include topic_7_signed_unsigned.qmd >}}
+{{< include topic_8_fixed_width_size_t.qmd >}}
+{{< include topic_9_determining_variable_size.qmd >}}
 
 ---
 
 # Key Takeaways
 
-- Every loop belongs to a category: control (when to stop), state tracking (what to remember), or structural (how to traverse). Identify the category first, then choose the syntax.
-- State tracking variables follow one rule: initialize before the loop, update inside, read after.
-- Nested loops multiply iteration counts. Keep nesting to two levels; flatten deeper structures with functions.
+- The compiler checks types at compile time — most errors you can make with data types are caught before the program runs.
+- Signed integer overflow is undefined behavior. Unsigned overflow wraps predictably.
+- Use `static_cast<>` for intentional conversions. Integer division truncates — cast one operand to get a decimal result.
+- Default to `int`; use `size_t` for indices and sizes; use fixed-width types when exact bit width matters.
 
 ---
 
 # Next Time
-
----
-
-# Appendix
-
----
-
-## Menu-Driven Programs: Good Practices
-
-- Use `do-while` so the menu displays before the first check
-- Validate input before dispatching — never let garbage reach your switch/if
-- Define an explicit quit value and check for it in the loop condition
-
----
-
-## Menu-Driven Programs: Common Mistakes
-
-- Forgetting to re-display the menu at the top of the loop body
-- Validating after dispatching instead of before
-- Using `while(true)` with no clear exit path
-
----
-
-## Menu-Driven Programs: More Examples
-
-- A calculator menu with +, -, *, /, quit
-- A student record system: add, delete, search, print, exit
-- A game loop: play again, view scores, quit
-
----
-
-## Menu-Driven Programs: Practice Problems
-
-1. Write a menu that lets a user add numbers to a running total until they choose quit, then prints the total.
-2. Modify the above to reject any menu choice outside the valid range and reprompt.
-
----
-
-## Menu-Driven Programs: AI Search Terms
-
-- `c++ do-while menu driven program`
-- `c++ input validation menu loop`
-- `c++ switch statement menu example`
-
----
-
-## Menu-Driven Programs: Questions for Reflection
-
-- Why is `do-while` a better fit for menus than `while`?
-- What happens if you validate input after the dispatch instead of before?
-- When would a flag-controlled loop be better than a sentinel in a menu?
-
----
-
-## Control Patterns: Good Practices
-
-- Choose your sentinel carefully — it must be outside the valid data range
-- Name flags descriptively: `done`, `found`, `isValid` — not `flag` or `f`
-- In validation loops, give a specific error message, not just "invalid input"
-
----
-
-## Control Patterns: Common Mistakes
-
-- Initializing a sentinel loop without a priming read
-- Forgetting to update the sentinel variable inside the loop body
-- Using a flag but never setting it to `true` — infinite loop
-
----
-
-## Control Patterns: More Examples
-
-- Read integers from the user until `-999` is entered (sentinel)
-- Search a vector and stop when a target is found (flag: `found`)
-- Prompt for a password until a valid format is entered (validation)
-
----
-
-## Control Patterns: Practice Problems
-
-1. Write a sentinel loop that reads positive integers and stops at -1. Print the count of values entered.
-2. Rewrite the above using a flag-controlled loop instead.
-3. Write an input validation loop that accepts only odd numbers between 1 and 99.
-
----
-
-## Control Patterns: AI Search Terms
-
-- `c++ sentinel loop example`
-- `c++ flag controlled loop boolean`
-- `c++ input validation do while loop`
-
----
-
-## Control Patterns: Questions for Reflection
-
-- What makes a sentinel value "safe"? What could go wrong if you choose poorly?
-- A flag-controlled loop and a sentinel loop can often solve the same problem. When does one read more clearly than the other?
-
----
-
-## State Tracking: Good Practices
-
-- Always initialize accumulators to zero and max/min trackers to the first element
-- Do all state updates inside the loop; read the result after
-- Use meaningful variable names: `total`, `count`, `maxScore` — not `x`, `temp`
-
----
-
-## State Tracking: Common Mistakes
-
-- Initializing a max tracker to `0` — fails when all values are negative
-- Reading the accumulator inside the loop before it is complete
-- Forgetting to initialize the counter, causing undefined behavior
-
----
-
-## State Tracking: More Examples
-
-- Count how many students passed (score >= 60)
-- Compute the average of a vector of doubles
-- Find the highest and lowest temperatures in a dataset simultaneously
-
----
-
-## State Tracking: Practice Problems
-
-1. Read 10 integers. Print the count of even numbers and the sum of odd numbers.
-2. Read integers until -1. Track the maximum, minimum, and running average.
-3. Count how many values in a vector are above the vector's own average (two-pass solution).
-
----
-
-## State Tracking: AI Search Terms
-
-- `c++ accumulator pattern loop`
-- `c++ find max min in array loop`
-- `c++ running average loop`
-
----
-
-## State Tracking: Questions for Reflection
-
-- Why is initializing a max tracker to `scores[0]` safer than initializing to `0` or `INT_MIN`?
-- A counter and an accumulator are both state tracking patterns. What is the structural difference between them?
-
----
-
-## Structural Patterns: Good Practices
-
-- Default to range-for when you only need values — it eliminates off-by-one errors
-- Use `size_t` or `int` consistently for index variables; mixing signed and unsigned invites warnings
-- If you modify elements inside a range-for, use a reference: `for (int& val : scores)`
-
----
-
-## Structural Patterns: Common Mistakes
-
-- Using an index loop when range-for would be cleaner
-- Off-by-one: `i <= scores.size()` instead of `i < scores.size()`
-- Forgetting `&` in range-for when you intend to modify elements
-
----
-
-## Structural Patterns: More Examples
-
-- Print every other element using an index loop
-- Double every value in a vector using range-for with reference
-- Find the index of the maximum value (requires an index loop)
-
----
-
-## Structural Patterns: Practice Problems
-
-1. Print all elements of a vector in reverse order.
-2. Use range-for with a reference to replace all negative values with zero.
-3. Find both the value and the index of the maximum element in a vector.
-
----
-
-## Structural Patterns: AI Search Terms
-
-- `c++ range based for loop vector`
-- `c++ for loop vector index`
-- `c++ modify vector elements in loop`
-
----
-
-## Structural Patterns: Questions for Reflection
-
-- When does an index loop give you something a range-for cannot?
-- What bug does range-for eliminate by design?
-
----
-
-## Nested Loops: Good Practices
-
-- Keep nesting to two levels — deeper nesting should trigger a refactor
-- Use distinct, meaningful loop variables: `row`/`col`, `i`/`j` — never reuse the same variable name
-- Calculate expected iteration count (outer × inner) before writing — surprises here are expensive
-
----
-
-## Nested Loops: Common Mistakes
-
-- Using `i` for both the outer and inner loop variable — shadows the outer, causes wrong results
-- Forgetting that the inner loop resets on every outer iteration
-- Placing a statement that should be outside the inner loop inside it (e.g., printing a newline per cell instead of per row)
-
----
-
-## Nested Loops: More Examples
-
-- Print a right triangle of asterisks (outer = row, inner = number of stars per row)
-- Check whether any two elements in a vector are equal (all-pairs comparison)
-- Generate all pairs (i, j) where i < j from a vector
-
----
-
-## Nested Loops: Practice Problems
-
-1. Print a 5×5 grid of asterisks.
-2. Print a lower-left triangle: row 1 has 1 star, row 2 has 2 stars, etc.
-3. Given a vector, print all pairs of elements where the first is less than the second.
-
----
-
-## Nested Loops: AI Search Terms
-
-- `c++ nested for loop example`
-- `c++ nested loop 2d array`
-- `c++ nested loop multiplication table`
-
----
-
-## Nested Loops: Questions for Reflection
-
-- How do you calculate the total number of iterations in a nested loop before running it?
-- What is the cost of adding a third level of nesting? When is it justified?

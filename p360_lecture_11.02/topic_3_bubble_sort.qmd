@@ -1,0 +1,137 @@
+<!-- Topic 3: Sorting — Bubble Sort -->
+<!-- Total slides: 7 -->
+
+# Sorting — Bubble Sort
+
+---
+
+## Putting an array in order {.smaller}
+
+- Sorting rearranges elements so each one is in the right position relative to its neighbors
+- Bubble sort is the simplest algorithm to read and trace
+
+::: notes
+Total slides: 7
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The core idea
+
+::: notes
+[Graphic suggestion: a row of five boxes with values {5, 3, 8, 1, 4}. Draw arrows between adjacent pairs being compared, then show the larger value "bubbling" one step to the right after each swap.]
+:::
+
+- Compare two adjacent elements; if they are out of order, swap them
+- Repeat across the whole array — the largest unsorted value "bubbles" to its correct position each pass
+- After N−1 passes, the array is sorted
+
+<!-- Slide 2 -->
+
+---
+
+## Swapping two elements
+
+```{.cpp}
+int a = scores[i];
+int b = scores[i + 1];
+
+if (a > b) {
+    int temp   = scores[i];      //.......... hold a's value
+    scores[i]  = scores[i + 1];  //.......... overwrite a with b
+    scores[i + 1] = temp;        //.......... put a's original value into b's slot
+}
+```
+
+::: notes
+The temp variable is essential. Without it, overwriting scores[i] destroys a's value before it can be moved. Students commonly try to skip temp — worth demonstrating the failure.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## One pass through the array
+
+```{.cpp}
+for (int i = 0; i < SIZE - 1; i++) {        //.......... SIZE-1 pairs
+    if (scores[i] > scores[i + 1]) {
+        int temp       = scores[i];
+        scores[i]      = scores[i + 1];
+        scores[i + 1]  = temp;
+    }
+}
+```
+
+::: notes
+After one pass, the largest element is guaranteed to be at the last index. This is the "one bubble rises" mental model.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Full bubble sort — nested loops
+
+```{.cpp}
+for (int pass = 0; pass < SIZE - 1; pass++) {       //.......... N-1 passes
+    for (int i = 0; i < SIZE - 1 - pass; i++) {     //.......... shrink inner bound
+        if (scores[i] > scores[i + 1]) {
+            int temp       = scores[i];
+            scores[i]      = scores[i + 1];
+            scores[i + 1]  = temp;
+        }
+    }
+}
+```
+
+::: notes
+SIZE - 1 - pass: after each pass, the last `pass` elements are already in their final position, so the inner loop doesn't need to visit them. This is the standard optimization that avoids re-comparing sorted elements.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Tracing a sort — before and after
+
+::: {.columns}
+
+::: {.column width="50%"}
+**Before**
+
+| Index | Value |
+|-------|-------|
+| 0 | 62 |
+| 1 | 95 |
+| 2 | 78 |
+| 3 | 91 |
+| 4 | 84 |
+:::
+
+::: {.column width="50%"}
+**After**
+
+| Index | Value |
+|-------|-------|
+| 0 | 62 |
+| 1 | 78 |
+| 2 | 84 |
+| 3 | 91 |
+| 4 | 95 |
+:::
+
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Summary
+
+- Bubble sort repeatedly compares adjacent pairs and swaps them if out of order; after N−1 passes the array is sorted
+- Always use a `temp` variable when swapping — overwriting an element without saving its value first destroys data
+
+<!-- Slide 7 -->

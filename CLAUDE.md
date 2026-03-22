@@ -72,6 +72,14 @@ After all topic files are generated, stitch them into a main lecture file:
 
 ---
 
+## C++ Code Style
+
+All running code examples use the following style:
+
+- `using namespace std;` — always present; never prefix standard library names with `std::`
+- Function prototypes — declare all functions above `main`; define them below
+- Inline comments — plain English, no dot-padding (`//..........`), no step numbers
+
 ## Slide Rules
 
 - Use **Quarto Markdown** with Reveal.js slide syntax (`---` as slide separator)
@@ -94,6 +102,7 @@ After all topic files are generated, stitch them into a main lecture file:
   [Graphic suggestion: describe what would go here]
   :::
   ```
+- Speaker notes (`:::notes ... :::`) go at the bottom of the slide, after all content and before the `<!-- Slide N -->` comment.
 - At the bottom of each slide, add an HTML comment with the slide number:
   ```
   <!-- Slide 3 -->

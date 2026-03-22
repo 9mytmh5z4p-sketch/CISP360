@@ -1,0 +1,132 @@
+<!-- Topic 1: Processing Array Contents -->
+<!-- Total slides: 7 -->
+
+# Processing Array Contents
+
+---
+
+## Same loop patterns — now with arrays {.smaller}
+
+- Sum, min, and max are accumulator and tracker patterns you already know
+- The only change is the data source: an array instead of a vector
+
+::: notes
+Total slides: 7
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Sum — the accumulator pattern
+
+```{.cpp}
+const int SIZE = 5;
+int scores[SIZE] = {91, 78, 84, 95, 62};
+
+int total = 0;                           //.......... initialize to zero
+
+for (int i = 0; i < SIZE; i++) {
+    total += scores[i];                  //.......... add each element
+}
+
+std::cout << "Total: " << total << "\n"; //.......... 410
+```
+
+::: notes
+The accumulator pattern is identical to what students used with vectors. Emphasize that the data structure changes but the reasoning does not.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Max — the tracker pattern
+
+```{.cpp}
+int max = scores[0];                     //.......... seed with first element
+
+for (int i = 1; i < SIZE; i++) {         //.......... start at 1, already have 0
+    if (scores[i] > max) {
+        max = scores[i];
+    }
+}
+
+std::cout << "Max: " << max << "\n";     //.......... 95
+```
+
+::: notes
+Seeding with the first element (not zero or INT_MIN) is correct for any value range, including all-negative inputs. Students saw this pattern in 09.02 state tracking patterns.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Min — same structure, flipped comparison
+
+```{.cpp}
+int min = scores[0];                     //.......... seed with first element
+
+for (int i = 1; i < SIZE; i++) {
+    if (scores[i] < min) {               //.......... flipped: < instead of >
+        min = scores[i];
+    }
+}
+
+std::cout << "Min: " << min << "\n";     //.......... 62
+```
+
+<!-- Slide 4 -->
+
+---
+
+## Average — sum divided by count
+
+```{.cpp}
+int total = 0;
+
+for (int i = 0; i < SIZE; i++) {
+    total += scores[i];
+}
+
+double average = static_cast<double>(total) / SIZE;  //.......... avoid int division
+std::cout << "Average: " << average << "\n";         //.......... 82.0
+```
+
+::: notes
+static_cast here is essential — without it, total / SIZE is integer division and truncates. Students covered type casting in 09.01.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Combining into one pass
+
+```{.cpp}
+int total = 0;
+int max   = scores[0];
+int min   = scores[0];
+
+for (int i = 0; i < SIZE; i++) {
+    total += scores[i];                  //.......... accumulate
+    if (scores[i] > max) max = scores[i]; //.......... track max
+    if (scores[i] < min) min = scores[i]; //.......... track min
+}
+```
+
+::: notes
+One pass is more efficient and is the natural form when you need multiple statistics at once. Worth showing after students have seen each pattern separately so they understand what's being combined.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Summary
+
+- Sum uses an accumulator initialized to zero; min and max use a tracker seeded with the first element
+- These are the same patterns from loop work — the array index just replaces the range-for variable
+
+<!-- Slide 7 -->

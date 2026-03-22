@@ -1,0 +1,122 @@
+<!-- Topic 6: Arrays as Function Arguments -->
+<!-- Total slides: 7 -->
+
+# Arrays as Function Arguments
+
+---
+
+## Passing an array to a function — not what you expect {.smaller}
+
+- Arrays do not behave like `int` or `double` when passed to a function
+- Understanding why changes how you write every array function
+
+::: notes
+Total slides: 7
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Array decay
+
+```{.cpp}
+int scores[5] = {91, 78, 84, 95, 62};
+
+void printFirst(int arr[]) {
+    std::cout << arr[0];         //.......... works fine
+}
+
+printFirst(scores);              //.......... passes a pointer, not a copy
+```
+
+- When you pass an array, C++ converts it to a **pointer to the first element**
+- The function receives an address, not a copy of the data
+- This is called **array decay**
+
+::: notes
+[Graphic suggestion: two boxes — left shows scores[5] on the stack with five elements; right shows arr inside the function as a single pointer arrow pointing to scores[0]. Emphasize that no copy is made.]
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## You must pass the size separately
+
+```{.cpp}
+void printArray(int arr[], int size) {    //.......... size is a required parameter
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i] << " ";
+    }
+}
+
+printArray(scores, 5);
+```
+
+- Once the array decays to a pointer, `sizeof` no longer knows the original size
+- Always pass size as a second parameter — there is no other way to know it
+
+<!-- Slide 3 -->
+
+---
+
+## Functions can modify the original array
+
+```{.cpp}
+void doubleAll(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        arr[i] *= 2;                      //.......... modifies the caller's array
+    }
+}
+
+doubleAll(scores, 5);                     //.......... scores is changed
+```
+
+- Because the function receives a pointer, any write to `arr[i]` changes the original
+- There is no copy to protect you — modifications are permanent
+
+<!-- Slide 4 -->
+
+---
+
+## Use const to prevent modification
+
+```{.cpp}
+void printArray(const int arr[], int size) {   //.......... read-only
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i] << " ";
+    }
+    // arr[0] = 0;  // compile error — const prevents writes
+}
+```
+
+- `const` signals intent: this function will not modify the array
+- The compiler enforces it — any write attempt is a compile error
+- Use `const` on any parameter that should not change
+
+<!-- Slide 5 -->
+
+---
+
+## Putting it together
+
+```{.cpp}
+int  sumArray   (const int arr[], int size);   //.......... read-only
+void sortArray  (      int arr[], int size);   //.......... modifies in place
+int  searchArray(const int arr[], int size, int target);
+```
+
+- `const` for read-only operations; no `const` when the function must write
+- The pattern is the same for all three: array pointer + size
+
+<!-- Slide 6 -->
+
+---
+
+## Summary
+
+- Arrays passed to functions decay to a pointer — the function receives an address, not a copy
+- Always pass size as a separate parameter; use `const` to prevent accidental modification
+
+<!-- Slide 7 -->

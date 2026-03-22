@@ -1,13 +1,10 @@
-# Topics — p360_lecture_08.01
+# Topics — p360_lecture_10.01
 
 | Topic | Emphasis | Time Budget | Optional | Prerequisites | Tone Flag | Note |
 |-------|----------|-------------|----------|---------------|-----------|------|
-|  Recap of things we CAN’T do with for-each| | 2 | | | |  parallel vectors, menu driven programs |
-| 5.1 The While loop | | | | | |   |
-| 5.7 Do .. While loop | | | | | |   |
-| 5.8 For loop | | | | | |   |
-| 5.9 Which Loop to use? | | | | | | menu driven programs w/ do loops  |
-| Lab Exercise practicing loops| | | | | |  Include a for-each for contrast |
+| File I/O| |  | | | |   |
+| Sequential File IO Lab | | | | | | end with R/W a vector |
+| Random Access | | | | | |   |
 
 ---
 

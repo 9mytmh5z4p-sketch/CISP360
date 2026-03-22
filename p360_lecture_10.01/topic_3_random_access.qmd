@@ -1,0 +1,193 @@
+<!-- Topic 3: Random Access -->
+<!-- Total slides: 10 -->
+
+# Random Access
+
+---
+
+## Reading the 100th record without reading the first 99? {.smaller}
+
+Sequential access reads from the start — every record in order. Random access jumps directly to any byte offset in the file using a position marker.
+
+::: notes
+Total slides: 10
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Binary mode
+
+Text mode interprets certain byte sequences as control characters. Binary mode disables that — bytes are read and written as-is.
+
+```{.cpp}
+#include <fstream>
+using namespace std;
+
+ifstream inFile("data.bin", ios::binary);
+```
+
+Random access on structured data almost always uses binary mode. Text files work for sequential I/O; binary files are needed for reliable byte-offset arithmetic.
+
+<!-- Slide 2 -->
+
+---
+
+## seekg() — moving the read position
+
+`seekg` moves the internal read position to any byte in the file.
+
+```{.cpp}
+inFile.seekg(byte_count, origin);
+```
+
+| Origin | Meaning |
+|--------|---------|
+| `ios::beg` | Count from the beginning |
+| `ios::end` | Count from the end |
+| `ios::cur` | Count from the current position |
+
+<!-- Slide 3 -->
+
+---
+
+## seekg() examples
+
+```{.cpp}
+ifstream inFile("data.bin", ios::binary);
+
+inFile.seekg(0,   ios::beg);   // go to byte 0 (start)
+inFile.seekg(0,   ios::end);   // go to last byte (end)
+inFile.seekg(40,  ios::beg);   // go to byte 40
+inFile.seekg(-8,  ios::cur);   // back 8 bytes from current
+```
+
+Negative offsets move backward. `ios::end` with a negative offset is a common way to step back from the end of a file.
+
+<!-- Slide 4 -->
+
+---
+
+## tellg() — where is the read position?
+
+```{.cpp}
+ifstream inFile("data.bin", ios::binary);
+
+inFile.seekg(0, ios::end);
+streampos fileSize = inFile.tellg();      // size in bytes
+
+cout << "File is " << fileSize << " bytes\n";
+
+inFile.seekg(0, ios::beg);               // rewind before reading
+```
+
+`tellg()` returns the current read position as a `streampos` value. Common use: seek to end, call `tellg()` to get file size, then seek back to the beginning.
+
+<!-- Slide 5 -->
+
+---
+
+## seekp() and tellp() — the write position
+
+```{.cpp}
+fstream file("data.bin",
+    ios::in | ios::out | ios::binary);
+
+file.seekp(40, ios::beg);                 // move write position to byte 40
+file.write(reinterpret_cast<char*>(&value), sizeof(value));
+
+streampos writePos = file.tellp();        // where did we land?
+```
+
+- `seekp` / `tellp` operate on the **write** position
+- `seekg` / `tellg` operate on the **read** position
+- On a bidirectional `fstream`, both positions exist independently
+
+<!-- Slide 6 -->
+
+---
+
+## Fixed-size records
+
+Random access only works predictably when every record occupies the same number of bytes.
+
+```{.cpp}
+struct Record {
+    int   id;       // 4 bytes
+    float score;    // 4 bytes
+    char  grade;    // 1 byte
+    char  pad[3];   // 3 bytes padding
+};                  // total: 12 bytes per record
+```
+
+- Text files have variable-length lines — byte offsets are not predictable
+- Binary files with fixed-size structs make offset arithmetic exact
+- Always use `sizeof(Record)` — never hardcode the byte count
+
+::: notes
+[Graphic suggestion: diagram showing a binary file as a row of equal-width blocks, each labeled "Record 0", "Record 1", "Record 2", with byte offsets marked below]
+:::
+
+<!-- Slide 7 -->
+
+---
+
+## Reading the Nth record
+
+To reach record N in a file of fixed-size records:
+
+```
+byte offset = N × sizeof(Record)
+```
+
+```{.cpp}
+struct Record { int id; float score; char grade; char pad[3]; };
+
+ifstream inFile("records.bin", ios::binary);
+
+int n = 4;                                         // 0-indexed: 5th record
+inFile.seekg(n * sizeof(Record), ios::beg);
+
+Record r;
+inFile.read(reinterpret_cast<char*>(&r), sizeof(Record));
+
+cout << "id: "    << r.id
+     << "  score: " << r.score
+     << "  grade: " << r.grade << "\n";
+```
+
+<!-- Slide 8 -->
+
+---
+
+## Writing the Nth record
+
+The same formula applies to writing. Seek to the offset, then write.
+
+```{.cpp}
+fstream file("records.bin",
+    ios::in | ios::out | ios::binary);
+
+Record updated = {42, 99.5f, 'A', {0, 0, 0}};
+
+int n = 4;
+file.seekp(n * sizeof(Record), ios::beg);
+file.write(reinterpret_cast<char*>(&updated), sizeof(Record));
+
+file.close();
+```
+
+`reinterpret_cast<char*>` tells `write` to treat the struct as raw bytes. The existing record at that offset is overwritten in place.
+
+<!-- Slide 9 -->
+
+---
+
+## Summary
+
+Random access jumps the position marker with `seekg`/`seekp` instead of reading every record in sequence. Fixed-size records make the byte offset predictable: `N × sizeof(Record)`.
+
+Use `tellg`/`tellp` to query the current position — useful for computing file size and for debugging offset arithmetic.
+
+<!-- Slide 10 -->

@@ -1,0 +1,81 @@
+<!-- Topic 4: sizeof with Arrays -->
+<!-- Total slides: 5 -->
+
+# sizeof with Arrays
+
+---
+
+## How many elements are in this array? {.smaller}
+
+- `sizeof` tells you the total bytes — not the element count
+- One formula bridges the gap
+
+::: notes
+Total slides: 5
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## sizeof on a single element vs. the whole array
+
+```{.cpp}
+int scores[5] = {91, 78, 84, 95, 62};
+
+sizeof(scores[0]);   //.......... 4 — bytes in one int
+sizeof(scores);      //.......... 20 — bytes in the whole array (5 × 4)
+```
+
+- `sizeof(array)` returns the total byte count of all elements combined
+- `sizeof(element)` returns the byte count of one element
+
+::: notes
+sizeof is evaluated at compile time — it is not a function call. The parentheses are required but it is an operator.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Computing element count
+
+```{.cpp}
+int scores[5];
+
+int count = sizeof(scores) / sizeof(scores[0]);  //.......... 20 / 4 = 5
+```
+
+- Total bytes divided by bytes per element gives the number of elements
+- This works for any element type — no magic numbers needed
+
+<!-- Slide 3 -->
+
+---
+
+## The catch — arrays passed to functions
+
+```{.cpp}
+void printSize(int arr[]) {
+    int count = sizeof(arr) / sizeof(arr[0]);  //.......... WRONG — sizeof(arr) is 8
+}
+```
+
+- When an array is passed to a function it decays to a pointer
+- `sizeof` on a pointer gives the pointer size (8 bytes on 64-bit), not the array size
+- **Always pass the size as a separate parameter** — do not rely on `sizeof` inside a function
+
+::: notes
+This is a preview of the next topic (arrays as function arguments). Plant the issue here so students are primed when the full explanation arrives.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
+- `sizeof(array) / sizeof(array[0])` gives the element count — but only where the array is declared
+- Inside a function, the array decays to a pointer and `sizeof` no longer reflects the original size
+
+<!-- Slide 5 -->

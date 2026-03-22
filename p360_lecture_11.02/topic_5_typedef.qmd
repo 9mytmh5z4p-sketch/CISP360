@@ -1,0 +1,96 @@
+<!-- Topic 5: typedef -->
+<!-- Total slides: 6 -->
+
+# typedef
+
+---
+
+## Giving a type a shorter name {.smaller}
+
+- `typedef` creates an alias — a new name for an existing type
+- Same type, different label
+
+::: notes
+Total slides: 6
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Basic syntax
+
+```{.cpp}
+typedef existing_type alias_name;
+```
+
+```{.cpp}
+typedef unsigned int uint;     //.......... uint now means unsigned int
+typedef double       Dollars;  //.......... Dollars now means double
+
+uint count = 0;
+Dollars price = 9.99;
+```
+
+::: notes
+The alias is just a name — it does not create a new type. The compiler treats uint and unsigned int as identical.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## typedef with arrays
+
+```{.cpp}
+typedef int ScoreArray[5];     //.......... ScoreArray is an array of 5 ints
+
+ScoreArray scores = {91, 78, 84, 95, 62};
+```
+
+- The alias captures both the element type and the size
+- Useful when the same array shape appears repeatedly in a program
+
+<!-- Slide 3 -->
+
+---
+
+## typedef with vectors
+
+```{.cpp}
+#include <vector>
+typedef std::vector<int> IntVec;   //.......... IntVec is a vector of ints
+
+IntVec scores = {91, 78, 84, 95, 62};
+scores.push_back(73);
+```
+
+- Particularly useful for long template types that appear many times
+- The alias does not change the type's behavior — all vector methods still work
+
+<!-- Slide 4 -->
+
+---
+
+## using — the modern alternative
+
+```{.cpp}
+using uint     = unsigned int;
+using Dollars  = double;
+using IntVec   = std::vector<int>;
+```
+
+- `using` does the same job as `typedef` and is preferred in modern C++
+- Easier to read: alias on the left, type on the right
+- You will see both in existing code — know how to read them
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
+- `typedef` creates an alias for a type; `using` is the modern equivalent with the same effect
+- Use aliases to shorten verbose types and to give domain meaning to generic types like `double` or `vector<int>`
+
+<!-- Slide 6 -->

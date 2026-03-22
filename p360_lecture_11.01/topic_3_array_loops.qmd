@@ -1,0 +1,96 @@
+<!-- Topic 3: Accessing Array Elements in Loops -->
+<!-- Total slides: 6 -->
+
+# Accessing Array Elements in Loops
+
+---
+
+## Getting to each element — index or range? {.smaller}
+
+- Two loop styles work with arrays, each with different tradeoffs
+- Choosing wrong loses the index or risks going out of bounds
+
+::: notes
+Total slides: 6
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The subscript operator
+
+```{.cpp}
+int scores[5] = {91, 78, 84, 95, 62};
+
+scores[0];   // 91 — first element
+scores[4];   // 62 — last element
+scores[5];   // out of bounds — undefined behavior
+```
+
+- `array[i]` reads or writes element at index `i`
+- Valid indices: `0` through `size - 1`
+- C++ does not check bounds — going past the end is undefined behavior
+
+<!-- Slide 2 -->
+
+---
+
+## Index-based for loop
+
+```{.cpp}
+const int SIZE = 5;
+int scores[SIZE] = {91, 78, 84, 95, 62};
+
+for (int i = 0; i < SIZE; i++) {
+    cout << scores[i] << "\n";  // access by index
+}
+```
+
+::: notes
+Use SIZE (a named constant) as the loop bound — not a magic number. The loop variable i is available inside the body, which allows computing positions, comparing neighbors, or writing back to the array.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Range-for loop
+
+```{.cpp}
+int scores[5] = {91, 78, 84, 95, 62};
+
+for (int score : scores) {
+    cout << score << "\n";   // no index needed
+}
+```
+
+::: notes
+Range-for reads the array size from the declaration automatically — no SIZE constant needed. The element variable (score) is a copy by default; use int& score to modify elements in place.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Which loop to use?
+
+| Situation | Loop |
+|-----------|------|
+| Need the index (position, neighbor, write back) | `for (int i = 0; i < SIZE; i++)` |
+| Read every element, no index needed | `for (int x : arr)` |
+| Modify elements in place | `for (int& x : arr)` |
+
+- When the index is irrelevant, range-for is cleaner and less error-prone
+- When you need the position or must write back by index, use the index-based form
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
+- Use `array[i]` to read or write a single element; valid indices run from `0` to `size - 1`
+- Index-based `for` gives you the position; range-for hides it — choose based on whether the index matters
+
+<!-- Slide 6 -->

@@ -1,0 +1,286 @@
+<!-- Topic 1: File I/O -->
+<!-- Total slides: 13 -->
+
+# File I/O
+
+---
+
+## Writing data that outlasts the program? {.smaller}
+
+Every variable disappears when the program ends. Files let you persist data between runs and share it with other programs.
+
+Two access patterns:
+
+- **Sequential** — read or write from start to finish, in order
+- **Random** — jump directly to any byte offset in the file
+
+::: notes
+Total slides: 13
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The File I/O Process
+
+1. Include `<fstream>`
+2. Declare a file stream object
+3. Open the file
+4. Read or write data
+5. Close the file
+
+Every file program follows this sequence. Steps 3–5 repeat for each file.
+
+<!-- Slide 2 -->
+
+---
+
+## The fstream library
+
+Include `<fstream>` to get three stream types:
+
+- `ofstream` — output (write) stream
+- `ifstream` — input (read) stream
+- `fstream` — bidirectional (read and write)
+
+These work like `cin` and `cout` but are connected to a file instead of the console.
+
+<!-- Slide 3 -->
+
+---
+
+## Opening and closing a file
+
+```{.cpp}
+#include <fstream>
+#include <iostream>
+using namespace std;
+
+int main() {
+    ofstream outFile;
+    outFile.open("scores.txt");     // opens (creates if missing)
+
+    outFile << "Alice" << " " << 95 << "\n";
+    outFile << "Bob"   << " " << 87 << "\n";
+
+    outFile.close();
+    return 0;
+}
+```
+
+If the file does not exist, `ofstream` creates it. If it exists, the default mode **overwrites** it from the beginning.
+
+<!-- Slide 4 -->
+
+---
+
+## Always check if the file opened
+
+```{.cpp}
+ifstream inFile("scores.txt");
+
+if (!inFile.is_open()) {
+    cerr << "Error: could not open scores.txt\n";
+    return 1;
+}
+```
+
+- `is_open()` returns false if the file does not exist, the path is wrong, or permissions block access
+- Reading from a failed stream silently produces garbage values
+- Always check — never assume the file is there
+
+<!-- Slide 5 -->
+
+---
+
+## Overwrite vs. Append mode
+
+By default, `ofstream` truncates the file every time it opens it:
+
+```{.cpp}
+ofstream out("log.txt");              // default: overwrite
+out << "Run at 09:00\n";
+out.close();
+
+ofstream out2("log.txt");             // overwrites — previous content gone
+out2 << "Run at 10:00\n";
+out2.close();
+```
+
+To **append** instead, pass `ios::app`:
+
+```{.cpp}
+ofstream out("log.txt", ios::app);    // append mode
+out << "Run at 10:00\n";              // adds to existing content
+out.close();
+```
+
+<!-- Slide 6 -->
+
+---
+
+## When to use each mode
+
+| Mode | Flag | Behavior |
+|------|------|----------|
+| Overwrite | *(default)* | Truncates file to zero bytes, writes fresh |
+| Append | `ios::app` | Preserves existing content, adds at end |
+
+Use overwrite when regenerating data from scratch each run. Use append when building a log or accumulating data across multiple program runs.
+
+<!-- Slide 7 -->
+
+---
+
+## Sequential write
+
+```{.cpp}
+#include <fstream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> scores = {91, 78, 84, 95, 62};
+
+    ofstream outFile("scores.txt");
+
+    for (int score : scores) {
+        outFile << score << "\n";     // one value per line
+    }
+
+    outFile.close();
+    return 0;
+}
+```
+
+The stream position advances automatically with each write — no manual tracking needed.
+
+<!-- Slide 8 -->
+
+---
+
+## Sequential read
+
+```{.cpp}
+ifstream inFile("scores.txt");
+vector<int> scores;
+int value;
+
+while (inFile >> value) {             // reads until EOF
+    scores.push_back(value);
+}
+
+inFile.close();
+```
+
+`inFile >> value` returns a false stream state when extraction fails — including at end of file. That makes it a natural loop condition.
+
+<!-- Slide 9 -->
+
+---
+
+## Writing a CSV file
+
+A CSV file uses commas to separate fields. Writing one is just writing plain text:
+
+```{.cpp}
+#include <fstream>
+using namespace std;
+
+int main() {
+    ofstream out("students.csv");
+
+    out << "name,score,grade\n";      // header row
+    out << "Alice,95,A\n";
+    out << "Bob,78,C\n";
+    out << "Carol,84,B\n";
+
+    out.close();
+    return 0;
+}
+```
+
+Any program that reads CSV — spreadsheets, Python, databases — can open this file.
+
+<!-- Slide 10 -->
+
+---
+
+## Reading a CSV file
+
+```{.cpp}
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <iostream>
+using namespace std;
+
+int main() {
+    ifstream in("students.csv");
+    string line;
+
+    getline(in, line);                // skip header row
+
+    while (getline(in, line)) {       // one line per iteration
+        stringstream ss(line);
+        string name, scoreStr, grade;
+
+        getline(ss, name,     ',');   // read up to first comma
+        getline(ss, scoreStr, ',');   // read up to second comma
+        getline(ss, grade,    ',');   // read remainder
+
+        cout << name << " scored " << scoreStr << "\n";
+    }
+
+    in.close();
+    return 0;
+}
+```
+
+`getline(stream, string, delimiter)` reads up to the delimiter instead of newline.
+
+<!-- Slide 11 -->
+
+---
+
+## End-of-file detection
+
+Two patterns you will see in the wild:
+
+::: {.columns}
+
+::: {.column width="50%"}
+**Preferred**
+```{.cpp}
+while (inFile >> value) {
+    // process value
+}
+```
+Extraction fails cleanly at EOF. No off-by-one reads.
+:::
+
+::: {.column width="50%"}
+**Avoid**
+```{.cpp}
+while (!inFile.eof()) {
+    inFile >> value;
+    // may process stale value
+}
+```
+`eof()` is set *after* a failed read — loop body runs once too many.
+:::
+
+:::
+
+<!-- Slide 12 -->
+
+---
+
+## Summary
+
+Files persist data beyond the program's lifetime. Use `ofstream` to write and `ifstream` to read. Default mode overwrites; `ios::app` appends to existing content.
+
+CSV files are plain text — write commas between fields, use `getline` with a delimiter to parse them back.
+
+<!-- Slide 13 -->
