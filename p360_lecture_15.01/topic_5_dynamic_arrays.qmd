@@ -1,0 +1,100 @@
+<!-- Topic 5: Dynamic Arrays -->
+<!-- Total slides: 5 -->
+
+# Dynamic Arrays
+
+---
+
+## What if you don't know the array size until the program runs? {.smaller}
+
++ Stack arrays require a compile-time size. Dynamic arrays let the size come from the user or a file.
++ `new[]` allocates the array on the heap; `delete[]` releases it.
+
+::: notes
+Total slides: 5
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Allocating a dynamic array
+
+```{.cpp}
+int n;
+cout << "How many scores? ";
+cin >> n;
+
+int* scores = new int[n];   // size decided at runtime
+```
+
+- `n` does not need to be a constant — any integer expression works
+- `scores` is a pointer to the first element, just like a regular array name
+- All the pointer arithmetic and subscript syntax from week 13 applies
+
+<!-- Slide 2 -->
+
+---
+
+## Using and releasing a dynamic array
+
+```{.cpp}
+for (int i = 0; i < n; i++) {
+    cout << "Score " << (i + 1) << ": ";
+    cin >> scores[i];
+}
+
+// ... process ...
+
+delete[] scores;    // must use delete[], not delete
+scores = nullptr;
+```
+
+- Use `delete[]` — not `delete` — for arrays allocated with `new[]`
+- Mixing them is undefined behavior
+- Set to `nullptr` after release
+
+<!-- Slide 3 -->
+
+---
+
+## Complete example
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "How many scores? ";
+    cin >> n;
+
+    int* scores = new int[n];
+
+    for (int i = 0; i < n; i++) {
+        cout << "Score " << (i + 1) << ": ";
+        cin >> scores[i];
+    }
+
+    int sum = 0;
+    for (int i = 0; i < n; i++)
+        sum += scores[i];
+
+    cout << "Average: " << (sum / n) << "\n";
+
+    delete[] scores;
+    scores = nullptr;
+    return 0;
+}
+```
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
++ Use `new int[n]` when the array size is not known at compile time.
++ Always pair `new[]` with `delete[]` — and set the pointer to `nullptr` after release.
+
+<!-- Slide 5 -->

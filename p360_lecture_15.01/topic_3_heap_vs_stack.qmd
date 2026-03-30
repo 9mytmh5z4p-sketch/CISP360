@@ -1,0 +1,77 @@
+<!-- Topic 3: Heap vs. Stack -->
+<!-- Total slides: 5 -->
+
+# Heap vs. Stack
+
+---
+
+## Where does memory come from after the function returns? {.smaller}
+
++ Every local variable lives on the stack — and disappears when its function ends.
++ The heap is a second pool of memory you manage yourself, with no automatic cleanup.
+
+::: notes
+Total slides: 5
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The stack
+
+```{.cpp}
+void foo() {
+    int x = 42;   // allocated when foo() is called
+    // ...
+}                 // x is destroyed here — automatically
+```
+
+- Memory is allocated and freed automatically as functions are called and return
+- Fast, but limited in size (~1–8 MB typical)
+- Lifetime is tied to scope — you cannot return a pointer to a local variable
+
+<!-- Slide 2 -->
+
+---
+
+## The heap
+
+```{.cpp}
+int* p = new int(42);   // allocated on the heap
+// ...
+delete p;               // freed only when YOU say so
+```
+
+- Memory persists until you explicitly release it with `delete`
+- Much larger than the stack — limited by available RAM
+- Lifetime is independent of scope — survives function return
+
+<!-- Slide 3 -->
+
+---
+
+## Stack vs. heap at a glance
+
+| | Stack | Heap |
+|-|-------|------|
+| Allocation | automatic | manual (`new`) |
+| Deallocation | automatic | manual (`delete`) |
+| Lifetime | tied to scope | until `delete` is called |
+| Size limit | small (~1–8 MB) | large (RAM limit) |
+| Speed | fast | slightly slower |
+
+::: notes
+[Graphic suggestion: two-region memory diagram — stack grows downward from top, heap grows upward from bottom, with arrows showing growth directions]
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
++ The stack handles memory automatically but is scope-bound and size-limited.
++ The heap lets you control lifetime and size — at the cost of managing it yourself.
+
+<!-- Slide 5 -->

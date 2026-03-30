@@ -1,0 +1,81 @@
+<!-- Topic 5: Fill In the Missing Code #1 -->
+<!-- Total slides: 3 -->
+
+# Fill In the Missing Code #1
+
+---
+
+## Exercise: scalar new/delete with error checking {.smaller}
+
++ The program allocates a single `double` on the heap, reads a value into it, and reports the result.
++ Fill in the missing block to make it compile and run correctly.
+
+::: notes
+Total slides: 3
+Students need to write: the new allocation with nothrow, the nullptr check, and the delete + nullptr assignment. About 4 lines in a contiguous block.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The code — fill in lines 10–13 {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+void printDouble(const double* p) {
+    cout << "Value: " << *p << "\n";
+}
+
+int main() {
+    double* temp;
+
+    // === YOUR CODE HERE (lines 10–13) ===
+    // Allocate a double on the heap using nothrow.
+    // If allocation failed, print an error and return 1.
+    // Otherwise, read a value from the user into *temp.
+    // =====================================
+
+    printDouble(temp);
+
+    delete temp;
+    temp = nullptr;
+    return 0;
+}
+```
+
+<!-- Slide 2 -->
+
+---
+
+## Solution {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+void printDouble(const double* p) {
+    cout << "Value: " << *p << "\n";
+}
+
+int main() {
+    double* temp;
+
+    temp = new (nothrow) double;
+    if (temp == nullptr) {
+        cerr << "Allocation failed\n";
+        return 1;
+    }
+    cin >> *temp;
+
+    printDouble(temp);
+
+    delete temp;
+    temp = nullptr;
+    return 0;
+}
+```
+
+<!-- Slide 3 -->

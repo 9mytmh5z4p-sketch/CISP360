@@ -1,13 +1,13 @@
-# Topics — p360_lecture_08.01
+# Topics — p360_lecture_16.01
 
 | Topic | Emphasis | Time Budget | Optional | Prerequisites | Tone Flag | Note |
 |-------|----------|-------------|----------|---------------|-----------|------|
-|  Recap of things we CAN’T do with for-each| | 2 | | | |  parallel vectors, menu driven programs |
-| 5.1 The While loop | | | | | |   |
-| 5.7 Do .. While loop | | | | | |   |
-| 5.8 For loop | | | | | |   |
-| 5.9 Which Loop to use? | | | | | | menu driven programs w/ do loops  |
-| Lab Exercise practicing loops| | | | | |  Include a for-each for contrast |
+| 7.1 Abstract Data Types | high | 5 | no | | | Brief — sets up the why before introducing struct syntax |
+| 7.12 Structures | high | 20 | no | 7.1 | students may conflate struct with class — distinguish early | Include anatomy visualization; use Employee running example from textbook |
+| What’s the Output? | standard | 8 | no | 7.12 | | Tests initialization list, member assignment, pass-by-reference |
+| Fill In the Code | standard | 8 | no | 7.12 | | Students fill in printEmployee function body using dot notation |
+| Arrays of Structures | standard | 10 | no | 7.12, arrays | | Concept + syntax + complete example; leads into programming task |
+| Programming Task — Student Roster | standard | 12 | no | Arrays of Structures | | Static array; read from user; print all records |
 
 ---
 

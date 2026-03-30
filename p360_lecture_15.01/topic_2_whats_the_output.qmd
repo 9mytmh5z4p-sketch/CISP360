@@ -1,0 +1,98 @@
+<!-- Topic 2: What's the Output? -->
+<!-- Total slides: 4 -->
+
+# What's the Output?
+
+---
+
+## Exercise 1 — What does this print? {.smaller}
+
++ Two variables, one reference, one modification. What does each `cout` print?
+
+::: notes
+Total slides: 4
+Give students 60 seconds to work this out on paper before revealing.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Exercise 1 — Code {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int x = 10;
+    int& r = x;
+
+    r = 20;
+    cout << x << "\n";    // line A
+
+    int y = 30;
+    int* p = &x;
+    p = &y;
+    *p = 50;
+
+    cout << x << "\n";    // line B
+    cout << y << "\n";    // line C
+
+    return 0;
+}
+```
+
+::: notes
+Line A: 20 — r is an alias for x; assigning to r changes x.
+Line B: 20 — p was reseated to y; x is untouched.
+Line C: 50 — *p = 50 modifies y through the pointer.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Exercise 2 — What does this print? {.smaller}
+
++ A reference parameter and a pointer parameter side by side. Trace each call.
+
+<!-- Slide 3 -->
+
+---
+
+## Exercise 2 — Code {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+void doubleRef(int& n) { n *= 2; }
+void doublePtr(int* n) { *n *= 2; }
+
+int main() {
+    int a = 5;
+    int b = 5;
+
+    doubleRef(a);
+    doublePtr(&b);
+
+    cout << a << "\n";    // line A
+    cout << b << "\n";    // line B
+
+    int c = 3;
+    int* p = &c;
+    doublePtr(p);
+    cout << c << "\n";    // line C
+
+    return 0;
+}
+```
+
+::: notes
+Line A: 10 — doubleRef takes a reference; a is modified in place.
+Line B: 10 — doublePtr takes a pointer; *n *= 2 modifies b through the pointer.
+Line C: 6 — p holds the address of c; doublePtr(p) passes that address, *n *= 2 modifies c.
+:::
+
+<!-- Slide 4 -->

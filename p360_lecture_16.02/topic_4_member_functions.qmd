@@ -1,0 +1,97 @@
+<!-- Topic 4: Defining Member Functions -->
+<!-- Total slides: 5 -->
+
+# Defining Member Functions
+
+---
+
+## Inline or outside the class? {.smaller}
+
++ **Inline**: the function body is written *inside* the class definition — compact, good for short functions.
++ **Outside**: the class lists a *prototype* only; the body is defined below using `ClassName::methodName()`.
+
+::: notes
+Total slides: 5
+Both forms compile and run identically — this is a style and organization choice. Small getters and setters are typically inline. Longer methods are defined outside to keep the class definition readable as an interface summary.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Inline definition {.smaller}
+
+```{.cpp}
+class StopLight {
+private:
+    bool isPowered = false;
+public:
+    bool getState() const { return isPowered; }  // inline — body here
+    void powerOn();                              // prototype only
+    void powerOff();                             // prototype only
+};
+```
+
+::: notes
+getState() is short enough to live inline. powerOn() and powerOff() are declared with prototypes — their bodies will be written outside. The class definition now reads like a clean public interface.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Outside definition {.smaller}
+
+```{.cpp}
+void StopLight::powerOn() {
+    isPowered = true;
+}
+
+void StopLight::powerOff() {
+    isPowered = false;
+}
+
+int main() {
+    StopLight bidwell;
+    bidwell.powerOn();
+    cout << bidwell.getState() << "\n";   // 1
+    bidwell.powerOff();
+    cout << bidwell.getState() << "\n";   // 0
+    return 0;
+}
+```
+
+::: notes
+The :: is the scope resolution operator. It tells the compiler which class this function belongs to. Without it, powerOn() would be a free function, not a member — and it wouldn't have access to isPowered.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Accessors and mutators {.smaller}
+
+```{.cpp}
+class Temperature {
+private:
+    double degrees = 0.0;
+public:
+    double getDegrees() const  { return degrees; }    // accessor (getter)
+    void   setDegrees(double d){ degrees = d; }       // mutator  (setter)
+};
+```
+
+::: notes
+One key purpose of member functions is controlled access to private data. Accessor (getter): reads a private member — marked const because it doesn't change the object. Mutator (setter): modifies a private member — can add validation logic before storing. Combined, they are the public interface to private data.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Summary {.smaller}
+
++ Member functions can be defined inline (inside the class body) or outside using `ClassName::method()`.
++ Accessors (getters) read private data; mutators (setters) modify it — they are the controlled gateway to private members.
+
+<!-- Slide 5 -->
