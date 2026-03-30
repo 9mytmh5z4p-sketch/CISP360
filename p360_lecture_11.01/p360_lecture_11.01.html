@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="p360_lecture_11.01_files/libs/clipboard/clipboard.min.js"></script>
+<script src="p360_lecture_11.01_files/libs/quarto-html/tabby.min.js"></script>
+<script src="p360_lecture_11.01_files/libs/quarto-html/popper.min.js"></script>
+<script src="p360_lecture_11.01_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="p360_lecture_11.01_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="p360_lecture_11.01_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="p360_lecture_11.01_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.26">
+
+  <meta name="author" content="Dr.&nbsp;Caleb Fowler">
+  <title>CISP 360 Structured Programming</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="p360_lecture_11.01_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="p360_lecture_11.01_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="p360_lecture_11.01_files/libs/revealjs/dist/theme/quarto-99eeafcedac04850354b682963cedae3.css">
+  <link rel="stylesheet" href="../styles/styles.css">
+  <link href="p360_lecture_11.01_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="p360_lecture_11.01_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="p360_lecture_11.01_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="p360_lecture_11.01_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">CISP 360 Structured Programming</h1>
+  <p class="subtitle">Introduction to C++</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Dr.&nbsp;Caleb Fowler 
+</div>
+</div>
+</div>
+
+</section>
+<section>
+<section id="last-time" class="title-slide slide level1 center">
+<h1>Last Time</h1>
+<ul>
+<li class="fragment"><strong>File I/O</strong></li>
+<li class="fragment"><strong>Sequential I/O</strong></li>
+<li class="fragment"><strong>Random Access</strong></li>
+</ul>
+<aside class="notes">
+<p>Brief recall: students wrote a vector to a file and read it back in the lab. Random access with fixed-size records was the last concept introduced.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section id="todays-agenda" class="title-slide slide level1 center">
+<h1>Today’s Agenda</h1>
+<ul>
+<li>Introduction to Arrays</li>
+<li>Array Initialization</li>
+<li>Accessing Array Elements in Loops</li>
+<li>Inputting and Displaying Array Data</li>
+<li>Vectors vs.&nbsp;Arrays</li>
+<li>Performance — Vectors vs.&nbsp;Arrays <em>(optional)</em></li>
+</ul>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Topic 1: Introduction to Arrays -->
+<!-- Total slides: 5 -->
+</section>
+
+<section>
+<section id="introduction-to-arrays" class="title-slide slide level1 center">
+<h1>Introduction to Arrays</h1>
+
+</section>
+<section id="a-fixed-size-collection-on-the-stack" class="slide level2 smaller">
+<h2>A fixed-size collection on the stack</h2>
+<ul>
+<li>Same idea as a vector — different contract</li>
+<li>Size is locked in at compile time; no growing, no shrinking</li>
+</ul>
+<aside class="notes">
+<p>Total slides: 5</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="what-is-an-array" class="slide level2">
+<h2>What is an array?</h2>
+<ul>
+<li>A sequence of elements, all the same type, stored contiguously in memory</li>
+<li>Size is fixed at compile time — you state it once in the declaration</li>
+<li>Elements are accessed by index, starting at 0</li>
+</ul>
+<aside class="notes">
+<p>[Graphic suggestion: a row of five labeled boxes showing int arr[5] with indices 0–4 marked below each box and the array name pointing to the first box]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 2 -->
+</section>
+<section id="arrays-vs.-vectors" class="slide level2">
+<h2>Arrays vs.&nbsp;vectors</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>Array</th>
+<th>Vector</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Size</td>
+<td>Fixed at compile time</td>
+<td>Grows at runtime</td>
+</tr>
+<tr class="even">
+<td>Storage</td>
+<td>Stack</td>
+<td>Heap</td>
+</tr>
+<tr class="odd">
+<td>Bounds check</td>
+<td>None</td>
+<td>None (<code>.at()</code> throws)</td>
+</tr>
+<tr class="even">
+<td>Overhead</td>
+<td>Zero</td>
+<td>Pointer + size + capacity</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 3 -->
+</section>
+<section id="declaring-an-array" class="slide level2">
+<h2>Declaring an array</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">];</span>        <span class="co">// uninitialized — garbage values</span></span>
+<span id="cb1-2"><a href=""></a><span class="dt">double</span> temps<span class="op">[</span><span class="dv">7</span><span class="op">];</span>      <span class="co">// uninitialized — garbage values</span></span>
+<span id="cb1-3"><a href=""></a><span class="dt">char</span> letters<span class="op">[</span><span class="dv">26</span><span class="op">];</span>     <span class="co">// uninitialized — garbage values</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Type comes first, then the name, then the size in brackets</li>
+<li>Size must be a compile-time constant — a literal or a <code>const</code> integer</li>
+<li>Without an initializer list, elements hold whatever was in memory</li>
+</ul>
+<!-- Slide 4 -->
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>An array is a fixed-size, contiguous block of same-type elements allocated on the stack</li>
+<li>Use an array when size is known at compile time and the collection does not need to grow</li>
+</ul>
+<!-- Slide 5 -->
+<!-- Topic 2: Array Initialization -->
+<!-- Total slides: 6 -->
+</section></section>
+<section>
+<section id="array-initialization" class="title-slide slide level1 center">
+<h1>Array Initialization</h1>
+
+</section>
+<section id="declaring-vs.-initializing-whats-the-difference" class="slide level2 smaller">
+<h2>Declaring vs.&nbsp;initializing — what’s the difference?</h2>
+<ul>
+<li>Declaration allocates the space; initialization sets the values</li>
+<li>Arrays give you several ways to do both at once</li>
+</ul>
+<aside class="notes">
+<p>Total slides: 6</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="initializer-list-full" class="slide level2">
+<h2>Initializer list — full</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span>  <span class="co">// all 5 values</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Brace-enclose the values separated by commas</li>
+<li>The count of values must not exceed the declared size</li>
+<li>If the count matches the size, you can omit the size entirely:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span>   <span class="co">// size inferred as 5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 2 -->
+</section>
+<section id="initializer-list-partial" class="slide level2">
+<h2>Initializer list — partial</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">};</span>   <span class="co">// first 2 set; rest zero-initialized</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Provide fewer values than the declared size</li>
+<li>Remaining elements are <strong>zero-initialized</strong> automatically</li>
+<li>This is the idiomatic way to zero out an array:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{};</span>          <span class="co">// all elements zero</span></span>
+<span id="cb5-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span>         <span class="co">// same effect</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 3 -->
+</section>
+<section id="size-rules" class="slide level2">
+<h2>Size rules</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb6-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">];</span>             <span class="co">// OK — const is compile-time</span></span>
+<span id="cb6-3"><a href=""></a></span>
+<span id="cb6-4"><a href=""></a><span class="dt">int</span> n <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb6-5"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>n<span class="op">];</span>                <span class="co">// not standard C++ — avoid</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Array size must be a <strong>compile-time constant</strong></li>
+<li>A plain <code>int</code> variable is not a compile-time constant, even if you assign it immediately</li>
+<li>Prefer <code>const int</code> or a named constant for the size</li>
+</ul>
+<aside class="notes">
+<p>Variable-length arrays (VLAs) are a GCC extension and exist in C99, but they are not standard C++ and should not be taught as portable practice.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="what-if-you-dont-initialize" class="slide level2">
+<h2>What if you don’t initialize?</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">];</span>          <span class="co">// uninitialized — garbage values</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Local arrays without an initializer hold whatever was in memory at that address</li>
+<li>Reading an uninitialized element is undefined behavior</li>
+<li>Always initialize, or fill every element before reading it</li>
+</ul>
+<!-- Slide 5 -->
+</section>
+<section id="summary-1" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Provide an initializer list to set values at declaration; <code>= {}</code> zeros the entire array</li>
+<li>Size must be a compile-time constant — use <code>const int</code> for named sizes</li>
+<li>Uninitialized local arrays hold garbage; always initialize before reading</li>
+</ul>
+<!-- Slide 6 -->
+<!-- Topic 3: Accessing Array Elements in Loops -->
+<!-- Total slides: 6 -->
+</section></section>
+<section>
+<section id="accessing-array-elements-in-loops" class="title-slide slide level1 center">
+<h1>Accessing Array Elements in Loops</h1>
+
+</section>
+<section id="getting-to-each-element-index-or-range" class="slide level2 smaller">
+<h2>Getting to each element — index or range?</h2>
+<ul>
+<li>Two loop styles work with arrays, each with different tradeoffs</li>
+<li>Choosing wrong loses the index or risks going out of bounds</li>
+</ul>
+<aside class="notes">
+<p>Total slides: 6</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="the-subscript-operator" class="slide level2">
+<h2>The subscript operator</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
+<span id="cb8-2"><a href=""></a></span>
+<span id="cb8-3"><a href=""></a>scores<span class="op">[</span><span class="dv">0</span><span class="op">];</span>   <span class="co">// 91 — first element</span></span>
+<span id="cb8-4"><a href=""></a>scores<span class="op">[</span><span class="dv">4</span><span class="op">];</span>   <span class="co">// 62 — last element</span></span>
+<span id="cb8-5"><a href=""></a>scores<span class="op">[</span><span class="dv">5</span><span class="op">];</span>   <span class="co">// out of bounds — undefined behavior</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>array[i]</code> reads or writes element at index <code>i</code></li>
+<li>Valid indices: <code>0</code> through <code>size - 1</code></li>
+<li>C++ does not check bounds — going past the end is undefined behavior</li>
+</ul>
+<!-- Slide 2 -->
+</section>
+<section id="index-based-for-loop" class="slide level2">
+<h2>Index-based for loop</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb9-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
+<span id="cb9-3"><a href=""></a></span>
+<span id="cb9-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb9-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>  <span class="co">// access by index</span></span>
+<span id="cb9-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Use SIZE (a named constant) as the loop bound — not a magic number. The loop variable i is available inside the body, which allows computing positions, comparing neighbors, or writing back to the array.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="range-for-loop" class="slide level2">
+<h2>Range-for loop</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
+<span id="cb10-2"><a href=""></a></span>
+<span id="cb10-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// no index needed</span></span>
+<span id="cb10-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Range-for reads the array size from the declaration automatically — no SIZE constant needed. The element variable (score) is a copy by default; use int&amp; score to modify elements in place.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="which-loop-to-use" class="slide level2">
+<h2>Which loop to use?</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 64%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Loop</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Need the index (position, neighbor, write back)</td>
+<td><code>for (int i = 0; i &lt; SIZE; i++)</code></td>
+</tr>
+<tr class="even">
+<td>Read every element, no index needed</td>
+<td><code>for (int x : arr)</code></td>
+</tr>
+<tr class="odd">
+<td>Modify elements in place</td>
+<td><code>for (int&amp; x : arr)</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>When the index is irrelevant, range-for is cleaner and less error-prone</li>
+<li>When you need the position or must write back by index, use the index-based form</li>
+</ul>
+<!-- Slide 5 -->
+</section>
+<section id="summary-2" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Use <code>array[i]</code> to read or write a single element; valid indices run from <code>0</code> to <code>size - 1</code></li>
+<li>Index-based <code>for</code> gives you the position; range-for hides it — choose based on whether the index matters</li>
+</ul>
+<!-- Slide 6 -->
+<!-- Topic 4: Inputting and Displaying Array Data -->
+<!-- Total slides: 5 -->
+</section></section>
+<section>
+<section id="inputting-and-displaying-array-data" class="title-slide slide level1 center">
+<h1>Inputting and Displaying Array Data</h1>
+
+</section>
+<section id="reading-values-from-the-user-into-an-array" class="slide level2 smaller">
+<h2>Reading values from the user into an array</h2>
+<ul>
+<li>The pattern is a loop — same index mechanics, now with <code>cin</code></li>
+<li>Fill first, display second: two separate passes</li>
+</ul>
+<aside class="notes">
+<p>Total slides: 5</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="input-loop-filling-the-array" class="slide level2">
+<h2>Input loop — filling the array</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb11-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">];</span></span>
+<span id="cb11-3"><a href=""></a></span>
+<span id="cb11-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb11-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter score "</span> <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span><span class="op">;</span></span>
+<span id="cb11-6"><a href=""></a>    cin  <span class="op">&gt;&gt;</span> scores<span class="op">[</span>i<span class="op">];</span>              <span class="co">// fill each element</span></span>
+<span id="cb11-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>i + 1 in the prompt gives users a 1-based label (“Enter score 1”) while the array remains 0-indexed. This is a common display convention worth pointing out.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 2 -->
+</section>
+<section id="display-loop-printing-the-array" class="slide level2">
+<h2>Display loop — printing the array</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb12-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score "</span> <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb12-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>This is deliberately separate from the input loop. Mixing input and output in a single loop works but makes programs harder to read and test. Teach the two-pass pattern early.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="combined-example" class="slide level2">
+<h2>Combined example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb13-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb13-3"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb13-4"><a href=""></a></span>
+<span id="cb13-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-6"><a href=""></a>    <span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">];</span></span>
+<span id="cb13-7"><a href=""></a></span>
+<span id="cb13-8"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span>       <span class="co">// fill</span></span>
+<span id="cb13-9"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Enter score "</span> <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span><span class="op">;</span></span>
+<span id="cb13-10"><a href=""></a>        cin  <span class="op">&gt;&gt;</span> scores<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb13-11"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb13-12"><a href=""></a></span>
+<span id="cb13-13"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span>       <span class="co">// display</span></span>
+<span id="cb13-14"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Score "</span> <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb13-15"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb13-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 4 -->
+</section>
+<section id="summary-3" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Fill the array in one loop, display it in a second loop — keep the two passes separate</li>
+<li>The same index-based <code>for</code> pattern applies to both; <code>i + 1</code> in the prompt gives users a 1-based label</li>
+</ul>
+<!-- Slide 5 -->
+<!-- Topic 5: Vectors vs. Arrays -->
+<!-- Total slides: 5 -->
+</section></section>
+<section>
+<section id="vectors-vs.-arrays" class="title-slide slide level1 center">
+<h1>Vectors vs.&nbsp;Arrays</h1>
+
+</section>
+<section id="same-idea-different-contract" class="slide level2 smaller">
+<h2>Same idea — different contract</h2>
+<ul>
+<li>You already know vectors; arrays trade flexibility for simplicity</li>
+<li>Knowing both means choosing the right tool for the job</li>
+</ul>
+<aside class="notes">
+<p>Total slides: 5</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="side-by-side-comparison" class="slide level2">
+<h2>Side-by-side comparison</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Array</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb14-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span>
+<span id="cb14-3"><a href=""></a></span>
+<span id="cb14-4"><a href=""></a>scores<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="dv">84</span><span class="op">;</span></span>
+<span id="cb14-5"><a href=""></a><span class="co">// can't grow</span></span>
+<span id="cb14-6"><a href=""></a><span class="co">// no .size()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<p><strong>Vector</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">(</span><span class="dv">5</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb15-2"><a href=""></a></span>
+<span id="cb15-3"><a href=""></a>scores<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="dv">84</span><span class="op">;</span></span>
+<span id="cb15-4"><a href=""></a>scores<span class="op">.</span>push_back<span class="op">(</span><span class="dv">100</span><span class="op">);</span>  <span class="co">// grows</span></span>
+<span id="cb15-5"><a href=""></a>scores<span class="op">.</span>size<span class="op">();</span>          <span class="co">// available</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<!-- Slide 2 -->
+</section>
+<section id="bounds-safety" class="slide level2">
+<h2>Bounds safety</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
+<span id="cb16-2"><a href=""></a>scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>          <span class="co">// out of bounds — undefined behavior</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
+<span id="cb17-2"><a href=""></a>scores<span class="op">.</span>at<span class="op">(</span><span class="dv">5</span><span class="op">)</span> <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>       <span class="co">// throws out_of_range</span></span>
+<span id="cb17-3"><a href=""></a>scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>          <span class="co">// still undefined behavior</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Neither <code>[]</code> on arrays nor <code>[]</code> on vectors checks bounds</li>
+<li>Vectors expose <code>.at()</code> as a checked alternative; arrays have no equivalent</li>
+</ul>
+<!-- Slide 3 -->
+</section>
+<section id="when-to-use-each" class="slide level2">
+<h2>When to use each</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 51%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Use an array when…</th>
+<th>Use a vector when…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Size is fixed and known at compile time</td>
+<td>Size is unknown or changes at runtime</td>
+</tr>
+<tr class="even">
+<td>You need zero overhead</td>
+<td>You need <code>push_back</code>, <code>size</code>, or algorithms</td>
+</tr>
+<tr class="odd">
+<td>Interfacing with C APIs or hardware</td>
+<td>General-purpose collection work</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Default to vector — it is safer and more flexible</li>
+<li>Reach for arrays only when overhead or API constraints require it</li>
+</ul>
+<!-- Slide 4 -->
+</section>
+<section id="summary-4" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Arrays are fixed-size and stack-allocated; vectors are dynamic and heap-allocated</li>
+<li>Neither <code>[]</code> operator checks bounds — use <code>.at()</code> on vectors when safety matters, and be deliberate with array indices</li>
+</ul>
+<!-- Slide 5 -->
+<!-- Topic 6: Performance — Vectors vs. Arrays -->
+<!-- Total slides: 5 -->
+</section></section>
+<section>
+<section id="performance-vectors-vs.-arrays" class="title-slide slide level1 center">
+<h1>Performance — Vectors vs.&nbsp;Arrays</h1>
+
+</section>
+<section id="stack-vs.-heap-does-the-difference-matter" class="slide level2 smaller">
+<h2>Stack vs.&nbsp;heap — does the difference matter?</h2>
+<ul>
+<li>Arrays live on the stack; vectors allocate on the heap</li>
+<li>The difference is measurable — but rarely the deciding factor</li>
+</ul>
+<aside class="notes">
+<p>Total slides: 5</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="why-arrays-are-faster-in-theory" class="slide level2">
+<h2>Why arrays are faster — in theory</h2>
+<ul>
+<li><strong>Stack allocation</strong>: the compiler reserves space at function entry; no system call, no bookkeeping</li>
+<li><strong>Heap allocation</strong>: <code>new</code> (what <code>vector</code> uses internally) requests memory from the OS; involves overhead and possible cache misses</li>
+<li>Arrays also avoid storing a pointer, size, and capacity — three extra words that vectors carry</li>
+</ul>
+<aside class="notes">
+<p>[Graphic suggestion: two side-by-side memory diagrams — left shows the call stack with an array block sitting directly inside the frame; right shows the call stack with a vector object (pointer + size + capacity) pointing out to a heap block]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 2 -->
+</section>
+<section id="what-the-numbers-look-like" class="slide level2">
+<h2>What the numbers look like</h2>
+<ul>
+<li>For small arrays (&lt; a few hundred elements), the practical difference is nanoseconds</li>
+<li>The bottleneck in most programs is I/O, algorithm complexity, or cache misses — not stack vs.&nbsp;heap</li>
+<li>Modern allocators are fast; vector’s heap overhead is often negligible</li>
+</ul>
+<aside class="notes">
+<p>If you have a timing demo ready, show it here. A tight loop summing 1,000 ints as an array vs.&nbsp;vector will show a small but real difference. The point is not that arrays are always faster — it’s that the difference matters only in constrained contexts.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="when-the-difference-actually-matters" class="slide level2">
+<h2>When the difference actually matters</h2>
+<ul>
+<li>Embedded systems and microcontrollers with no heap (or a tiny one)</li>
+<li>Real-time systems where allocation latency must be bounded</li>
+<li>Hot inner loops called millions of times in numerical or signal-processing code</li>
+<li>Interfacing with C libraries that expect raw arrays</li>
+</ul>
+<!-- Slide 4 -->
+</section>
+<section id="summary-5" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Arrays are faster than vectors because stack allocation has no overhead and no indirection</li>
+<li>The gap matters in constrained or performance-critical contexts; for general programming, choose based on safety and flexibility, not speed</li>
+</ul>
+<!-- Slide 5 -->
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="key-takeaways" class="title-slide slide level1 center">
+<h1>Key Takeaways</h1>
+<ul>
+<li>An array is a fixed-size, contiguous block of same-type elements on the stack — declare size with a <code>const int</code>, initialize with <code>= {}</code></li>
+<li>Access elements with <code>array[i]</code>; valid indices run <code>0</code> through <code>size - 1</code> — C++ does not check bounds</li>
+<li>Use index-based <code>for</code> when you need the position; use range-for when you don’t</li>
+<li>Default to <code>vector</code>; reach for an array when size is fixed at compile time or overhead must be zero</li>
+</ul>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="next-time" class="title-slide slide level1 center">
+<h1>Next Time</h1>
+
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="appendix" class="title-slide slide level1 center">
+<h1>Appendix</h1>
+
+</section>
+<section id="introduction-to-arrays-good-practices" class="slide level2">
+<h2>Introduction to Arrays: Good Practices</h2>
+</section>
+<section id="introduction-to-arrays-common-mistakes" class="slide level2">
+<h2>Introduction to Arrays: Common Mistakes</h2>
+</section>
+<section id="introduction-to-arrays-more-examples" class="slide level2">
+<h2>Introduction to Arrays: More Examples</h2>
+</section>
+<section id="introduction-to-arrays-practice-problems" class="slide level2">
+<h2>Introduction to Arrays: Practice Problems</h2>
+</section>
+<section id="introduction-to-arrays-ai-search-terms" class="slide level2">
+<h2>Introduction to Arrays: AI Search Terms</h2>
+</section>
+<section id="introduction-to-arrays-questions-for-reflection" class="slide level2">
+<h2>Introduction to Arrays: Questions for Reflection</h2>
+</section>
+<section id="array-initialization-good-practices" class="slide level2">
+<h2>Array Initialization: Good Practices</h2>
+</section>
+<section id="array-initialization-common-mistakes" class="slide level2">
+<h2>Array Initialization: Common Mistakes</h2>
+</section>
+<section id="array-initialization-more-examples" class="slide level2">
+<h2>Array Initialization: More Examples</h2>
+</section>
+<section id="array-initialization-practice-problems" class="slide level2">
+<h2>Array Initialization: Practice Problems</h2>
+</section>
+<section id="array-initialization-ai-search-terms" class="slide level2">
+<h2>Array Initialization: AI Search Terms</h2>
+</section>
+<section id="array-initialization-questions-for-reflection" class="slide level2">
+<h2>Array Initialization: Questions for Reflection</h2>
+</section>
+<section id="accessing-array-elements-in-loops-good-practices" class="slide level2">
+<h2>Accessing Array Elements in Loops: Good Practices</h2>
+</section>
+<section id="accessing-array-elements-in-loops-common-mistakes" class="slide level2">
+<h2>Accessing Array Elements in Loops: Common Mistakes</h2>
+</section>
+<section id="accessing-array-elements-in-loops-more-examples" class="slide level2">
+<h2>Accessing Array Elements in Loops: More Examples</h2>
+</section>
+<section id="accessing-array-elements-in-loops-practice-problems" class="slide level2">
+<h2>Accessing Array Elements in Loops: Practice Problems</h2>
+</section>
+<section id="accessing-array-elements-in-loops-ai-search-terms" class="slide level2">
+<h2>Accessing Array Elements in Loops: AI Search Terms</h2>
+</section>
+<section id="accessing-array-elements-in-loops-questions-for-reflection" class="slide level2">
+<h2>Accessing Array Elements in Loops: Questions for Reflection</h2>
+</section>
+<section id="inputting-and-displaying-array-data-good-practices" class="slide level2">
+<h2>Inputting and Displaying Array Data: Good Practices</h2>
+</section>
+<section id="inputting-and-displaying-array-data-common-mistakes" class="slide level2">
+<h2>Inputting and Displaying Array Data: Common Mistakes</h2>
+</section>
+<section id="inputting-and-displaying-array-data-more-examples" class="slide level2">
+<h2>Inputting and Displaying Array Data: More Examples</h2>
+</section>
+<section id="inputting-and-displaying-array-data-practice-problems" class="slide level2">
+<h2>Inputting and Displaying Array Data: Practice Problems</h2>
+</section>
+<section id="inputting-and-displaying-array-data-ai-search-terms" class="slide level2">
+<h2>Inputting and Displaying Array Data: AI Search Terms</h2>
+</section>
+<section id="inputting-and-displaying-array-data-questions-for-reflection" class="slide level2">
+<h2>Inputting and Displaying Array Data: Questions for Reflection</h2>
+</section>
+<section id="vectors-vs.-arrays-good-practices" class="slide level2">
+<h2>Vectors vs.&nbsp;Arrays: Good Practices</h2>
+</section>
+<section id="vectors-vs.-arrays-common-mistakes" class="slide level2">
+<h2>Vectors vs.&nbsp;Arrays: Common Mistakes</h2>
+</section>
+<section id="vectors-vs.-arrays-more-examples" class="slide level2">
+<h2>Vectors vs.&nbsp;Arrays: More Examples</h2>
+</section>
+<section id="vectors-vs.-arrays-practice-problems" class="slide level2">
+<h2>Vectors vs.&nbsp;Arrays: Practice Problems</h2>
+</section>
+<section id="vectors-vs.-arrays-ai-search-terms" class="slide level2">
+<h2>Vectors vs.&nbsp;Arrays: AI Search Terms</h2>
+</section>
+<section id="vectors-vs.-arrays-questions-for-reflection" class="slide level2">
+<h2>Vectors vs.&nbsp;Arrays: Questions for Reflection</h2>
+</section>
+<section id="performance-vectors-vs.-arrays-good-practices" class="slide level2">
+<h2>Performance — Vectors vs.&nbsp;Arrays: Good Practices</h2>
+</section>
+<section id="performance-vectors-vs.-arrays-common-mistakes" class="slide level2">
+<h2>Performance — Vectors vs.&nbsp;Arrays: Common Mistakes</h2>
+</section>
+<section id="performance-vectors-vs.-arrays-more-examples" class="slide level2">
+<h2>Performance — Vectors vs.&nbsp;Arrays: More Examples</h2>
+</section>
+<section id="performance-vectors-vs.-arrays-practice-problems" class="slide level2">
+<h2>Performance — Vectors vs.&nbsp;Arrays: Practice Problems</h2>
+</section>
+<section id="performance-vectors-vs.-arrays-ai-search-terms" class="slide level2">
+<h2>Performance — Vectors vs.&nbsp;Arrays: AI Search Terms</h2>
+</section>
+<section id="performance-vectors-vs.-arrays-questions-for-reflection" class="slide level2">
+<h2>Performance — Vectors vs.&nbsp;Arrays: Questions for Reflection</h2>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>CISP 360 · Fowler</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="p360_lecture_11.01_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="p360_lecture_11.01_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="p360_lecture_11.01_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="p360_lecture_11.01_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="p360_lecture_11.01_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="p360_lecture_11.01_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="p360_lecture_11.01_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="p360_lecture_11.01_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="p360_lecture_11.01_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="p360_lecture_11.01_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'h.v',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 5.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    <script>
+    window.Reveal.on('ready', event => {
+      function atSectionBoundary() {
+        var routes = Reveal.availableRoutes();
+        return !routes.up || !routes.down;
+      }
+      function goRight() {
+        if (atSectionBoundary()) {
+          var h = Reveal.getIndices().h;
+          Reveal.slide(h + 1, 0);
+        }
+      }
+      function goLeft() {
+        if (atSectionBoundary()) {
+          var h = Reveal.getIndices().h;
+          Reveal.slide(h - 1, 0);
+        }
+      }
+      Reveal.configure({
+        keyboard: {
+          34: 'down',
+          33: 'up',
+          116: goRight,
+          190: goLeft,
+          37: goLeft,
+          39: goRight,
+          79: null
+        }
+      });
+    });
+    </script>
+    
+
+</body></html>
