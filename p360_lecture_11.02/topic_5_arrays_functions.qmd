@@ -1,5 +1,5 @@
 <!-- Topic 5: Arrays as Function Arguments -->
-<!-- Total slides: 7 -->
+<!-- Total slides: 9 -->
 
 # Arrays as Function Arguments
 
@@ -114,9 +114,67 @@ int  searchArray(const int arr[], int size, int target);
 
 ---
 
+## What's the Output? {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+void setFirst(int arr[], int size) {
+    arr[0] = 99;
+}
+
+int main() {
+    int vals[4] = {1, 2, 3, 4};
+    setFirst(vals, 4);
+    cout << vals[0] << "\n";
+    cout << vals[3] << "\n";
+    return 0;
+}
+```
+
+::: notes
+Give students 60 seconds. Key insight: setFirst receives a pointer to vals, so arr[0] = 99 modifies the original. vals[3] is never touched — it stays 4.
+:::
+
+<!-- Slide 7 -->
+
+---
+
+## What's the Output? {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+void setFirst(int arr[], int size) {
+    arr[0] = 99;
+}
+
+int main() {
+    int vals[4] = {1, 2, 3, 4};
+    setFirst(vals, 4);
+    cout << vals[0] << "\n";
+    cout << vals[3] << "\n";
+    return 0;
+}
+```
+
+**Output:**
+```
+99
+4
+```
+
+`setFirst` receives a pointer — writing to `arr[0]` changes `vals[0]` in the caller. `vals[3]` is never touched.
+
+<!-- Slide 8 -->
+
+---
+
 ## Summary
 
 - Arrays passed to functions decay to a pointer — the function receives an address, not a copy
 - Always pass size as a separate parameter; use `const` to prevent accidental modification
 
-<!-- Slide 7 -->
+<!-- Slide 9 -->

@@ -1,5 +1,5 @@
 <!-- Topic 4: typedef -->
-<!-- Total slides: 6 -->
+<!-- Total slides: 8 -->
 
 # typedef
 
@@ -11,7 +11,7 @@
 - Same type, different label
 
 ::: notes
-Total slides: 6
+Total slides: 8
 :::
 
 <!-- Slide 1 -->
@@ -88,9 +88,74 @@ using IntVec   = std::vector<int>;
 
 ---
 
+## What's the Output? {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    typedef double Dollars;
+    Dollars price = 24.99;
+    Dollars discount = price * 0.20;
+    cout << price - discount << "\n";
+
+    using Celsius    = double;
+    using Fahrenheit = double;
+    Celsius boiling = 100.0;
+    Fahrenheit f = boiling * 9.0 / 5.0 + 32.0;
+    cout << f << "\n";
+
+    return 0;
+}
+```
+
+<!-- Slide 6 -->
+
+---
+
+## What's the Output? {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    typedef double Dollars;
+    Dollars price = 24.99;
+    Dollars discount = price * 0.20;
+    cout << price - discount << "\n";
+
+    using Celsius    = double;
+    using Fahrenheit = double;
+    Celsius boiling = 100.0;
+    Fahrenheit f = boiling * 9.0 / 5.0 + 32.0;
+    cout << f << "\n";
+
+    return 0;
+}
+```
+
+**Output:**
+```
+19.992
+212
+```
+
+`typedef` and `using` are aliases only — the underlying `double` arithmetic is unchanged.
+
+::: notes
+Line 1: 19.992 — Dollars is just double; subtraction works identically.
+Line 2: 212 — using is the modern typedef; Celsius and Fahrenheit are both double, arithmetic is unchanged.
+:::
+
+<!-- Slide 7 -->
+
+---
+
 ## Summary
 
 - `typedef` creates an alias for a type; `using` is the modern equivalent with the same effect
 - Use aliases to shorten verbose types and to give domain meaning to generic types like `double` or `vector<int>`
 
-<!-- Slide 6 -->
+<!-- Slide 8 -->
