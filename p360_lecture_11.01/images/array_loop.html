@@ -392,24 +392,20 @@
     );
 
     document.getElementById('done-banner').classList.remove('visible');
-    document.getElementById('btn-step').disabled = false;
-    document.getElementById('btn-play').disabled = false;
   }
 
   function advance() {
+    if (step >= SIZE - 1) { reset(); return; }
     step++;
-    if (step >= SIZE) {
+    setState(step);
+    if (step === SIZE - 1) {
       stopPlay();
       document.getElementById('done-banner').classList.add('visible');
-      document.getElementById('btn-step').disabled = true;
-      document.getElementById('btn-play').disabled = true;
-      return;
     }
-    setState(step);
   }
 
   function startPlay() {
-    if (step >= SIZE - 1) return;
+    if (step >= SIZE - 1) { reset(); }
     document.getElementById('btn-play').textContent = '⏸ Pause';
     document.getElementById('btn-play').onclick = stopPlay;
     playInterval = setInterval(() => {
