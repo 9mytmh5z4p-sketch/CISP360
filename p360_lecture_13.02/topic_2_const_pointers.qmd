@@ -1,5 +1,5 @@
 <!-- Topic 2: Pointers to Constants and Constant Pointers -->
-<!-- Total slides: 5 -->
+<!-- Total slides: 7 -->
 
 # Pointers to Constants and Constant Pointers
 
@@ -11,7 +11,7 @@
 - Position relative to `*` determines which one is locked
 
 ::: notes
-Total slides: 5
+Total slides: 7
 :::
 
 <!-- Slide 1 -->
@@ -69,9 +69,42 @@ p  = &y;    // error — the pointer cannot be reassigned
 
 ---
 
+## Const pointer to const — everything is locked
+
+```{.cpp}
+const int* const p = &x;
+
+*p = 99;    // error — cannot modify the data
+p  = &y;    // error — cannot reassign the pointer
+```
+
+- The strictest form: neither the address nor the data can change after initialization
+- Rarely needed in practice, but you will see it in library interfaces and legacy code
+
+<!-- Slide 5 -->
+
+---
+
+## What does each const prohibit?
+
+| Declaration | Data (`*p`) | Address (`p`) |
+|---|---|---|
+| `int* p` | Can change | Can change |
+| `const int* p` | **Cannot change** | Can change |
+| `int* const p` | Can change | **Cannot change** |
+| `const int* const p` | **Cannot change** | **Cannot change** |
+
+::: notes
+Remind students: read right-to-left from the variable name to decode any const pointer declaration.
+:::
+
+<!-- Slide 6 -->
+
+---
+
 ## Summary
 
 - `const int* p` locks the data (read-only); `int* const p` locks the address — position of `const` relative to `*` determines which
 - Use `const int*` in function parameters to protect caller data — it is the most common application
 
-<!-- Slide 5 -->
+<!-- Slide 7 -->

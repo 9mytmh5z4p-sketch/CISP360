@@ -238,8 +238,8 @@ Dr.&nbsp;Caleb Fowler
 <li>Pointers as Function Parameters</li>
 <li>Pointers to Constants and Constant Pointers</li>
 <li>Returning Pointers from Functions</li>
-<li>Lab — Multiple Output Parameters</li>
 <li>Smart Pointers</li>
+<li>Memory Inspection with C++</li>
 </ul>
 <aside class="notes">
 
@@ -342,20 +342,26 @@ Dr.&nbsp;Caleb Fowler
 </tr>
 </tbody>
 </table>
-<ul>
-<li>References are cleaner syntax; pointers expose the mechanism and allow <code>nullptr</code></li>
-</ul>
 <!-- Slide 3 -->
 </section>
-<section id="passing-an-array-review" class="slide level2">
-<h2>Passing an array (review)</h2>
+<section id="pointer-versus-reference-parameters" class="slide level2">
+<h2>Pointer versus Reference Parameters</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">void</span> fill<span class="op">(</span><span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> val<span class="op">);</span></span>
 <span id="cb3-2"><a href=""></a><span class="co">// equivalent — int arr[] decays to int*:</span></span>
 <span id="cb3-3"><a href=""></a><span class="dt">void</span> fill<span class="op">(</span><span class="dt">int</span><span class="op">*</span> arr<span class="op">,</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> val<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Array parameters are always pointers — the caller’s array is always modified</li>
-<li>This is why <code>const int arr[]</code> (or <code>const int* arr</code>) protects the caller’s data</li>
-</ul>
+<aside class="notes">
+<p>Array parameters are always pointers — the caller’s array is always modified. This is why <code>const int arr[]</code> (or <code>const int* arr</code>) protects the caller’s data.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <!-- Slide 4 -->
 </section>
 <section id="summary" class="slide level2">
@@ -366,7 +372,7 @@ Dr.&nbsp;Caleb Fowler
 </ul>
 <!-- Slide 5 -->
 <!-- Topic 2: Pointers to Constants and Constant Pointers -->
-<!-- Total slides: 5 -->
+<!-- Total slides: 7 -->
 </section></section>
 <section>
 <section id="pointers-to-constants-and-constant-pointers" class="title-slide slide level1 center">
@@ -380,7 +386,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Position relative to <code>*</code> determines which one is locked</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 5</p>
+<p>Total slides: 7</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -433,15 +439,75 @@ Dr.&nbsp;Caleb Fowler
 </ul>
 <!-- Slide 4 -->
 </section>
+<section id="const-pointer-to-const-everything-is-locked" class="slide level2">
+<h2>Const pointer to const — everything is locked</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> <span class="at">const</span> p <span class="op">=</span> <span class="op">&amp;</span>x<span class="op">;</span></span>
+<span id="cb7-2"><a href=""></a></span>
+<span id="cb7-3"><a href=""></a><span class="op">*</span>p <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>    <span class="co">// error — cannot modify the data</span></span>
+<span id="cb7-4"><a href=""></a>p  <span class="op">=</span> <span class="op">&amp;</span>y<span class="op">;</span>    <span class="co">// error — cannot reassign the pointer</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The strictest form: neither the address nor the data can change after initialization</li>
+<li>Rarely needed in practice, but you will see it in library interfaces and legacy code</li>
+</ul>
+<!-- Slide 5 -->
+</section>
+<section id="what-does-each-const-prohibit" class="slide level2">
+<h2>What does each const prohibit?</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Declaration</th>
+<th>Data (<code>*p</code>)</th>
+<th>Address (<code>p</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>int* p</code></td>
+<td>Can change</td>
+<td>Can change</td>
+</tr>
+<tr class="even">
+<td><code>const int* p</code></td>
+<td><strong>Cannot change</strong></td>
+<td>Can change</td>
+</tr>
+<tr class="odd">
+<td><code>int* const p</code></td>
+<td>Can change</td>
+<td><strong>Cannot change</strong></td>
+</tr>
+<tr class="even">
+<td><code>const int* const p</code></td>
+<td><strong>Cannot change</strong></td>
+<td><strong>Cannot change</strong></td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<p>Remind students: read right-to-left from the variable name to decode any const pointer declaration.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 6 -->
+</section>
 <section id="summary-1" class="slide level2">
 <h2>Summary</h2>
 <ul>
 <li><code>const int* p</code> locks the data (read-only); <code>int* const p</code> locks the address — position of <code>const</code> relative to <code>*</code> determines which</li>
 <li>Use <code>const int*</code> in function parameters to protect caller data — it is the most common application</li>
 </ul>
-<!-- Slide 5 -->
+<!-- Slide 7 -->
 <!-- Topic 3: Returning Pointers from Functions -->
-<!-- Total slides: 5 -->
+<!-- Total slides: 7 -->
 </section></section>
 <section>
 <section id="returning-pointers-from-functions" class="title-slide slide level1 center">
@@ -455,7 +521,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Returning the address of a local variable is the most common pointer mistake</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 5</p>
+<p>Total slides: 7</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -471,88 +537,21 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="the-dangling-pointer-trap" class="slide level2">
 <h2>The dangling pointer trap</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> broken<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb7-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
-<span id="cb7-3"><a href=""></a>    <span class="cf">return</span> <span class="op">&amp;</span>x<span class="op">;</span>     <span class="co">// x is destroyed when broken() returns</span></span>
-<span id="cb7-4"><a href=""></a><span class="op">}</span>                  <span class="co">// the returned pointer now points to dead memory</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>x</code> lives on the stack — it is destroyed when the function exits</li>
-<li>The caller gets an address that refers to memory the program no longer owns</li>
-<li>Dereferencing it is undefined behavior — it may appear to work, then crash unpredictably</li>
-</ul>
-<!-- Slide 2 -->
-</section>
-<section id="valid-returning-a-pointer-to-static-storage" class="slide level2">
-<h2>Valid: returning a pointer to static storage</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb8-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
 <span id="cb8-3"><a href=""></a></span>
-<span id="cb8-4"><a href=""></a><span class="dt">int</span><span class="op">*</span> getCounter<span class="op">();</span></span>
-<span id="cb8-5"><a href=""></a></span>
-<span id="cb8-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb8-7"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> c <span class="op">=</span> getCounter<span class="op">();</span></span>
-<span id="cb8-8"><a href=""></a>    <span class="op">(*</span>c<span class="op">)++;</span></span>
-<span id="cb8-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>c <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 1</span></span>
-<span id="cb8-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb8-11"><a href=""></a><span class="op">}</span></span>
-<span id="cb8-12"><a href=""></a></span>
-<span id="cb8-13"><a href=""></a><span class="dt">int</span><span class="op">*</span> getCounter<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb8-14"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>   <span class="co">// persists across calls</span></span>
-<span id="cb8-15"><a href=""></a>    <span class="cf">return</span> <span class="op">&amp;</span>count<span class="op">;</span></span>
-<span id="cb8-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>static</code> local variables live for the entire program — their address is always valid</li>
-</ul>
-<!-- Slide 3 -->
-</section>
-<section id="valid-returning-a-pointer-to-a-caller-provided-buffer" class="slide level2">
-<h2>Valid: returning a pointer to a caller-provided buffer</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb9-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb9-3"><a href=""></a></span>
-<span id="cb9-4"><a href=""></a><span class="dt">int</span><span class="op">*</span> findFirst<span class="op">(</span><span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> target<span class="op">);</span></span>
-<span id="cb9-5"><a href=""></a></span>
-<span id="cb9-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb9-7"><a href=""></a>    <span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb9-8"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> found <span class="op">=</span> findFirst<span class="op">(</span>scores<span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">84</span><span class="op">);</span></span>
-<span id="cb9-9"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>found <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span></span>
-<span id="cb9-10"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="op">*</span>found <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 84</span></span>
-<span id="cb9-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb9-12"><a href=""></a><span class="op">}</span></span>
-<span id="cb9-13"><a href=""></a></span>
-<span id="cb9-14"><a href=""></a><span class="dt">int</span><span class="op">*</span> findFirst<span class="op">(</span><span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> target<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-15"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb9-16"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>arr<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> target<span class="op">)</span> <span class="cf">return</span> <span class="op">&amp;</span>arr<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb9-17"><a href=""></a>    <span class="cf">return</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb9-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>The array belongs to <code>main</code> — the returned pointer is still valid after the function returns</li>
-</ul>
-<!-- Slide 4 -->
-</section>
-<section id="summary-2" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>Never return the address of a local variable — it is destroyed when the function exits</li>
-<li>Safe returns: address of a <code>static</code> variable, address of heap memory, or address of caller-provided storage</li>
-</ul>
-<!-- Slide 5 -->
-<!-- Topic 4: Lab — Multiple Output Parameters -->
-<!-- Total slides: 8 -->
-</section></section>
-<section>
-<section id="lab-multiple-output-parameters" class="title-slide slide level1 center">
-<h1>Lab — Multiple Output Parameters</h1>
-
-</section>
-<section id="returning-more-than-one-value-from-a-function" class="slide level2 smaller">
-<h2>Returning more than one value from a function</h2>
-<ul>
-<li>A function can only <code>return</code> one value — pointer parameters let it write back multiple results</li>
-<li>This is the pointer-parameter version of the pass-by-reference technique students already know</li>
-</ul>
+<span id="cb8-4"><a href=""></a><span class="dt">int</span><span class="op">*</span> broken<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-5"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb8-6"><a href=""></a>    <span class="cf">return</span> <span class="op">&amp;</span>x<span class="op">;</span>     <span class="co">// x is destroyed when broken() returns</span></span>
+<span id="cb8-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb8-8"><a href=""></a></span>
+<span id="cb8-9"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-10"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> p <span class="op">=</span> broken<span class="op">();</span></span>
+<span id="cb8-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>p <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// undefined behavior — x no longer exists</span></span>
+<span id="cb8-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
-<p>Total slides: 8</p>
+<p>x lives on the stack — it is destroyed when broken() exits. The caller gets an address that refers to memory the program no longer owns. Dereferencing it is undefined behavior — it may appear to work, then crash unpredictably.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -564,84 +563,87 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="the-problem" class="slide level2">
-<h2>The problem</h2>
-<p>A function that finds both the minimum and maximum of an array needs to produce two results. Options:</p>
-<ul>
-<li>Return a struct — requires defining a type</li>
-<li>Use output parameters — write results directly into caller-provided variables via pointers</li>
-</ul>
-<p>Output parameters are the classic C approach and appear throughout legacy code and system libraries.</p>
 <!-- Slide 2 -->
 </section>
-<section id="function-signature" class="slide level2">
-<h2>Function signature</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">void</span> minMax<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> outMin<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> outMax<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>outMin</code> and <code>outMax</code> are output parameters — the caller passes addresses of variables to receive the results</li>
-<li><code>const int arr[]</code> protects the array — it is read-only inside the function</li>
-</ul>
+<section id="section" class="slide level2" data-background-iframe="images/dangling_pointer.html" data-background-interactive="true">
+<h2></h2>
 <!-- Slide 3 -->
 </section>
-<section id="task-implement-minmax" class="slide level2">
-<h2>Task — implement minMax</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">void</span> minMax<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> outMin<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> outMax<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb11-2"><a href=""></a>    <span class="co">// your code here</span></span>
-<span id="cb11-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Rules: - Do not return anything — write results through <code>outMin</code> and <code>outMax</code> - Assume <code>size &gt;= 1</code></p>
-<p>Five minutes.</p>
+<section id="valid-returning-a-pointer-to-static-storage" class="slide level2">
+<h2>Valid: returning a pointer to static storage</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb9-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a></span>
+<span id="cb9-4"><a href=""></a><span class="dt">int</span><span class="op">*</span> getCounter<span class="op">();</span></span>
+<span id="cb9-5"><a href=""></a></span>
+<span id="cb9-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-7"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> c <span class="op">=</span> getCounter<span class="op">();</span></span>
+<span id="cb9-8"><a href=""></a>    <span class="op">(*</span>c<span class="op">)++;</span></span>
+<span id="cb9-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>c <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 1</span></span>
+<span id="cb9-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-11"><a href=""></a><span class="op">}</span></span>
+<span id="cb9-12"><a href=""></a></span>
+<span id="cb9-13"><a href=""></a><span class="dt">int</span><span class="op">*</span> getCounter<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-14"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>   <span class="co">// persists across calls</span></span>
+<span id="cb9-15"><a href=""></a>    <span class="cf">return</span> <span class="op">&amp;</span>count<span class="op">;</span></span>
+<span id="cb9-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p><code>static</code> local variables live for the entire program — their address is always valid.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <!-- Slide 4 -->
 </section>
-<section id="solution" class="slide level2">
-<h2>Solution</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">void</span> minMax<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> outMin<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> outMax<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb12-2"><a href=""></a>    <span class="op">*</span>outMin <span class="op">=</span> arr<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
-<span id="cb12-3"><a href=""></a>    <span class="op">*</span>outMax <span class="op">=</span> arr<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
-<span id="cb12-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb12-5"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>arr<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;</span> <span class="op">*</span>outMin<span class="op">)</span> <span class="op">*</span>outMin <span class="op">=</span> arr<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb12-6"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>arr<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> <span class="op">*</span>outMax<span class="op">)</span> <span class="op">*</span>outMax <span class="op">=</span> arr<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb12-7"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb12-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="valid-returning-a-pointer-to-a-caller-provided-buffer" class="slide level2">
+<h2>Valid: returning a pointer to a caller-provided buffer</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb10-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb10-3"><a href=""></a></span>
+<span id="cb10-4"><a href=""></a><span class="dt">int</span><span class="op">*</span> findFirst<span class="op">(</span><span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> target<span class="op">);</span></span>
+<span id="cb10-5"><a href=""></a></span>
+<span id="cb10-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb10-7"><a href=""></a>    <span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
+<span id="cb10-8"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> found <span class="op">=</span> findFirst<span class="op">(</span>scores<span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">84</span><span class="op">);</span></span>
+<span id="cb10-9"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>found <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span></span>
+<span id="cb10-10"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="op">*</span>found <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 84</span></span>
+<span id="cb10-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-12"><a href=""></a><span class="op">}</span></span>
+<span id="cb10-13"><a href=""></a></span>
+<span id="cb10-14"><a href=""></a><span class="dt">int</span><span class="op">*</span> findFirst<span class="op">(</span><span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> target<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-15"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb10-16"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>arr<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> target<span class="op">)</span> <span class="cf">return</span> <span class="op">&amp;</span>arr<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb10-17"><a href=""></a>    <span class="cf">return</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb10-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>The array belongs to <code>main</code> — the returned pointer is still valid after the function returns.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <!-- Slide 5 -->
 </section>
-<section id="calling-minmax" class="slide level2">
-<h2>Calling minMax</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb13-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb13-3"><a href=""></a></span>
-<span id="cb13-4"><a href=""></a><span class="dt">void</span> minMax<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> outMin<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> outMax<span class="op">);</span></span>
-<span id="cb13-5"><a href=""></a></span>
-<span id="cb13-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb13-7"><a href=""></a>    <span class="dt">int</span> scores<span class="op">[</span><span class="dv">6</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
-<span id="cb13-8"><a href=""></a>    <span class="dt">int</span> lo<span class="op">,</span> hi<span class="op">;</span></span>
-<span id="cb13-9"><a href=""></a></span>
-<span id="cb13-10"><a href=""></a>    minMax<span class="op">(</span>scores<span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="op">&amp;</span>lo<span class="op">,</span> <span class="op">&amp;</span>hi<span class="op">);</span></span>
-<span id="cb13-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Min: "</span> <span class="op">&lt;&lt;</span> lo <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 62</span></span>
-<span id="cb13-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Max: "</span> <span class="op">&lt;&lt;</span> hi <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 95</span></span>
-<span id="cb13-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb13-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>&amp;lo</code> and <code>&amp;hi</code> give <code>minMax</code> the addresses it needs to write the results back</li>
-</ul>
-<!-- Slide 6 -->
-</section>
-<section id="task-minmaxavg" class="slide level2">
-<h2>Task — minMaxAvg</h2>
-<p>Extend minMax to also compute the average:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">void</span> minMaxAvg<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span></span>
-<span id="cb14-2"><a href=""></a>               <span class="dt">int</span><span class="op">*</span> outMin<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> outMax<span class="op">,</span> <span class="dt">double</span><span class="op">*</span> outAvg<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Five minutes.</p>
-<!-- Slide 7 -->
-</section>
-<section id="summary-3" class="slide level2">
+<section id="summary-2" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>Output pointer parameters let one function produce multiple results without a struct or global</li>
-<li>The caller declares variables, passes their addresses, and reads the results after the call</li>
+<li>Never return the address of a local variable — it is destroyed when the function exits</li>
+<li>Safe returns: address of a <code>static</code> variable, address of heap memory, or address of caller-provided storage</li>
 </ul>
-<!-- Slide 8 -->
+<!-- Slide 7 -->
 <!-- Topic 5: Smart Pointers -->
 <!-- Total slides: 5 -->
 </section></section>
@@ -673,16 +675,16 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="unique_ptr-sole-ownership" class="slide level2">
 <h2>unique_ptr — sole ownership</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;memory&gt;</span></span>
-<span id="cb15-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb15-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb15-4"><a href=""></a></span>
-<span id="cb15-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb15-6"><a href=""></a>    unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> p <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">42</span><span class="op">);</span></span>
-<span id="cb15-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>p <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>    <span class="co">// 42 — dereference like a raw pointer</span></span>
-<span id="cb15-8"><a href=""></a>    <span class="co">// no delete needed — memory released when p goes out of scope</span></span>
-<span id="cb15-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb15-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;memory&gt;</span></span>
+<span id="cb11-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb11-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb11-4"><a href=""></a></span>
+<span id="cb11-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb11-6"><a href=""></a>    unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> p <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">42</span><span class="op">);</span></span>
+<span id="cb11-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>p <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>    <span class="co">// 42 — dereference like a raw pointer</span></span>
+<span id="cb11-8"><a href=""></a>    <span class="co">// no delete needed — memory released when p goes out of scope</span></span>
+<span id="cb11-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Only one <code>unique_ptr</code> can own a given object at a time — ownership cannot be copied</li>
 <li>When <code>p</code> goes out of scope, the destructor runs and the memory is freed automatically</li>
@@ -691,19 +693,19 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="shared_ptr-shared-ownership" class="slide level2">
 <h2>shared_ptr — shared ownership</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;memory&gt;</span></span>
-<span id="cb16-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb16-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb16-4"><a href=""></a></span>
-<span id="cb16-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb16-6"><a href=""></a>    shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> p1 <span class="op">=</span> make_shared<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">99</span><span class="op">);</span></span>
-<span id="cb16-7"><a href=""></a>    shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> p2 <span class="op">=</span> p1<span class="op">;</span>     <span class="co">// both share ownership</span></span>
-<span id="cb16-8"><a href=""></a></span>
-<span id="cb16-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>p1 <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>         <span class="co">// 99</span></span>
-<span id="cb16-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> p1<span class="op">.</span>use_count<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>  <span class="co">// 2 — two owners</span></span>
-<span id="cb16-11"><a href=""></a>    <span class="co">// memory freed when the last shared_ptr goes out of scope</span></span>
-<span id="cb16-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb16-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;memory&gt;</span></span>
+<span id="cb12-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb12-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb12-4"><a href=""></a></span>
+<span id="cb12-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb12-6"><a href=""></a>    shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> p1 <span class="op">=</span> make_shared<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">99</span><span class="op">);</span></span>
+<span id="cb12-7"><a href=""></a>    shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> p2 <span class="op">=</span> p1<span class="op">;</span>     <span class="co">// both share ownership</span></span>
+<span id="cb12-8"><a href=""></a></span>
+<span id="cb12-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>p1 <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>         <span class="co">// 99</span></span>
+<span id="cb12-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> p1<span class="op">.</span>use_count<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>  <span class="co">// 2 — two owners</span></span>
+<span id="cb12-11"><a href=""></a>    <span class="co">// memory freed when the last shared_ptr goes out of scope</span></span>
+<span id="cb12-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb12-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>A reference count tracks how many <code>shared_ptr</code>s own the object</li>
 <li>Memory is released when the count reaches zero</li>
@@ -740,13 +742,163 @@ Dr.&nbsp;Caleb Fowler
 </ul>
 <!-- Slide 4 -->
 </section>
-<section id="summary-4" class="slide level2">
+<section id="summary-3" class="slide level2">
 <h2>Summary</h2>
 <ul>
 <li>Smart pointers automate memory management using RAII — the destructor frees memory when the pointer goes out of scope</li>
 <li>Use <code>unique_ptr</code> for sole ownership and <code>shared_ptr</code> for shared lifetime; both live in <code>&lt;memory&gt;</code></li>
 </ul>
 <!-- Slide 5 -->
+<!-- Topic 6: Memory Inspection with C++ -->
+<!-- Total slides: 9 -->
+</section></section>
+<section>
+<section id="memory-inspection-with-c" class="title-slide slide level1 center">
+<h1>Memory Inspection with C++</h1>
+
+</section>
+<section id="what-is-actually-stored-at-a-memory-address" class="slide level2 smaller">
+<h2>What is actually stored at a memory address?</h2>
+<ul>
+<li>Every variable lives at an address — you can print that address and read the bytes stored there</li>
+<li>This is not something you do in production code, but it demystifies how memory works</li>
+</ul>
+<aside class="notes">
+<p>Total slides: 9</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="printing-addresses" class="slide level2">
+<h2>Printing addresses</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb13-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb13-3"><a href=""></a></span>
+<span id="cb13-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-5"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb13-6"><a href=""></a>    <span class="dt">double</span> d <span class="op">=</span> <span class="fl">3.14</span><span class="op">;</span></span>
+<span id="cb13-7"><a href=""></a>    <span class="dt">int</span> arr<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">};</span></span>
+<span id="cb13-8"><a href=""></a></span>
+<span id="cb13-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"address of x:      "</span> <span class="op">&lt;&lt;</span> <span class="op">&amp;</span>x      <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb13-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"address of d:      "</span> <span class="op">&lt;&lt;</span> <span class="op">&amp;</span>d      <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb13-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"address of arr[0]: "</span> <span class="op">&lt;&lt;</span> arr     <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb13-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"address of arr[1]: "</span> <span class="op">&lt;&lt;</span> arr <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb13-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>&amp;x</code> yields a pointer; <code>cout</code> prints it in hexadecimal</li>
+<li><code>arr + 1</code> is 4 bytes past <code>arr</code> — one <code>int</code> forward</li>
+</ul>
+<!-- Slide 2 -->
+</section>
+<section id="inspecting-raw-bytes-with-reinterpret_cast" class="slide level2">
+<h2>Inspecting raw bytes with reinterpret_cast</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb14-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb14-3"><a href=""></a></span>
+<span id="cb14-4"><a href=""></a><span class="dt">void</span> printBytes<span class="op">(</span><span class="at">const</span> <span class="dt">void</span><span class="op">*</span> ptr<span class="op">,</span> <span class="dt">int</span> count<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-5"><a href=""></a>    <span class="at">const</span> <span class="dt">unsigned</span> <span class="dt">char</span><span class="op">*</span> p <span class="op">=</span> <span class="kw">reinterpret_cast</span><span class="op">&lt;</span><span class="at">const</span> <span class="dt">unsigned</span> <span class="dt">char</span><span class="op">*&gt;(</span>ptr<span class="op">);</span></span>
+<span id="cb14-6"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> count<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb14-7"><a href=""></a>        cout <span class="op">&lt;&lt;</span> hex <span class="op">&lt;&lt;</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span>p<span class="op">[</span>i<span class="op">])</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
+<span id="cb14-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> dec <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb14-9"><a href=""></a><span class="op">}</span></span>
+<span id="cb14-10"><a href=""></a></span>
+<span id="cb14-11"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb14-12"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">305419896</span><span class="op">;</span>   <span class="co">// 0x12345678</span></span>
+<span id="cb14-13"><a href=""></a>    printBytes<span class="op">(&amp;</span>x<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>x<span class="op">));</span></span>
+<span id="cb14-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb14-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p><code>reinterpret_cast&lt;const unsigned char*&gt;</code> treats any address as a sequence of raw bytes. Output reveals byte order — most x86 systems store the least significant byte first (little-endian).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="what-the-output-shows" class="slide level2">
+<h2>What the output shows</h2>
+<pre><code>78 56 34 12</code></pre>
+<aside class="notes">
+<p><code>int x = 0x12345678</code> occupies four bytes. On a little-endian system, the lowest-value byte (0x78) is stored at the lowest address. On a big-endian system the order reverses: 12 34 56 78.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="little-endian-and-big-endian" class="slide level2">
+<h2>Little-endian and Big-endian</h2>
+<ul>
+<li><strong>Endianness</strong> — the order in which bytes of a multi-byte value are stored in memory</li>
+<li><strong>Little-endian</strong>: the least significant byte (LSB) is stored at the lowest address — used by x86 and AMD64 processors</li>
+<li><strong>Big-endian</strong>: the most significant byte (MSB) is stored at the lowest address — used by network protocols (TCP/IP) and some embedded systems</li>
+</ul>
+<aside class="notes">
+<p>Why does endianness exist? Different CPU architectures made independent byte-order decisions early in computing history, and both choices have minor practical advantages. Little-endian (Intel x86/AMD64) stores the least significant byte at the base address — this simplifies certain arithmetic operations because carry propagates naturally from low address to high. Big-endian (Motorola 68k, IBM mainframes, network protocols) stores the most significant byte first, which matches how humans write numbers and makes it easy to inspect a value by reading the first byte. Neither order is universally “correct.” The conflict became a practical problem when machines needed to communicate: TCP/IP standardized on big-endian, which is why it is called “network byte order.” Code that sends multi-byte values across a network must convert between host byte order and network byte order using functions like htons() and ntohl().</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 5 -->
+</section>
+<section id="memory-layout-storing-0x12345678" class="slide level2 smaller">
+<h2>Memory layout: storing 0x12345678</h2>
+
+<img data-src="images/endianness.jpg" style="width:85.0%" class="r-stretch"><aside class="notes">
+<p><strong>Most significant bit (MSB):</strong> The bit with the greatest positional value — the leftmost bit in a byte (bit 7, worth 2^7 = 128). For a multi-byte value, the MSB lives in the highest-value byte. Changing the MSB has the largest effect on the number.</p>
+<p><strong>Least significant bit (LSB):</strong> The bit with the smallest positional value — the rightmost bit in a byte (bit 0, worth 2^0 = 1). For a multi-byte value, the LSB lives in the lowest-value byte. Changing the LSB changes the number by exactly 1.</p>
+<p>These terms apply to bytes as well: the most significant byte (MSByte) holds the high-order bits; the least significant byte (LSByte) holds the low-order bits. Little-endian stores the LSByte at the lowest memory address; big-endian stores the MSByte there. A double uses 8 bytes in IEEE 754 format — the bits encode sign, exponent, and mantissa — and is subject to the same byte-order rules as any other multi-byte type.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 7 -->
+</section>
+<section id="summary-4" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li><code>&amp;variable</code> gives you the address; <code>reinterpret_cast&lt;const unsigned char*&gt;</code> lets you walk the raw bytes</li>
+<li>Memory inspection reveals endianness, type sizes, and encoding — tools every systems programmer uses</li>
+</ul>
+<!-- Slide 8 -->
 </section>
 <section class="slide level2">
 
@@ -759,6 +911,7 @@ Dr.&nbsp;Caleb Fowler
 <li><code>const int*</code> protects data; <code>int* const</code> locks the address — position of <code>const</code> relative to <code>*</code> determines which</li>
 <li>Never return the address of a local variable — it is destroyed when the function exits</li>
 <li>Smart pointers (<code>unique_ptr</code>, <code>shared_ptr</code>) release memory automatically — prefer them over raw <code>new</code>/<code>delete</code></li>
+<li><code>reinterpret_cast&lt;const unsigned char*&gt;</code> lets you walk any variable’s raw bytes — endianness and type sizes become visible</li>
 </ul>
 </section>
 <section class="slide level2">
@@ -831,24 +984,6 @@ Dr.&nbsp;Caleb Fowler
 <section id="returning-pointers-from-functions-questions-for-reflection" class="slide level2">
 <h2>Returning Pointers from Functions: Questions for Reflection</h2>
 </section>
-<section id="lab-multiple-output-parameters-good-practices" class="slide level2">
-<h2>Lab — Multiple Output Parameters: Good Practices</h2>
-</section>
-<section id="lab-multiple-output-parameters-common-mistakes" class="slide level2">
-<h2>Lab — Multiple Output Parameters: Common Mistakes</h2>
-</section>
-<section id="lab-multiple-output-parameters-more-examples" class="slide level2">
-<h2>Lab — Multiple Output Parameters: More Examples</h2>
-</section>
-<section id="lab-multiple-output-parameters-practice-problems" class="slide level2">
-<h2>Lab — Multiple Output Parameters: Practice Problems</h2>
-</section>
-<section id="lab-multiple-output-parameters-ai-search-terms" class="slide level2">
-<h2>Lab — Multiple Output Parameters: AI Search Terms</h2>
-</section>
-<section id="lab-multiple-output-parameters-questions-for-reflection" class="slide level2">
-<h2>Lab — Multiple Output Parameters: Questions for Reflection</h2>
-</section>
 <section id="smart-pointers-good-practices" class="slide level2">
 <h2>Smart Pointers: Good Practices</h2>
 </section>
@@ -866,6 +1001,24 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="smart-pointers-questions-for-reflection" class="slide level2">
 <h2>Smart Pointers: Questions for Reflection</h2>
+</section>
+<section id="memory-inspection-with-c-good-practices" class="slide level2">
+<h2>Memory Inspection with C++: Good Practices</h2>
+</section>
+<section id="memory-inspection-with-c-common-mistakes" class="slide level2">
+<h2>Memory Inspection with C++: Common Mistakes</h2>
+</section>
+<section id="memory-inspection-with-c-more-examples" class="slide level2">
+<h2>Memory Inspection with C++: More Examples</h2>
+</section>
+<section id="memory-inspection-with-c-practice-problems" class="slide level2">
+<h2>Memory Inspection with C++: Practice Problems</h2>
+</section>
+<section id="memory-inspection-with-c-ai-search-terms" class="slide level2">
+<h2>Memory Inspection with C++: AI Search Terms</h2>
+</section>
+<section id="memory-inspection-with-c-questions-for-reflection" class="slide level2">
+<h2>Memory Inspection with C++: Questions for Reflection</h2>
 
 </section></section>
     </div>

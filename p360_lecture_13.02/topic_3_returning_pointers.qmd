@@ -1,5 +1,5 @@
 <!-- Topic 3: Returning Pointers from Functions -->
-<!-- Total slides: 5 -->
+<!-- Total slides: 7 -->
 
 # Returning Pointers from Functions
 
@@ -11,7 +11,7 @@
 - Returning the address of a local variable is the most common pointer mistake
 
 ::: notes
-Total slides: 5
+Total slides: 7
 :::
 
 <!-- Slide 1 -->
@@ -21,17 +21,32 @@ Total slides: 5
 ## The dangling pointer trap
 
 ```{.cpp}
+#include <iostream>
+using namespace std;
+
 int* broken() {
     int x = 42;
     return &x;     // x is destroyed when broken() returns
-}                  // the returned pointer now points to dead memory
+}
+
+int main() {
+    int* p = broken();
+    cout << *p << "\n";   // undefined behavior — x no longer exists
+    return 0;
+}
 ```
 
-- `x` lives on the stack — it is destroyed when the function exits
-- The caller gets an address that refers to memory the program no longer owns
-- Dereferencing it is undefined behavior — it may appear to work, then crash unpredictably
+::: notes
+x lives on the stack — it is destroyed when broken() exits. The caller gets an address that refers to memory the program no longer owns. Dereferencing it is undefined behavior — it may appear to work, then crash unpredictably.
+:::
 
 <!-- Slide 2 -->
+
+---
+
+## {background-iframe="images/dangling_pointer.html" background-interactive="true"}
+
+<!-- Slide 3 -->
 
 ---
 
@@ -56,9 +71,11 @@ int* getCounter() {
 }
 ```
 
-- `static` local variables live for the entire program — their address is always valid
+::: notes
+`static` local variables live for the entire program — their address is always valid.
+:::
 
-<!-- Slide 3 -->
+<!-- Slide 4 -->
 
 ---
 
@@ -85,9 +102,11 @@ int* findFirst(int arr[], int size, int target) {
 }
 ```
 
-- The array belongs to `main` — the returned pointer is still valid after the function returns
+::: notes
+The array belongs to `main` — the returned pointer is still valid after the function returns.
+:::
 
-<!-- Slide 4 -->
+<!-- Slide 5 -->
 
 ---
 
@@ -96,4 +115,4 @@ int* findFirst(int arr[], int size, int target) {
 - Never return the address of a local variable — it is destroyed when the function exits
 - Safe returns: address of a `static` variable, address of heap memory, or address of caller-provided storage
 
-<!-- Slide 5 -->
+<!-- Slide 7 -->
