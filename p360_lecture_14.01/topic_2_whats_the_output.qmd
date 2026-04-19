@@ -1,5 +1,5 @@
 <!-- Topic 2: What's the Output? -->
-<!-- Total slides: 4 -->
+<!-- Total slides: 6 -->
 
 # What's the Output?
 
@@ -10,7 +10,7 @@
 + Two variables, one reference, one modification. What does each `cout` print?
 
 ::: notes
-Total slides: 4
+Total slides: 6
 Give students 60 seconds to work this out on paper before revealing.
 :::
 
@@ -20,6 +20,7 @@ Give students 60 seconds to work this out on paper before revealing.
 
 ## Exercise 1 — Code {.smaller}
 
+::: {.no-copy}
 ```{.cpp}
 #include <iostream>
 using namespace std;
@@ -42,6 +43,7 @@ int main() {
     return 0;
 }
 ```
+:::
 
 ::: notes
 Line A: 20 — r is an alias for x; assigning to r changes x.
@@ -63,6 +65,7 @@ Line C: 50 — *p = 50 modifies y through the pointer.
 
 ## Exercise 2 — Code {.smaller}
 
+::: {.no-copy}
 ```{.cpp}
 #include <iostream>
 using namespace std;
@@ -88,6 +91,7 @@ int main() {
     return 0;
 }
 ```
+:::
 
 ::: notes
 Line A: 10 — doubleRef takes a reference; a is modified in place.
@@ -96,3 +100,80 @@ Line C: 6 — p holds the address of c; doublePtr(p) passes that address, *n *= 
 :::
 
 <!-- Slide 4 -->
+
+---
+
+## Exercise 1 — Output {.smaller}
+
+::::: {.columns}
+::: {.column width="57%"}
+```{.cpp}
+int x = 10;
+int& r = x;
+
+r = 20;
+cout << x << "\n";    // line A
+
+int y = 30;
+int* p = &x;
+p = &y;
+*p = 50;
+
+cout << x << "\n";    // line B
+cout << y << "\n";    // line C
+```
+:::
+::: {.column width="43%"}
+**Line A → `20`**
+
+`r` is an alias for `x`. Assigning to `r` is assigning to `x`.
+
+**Line B → `20`**
+
+`p` was reseated to `&y`. `x` is untouched.
+
+**Line C → `50`**
+
+`*p = 50` writes through `p` into `y`.
+:::
+:::::
+
+<!-- Slide 5 -->
+
+---
+
+## Exercise 2 — Output {.smaller}
+
+::::: {.columns}
+::: {.column width="57%"}
+```{.cpp}
+int a = 5, b = 5;
+
+doubleRef(a);
+doublePtr(&b);
+
+cout << a << "\n";    // line A
+cout << b << "\n";    // line B
+
+int c = 3;
+int* p = &c;
+doublePtr(p);
+cout << c << "\n";    // line C
+```
+:::
+::: {.column width="43%"}
+**Line A → `10`**
+
+`doubleRef(a)` takes a reference — `a` is doubled in place.
+
+**Line B → `10`**
+
+`doublePtr(&b)` dereferences — `*n *= 2` writes through into `b`.
+
+**Line C → `6`**
+
+`p` holds `&c`. `doublePtr(p)` passes that address — `c` is doubled.
+:::
+:::::
+
+<!-- Slide 6 -->

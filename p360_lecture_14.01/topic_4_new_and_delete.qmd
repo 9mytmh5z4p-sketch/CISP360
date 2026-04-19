@@ -1,5 +1,5 @@
 <!-- Topic 4: new and delete -->
-<!-- Total slides: 6 -->
+<!-- Total slides: 15 -->
 
 # new and delete
 
@@ -11,7 +11,7 @@
 + `delete` releases that memory back to the system — you are responsible for calling it.
 
 ::: notes
-Total slides: 6
+Total slides: 15
 :::
 
 <!-- Slide 1 -->
@@ -112,3 +112,201 @@ Walk through each step: allocate, use through dereference, delete, null the poin
 + Always set the pointer to `nullptr` after `delete` — leaving a dangling pointer is a bug waiting to happen.
 
 <!-- Slide 6 -->
+
+---
+
+## {background-image="assets/new_single.png" background-size="contain" background-color="#ffffff"}
+
+<!-- Slide 7 -->
+
+---
+
+## Example — heap-allocating a double {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    double* temp = new double(98.6);
+
+    cout << "Temperature: " << *temp << " F\n";
+
+    *temp = 101.3;
+    cout << "Fever temp:  " << *temp << " F\n";
+
+    delete temp;
+    temp = nullptr;
+
+    return 0;
+}
+```
+
+::: notes
+Simple second example: allocate a double, read through it, modify through it, then clean up. Reinforces that new/delete works the same way for any type — not just int.
+:::
+
+<!-- Slide 8 -->
+
+---
+
+## Example — allocating in a function, returning to main {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+double* readTemperature();
+
+int main() {
+    double* t = readTemperature();
+    cout << "You entered: " << *t << "\n";
+    delete t;
+    t = nullptr;
+    return 0;
+}
+
+double* readTemperature() {
+    double* p = new double;
+    cout << "Enter temperature: ";
+    cin >> *p;
+    return p;   // caller owns the heap block
+}
+```
+
+::: notes
+Key teaching point: the heap block survives the function return — unlike a local variable. main() receives the pointer and is responsible for delete. This is a common pattern (factory functions) and also a common source of leaks if the caller forgets to delete.
+:::
+
+<!-- Slide 9 -->
+
+---
+
+## Allocating an array on the heap {.smaller}
+
+- Use `new[]` to allocate a contiguous block for multiple elements
+- The size can be a variable — decided at runtime
+
+```{.cpp}
+int n = 5;
+int* arr = new int[n];   // n ints on the heap
+
+for (int i = 0; i < n; i++)
+    arr[i] = i * 10;
+
+delete[] arr;            // must use delete[], not delete
+arr = nullptr;
+```
+
+- Index with `[]` exactly like a regular array
+- **Never** mix `new[]` with `delete`, or `new` with `delete[]`
+
+<!-- Slide 10 -->
+
+---
+
+## new vs. new[] at a glance
+
+| | Single value | Array |
+|-|-------------|-------|
+| Allocation | `int* p = new int(5);` | `int* a = new int[n];` |
+| Initial value | `new int(5)` — init to 5 | `new int[n]{}` — zero-init |
+| Deallocation | `delete p;` | `delete[] a;` |
+| Access | `*p` | `a[i]` |
+| Size at runtime | — | yes |
+
+::: notes
+The bracket pairs must match. delete on a new[] allocation is undefined behavior — the runtime does not know how many elements to destroy. Zero-initialize arrays with the empty braces: new int[n]{}.
+:::
+
+<!-- Slide 11 -->
+
+---
+
+## {background-image="assets/new_arr.png" background-size="contain" background-color="#ffffff"}
+
+<!-- Slide 12 -->
+
+---
+
+## Array demo 1 — runtime size, user input, average {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "How many scores? ";
+    cin >> n;
+
+    int* scores = new int[n];
+
+    for (int i = 0; i < n; i++) {
+        cout << "Score " << i + 1 << ": ";
+        cin >> scores[i];
+    }
+
+    double sum = 0;
+    for (int i = 0; i < n; i++)
+        sum += scores[i];
+
+    cout << "Average: " << sum / n << "\n";
+
+    delete[] scores;
+    scores = nullptr;
+
+    return 0;
+}
+```
+
+::: notes
+Classic use case: size unknown at compile time, determined from user input. The heap array stores all values so the average can be computed after all input is collected. Contrast with a fixed-size local array.
+:::
+
+<!-- Slide 13 -->
+
+---
+
+## Array demo 2 — pass heap array to a function {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int findMax(int* arr, int size);
+
+int main() {
+    int n = 4;
+    int* vals = new int[n] {15, 8, 42, 23};
+
+    cout << "Max: " << findMax(vals, n) << "\n";
+
+    delete[] vals;
+    vals = nullptr;
+    return 0;
+}
+
+int findMax(int* arr, int size) {
+    int max = arr[0];
+    for (int i = 1; i < size; i++)
+        if (arr[i] > max)
+            max = arr[i];
+    return max;
+}
+```
+
+::: notes
+Demonstrates that a heap array is just a pointer — passing it to a function works identically to passing a stack array. The function signature int* arr, int size is the standard idiom. Ownership (who calls delete[]) stays with main.
+:::
+
+<!-- Slide 14 -->
+
+---
+
+## Summary
+
++ Use `new` / `delete` for single heap values; use `new[]` / `delete[]` for arrays — the brackets must always match.
++ A heap allocation outlives the function that created it — whoever receives the pointer is responsible for calling `delete` or `delete[]` exactly once.
+
+<!-- Slide 15 -->
