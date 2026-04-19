@@ -210,14 +210,15 @@ Dr.&nbsp;Caleb Fowler
 <section id="last-time" class="title-slide slide level1 center">
 <h1>Last Time</h1>
 <ul>
-<li class="fragment"><strong>Memory Leaks</strong></li>
-<li class="fragment"><strong>Dangling Pointers After delete</strong></li>
-<li class="fragment"><strong>Smart Pointers Callback</strong></li>
-<li class="fragment"><strong>Fill In the Missing Code (×2)</strong></li>
-<li class="fragment"><strong>Programming Task — Parallel Dynamic Arrays</strong></li>
+<li class="fragment"><strong>Abstract Data Types</strong></li>
+<li class="fragment"><strong>Structures</strong></li>
+<li class="fragment"><strong>What’s the Output?</strong></li>
+<li class="fragment"><strong>Fill In the Missing Code</strong></li>
+<li class="fragment"><strong>Arrays of Structures</strong></li>
+<li class="fragment"><strong>Programming Task — Student Roster</strong></li>
 </ul>
 <aside class="notes">
-<p>15.02 covered what goes wrong with raw pointers: leaks when delete is forgotten, dangling when memory is used after delete. Smart pointers automate cleanup. The parallel dynamic arrays task put all of it together.</p>
+<p>16.01 introduced composite types: struct groups different-typed members under one name. Exercises practiced dot notation, initialization list vs member-by-member, pass-by-reference with structs, and building a static array of structs.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -236,12 +237,12 @@ Dr.&nbsp;Caleb Fowler
 <section id="todays-agenda" class="title-slide slide level1 center">
 <h1>Today’s Agenda</h1>
 <ul>
-<li>Abstract Data Types</li>
-<li>Structures</li>
-<li>What’s the Output?</li>
+<li>Object-Oriented Programming</li>
+<li>Introduction to Classes</li>
+<li>Creating and Using Objects</li>
+<li>Defining Member Functions</li>
+<li>Arrays of Objects</li>
 <li>Fill In the Missing Code</li>
-<li>Arrays of Structures</li>
-<li>Programming Task — Student Roster</li>
 </ul>
 <aside class="notes">
 
@@ -256,23 +257,23 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Topic 1: Abstract Data Types -->
-<!-- Total slides: 3 -->
+<!-- Topic 1: Object-Oriented Programming -->
+<!-- Total slides: 4 -->
 </section>
 
 <section>
-<section id="abstract-data-types" class="title-slide slide level1 center">
-<h1>Abstract Data Types</h1>
+<section id="object-oriented-programming" class="title-slide slide level1 center">
+<h1>Object-Oriented Programming</h1>
 
 </section>
-<section id="when-does-one-variable-stop-being-enough" class="slide level2 smaller">
-<h2>When does one variable stop being enough?</h2>
+<section id="procedural-vs.-object-oriented" class="slide level2 smaller">
+<h2>Procedural vs.&nbsp;object-oriented</h2>
 <ul>
-<li>You can store an employee’s ID in an <code>int</code> — but their name and pay rate need separate variables with no formal relationship.</li>
-<li>An <strong>Abstract Data Type</strong> (ADT) defines a new type that groups related data together under one name.</li>
+<li><strong>Procedural</strong>: organize code around <em>actions</em> — functions that receive data and produce results.</li>
+<li><strong>Object-oriented</strong>: organize code around <em>things</em> — objects that own their own data and know how to operate on it.</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 3 This is a short motivating section — 5 minutes max. The goal is to create a felt need before showing struct syntax. Students have seen int, string, double, and arrays. The question is: how do you represent a real-world entity that has multiple attributes of different types? ADT is the answer. The next slide places structs in context alongside familiar types.</p>
+<p>Total slides: 4 Bank account example: procedural thinks in verbs (withdraw, deposit, transfer); OOP thinks in nouns (Customer, Account, Money). Same program, completely different organizing lens. This paradigm shift is the core of what students are stepping into. [Graphic suggestion: Two-column diagram — left shows person silhouette with action arrows labeled withdraw/deposit/transfer; right shows same person surrounded by Customer, Account, Money objects circling her.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -286,41 +287,14 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 1 -->
 </section>
-<section id="where-does-struct-fit" class="slide level2 smaller">
-<h2>Where does <code>struct</code> fit?</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Type</th>
-<th>Example</th>
-<th>Groups</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Scalar variable</td>
-<td><code>int x;</code></td>
-<td>one value</td>
-</tr>
-<tr class="even">
-<td>Array</td>
-<td><code>int scores[5];</code></td>
-<td>values of the <strong>same</strong> type</td>
-</tr>
-<tr class="odd">
-<td><strong>Struct</strong></td>
-<td><code>Employee e;</code></td>
-<td>values of <strong>different</strong> types</td>
-</tr>
-<tr class="even">
-<td>Class</td>
-<td><code>string s;</code></td>
-<td>data + behavior</td>
-</tr>
-</tbody>
-</table>
+<section id="the-class-is-the-blueprint" class="slide level2 smaller">
+<h2>The class is the blueprint</h2>
+<ul>
+<li>A <strong>class</strong> defines a new type — it specifies what data it holds and what operations it supports.</li>
+<li>An <strong>object</strong> is one specific instance created from that class — like a cookie cut from a cutter.</li>
+</ul>
 <aside class="notes">
-<p>The “Table of Variables” gives students a mental map. Structs are the natural next step after arrays — same grouping idea, but with heterogeneous types. Don’t dwell here; the next topic builds structs from the ground up. The key line to point at: struct groups values of different types.</p>
+<p>Cookie cutter analogy: one class definition (the cutter) stamps out as many objects (cookies) as you need. Each object is independent — same shape, its own data. [Graphic suggestion: Cookie cutter labeled “the class” pointing to two cookie shapes labeled “the objects.”]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -333,31 +307,54 @@ Dr.&nbsp;Caleb Fowler
           display:block!important;
       }</style></aside>
 <!-- Slide 2 -->
+</section>
+<section id="one-class-many-objects" class="slide level2 smaller">
+<h2>One class, many objects</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="kw">class</span> Car <span class="op">{</span></span>
+<span id="cb1-2"><a href=""></a>    <span class="co">// members defined here</span></span>
+<span id="cb1-3"><a href=""></a><span class="op">};</span></span>
+<span id="cb1-4"><a href=""></a></span>
+<span id="cb1-5"><a href=""></a>Car mustang<span class="op">;</span>   <span class="co">// Green, Ford, Mustang, Gasoline</span></span>
+<span id="cb1-6"><a href=""></a>Car prius<span class="op">;</span>     <span class="co">// Red, Toyota, Prius, Electric</span></span>
+<span id="cb1-7"><a href=""></a>Car golf<span class="op">;</span>      <span class="co">// Blue, Volkswagen, Golf, Diesel</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Same class, three distinct objects — each holding different data. This mirrors what students already know from scalars: int x; int y; is the same type with different values. The class is declared once; objects are created as needed. [Graphic suggestion: Car class at top with arrows down to three car icons (green/red/blue), each labeled with make/model/fuel.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
 </section>
 <section id="summary" class="slide level2 smaller">
 <h2>Summary</h2>
 <ul>
-<li>An ADT is any user-defined type — you decide what data it holds.</li>
-<li>In C++, <code>struct</code> is the simplest way to create one.</li>
+<li>OOP organizes programs around objects — things that own their own data and behavior.</li>
+<li>Declare a class once; create as many objects as needed — just like any other type.</li>
 </ul>
-<!-- Slide 3 -->
-<!-- Topic 2: Structures -->
-<!-- Total slides: 6 -->
+<!-- Slide 4 -->
+<!-- Topic 2: Introduction to Classes -->
+<!-- Total slides: 5 -->
 </section></section>
 <section>
-<section id="structures" class="title-slide slide level1 center">
-<h1>Structures</h1>
+<section id="introduction-to-classes" class="title-slide slide level1 center">
+<h1>Introduction to Classes</h1>
 
 </section>
-<section id="what-holds-an-employee-together" class="slide level2 smaller">
-<h2>What holds an employee together?</h2>
+<section id="a-struct-that-knows-how-to-act" class="slide level2 smaller">
+<h2>A struct that knows how to act</h2>
 <ul>
-<li>Three variables describe one employee: ID, name, and pay rate.</li>
-<li>With 15 employees you’d need 45 separate variables with no formal relationship between them.</li>
-<li>A <code>struct</code> solves this by creating one type that holds all three.</li>
+<li>A <code>class</code> is like a <code>struct</code> — it groups related data under one type name.</li>
+<li>The key differences: class members are <strong>private by default</strong>, and a class can contain <em>functions</em> alongside its data.</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 6 Problem-first framing from the original slides. Don’t skip the 45-variable problem — it makes the motivation concrete. Students have done parallel arrays (15.01/15.02); they know the pain. Struct is the fix.</p>
+<p>Total slides: 5 Students know struct from 16.01. Class is the next step: same composite type concept, but with access control and member functions built in. The private-by-default rule is the single most important structural difference to hammer.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -371,25 +368,32 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 1 -->
 </section>
-<section id="struct-anatomy" class="slide level2 smaller">
-<h2>Struct anatomy</h2>
+<section id="class-anatomy" class="slide level2 smaller">
+<h2>Class anatomy</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="kw">struct</span> Employee <span class="op">{</span></span>
-<span id="cb1-2"><a href=""></a>    <span class="dt">int</span>    employeeID<span class="op">;</span></span>
-<span id="cb1-3"><a href=""></a>    string name<span class="op">;</span></span>
-<span id="cb1-4"><a href=""></a>    <span class="dt">double</span> rate<span class="op">;</span></span>
-<span id="cb1-5"><a href=""></a><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="kw">class</span> Point <span class="op">{</span></span>
+<span id="cb2-2"><a href=""></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb2-3"><a href=""></a>    <span class="dt">int</span> x<span class="op">;</span></span>
+<span id="cb2-4"><a href=""></a>    <span class="dt">int</span> y<span class="op">;</span></span>
+<span id="cb2-5"><a href=""></a></span>
+<span id="cb2-6"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb2-7"><a href=""></a>    <span class="dt">void</span> setX<span class="op">(</span><span class="dt">int</span> val<span class="op">);</span></span>
+<span id="cb2-8"><a href=""></a>    <span class="dt">void</span> setY<span class="op">(</span><span class="dt">int</span> val<span class="op">);</span></span>
+<span id="cb2-9"><a href=""></a>    <span class="dt">int</span>  getX<span class="op">()</span> <span class="at">const</span><span class="op">;</span></span>
+<span id="cb2-10"><a href=""></a>    <span class="dt">int</span>  getY<span class="op">()</span> <span class="at">const</span><span class="op">;</span></span>
+<span id="cb2-11"><a href=""></a><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
 <ul>
-<li><code>struct</code> — keyword; creates a new type</li>
-<li><code>Employee</code> — the type name; use it like <code>int</code> or <code>string</code></li>
-<li><code>employeeID</code>, <code>name</code>, <code>rate</code> — members; each has its own type</li>
+<li><code>class</code> — keyword; creates a new type</li>
+<li><code>Point</code> — the type name; use it like <code>int</code> or <code>string</code></li>
+<li><code>private:</code> — these members are hidden from outside code</li>
+<li><code>public:</code> — these members are visible to callers</li>
 <li><code>};</code> — closing brace <strong>must</strong> have a semicolon</li>
 </ul>
 </div></div>
 <aside class="notes">
-<p>This is the anatomy visualization. Walk through each labeled part. The semicolon after the closing brace is the most common syntax error students make — point at it explicitly. The struct declaration is a blueprint; it allocates no memory on its own. [Graphic suggestion: in-class pointer diagram showing struct declaration as a type blueprint (no box drawn yet), then a variable declaration drawing the actual memory box with three labeled slots.]</p>
+<p>Walk through each labeled part deliberately. The private/public split is the new concept relative to struct. Convention: data goes in private; functions external code needs go in public.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -403,24 +407,14 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 2 -->
 </section>
-<section id="declaring-a-struct-variable" class="slide level2 smaller">
-<h2>Declaring a struct variable</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb2-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb2-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb2-4"><a href=""></a></span>
-<span id="cb2-5"><a href=""></a><span class="kw">struct</span> Employee <span class="op">{</span></span>
-<span id="cb2-6"><a href=""></a>    <span class="dt">int</span>    employeeID<span class="op">;</span></span>
-<span id="cb2-7"><a href=""></a>    string name<span class="op">;</span></span>
-<span id="cb2-8"><a href=""></a>    <span class="dt">double</span> rate<span class="op">;</span></span>
-<span id="cb2-9"><a href=""></a><span class="op">};</span></span>
-<span id="cb2-10"><a href=""></a></span>
-<span id="cb2-11"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb2-12"><a href=""></a>    Employee e<span class="op">;</span>          <span class="co">// e is a variable of type Employee</span></span>
-<span id="cb2-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="private-vs-public-in-action" class="slide level2 smaller">
+<h2>private vs public in action</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a>Point p<span class="op">;</span></span>
+<span id="cb3-2"><a href=""></a></span>
+<span id="cb3-3"><a href=""></a>p<span class="op">.</span>x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>       <span class="co">// compile error — x is private</span></span>
+<span id="cb3-4"><a href=""></a>p<span class="op">.</span>setX<span class="op">(</span><span class="dv">10</span><span class="op">);</span>     <span class="co">// OK — setX() is public</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
-<p>Once the struct type exists, declaring a variable is identical to declaring an int. The type name IS Employee. This slide exists to separate “defining the type” (previous slide) from “creating a variable of that type” (this slide).</p>
+<p>Private means the outside world cannot read or write that member directly. Public methods are the controlled interface. This is encapsulation: the object decides how its data is accessed. Struct members are public by default — that’s the only syntactic difference between struct and class in C++.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -434,23 +428,28 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 3 -->
 </section>
-<section id="accessing-members-with-dot-notation" class="slide level2 smaller">
-<h2>Accessing members with dot notation</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb3-2"><a href=""></a>    Employee e<span class="op">;</span></span>
-<span id="cb3-3"><a href=""></a></span>
-<span id="cb3-4"><a href=""></a>    e<span class="op">.</span>employeeID <span class="op">=</span> <span class="dv">14335</span><span class="op">;</span>      <span class="co">// variable.member = value</span></span>
-<span id="cb3-5"><a href=""></a>    e<span class="op">.</span>name       <span class="op">=</span> <span class="st">"Pat Smith"</span><span class="op">;</span></span>
-<span id="cb3-6"><a href=""></a>    e<span class="op">.</span>rate       <span class="op">=</span> <span class="fl">17.55</span><span class="op">;</span></span>
-<span id="cb3-7"><a href=""></a></span>
-<span id="cb3-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> e<span class="op">.</span>employeeID <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 14335</span></span>
-<span id="cb3-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> e<span class="op">.</span>name       <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// Pat Smith</span></span>
-<span id="cb3-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> e<span class="op">.</span>rate       <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 17.55</span></span>
-<span id="cb3-11"><a href=""></a></span>
-<span id="cb3-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="a-complete-example" class="slide level2 smaller">
+<h2>A complete example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb4-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb4-3"><a href=""></a></span>
+<span id="cb4-4"><a href=""></a><span class="kw">class</span> Point <span class="op">{</span></span>
+<span id="cb4-5"><a href=""></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb4-6"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">15</span><span class="op">;</span></span>
+<span id="cb4-7"><a href=""></a>    <span class="dt">int</span> y <span class="op">=</span> <span class="dv">33</span><span class="op">;</span></span>
+<span id="cb4-8"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb4-9"><a href=""></a>    <span class="dt">void</span> Print<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-10"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Object is located at "</span> <span class="op">&lt;&lt;</span> x <span class="op">&lt;&lt;</span> <span class="st">", "</span> <span class="op">&lt;&lt;</span> y <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb4-11"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb4-12"><a href=""></a><span class="op">};</span></span>
+<span id="cb4-13"><a href=""></a></span>
+<span id="cb4-14"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-15"><a href=""></a>    Point widget1<span class="op">;</span></span>
+<span id="cb4-16"><a href=""></a>    widget1<span class="op">.</span>Print<span class="op">();</span>   <span class="co">// Object is located at 15, 33</span></span>
+<span id="cb4-17"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
-<p>The dot operator is the only new syntax here. Read it as “e’s employeeID.” The members behave like ordinary variables — you assign them, read them, pass them. The variable name comes first, then the dot, then the member name.</p>
+<p>x and y are private — outside code cannot touch them directly. Print() is public — callers reach it with dot notation, same as struct member access. widget1 is one object; declare widget2 and it gets its own independent x and y.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -464,54 +463,30 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 4 -->
 </section>
-<section id="two-ways-to-initialize" class="slide level2 smaller">
-<h2>Two ways to initialize</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="co">// Initialization list — values in declaration order</span></span>
-<span id="cb4-2"><a href=""></a>Employee a <span class="op">=</span> <span class="op">{</span><span class="dv">14335</span><span class="op">,</span> <span class="st">"Pat Smith"</span><span class="op">,</span> <span class="fl">17.55</span><span class="op">};</span></span>
-<span id="cb4-3"><a href=""></a></span>
-<span id="cb4-4"><a href=""></a><span class="co">// Member-by-member — order doesn't matter</span></span>
-<span id="cb4-5"><a href=""></a>Employee b<span class="op">;</span></span>
-<span id="cb4-6"><a href=""></a>b<span class="op">.</span>employeeID <span class="op">=</span> <span class="dv">29401</span><span class="op">;</span></span>
-<span id="cb4-7"><a href=""></a>b<span class="op">.</span>name       <span class="op">=</span> <span class="st">"Jordan Lee"</span><span class="op">;</span></span>
-<span id="cb4-8"><a href=""></a>b<span class="op">.</span>rate       <span class="op">=</span> <span class="fl">19.75</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Both forms are valid. Initialization list is concise but requires knowing the declaration order. Member-by-member is verbose but explicit. Students will mix these freely — that’s fine. The important constraint: initialization list values must appear in the same order as the struct’s member declarations.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 5 -->
-</section>
 <section id="summary-1" class="slide level2 smaller">
 <h2>Summary</h2>
 <ul>
-<li>Declare the struct type once; create as many variables as needed.</li>
-<li>Use <code>variable.member</code> to read or write any individual field.</li>
+<li>A class groups data (<code>private</code>) and behavior (<code>public</code>) under one type name.</li>
+<li>Outside code interacts only through the public interface — the class controls its own data.</li>
 </ul>
-<!-- Slide 6 -->
-<!-- Topic 3: What's the Output? -->
-<!-- Total slides: 3 -->
+<!-- Slide 5 -->
+<!-- Topic 3: Creating and Using Objects -->
+<!-- Total slides: 4 -->
 </section></section>
 <section>
-<section id="whats-the-output" class="title-slide slide level1 center">
-<h1>What’s the Output?</h1>
+<section id="creating-and-using-objects" class="title-slide slide level1 center">
+<h1>Creating and Using Objects</h1>
 
 </section>
-<section id="what-does-this-program-print" class="slide level2 smaller">
-<h2>What does this program print?</h2>
+<section id="three-decisions-before-you-write-a-class" class="slide level2 smaller">
+<h2>Three decisions before you write a class</h2>
 <ul>
-<li>Trace through carefully — one path uses an initialization list, the other uses member assignment.</li>
-<li>Pay attention to how the struct is passed into <code>addBonus</code>.</li>
+<li>What <strong>data</strong> does this type need? — becomes the private members.</li>
+<li>What <strong>operations</strong> should it support? — becomes the public member functions.</li>
+<li>What should be <strong>visible</strong> to outside code and what should stay hidden? — the public/private split.</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 3 Pair work recommended. Give students 3–4 minutes. Key traps: (1) addBonus takes by reference — it modifies a.bonus; (2) b.bonus is already set to 5 and addBonus is never called on b; (3) 80/10 = 8 (integer division).</p>
+<p>Total slides: 4 This is 7.4, framed as a review extension of 7.3. Students have seen the Point class; now they think like designers. The three-question framework scales to any class they’ll ever write. Walk through it before showing code.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -525,41 +500,20 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 1 -->
 </section>
-<section id="exercise" class="slide level2 smaller">
-<h2>Exercise</h2>
+<section id="creating-and-using-objects-1" class="slide level2 smaller">
+<h2>Creating and using objects</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb5-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
 <span id="cb5-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
 <span id="cb5-4"><a href=""></a></span>
-<span id="cb5-5"><a href=""></a><span class="kw">struct</span> Score <span class="op">{</span></span>
-<span id="cb5-6"><a href=""></a>    string player<span class="op">;</span></span>
-<span id="cb5-7"><a href=""></a>    <span class="dt">int</span>    points<span class="op">;</span></span>
-<span id="cb5-8"><a href=""></a>    <span class="dt">int</span>    bonus<span class="op">;</span></span>
-<span id="cb5-9"><a href=""></a><span class="op">};</span></span>
-<span id="cb5-10"><a href=""></a></span>
-<span id="cb5-11"><a href=""></a><span class="dt">int</span> addBonus<span class="op">(</span>Score<span class="op">&amp;</span> s<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-12"><a href=""></a>    s<span class="op">.</span>bonus <span class="op">=</span> s<span class="op">.</span>points <span class="op">/</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb5-13"><a href=""></a>    <span class="cf">return</span> s<span class="op">.</span>points <span class="op">+</span> s<span class="op">.</span>bonus<span class="op">;</span></span>
-<span id="cb5-14"><a href=""></a><span class="op">}</span></span>
-<span id="cb5-15"><a href=""></a></span>
-<span id="cb5-16"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb5-17"><a href=""></a>    Score a <span class="op">=</span> <span class="op">{</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">0</span><span class="op">};</span></span>
-<span id="cb5-18"><a href=""></a>    Score b<span class="op">;</span></span>
-<span id="cb5-19"><a href=""></a>    b<span class="op">.</span>player <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span></span>
-<span id="cb5-20"><a href=""></a>    b<span class="op">.</span>points <span class="op">=</span> <span class="dv">95</span><span class="op">;</span></span>
-<span id="cb5-21"><a href=""></a>    b<span class="op">.</span>bonus  <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb5-22"><a href=""></a></span>
-<span id="cb5-23"><a href=""></a>    <span class="dt">int</span> aTotal <span class="op">=</span> addBonus<span class="op">(</span>a<span class="op">);</span></span>
-<span id="cb5-24"><a href=""></a></span>
-<span id="cb5-25"><a href=""></a>    cout <span class="op">&lt;&lt;</span> a<span class="op">.</span>player <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> aTotal     <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb5-26"><a href=""></a>    cout <span class="op">&lt;&lt;</span> b<span class="op">.</span>player <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> b<span class="op">.</span>points <span class="op">+</span> b<span class="op">.</span>bonus <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb5-27"><a href=""></a></span>
-<span id="cb5-28"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb5-29"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-5"><a href=""></a><span class="kw">class</span> Book <span class="op">{</span></span>
+<span id="cb5-6"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb5-7"><a href=""></a>    string title<span class="op">;</span></span>
+<span id="cb5-8"><a href=""></a>    <span class="dt">void</span> setTitle<span class="op">(</span>string t<span class="op">)</span>  <span class="op">{</span> title <span class="op">=</span> t<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb5-9"><a href=""></a>    string getTitle<span class="op">()</span> <span class="at">const</span>  <span class="op">{</span> <span class="cf">return</span> title<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb5-10"><a href=""></a><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
-<p>Answer: Alice: 88 Bob: 100</p>
-<p>Trace: - a is initialized with initialization list: player=“Alice”, points=80, bonus=0 - b is initialized member-by-member: player=“Bob”, points=95, bonus=5 - addBonus(a): pass by reference; a.bonus = 80/10 = 8; returns 80+8 = 88 - aTotal = 88 - addBonus is NOT called on b - b.points + b.bonus = 95 + 5 = 100</p>
-<p>Common mistake: students may try to compute addBonus for b too, or miss that bonus is modified by reference.</p>
+<p>Book is a class with one private-ish member (left public here for simplicity) and two inline methods. Students have seen this shape before with structs — the difference is methods instead of plain member access.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -573,185 +527,32 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 2 -->
 </section>
-<section id="answer" class="slide level2 smaller">
-<h2>Answer</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> a<span class="op">.</span>player <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> aTotal     <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>  <span class="co">// Alice: 88</span></span>
-<span id="cb6-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> b<span class="op">.</span>player <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> b<span class="op">.</span>points <span class="op">+</span> b<span class="op">.</span>bonus <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>  <span class="co">// Bob: 100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>addBonus</code> takes <code>Score&amp;</code> — it modifies <code>a.bonus</code> to 8, then returns 88</li>
-<li><code>addBonus</code> is never called on <code>b</code> — <code>b.bonus</code> stays at 5</li>
-<li><code>b.points + b.bonus</code> = 95 + 5 = 100</li>
-</ul>
-<!-- Slide 3 -->
-<!-- Topic 4: Fill In the Code -->
-<!-- Total slides: 3 -->
-</section></section>
-<section>
-<section id="fill-in-the-missing-code" class="title-slide slide level1 center">
-<h1>Fill In the Missing Code</h1>
-
-</section>
-<section id="exercise-print-an-employee-record" class="slide level2 smaller">
-<h2>Exercise: print an employee record</h2>
-<ul>
-<li>The struct and <code>main</code> are complete — the function body is missing.</li>
-<li>Fill in lines 28–30 so the program compiles and prints both employee records.</li>
-</ul>
+<section id="objects-interacting" class="slide level2 smaller">
+<h2>Objects interacting</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="kw">class</span> Library <span class="op">{</span></span>
+<span id="cb6-2"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb6-3"><a href=""></a>    Book books<span class="op">[</span><span class="dv">10</span><span class="op">];</span></span>
+<span id="cb6-4"><a href=""></a>    <span class="dt">int</span>  count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-5"><a href=""></a>    <span class="dt">void</span> addBook<span class="op">(</span><span class="at">const</span> Book<span class="op">&amp;</span> b<span class="op">)</span>  <span class="op">{</span> books<span class="op">[</span>count<span class="op">++]</span> <span class="op">=</span> b<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb6-6"><a href=""></a>    <span class="dt">void</span> showBooks<span class="op">()</span> <span class="at">const</span> <span class="op">{</span></span>
+<span id="cb6-7"><a href=""></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> count<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb6-8"><a href=""></a>            cout <span class="op">&lt;&lt;</span> <span class="st">"- "</span> <span class="op">&lt;&lt;</span> books<span class="op">[</span>i<span class="op">].</span>getTitle<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb6-9"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb6-10"><a href=""></a><span class="op">};</span></span>
+<span id="cb6-11"><a href=""></a></span>
+<span id="cb6-12"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-13"><a href=""></a>    Book b1<span class="op">,</span> b2<span class="op">;</span></span>
+<span id="cb6-14"><a href=""></a>    b1<span class="op">.</span>setTitle<span class="op">(</span><span class="st">"C++ for Beginners"</span><span class="op">);</span></span>
+<span id="cb6-15"><a href=""></a>    b2<span class="op">.</span>setTitle<span class="op">(</span><span class="st">"Learn Programming with C++"</span><span class="op">);</span></span>
+<span id="cb6-16"><a href=""></a></span>
+<span id="cb6-17"><a href=""></a>    Library lib<span class="op">;</span></span>
+<span id="cb6-18"><a href=""></a>    lib<span class="op">.</span>addBook<span class="op">(</span>b1<span class="op">);</span></span>
+<span id="cb6-19"><a href=""></a>    lib<span class="op">.</span>addBook<span class="op">(</span>b2<span class="op">);</span></span>
+<span id="cb6-20"><a href=""></a>    lib<span class="op">.</span>showBooks<span class="op">();</span></span>
+<span id="cb6-21"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-22"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
-<p>Total slides: 3 Students need to write three cout statements using dot notation. This is deliberately straightforward — the goal is fluency with <code>e.member</code> syntax, not problem-solving under pressure. About 5 minutes.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="the-code-fill-in-lines-2830" class="slide level2 smaller">
-<h2>The code — fill in lines 28–30</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb7-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb7-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb7-4"><a href=""></a></span>
-<span id="cb7-5"><a href=""></a><span class="kw">struct</span> Employee <span class="op">{</span></span>
-<span id="cb7-6"><a href=""></a>    <span class="dt">int</span>    employeeID<span class="op">;</span></span>
-<span id="cb7-7"><a href=""></a>    string name<span class="op">;</span></span>
-<span id="cb7-8"><a href=""></a>    <span class="dt">double</span> rate<span class="op">;</span></span>
-<span id="cb7-9"><a href=""></a><span class="op">};</span></span>
-<span id="cb7-10"><a href=""></a></span>
-<span id="cb7-11"><a href=""></a><span class="dt">void</span> printEmployee<span class="op">(</span>Employee e<span class="op">);</span></span>
-<span id="cb7-12"><a href=""></a></span>
-<span id="cb7-13"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb7-14"><a href=""></a>    Employee a<span class="op">;</span></span>
-<span id="cb7-15"><a href=""></a>    a<span class="op">.</span>employeeID <span class="op">=</span> <span class="dv">14335</span><span class="op">;</span></span>
-<span id="cb7-16"><a href=""></a>    a<span class="op">.</span>name       <span class="op">=</span> <span class="st">"Pat Smith"</span><span class="op">;</span></span>
-<span id="cb7-17"><a href=""></a>    a<span class="op">.</span>rate       <span class="op">=</span> <span class="fl">17.55</span><span class="op">;</span></span>
-<span id="cb7-18"><a href=""></a></span>
-<span id="cb7-19"><a href=""></a>    Employee b <span class="op">=</span> <span class="op">{</span><span class="dv">29401</span><span class="op">,</span> <span class="st">"Jordan Lee"</span><span class="op">,</span> <span class="fl">19.75</span><span class="op">};</span></span>
-<span id="cb7-20"><a href=""></a></span>
-<span id="cb7-21"><a href=""></a>    printEmployee<span class="op">(</span>a<span class="op">);</span></span>
-<span id="cb7-22"><a href=""></a>    printEmployee<span class="op">(</span>b<span class="op">);</span></span>
-<span id="cb7-23"><a href=""></a></span>
-<span id="cb7-24"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb7-25"><a href=""></a><span class="op">}</span></span>
-<span id="cb7-26"><a href=""></a></span>
-<span id="cb7-27"><a href=""></a><span class="dt">void</span> printEmployee<span class="op">(</span>Employee e<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-28"><a href=""></a>    <span class="co">// === YOUR CODE HERE (lines 28–30) ===</span></span>
-<span id="cb7-29"><a href=""></a>    <span class="co">// Print: "ID: [employeeID]"</span></span>
-<span id="cb7-30"><a href=""></a>    <span class="co">// Print: "Name: [name]"</span></span>
-<span id="cb7-31"><a href=""></a>    <span class="co">// Print: "Rate: $[rate]"</span></span>
-<span id="cb7-32"><a href=""></a>    <span class="co">// =====================================</span></span>
-<span id="cb7-33"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 2 -->
-</section>
-<section id="solution" class="slide level2 smaller">
-<h2>Solution</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">void</span> printEmployee<span class="op">(</span>Employee e<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb8-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"ID: "</span>    <span class="op">&lt;&lt;</span> e<span class="op">.</span>employeeID <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb8-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Name: "</span>  <span class="op">&lt;&lt;</span> e<span class="op">.</span>name       <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb8-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Rate: $"</span> <span class="op">&lt;&lt;</span> e<span class="op">.</span>rate       <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb8-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Output: ID: 14335 Name: Pat Smith Rate: $17.55 ID: 29401 Name: Jordan Lee Rate: $19.75</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 3 -->
-<!-- Topic 5: Arrays of Structures -->
-<!-- Total slides: 4 -->
-</section></section>
-<section>
-<section id="arrays-of-structures" class="title-slide slide level1 center">
-<h1>Arrays of Structures</h1>
-
-</section>
-<section id="an-array-where-every-element-is-a-struct" class="slide level2 smaller">
-<h2>An array where every element is a struct</h2>
-<ul>
-<li>An array of structs uses the same bracket syntax as any other array — the element type is just your struct.</li>
-<li>Each element in the array gives you access to all of that struct’s members via dot notation.</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 4 Students know arrays. Students know structs. This topic combines them. The new syntax is minimal: Student roster[5] instead of int scores[5]. The tricky part is the two-step access: roster[i].name. Walk through the indexing + dot notation carefully.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="declaring-and-accessing" class="slide level2 smaller">
-<h2>Declaring and accessing</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="kw">struct</span> Student <span class="op">{</span></span>
-<span id="cb9-2"><a href=""></a>    string name<span class="op">;</span></span>
-<span id="cb9-3"><a href=""></a>    <span class="dt">int</span>    grade<span class="op">;</span></span>
-<span id="cb9-4"><a href=""></a><span class="op">};</span></span>
-<span id="cb9-5"><a href=""></a></span>
-<span id="cb9-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb9-7"><a href=""></a>    Student roster<span class="op">[</span><span class="dv">3</span><span class="op">];</span>           <span class="co">// array of 3 Student structs</span></span>
-<span id="cb9-8"><a href=""></a></span>
-<span id="cb9-9"><a href=""></a>    roster<span class="op">[</span><span class="dv">0</span><span class="op">].</span>name  <span class="op">=</span> <span class="st">"Alice"</span><span class="op">;</span>   <span class="co">// [index].member</span></span>
-<span id="cb9-10"><a href=""></a>    roster<span class="op">[</span><span class="dv">0</span><span class="op">].</span>grade <span class="op">=</span> <span class="dv">92</span><span class="op">;</span></span>
-<span id="cb9-11"><a href=""></a></span>
-<span id="cb9-12"><a href=""></a>    roster<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="st">"Bob"</span><span class="op">,</span> <span class="dv">85</span><span class="op">};</span>     <span class="co">// initialization list on array element</span></span>
-<span id="cb9-13"><a href=""></a></span>
-<span id="cb9-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> roster<span class="op">[</span><span class="dv">0</span><span class="op">].</span>name <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span><span class="dv">0</span><span class="op">].</span>grade <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb9-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> roster<span class="op">[</span><span class="dv">1</span><span class="op">].</span>name <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span><span class="dv">1</span><span class="op">].</span>grade <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb9-16"><a href=""></a></span>
-<span id="cb9-17"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb9-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Point out: roster[0] is a Student; roster[0].name is a string. The subscript operator selects the element; the dot operator selects the member. Both initialization forms (member-by-member and initialization list) work on array elements.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 2 -->
-</section>
-<section id="looping-through-an-array-of-structs" class="slide level2 smaller">
-<h2>Looping through an array of structs</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
-<span id="cb10-2"><a href=""></a>Student   roster<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{</span></span>
-<span id="cb10-3"><a href=""></a>    <span class="op">{</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">92</span><span class="op">},</span></span>
-<span id="cb10-4"><a href=""></a>    <span class="op">{</span><span class="st">"Bob"</span><span class="op">,</span>   <span class="dv">85</span><span class="op">},</span></span>
-<span id="cb10-5"><a href=""></a>    <span class="op">{</span><span class="st">"Carol"</span><span class="op">,</span> <span class="dv">97</span><span class="op">},</span></span>
-<span id="cb10-6"><a href=""></a>    <span class="op">{</span><span class="st">"Dan"</span><span class="op">,</span>   <span class="dv">78</span><span class="op">}</span></span>
-<span id="cb10-7"><a href=""></a><span class="op">};</span></span>
-<span id="cb10-8"><a href=""></a></span>
-<span id="cb10-9"><a href=""></a><span class="dt">int</span> best <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb10-10"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb10-11"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>grade <span class="op">&gt;</span> roster<span class="op">[</span>best<span class="op">].</span>grade<span class="op">)</span> best <span class="op">=</span> i<span class="op">;</span></span>
-<span id="cb10-12"><a href=""></a></span>
-<span id="cb10-13"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Top student: "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>best<span class="op">].</span>name</span>
-<span id="cb10-14"><a href=""></a>     <span class="op">&lt;&lt;</span> <span class="st">" with "</span>        <span class="op">&lt;&lt;</span> roster<span class="op">[</span>best<span class="op">].</span>grade <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>The max-tracker pattern is the same as with a plain int array — the only difference is roster[i].grade instead of scores[i]. This prepares students for the programming task, which asks them to build this from scratch.</p>
+<p>Library holds an array of Book objects and a count. addBook stores a Book; showBooks loops and calls getTitle() on each element. This is the interacting-objects pattern: one class uses another as a building block. main() creates both book objects and the library in the same scope — no cross-slide dependency.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -768,27 +569,26 @@ Dr.&nbsp;Caleb Fowler
 <section id="summary-2" class="slide level2 smaller">
 <h2>Summary</h2>
 <ul>
-<li><code>StructType array[n]</code> — same syntax as a primitive array, struct is the element type.</li>
-<li>Access: <code>array[i].member</code> — subscript first, then dot.</li>
+<li>Create objects the same way you create any variable: <code>ClassName variableName;</code></li>
+<li>Objects interact by passing each other as arguments and calling each other’s public methods.</li>
 </ul>
 <!-- Slide 4 -->
-<!-- Topic 6: Programming Task — Student Roster -->
-<!-- Total slides: 3 -->
+<!-- Topic 4: Defining Member Functions -->
+<!-- Total slides: 5 -->
 </section></section>
 <section>
-<section id="programming-task-student-roster" class="title-slide slide level1 center">
-<h1>Programming Task — Student Roster</h1>
+<section id="defining-member-functions" class="title-slide slide level1 center">
+<h1>Defining Member Functions</h1>
 
 </section>
-<section id="build-it-a-roster-of-5-students" class="slide level2 smaller">
-<h2>Build it: a roster of 5 students</h2>
+<section id="inline-or-outside-the-class" class="slide level2 smaller">
+<h2>Inline or outside the class?</h2>
 <ul>
-<li>Declare a <code>Student</code> struct with a <code>string name</code> and <code>int grade</code>.</li>
-<li>Allocate a static array of 5 students — <strong>not</strong> a dynamic array.</li>
-<li>Read each student’s name and grade from the user, then print the full roster.</li>
+<li><strong>Inline</strong>: the function body is written <em>inside</em> the class definition — compact, good for short functions.</li>
+<li><strong>Outside</strong>: the class lists a <em>prototype</em> only; the body is defined below using <code>ClassName::methodName()</code>.</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 3 Give students ~10 minutes. They have all the pieces: struct declaration, static array, for loop, dot notation, cin/cout. The challenge is combining them cleanly. Remind students: static array means Student roster[5]; — no new/delete needed.</p>
+<p>Total slides: 5 Both forms compile and run identically — this is a style and organization choice. Small getters and setters are typically inline. Longer methods are defined outside to keep the class definition readable as an interface summary.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -802,16 +602,18 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 1 -->
 </section>
-<section id="requirements" class="slide level2">
-<h2>Requirements</h2>
-<ul>
-<li>Declare <code>struct Student</code> with <code>string name</code> and <code>int grade</code></li>
-<li>In <code>main</code>, declare <code>Student roster[5]</code></li>
-<li>Loop <code>i = 0</code> to <code>4</code>: read <code>roster[i].name</code> and <code>roster[i].grade</code></li>
-<li>Print all 5 records: <code>"[name]: [grade]"</code></li>
-</ul>
+<section id="inline-definition" class="slide level2 smaller">
+<h2>Inline definition</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="kw">class</span> StopLight <span class="op">{</span></span>
+<span id="cb7-2"><a href=""></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb7-3"><a href=""></a>    <span class="dt">bool</span> isPowered <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb7-4"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb7-5"><a href=""></a>    <span class="dt">bool</span> getState<span class="op">()</span> <span class="at">const</span> <span class="op">{</span> <span class="cf">return</span> isPowered<span class="op">;</span> <span class="op">}</span>  <span class="co">// inline — body here</span></span>
+<span id="cb7-6"><a href=""></a>    <span class="dt">void</span> powerOn<span class="op">();</span>                              <span class="co">// prototype only</span></span>
+<span id="cb7-7"><a href=""></a>    <span class="dt">void</span> powerOff<span class="op">();</span>                             <span class="co">// prototype only</span></span>
+<span id="cb7-8"><a href=""></a><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
-<p>Keep the output format simple. Students should not need to worry about formatting — just get the data in and back out correctly. If time allows, ask them to also print the highest-grade student after the roster.</p>
+<p>getState() is short enough to live inline. powerOn() and powerOff() are declared with prototypes — their bodies will be written outside. The class definition now reads like a clean public interface.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -825,32 +627,264 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 2 -->
 </section>
-<section id="solution-1" class="slide level2 smaller">
+<section id="outside-definition" class="slide level2 smaller">
+<h2>Outside definition</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">void</span> StopLight<span class="op">::</span>powerOn<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href=""></a>    isPowered <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb8-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb8-4"><a href=""></a></span>
+<span id="cb8-5"><a href=""></a><span class="dt">void</span> StopLight<span class="op">::</span>powerOff<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-6"><a href=""></a>    isPowered <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb8-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb8-8"><a href=""></a></span>
+<span id="cb8-9"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-10"><a href=""></a>    StopLight bidwell<span class="op">;</span></span>
+<span id="cb8-11"><a href=""></a>    bidwell<span class="op">.</span>powerOn<span class="op">();</span></span>
+<span id="cb8-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> bidwell<span class="op">.</span>getState<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 1</span></span>
+<span id="cb8-13"><a href=""></a>    bidwell<span class="op">.</span>powerOff<span class="op">();</span></span>
+<span id="cb8-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> bidwell<span class="op">.</span>getState<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 0</span></span>
+<span id="cb8-15"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>The :: is the scope resolution operator. It tells the compiler which class this function belongs to. Without it, powerOn() would be a free function, not a member — and it wouldn’t have access to isPowered.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="accessors-and-mutators" class="slide level2 smaller">
+<h2>Accessors and mutators</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="kw">class</span> Temperature <span class="op">{</span></span>
+<span id="cb9-2"><a href=""></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb9-3"><a href=""></a>    <span class="dt">double</span> degrees <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb9-4"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb9-5"><a href=""></a>    <span class="dt">double</span> getDegrees<span class="op">()</span> <span class="at">const</span>  <span class="op">{</span> <span class="cf">return</span> degrees<span class="op">;</span> <span class="op">}</span>    <span class="co">// accessor (getter)</span></span>
+<span id="cb9-6"><a href=""></a>    <span class="dt">void</span>   setDegrees<span class="op">(</span><span class="dt">double</span> d<span class="op">){</span> degrees <span class="op">=</span> d<span class="op">;</span> <span class="op">}</span>       <span class="co">// mutator  (setter)</span></span>
+<span id="cb9-7"><a href=""></a><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>One key purpose of member functions is controlled access to private data. Accessor (getter): reads a private member — marked const because it doesn’t change the object. Mutator (setter): modifies a private member — can add validation logic before storing. Combined, they are the public interface to private data.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="summary-3" class="slide level2 smaller">
+<h2>Summary</h2>
+<ul>
+<li>Member functions can be defined inline (inside the class body) or outside using <code>ClassName::method()</code>.</li>
+<li>Accessors (getters) read private data; mutators (setters) modify it — they are the controlled gateway to private members.</li>
+</ul>
+<!-- Slide 5 -->
+<!-- Topic 5: Arrays of Objects -->
+<!-- Total slides: 4 -->
+</section></section>
+<section>
+<section id="arrays-of-objects" class="title-slide slide level1 center">
+<h1>Arrays of Objects</h1>
+
+</section>
+<section id="an-array-where-each-element-is-an-object" class="slide level2 smaller">
+<h2>An array where each element is an object</h2>
+<ul>
+<li>An array of objects uses the same bracket syntax as any other array — the element type is your class.</li>
+<li>Each element gives you access to all of that object’s public methods via dot notation.</li>
+</ul>
+<aside class="notes">
+<p>Total slides: 4 Students know arrays of structs from 16.01. This is the same pattern: Student roster[5] becomes Student roster[5] whether Student is a struct or a class. The new wrinkle is roster[i].method() — same two-step access, but now you’re calling a function, not reading a member directly.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="declaring-and-accessing" class="slide level2 smaller">
+<h2>Declaring and accessing</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="kw">class</span> Student <span class="op">{</span></span>
+<span id="cb10-2"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb10-3"><a href=""></a>    string name<span class="op">;</span></span>
+<span id="cb10-4"><a href=""></a>    <span class="dt">int</span>    grade <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-5"><a href=""></a></span>
+<span id="cb10-6"><a href=""></a>    <span class="dt">void</span>   setName<span class="op">(</span>string n<span class="op">)</span>  <span class="op">{</span> name <span class="op">=</span> n<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-7"><a href=""></a>    <span class="dt">void</span>   setGrade<span class="op">(</span><span class="dt">int</span> g<span class="op">)</span>    <span class="op">{</span> grade <span class="op">=</span> g<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-8"><a href=""></a>    string getName<span class="op">()</span>  <span class="at">const</span>   <span class="op">{</span> <span class="cf">return</span> name<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-9"><a href=""></a>    <span class="dt">int</span>    getGrade<span class="op">()</span> <span class="at">const</span>   <span class="op">{</span> <span class="cf">return</span> grade<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-10"><a href=""></a><span class="op">};</span></span>
+<span id="cb10-11"><a href=""></a></span>
+<span id="cb10-12"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb10-13"><a href=""></a>    Student roster<span class="op">[</span><span class="dv">3</span><span class="op">];</span>              <span class="co">// array of 3 Student objects</span></span>
+<span id="cb10-14"><a href=""></a></span>
+<span id="cb10-15"><a href=""></a>    roster<span class="op">[</span><span class="dv">0</span><span class="op">].</span>setName<span class="op">(</span><span class="st">"Alice"</span><span class="op">);</span>     <span class="co">// [index].method()</span></span>
+<span id="cb10-16"><a href=""></a>    roster<span class="op">[</span><span class="dv">0</span><span class="op">].</span>setGrade<span class="op">(</span><span class="dv">92</span><span class="op">);</span></span>
+<span id="cb10-17"><a href=""></a></span>
+<span id="cb10-18"><a href=""></a>    cout <span class="op">&lt;&lt;</span> roster<span class="op">[</span><span class="dv">0</span><span class="op">].</span>getName<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span><span class="dv">0</span><span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb10-19"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-20"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>roster[0] is a Student object; roster[0].getName() calls a method on that object. The subscript selects the element; the dot selects the method. Identical pattern to arrays of structs — the method call replaces direct member access.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 2 -->
+</section>
+<section id="looping-through-an-array-of-objects" class="slide level2 smaller">
+<h2>Looping through an array of objects</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb11-2"><a href=""></a>Student   roster<span class="op">[</span>SIZE<span class="op">];</span></span>
+<span id="cb11-3"><a href=""></a></span>
+<span id="cb11-4"><a href=""></a>roster<span class="op">[</span><span class="dv">0</span><span class="op">].</span>setName<span class="op">(</span><span class="st">"Alice"</span><span class="op">);</span>  roster<span class="op">[</span><span class="dv">0</span><span class="op">].</span>setGrade<span class="op">(</span><span class="dv">92</span><span class="op">);</span></span>
+<span id="cb11-5"><a href=""></a>roster<span class="op">[</span><span class="dv">1</span><span class="op">].</span>setName<span class="op">(</span><span class="st">"Bob"</span><span class="op">);</span>    roster<span class="op">[</span><span class="dv">1</span><span class="op">].</span>setGrade<span class="op">(</span><span class="dv">85</span><span class="op">);</span></span>
+<span id="cb11-6"><a href=""></a>roster<span class="op">[</span><span class="dv">2</span><span class="op">].</span>setName<span class="op">(</span><span class="st">"Carol"</span><span class="op">);</span>  roster<span class="op">[</span><span class="dv">2</span><span class="op">].</span>setGrade<span class="op">(</span><span class="dv">97</span><span class="op">);</span></span>
+<span id="cb11-7"><a href=""></a>roster<span class="op">[</span><span class="dv">3</span><span class="op">].</span>setName<span class="op">(</span><span class="st">"Dan"</span><span class="op">);</span>    roster<span class="op">[</span><span class="dv">3</span><span class="op">].</span>setGrade<span class="op">(</span><span class="dv">78</span><span class="op">);</span></span>
+<span id="cb11-8"><a href=""></a></span>
+<span id="cb11-9"><a href=""></a><span class="dt">int</span> best <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-10"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb11-11"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&gt;</span> roster<span class="op">[</span>best<span class="op">].</span>getGrade<span class="op">())</span> best <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb11-12"><a href=""></a></span>
+<span id="cb11-13"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Top student: "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>best<span class="op">].</span>getName<span class="op">()</span></span>
+<span id="cb11-14"><a href=""></a>     <span class="op">&lt;&lt;</span> <span class="st">" with "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>best<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Max-tracker pattern is identical to arrays of structs — just replace roster[i].grade with roster[i].getGrade(). The loop logic is unchanged; only the syntax for reading the grade differs because it’s now behind an accessor.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 3 -->
+</section>
+<section id="summary-4" class="slide level2 smaller">
+<h2>Summary</h2>
+<ul>
+<li><code>ClassName array[n]</code> — same syntax as any array; the class is the element type.</li>
+<li>Access: <code>array[i].method()</code> — subscript first, then dot to call the method.</li>
+</ul>
+<!-- Slide 4 -->
+<!-- Topic 6: Fill In the Missing Code -->
+<!-- Total slides: 3 -->
+</section></section>
+<section>
+<section id="fill-in-the-missing-code" class="title-slide slide level1 center">
+<h1>Fill In the Missing Code</h1>
+
+</section>
+<section id="exercise-complete-the-bankaccount-method" class="slide level2 smaller">
+<h2>Exercise: complete the BankAccount method</h2>
+<ul>
+<li>The <code>BankAccount</code> class and <code>main</code> are complete — the <code>printSummary</code> body is missing.</li>
+<li>Fill in lines 33–35 so the program compiles and prints both accounts correctly.</li>
+</ul>
+<aside class="notes">
+<p>Total slides: 3 Students need to write three cout lines using private members directly (they’re inside the class) plus one call to getBalance(). About 8 minutes — this is the capstone exercise for the last lecture. Encourage students to notice that printSummary is defined outside the class using ::, and that it can access private members because it’s a member function.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
+</section>
+<section id="the-code" class="slide level2 smaller">
+<h2>The code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb12-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb12-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb12-4"><a href=""></a></span>
+<span id="cb12-5"><a href=""></a><span class="kw">class</span> BankAccount <span class="op">{</span></span>
+<span id="cb12-6"><a href=""></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb12-7"><a href=""></a>    string owner<span class="op">;</span></span>
+<span id="cb12-8"><a href=""></a>    <span class="dt">double</span> balance <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb12-9"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb12-10"><a href=""></a>    <span class="dt">void</span>   setOwner<span class="op">(</span>string name<span class="op">)</span>   <span class="op">{</span> owner <span class="op">=</span> name<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb12-11"><a href=""></a>    <span class="dt">void</span>   setBalance<span class="op">(</span><span class="dt">double</span> amt<span class="op">)</span>  <span class="op">{</span> balance <span class="op">=</span> amt<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb12-12"><a href=""></a>    string getOwner<span class="op">()</span>  <span class="at">const</span>       <span class="op">{</span> <span class="cf">return</span> owner<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb12-13"><a href=""></a>    <span class="dt">double</span> getBalance<span class="op">()</span> <span class="at">const</span>      <span class="op">{</span> <span class="cf">return</span> balance<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb12-14"><a href=""></a>    <span class="dt">void</span>   deposit<span class="op">(</span><span class="dt">double</span> amt<span class="op">)</span>     <span class="op">{</span> balance <span class="op">+=</span> amt<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb12-15"><a href=""></a>    <span class="dt">void</span>   printSummary<span class="op">()</span> <span class="at">const</span><span class="op">;</span></span>
+<span id="cb12-16"><a href=""></a><span class="op">};</span></span>
+<span id="cb12-17"><a href=""></a></span>
+<span id="cb12-18"><a href=""></a><span class="dt">void</span> BankAccount<span class="op">::</span>printSummary<span class="op">()</span> <span class="at">const</span> <span class="op">{</span></span>
+<span id="cb12-19"><a href=""></a>    <span class="co">// === YOUR CODE HERE (lines 33–35) ===</span></span>
+<span id="cb12-20"><a href=""></a>    <span class="co">// Print: "Account: [owner]"</span></span>
+<span id="cb12-21"><a href=""></a>    <span class="co">// Print: "Balance: $[balance]"</span></span>
+<span id="cb12-22"><a href=""></a>    <span class="co">// Print: "After $500 deposit: $[balance + 500]"</span></span>
+<span id="cb12-23"><a href=""></a>    <span class="co">// =====================================</span></span>
+<span id="cb12-24"><a href=""></a><span class="op">}</span></span>
+<span id="cb12-25"><a href=""></a></span>
+<span id="cb12-26"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb12-27"><a href=""></a>    BankAccount a<span class="op">,</span> b<span class="op">;</span></span>
+<span id="cb12-28"><a href=""></a>    a<span class="op">.</span>setOwner<span class="op">(</span><span class="st">"Alice"</span><span class="op">);</span>   a<span class="op">.</span>setBalance<span class="op">(</span><span class="fl">1200.00</span><span class="op">);</span></span>
+<span id="cb12-29"><a href=""></a>    b<span class="op">.</span>setOwner<span class="op">(</span><span class="st">"Bob"</span><span class="op">);</span>     b<span class="op">.</span>setBalance<span class="op">(</span><span class="fl">850.50</span><span class="op">);</span></span>
+<span id="cb12-30"><a href=""></a></span>
+<span id="cb12-31"><a href=""></a>    a<span class="op">.</span>printSummary<span class="op">();</span></span>
+<span id="cb12-32"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb12-33"><a href=""></a>    b<span class="op">.</span>printSummary<span class="op">();</span></span>
+<span id="cb12-34"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb12-35"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 2 -->
+</section>
+<section id="solution" class="slide level2 smaller">
 <h2>Solution</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb11-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb11-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb11-4"><a href=""></a></span>
-<span id="cb11-5"><a href=""></a><span class="kw">struct</span> Student <span class="op">{</span></span>
-<span id="cb11-6"><a href=""></a>    string name<span class="op">;</span></span>
-<span id="cb11-7"><a href=""></a>    <span class="dt">int</span>    grade<span class="op">;</span></span>
-<span id="cb11-8"><a href=""></a><span class="op">};</span></span>
-<span id="cb11-9"><a href=""></a></span>
-<span id="cb11-10"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb11-11"><a href=""></a>    <span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb11-12"><a href=""></a>    Student   roster<span class="op">[</span>SIZE<span class="op">];</span></span>
-<span id="cb11-13"><a href=""></a></span>
-<span id="cb11-14"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb11-15"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Name:  "</span><span class="op">;</span> cin <span class="op">&gt;&gt;</span> roster<span class="op">[</span>i<span class="op">].</span>name<span class="op">;</span></span>
-<span id="cb11-16"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Grade: "</span><span class="op">;</span> cin <span class="op">&gt;&gt;</span> roster<span class="op">[</span>i<span class="op">].</span>grade<span class="op">;</span></span>
-<span id="cb11-17"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb11-18"><a href=""></a></span>
-<span id="cb11-19"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">--- Roster ---</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb11-20"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb11-21"><a href=""></a>        cout <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>name <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>grade <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb11-22"><a href=""></a></span>
-<span id="cb11-23"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb11-24"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">void</span> BankAccount<span class="op">::</span>printSummary<span class="op">()</span> <span class="at">const</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Account: "</span>          <span class="op">&lt;&lt;</span> owner             <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb13-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Balance: $"</span>         <span class="op">&lt;&lt;</span> balance           <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb13-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"After $500 deposit: $"</span> <span class="op">&lt;&lt;</span> balance <span class="op">+</span> <span class="dv">500</span>  <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb13-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Output for Alice: Account: Alice Balance: $1200 After $500 deposit: $1700</p>
+<p>Output for Bob: Account: Bob Balance: $850.5 After $500 deposit: $1350.5</p>
+<p>Key points to discuss: (1) printSummary accesses private members owner and balance directly — it’s a member function, so it has access. (2) The :: tells the compiler this belongs to BankAccount. (3) const after the signature means this method promises not to modify any members.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <!-- Slide 3 -->
 </section>
 <section class="slide level2">
@@ -860,10 +894,10 @@ Dr.&nbsp;Caleb Fowler
 <section id="key-takeaways" class="title-slide slide level1 center">
 <h1>Key Takeaways</h1>
 <ul>
-<li>A struct groups related members of different types under a single user-defined type name</li>
-<li>Declare the struct type once; create as many variables as needed — just like <code>int</code> or <code>string</code></li>
-<li>Access members with dot notation: <code>variable.member</code></li>
-<li>Arrays of structs use the same indexing syntax as arrays of primitives: <code>roster[i].name</code></li>
+<li>A class groups private data and public behavior under one user-defined type name</li>
+<li>Outside code interacts only through the public interface — the class owns its data</li>
+<li>Member functions defined outside the class use <code>ClassName::method()</code> syntax</li>
+<li>Arrays of objects: <code>ClassName array[n]</code>; call methods with <code>array[i].method()</code></li>
 </ul>
 </section>
 <section class="slide level2">
@@ -872,7 +906,19 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next Time</h1>
-
+<aside class="notes">
+<p>This is the final lecture of CISP 360. The next step is CISP 400 — Object-Oriented Programming — where students will go deeper into constructors, destructors, inheritance, polymorphism, and operator overloading.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section class="slide level2">
 
@@ -882,77 +928,95 @@ Dr.&nbsp;Caleb Fowler
 <h1>Appendix</h1>
 
 </section>
-<section id="abstract-data-types-good-practices" class="slide level2">
-<h2>Abstract Data Types: Good Practices</h2>
+<section id="object-oriented-programming-good-practices" class="slide level2">
+<h2>Object-Oriented Programming: Good Practices</h2>
 </section>
-<section id="abstract-data-types-common-mistakes" class="slide level2">
-<h2>Abstract Data Types: Common Mistakes</h2>
+<section id="object-oriented-programming-common-mistakes" class="slide level2">
+<h2>Object-Oriented Programming: Common Mistakes</h2>
 </section>
-<section id="abstract-data-types-more-examples" class="slide level2">
-<h2>Abstract Data Types: More Examples</h2>
+<section id="object-oriented-programming-more-examples" class="slide level2">
+<h2>Object-Oriented Programming: More Examples</h2>
 </section>
-<section id="abstract-data-types-practice-problems" class="slide level2">
-<h2>Abstract Data Types: Practice Problems</h2>
+<section id="object-oriented-programming-practice-problems" class="slide level2">
+<h2>Object-Oriented Programming: Practice Problems</h2>
 </section>
-<section id="abstract-data-types-ai-search-terms" class="slide level2">
-<h2>Abstract Data Types: AI Search Terms</h2>
+<section id="object-oriented-programming-ai-search-terms" class="slide level2">
+<h2>Object-Oriented Programming: AI Search Terms</h2>
 </section>
-<section id="abstract-data-types-questions-for-reflection" class="slide level2">
-<h2>Abstract Data Types: Questions for Reflection</h2>
+<section id="object-oriented-programming-questions-for-reflection" class="slide level2">
+<h2>Object-Oriented Programming: Questions for Reflection</h2>
 </section>
-<section id="structures-good-practices" class="slide level2">
-<h2>Structures: Good Practices</h2>
+<section id="introduction-to-classes-good-practices" class="slide level2">
+<h2>Introduction to Classes: Good Practices</h2>
 </section>
-<section id="structures-common-mistakes" class="slide level2">
-<h2>Structures: Common Mistakes</h2>
+<section id="introduction-to-classes-common-mistakes" class="slide level2">
+<h2>Introduction to Classes: Common Mistakes</h2>
 </section>
-<section id="structures-more-examples" class="slide level2">
-<h2>Structures: More Examples</h2>
+<section id="introduction-to-classes-more-examples" class="slide level2">
+<h2>Introduction to Classes: More Examples</h2>
 </section>
-<section id="structures-practice-problems" class="slide level2">
-<h2>Structures: Practice Problems</h2>
+<section id="introduction-to-classes-practice-problems" class="slide level2">
+<h2>Introduction to Classes: Practice Problems</h2>
 </section>
-<section id="structures-ai-search-terms" class="slide level2">
-<h2>Structures: AI Search Terms</h2>
+<section id="introduction-to-classes-ai-search-terms" class="slide level2">
+<h2>Introduction to Classes: AI Search Terms</h2>
 </section>
-<section id="structures-questions-for-reflection" class="slide level2">
-<h2>Structures: Questions for Reflection</h2>
+<section id="introduction-to-classes-questions-for-reflection" class="slide level2">
+<h2>Introduction to Classes: Questions for Reflection</h2>
 </section>
-<section id="arrays-of-structures-good-practices" class="slide level2">
-<h2>Arrays of Structures: Good Practices</h2>
+<section id="creating-and-using-objects-good-practices" class="slide level2">
+<h2>Creating and Using Objects: Good Practices</h2>
 </section>
-<section id="arrays-of-structures-common-mistakes" class="slide level2">
-<h2>Arrays of Structures: Common Mistakes</h2>
+<section id="creating-and-using-objects-common-mistakes" class="slide level2">
+<h2>Creating and Using Objects: Common Mistakes</h2>
 </section>
-<section id="arrays-of-structures-more-examples" class="slide level2">
-<h2>Arrays of Structures: More Examples</h2>
+<section id="creating-and-using-objects-more-examples" class="slide level2">
+<h2>Creating and Using Objects: More Examples</h2>
 </section>
-<section id="arrays-of-structures-practice-problems" class="slide level2">
-<h2>Arrays of Structures: Practice Problems</h2>
+<section id="creating-and-using-objects-practice-problems" class="slide level2">
+<h2>Creating and Using Objects: Practice Problems</h2>
 </section>
-<section id="arrays-of-structures-ai-search-terms" class="slide level2">
-<h2>Arrays of Structures: AI Search Terms</h2>
+<section id="creating-and-using-objects-ai-search-terms" class="slide level2">
+<h2>Creating and Using Objects: AI Search Terms</h2>
 </section>
-<section id="arrays-of-structures-questions-for-reflection" class="slide level2">
-<h2>Arrays of Structures: Questions for Reflection</h2>
+<section id="creating-and-using-objects-questions-for-reflection" class="slide level2">
+<h2>Creating and Using Objects: Questions for Reflection</h2>
 </section>
-<section id="programming-task-student-roster-good-practices" class="slide level2">
-<h2>Programming Task — Student Roster: Good Practices</h2>
+<section id="defining-member-functions-good-practices" class="slide level2">
+<h2>Defining Member Functions: Good Practices</h2>
 </section>
-<section id="programming-task-student-roster-common-mistakes" class="slide level2">
-<h2>Programming Task — Student Roster: Common Mistakes</h2>
+<section id="defining-member-functions-common-mistakes" class="slide level2">
+<h2>Defining Member Functions: Common Mistakes</h2>
 </section>
-<section id="programming-task-student-roster-more-examples" class="slide level2">
-<h2>Programming Task — Student Roster: More Examples</h2>
+<section id="defining-member-functions-more-examples" class="slide level2">
+<h2>Defining Member Functions: More Examples</h2>
 </section>
-<section id="programming-task-student-roster-practice-problems" class="slide level2">
-<h2>Programming Task — Student Roster: Practice Problems</h2>
+<section id="defining-member-functions-practice-problems" class="slide level2">
+<h2>Defining Member Functions: Practice Problems</h2>
 </section>
-<section id="programming-task-student-roster-ai-search-terms" class="slide level2">
-<h2>Programming Task — Student Roster: AI Search Terms</h2>
+<section id="defining-member-functions-ai-search-terms" class="slide level2">
+<h2>Defining Member Functions: AI Search Terms</h2>
 </section>
-<section id="programming-task-student-roster-questions-for-reflection" class="slide level2">
-<h2>Programming Task — Student Roster: Questions for Reflection</h2>
+<section id="defining-member-functions-questions-for-reflection" class="slide level2">
+<h2>Defining Member Functions: Questions for Reflection</h2>
+</section>
+<section id="arrays-of-objects-good-practices" class="slide level2">
+<h2>Arrays of Objects: Good Practices</h2>
+</section>
+<section id="arrays-of-objects-common-mistakes" class="slide level2">
+<h2>Arrays of Objects: Common Mistakes</h2>
+</section>
+<section id="arrays-of-objects-more-examples" class="slide level2">
+<h2>Arrays of Objects: More Examples</h2>
+</section>
+<section id="arrays-of-objects-practice-problems" class="slide level2">
+<h2>Arrays of Objects: Practice Problems</h2>
+</section>
+<section id="arrays-of-objects-ai-search-terms" class="slide level2">
+<h2>Arrays of Objects: AI Search Terms</h2>
+</section>
+<section id="arrays-of-objects-questions-for-reflection" class="slide level2">
+<h2>Arrays of Objects: Questions for Reflection</h2>
 
 </section></section>
     </div>

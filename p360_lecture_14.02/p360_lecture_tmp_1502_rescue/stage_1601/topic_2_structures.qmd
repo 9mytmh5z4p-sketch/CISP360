@@ -1,0 +1,131 @@
+<!-- Topic 2: Structures -->
+<!-- Total slides: 6 -->
+
+# Structures
+
+---
+
+## What holds an employee together? {.smaller}
+
++ Three variables describe one employee: ID, name, and pay rate.
++ With 15 employees you'd need 45 separate variables with no formal relationship between them.
++ A `struct` solves this by creating one type that holds all three.
+
+::: notes
+Total slides: 6
+Problem-first framing from the original slides. Don't skip the 45-variable problem — it makes the motivation concrete. Students have done parallel arrays (15.01/15.02); they know the pain. Struct is the fix.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Struct anatomy {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+```{.cpp}
+struct Employee {
+    int    employeeID;
+    string name;
+    double rate;
+};
+```
+:::
+::: {.column width="50%"}
+- `struct` — keyword; creates a new type
+- `Employee` — the type name; use it like `int` or `string`
+- `employeeID`, `name`, `rate` — members; each has its own type
+- `};` — closing brace **must** have a semicolon
+:::
+:::
+
+::: notes
+This is the anatomy visualization. Walk through each labeled part. The semicolon after the closing brace is the most common syntax error students make — point at it explicitly. The struct declaration is a blueprint; it allocates no memory on its own.
+[Graphic suggestion: in-class pointer diagram showing struct declaration as a type blueprint (no box drawn yet), then a variable declaration drawing the actual memory box with three labeled slots.]
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Declaring a struct variable {.smaller}
+
+```{.cpp}
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Employee {
+    int    employeeID;
+    string name;
+    double rate;
+};
+
+int main() {
+    Employee e;          // e is a variable of type Employee
+    return 0;
+}
+```
+
+::: notes
+Once the struct type exists, declaring a variable is identical to declaring an int. The type name IS Employee. This slide exists to separate "defining the type" (previous slide) from "creating a variable of that type" (this slide).
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Accessing members with dot notation {.smaller}
+
+```{.cpp}
+int main() {
+    Employee e;
+
+    e.employeeID = 14335;      // variable.member = value
+    e.name       = "Pat Smith";
+    e.rate       = 17.55;
+
+    cout << e.employeeID << "\n";   // 14335
+    cout << e.name       << "\n";   // Pat Smith
+    cout << e.rate       << "\n";   // 17.55
+
+    return 0;
+}
+```
+
+::: notes
+The dot operator is the only new syntax here. Read it as "e's employeeID." The members behave like ordinary variables — you assign them, read them, pass them. The variable name comes first, then the dot, then the member name.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Two ways to initialize {.smaller}
+
+```{.cpp}
+// Initialization list — values in declaration order
+Employee a = {14335, "Pat Smith", 17.55};
+
+// Member-by-member — order doesn't matter
+Employee b;
+b.employeeID = 29401;
+b.name       = "Jordan Lee";
+b.rate       = 19.75;
+```
+
+::: notes
+Both forms are valid. Initialization list is concise but requires knowing the declaration order. Member-by-member is verbose but explicit. Students will mix these freely — that's fine. The important constraint: initialization list values must appear in the same order as the struct's member declarations.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Summary {.smaller}
+
++ Declare the struct type once; create as many variables as needed.
++ Use `variable.member` to read or write any individual field.
+
+<!-- Slide 6 -->

@@ -1,0 +1,67 @@
+<!-- Topic 3: Dangling Pointers After delete -->
+<!-- Total slides: 4 -->
+
+# Dangling Pointers After delete
+
+---
+
+## What's left behind when you delete? {.smaller}
+
++ `delete` frees the memory block — but the pointer variable still holds the old address.
++ Using that address afterward is undefined behavior.
+
+::: notes
+Total slides: 4
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The dangling pointer problem
+
+```{.cpp}
+int* p = new int(42);
+delete p;
+
+cout << *p << "\n";   // undefined behavior — memory is freed
+*p = 99;              // undefined behavior — writing to freed memory
+```
+
+- The memory at that address may have been reused by another allocation
+- The program may crash, produce wrong output, or appear to work — unpredictably
+- The compiler will not warn you; this is a runtime problem
+
+<!-- Slide 2 -->
+
+---
+
+## The fix: nullptr immediately after delete
+
+```{.cpp}
+int* p = new int(42);
+
+// ... use p ...
+
+delete p;
+p = nullptr;          // safe — dereferencing nullptr crashes loudly
+
+if (p != nullptr) {
+    cout << *p;       // guarded access
+}
+```
+
+- A null pointer dereference produces a predictable crash — easier to debug than silent corruption
+- Make `delete` + `nullptr` a single habit, not two separate thoughts
+- Does not help with alias pointers (another variable pointing to the same block)
+
+<!-- Slide 3 -->
+
+---
+
+## Summary
+
++ A dangling pointer holds the address of freed memory — using it is undefined behavior.
++ Set every pointer to `nullptr` immediately after `delete`; a null dereference crashes loudly and predictably, which is better than silent corruption.
+
+<!-- Slide 4 -->

@@ -1,0 +1,73 @@
+<!-- Topic 7: Programming Task — Parallel Dynamic Arrays -->
+<!-- Total slides: 3 -->
+
+# Programming Task — Parallel Dynamic Arrays
+
+---
+
+## Build it: student names and scores on the heap {.smaller}
+
++ Allocate two parallel dynamic arrays — one for names (`string*`), one for scores (`int*`).
++ Read n entries from the user, find the highest score, print that student's name, then release both arrays.
+
+::: notes
+Total slides: 3
+Give students ~10 minutes to write this from scratch. They have seen all the pieces — new[], delete[], parallel array indexing. The challenge is managing two heap allocations together and releasing both cleanly.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Requirements
+
+- Ask the user for the number of students `n`
+- Allocate `string* names = new string[n]` and `int* scores = new int[n]`
+- Read each student's name and score from the user
+- Find the index of the highest score
+- Print: `"Top student: [name] with [score]"`
+- Release both arrays with `delete[]` and set both pointers to `nullptr`
+
+::: notes
+Remind students: two allocations means two delete[] calls. Forgetting one is a leak. This task is designed to make that concrete.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Solution {.smaller}
+
+```{.cpp}
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Number of students: ";
+    cin >> n;
+
+    string* names  = new string[n];
+    int*    scores = new int[n];
+
+    for (int i = 0; i < n; i++) {
+        cout << "Name:  "; cin >> names[i];
+        cout << "Score: "; cin >> scores[i];
+    }
+
+    int best = 0;
+    for (int i = 1; i < n; i++)
+        if (scores[i] > scores[best]) best = i;
+
+    cout << "Top student: " << names[best]
+         << " with " << scores[best] << "\n";
+
+    delete[] names;   names  = nullptr;
+    delete[] scores;  scores = nullptr;
+
+    return 0;
+}
+```
+
+<!-- Slide 3 -->

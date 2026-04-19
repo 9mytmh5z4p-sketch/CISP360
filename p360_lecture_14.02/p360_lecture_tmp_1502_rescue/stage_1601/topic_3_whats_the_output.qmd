@@ -1,0 +1,87 @@
+<!-- Topic 3: What's the Output? -->
+<!-- Total slides: 3 -->
+
+# What's the Output?
+
+---
+
+## What does this program print? {.smaller}
+
++ Trace through carefully — one path uses an initialization list, the other uses member assignment.
++ Pay attention to how the struct is passed into `addBonus`.
+
+::: notes
+Total slides: 3
+Pair work recommended. Give students 3–4 minutes. Key traps: (1) addBonus takes by reference — it modifies a.bonus; (2) b.bonus is already set to 5 and addBonus is never called on b; (3) 80/10 = 8 (integer division).
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Exercise {.smaller}
+
+```{.cpp}
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Score {
+    string player;
+    int    points;
+    int    bonus;
+};
+
+int addBonus(Score& s) {
+    s.bonus = s.points / 10;
+    return s.points + s.bonus;
+}
+
+int main() {
+    Score a = {"Alice", 80, 0};
+    Score b;
+    b.player = "Bob";
+    b.points = 95;
+    b.bonus  = 5;
+
+    int aTotal = addBonus(a);
+
+    cout << a.player << ": " << aTotal     << "\n";
+    cout << b.player << ": " << b.points + b.bonus << "\n";
+
+    return 0;
+}
+```
+
+::: notes
+Answer:
+Alice: 88
+Bob: 100
+
+Trace:
+- a is initialized with initialization list: player="Alice", points=80, bonus=0
+- b is initialized member-by-member: player="Bob", points=95, bonus=5
+- addBonus(a): pass by reference; a.bonus = 80/10 = 8; returns 80+8 = 88
+- aTotal = 88
+- addBonus is NOT called on b
+- b.points + b.bonus = 95 + 5 = 100
+
+Common mistake: students may try to compute addBonus for b too, or miss that bonus is modified by reference.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Answer {.smaller}
+
+```{.cpp}
+cout << a.player << ": " << aTotal     << "\n";  // Alice: 88
+cout << b.player << ": " << b.points + b.bonus << "\n";  // Bob: 100
+```
+
+- `addBonus` takes `Score&` — it modifies `a.bonus` to 8, then returns 88
+- `addBonus` is never called on `b` — `b.bonus` stays at 5
+- `b.points + b.bonus` = 95 + 5 = 100
+
+<!-- Slide 3 -->

@@ -1,0 +1,87 @@
+<!-- Topic 5: Arrays of Objects -->
+<!-- Total slides: 4 -->
+
+# Arrays of Objects
+
+---
+
+## An array where each element is an object {.smaller}
+
++ An array of objects uses the same bracket syntax as any other array — the element type is your class.
++ Each element gives you access to all of that object's public methods via dot notation.
+
+::: notes
+Total slides: 4
+Students know arrays of structs from 16.01. This is the same pattern: Student roster[5] becomes Student roster[5] whether Student is a struct or a class. The new wrinkle is roster[i].method() — same two-step access, but now you're calling a function, not reading a member directly.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Declaring and accessing {.smaller}
+
+```{.cpp}
+class Student {
+public:
+    string name;
+    int    grade = 0;
+
+    void   setName(string n)  { name = n; }
+    void   setGrade(int g)    { grade = g; }
+    string getName()  const   { return name; }
+    int    getGrade() const   { return grade; }
+};
+
+int main() {
+    Student roster[3];              // array of 3 Student objects
+
+    roster[0].setName("Alice");     // [index].method()
+    roster[0].setGrade(92);
+
+    cout << roster[0].getName() << ": " << roster[0].getGrade() << "\n";
+    return 0;
+}
+```
+
+::: notes
+roster[0] is a Student object; roster[0].getName() calls a method on that object. The subscript selects the element; the dot selects the method. Identical pattern to arrays of structs — the method call replaces direct member access.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Looping through an array of objects {.smaller}
+
+```{.cpp}
+const int SIZE = 4;
+Student   roster[SIZE];
+
+roster[0].setName("Alice");  roster[0].setGrade(92);
+roster[1].setName("Bob");    roster[1].setGrade(85);
+roster[2].setName("Carol");  roster[2].setGrade(97);
+roster[3].setName("Dan");    roster[3].setGrade(78);
+
+int best = 0;
+for (int i = 1; i < SIZE; i++)
+    if (roster[i].getGrade() > roster[best].getGrade()) best = i;
+
+cout << "Top student: " << roster[best].getName()
+     << " with " << roster[best].getGrade() << "\n";
+```
+
+::: notes
+Max-tracker pattern is identical to arrays of structs — just replace roster[i].grade with roster[i].getGrade(). The loop logic is unchanged; only the syntax for reading the grade differs because it's now behind an accessor.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Summary {.smaller}
+
++ `ClassName array[n]` — same syntax as any array; the class is the element type.
++ Access: `array[i].method()` — subscript first, then dot to call the method.
+
+<!-- Slide 4 -->

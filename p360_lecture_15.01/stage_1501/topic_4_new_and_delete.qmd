@@ -1,0 +1,114 @@
+<!-- Topic 4: new and delete -->
+<!-- Total slides: 6 -->
+
+# new and delete
+
+---
+
+## How do you ask for memory that outlasts the function? {.smaller}
+
++ `new` reserves heap memory and returns a pointer to it.
++ `delete` releases that memory back to the system — you are responsible for calling it.
+
+::: notes
+Total slides: 6
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## new — allocating a single value
+
+```{.cpp}
+int* p = new int;       // allocate — uninitialized
+int* q = new int(42);   // allocate and initialize to 42
+
+cout << *q;             // 42
+```
+
+- `new` returns a pointer to the allocated memory
+- The pointer itself is a local variable — the *memory it points to* is on the heap
+- Type determines how many bytes are reserved
+
+<!-- Slide 2 -->
+
+---
+
+## delete — releasing a single value
+
+```{.cpp}
+int* p = new int(42);
+
+// ... use p ...
+
+delete p;       // release the heap memory
+p = nullptr;    // prevent accidental reuse
+```
+
+- `delete` frees the heap block the pointer points to
+- The pointer variable still exists after `delete` — set it to `nullptr` immediately
+- Calling `delete` on the same pointer twice is undefined behavior
+
+<!-- Slide 3 -->
+
+---
+
+## Always check the allocation
+
+```{.cpp}
+int* p = new (nothrow) int(42);
+
+if (p == nullptr) {
+    cerr << "Allocation failed\n";
+    return 1;
+}
+
+cout << *p << "\n";
+delete p;
+p = nullptr;
+```
+
+::: notes
+nothrow version returns nullptr instead of throwing std::bad_alloc. Good habit for systems code. In most course programs, allocation rarely fails — but the pattern is worth showing.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## The complete pattern
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int* score = new int(0);
+
+    cout << "Enter score: ";
+    cin >> *score;
+
+    cout << "You entered: " << *score << "\n";
+
+    delete score;
+    score = nullptr;
+
+    return 0;
+}
+```
+
+::: notes
+Walk through each step: allocate, use through dereference, delete, null the pointer. This is the skeleton every heap program follows.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
++ `new` allocates heap memory and returns a pointer; `delete` releases it.
++ Always set the pointer to `nullptr` after `delete` — leaving a dangling pointer is a bug waiting to happen.
+
+<!-- Slide 6 -->

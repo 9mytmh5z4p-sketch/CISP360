@@ -1,0 +1,206 @@
+# Determining Variable Size
+
+## Determining Variable Size
+
+How can you programmatically find out how much memory a variable or type occupies? C++ provides the `sizeof` operator for exactly this purpose. It evaluates at compile time and works on any type, variable, or array — and it is the only portable way to measure memory.
+
+::: notes
+Total slides: 8
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The sizeof Operator
+
+`sizeof` is a compile-time operator that returns the size of a type or variable in bytes. It does not execute code or evaluate the operand's value — it determines size from type information alone. The return type is `size_t`.
+
+```cpp
+sizeof(type)      // size of a type
+sizeof variable   // size of a declared variable
+sizeof(expr)      // size of the type an expression would produce
+```
+
+<!-- Slide 2 -->
+
+---
+
+## Typical Platform Sizes
+
+Sizes are not mandated by the standard and vary by platform and compiler. These are typical on a 64-bit system with a modern C++ compiler:
+
+| Type | Typical Size |
+|------|--------------|
+| `char` | 1 byte |
+| `short` | 2 bytes |
+| `int` | 4 bytes |
+| `long` | 8 bytes |
+| `float` | 4 bytes |
+| `double` | 8 bytes |
+| `bool` | 1 byte |
+| pointer | 8 bytes |
+
+Always use `sizeof` rather than assuming these values.
+
+<!-- Slide 3 -->
+
+---
+
+## Why Sizes Vary
+
+- **Architecture**: 32-bit systems use 4-byte pointers; 64-bit systems use 8-byte pointers.
+- **Compiler choices**: `long` is 4 bytes on Windows (MSVC) and 8 bytes on Linux (GCC/Clang).
+- **Alignment**: the compiler inserts padding between struct members to align data on word boundaries for performance.
+
+<!-- Slide 4 -->
+
+---
+
+## sizeof with Arrays
+
+```cpp
+int arr[10];
+cout << sizeof(arr);              // 40  (10 * 4 bytes)
+cout << sizeof(arr[0]);           // 4   (size of one int)
+cout << sizeof(arr) / sizeof(arr[0]);  // 10  (element count)
+```
+
+The idiom `sizeof(arr) / sizeof(arr[0])` gives the number of elements in a statically allocated array. It does not work for pointer parameters — the array decays to a pointer and you get pointer size, not array size.
+
+<!-- Slide 5 -->
+
+---
+
+## sizeof with Structs: Padding
+
+```cpp
+struct Point {
+    char x;   // 1 byte
+    // 3 bytes padding inserted by compiler
+    int  y;   // 4 bytes
+};
+
+cout << sizeof(Point);  // 8 (not 5)
+```
+
+The compiler aligns `int` members on 4-byte boundaries. Padding is invisible in code but real in memory. Reordering members (largest first) can reduce total struct size.
+
+::: notes
+[Graphic suggestion: Memory layout diagram showing 1-byte x, 3-byte padding gap, 4-byte y.]
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Printing All Type Sizes
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "char:   " << sizeof(char)   << " byte(s)\n";
+    cout << "short:  " << sizeof(short)  << " byte(s)\n";
+    cout << "int:    " << sizeof(int)    << " byte(s)\n";
+    cout << "long:   " << sizeof(long)   << " byte(s)\n";
+    cout << "float:  " << sizeof(float)  << " byte(s)\n";
+    cout << "double: " << sizeof(double) << " byte(s)\n";
+    cout << "bool:   " << sizeof(bool)   << " byte(s)\n";
+}
+```
+
+Run this on your machine. The output is specific to your compiler and platform.
+
+<!-- Slide 7 -->
+
+---
+
+## Summary
+
+`sizeof` is the portable, compile-time way to determine memory size. Use it instead of hardcoding byte counts. Remember that struct size includes alignment padding — the total is not always the sum of member sizes.
+
+<!-- Slide 8 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Always use `sizeof` rather than hardcoding byte sizes — platforms differ.
+- Use `sizeof(arr) / sizeof(arr[0])` to count elements in a statically allocated array.
+- When designing structs for memory efficiency, order members from largest to smallest to minimize padding.
+- Store `sizeof` results in a `size_t` variable if reused multiple times in a calculation.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Passing an array to a function and calling `sizeof` inside the function — the array has decayed to a pointer; you get the pointer size, not the array size.
+- Assuming `sizeof(struct)` equals the sum of its member sizes — padding almost always makes it larger.
+- Confusing `sizeof(vector<int>)` with the number of elements — it returns the size of the vector object itself, not its contents.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Pointer size is independent of pointed-to type
+char* p1 = nullptr;
+int*  p2 = nullptr;
+cout << sizeof(p1) << " " << sizeof(p2);  // Same size (8 on 64-bit)
+
+// Array of structs
+struct Point { int x; int y; };
+Point pts[100];
+cout << sizeof(pts);                     // sizeof(Point) * 100
+
+// sizeof does not evaluate its argument
+int i = 0;
+cout << sizeof(i++);  // i is still 0 after this
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a program that prints the size of every fundamental type on your machine.
+2. Create a struct with a `char`, an `int`, and a `double`. Print `sizeof` for the struct. Is it the sum of the members? Why or why not?
+3. Declare `int arr[20]` and use `sizeof` to compute the number of elements without hardcoding 20.
+4. Predict: what does `sizeof("hello")` return? Why is it not 5?
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ sizeof operator compile time"
+- "C++ struct padding alignment memory layout"
+- "C++ sizeof array element count idiom"
+- "C++ pointer size 32-bit 64-bit"
+- "C++ sizeof vs std::size container"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- Why does the C++ standard not mandate fixed sizes for `int` and `long`?
+- If you are writing a binary file format, why must you use fixed-width types rather than `int`?
+- What are the performance implications of struct padding, and when would you remove it?
+
+<!-- Appendix Slide 6 -->
