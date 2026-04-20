@@ -55,11 +55,50 @@ Line C: 50 — *p = 50 modifies y through the pointer.
 
 ---
 
+## Exercise 1 — Output {.smaller}
+
+::::: {.columns}
+::: {.column width="57%"}
+```{.cpp}
+int x = 10;
+int& r = x;
+
+r = 20;
+cout << x << "\n";    // line A
+
+int y = 30;
+int* p = &x;
+p = &y;
+*p = 50;
+
+cout << x << "\n";    // line B
+cout << y << "\n";    // line C
+```
+:::
+::: {.column width="43%"}
+**Line A → `20`**
+
+`r` is an alias for `x`. Assigning to `r` is assigning to `x`.
+
+**Line B → `20`**
+
+`p` was reseated to `&y`. `x` is untouched.
+
+**Line C → `50`**
+
+`*p = 50` writes through `p` into `y`.
+:::
+:::::
+
+<!-- Slide 3 -->
+
+---
+
 ## Exercise 2 — What does this print? {.smaller}
 
 + A reference parameter and a pointer parameter side by side. Trace each call.
 
-<!-- Slide 3 -->
+<!-- Slide 4 -->
 
 ---
 
@@ -98,45 +137,6 @@ Line A: 10 — doubleRef takes a reference; a is modified in place.
 Line B: 10 — doublePtr takes a pointer; *n *= 2 modifies b through the pointer.
 Line C: 6 — p holds the address of c; doublePtr(p) passes that address, *n *= 2 modifies c.
 :::
-
-<!-- Slide 4 -->
-
----
-
-## Exercise 1 — Output {.smaller}
-
-::::: {.columns}
-::: {.column width="57%"}
-```{.cpp}
-int x = 10;
-int& r = x;
-
-r = 20;
-cout << x << "\n";    // line A
-
-int y = 30;
-int* p = &x;
-p = &y;
-*p = 50;
-
-cout << x << "\n";    // line B
-cout << y << "\n";    // line C
-```
-:::
-::: {.column width="43%"}
-**Line A → `20`**
-
-`r` is an alias for `x`. Assigning to `r` is assigning to `x`.
-
-**Line B → `20`**
-
-`p` was reseated to `&y`. `x` is untouched.
-
-**Line C → `50`**
-
-`*p = 50` writes through `p` into `y`.
-:::
-:::::
 
 <!-- Slide 5 -->
 

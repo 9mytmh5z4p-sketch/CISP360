@@ -1,5 +1,5 @@
 <!-- Topic 5: Dynamic Arrays -->
-<!-- Total slides: 5 -->
+<!-- Total slides: 6 -->
 
 # Dynamic Arrays
 
@@ -11,7 +11,7 @@
 + `new[]` allocates the array on the heap; `delete[]` releases it.
 
 ::: notes
-Total slides: 5
+Total slides: 6
 :::
 
 <!-- Slide 1 -->
@@ -92,9 +92,45 @@ int main() {
 
 ---
 
+## Example — passing a dynamic array to a function {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int findMax(int* arr, int size);
+
+int main() {
+    int n = 4;
+    int* vals = new int[n] {15, 8, 42, 23};
+
+    cout << "Max: " << findMax(vals, n) << "\n";
+
+    delete[] vals;
+    vals = nullptr;
+    return 0;
+}
+
+int findMax(int* arr, int size) {
+    int max = arr[0];
+    for (int i = 1; i < size; i++)
+        if (arr[i] > max)
+            max = arr[i];
+    return max;
+}
+```
+
+::: notes
+A heap array is just a pointer — passing it to a function works identically to passing a stack array. The function signature int* arr, int size is the standard idiom. Ownership (who calls delete[]) stays with main.
+:::
+
+<!-- Slide 5 -->
+
+---
+
 ## Summary
 
 + Use `new int[n]` when the array size is not known at compile time.
 + Always pair `new[]` with `delete[]` — and set the pointer to `nullptr` after release.
 
-<!-- Slide 5 -->
+<!-- Slide 6 -->

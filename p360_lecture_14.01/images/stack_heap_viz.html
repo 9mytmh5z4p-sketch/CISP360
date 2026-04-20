@@ -5,232 +5,221 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stack &amp; Heap Memory</title>
 <style>
+html { font-size: 200%; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: 'Segoe UI', system-ui, sans-serif;
-  background: #0f172a;
-  color: #e2e8f0;
+  background: #f1f5f9;
+  color: #1e293b;
   display: grid;
-  grid-template-columns: 1fr 80px;
+  grid-template-columns: 1fr 60px;
   height: 100vh;
   overflow: hidden;
+  padding-right: 72px;
 }
 
 /* ── Content column ─────────────────────────────────────────── */
 .content {
   display: flex;
   flex-direction: column;
-  padding: 14px 14px 10px 18px;
-  gap: 10px;
+  padding: 6px 6px 6px 8px;
+  gap: 5px;
   overflow: hidden;
 }
 
-.top-panels {
+/* ── Status bar ─────────────────────────────────────────────── */
+.status-bar {
+  background: #1e293b;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #94a3b8;
+  transition: color 0.3s, background 0.3s;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ── Three-column panel row ─────────────────────────────────── */
+.panels {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  gap: 5px;
   flex: 1;
   min-height: 0;
 }
 
-/* ── Code panel ─────────────────────────────────────────────── */
-.code-panel {
-  background: #1e293b;
-  border: 1px solid #334155;
+/* ── Shared panel base ──────────────────────────────────────── */
+.panel {
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 7px 8px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   overflow: hidden;
+  min-height: 0;
 }
 
 .panel-label {
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #475569;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #1e293b;
+  text-align: center;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Code panel ─────────────────────────────────────────────── */
+.code-panel {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+}
+
+.code-panel .panel-label {
+  color: #64748b;
+  border-bottom-color: #e2e8f0;
+  text-align: left;
 }
 
 .code-lines {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 0;
 }
 
 .code-line {
   font-family: 'Courier New', monospace;
-  font-size: 0.8rem;
-  line-height: 1.75;
-  color: #334155;
-  padding: 0 6px;
+  font-size: 0.78rem;
+  line-height: 1.8;
+  color: #94a3b8;
+  padding: 0 5px;
   border-radius: 3px;
-  transition: color 0.35s, background 0.35s;
+  transition: color 0.3s, background 0.3s;
   white-space: nowrap;
 }
 
 .code-line.active {
-  color: #f8fafc;
-  background: #1d3461;
-}
-
-/* syntax */
-.kw  { color: #7dd3fc; }
-.ty  { color: #34d399; }
-.num { color: #fbbf24; }
-.fn  { color: #c084fc; }
-.op  { color: #fb923c; }
-.cm  { color: #475569; font-style: italic; }
-
-/* ── Memory panel ───────────────────────────────────────────── */
-.memory-panel {
-  background: #1e293b;
-  border: 1px solid #334155;
-  border-radius: 8px;
-  padding: 10px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  overflow: hidden;
-}
-
-.mem-cols {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  flex: 1;
-  min-height: 0;
-}
-
-.mem-section {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.mem-section-label {
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #475569;
-  text-align: center;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #1e293b;
-  margin-bottom: 2px;
-}
-
-.mem-empty {
-  font-family: 'Courier New', monospace;
-  font-size: 0.68rem;
   color: #1e293b;
-  text-align: center;
-  padding: 10px 0;
+  background: #fef9c3;
+}
+
+.kw  { color: #2563eb; }
+.ty  { color: #059669; }
+.num { color: #d97706; }
+.fn  { color: #7c3aed; }
+.op  { color: #dc2626; }
+
+/* ── Stack panel ────────────────────────────────────────────── */
+.stack-panel {
+  background: #f0fdf4;
+  border: 2px solid #4ade80;
+}
+
+.stack-panel .panel-label {
+  color: #15803d;
+  border-bottom-color: #4ade80;
+}
+
+/* ── Heap panel ─────────────────────────────────────────────── */
+.heap-panel {
+  background: #eff6ff;
+  border: 2px solid #60a5fa;
+}
+
+.heap-panel .panel-label {
+  color: #1d4ed8;
+  border-bottom-color: #60a5fa;
 }
 
 /* ── Memory cells ───────────────────────────────────────────── */
 .mem-cell {
-  border-radius: 5px;
-  padding: 5px 7px;
+  border-radius: 4px;
+  padding: 4px 6px;
   font-family: 'Courier New', monospace;
-  font-size: 0.73rem;
+  font-size: 0.7rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 0.4s ease;
-  min-height: 30px;
+  transition: all 0.35s ease;
+  min-height: 26px;
   gap: 4px;
 }
 
-.cell-name { opacity: 0.65; flex-shrink: 0; }
+.cell-name { opacity: 0.65; flex-shrink: 0; font-size: 0.67rem; }
 .cell-val  { font-weight: 700; text-align: right; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* frame header */
 .cell-frame {
-  background: #111827;
-  border: 1px solid #1e293b;
-  color: #475569;
-  font-size: 0.65rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 0.62rem;
   font-weight: 700;
   justify-content: center;
-  letter-spacing: 0.05em;
 }
 
-/* stack local var — green */
 .cell-var {
-  background: #052e16;
-  border: 1px solid #16a34a;
-  color: #4ade80;
+  background: #dcfce7;
+  border: 1px solid #4ade80;
+  color: #15803d;
 }
 
-/* stack pointer, live — blue */
 .cell-ptr {
-  background: #172554;
-  border: 1px solid #3b82f6;
-  color: #93c5fd;
+  background: #dbeafe;
+  border: 1px solid #60a5fa;
+  color: #1d4ed8;
 }
 
-/* stack pointer, actively dereferencing — orange */
 .cell-ptr-active {
-  background: #431407;
-  border: 1px solid #ea580c;
-  color: #fdba74;
-  box-shadow: 0 0 10px rgba(234,88,12,0.35);
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #92400e;
+  box-shadow: 0 0 6px rgba(245,158,11,0.35);
 }
 
-/* stack pointer, dangling — red */
 .cell-ptr-dangling {
-  background: #3b0000;
-  border: 1px dashed #ef4444;
-  color: #fca5a5;
+  background: #fee2e2;
+  border: 1px dashed #f87171;
+  color: #b91c1c;
 }
 
-/* stack pointer, nulled — dim */
 .cell-ptr-null {
-  background: #1e293b;
-  border: 1px solid #334155;
-  color: #64748b;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #94a3b8;
 }
 
-/* heap live — blue */
 .cell-heap {
-  background: #172554;
-  border: 1px solid #3b82f6;
-  color: #93c5fd;
+  background: #dbeafe;
+  border: 1px solid #60a5fa;
+  color: #1d4ed8;
 }
 
-/* heap actively accessed — orange */
 .cell-heap-active {
-  background: #431407;
-  border: 1px solid #ea580c;
-  color: #fdba74;
-  box-shadow: 0 0 12px rgba(234,88,12,0.4);
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #92400e;
+  box-shadow: 0 0 8px rgba(245,158,11,0.4);
 }
 
-/* heap freed — dim red dashed */
 .cell-heap-freed {
-  background: #1a0505;
-  border: 1px dashed #7f1d1d;
-  color: #6b2020;
+  background: #fef2f2;
+  border: 1px dashed #fca5a5;
+  color: #fca5a5;
   font-style: italic;
 }
 
-/* ── Status bar ─────────────────────────────────────────────── */
-.status-bar {
-  background: #111827;
-  border: 1px solid #1e293b;
-  border-radius: 6px;
-  padding: 7px 12px;
-  font-size: 0.8rem;
-  color: #475569;
-  transition: color 0.3s;
-  min-height: 34px;
-  display: flex;
-  align-items: center;
+.mem-empty {
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  color: #cbd5e1;
+  text-align: center;
+  padding: 8px 0;
 }
 
 /* ── Controls sidebar ───────────────────────────────────────── */
@@ -239,67 +228,61 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 14px 10px;
-  border-left: 1px solid #1e293b;
-  background: #0a1120;
+  gap: 6px;
+  padding: 8px 4px;
+  border-left: 1px solid #e2e8f0;
+  background: #f8fafc;
 }
 
 .btn {
-  background: #1e293b;
-  border: 1px solid #334155;
-  color: #94a3b8;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
   border-radius: 6px;
-  padding: 8px 4px;
-  font-size: 0.68rem;
+  padding: 6px 2px;
+  font-size: 0.62rem;
   cursor: pointer;
-  width: 56px;
+  width: 48px;
   text-align: center;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
   line-height: 1.4;
   user-select: none;
 }
 
-.btn:hover { background: #334155; color: #e2e8f0; }
+.btn:hover { background: #f1f5f9; color: #1e293b; border-color: #94a3b8; }
 
 #btn-play {
-  background: #1d4ed8;
-  border-color: #3b82f6;
-  color: #bfdbfe;
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
 }
-#btn-play:hover { background: #2563eb; }
+#btn-play:hover { background: #1d4ed8; }
 </style>
 </head>
 <body>
 
 <div class="content">
-  <div class="top-panels">
+  <div class="status-bar" id="status">Ready — press Step or Play to begin.</div>
 
-    <!-- Code Panel -->
-    <div class="code-panel">
+  <div class="panels">
+    <!-- Code -->
+    <div class="panel code-panel">
       <div class="panel-label">Code</div>
-      <div class="code-lines" id="code-lines">
-        <!-- populated by JS -->
-      </div>
+      <div class="code-lines" id="code-lines"></div>
     </div>
 
-    <!-- Memory Panel -->
-    <div class="memory-panel">
-      <div class="panel-label">Memory</div>
-      <div class="mem-cols">
-        <div class="mem-section">
-          <div class="mem-section-label">Stack</div>
-          <div id="stack-cells"></div>
-        </div>
-        <div class="mem-section">
-          <div class="mem-section-label">Heap</div>
-          <div id="heap-cells"></div>
-        </div>
-      </div>
+    <!-- Stack -->
+    <div class="panel stack-panel">
+      <div class="panel-label">Stack</div>
+      <div id="stack-cells"></div>
     </div>
 
+    <!-- Heap -->
+    <div class="panel heap-panel">
+      <div class="panel-label">Heap</div>
+      <div id="heap-cells"></div>
+    </div>
   </div>
-  <div class="status-bar" id="status">Ready — press Step or Play to trace the program.</div>
 </div>
 
 <div class="controls">
@@ -309,8 +292,6 @@ body {
 </div>
 
 <script>
-// ── Code lines ───────────────────────────────────────────────────────────────
-
 const CODE = [
   `<span class="ty">int</span> x = <span class="num">10</span>;`,
   `<span class="ty">int*</span> p = <span class="kw">new</span> <span class="ty">int</span>(<span class="num">42</span>);`,
@@ -320,153 +301,68 @@ const CODE = [
   `<span class="kw">return</span> <span class="num">0</span>;`,
 ];
 
-// ── States ───────────────────────────────────────────────────────────────────
-// stack cell types: 'frame' | 'var' | 'ptr' | 'ptr-active' | 'ptr-dangling' | 'ptr-null'
-// heap  cell types: 'heap' | 'heap-active' | 'heap-freed'
-
 function buildStates() {
   return [
-    {
-      line: -1,
-      stack: [],
+    { line: -1, stack: [], heap: [],
+      status: 'Ready — press Step or Play to begin.', color: '#94a3b8', bg: '#1e293b' },
+    { line: -1, stack: [{ type: 'frame', name: 'main()', val: '' }], heap: [],
+      status: 'main() is called — a stack frame is pushed.', color: '#e2e8f0', bg: '#334155' },
+    { line: 0,
+      stack: [{ type: 'frame', name: 'main()', val: '' }, { type: 'var', name: 'x', val: '10' }],
       heap: [],
-      status: 'Ready — press Step or Play to trace the program.',
-      color: '#475569',
-    },
-    {
-      line: -1,
-      stack: [{ type: 'frame', name: 'main()', val: '' }],
+      status: 'int x = 10 — local variable allocated on the stack.', color: '#bbf7d0', bg: '#14532d' },
+    { line: 1,
+      stack: [{ type: 'frame', name: 'main()', val: '' }, { type: 'var', name: 'x', val: '10' }, { type: 'ptr', name: 'p', val: '→ 0xa8f0' }],
+      heap: [{ type: 'heap', addr: '0xa8f0', val: '42' }],
+      status: 'new int(42) — heap block at 0xa8f0; p stores that address.', color: '#bfdbfe', bg: '#1e3a5f' },
+    { line: 2,
+      stack: [{ type: 'frame', name: 'main()', val: '' }, { type: 'var', name: 'x', val: '10' }, { type: 'ptr-active', name: 'p', val: '→ 0xa8f0' }],
+      heap: [{ type: 'heap-active', addr: '0xa8f0', val: '42' }],
+      status: '*p dereferences p — reads 42 from the heap.', color: '#fde68a', bg: '#78350f' },
+    { line: 3,
+      stack: [{ type: 'frame', name: 'main()', val: '' }, { type: 'var', name: 'x', val: '10' }, { type: 'ptr-dangling', name: 'p', val: '→ 0xa8f0 ⚠' }],
+      heap: [{ type: 'heap-freed', addr: '0xa8f0', val: 'freed' }],
+      status: 'delete p — heap released. p is now a dangling pointer.', color: '#fecaca', bg: '#7f1d1d' },
+    { line: 4,
+      stack: [{ type: 'frame', name: 'main()', val: '' }, { type: 'var', name: 'x', val: '10' }, { type: 'ptr-null', name: 'p', val: 'nullptr' }],
       heap: [],
-      status: 'main() is called — a stack frame is pushed.',
-      color: '#64748b',
-    },
-    {
-      line: 0,
-      stack: [
-        { type: 'frame',  name: 'main()', val: '' },
-        { type: 'var',    name: 'x',      val: '10' },
-      ],
-      heap: [],
-      status: 'int x = 10 — local variable allocated on the stack.',
-      color: '#4ade80',
-    },
-    {
-      line: 1,
-      stack: [
-        { type: 'frame', name: 'main()', val: '' },
-        { type: 'var',   name: 'x',      val: '10' },
-        { type: 'ptr',   name: 'p',      val: '→ 0xa8f0' },
-      ],
-      heap: [
-        { type: 'heap', addr: '0xa8f0', val: '42' },
-      ],
-      status: 'new int(42) — heap block created at 0xa8f0; p stores that address.',
-      color: '#93c5fd',
-    },
-    {
-      line: 2,
-      stack: [
-        { type: 'frame',      name: 'main()', val: '' },
-        { type: 'var',        name: 'x',      val: '10' },
-        { type: 'ptr-active', name: 'p',      val: '→ 0xa8f0' },
-      ],
-      heap: [
-        { type: 'heap-active', addr: '0xa8f0', val: '42' },
-      ],
-      status: '*p dereferences p → reads 42 from the heap.',
-      color: '#fdba74',
-    },
-    {
-      line: 3,
-      stack: [
-        { type: 'frame',        name: 'main()', val: '' },
-        { type: 'var',          name: 'x',      val: '10' },
-        { type: 'ptr-dangling', name: 'p',      val: '→ 0xa8f0 ⚠' },
-      ],
-      heap: [
-        { type: 'heap-freed', addr: '0xa8f0', val: 'freed' },
-      ],
-      status: 'delete p — heap block released. p is now a dangling pointer.',
-      color: '#fca5a5',
-    },
-    {
-      line: 4,
-      stack: [
-        { type: 'frame',    name: 'main()', val: '' },
-        { type: 'var',      name: 'x',      val: '10' },
-        { type: 'ptr-null', name: 'p',      val: 'nullptr' },
-      ],
-      heap: [],
-      status: 'p = nullptr — dangling pointer nulled. Heap is clear.',
-      color: '#4ade80',
-    },
-    {
-      line: 5,
-      stack: [],
-      heap: [],
-      status: 'return 0 — stack frame released. x and p are gone.',
-      color: '#94a3b8',
-    },
+      status: 'p = nullptr — dangling pointer nulled. Heap is clear.', color: '#bbf7d0', bg: '#14532d' },
+    { line: 5, stack: [], heap: [],
+      status: 'return 0 — stack frame released. x and p are gone.', color: '#e2e8f0', bg: '#334155' },
   ];
 }
 
 const STATES = buildStates();
-let cur = -1;
-let playing = false;
-let timer = null;
-
-// ── Render ───────────────────────────────────────────────────────────────────
+let cur = -1, playing = false, timer = null;
 
 function renderCode(activeLine) {
-  document.getElementById('code-lines').innerHTML = CODE.map((html, i) => {
-    const cls = i === activeLine ? 'code-line active' : 'code-line';
-    return `<div class="${cls}">${html}</div>`;
-  }).join('');
+  document.getElementById('code-lines').innerHTML = CODE.map((html, i) =>
+    `<div class="${i === activeLine ? 'code-line active' : 'code-line'}">${html}</div>`
+  ).join('');
 }
 
 function cellClass(type) {
-  return {
-    'frame':        'cell-frame',
-    'var':          'cell-var',
-    'ptr':          'cell-ptr',
-    'ptr-active':   'cell-ptr-active',
-    'ptr-dangling': 'cell-ptr-dangling',
-    'ptr-null':     'cell-ptr-null',
-    'heap':         'cell-heap',
-    'heap-active':  'cell-heap-active',
-    'heap-freed':   'cell-heap-freed',
-  }[type] || 'cell-var';
+  return ({ frame:'cell-frame', var:'cell-var', ptr:'cell-ptr',
+    'ptr-active':'cell-ptr-active', 'ptr-dangling':'cell-ptr-dangling',
+    'ptr-null':'cell-ptr-null', heap:'cell-heap', 'heap-active':'cell-heap-active',
+    'heap-freed':'cell-heap-freed' })[type] || 'cell-var';
 }
 
 function renderStack(cells) {
   const el = document.getElementById('stack-cells');
-  if (!cells.length) {
-    el.innerHTML = '<div class="mem-empty">(empty)</div>';
-    return;
-  }
-  el.innerHTML = cells.map(c => {
-    if (c.type === 'frame') {
-      return `<div class="mem-cell cell-frame">${c.name}</div>`;
-    }
-    return `<div class="mem-cell ${cellClass(c.type)}">
-      <span class="cell-name">${c.name}</span>
-      <span class="cell-val">${c.val}</span>
-    </div>`;
-  }).join('');
+  el.innerHTML = !cells.length ? '<div class="mem-empty">(empty)</div>'
+    : cells.map(c => c.type === 'frame'
+      ? `<div class="mem-cell cell-frame">${c.name}</div>`
+      : `<div class="mem-cell ${cellClass(c.type)}"><span class="cell-name">${c.name}</span><span class="cell-val">${c.val}</span></div>`
+    ).join('');
 }
 
 function renderHeap(cells) {
   const el = document.getElementById('heap-cells');
-  if (!cells.length) {
-    el.innerHTML = '<div class="mem-empty">(empty)</div>';
-    return;
-  }
-  el.innerHTML = cells.map(c =>
-    `<div class="mem-cell ${cellClass(c.type)}">
-      <span class="cell-name">${c.addr}</span>
-      <span class="cell-val">${c.val}</span>
-    </div>`
-  ).join('');
+  el.innerHTML = !cells.length ? '<div class="mem-empty">(empty)</div>'
+    : cells.map(c =>
+      `<div class="mem-cell ${cellClass(c.type)}"><span class="cell-name">${c.addr}</span><span class="cell-val">${c.val}</span></div>`
+    ).join('');
 }
 
 function render(state) {
@@ -476,22 +372,15 @@ function render(state) {
   const s = document.getElementById('status');
   s.textContent = state.status;
   s.style.color = state.color;
+  s.style.background = state.bg;
 }
-
-// ── Controls ─────────────────────────────────────────────────────────────────
 
 function setPlaying(on) {
   playing = on;
   document.getElementById('btn-play').textContent = on ? '⏸ Pause' : '▶ Play';
   if (on) {
-    timer = setInterval(() => {
-      advance();
-      if (cur >= STATES.length - 1) setPlaying(false);
-    }, 1300);
-  } else {
-    clearInterval(timer);
-    timer = null;
-  }
+    timer = setInterval(() => { advance(); if (cur >= STATES.length - 1) setPlaying(false); }, 1300);
+  } else { clearInterval(timer); timer = null; }
 }
 
 function advance() {
@@ -502,21 +391,18 @@ function advance() {
 }
 
 function doReset() {
-  setPlaying(false);
-  cur = -1;
-  renderCode(-1);
-  renderStack([]);
-  renderHeap([]);
+  setPlaying(false); cur = -1;
+  renderCode(-1); renderStack([]); renderHeap([]);
   const s = document.getElementById('status');
-  s.textContent = 'Ready — press Step or Play to trace the program.';
-  s.style.color = '#475569';
+  s.textContent = 'Ready — press Step or Play to begin.';
+  s.style.color = '#94a3b8';
+  s.style.background = '#1e293b';
 }
 
 document.getElementById('btn-play').addEventListener('click', () => setPlaying(!playing));
 document.getElementById('btn-step').addEventListener('click', advance);
 document.getElementById('btn-reset').addEventListener('click', doReset);
 
-// Init
 doReset();
 </script>
 </body>
