@@ -1,0 +1,163 @@
+<!-- Topic 1: Review — new and delete -->
+<!-- Total slides: 6 -->
+
+# Review: new and delete
+
+---
+
+## Allocating a single variable on the heap {.smaller}
+
++ `new` requests memory from the **heap** at runtime and returns its **address**
++ Assign that address to a pointer — that pointer is your only way to reach the memory
++ `delete` releases the heap block and must be called **exactly once** per `new`
++ Always set the pointer to `nullptr` after `delete` to avoid a dangling pointer
+
+```{.cpp}
+int* pNum = nullptr;     // declare a pointer — no allocation yet
+
+pNum = new int;          // request 1 int from the heap
+*pNum = 42;              // dereference to store a value
+
+cout << *pNum << "\n";   // output: 42
+
+delete pNum;             // release the heap memory
+pNum = nullptr;          // pointer is now safe — not dangling
+```
+
+::: notes
+Emphasize: new returns an address, not a value. The pointer holds that address. delete frees the block but does NOT zero the pointer variable — only the assignment to nullptr does that.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Allocating an array on the heap {.smaller}
+
++ Use `new[]` to allocate an **array** on the heap — the size can be a **variable**
++ Use `delete[]` (with square brackets) to release it — mismatching `delete` and `delete[]` is undefined behavior
++ The pointer can be used exactly like a regular array name with `[ ]` subscript notation
+
+```{.cpp}
+int* pArr = nullptr;
+int  size  = 5;
+
+pArr = new int[size];          // allocate — size known at runtime, not compile time
+
+for (int i = 0; i < size; i++)
+    pArr[i] = (i + 1) * 10;   // use just like a regular array: 10 20 30 40 50
+
+for (int i = 0; i < size; i++)
+    cout << pArr[i] << " ";
+cout << "\n";
+
+delete[] pArr;                 // brackets required for arrays!
+pArr = nullptr;
+```
+
+::: notes
+Drive home the delete[] rule — this is one of the most common mistakes. Also note: pArr lives on the stack; only the array block it points to is on the heap.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Key rules — don't skip these {.smaller}
+
+| Situation | Allocate | Deallocate |
+|-----------|----------|------------|
+| Single variable | `new int` | `delete p` |
+| Array | `new int[n]` | `delete[] p` |
+
++ **Never** mix `delete` and `delete[]` — mismatching is **undefined behavior**
++ Every `new` needs **exactly one** `delete` — more is a double-free, fewer is a leak
++ A pointer does **not** become `nullptr` after `delete` — you must set it yourself
++ Always initialize pointers to `nullptr` on declaration
+
+::: notes
+The table is the key reference. Quiz students on which delete form to use.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Algorithm: using new and delete correctly
+
+1. Declare a **pointer** variable and initialize to `nullptr`.
+2. Use **`new`** (or `new[]`) to allocate memory — store the returned address in the pointer.
+3. Use the pointer to read/write the heap memory as needed.
+4. When finished, call **`delete`** (or `delete[]`) to free the memory.
+5. Set the pointer to **`nullptr`** immediately after `delete`.
+
+::: notes
+The five steps are identical whether it's a single variable or an array — only the keyword changes (new vs new[], delete vs delete[]).
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## 14-02a.cpp — putting it together {.smaller}
+
+```{.cpp}
+// 14-02a.cpp  --  new and delete review
+#include <iostream>
+using namespace std;
+
+int main(){
+    // --- Single variable on the heap ---
+    int* pNum = nullptr;           // pointer to int     (#6)
+    pNum = new int;                // allocate on heap   (#7)
+    *pNum = 42;
+
+    cout << "Value:   " << *pNum << "\n";
+    cout << "Address: " << pNum   << "\n";
+
+    delete pNum;                   // free heap memory   (#13)
+    pNum = nullptr;                // remove dangling pointer
+
+    // --- Array on the heap ---
+    int* pArr = nullptr;
+    int  size  = 5;
+    pArr = new int[size];          // allocate array     (#19)
+
+    for (int i = 0; i < size; i++)
+        pArr[i] = (i + 1) * 10;
+
+    for (int i = 0; i < size; i++)
+        cout << pArr[i] << " ";
+    cout << "\n";
+
+    delete[] pArr;                 // free heap array    (#27)
+    pArr = nullptr;
+    return 0;
+}
+```
+
+::: notes
+Walk through both sections: single int and then the array. Note the difference in delete vs delete[]. Ask students: what would happen if we wrote delete pArr instead of delete[] pArr?
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Quick check {.smaller}
+
+What is wrong with this code?
+
+```{.cpp}
+int* p = new int[10];
+p[0] = 1;
+
+delete p; 
+p = nullptr;
+```
+
+::: {.fragment}
+**Answer:** Should be `delete[] p` — using `delete` instead of `delete[]` on a heap array is **undefined behavior**. The compiler will not warn you. Always match `new[]` with `delete[]`.
+:::
+
+<!-- Slide 6 -->

@@ -1,0 +1,240 @@
+<!-- Topic 3: Dynamic Arrays -->
+<!-- Total slides: 12 -->
+
+# How do we create a real dynamic array?
+
+---
+
+## The trick {.smaller}
+
++ Create **new** memory space, either larger or smaller, than what we are already using
++ **Copy** our existing data into that new space
++ **Replace** the address of our existing array with the address of the new array
+
+::: notes
+Total slides: 12
+The three-step trick is the heart of all dynamic resizing — including what std::vector does internally every time it grows. Once students grasp this, they understand how every resizable container works under the hood.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## 14-02c.cpp — initial array and increase {.smaller}
+
+```{.cpp}
+// 14-02c.cpp  --  real dynamically allocated array
+#include <iostream>
+using namespace std;
+
+int main(){                    // build the initial array
+    int* pInt = nullptr;                            // (#6)
+    int  size  = 1;                                 // (#7)
+
+    pInt = new int[size];                           // (#9)
+    pInt[0] = 10;                                   // (#10)
+
+    for (int i = 0; i < size; i++)
+        cout << pInt[i] << "  ";
+    cout << "\n";
+
+    // increase by 1
+    int* pTemp = nullptr;                           // (#17)
+    size++;                                         // (#18)
+    pTemp = new int[size];                          // (#19)
+
+    pTemp[0] = pInt[0];   // copy old data          (#21)
+    pTemp[1] = 20;        // add new element        (#22)
+
+    delete[] pInt;        // free original          (#24)
+    pInt  = pTemp;        // swing pointer          (#25)
+    pTemp = nullptr;                                // (#26)
+```
+
+::: notes
+Walk through the initial array creation: pInt points to a 1-element heap array holding 10. Then walk the increase: size goes from 1→2, temp array created, data copied, old array freed, pointer swung.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## 14-02c.cpp — decrease and output {.smaller}
+
+```{.cpp}
+    for (int i = 0; i < size; i++)
+        cout << pInt[i] << "  ";
+    cout << "\n";
+
+    // decrease by 1 from the right
+    size--;                                         // (#34)
+    pTemp = new int[size];                          // (#35)
+    pTemp[0] = pInt[0];   // copy what we keep     // (#36)
+
+    delete[] pInt;        // free original          // (#38)
+    pInt  = pTemp;        // swing pointer          // (#39)
+    pTemp = nullptr;                                // (#40)
+
+    for (int i = 0; i < size; i++)
+        cout << pInt[i] << "  ";
+    cout << "\n";
+
+    return 0;
+}
+```
+
+::: notes
+The decrease mirrors the increase exactly — same 6-step pattern, just size-- instead of size++, and we copy only the elements we want to keep.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## {background-iframe="images/dynamic_array_increase_viz.html" background-interactive="true"}
+
+<!-- Slide 4 -->
+
+---
+
+## 14-02c.cpp — sample run {.smaller}
+
+::: {.columns}
+::: {.column width="55%"}
+
+Starting state: `pInt → [10]` (size = 1)
+
+After **increase**: `pInt → [10, 20]` (size = 2)
+
+After **decrease**: `pInt → [10]` (size = 1)
+
+The data survives each resize intact.
+The pointer always refers to valid heap memory.
+
+:::
+::: {.column width="45%"}
+
+```
+$ ./main
+10
+10  20
+10
+```
+
+:::
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Algorithm: building the initial array {.smaller}
+
+1. Create the **main array pointer** variable (`#6`).
+2. Set the **array size** variable (`#7`).
+3. Allocate **`new`** memory on the heap (`#9`).
+4. Put initial values in it.
+
+Just like a pseudo-dynamic array so far …
+
+`14-02c.cpp`
+
+::: notes
+The first four steps are identical to pseudo-dynamic. The difference comes when we need to grow or shrink — that's the new material.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Algorithm: increasing a dynamic array {.smaller}
+
+1. **Increment** the `size` variable (`#18`).
+2. Declare a temp pointer and allocate a **new array** with the updated size (`#17`, `#19`).
+3. **Copy** the old array values into the temp array (`#21`).
+4. **Add** the new value(s) to the temp array (`#22`).
+5. **Free** the memory for the original array (`#24`).
+6. Swing the original pointer to point at the temp array (`#25`).
+7. Set `pTemp` to **`nullptr`** (`#26`).
+
+`14-02c.cpp`
+
+<!-- Slide 7 -->
+
+---
+
+## Algorithm: decreasing a dynamic array {.smaller}
+
+1. **Decrement** the `size` variable (`#34`).
+2. Create a temp array with the **new (smaller) size** (`#35`).
+3. **Copy** the values you want to keep — skip the ones you are removing (`#36`).
+4. **Free** the memory for the original array (`#38`).
+5. Swing the original pointer to point at the temp array (`#39`).
+6. Set `pTemp` to **`nullptr`** (`#40`).
+
+`14-02c.cpp`
+
+<!-- Slide 8 -->
+
+---
+
+## {background-iframe="images/dynamic_array_decrease_viz.html" background-interactive="true"}
+
+<!-- Slide 9 -->
+
+---
+
+## The pattern — always the same {.smaller}
+
+Whether increasing or decreasing, the resize steps are always:
+
+::: {.incremental}
+1. Adjust `size`
+2. Create `pTemp` with the new size
+3. Copy what you want to keep into `pTemp`
+4. `delete[]` the old array
+5. Swing: `pInt = pTemp`
+6. `pTemp = nullptr`
+:::
+
+::: notes
+Once students internalize this 6-step pattern, resizing is mechanical. Stress that the ORDER matters — you must copy before you delete.
+:::
+
+<!-- Slide 10 -->
+
+---
+
+## Why not just reallocate the original pointer? {.smaller}
+
+```{.cpp}
+// ❌ This destroys your data before you can save it:
+delete[] pInt;
+pInt = new int[size + 1];   // old data is gone — you can't copy it anymore
+```
+
+```{.cpp}
+// ✅ Correct: the temp array preserves data during the transition:
+pTemp = new int[size + 1];
+for (int i = 0; i < size; i++)
+    pTemp[i] = pInt[i];     // copy first ...
+delete[] pInt;              // ... then free
+pInt  = pTemp;
+pTemp = nullptr;
+```
+
+::: notes
+This is the most common mistake students make when first attempting dynamic resizing. The temp array is not optional — it is the mechanism that makes the copy possible.
+:::
+
+<!-- Slide 11 -->
+
+---
+
+## Let's put what we just learned to use.
+
+::: notes
+Transition to the programming activity.
+:::
+
+<!-- Slide 12 -->

@@ -1,13 +1,11 @@
-# Topics — p360_lecture_08.01
+# Topics — p360_lecture_14.02
 
 | Topic | Emphasis | Time Budget | Optional | Prerequisites | Tone Flag | Note |
 |-------|----------|-------------|----------|---------------|-----------|------|
-|  Recap of things we CAN’T do with for-each| | 2 | | | |  parallel vectors, menu driven programs |
-| 5.1 The While loop | | | | | |   |
-| 5.7 Do .. While loop | | | | | |   |
-| 5.8 For loop | | | | | |   |
-| 5.9 Which Loop to use? | | | | | | menu driven programs w/ do loops  |
-| Lab Exercise practicing loops| | | | | |  Include a for-each for contrast |
+| Review: new and delete | standard | 10 | no | 14.01 | Students have seen this in 14.01 — treat as a fast warm-up, not a re-teach. | Scalar and array forms. Key rules: new/new[] matched with delete/delete[]. File: 14-02a.cpp. |
+| Pseudodynamic arrays | standard | 10 | no | Review: new and delete | | Array size fixed at compile time via a constant — not truly resizable. File: 14-02b.cpp. Transition: "a step closer, but not there yet." |
+| Dynamic arrays | high | 20 | no | Pseudodynamic arrays | This is the core new concept — slow down here. | True resize via temp pointer: adjust size → new temp → copy → delete[] old → swing pointer → nullptr. Files: 14-02c.cpp. Includes two interactive visualizations (increase and decrease). |
+| Programming activity | standard | 15 | no | Dynamic arrays | | Students implement a resizable short* pet ages array from scratch. File: 14-02d.cpp. Solution slide is hidden by default (data-visibility="hidden"). |
 
 ---
 
