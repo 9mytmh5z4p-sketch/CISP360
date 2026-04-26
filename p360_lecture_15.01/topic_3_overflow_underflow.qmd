@@ -5,7 +5,7 @@
 What happens when an integer exceeds its maximum value or drops below its minimum? These silent errors produce wrong results with no warning. This section covers how overflow and underflow work and how to avoid them.
 
 ::: notes
-Total slides: 9
+Total slides: 13
 :::
 
 <!-- Slide 1 -->
@@ -145,90 +145,66 @@ Check before the operation, not after. Once undefined behavior occurs, the resul
 
 ---
 
-## Summary
+## Example: Short Overflow
 
-Unsigned integer overflow and underflow wrap around predictably. Signed integer overflow is undefined behavior and must be prevented — not merely detected after the fact. Use `numeric_limits<T>` to query ranges and choose the right type for your data.
+```cpp
+short s = 32767;    // max value for short
+s++;
+cout << s << endl;  // output: -32768
+```
+
+A `short` holds −32,768 to 32,767. Incrementing 32,767 past the maximum makes the bit pattern roll over to the minimum. This is **undefined behavior** for signed types — many compilers produce this on x86, but it is not guaranteed.
 
 <!-- Slide 9 -->
 
 ---
 
-## Appendix
-
-<!-- Appendix -->
-
----
-
-## Common Practices
-
-- Include `<limits>` and use `numeric_limits<T>::max()` / `numeric_limits<T>::min()` — never hardcode type bounds.
-- Perform overflow checks before arithmetic, not after.
-- Prefer `long long` for accumulations and counters that may grow large.
-- Use unsigned types only when negative values are impossible and wrap-around is understood.
-
-<!-- Appendix Slide 1 -->
-
----
-
-## Common Mistakes
-
-- Assuming signed overflow wraps reliably — the standard gives no guarantee, and optimizing compilers exploit this.
-- Using `unsigned char` or `unsigned short` as a loop counter that decrements to zero — decrementing past zero wraps to a large value and creates an infinite loop.
-- Ignoring compiler warnings about narrowing conversions that can silently lose the high bits of a value.
-
-<!-- Appendix Slide 2 -->
-
----
-
-## More Examples
+## Example: Unsigned Underflow
 
 ```cpp
-// Signed multiplication overflow
-int x = 100000;
-int y = 100000;
-int z = x * y;   // Undefined behavior — exceeds INT_MAX
-
-// Unsigned char wrap-around
-unsigned char c = 255;
-c += 2;
-cout << (int)c;  // prints 1 (wraps: 255 + 2 = 257, 257 % 256 = 1)
-
-// Float underflow
-float f = 1e-50f;
-cout << f;       // prints 0.0 (too small to represent)
+unsigned int u = 0;
+u--;
+cout << u << endl;  // output: 4294967295
 ```
 
-<!-- Appendix Slide 3 -->
+Decrementing an `unsigned int` past zero wraps to the maximum value: 2³² − 1 = 4,294,967,295. Unlike signed overflow, unsigned wraparound is **well-defined** in C++ — this behavior is guaranteed.
+
+<!-- Slide 10 -->
 
 ---
 
-## Practice Problems
+## Example: INT_MAX + 1
 
-1. Write a function that safely adds two `int` values, returning `false` if overflow would occur.
-2. Declare an `unsigned char` loop counter and count from 0 to 300. Observe and explain the output.
-3. Use `numeric_limits` to print the min and max for `short`, `int`, `long`, and their unsigned variants.
-4. Demonstrate the difference in behavior between signed and unsigned overflow with a short code example.
+```cpp
+#include <climits>
 
-<!-- Appendix Slide 4 -->
+int x = INT_MAX;
+cout << x + 1 << endl;  // -2147483648 — common, but NOT guaranteed
+```
 
----
+Adding 1 to `INT_MAX` is signed integer overflow — undefined behavior. Many compilers produce −2,147,483,648 due to two's complement wrap, but an optimizer may eliminate the operation entirely or produce something else. Never rely on this.
 
-## AI Search Terms
-
-- "C++ signed integer overflow undefined behavior"
-- "C++ unsigned integer wraparound modulo"
-- "C++ numeric_limits max min"
-- "C++ detect overflow before addition"
-- "C++ float underflow denormalized"
-
-<!-- Appendix Slide 5 -->
+<!-- Slide 11 -->
 
 ---
 
-## Questions for Reflection
+## Example: Float Underflow
 
-- Why does the C++ standard declare signed overflow undefined rather than specifying wrap-around?
-- When would unsigned wrap-around be intentional and useful in a program?
-- How would you redesign a financial calculation to prevent overflow without switching to a different language?
+```cpp
+#include <iomanip>
 
-<!-- Appendix Slide 6 -->
+float f = 1e-50f;
+cout << fixed << setprecision(10) << f << endl;  // 0.0000000000
+```
+
+The smallest normalized `float` is approximately 1.18 × 10⁻³⁸. A value of 1 × 10⁻⁵⁰ is far below that range and rounds to zero. Precision is lost silently — no error, no warning.
+
+<!-- Slide 12 -->
+
+---
+
+## Summary
+
+Unsigned integer overflow and underflow wrap around predictably. Signed integer overflow is undefined behavior and must be prevented — not merely detected after the fact. Use `numeric_limits<T>` to query ranges and choose the right type for your data.
+
+<!-- Slide 13 -->

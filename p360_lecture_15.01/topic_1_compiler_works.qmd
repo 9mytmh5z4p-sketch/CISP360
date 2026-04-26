@@ -46,7 +46,7 @@ skinparam arrow {
   Thickness 2
 }
 
-top to bottom direction
+left to right direction
 
 note as N0
   <b>main.cpp</b>
@@ -103,9 +103,17 @@ The preprocessor runs before actual compilation and handles directives that star
 
 ## Preprocessing Directives
 
-- `#include <file>`: Inserts the entire contents of a header file into your source. The preprocessor does not validate syntax.
-- `#define NAME value`: Creates a textual substitution; every occurrence of NAME is replaced with value before compilation.
-- `#pragma once` (or header guards): Prevents a header from being inserted more than once per translation unit. Without it, including the same header twice causes redeclaration errors.
+- `#include <file>` — inserts a header file's contents verbatim
+- `#define NAME value` — textual substitution before compilation
+- `#pragma once` / header guards — prevents duplicate inclusion
+
+::: notes
+`#include <file>`: The preprocessor inserts the entire contents of the header file into your source. It does not validate syntax — that happens in the compiler.
+
+`#define NAME value`: Creates a textual substitution. Every occurrence of NAME is replaced with value before the compiler ever sees your code.
+
+`#pragma once` (or header guards): Prevents a header from being inserted more than once per translation unit. Without it, including the same header twice causes redeclaration errors.
+:::
 
 <!-- Slide 4 -->
 
@@ -187,69 +195,3 @@ When you see a linker error like `undefined reference to '_Z3addii'`, the garble
 The compiler transforms source code through preprocessing, compilation, and linking. Understanding these stages helps you interpret error messages and locate bugs faster.
 
 <!-- Slide 11 -->
-
----
-
-## Appendix
-
-<!-- Appendix -->
-
----
-
-## Common Practices
-
-- Enable compiler warnings with `-Wall -Wextra` (g++/clang); warnings often flag real bugs that still compile.
-- Place declarations in `.h` files and implementations in `.cpp` files to keep linking straightforward.
-- Use `#pragma once` or header guards to prevent duplicate includes that cause linker errors.
-
-<!-- Appendix Slide 1 -->
-
----
-
-## Common Mistakes
-
-- Including `.cpp` files instead of `.h` files causes multiple-definition linker errors.
-- Forgetting to link against a required library produces "undefined reference" errors at link time, not compile time.
-- Assuming a program is correct because it compiled — the compiler only checks syntax and types, not logic.
-
-<!-- Appendix Slide 2 -->
-
----
-
-## More Examples
-
-A function `add()` declared in `math.h` and defined in `math.cpp`: the preprocessor copies `math.h` into `main.cpp`, the compiler generates `main.o` and `math.o`, and the linker resolves the call. If `math.o` is omitted from the build command, linking fails — even though both source files compiled cleanly.
-
-<!-- Appendix Slide 3 -->
-
----
-
-## Practice Problems
-
-1. Split a simple program into two `.cpp` files. Compile each file separately, then link them manually.
-2. Add a `#define` constant and observe how the preprocessor substitutes it before compilation.
-3. Intentionally remove a function definition and observe the exact linker error message.
-
-<!-- Appendix Slide 4 -->
-
----
-
-## AI Search Terms
-
-- "C++ compilation stages preprocessing compilation linking"
-- "C++ compiler type checking at compile time"
-- "linker errors undefined reference C++"
-- "header guards C++ pragma once"
-- "C++ static vs dynamic typing"
-
-<!-- Appendix Slide 5 -->
-
----
-
-## Questions for Reflection
-
-- Why does C++ have a separate linking stage when some languages skip it entirely?
-- How would your debugging process change if type errors were caught at runtime instead of compile time?
-- Why might a function compile successfully but still fail during linking?
-
-<!-- Appendix Slide 6 -->
