@@ -5,7 +5,7 @@
 What happens when you press "build" in your IDE? The compiler transforms your source code through several distinct stages into an executable program. Understanding this process helps you debug faster and write better C++ code.
 
 ::: notes
-Total slides: 11
+Total slides: 10
 :::
 
 <!-- Slide 1 -->
@@ -14,8 +14,11 @@ Total slides: 11
 
 ## The Compilation Process Overview
 
-The path from source code to a running program involves three major stages: preprocessing, compilation, and linking. Each stage processes your code in a specific way and produces intermediate output. Together, they transform human-readable C++ into machine-executable code.
+- Stage 1: **Preprocessing** — resolves `#include`, `#define`, and macro directives
+- Stage 2: **Compilation** — type-checks source and translates to object code
+- Stage 3: **Linking** — combines object files and resolves library references
 
+::: {style="width: 80%; margin-left: 0; margin-right: auto;"}
 ```{.plantuml}
 @startuml compilation_stages
 
@@ -88,6 +91,7 @@ LIB -up-> L
 
 @enduml
 ```
+:::
 
 <!-- Slide 2 -->
 
@@ -95,7 +99,9 @@ LIB -up-> L
 
 ## Stage 1: Preprocessing
 
-The preprocessor runs before actual compilation and handles directives that start with `#`. It expands macros, inserts file contents from `#include` statements, and removes comments. The output is still C++ source code — just with all directives resolved.
+- Runs before compilation; processes all directives that start with `#`
+- Expands macros and inserts the full contents of `#include` files
+- Removes comments; output is still C++ source, not object code
 
 <!-- Slide 3 -->
 
@@ -121,7 +127,9 @@ The preprocessor runs before actual compilation and handles directives that star
 
 ## Stage 2: Compilation
 
-The compiler takes preprocessed source code and performs syntax checking to verify it follows C++ grammar rules. It then translates valid code into assembly language or object code specific to your target processor. A single `.cpp` file becomes one `.o` (object) file.
+- Takes preprocessed source and checks syntax and type correctness
+- Translates valid C++ into processor-specific assembly or object code
+- One `.cpp` file → one `.o` object file
 
 <!-- Slide 5 -->
 
@@ -139,7 +147,9 @@ The compiler takes preprocessed source code and performs syntax checking to veri
 
 ## Stage 3: Linking
 
-The linker takes multiple object files and combines them into one executable. It also resolves references to library functions. If a function is called but not defined anywhere, the linker reports an "undefined reference" error.
+- Combines multiple `.o` object files into a single executable
+- Resolves references to library functions (e.g., `<iostream>`)
+- Reports "undefined reference" when a called function has no definition
 
 <!-- Slide 7 -->
 
@@ -171,22 +181,11 @@ int add(int a, int b) { return a + b; }
 int main() { return add(2, 3); }
 ```
 
+::: notes
+Future topic: name mangling. C++ encodes each function's parameter types into its linker symbol name — this is what makes function overloading possible at the linker level. When you see a linker error like `undefined reference to '_Z3addii'`, the garbled name is the mangled form of `add(int, int)`. Calling a C library from C++ requires `extern "C"` to disable name mangling so the linker can match the symbols.
+:::
+
 <!-- Slide 9 -->
-
----
-
-## Name Mangling
-
-C++ encodes each function's parameter types into its linker symbol name. This is called **name mangling** and is what makes function overloading possible at the linker level.
-
-```cpp
-int  add(int a, int b);     // mangled to something like: _Z3addii
-double add(double a, double b); // mangled to: _Z3adddd
-```
-
-When you see a linker error like `undefined reference to '_Z3addii'`, the garbled name is the mangled form of `add(int, int)`. This is also why calling a C library from C++ requires `extern "C"` — C has no name mangling and the linker cannot match the symbols otherwise.
-
-<!-- Slide 10 -->
 
 ---
 
@@ -194,4 +193,4 @@ When you see a linker error like `undefined reference to '_Z3addii'`, the garble
 
 The compiler transforms source code through preprocessing, compilation, and linking. Understanding these stages helps you interpret error messages and locate bugs faster.
 
-<!-- Slide 11 -->
+<!-- Slide 10 -->

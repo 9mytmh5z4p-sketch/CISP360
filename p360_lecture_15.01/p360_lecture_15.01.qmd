@@ -20,7 +20,6 @@
 
 - How the compiler works
 - The symbol table
-- Overflow and underflow
 - Data type conversion and casting
 - Signed vs unsigned variables
 - Fixed-width integers and size_t
@@ -34,9 +33,7 @@
 
 {{< include topic_1_compiler_works.qmd >}}
 {{< include topic_2_symbol_table.qmd >}}
-{{< include topic_3_overflow_underflow.qmd >}}
 {{< include topic_5_type_conversion_casting.qmd >}}
-{{< include topic_6_whats_output_casting.qmd >}}
 {{< include topic_7_signed_unsigned.qmd >}}
 {{< include topic_8_fixed_width_size_t.qmd >}}
 {{< include topic_9_determining_variable_size.qmd >}}
@@ -166,70 +163,6 @@ data.push_back("x");  // Error: table says data holds int, not string
 
 ---
 
-## Overflow and Underflow: Good Practices
-
-- Include `<limits>` and use `numeric_limits<T>::max()` / `numeric_limits<T>::min()` — never hardcode type bounds.
-- Perform overflow checks before arithmetic, not after.
-- Prefer `long long` for accumulations and counters that may grow large.
-- Use unsigned types only when negative values are impossible and wrap-around is understood.
-
----
-
-## Overflow and Underflow: Common Mistakes
-
-- Assuming signed overflow wraps reliably — the standard gives no guarantee, and optimizing compilers exploit this.
-- Using `unsigned char` or `unsigned short` as a loop counter that decrements to zero — decrementing past zero wraps to a large value and creates an infinite loop.
-- Ignoring compiler warnings about narrowing conversions that can silently lose the high bits of a value.
-
----
-
-## Overflow and Underflow: More Examples
-
-```cpp
-// Signed multiplication overflow
-int x = 100000;
-int y = 100000;
-int z = x * y;   // Undefined behavior — exceeds INT_MAX
-
-// Unsigned char wrap-around
-unsigned char c = 255;
-c += 2;
-cout << (int)c;  // prints 1 (wraps: 255 + 2 = 257, 257 % 256 = 1)
-
-// Float underflow
-float f = 1e-50f;
-cout << f;       // prints 0.0 (too small to represent)
-```
-
----
-
-## Overflow and Underflow: Practice Problems
-
-1. Write a function that safely adds two `int` values, returning `false` if overflow would occur.
-2. Declare an `unsigned char` loop counter and count from 0 to 300. Observe and explain the output.
-3. Use `numeric_limits` to print the min and max for `short`, `int`, `long`, and their unsigned variants.
-4. Demonstrate the difference in behavior between signed and unsigned overflow with a short code example.
-
----
-
-## Overflow and Underflow: AI Search Terms
-
-- "C++ signed integer overflow undefined behavior"
-- "C++ unsigned integer wraparound modulo"
-- "C++ numeric_limits max min"
-- "C++ detect overflow before addition"
-- "C++ float underflow denormalized"
-
----
-
-## Overflow and Underflow: Questions for Reflection
-
-- Why does the C++ standard declare signed overflow undefined rather than specifying wrap-around?
-- When would unsigned wrap-around be intentional and useful in a program?
-- How would you redesign a financial calculation to prevent overflow without switching to a different language?
-
----
-
 ## Data Type Conversion and Casting: Good Practices
 
 - Use `static_cast<>` for all intentional numeric conversions in C++.
@@ -291,68 +224,6 @@ if (static_cast<double>(a) < b) {
 - Why does C++ keep both implicit and explicit conversion instead of requiring everything to be explicit?
 - When you divide two integers and expect a decimal result, which operand should you cast and why?
 - What risks do silent narrowing conversions introduce in a large program with many contributors?
-
----
-
-## What's the Output? — Type Casting: Good Practices
-
-- Cast one operand to `double` before dividing when you need a decimal result.
-- Use `static_cast<>` instead of C-style casts in new code — it communicates intent and is searchable.
-- When converting `double` to `int`, decide whether truncation is correct or whether rounding is needed (`round()` from `<cmath>`).
-
----
-
-## What's the Output? — Type Casting: Common Mistakes
-
-- Expecting `7 / 2` to produce `3.5` — it produces `3`.
-- Assuming `static_cast<int>(9.9)` rounds to `10` — it truncates to `9`.
-- Using C-style casts on pointer types where `static_cast` would be rejected — C-style casts bypass safety checks.
-
----
-
-## What's the Output? — Type Casting: More Examples
-
-```cpp
-// Rounding vs truncation
-double x = 4.7;
-cout << static_cast<int>(x);          // 4 (truncated)
-cout << static_cast<int>(round(x));   // 5 (rounded)
-
-// char arithmetic
-char c = 'a';
-cout << static_cast<int>(c + 1);      // 98 (ASCII for 'b')
-
-// Division with explicit cast
-int p = 10, q = 3;
-cout << static_cast<double>(p) / q;   // 3.3333...
-```
-
----
-
-## What's the Output? — Type Casting: Practice Problems
-
-1. Predict: `cout << 5 / 2;` then `cout << 5 / 2.0;` — what are the two outputs and why?
-2. What does `static_cast<int>(-3.9)` produce? Truncation rounds toward zero — does that mean it produces `-3` or `-4`?
-3. Write one line that prints the ASCII value of the character `'z'`.
-4. Predict: `int a = 3; double b = 1.5; cout << a * b;`
-
----
-
-## What's the Output? — Type Casting: AI Search Terms
-
-- "C++ integer division truncation"
-- "C++ implicit type promotion arithmetic"
-- "C++ static_cast truncation vs rounding"
-- "C++ char ASCII numeric value"
-- "C++ mixed type arithmetic rules"
-
----
-
-## What's the Output? — Type Casting: Questions for Reflection
-
-- Why does C++ perform integer division rather than automatically promoting to floating-point?
-- When would truncation be the correct behavior, and when would you need explicit rounding instead?
-- What does the presence of `static_cast` in code signal to a code reviewer?
 
 ---
 

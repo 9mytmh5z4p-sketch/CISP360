@@ -5,7 +5,7 @@
 When should we convert between numeric types, and what are the safe and unsafe ways to do it? C++ converts between types automatically in some cases, and lets you force conversion in others. Both paths have traps.
 
 ::: notes
-Total slides: 11
+Total slides: 13
 :::
 
 <!-- Slide 1 -->
@@ -14,7 +14,10 @@ Total slides: 11
 
 ## What Is Type Conversion?
 
-Type conversion occurs when a value of one type is used where a different type is expected. C++ handles this two ways: **implicitly** (automatically, without your input) and **explicitly** (through a cast you write). The distinction matters because implicit conversions can hide bugs.
+- Occurs when a value of one type is used where a different type is expected
+- **Implicit**: C++ converts automatically — no syntax required
+- **Explicit**: you write a cast — conversion is intentional and visible
+- The distinction matters: implicit conversions can hide bugs
 
 <!-- Slide 2 -->
 
@@ -78,6 +81,18 @@ int result = a / b;    // result = 3, not 3.5
 
 ---
 
+## Casting Syntax: Three Forms
+
+```cpp
+(to_type)value               // C style — prefix notation
+to_type(value)               // pre-standard C++ — functional notation
+static_cast<to_type>(value)  // C++ static cast — preferred
+```
+
+<!-- Slide 7 -->
+
+---
+
 ## C-Style Casts
 
 C-style syntax: `(TargetType)value`. Works, but is not recommended in modern C++.
@@ -87,7 +102,23 @@ C-style syntax: `(TargetType)value`. Works, but is not recommended in modern C++
 - Performs dangerous conversions without warning
 - Carried over from C; you will see it in older code
 
-<!-- Slide 7 -->
+<!-- Slide 8 -->
+
+---
+
+## Pre-Standard C++: Functional Notation
+
+Functional notation uses the target type as if it were a function call: `to_type(value)`. It predates standardized C++ and is still syntactically valid.
+
+```cpp
+int(3.7)        // converts double to int; result: 3
+double(7)       // converts int to double; result: 7.0
+char(65)        // converts int to char; result: 'A'
+```
+
+Equivalent to a C-style cast for primitive types. Avoid in new code — it looks like a constructor call and can mislead readers.
+
+<!-- Slide 9 -->
 
 ---
 
@@ -95,7 +126,7 @@ C-style syntax: `(TargetType)value`. Works, but is not recommended in modern C++
 
 `static_cast<TargetType>(value)` is the preferred cast for numeric conversion. It makes your intent explicit and is easy to find with a search. Use it any time you need an intentional narrowing or explicit promotion.
 
-<!-- Slide 8 -->
+<!-- Slide 10 -->
 
 ---
 
@@ -113,7 +144,7 @@ char letter = 'Z';
 int ascii = static_cast<int>(letter);     // ascii = 90
 ```
 
-<!-- Slide 9 -->
+<!-- Slide 11 -->
 
 ---
 
@@ -121,7 +152,7 @@ int ascii = static_cast<int>(letter);     // ascii = 90
 
 Use a cast to express intent — when you know truncation or conversion is correct. Do not cast to silence compiler warnings without fixing the underlying mismatch. A cast that hides a narrowing bug is worse than the warning it suppressed.
 
-<!-- Slide 10 -->
+<!-- Slide 12 -->
 
 ---
 
@@ -129,4 +160,4 @@ Use a cast to express intent — when you know truncation or conversion is corre
 
 Implicit promotion is safe and automatic. Narrowing loses data — use `static_cast<>` to make it explicit and intentional. Never cast just to silence a warning; the warning usually means there is a real issue to address.
 
-<!-- Slide 11 -->
+<!-- Slide 13 -->
