@@ -1,67 +1,33 @@
-<!-- Topic 6: Programming Task — Student Roster -->
-<!-- Total slides: 3 -->
+<!-- Topic 6: Programming Task — Banking System -->
+<!-- Total slides: 2 -->
 
-# Programming Task — Student Roster
+# Programming Task — Banking System
 
 ---
 
-## Build it: a roster of 5 students {.smaller}
+## Build it: a simple banking system {.smaller}
 
-+ Declare a `Student` struct with a `string name` and `int grade`.
-+ Allocate a static array of 5 students — **not** a dynamic array.
-+ Read each student's name and grade from the user, then print the full roster.
+You are building a banking system. The core data structure is a struct with three members: a `string name`, an `int accountNumber`, and a `float balance`. Present the customer with a menu that loops until they quit:
+
+- **Add funds** — deposit an amount; validate that the amount is positive
+- **Withdraw funds** — reduce the balance; validate sufficient funds and a positive amount
+- **Transfer funds** — reduce the balance and send money to another bank; collect the recipient bank name, account number, and transfer amount, then encode the recipient account number and transfer amount using SHA-256
+- **Quit** — exit the loop
+
+After every transaction, display the balance before and after.
 
 ::: notes
-Total slides: 3
-Give students ~10 minutes. They have all the pieces: struct declaration, static array, for loop, dot notation, cin/cout. The challenge is combining them cleanly. Remind students: static array means Student roster[5]; — no new/delete needed.
+Total slides: 2
+This is the capstone task for the structs unit. Students must combine struct declaration, a menu loop, input validation, and conditional logic. The SHA-256 encoding of the outbound transfer data is new territory — it introduces the idea that sensitive data should not travel in plaintext. Students do not need to implement SHA-256 from scratch; they can use OpenSSL or a header-only library. Flag this as a stretch goal if time is short.
 :::
 
 <!-- Slide 1 -->
 
 ---
 
-## Requirements
+## Think before you code
 
-- Declare `struct Student` with `string name` and `int grade`
-- In `main`, declare `Student roster[5]`
-- Loop `i = 0` to `4`: read `roster[i].name` and `roster[i].grade`
-- Print all 5 records: `"[name]: [grade]"`
-
-::: notes
-Keep the output format simple. Students should not need to worry about formatting — just get the data in and back out correctly. If time allows, ask them to also print the highest-grade student after the roster.
-:::
+1. What does this program do — describe it in one sentence.
+2. What states or moments can the program be in?
 
 <!-- Slide 2 -->
-
----
-
-## Solution {.smaller}
-
-```{.cpp}
-#include <iostream>
-#include <string>
-using namespace std;
-
-struct Student {
-    string name;
-    int    grade;
-};
-
-int main() {
-    const int SIZE = 5;
-    Student   roster[SIZE];
-
-    for (int i = 0; i < SIZE; i++) {
-        cout << "Name:  "; cin >> roster[i].name;
-        cout << "Grade: "; cin >> roster[i].grade;
-    }
-
-    cout << "\n--- Roster ---\n";
-    for (int i = 0; i < SIZE; i++)
-        cout << roster[i].name << ": " << roster[i].grade << "\n";
-
-    return 0;
-}
-```
-
-<!-- Slide 3 -->

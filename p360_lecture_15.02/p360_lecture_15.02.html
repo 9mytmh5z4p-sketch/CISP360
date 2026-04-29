@@ -206,18 +206,30 @@ Dr.&nbsp;Caleb Fowler
 </div>
 
 </section>
+<section id="section" class="slide level2" data-background-image="assets/cartoon.png" data-background-size="contain" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+</section>
+<section class="slide level2">
+
+</section>
 <section>
 <section id="last-time" class="title-slide slide level1 center">
 <h1>Last Time</h1>
 <ul>
-<li class="fragment"><strong>How a Compiler Works</strong></li>
-<li class="fragment"><strong>Overflow and Underflow</strong></li>
-<li class="fragment"><strong>Type Conversion and Casting</strong></li>
+<li class="fragment"><strong>How the Compiler Works</strong></li>
+<li class="fragment"><strong>The Symbol Table</strong></li>
+<li class="fragment"><strong>Data Type Conversion and Casting</strong></li>
 <li class="fragment"><strong>Signed, Unsigned, and Fixed-Width Types</strong></li>
 <li class="fragment"><strong>Determining Variable Size</strong></li>
 </ul>
 <aside class="notes">
-<p>15.01 covered variable details: compilation stages and the symbol table, overflow/underflow behavior, explicit type conversion with static_cast, signed vs.&nbsp;unsigned types, fixed-width integers (int32_t etc.), and using sizeof to inspect variable size.</p>
+<ol type="1">
+<li><strong>How the Compiler Works</strong>: Preprocessing, compilation, and linking pipeline; translation units; role of header files and name mangling (future topic).</li>
+<li><strong>The Symbol Table</strong>: The compiler’s identifier record; drives type checking, scope resolution, and duplicate detection.</li>
+<li><strong>Data Type Conversion and Casting</strong>: Implicit promotion vs.&nbsp;narrowing; C-style, functional notation, and static_cast syntax; integer division truncation.</li>
+<li><strong>Signed, Unsigned, and Fixed-Width Types</strong>: Two’s complement; range differences; mixing signed/unsigned in comparisons; cstdint exact-width types; size_t for indices.</li>
+<li><strong>Determining Variable Size</strong>: sizeof operator; compile-time evaluation; array element count idiom; struct padding.</li>
+</ol>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -241,7 +253,7 @@ Dr.&nbsp;Caleb Fowler
 <li>What’s the Output?</li>
 <li>Fill In the Missing Code</li>
 <li>Arrays of Structures</li>
-<li>Programming Task — Student Roster</li>
+<li>Programming Task — Banking System</li>
 </ul>
 <aside class="notes">
 
@@ -770,23 +782,26 @@ Dr.&nbsp;Caleb Fowler
 <li>Access: <code>array[i].member</code> — subscript first, then dot.</li>
 </ul>
 <!-- Slide 4 -->
-<!-- Topic 6: Programming Task — Student Roster -->
-<!-- Total slides: 3 -->
+<!-- Topic 6: Programming Task — Banking System -->
+<!-- Total slides: 2 -->
 </section></section>
 <section>
-<section id="programming-task-student-roster" class="title-slide slide level1 center">
-<h1>Programming Task — Student Roster</h1>
+<section id="programming-task-banking-system" class="title-slide slide level1 center">
+<h1>Programming Task — Banking System</h1>
 
 </section>
-<section id="build-it-a-roster-of-5-students" class="slide level2 smaller">
-<h2>Build it: a roster of 5 students</h2>
+<section id="build-it-a-simple-banking-system" class="slide level2 smaller">
+<h2>Build it: a simple banking system</h2>
+<p>You are building a banking system. The core data structure is a struct with three members: a <code>string name</code>, an <code>int accountNumber</code>, and a <code>float balance</code>. Present the customer with a menu that loops until they quit:</p>
 <ul>
-<li>Declare a <code>Student</code> struct with a <code>string name</code> and <code>int grade</code>.</li>
-<li>Allocate a static array of 5 students — <strong>not</strong> a dynamic array.</li>
-<li>Read each student’s name and grade from the user, then print the full roster.</li>
+<li><strong>Add funds</strong> — deposit an amount; validate that the amount is positive</li>
+<li><strong>Withdraw funds</strong> — reduce the balance; validate sufficient funds and a positive amount</li>
+<li><strong>Transfer funds</strong> — reduce the balance and send money to another bank; collect the recipient bank name, account number, and transfer amount, then encode the recipient account number and transfer amount using SHA-256</li>
+<li><strong>Quit</strong> — exit the loop</li>
 </ul>
+<p>After every transaction, display the balance before and after.</p>
 <aside class="notes">
-<p>Total slides: 3 Give students ~10 minutes. They have all the pieces: struct declaration, static array, for loop, dot notation, cin/cout. The challenge is combining them cleanly. Remind students: static array means Student roster[5]; — no new/delete needed.</p>
+<p>Total slides: 2 This is the capstone task for the structs unit. Students must combine struct declaration, a menu loop, input validation, and conditional logic. The SHA-256 encoding of the outbound transfer data is new territory — it introduces the idea that sensitive data should not travel in plaintext. Students do not need to implement SHA-256 from scratch; they can use OpenSSL or a header-only library. Flag this as a stretch goal if time is short.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -800,56 +815,13 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 1 -->
 </section>
-<section id="requirements" class="slide level2">
-<h2>Requirements</h2>
-<ul>
-<li>Declare <code>struct Student</code> with <code>string name</code> and <code>int grade</code></li>
-<li>In <code>main</code>, declare <code>Student roster[5]</code></li>
-<li>Loop <code>i = 0</code> to <code>4</code>: read <code>roster[i].name</code> and <code>roster[i].grade</code></li>
-<li>Print all 5 records: <code>"[name]: [grade]"</code></li>
-</ul>
-<aside class="notes">
-<p>Keep the output format simple. Students should not need to worry about formatting — just get the data in and back out correctly. If time allows, ask them to also print the highest-grade student after the roster.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<section id="think-before-you-code" class="slide level2">
+<h2>Think before you code</h2>
+<ol type="1">
+<li>What does this program do — describe it in one sentence.</li>
+<li>What states or moments can the program be in?</li>
+</ol>
 <!-- Slide 2 -->
-</section>
-<section id="solution-1" class="slide level2 smaller">
-<h2>Solution</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb11-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb11-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb11-4"><a href=""></a></span>
-<span id="cb11-5"><a href=""></a><span class="kw">struct</span> Student <span class="op">{</span></span>
-<span id="cb11-6"><a href=""></a>    string name<span class="op">;</span></span>
-<span id="cb11-7"><a href=""></a>    <span class="dt">int</span>    grade<span class="op">;</span></span>
-<span id="cb11-8"><a href=""></a><span class="op">};</span></span>
-<span id="cb11-9"><a href=""></a></span>
-<span id="cb11-10"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb11-11"><a href=""></a>    <span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb11-12"><a href=""></a>    Student   roster<span class="op">[</span>SIZE<span class="op">];</span></span>
-<span id="cb11-13"><a href=""></a></span>
-<span id="cb11-14"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb11-15"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Name:  "</span><span class="op">;</span> cin <span class="op">&gt;&gt;</span> roster<span class="op">[</span>i<span class="op">].</span>name<span class="op">;</span></span>
-<span id="cb11-16"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Grade: "</span><span class="op">;</span> cin <span class="op">&gt;&gt;</span> roster<span class="op">[</span>i<span class="op">].</span>grade<span class="op">;</span></span>
-<span id="cb11-17"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb11-18"><a href=""></a></span>
-<span id="cb11-19"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">--- Roster ---</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb11-20"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb11-21"><a href=""></a>        cout <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>name <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>grade <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb11-22"><a href=""></a></span>
-<span id="cb11-23"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb11-24"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 3 -->
 </section>
 <section class="slide level2">
 
@@ -882,75 +854,238 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="abstract-data-types-good-practices" class="slide level2">
 <h2>Abstract Data Types: Good Practices</h2>
+<ul>
+<li>Use a struct any time you manage multiple variables that describe the same entity — parallel variables with no formal relationship are a signal to create an ADT.</li>
+<li>Name struct types with a capital letter and a noun (<code>Employee</code>, <code>Student</code>, <code>Product</code>) — the type name describes what the struct represents.</li>
+<li>Keep struct declarations outside of functions so all functions in the file can use the type.</li>
+</ul>
 </section>
 <section id="abstract-data-types-common-mistakes" class="slide level2">
 <h2>Abstract Data Types: Common Mistakes</h2>
+<ul>
+<li>Forgetting the semicolon after the closing brace: <code>struct Employee { ... }</code> — the compiler reports an error on the next line, not at the struct itself.</li>
+<li>Treating the struct declaration as a variable — <code>struct Employee { ... };</code> creates a type, not a storage location; you must separately declare <code>Employee e;</code>.</li>
+<li>Reaching for an array when fields have different types — that’s a struct, not an array.</li>
+</ul>
 </section>
 <section id="abstract-data-types-more-examples" class="slide level2">
 <h2>Abstract Data Types: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="co">// A Point ADT for 2D geometry</span></span>
+<span id="cb11-2"><a href=""></a><span class="kw">struct</span> Point <span class="op">{</span></span>
+<span id="cb11-3"><a href=""></a>    <span class="dt">double</span> x<span class="op">;</span></span>
+<span id="cb11-4"><a href=""></a>    <span class="dt">double</span> y<span class="op">;</span></span>
+<span id="cb11-5"><a href=""></a><span class="op">};</span></span>
+<span id="cb11-6"><a href=""></a></span>
+<span id="cb11-7"><a href=""></a><span class="co">// A Date ADT</span></span>
+<span id="cb11-8"><a href=""></a><span class="kw">struct</span> Date <span class="op">{</span></span>
+<span id="cb11-9"><a href=""></a>    <span class="dt">int</span> month<span class="op">;</span></span>
+<span id="cb11-10"><a href=""></a>    <span class="dt">int</span> day<span class="op">;</span></span>
+<span id="cb11-11"><a href=""></a>    <span class="dt">int</span> year<span class="op">;</span></span>
+<span id="cb11-12"><a href=""></a><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Any real-world entity with multiple attributes of potentially different types is a candidate for an ADT.</p>
 </section>
 <section id="abstract-data-types-practice-problems" class="slide level2">
 <h2>Abstract Data Types: Practice Problems</h2>
+<ol type="1">
+<li>Identify three real-world entities (other than Employee or Student) that would benefit from a struct. List the members each would need with their types.</li>
+<li>What is the difference between a type definition and a variable declaration? Illustrate with <code>struct Point</code>.</li>
+<li>Draw the “Table of Variables” from the slide and add a new row for <code>class</code>. What does a class group that a struct does not?</li>
+<li>Write a struct for a <code>Rectangle</code> with <code>width</code> and <code>height</code>. Add a function that takes a <code>Rectangle</code> and returns its area.</li>
+</ol>
 </section>
 <section id="abstract-data-types-ai-search-terms" class="slide level2">
 <h2>Abstract Data Types: AI Search Terms</h2>
+<ul>
+<li>“C++ struct user-defined type”</li>
+<li>“abstract data type C++ definition”</li>
+<li>“struct vs class C++ difference”</li>
+<li>“C++ composite type heterogeneous”</li>
+<li>“when to use struct C++”</li>
+</ul>
 </section>
 <section id="abstract-data-types-questions-for-reflection" class="slide level2">
 <h2>Abstract Data Types: Questions for Reflection</h2>
+<ul>
+<li>Why does grouping related data into a struct make code easier to maintain than using separate variables?</li>
+<li>What real-world entities in your own programs would be good candidates for a struct?</li>
+<li>How does the concept of an ADT relate to encapsulation in object-oriented programming?</li>
+</ul>
 </section>
 <section id="structures-good-practices" class="slide level2">
 <h2>Structures: Good Practices</h2>
+<ul>
+<li>Declare the struct type once, outside any function, so it is available throughout the file.</li>
+<li>Use an initialization list when all values are known at declaration time; use member-by-member assignment when values come from user input or computation.</li>
+<li>Pass structs by <code>const</code> reference (<code>const Employee&amp; e</code>) to functions that only read the data — avoids copying all members.</li>
+</ul>
 </section>
 <section id="structures-common-mistakes" class="slide level2">
 <h2>Structures: Common Mistakes</h2>
+<ul>
+<li>Omitting the semicolon after <code>}</code> — required after every struct definition; missing it causes confusing errors on the lines that follow.</li>
+<li>Initializing list values in the wrong order — values must match the order of member declarations in the struct, not alphabetical or logical order.</li>
+<li>Writing <code>Employee.name</code> instead of <code>e.name</code> — the dot operator belongs to the variable, not the type name.</li>
+</ul>
 </section>
 <section id="structures-more-examples" class="slide level2">
 <h2>Structures: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="co">// Pass by const reference — no copy, members read-only</span></span>
+<span id="cb12-2"><a href=""></a><span class="dt">void</span> printEmployee<span class="op">(</span><span class="at">const</span> Employee<span class="op">&amp;</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> e<span class="op">.</span>employeeID <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> e<span class="op">.</span>name</span>
+<span id="cb12-4"><a href=""></a>         <span class="op">&lt;&lt;</span> <span class="st">" @ $"</span> <span class="op">&lt;&lt;</span> e<span class="op">.</span>rate <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb12-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb12-6"><a href=""></a></span>
+<span id="cb12-7"><a href=""></a><span class="co">// Return a struct from a function</span></span>
+<span id="cb12-8"><a href=""></a>Employee makeEmployee<span class="op">(</span><span class="dt">int</span> id<span class="op">,</span> string name<span class="op">,</span> <span class="dt">double</span> rate<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-9"><a href=""></a>    Employee temp<span class="op">;</span></span>
+<span id="cb12-10"><a href=""></a>    temp<span class="op">.</span>employeeID <span class="op">=</span> id<span class="op">;</span></span>
+<span id="cb12-11"><a href=""></a>    temp<span class="op">.</span>name       <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb12-12"><a href=""></a>    temp<span class="op">.</span>rate       <span class="op">=</span> rate<span class="op">;</span></span>
+<span id="cb12-13"><a href=""></a>    <span class="cf">return</span> temp<span class="op">;</span></span>
+<span id="cb12-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="structures-practice-problems" class="slide level2">
 <h2>Structures: Practice Problems</h2>
+<ol type="1">
+<li>Declare a <code>Book</code> struct with <code>title</code> (string), <code>author</code> (string), and <code>price</code> (double). Create two variables — one with an initialization list, one member-by-member.</li>
+<li>Write <code>void printBook(Book b)</code> that prints all three members. Call it from <code>main</code> with both Book variables.</li>
+<li>Write <code>void giveDiscount(Book&amp; b, double pct)</code> that reduces <code>b.price</code> by <code>pct</code> percent. Verify the price changes in <code>main</code>.</li>
+<li>What happens if you swap two values in an initialization list? Write a short test and observe the result.</li>
+</ol>
 </section>
 <section id="structures-ai-search-terms" class="slide level2">
 <h2>Structures: AI Search Terms</h2>
+<ul>
+<li>“C++ struct declaration syntax”</li>
+<li>“C++ struct initialization list member order”</li>
+<li>“C++ dot notation member access operator”</li>
+<li>“C++ struct pass by reference const”</li>
+<li>“C++ struct return from function”</li>
+</ul>
 </section>
 <section id="structures-questions-for-reflection" class="slide level2">
 <h2>Structures: Questions for Reflection</h2>
+<ul>
+<li>Why does C++ require a semicolon after the closing brace of a struct but not after the closing brace of a function?</li>
+<li>When would you pass a struct by value versus by reference? What are the trade-offs?</li>
+<li>How would code complexity change if you replaced a struct with separate parallel variables for a program managing 50 employees?</li>
+</ul>
 </section>
 <section id="arrays-of-structures-good-practices" class="slide level2">
 <h2>Arrays of Structures: Good Practices</h2>
+<ul>
+<li>Use a named constant for array size: <code>const int SIZE = 5;</code> — change it in one place and everything updates.</li>
+<li>Use the two-step access pattern consistently: subscript first, then dot — <code>roster[i].name</code>, not <code>roster.name[i]</code>.</li>
+<li>Declare the struct type before the array; the type must be defined before it can be used as an element type.</li>
+</ul>
 </section>
 <section id="arrays-of-structures-common-mistakes" class="slide level2">
 <h2>Arrays of Structures: Common Mistakes</h2>
+<ul>
+<li>Writing <code>roster.name[i]</code> instead of <code>roster[i].name</code> — <code>roster</code> is an array; you must index into it before accessing a member.</li>
+<li>Initializing array elements with values in the wrong order — initialization list values map to struct members in declaration order.</li>
+<li>Treating the array variable as a single struct — <code>roster</code> holds multiple structs; you must index to get one.</li>
+</ul>
 </section>
 <section id="arrays-of-structures-more-examples" class="slide level2">
 <h2>Arrays of Structures: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="co">// Finding the minimum</span></span>
+<span id="cb13-2"><a href=""></a><span class="dt">int</span> worst <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb13-4"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>grade <span class="op">&lt;</span> roster<span class="op">[</span>worst<span class="op">].</span>grade<span class="op">)</span> worst <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb13-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Lowest: "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>worst<span class="op">].</span>name</span>
+<span id="cb13-6"><a href=""></a>     <span class="op">&lt;&lt;</span> <span class="st">" ("</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>worst<span class="op">].</span>grade <span class="op">&lt;&lt;</span> <span class="st">")</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb13-7"><a href=""></a></span>
+<span id="cb13-8"><a href=""></a><span class="co">// Passing the array to a function</span></span>
+<span id="cb13-9"><a href=""></a><span class="dt">void</span> printRoster<span class="op">(</span>Student roster<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-10"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb13-11"><a href=""></a>        cout <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>name <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>grade <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb13-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="arrays-of-structures-practice-problems" class="slide level2">
 <h2>Arrays of Structures: Practice Problems</h2>
+<ol type="1">
+<li>Declare a <code>Product</code> struct with <code>name</code> (string) and <code>price</code> (double). Create an array of 4 products using initialization lists.</li>
+<li>Write a function that returns the index of the most expensive product.</li>
+<li>Write a loop that prints only products with a price below $10.00.</li>
+<li>Modify the student roster loop to count how many students have a grade at or above 90 and print the count.</li>
+</ol>
 </section>
 <section id="arrays-of-structures-ai-search-terms" class="slide level2">
 <h2>Arrays of Structures: AI Search Terms</h2>
+<ul>
+<li>“C++ array of structs declaration”</li>
+<li>“C++ struct array dot notation loop”</li>
+<li>“C++ array of user-defined type”</li>
+<li>“C++ struct array initialization list”</li>
+<li>“C++ max tracker array of structs”</li>
+</ul>
 </section>
 <section id="arrays-of-structures-questions-for-reflection" class="slide level2">
 <h2>Arrays of Structures: Questions for Reflection</h2>
+<ul>
+<li>How does <code>roster[i].grade</code> differ conceptually from <code>scores[i]</code> where <code>scores</code> is a plain <code>int</code> array?</li>
+<li>What would change if you needed to sort the roster by grade? What algorithms from earlier lectures would apply?</li>
+<li>When would you use an array of structs versus parallel arrays? Which is easier to maintain as the data model grows?</li>
+</ul>
 </section>
-<section id="programming-task-student-roster-good-practices" class="slide level2">
-<h2>Programming Task — Student Roster: Good Practices</h2>
+<section id="programming-task-banking-system-good-practices" class="slide level2">
+<h2>Programming Task — Banking System: Good Practices</h2>
+<ul>
+<li>Declare the struct outside <code>main</code> so helper functions for deposit, withdrawal, and transfer can all use it.</li>
+<li>Validate every input before modifying the balance — check for positive amounts and sufficient funds before any operation changes state.</li>
+<li>Display the balance before and after every transaction immediately after the operation, not at the end of the loop.</li>
+</ul>
 </section>
-<section id="programming-task-student-roster-common-mistakes" class="slide level2">
-<h2>Programming Task — Student Roster: Common Mistakes</h2>
+<section id="programming-task-banking-system-common-mistakes" class="slide level2">
+<h2>Programming Task — Banking System: Common Mistakes</h2>
+<ul>
+<li>Modifying the balance before validating the input — validate first, then update; a failed validation should leave the balance unchanged.</li>
+<li>Using <code>float</code> for currency arithmetic without understanding rounding — <code>float</code> has limited precision; <code>double</code> is safer for money calculations.</li>
+<li>Skipping the <code>cin.ignore()</code> before <code>getline</code> for the bank name — without it, the newline left in the buffer will be consumed as an empty string.</li>
+</ul>
 </section>
-<section id="programming-task-student-roster-more-examples" class="slide level2">
-<h2>Programming Task — Student Roster: More Examples</h2>
+<section id="programming-task-banking-system-more-examples" class="slide level2">
+<h2>Programming Task — Banking System: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="co">// Balance before/after pattern</span></span>
+<span id="cb14-2"><a href=""></a><span class="dt">float</span> before <span class="op">=</span> account<span class="op">.</span>balance<span class="op">;</span></span>
+<span id="cb14-3"><a href=""></a>account<span class="op">.</span>balance <span class="op">+=</span> amount<span class="op">;</span></span>
+<span id="cb14-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Before: $"</span> <span class="op">&lt;&lt;</span> before <span class="op">&lt;&lt;</span> <span class="st">"  After: $"</span> <span class="op">&lt;&lt;</span> account<span class="op">.</span>balance <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb14-5"><a href=""></a></span>
+<span id="cb14-6"><a href=""></a><span class="co">// Transfer validation</span></span>
+<span id="cb14-7"><a href=""></a><span class="cf">if</span> <span class="op">(</span>amount <span class="op">&lt;=</span> <span class="dv">0</span> <span class="op">||</span> amount <span class="op">&gt;</span> account<span class="op">.</span>balance<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Invalid transfer amount.</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb14-9"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb14-10"><a href=""></a>    account<span class="op">.</span>balance <span class="op">-=</span> amount<span class="op">;</span></span>
+<span id="cb14-11"><a href=""></a>    <span class="co">// encode and transmit recipient info</span></span>
+<span id="cb14-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="programming-task-student-roster-practice-problems" class="slide level2">
-<h2>Programming Task — Student Roster: Practice Problems</h2>
+<section id="programming-task-banking-system-practice-problems" class="slide level2">
+<h2>Programming Task — Banking System: Practice Problems</h2>
+<ol type="1">
+<li>Add an <code>int transactionCount</code> member to the struct. Increment it after every successful transaction and display it with the balance.</li>
+<li>Add a 5th menu option: <strong>View account info</strong> — display name, account number, and current balance.</li>
+<li>Modify withdrawal to reject any amount that would bring the balance below $10.00 (a minimum balance requirement).</li>
+<li>After the transfer branch collects recipient info, print a mock encoded payload: concatenate bank name, account number, and amount into a single string and display it as “Transfer payload: [string]”.</li>
+</ol>
 </section>
-<section id="programming-task-student-roster-ai-search-terms" class="slide level2">
-<h2>Programming Task — Student Roster: AI Search Terms</h2>
+<section id="programming-task-banking-system-ai-search-terms" class="slide level2">
+<h2>Programming Task — Banking System: AI Search Terms</h2>
+<ul>
+<li>“C++ do-while menu loop input validation”</li>
+<li>“C++ struct member update before after display”</li>
+<li>“C++ SHA-256 OpenSSL hash string”</li>
+<li>“C++ getline cin ignore newline flush”</li>
+<li>“C++ float precision currency alternative double”</li>
+</ul>
 </section>
-<section id="programming-task-student-roster-questions-for-reflection" class="slide level2">
-<h2>Programming Task — Student Roster: Questions for Reflection</h2>
+<section id="programming-task-banking-system-questions-for-reflection" class="slide level2">
+<h2>Programming Task — Banking System: Questions for Reflection</h2>
+<ul>
+<li>Why is it important to validate input before modifying the balance rather than after?</li>
+<li>What would change if you needed to support multiple accounts instead of one?</li>
+<li>Why should sensitive transfer data like account numbers be encoded before transmission, even in a local simulation?</li>
+</ul>
 
 </section></section>
     </div>

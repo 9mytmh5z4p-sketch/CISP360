@@ -1,15 +1,23 @@
+## {background-image="assets/cartoon.png" background-size="contain" background-position="center" background-repeat="no-repeat"}
+
+---
+
 # Last Time
 
 ::: {.incremental}
-+ **How a Compiler Works**
-+ **Overflow and Underflow**
-+ **Type Conversion and Casting**
++ **How the Compiler Works**
++ **The Symbol Table**
++ **Data Type Conversion and Casting**
 + **Signed, Unsigned, and Fixed-Width Types**
 + **Determining Variable Size**
 :::
 
 ::: notes
-15.01 covered variable details: compilation stages and the symbol table, overflow/underflow behavior, explicit type conversion with static_cast, signed vs. unsigned types, fixed-width integers (int32_t etc.), and using sizeof to inspect variable size.
+1. **How the Compiler Works**: Preprocessing, compilation, and linking pipeline; translation units; role of header files and name mangling (future topic).
+2. **The Symbol Table**: The compiler's identifier record; drives type checking, scope resolution, and duplicate detection.
+3. **Data Type Conversion and Casting**: Implicit promotion vs. narrowing; C-style, functional notation, and static_cast syntax; integer division truncation.
+4. **Signed, Unsigned, and Fixed-Width Types**: Two's complement; range differences; mixing signed/unsigned in comparisons; cstdint exact-width types; size_t for indices.
+5. **Determining Variable Size**: sizeof operator; compile-time evaluation; array element count idiom; struct padding.
 :::
 
 ---
@@ -21,7 +29,7 @@
 - What's the Output?
 - Fill In the Missing Code
 - Arrays of Structures
-- Programming Task — Student Roster
+- Programming Task — Banking System
 
 ::: notes
 
@@ -55,94 +63,250 @@
 
 ## Abstract Data Types: Good Practices
 
+- Use a struct any time you manage multiple variables that describe the same entity — parallel variables with no formal relationship are a signal to create an ADT.
+- Name struct types with a capital letter and a noun (`Employee`, `Student`, `Product`) — the type name describes what the struct represents.
+- Keep struct declarations outside of functions so all functions in the file can use the type.
+
 ---
 
 ## Abstract Data Types: Common Mistakes
+
+- Forgetting the semicolon after the closing brace: `struct Employee { ... }` — the compiler reports an error on the next line, not at the struct itself.
+- Treating the struct declaration as a variable — `struct Employee { ... };` creates a type, not a storage location; you must separately declare `Employee e;`.
+- Reaching for an array when fields have different types — that's a struct, not an array.
 
 ---
 
 ## Abstract Data Types: More Examples
 
+```cpp
+// A Point ADT for 2D geometry
+struct Point {
+    double x;
+    double y;
+};
+
+// A Date ADT
+struct Date {
+    int month;
+    int day;
+    int year;
+};
+```
+
+Any real-world entity with multiple attributes of potentially different types is a candidate for an ADT.
+
 ---
 
 ## Abstract Data Types: Practice Problems
+
+1. Identify three real-world entities (other than Employee or Student) that would benefit from a struct. List the members each would need with their types.
+2. What is the difference between a type definition and a variable declaration? Illustrate with `struct Point`.
+3. Draw the "Table of Variables" from the slide and add a new row for `class`. What does a class group that a struct does not?
+4. Write a struct for a `Rectangle` with `width` and `height`. Add a function that takes a `Rectangle` and returns its area.
 
 ---
 
 ## Abstract Data Types: AI Search Terms
 
+- "C++ struct user-defined type"
+- "abstract data type C++ definition"
+- "struct vs class C++ difference"
+- "C++ composite type heterogeneous"
+- "when to use struct C++"
+
 ---
 
 ## Abstract Data Types: Questions for Reflection
+
+- Why does grouping related data into a struct make code easier to maintain than using separate variables?
+- What real-world entities in your own programs would be good candidates for a struct?
+- How does the concept of an ADT relate to encapsulation in object-oriented programming?
 
 ---
 
 ## Structures: Good Practices
 
+- Declare the struct type once, outside any function, so it is available throughout the file.
+- Use an initialization list when all values are known at declaration time; use member-by-member assignment when values come from user input or computation.
+- Pass structs by `const` reference (`const Employee& e`) to functions that only read the data — avoids copying all members.
+
 ---
 
 ## Structures: Common Mistakes
+
+- Omitting the semicolon after `}` — required after every struct definition; missing it causes confusing errors on the lines that follow.
+- Initializing list values in the wrong order — values must match the order of member declarations in the struct, not alphabetical or logical order.
+- Writing `Employee.name` instead of `e.name` — the dot operator belongs to the variable, not the type name.
 
 ---
 
 ## Structures: More Examples
 
+```cpp
+// Pass by const reference — no copy, members read-only
+void printEmployee(const Employee& e) {
+    cout << e.employeeID << ": " << e.name
+         << " @ $" << e.rate << "\n";
+}
+
+// Return a struct from a function
+Employee makeEmployee(int id, string name, double rate) {
+    Employee temp;
+    temp.employeeID = id;
+    temp.name       = name;
+    temp.rate       = rate;
+    return temp;
+}
+```
+
 ---
 
 ## Structures: Practice Problems
+
+1. Declare a `Book` struct with `title` (string), `author` (string), and `price` (double). Create two variables — one with an initialization list, one member-by-member.
+2. Write `void printBook(Book b)` that prints all three members. Call it from `main` with both Book variables.
+3. Write `void giveDiscount(Book& b, double pct)` that reduces `b.price` by `pct` percent. Verify the price changes in `main`.
+4. What happens if you swap two values in an initialization list? Write a short test and observe the result.
 
 ---
 
 ## Structures: AI Search Terms
 
+- "C++ struct declaration syntax"
+- "C++ struct initialization list member order"
+- "C++ dot notation member access operator"
+- "C++ struct pass by reference const"
+- "C++ struct return from function"
+
 ---
 
 ## Structures: Questions for Reflection
+
+- Why does C++ require a semicolon after the closing brace of a struct but not after the closing brace of a function?
+- When would you pass a struct by value versus by reference? What are the trade-offs?
+- How would code complexity change if you replaced a struct with separate parallel variables for a program managing 50 employees?
 
 ---
 
 ## Arrays of Structures: Good Practices
 
+- Use a named constant for array size: `const int SIZE = 5;` — change it in one place and everything updates.
+- Use the two-step access pattern consistently: subscript first, then dot — `roster[i].name`, not `roster.name[i]`.
+- Declare the struct type before the array; the type must be defined before it can be used as an element type.
+
 ---
 
 ## Arrays of Structures: Common Mistakes
+
+- Writing `roster.name[i]` instead of `roster[i].name` — `roster` is an array; you must index into it before accessing a member.
+- Initializing array elements with values in the wrong order — initialization list values map to struct members in declaration order.
+- Treating the array variable as a single struct — `roster` holds multiple structs; you must index to get one.
 
 ---
 
 ## Arrays of Structures: More Examples
 
+```cpp
+// Finding the minimum
+int worst = 0;
+for (int i = 1; i < SIZE; i++)
+    if (roster[i].grade < roster[worst].grade) worst = i;
+cout << "Lowest: " << roster[worst].name
+     << " (" << roster[worst].grade << ")\n";
+
+// Passing the array to a function
+void printRoster(Student roster[], int size) {
+    for (int i = 0; i < size; i++)
+        cout << roster[i].name << ": " << roster[i].grade << "\n";
+}
+```
+
 ---
 
 ## Arrays of Structures: Practice Problems
+
+1. Declare a `Product` struct with `name` (string) and `price` (double). Create an array of 4 products using initialization lists.
+2. Write a function that returns the index of the most expensive product.
+3. Write a loop that prints only products with a price below $10.00.
+4. Modify the student roster loop to count how many students have a grade at or above 90 and print the count.
 
 ---
 
 ## Arrays of Structures: AI Search Terms
 
+- "C++ array of structs declaration"
+- "C++ struct array dot notation loop"
+- "C++ array of user-defined type"
+- "C++ struct array initialization list"
+- "C++ max tracker array of structs"
+
 ---
 
 ## Arrays of Structures: Questions for Reflection
 
----
-
-## Programming Task — Student Roster: Good Practices
-
----
-
-## Programming Task — Student Roster: Common Mistakes
+- How does `roster[i].grade` differ conceptually from `scores[i]` where `scores` is a plain `int` array?
+- What would change if you needed to sort the roster by grade? What algorithms from earlier lectures would apply?
+- When would you use an array of structs versus parallel arrays? Which is easier to maintain as the data model grows?
 
 ---
 
-## Programming Task — Student Roster: More Examples
+## Programming Task — Banking System: Good Practices
+
+- Declare the struct outside `main` so helper functions for deposit, withdrawal, and transfer can all use it.
+- Validate every input before modifying the balance — check for positive amounts and sufficient funds before any operation changes state.
+- Display the balance before and after every transaction immediately after the operation, not at the end of the loop.
 
 ---
 
-## Programming Task — Student Roster: Practice Problems
+## Programming Task — Banking System: Common Mistakes
+
+- Modifying the balance before validating the input — validate first, then update; a failed validation should leave the balance unchanged.
+- Using `float` for currency arithmetic without understanding rounding — `float` has limited precision; `double` is safer for money calculations.
+- Skipping the `cin.ignore()` before `getline` for the bank name — without it, the newline left in the buffer will be consumed as an empty string.
 
 ---
 
-## Programming Task — Student Roster: AI Search Terms
+## Programming Task — Banking System: More Examples
+
+```cpp
+// Balance before/after pattern
+float before = account.balance;
+account.balance += amount;
+cout << "Before: $" << before << "  After: $" << account.balance << "\n";
+
+// Transfer validation
+if (amount <= 0 || amount > account.balance) {
+    cout << "Invalid transfer amount.\n";
+} else {
+    account.balance -= amount;
+    // encode and transmit recipient info
+}
+```
 
 ---
 
-## Programming Task — Student Roster: Questions for Reflection
+## Programming Task — Banking System: Practice Problems
+
+1. Add an `int transactionCount` member to the struct. Increment it after every successful transaction and display it with the balance.
+2. Add a 5th menu option: **View account info** — display name, account number, and current balance.
+3. Modify withdrawal to reject any amount that would bring the balance below $10.00 (a minimum balance requirement).
+4. After the transfer branch collects recipient info, print a mock encoded payload: concatenate bank name, account number, and amount into a single string and display it as "Transfer payload: [string]".
+
+---
+
+## Programming Task — Banking System: AI Search Terms
+
+- "C++ do-while menu loop input validation"
+- "C++ struct member update before after display"
+- "C++ SHA-256 OpenSSL hash string"
+- "C++ getline cin ignore newline flush"
+- "C++ float precision currency alternative double"
+
+---
+
+## Programming Task — Banking System: Questions for Reflection
+
+- Why is it important to validate input before modifying the balance rather than after?
+- What would change if you needed to support multiple accounts instead of one?
+- Why should sensitive transfer data like account numbers be encoded before transmission, even in a local simulation?
