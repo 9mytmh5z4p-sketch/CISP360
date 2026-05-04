@@ -1,0 +1,109 @@
+<!-- Topic 2: Vectors of Objects -->
+<!-- Total slides: 5 -->
+
+# Vectors of Objects
+
+---
+
+## Why a vector beats a static array for objects {.smaller}
+
++ A static array of objects requires the size at compile time — you must know upfront how many objects you need.
++ A `vector<ClassName>` grows as you add objects and exposes `.size()`, `.push_back()`, and the full STL algorithm set.
+
+::: notes
+Total slides: 5
+Students know vectors from week 2 and static arrays from week 11. The connection here is mechanical: swap ClassName[] for vector<ClassName>. The loop patterns, dot-notation access, and method calls are identical — only the container changes. Emphasize: vector is almost always the right choice unless you have a hard size constraint or performance requirement.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Declaring and adding objects {.smaller}
+
+```{.cpp}
+#include <vector>
+using namespace std;
+
+class Student {
+public:
+    string name;
+    int    grade = 0;
+    void   setName(string n)  { name = n; }
+    void   setGrade(int g)    { grade = g; }
+    string getName()  const   { return name; }
+    int    getGrade() const   { return grade; }
+};
+
+int main() {
+    vector<Student> roster;        // no size needed at declaration
+
+    Student s;
+    s.setName("Alice");  s.setGrade(92);  roster.push_back(s);
+    s.setName("Bob");    s.setGrade(85);  roster.push_back(s);
+    s.setName("Carol");  s.setGrade(97);  roster.push_back(s);
+
+    cout << "Roster size: " << roster.size() << "\n";
+    return 0;
+}
+```
+
+<!-- Slide 2 -->
+
+---
+
+## Looping — index vs. range-for {.smaller}
+
+```{.cpp}
+// Index loop — use when you need the position
+for (int i = 0; i < roster.size(); i++)
+    cout << i + 1 << ". " << roster[i].getName()
+         << " — " << roster[i].getGrade() << "\n";
+
+// Range-for — use when you only need the value
+for (const Student& s : roster)
+    cout << s.getName() << ": " << s.getGrade() << "\n";
+```
+
+::: notes
+const Student& avoids copying the object on each iteration — important habit when objects are larger than primitives. The & is "pass by reference inside the loop"; const ensures the loop body cannot accidentally modify roster elements.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Finding the top student {.smaller}
+
+```{.cpp}
+// Max-tracker with a vector — same logic as with a static array
+int best = 0;
+for (int i = 1; i < roster.size(); i++)
+    if (roster[i].getGrade() > roster[best].getGrade()) best = i;
+
+cout << "Top student: " << roster[best].getName()
+     << " with " << roster[best].getGrade() << "\n";
+
+// Dynamic growth: read from user until "done"
+string name;
+while (cin >> name && name != "done") {
+    int g;  cin >> g;
+    Student tmp;  tmp.setName(name);  tmp.setGrade(g);
+    roster.push_back(tmp);
+}
+```
+
+::: notes
+The max-tracker code is identical to the static array version — only the declaration changed. The second block shows the real advantage of vector: students can enter as many records as they want without pre-allocating a size.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Summary {.smaller}
+
++ `vector<ClassName>` grows dynamically — declare it empty, add objects with `.push_back()`.
++ Access elements the same way as a static array: `vec[i].method()` or `for (const ClassName& obj : vec)`.
+
+<!-- Slide 5 -->
