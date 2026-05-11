@@ -259,7 +259,7 @@ Dr.&nbsp;Caleb Fowler
           display:block!important;
       }</style></aside>
 <!-- Topic 1: Arrays of Objects -->
-<!-- Total slides: 12 -->
+<!-- Total slides: 11 -->
 </section>
 
 <section>
@@ -274,7 +274,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Each element gives you access to all of that object’s public methods via dot notation.</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 12 Students know arrays of structs from 15.02. This is the same pattern: Student roster[5] whether Student is a struct or a class. The new wrinkle is roster[i].method() — same two-step access, but now calling a function rather than reading a member directly.</p>
+<p>Total slides: 11 Students know arrays of structs from 15.02. This is the same pattern: Student roster[5] whether Student is a struct or a class. The new wrinkle is roster[i].method() — same two-step access, but now calling a function rather than reading a member directly.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -576,48 +576,14 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 10 -->
 </section>
-<section id="the-class-as-a-collaborator" class="slide level2 smaller">
-<h2>The class as a collaborator</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="co">// Before: main compares grades directly</span></span>
-<span id="cb9-2"><a href=""></a><span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&gt;</span> roster<span class="op">[</span>best<span class="op">].</span>getGrade<span class="op">())</span> best <span class="op">=</span> i<span class="op">;</span></span>
-<span id="cb9-3"><a href=""></a></span>
-<span id="cb9-4"><a href=""></a><span class="co">// After: the class does the comparison</span></span>
-<span id="cb9-5"><a href=""></a><span class="kw">class</span> Student <span class="op">{</span></span>
-<span id="cb9-6"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
-<span id="cb9-7"><a href=""></a>    <span class="dt">bool</span> isBetterThan<span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> other<span class="op">)</span> <span class="at">const</span> <span class="op">{</span></span>
-<span id="cb9-8"><a href=""></a>        <span class="cf">return</span> grade <span class="op">&gt;</span> other<span class="op">.</span>grade<span class="op">;</span></span>
-<span id="cb9-9"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb9-10"><a href=""></a><span class="op">};</span></span>
-<span id="cb9-11"><a href=""></a></span>
-<span id="cb9-12"><a href=""></a><span class="co">// main becomes readable</span></span>
-<span id="cb9-13"><a href=""></a><span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>isBetterThan<span class="op">(</span>roster<span class="op">[</span>best<span class="op">]))</span> best <span class="op">=</span> i<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>isBetterThan</code> moves the comparison rule into the class — if “better” changes, you update one method, not every loop.</li>
-<li>The method is <code>const</code> because it reads but does not change; the parameter is <code>const Student&amp;</code> for the same reason.</li>
-</ul>
-<aside class="notes">
-<p>Keep it simple. The takeaway: classes can express relationships between instances, not just describe a single instance. The before/after is the whole lesson. [Option to revisit: printAsWinner() printing “Alice wins with 97” for richer self-description. Also: isBetterThan with std::max_element once students know STL algorithms. Both deferred for CISP 400.]</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 11 -->
-</section>
 <section id="summary" class="slide level2 smaller">
 <h2>Summary</h2>
 <ul>
 <li><code>ClassName array[n]</code> — same syntax as any array; the class is the element type. Access: <code>array[i].method()</code>.</li>
 <li>Use constructor calls to populate an array at declaration or at runtime — no setter chains, no partially initialized state.</li>
-<li>Keep display logic in <code>print()</code> and comparison logic in methods like <code>isBetterThan</code> — main should orchestrate, not compute.</li>
+<li>Keep display logic in <code>print()</code> — main should orchestrate, not compute.</li>
 </ul>
-<!-- Slide 12 -->
+<!-- Slide 11 -->
 <!-- Topic 2: Vectors of Objects -->
 <!-- Total slides: 13 -->
 </section></section>
@@ -646,42 +612,42 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="declaring-and-adding-objects" class="slide level2 smaller">
 <h2>Declaring and adding objects</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb10-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb10-3"><a href=""></a></span>
-<span id="cb10-4"><a href=""></a><span class="kw">class</span> Student <span class="op">{</span></span>
-<span id="cb10-5"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
-<span id="cb10-6"><a href=""></a>    string name<span class="op">;</span></span>
-<span id="cb10-7"><a href=""></a>    <span class="dt">int</span>    grade <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb10-8"><a href=""></a>    <span class="dt">void</span>   setName<span class="op">(</span>string n<span class="op">)</span>  <span class="op">{</span> name <span class="op">=</span> n<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb10-9"><a href=""></a>    <span class="dt">void</span>   setGrade<span class="op">(</span><span class="dt">int</span> g<span class="op">)</span>    <span class="op">{</span> grade <span class="op">=</span> g<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb10-10"><a href=""></a>    string getName<span class="op">()</span>  <span class="at">const</span>   <span class="op">{</span> <span class="cf">return</span> name<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb10-11"><a href=""></a>    <span class="dt">int</span>    getGrade<span class="op">()</span> <span class="at">const</span>   <span class="op">{</span> <span class="cf">return</span> grade<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb10-12"><a href=""></a><span class="op">};</span></span>
-<span id="cb10-13"><a href=""></a></span>
-<span id="cb10-14"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb10-15"><a href=""></a>    vector<span class="op">&lt;</span>Student<span class="op">&gt;</span> roster<span class="op">;</span>        <span class="co">// no size needed at declaration</span></span>
-<span id="cb10-16"><a href=""></a></span>
-<span id="cb10-17"><a href=""></a>    Student s<span class="op">;</span></span>
-<span id="cb10-18"><a href=""></a>    s<span class="op">.</span>setName<span class="op">(</span><span class="st">"Alice"</span><span class="op">);</span>  s<span class="op">.</span>setGrade<span class="op">(</span><span class="dv">92</span><span class="op">);</span>  roster<span class="op">.</span>push_back<span class="op">(</span>s<span class="op">);</span></span>
-<span id="cb10-19"><a href=""></a>    s<span class="op">.</span>setName<span class="op">(</span><span class="st">"Bob"</span><span class="op">);</span>    s<span class="op">.</span>setGrade<span class="op">(</span><span class="dv">85</span><span class="op">);</span>  roster<span class="op">.</span>push_back<span class="op">(</span>s<span class="op">);</span></span>
-<span id="cb10-20"><a href=""></a>    s<span class="op">.</span>setName<span class="op">(</span><span class="st">"Carol"</span><span class="op">);</span>  s<span class="op">.</span>setGrade<span class="op">(</span><span class="dv">97</span><span class="op">);</span>  roster<span class="op">.</span>push_back<span class="op">(</span>s<span class="op">);</span></span>
-<span id="cb10-21"><a href=""></a></span>
-<span id="cb10-22"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Roster size: "</span> <span class="op">&lt;&lt;</span> roster<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb10-23"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb10-24"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb9-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a></span>
+<span id="cb9-4"><a href=""></a><span class="kw">class</span> Student <span class="op">{</span></span>
+<span id="cb9-5"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb9-6"><a href=""></a>    string name<span class="op">;</span></span>
+<span id="cb9-7"><a href=""></a>    <span class="dt">int</span>    grade <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-8"><a href=""></a>    <span class="dt">void</span>   setName<span class="op">(</span>string n<span class="op">)</span>  <span class="op">{</span> name <span class="op">=</span> n<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb9-9"><a href=""></a>    <span class="dt">void</span>   setGrade<span class="op">(</span><span class="dt">int</span> g<span class="op">)</span>    <span class="op">{</span> grade <span class="op">=</span> g<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb9-10"><a href=""></a>    string getName<span class="op">()</span>  <span class="at">const</span>   <span class="op">{</span> <span class="cf">return</span> name<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb9-11"><a href=""></a>    <span class="dt">int</span>    getGrade<span class="op">()</span> <span class="at">const</span>   <span class="op">{</span> <span class="cf">return</span> grade<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb9-12"><a href=""></a><span class="op">};</span></span>
+<span id="cb9-13"><a href=""></a></span>
+<span id="cb9-14"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-15"><a href=""></a>    vector<span class="op">&lt;</span>Student<span class="op">&gt;</span> roster<span class="op">;</span>        <span class="co">// no size needed at declaration</span></span>
+<span id="cb9-16"><a href=""></a></span>
+<span id="cb9-17"><a href=""></a>    Student s<span class="op">;</span></span>
+<span id="cb9-18"><a href=""></a>    s<span class="op">.</span>setName<span class="op">(</span><span class="st">"Alice"</span><span class="op">);</span>  s<span class="op">.</span>setGrade<span class="op">(</span><span class="dv">92</span><span class="op">);</span>  roster<span class="op">.</span>push_back<span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb9-19"><a href=""></a>    s<span class="op">.</span>setName<span class="op">(</span><span class="st">"Bob"</span><span class="op">);</span>    s<span class="op">.</span>setGrade<span class="op">(</span><span class="dv">85</span><span class="op">);</span>  roster<span class="op">.</span>push_back<span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb9-20"><a href=""></a>    s<span class="op">.</span>setName<span class="op">(</span><span class="st">"Carol"</span><span class="op">);</span>  s<span class="op">.</span>setGrade<span class="op">(</span><span class="dv">97</span><span class="op">);</span>  roster<span class="op">.</span>push_back<span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb9-21"><a href=""></a></span>
+<span id="cb9-22"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Roster size: "</span> <span class="op">&lt;&lt;</span> roster<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb9-23"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-24"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <!-- Slide 2 -->
 </section>
 <section id="looping-index-vs.-range-for" class="slide level2 smaller">
 <h2>Looping — index vs.&nbsp;range-for</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="co">// Index loop — use when you need the position</span></span>
-<span id="cb11-2"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> roster<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span></span>
-<span id="cb11-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">". "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>getName<span class="op">()</span></span>
-<span id="cb11-4"><a href=""></a>         <span class="op">&lt;&lt;</span> <span class="st">" — "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb11-5"><a href=""></a></span>
-<span id="cb11-6"><a href=""></a><span class="co">// Range-for — use when you only need the value</span></span>
-<span id="cb11-7"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> s <span class="op">:</span> roster<span class="op">)</span></span>
-<span id="cb11-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> s<span class="op">.</span>getName<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> s<span class="op">.</span>getGrade<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="co">// Index loop — use when you need the position</span></span>
+<span id="cb10-2"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> roster<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span></span>
+<span id="cb10-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">". "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>getName<span class="op">()</span></span>
+<span id="cb10-4"><a href=""></a>         <span class="op">&lt;&lt;</span> <span class="st">" — "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb10-5"><a href=""></a></span>
+<span id="cb10-6"><a href=""></a><span class="co">// Range-for — use when you only need the value</span></span>
+<span id="cb10-7"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> s <span class="op">:</span> roster<span class="op">)</span></span>
+<span id="cb10-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> s<span class="op">.</span>getName<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> s<span class="op">.</span>getGrade<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
 <p>const Student&amp; avoids copying the object on each iteration — important habit when objects are larger than primitives. The &amp; is “pass by reference inside the loop”; const ensures the loop body cannot accidentally modify roster elements.</p>
 <style type="text/css">
@@ -699,21 +665,21 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="finding-the-top-student" class="slide level2 smaller">
 <h2>Finding the top student</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="co">// Max-tracker with a vector — same logic as with a static array</span></span>
-<span id="cb12-2"><a href=""></a><span class="dt">int</span> best <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb12-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> roster<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span></span>
-<span id="cb12-4"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&gt;</span> roster<span class="op">[</span>best<span class="op">].</span>getGrade<span class="op">())</span> best <span class="op">=</span> i<span class="op">;</span></span>
-<span id="cb12-5"><a href=""></a></span>
-<span id="cb12-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Top student: "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>best<span class="op">].</span>getName<span class="op">()</span></span>
-<span id="cb12-7"><a href=""></a>     <span class="op">&lt;&lt;</span> <span class="st">" with "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>best<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb12-8"><a href=""></a></span>
-<span id="cb12-9"><a href=""></a><span class="co">// Dynamic growth: read from user until "done"</span></span>
-<span id="cb12-10"><a href=""></a>string name<span class="op">;</span></span>
-<span id="cb12-11"><a href=""></a><span class="cf">while</span> <span class="op">(</span>cin <span class="op">&gt;&gt;</span> name <span class="op">&amp;&amp;</span> name <span class="op">!=</span> <span class="st">"done"</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb12-12"><a href=""></a>    <span class="dt">int</span> g<span class="op">;</span>  cin <span class="op">&gt;&gt;</span> g<span class="op">;</span></span>
-<span id="cb12-13"><a href=""></a>    Student tmp<span class="op">;</span>  tmp<span class="op">.</span>setName<span class="op">(</span>name<span class="op">);</span>  tmp<span class="op">.</span>setGrade<span class="op">(</span>g<span class="op">);</span></span>
-<span id="cb12-14"><a href=""></a>    roster<span class="op">.</span>push_back<span class="op">(</span>tmp<span class="op">);</span></span>
-<span id="cb12-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="co">// Max-tracker with a vector — same logic as with a static array</span></span>
+<span id="cb11-2"><a href=""></a><span class="dt">int</span> best <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> roster<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span></span>
+<span id="cb11-4"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&gt;</span> roster<span class="op">[</span>best<span class="op">].</span>getGrade<span class="op">())</span> best <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb11-5"><a href=""></a></span>
+<span id="cb11-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Top student: "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>best<span class="op">].</span>getName<span class="op">()</span></span>
+<span id="cb11-7"><a href=""></a>     <span class="op">&lt;&lt;</span> <span class="st">" with "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>best<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb11-8"><a href=""></a></span>
+<span id="cb11-9"><a href=""></a><span class="co">// Dynamic growth: read from user until "done"</span></span>
+<span id="cb11-10"><a href=""></a>string name<span class="op">;</span></span>
+<span id="cb11-11"><a href=""></a><span class="cf">while</span> <span class="op">(</span>cin <span class="op">&gt;&gt;</span> name <span class="op">&amp;&amp;</span> name <span class="op">!=</span> <span class="st">"done"</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-12"><a href=""></a>    <span class="dt">int</span> g<span class="op">;</span>  cin <span class="op">&gt;&gt;</span> g<span class="op">;</span></span>
+<span id="cb11-13"><a href=""></a>    Student tmp<span class="op">;</span>  tmp<span class="op">.</span>setName<span class="op">(</span>name<span class="op">);</span>  tmp<span class="op">.</span>setGrade<span class="op">(</span>g<span class="op">);</span></span>
+<span id="cb11-14"><a href=""></a>    roster<span class="op">.</span>push_back<span class="op">(</span>tmp<span class="op">);</span></span>
+<span id="cb11-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
 <p>The max-tracker code is identical to the static array version — only the declaration changed. The second block shows the real advantage of vector: students can enter as many records as they want without pre-allocating a size.</p>
 <style type="text/css">
@@ -731,17 +697,17 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="upgrading-student-with-constructors-1" class="slide level2 smaller">
 <h2>Upgrading Student with constructors</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="kw">class</span> Student <span class="op">{</span></span>
-<span id="cb13-2"><a href=""></a><span class="kw">private</span><span class="op">:</span></span>
-<span id="cb13-3"><a href=""></a>    string name<span class="op">;</span></span>
-<span id="cb13-4"><a href=""></a>    <span class="dt">int</span>    grade<span class="op">;</span></span>
-<span id="cb13-5"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
-<span id="cb13-6"><a href=""></a>    Student<span class="op">()</span>                <span class="op">{</span> name <span class="op">=</span> <span class="st">"Unknown"</span><span class="op">;</span> grade <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb13-7"><a href=""></a>    Student<span class="op">(</span>string n<span class="op">,</span> <span class="dt">int</span> g<span class="op">)</span> <span class="op">{</span> name <span class="op">=</span> n<span class="op">;</span> grade <span class="op">=</span> g<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb13-8"><a href=""></a>    <span class="dt">void</span>   print<span class="op">()</span> <span class="at">const</span>     <span class="op">{</span> cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> grade <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb13-9"><a href=""></a>    string getName<span class="op">()</span>  <span class="at">const</span>  <span class="op">{</span> <span class="cf">return</span> name<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb13-10"><a href=""></a>    <span class="dt">int</span>    getGrade<span class="op">()</span> <span class="at">const</span>  <span class="op">{</span> <span class="cf">return</span> grade<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb13-11"><a href=""></a><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="kw">class</span> Student <span class="op">{</span></span>
+<span id="cb12-2"><a href=""></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb12-3"><a href=""></a>    string name<span class="op">;</span></span>
+<span id="cb12-4"><a href=""></a>    <span class="dt">int</span>    grade<span class="op">;</span></span>
+<span id="cb12-5"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb12-6"><a href=""></a>    Student<span class="op">()</span>                <span class="op">{</span> name <span class="op">=</span> <span class="st">"Unknown"</span><span class="op">;</span> grade <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb12-7"><a href=""></a>    Student<span class="op">(</span>string n<span class="op">,</span> <span class="dt">int</span> g<span class="op">)</span> <span class="op">{</span> name <span class="op">=</span> n<span class="op">;</span> grade <span class="op">=</span> g<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb12-8"><a href=""></a>    <span class="dt">void</span>   print<span class="op">()</span> <span class="at">const</span>     <span class="op">{</span> cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> grade <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb12-9"><a href=""></a>    string getName<span class="op">()</span>  <span class="at">const</span>  <span class="op">{</span> <span class="cf">return</span> name<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb12-10"><a href=""></a>    <span class="dt">int</span>    getGrade<span class="op">()</span> <span class="at">const</span>  <span class="op">{</span> <span class="cf">return</span> grade<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb12-11"><a href=""></a><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>The default constructor lets <code>vector&lt;Student&gt; v(n)</code> pre-allocate elements and is required by many STL operations.</li>
 <li>The parameterized constructor lets each <code>push_back</code> create a fully initialized object in a single expression.</li>
@@ -763,14 +729,14 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="push_back-with-constructor-calls" class="slide level2 smaller">
 <h2>push_back with constructor calls</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a>vector<span class="op">&lt;</span>Student<span class="op">&gt;</span> roster<span class="op">;</span></span>
-<span id="cb14-2"><a href=""></a></span>
-<span id="cb14-3"><a href=""></a>roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">92</span><span class="op">));</span></span>
-<span id="cb14-4"><a href=""></a>roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Bob"</span><span class="op">,</span>   <span class="dv">85</span><span class="op">));</span></span>
-<span id="cb14-5"><a href=""></a>roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Carol"</span><span class="op">,</span> <span class="dv">97</span><span class="op">));</span></span>
-<span id="cb14-6"><a href=""></a>roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Dan"</span><span class="op">,</span>   <span class="dv">78</span><span class="op">));</span></span>
-<span id="cb14-7"><a href=""></a></span>
-<span id="cb14-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Roster size: "</span> <span class="op">&lt;&lt;</span> roster<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a>vector<span class="op">&lt;</span>Student<span class="op">&gt;</span> roster<span class="op">;</span></span>
+<span id="cb13-2"><a href=""></a></span>
+<span id="cb13-3"><a href=""></a>roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">92</span><span class="op">));</span></span>
+<span id="cb13-4"><a href=""></a>roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Bob"</span><span class="op">,</span>   <span class="dv">85</span><span class="op">));</span></span>
+<span id="cb13-5"><a href=""></a>roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Carol"</span><span class="op">,</span> <span class="dv">97</span><span class="op">));</span></span>
+<span id="cb13-6"><a href=""></a>roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Dan"</span><span class="op">,</span>   <span class="dv">78</span><span class="op">));</span></span>
+<span id="cb13-7"><a href=""></a></span>
+<span id="cb13-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Roster size: "</span> <span class="op">&lt;&lt;</span> roster<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Each <code>push_back</code> receives a fully constructed temporary — no setter chain, no partially initialized state.</li>
 <li>Compare to slide 2: this replaces the reused <code>s</code> variable and three setter calls per element.</li>
@@ -792,16 +758,16 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="dynamic-input-with-constructors" class="slide level2 smaller">
 <h2>Dynamic input with constructors</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a>vector<span class="op">&lt;</span>Student<span class="op">&gt;</span> roster<span class="op">;</span></span>
-<span id="cb15-2"><a href=""></a>string name<span class="op">;</span></span>
-<span id="cb15-3"><a href=""></a><span class="dt">int</span>    grade<span class="op">;</span></span>
-<span id="cb15-4"><a href=""></a></span>
-<span id="cb15-5"><a href=""></a><span class="cf">while</span> <span class="op">(</span>cin <span class="op">&gt;&gt;</span> name <span class="op">&amp;&amp;</span> name <span class="op">!=</span> <span class="st">"done"</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb15-6"><a href=""></a>    cin <span class="op">&gt;&gt;</span> grade<span class="op">;</span></span>
-<span id="cb15-7"><a href=""></a>    roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span>name<span class="op">,</span> grade<span class="op">));</span>   <span class="co">// construct and add in one line</span></span>
-<span id="cb15-8"><a href=""></a><span class="op">}</span></span>
-<span id="cb15-9"><a href=""></a></span>
-<span id="cb15-10"><a href=""></a>cout <span class="op">&lt;&lt;</span> roster<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" students entered.</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a>vector<span class="op">&lt;</span>Student<span class="op">&gt;</span> roster<span class="op">;</span></span>
+<span id="cb14-2"><a href=""></a>string name<span class="op">;</span></span>
+<span id="cb14-3"><a href=""></a><span class="dt">int</span>    grade<span class="op">;</span></span>
+<span id="cb14-4"><a href=""></a></span>
+<span id="cb14-5"><a href=""></a><span class="cf">while</span> <span class="op">(</span>cin <span class="op">&gt;&gt;</span> name <span class="op">&amp;&amp;</span> name <span class="op">!=</span> <span class="st">"done"</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-6"><a href=""></a>    cin <span class="op">&gt;&gt;</span> grade<span class="op">;</span></span>
+<span id="cb14-7"><a href=""></a>    roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span>name<span class="op">,</span> grade<span class="op">));</span>   <span class="co">// construct and add in one line</span></span>
+<span id="cb14-8"><a href=""></a><span class="op">}</span></span>
+<span id="cb14-9"><a href=""></a></span>
+<span id="cb14-10"><a href=""></a>cout <span class="op">&lt;&lt;</span> roster<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" students entered.</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>The vector grows automatically with each <code>push_back</code> — no SIZE constant needed.</li>
 <li>The constructor call inside <code>push_back</code> creates a complete object from user input without a temporary variable.</li>
@@ -823,20 +789,20 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="using-print-instead-of-getters-1" class="slide level2 smaller">
 <h2>Using Print() instead of getters</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="co">// Index loop with print()</span></span>
-<span id="cb16-2"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> roster<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span></span>
-<span id="cb16-3"><a href=""></a>    roster<span class="op">[</span>i<span class="op">].</span>print<span class="op">();</span></span>
-<span id="cb16-4"><a href=""></a></span>
-<span id="cb16-5"><a href=""></a><span class="co">// Range-for with print() — cleaner for display</span></span>
-<span id="cb16-6"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> s <span class="op">:</span> roster<span class="op">)</span></span>
-<span id="cb16-7"><a href=""></a>    s<span class="op">.</span>print<span class="op">();</span></span>
-<span id="cb16-8"><a href=""></a></span>
-<span id="cb16-9"><a href=""></a><span class="co">// Max-tracker still uses getters — Print() is for output only</span></span>
-<span id="cb16-10"><a href=""></a><span class="dt">int</span> best <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb16-11"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>roster<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span></span>
-<span id="cb16-12"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&gt;</span> roster<span class="op">[</span>best<span class="op">].</span>getGrade<span class="op">())</span> best <span class="op">=</span> i<span class="op">;</span></span>
-<span id="cb16-13"><a href=""></a></span>
-<span id="cb16-14"><a href=""></a>roster<span class="op">[</span>best<span class="op">].</span>print<span class="op">();</span>   <span class="co">// display the winner</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="co">// Index loop with print()</span></span>
+<span id="cb15-2"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> roster<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span></span>
+<span id="cb15-3"><a href=""></a>    roster<span class="op">[</span>i<span class="op">].</span>print<span class="op">();</span></span>
+<span id="cb15-4"><a href=""></a></span>
+<span id="cb15-5"><a href=""></a><span class="co">// Range-for with print() — cleaner for display</span></span>
+<span id="cb15-6"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> s <span class="op">:</span> roster<span class="op">)</span></span>
+<span id="cb15-7"><a href=""></a>    s<span class="op">.</span>print<span class="op">();</span></span>
+<span id="cb15-8"><a href=""></a></span>
+<span id="cb15-9"><a href=""></a><span class="co">// Max-tracker still uses getters — Print() is for output only</span></span>
+<span id="cb15-10"><a href=""></a><span class="dt">int</span> best <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb15-11"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>roster<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span></span>
+<span id="cb15-12"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&gt;</span> roster<span class="op">[</span>best<span class="op">].</span>getGrade<span class="op">())</span> best <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb15-13"><a href=""></a></span>
+<span id="cb15-14"><a href=""></a>roster<span class="op">[</span>best<span class="op">].</span>print<span class="op">();</span>   <span class="co">// display the winner</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
 <p>print() and getters serve different purposes: print() is for human-readable output; getters are for logic that needs to inspect a value. The max-tracker must compare grades, so it uses getGrade(). The final display uses print(). Students should understand when each is appropriate.</p>
 <style type="text/css">
@@ -876,12 +842,12 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="const-correctness-1" class="slide level2 smaller">
 <h2>Const correctness</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="co">// This compiles:</span></span>
-<span id="cb17-2"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> s <span class="op">:</span> roster<span class="op">)</span></span>
-<span id="cb17-3"><a href=""></a>    s<span class="op">.</span>print<span class="op">();</span>          <span class="co">// print() is marked const — OK</span></span>
-<span id="cb17-4"><a href=""></a></span>
-<span id="cb17-5"><a href=""></a><span class="co">// If print() were NOT marked const:</span></span>
-<span id="cb17-6"><a href=""></a><span class="co">// error: passing 'const Student' as 'this' discards qualifiers</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="co">// This compiles:</span></span>
+<span id="cb16-2"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> s <span class="op">:</span> roster<span class="op">)</span></span>
+<span id="cb16-3"><a href=""></a>    s<span class="op">.</span>print<span class="op">();</span>          <span class="co">// print() is marked const — OK</span></span>
+<span id="cb16-4"><a href=""></a></span>
+<span id="cb16-5"><a href=""></a><span class="co">// If print() were NOT marked const:</span></span>
+<span id="cb16-6"><a href=""></a><span class="co">// error: passing 'const Student' as 'this' discards qualifiers</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>const Student&amp; s</code> avoids copying the object and promises not to modify it.</li>
 <li>The compiler enforces that promise — only methods marked <code>const</code> are callable on a <code>const</code> object.</li>
@@ -904,18 +870,18 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="passing-a-roster-to-a-function-1" class="slide level2 smaller">
 <h2>Passing a roster to a function</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">void</span> printRoster<span class="op">(</span><span class="at">const</span> vector<span class="op">&lt;</span>Student<span class="op">&gt;&amp;</span> roster<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> s <span class="op">:</span> roster<span class="op">)</span></span>
-<span id="cb18-3"><a href=""></a>        s<span class="op">.</span>print<span class="op">();</span></span>
-<span id="cb18-4"><a href=""></a><span class="op">}</span></span>
-<span id="cb18-5"><a href=""></a></span>
-<span id="cb18-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb18-7"><a href=""></a>    vector<span class="op">&lt;</span>Student<span class="op">&gt;</span> roster<span class="op">;</span></span>
-<span id="cb18-8"><a href=""></a>    roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">92</span><span class="op">));</span></span>
-<span id="cb18-9"><a href=""></a>    roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Bob"</span><span class="op">,</span>   <span class="dv">85</span><span class="op">));</span></span>
-<span id="cb18-10"><a href=""></a>    roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Carol"</span><span class="op">,</span> <span class="dv">97</span><span class="op">));</span></span>
-<span id="cb18-11"><a href=""></a>    printRoster<span class="op">(</span>roster<span class="op">);</span></span>
-<span id="cb18-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">void</span> printRoster<span class="op">(</span><span class="at">const</span> vector<span class="op">&lt;</span>Student<span class="op">&gt;&amp;</span> roster<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> s <span class="op">:</span> roster<span class="op">)</span></span>
+<span id="cb17-3"><a href=""></a>        s<span class="op">.</span>print<span class="op">();</span></span>
+<span id="cb17-4"><a href=""></a><span class="op">}</span></span>
+<span id="cb17-5"><a href=""></a></span>
+<span id="cb17-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb17-7"><a href=""></a>    vector<span class="op">&lt;</span>Student<span class="op">&gt;</span> roster<span class="op">;</span></span>
+<span id="cb17-8"><a href=""></a>    roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">92</span><span class="op">));</span></span>
+<span id="cb17-9"><a href=""></a>    roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Bob"</span><span class="op">,</span>   <span class="dv">85</span><span class="op">));</span></span>
+<span id="cb17-10"><a href=""></a>    roster<span class="op">.</span>push_back<span class="op">(</span>Student<span class="op">(</span><span class="st">"Carol"</span><span class="op">,</span> <span class="dv">97</span><span class="op">));</span></span>
+<span id="cb17-11"><a href=""></a>    printRoster<span class="op">(</span>roster<span class="op">);</span></span>
+<span id="cb17-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>const vector&lt;Student&gt;&amp;</code> — the function reads the vector without copying it or modifying it.</li>
 <li>No size parameter needed; the vector already knows its own length via <code>.size()</code>.</li>
@@ -935,21 +901,21 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 11 -->
 </section>
-<section id="the-class-as-a-collaborator-1" class="slide level2 smaller">
+<section id="the-class-as-a-collaborator" class="slide level2 smaller">
 <h2>The class as a collaborator</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="co">// Before: main compares grades directly</span></span>
-<span id="cb19-2"><a href=""></a><span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&gt;</span> roster<span class="op">[</span>best<span class="op">].</span>getGrade<span class="op">())</span> best <span class="op">=</span> i<span class="op">;</span></span>
-<span id="cb19-3"><a href=""></a></span>
-<span id="cb19-4"><a href=""></a><span class="co">// After: the class does the comparison</span></span>
-<span id="cb19-5"><a href=""></a><span class="kw">class</span> Student <span class="op">{</span></span>
-<span id="cb19-6"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
-<span id="cb19-7"><a href=""></a>    <span class="dt">bool</span> isBetterThan<span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> other<span class="op">)</span> <span class="at">const</span> <span class="op">{</span></span>
-<span id="cb19-8"><a href=""></a>        <span class="cf">return</span> grade <span class="op">&gt;</span> other<span class="op">.</span>grade<span class="op">;</span></span>
-<span id="cb19-9"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb19-10"><a href=""></a><span class="op">};</span></span>
-<span id="cb19-11"><a href=""></a></span>
-<span id="cb19-12"><a href=""></a><span class="co">// main becomes readable</span></span>
-<span id="cb19-13"><a href=""></a><span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>isBetterThan<span class="op">(</span>roster<span class="op">[</span>best<span class="op">]))</span> best <span class="op">=</span> i<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="co">// Before: main compares grades directly</span></span>
+<span id="cb18-2"><a href=""></a><span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&gt;</span> roster<span class="op">[</span>best<span class="op">].</span>getGrade<span class="op">())</span> best <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb18-3"><a href=""></a></span>
+<span id="cb18-4"><a href=""></a><span class="co">// After: the class does the comparison</span></span>
+<span id="cb18-5"><a href=""></a><span class="kw">class</span> Student <span class="op">{</span></span>
+<span id="cb18-6"><a href=""></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb18-7"><a href=""></a>    <span class="dt">bool</span> isBetterThan<span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> other<span class="op">)</span> <span class="at">const</span> <span class="op">{</span></span>
+<span id="cb18-8"><a href=""></a>        <span class="cf">return</span> grade <span class="op">&gt;</span> other<span class="op">.</span>grade<span class="op">;</span></span>
+<span id="cb18-9"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb18-10"><a href=""></a><span class="op">};</span></span>
+<span id="cb18-11"><a href=""></a></span>
+<span id="cb18-12"><a href=""></a><span class="co">// main becomes readable</span></span>
+<span id="cb18-13"><a href=""></a><span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>isBetterThan<span class="op">(</span>roster<span class="op">[</span>best<span class="op">]))</span> best <span class="op">=</span> i<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>isBetterThan</code> moves the comparison rule into the class — if “better” changes, you update one method, not every loop.</li>
 <li>The method is <code>const</code> because it reads but does not change; the parameter is <code>const Student&amp;</code> for the same reason.</li>
@@ -1037,17 +1003,17 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="arrays-of-objects-more-examples" class="slide level2">
 <h2>Arrays of Objects: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="co">// Printing all objects with a helper function</span></span>
-<span id="cb20-2"><a href=""></a><span class="dt">void</span> printRoster<span class="op">(</span>Student roster<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb20-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb20-4"><a href=""></a>        cout <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>getName<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb20-5"><a href=""></a><span class="op">}</span></span>
-<span id="cb20-6"><a href=""></a></span>
-<span id="cb20-7"><a href=""></a><span class="co">// Finding minimum grade</span></span>
-<span id="cb20-8"><a href=""></a><span class="dt">int</span> worst <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb20-9"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb20-10"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&lt;</span> roster<span class="op">[</span>worst<span class="op">].</span>getGrade<span class="op">())</span> worst <span class="op">=</span> i<span class="op">;</span></span>
-<span id="cb20-11"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Lowest: "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>worst<span class="op">].</span>getName<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="co">// Printing all objects with a helper function</span></span>
+<span id="cb19-2"><a href=""></a><span class="dt">void</span> printRoster<span class="op">(</span>Student roster<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb19-4"><a href=""></a>        cout <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>getName<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb19-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb19-6"><a href=""></a></span>
+<span id="cb19-7"><a href=""></a><span class="co">// Finding minimum grade</span></span>
+<span id="cb19-8"><a href=""></a><span class="dt">int</span> worst <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb19-9"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb19-10"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>roster<span class="op">[</span>i<span class="op">].</span>getGrade<span class="op">()</span> <span class="op">&lt;</span> roster<span class="op">[</span>worst<span class="op">].</span>getGrade<span class="op">())</span> worst <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb19-11"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Lowest: "</span> <span class="op">&lt;&lt;</span> roster<span class="op">[</span>worst<span class="op">].</span>getName<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="arrays-of-objects-practice-problems" class="slide level2">
 <h2>Arrays of Objects: Practice Problems</h2>
@@ -1094,20 +1060,20 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="vectors-of-objects-more-examples" class="slide level2">
 <h2>Vectors of Objects: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="co">// Remove a student by index (erase)</span></span>
-<span id="cb21-2"><a href=""></a>roster<span class="op">.</span>erase<span class="op">(</span>roster<span class="op">.</span>begin<span class="op">()</span> <span class="op">+</span> <span class="dv">2</span><span class="op">);</span>   <span class="co">// removes element at index 2</span></span>
-<span id="cb21-3"><a href=""></a></span>
-<span id="cb21-4"><a href=""></a><span class="co">// Sort by grade using a lambda (C++11)</span></span>
-<span id="cb21-5"><a href=""></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
-<span id="cb21-6"><a href=""></a>sort<span class="op">(</span>roster<span class="op">.</span>begin<span class="op">(),</span> roster<span class="op">.</span>end<span class="op">(),</span></span>
-<span id="cb21-7"><a href=""></a>     <span class="op">[](</span><span class="at">const</span> Student<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Student<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb21-8"><a href=""></a>         <span class="cf">return</span> a<span class="op">.</span>getGrade<span class="op">()</span> <span class="op">&gt;</span> b<span class="op">.</span>getGrade<span class="op">();</span>   <span class="co">// descending</span></span>
-<span id="cb21-9"><a href=""></a>     <span class="op">});</span></span>
-<span id="cb21-10"><a href=""></a></span>
-<span id="cb21-11"><a href=""></a><span class="co">// Count students above 90</span></span>
-<span id="cb21-12"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb21-13"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> s <span class="op">:</span> roster<span class="op">)</span></span>
-<span id="cb21-14"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>s<span class="op">.</span>getGrade<span class="op">()</span> <span class="op">&gt;=</span> <span class="dv">90</span><span class="op">)</span> count<span class="op">++;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="co">// Remove a student by index (erase)</span></span>
+<span id="cb20-2"><a href=""></a>roster<span class="op">.</span>erase<span class="op">(</span>roster<span class="op">.</span>begin<span class="op">()</span> <span class="op">+</span> <span class="dv">2</span><span class="op">);</span>   <span class="co">// removes element at index 2</span></span>
+<span id="cb20-3"><a href=""></a></span>
+<span id="cb20-4"><a href=""></a><span class="co">// Sort by grade using a lambda (C++11)</span></span>
+<span id="cb20-5"><a href=""></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb20-6"><a href=""></a>sort<span class="op">(</span>roster<span class="op">.</span>begin<span class="op">(),</span> roster<span class="op">.</span>end<span class="op">(),</span></span>
+<span id="cb20-7"><a href=""></a>     <span class="op">[](</span><span class="at">const</span> Student<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Student<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-8"><a href=""></a>         <span class="cf">return</span> a<span class="op">.</span>getGrade<span class="op">()</span> <span class="op">&gt;</span> b<span class="op">.</span>getGrade<span class="op">();</span>   <span class="co">// descending</span></span>
+<span id="cb20-9"><a href=""></a>     <span class="op">});</span></span>
+<span id="cb20-10"><a href=""></a></span>
+<span id="cb20-11"><a href=""></a><span class="co">// Count students above 90</span></span>
+<span id="cb20-12"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb20-13"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="at">const</span> Student<span class="op">&amp;</span> s <span class="op">:</span> roster<span class="op">)</span></span>
+<span id="cb20-14"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>s<span class="op">.</span>getGrade<span class="op">()</span> <span class="op">&gt;=</span> <span class="dv">90</span><span class="op">)</span> count<span class="op">++;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="vectors-of-objects-practice-problems" class="slide level2">
 <h2>Vectors of Objects: Practice Problems</h2>
