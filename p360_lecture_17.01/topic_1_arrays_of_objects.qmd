@@ -1,5 +1,5 @@
 <!-- Topic 1: Arrays of Objects -->
-<!-- Total slides: 4 -->
+<!-- Total slides: 7 -->
 
 # Arrays of Objects
 
@@ -79,9 +79,91 @@ Max-tracker pattern is identical to arrays of structs — just replace roster[i]
 
 ---
 
+## Upgrading Student with constructors {.smaller}
+
+```{.cpp}
+class Student {
+private:
+    string name;
+    int    grade;
+public:
+    Student()                    { name = "Unknown"; grade = 0; }  // default
+    Student(string n, int g)     { name = n; grade = g; }         // parameterized
+
+    string getName()  const      { return name; }
+    int    getGrade() const      { return grade; }
+};
+```
+
++ The default constructor lets `Student roster[n]` compile — every element needs one.
++ The parameterized constructor lets individual elements be initialized in a single expression.
+
+::: notes
+This is the Student class from 16.02 applied directly to the array context. Emphasize the why: without the default constructor the array declaration fails; without the parameterized constructor the initialization list below won't work. Both are needed.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Initializing the array at declaration {.smaller}
+
+```{.cpp}
+const int SIZE = 4;
+
+Student roster[SIZE] = {
+    Student("Alice", 92),
+    Student("Bob",   85),
+    Student("Carol", 97),
+    Student("Dan",   78)
+};
+
+for (int i = 0; i < SIZE; i++)
+    cout << roster[i].getName() << ": " << roster[i].getGrade() << "\n";
+```
+
++ Each element in the initializer list is a constructor call — the object is fully initialized before the loop runs.
++ This replaces four pairs of `setName`/`setGrade` calls with a single compact block.
+
+::: notes
+Compare this directly to the setter chain in slide 3. The array initializer list is much more readable at scale — imagine 20 students. The constructor call syntax inside the braces creates a temporary Student that is copied into each slot.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Filling from user input with constructors {.smaller}
+
+```{.cpp}
+const int SIZE = 4;
+Student   roster[SIZE];          // default constructor fills each slot
+
+string name;
+int    grade;
+
+for (int i = 0; i < SIZE; i++) {
+    cout << "Name:  ";  cin >> name;
+    cout << "Grade: ";  cin >> grade;
+    roster[i] = Student(name, grade);   // construct and assign in one line
+}
+
+for (int i = 0; i < SIZE; i++)
+    cout << roster[i].getName() << ": " << roster[i].getGrade() << "\n";
+```
+
+::: notes
+This pattern — declare the array with the default constructor, then overwrite each element — is the idiomatic approach when data comes from the user at runtime rather than being known at compile time. Student(name, grade) creates a fully initialized temporary; the assignment operator copies it into roster[i].
+:::
+
+<!-- Slide 6 -->
+
+---
+
 ## Summary {.smaller}
 
 + `ClassName array[n]` — same syntax as any array; the class is the element type.
 + Access: `array[i].method()` — subscript first, then dot to call the method.
++ Use an initializer list with constructor calls to populate a known array at declaration; assign `ClassName(args)` inside a loop when data comes at runtime.
 
-<!-- Slide 4 -->
+<!-- Slide 7 -->
