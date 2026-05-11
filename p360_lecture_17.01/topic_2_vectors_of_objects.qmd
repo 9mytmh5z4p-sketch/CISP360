@@ -1,18 +1,18 @@
 <!-- Topic 2: Vectors of Objects -->
-<!-- Total slides: 9 -->
+<!-- Total slides: 13 -->
 
 # Vectors of Objects
 
 ---
 
-## Why a vector beats a static array for objects {.smaller}
+## The gradebook problem {.smaller}
 
-+ A static array of objects requires the size at compile time — you must know upfront how many objects you need.
-+ A `vector<ClassName>` grows as you add objects and exposes `.size()`, `.push_back()`, and the full STL algorithm set.
+You are writing a gradebook. You know there will be students — but you do not know how many until the semester starts. A static array requires a size at compile time: too small and it crashes; too large and you waste memory. A `vector<Student>` starts empty and grows with every `push_back`, no guessing required.
 
 ::: notes
-Total slides: 5
-Students know vectors from week 2 and static arrays from week 11. The connection here is mechanical: swap ClassName[] for vector<ClassName>. The loop patterns, dot-notation access, and method calls are identical — only the container changes. Emphasize: vector is almost always the right choice unless you have a hard size constraint or performance requirement.
+Total slides: 13
+This replaces the abstract "why vector beats array" intro with a concrete scenario students recognize. The decision point is: do you know the size at compile time? If yes, a static array is fine. If no, use a vector. The rest of this section shows vector<Student> replacing Student roster[SIZE] everywhere they appeared in topic 1.
+[Option to revisit: extend the gradebook framing to show enrollment/withdrawal (erase), late additions (push_back mid-semester), and size queries (roster.size() vs SIZE). Deferred to keep this a motivating slide.]
 :::
 
 <!-- Slide 1 -->
@@ -205,10 +205,108 @@ print() and getters serve different purposes: print() is for human-readable outp
 
 ---
 
+## What belongs in the class? {.smaller}
+
++ **Display logic** belongs in the class — `print()` keeps output format in one place; `main` just calls it.
++ **Comparison logic** belongs in the class — an object knows its own data better than `main` does.
++ Collection-level operations — looping, searching, sorting — belong outside the class, where the collection lives.
+
+::: notes
+Keep it simple. The roster loop in main is fine; the grade comparison inside that loop is a candidate for the class. Same principle as topic 1 — repeated here because students need to internalize it across both container types.
+[Option to revisit: add printAsWinner() to show richer self-description ("Alice wins with 97") vs. generic print(). Deferred to keep this slide simple.]
+:::
+
+<!-- Slide 9 -->
+
+---
+
+## Const correctness {.smaller}
+
+```{.cpp}
+// This compiles:
+for (const Student& s : roster)
+    s.print();          // print() is marked const — OK
+
+// If print() were NOT marked const:
+// error: passing 'const Student' as 'this' discards qualifiers
+```
+
++ `const Student& s` avoids copying the object and promises not to modify it.
++ The compiler enforces that promise — only methods marked `const` are callable on a `const` object.
++ Marking every read-only method `const` is not optional style — it is what makes `const` references usable.
+
+::: notes
+Keep it simple. The same principle as topic 1. The range-for pattern is the most common place students first encounter const&, so this slide cements the connection between the two `const` keywords.
+[Option to revisit: show a mutating method called on a const reference to produce and explain the exact compiler error.]
+:::
+
+<!-- Slide 10 -->
+
+---
+
+## Passing a roster to a function {.smaller}
+
+```{.cpp}
+void printRoster(const vector<Student>& roster) {
+    for (const Student& s : roster)
+        s.print();
+}
+
+int main() {
+    vector<Student> roster;
+    roster.push_back(Student("Alice", 92));
+    roster.push_back(Student("Bob",   85));
+    roster.push_back(Student("Carol", 97));
+    printRoster(roster);
+}
+```
+
++ `const vector<Student>&` — the function reads the vector without copying it or modifying it.
++ No size parameter needed; the vector already knows its own length via `.size()`.
+
+::: notes
+Motivating slide. The contrast with the array version (topic 1) is instructive: no size argument, no decay to a pointer, same const& protection. Worth noting: passing by value would copy every object in the vector — the & prevents that.
+[Option to revisit: show a mutable version void sortRoster(vector<Student>& roster) that modifies the collection. Deferred to keep this motivating rather than comprehensive.]
+:::
+
+<!-- Slide 11 -->
+
+---
+
+## The class as a collaborator {.smaller}
+
+```{.cpp}
+// Before: main compares grades directly
+if (roster[i].getGrade() > roster[best].getGrade()) best = i;
+
+// After: the class does the comparison
+class Student {
+public:
+    bool isBetterThan(const Student& other) const {
+        return grade > other.grade;
+    }
+};
+
+// main becomes readable
+if (roster[i].isBetterThan(roster[best])) best = i;
+```
+
++ `isBetterThan` moves the comparison rule into the class — if "better" changes, you update one method, not every loop.
++ The method is `const` because it reads but does not change; the parameter is `const Student&` for the same reason.
+
+::: notes
+Same slide as topic 1 — repeated intentionally. The pattern applies equally to arrays and vectors; seeing it twice reinforces that it is a class design principle, not a container-specific trick.
+[Option to revisit: printAsWinner() printing "Alice wins with 97". Also: isBetterThan with std::max_element. Both deferred for CISP 400.]
+:::
+
+<!-- Slide 12 -->
+
+---
+
 ## Summary {.smaller}
 
 + `vector<ClassName>` grows dynamically — declare it empty, add objects with `.push_back()`.
 + Use constructor calls inside `push_back` to create fully initialized objects without setter chains or temporary variables.
-+ A `print()` method keeps display logic inside the class — use it for output, use getters for logic that needs to inspect values.
++ Keep display logic in `print()` and comparison logic in methods like `isBetterThan` — main should orchestrate, not compute.
 
-<!-- Slide 9 -->
+<!-- Slide 13 -->
