@@ -1,5 +1,5 @@
 <!-- Topic 1: Arrays of Objects -->
-<!-- Total slides: 7 -->
+<!-- Total slides: 8 -->
 
 # Arrays of Objects
 
@@ -160,10 +160,48 @@ This pattern — declare the array with the default constructor, then overwrite 
 
 ---
 
+## Using Print() instead of getters {.smaller}
+
+```{.cpp}
+class Student {
+private:
+    string name;
+    int    grade;
+public:
+    Student()                { name = "Unknown"; grade = 0; }
+    Student(string n, int g) { name = n; grade = g; }
+    void   print() const     { cout << name << ": " << grade << "\n"; }
+    string getName()  const  { return name; }
+    int    getGrade() const  { return grade; }
+};
+
+int main() {
+    const int SIZE = 4;
+    Student roster[SIZE] = {
+        Student("Alice", 92),
+        Student("Bob",   85),
+        Student("Carol", 97),
+        Student("Dan",   78)
+    };
+
+    for (int i = 0; i < SIZE; i++)
+        roster[i].print();   // one call replaces two separate getter calls
+}
+```
+
+::: notes
+print() is marked const — it reads private members but doesn't change them. This is the pattern to reach for when display logic belongs to the class rather than to main. It also hides the formatting decision inside the class: if you later want to add a label or change the separator, you change one place.
+:::
+
+<!-- Slide 7 -->
+
+---
+
 ## Summary {.smaller}
 
 + `ClassName array[n]` — same syntax as any array; the class is the element type.
 + Access: `array[i].method()` — subscript first, then dot to call the method.
 + Use an initializer list with constructor calls to populate a known array at declaration; assign `ClassName(args)` inside a loop when data comes at runtime.
++ A `print()` method consolidates display logic inside the class — one call per object instead of multiple getter calls at every output site.
 
-<!-- Slide 7 -->
+<!-- Slide 8 -->

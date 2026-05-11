@@ -1,5 +1,5 @@
 <!-- Topic 2: Vectors of Objects -->
-<!-- Total slides: 5 -->
+<!-- Total slides: 9 -->
 
 # Vectors of Objects
 
@@ -101,9 +101,114 @@ The max-tracker code is identical to the static array version — only the decla
 
 ---
 
+## Upgrading Student with constructors {.smaller}
+
+```{.cpp}
+class Student {
+private:
+    string name;
+    int    grade;
+public:
+    Student()                { name = "Unknown"; grade = 0; }
+    Student(string n, int g) { name = n; grade = g; }
+    void   print() const     { cout << name << ": " << grade << "\n"; }
+    string getName()  const  { return name; }
+    int    getGrade() const  { return grade; }
+};
+```
+
++ The default constructor lets `vector<Student> v(n)` pre-allocate elements and is required by many STL operations.
++ The parameterized constructor lets each `push_back` create a fully initialized object in a single expression.
+
+::: notes
+Same class as topic 1 — consistency is intentional. Students should recognize that the class definition does not change based on whether it lives in an array or a vector. The container is the only thing that differs.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## push_back with constructor calls {.smaller}
+
+```{.cpp}
+vector<Student> roster;
+
+roster.push_back(Student("Alice", 92));
+roster.push_back(Student("Bob",   85));
+roster.push_back(Student("Carol", 97));
+roster.push_back(Student("Dan",   78));
+
+cout << "Roster size: " << roster.size() << "\n";   // 4
+```
+
++ Each `push_back` receives a fully constructed temporary — no setter chain, no partially initialized state.
++ Compare to slide 2: this replaces the reused `s` variable and three setter calls per element.
+
+::: notes
+The temporary Student created inside push_back is copy-constructed into the vector. This is the idiomatic pattern when data is known at compile time. For larger programs, emplace_back avoids the extra copy entirely — but that is a topic for CISP 400.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Dynamic input with constructors {.smaller}
+
+```{.cpp}
+vector<Student> roster;
+string name;
+int    grade;
+
+while (cin >> name && name != "done") {
+    cin >> grade;
+    roster.push_back(Student(name, grade));   // construct and add in one line
+}
+
+cout << roster.size() << " students entered.\n";
+```
+
++ The vector grows automatically with each `push_back` — no SIZE constant needed.
++ The constructor call inside `push_back` creates a complete object from user input without a temporary variable.
+
+::: notes
+This is the cleaner version of the dynamic input loop from slide 4. The temporary Student variable tmp is gone — Student(name, grade) creates the object inline and push_back moves it into the vector. Students often find this satisfying to compare against the old approach.
+:::
+
+<!-- Slide 7 -->
+
+---
+
+## Using Print() instead of getters {.smaller}
+
+```{.cpp}
+// Index loop with print()
+for (int i = 0; i < roster.size(); i++)
+    roster[i].print();
+
+// Range-for with print() — cleaner for display
+for (const Student& s : roster)
+    s.print();
+
+// Max-tracker still uses getters — Print() is for output only
+int best = 0;
+for (int i = 1; i < (int)roster.size(); i++)
+    if (roster[i].getGrade() > roster[best].getGrade()) best = i;
+
+roster[best].print();   // display the winner
+```
+
+::: notes
+print() and getters serve different purposes: print() is for human-readable output; getters are for logic that needs to inspect a value. The max-tracker must compare grades, so it uses getGrade(). The final display uses print(). Students should understand when each is appropriate.
+:::
+
+<!-- Slide 8 -->
+
+---
+
 ## Summary {.smaller}
 
 + `vector<ClassName>` grows dynamically — declare it empty, add objects with `.push_back()`.
-+ Access elements the same way as a static array: `vec[i].method()` or `for (const ClassName& obj : vec)`.
++ Use constructor calls inside `push_back` to create fully initialized objects without setter chains or temporary variables.
++ A `print()` method keeps display logic inside the class — use it for output, use getters for logic that needs to inspect values.
 
-<!-- Slide 5 -->
+<!-- Slide 9 -->
