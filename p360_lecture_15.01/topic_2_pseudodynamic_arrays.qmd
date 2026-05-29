@@ -1,0 +1,164 @@
+<!-- Topic 2: Pseudo Dynamic Arrays -->
+<!-- Total slides: 6 -->
+
+# Pseudo Dynamic Arrays
+
+---
+
+## Arrays on the heap — the key insight {.smaller}
+
++ Arrays are created on the **stack** by default — size must be a **compile-time constant**
++ We can also create them on the **heap** using `new`
++ This allows the size to be determined at **runtime** — e.g., by asking the user
+
+```{.cpp}
+// Stack array — size must be a literal or compile-time constant
+int stackArr[10];          // fine
+int n = 10;
+int stackArr2[n];          // ❌ not legal in standard C++
+
+// Heap array — size can be any integer expression at runtime
+int* heapArr = new int[n]; // ✅ perfectly fine
+```
+
+::: notes
+Total slides: 6
+The word "pseudo" is intentional — the size is chosen at runtime, which is an improvement, but once allocated it is still fixed. If we need to grow or shrink, we need to do real dynamic resizing (next topic).
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## 14-02b.cpp — pseudo-dynamic sales array {.smaller}
+
+```{.cpp}
+// 14-02b.cpp  Pseudo Dynamic Memory
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main(){
+    double* sales = nullptr,     // set to no address     (#7)
+            total = 0.0,
+            average;
+    int numDays;                 // number of sales days  (#10)
+
+    cout << "How many days of sales figures do you wish ";
+    cout << "to process? ";
+    cin >> numDays;                                     // (#15)
+
+    sales = new double[numDays]; // allocate memory       (#18)
+
+    cout << "Enter the sales figures below.\n";
+    for (int count = 0; count < numDays; count++){
+        cout << "Day " << (count + 1) << ": ";
+        cin >> sales[count];
+    }
+
+    for (int count = 0; count < numDays; count++)
+        total += sales[count];
+    average = total / numDays;
+
+    cout << setprecision(2) << fixed << showpoint;
+    cout << "\n\nTotal Sales: $"  << total   << "\n";
+    cout <<   "Average Sales: $" << average << "\n";
+
+    delete[] sales;              // Free Memory!           (#38)
+    sales = nullptr;
+    return 0;
+}
+```
+
+::: notes
+Walk through key line numbers. Pointer declared at #7. User provides size at #15. Memory allocated at #18 using the user-provided size — this is the key line. Freed at #38.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## 14-02b.cpp — sample run {.smaller}
+
+::: {.columns}
+::: {.column width="55%"}
+
+Line `#18` is where the magic happens:
+
+```{.cpp}
+sales = new double[numDays];
+```
+
+The array size is whatever the user typed — decided at runtime, not at compile time.
+
+The pointer `sales` is then used exactly like a regular array: `sales[0]`, `sales[1]`, etc.
+
+:::
+::: {.column width="45%"}
+
+```
+$ ./main
+How many days of sales figures
+do you wish to process? 3
+Enter the sales figures below.
+Day 1: 60
+Day 2: 80
+Day 3: 12
+
+
+Total Sales: $152.00
+Average Sales: $50.67
+```
+
+:::
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Algorithm: creating a pseudo-dynamic array {.smaller}
+
+1. Declare a **pointer** variable and initialize to `nullptr` (`#7`).
+2. Prompt the user for the **array size**.
+3. Allocate memory using **`new[]`** with the user-provided size (`#18`).
+   - The pointer can now be used just like a regular array variable.
+4. Use the array as needed — read, write, loop over it.
+5. When done, call **`delete[]`** and set the pointer to **`nullptr`** (`#38`).
+
+`14-02b.cpp`
+
+::: notes
+This is essentially the same as the new/delete algorithm from Topic 1 — the only new idea is that the size comes from the user at runtime.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## This is a step closer, but not there yet.
+
+::: notes
+Transition: we can set the size at runtime — good. But once new double[numDays] runs, the size is locked in. What if we need to add another day's sales? We'd have to allocate a bigger array from scratch. That's what a real dynamic array does — and it's the next topic.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Why is this only "pseudo" dynamic? {.smaller}
+
++ The size is chosen at runtime — that's a real improvement over a stack array
++ But once `new double[numDays]` executes, **the size is fixed**
++ If we need to add a new element, we must:
+  1. Allocate a whole new, larger array
+  2. Copy all existing data into it
+  3. Free the original array
+  4. Point our pointer at the new array
++ That process — done correctly — is what a **real dynamic array** does
+
+::: notes
+This is a good place to mention that std::vector does exactly this internally, automatically, every time it needs to grow.
+:::
+
+<!-- Slide 6 -->

@@ -1,0 +1,57 @@
+<!-- Topic 3: Comparing All Three Types -->
+<!-- Total slides: 4 -->
+
+# Comparing All Three Types
+
+---
+
+## Three array types — which one? {.smaller}
+
+- `int[]` — low-level C array
+- `std::array<T,N>` — fixed-size with STL features
+- `vector<T>` — dynamic with safety
+
+::: notes
+Total slides: 4
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Side-by-side comparison
+
+| | `int[]` | `array<T,N>` | `vector<T>` |
+|---|---|---|---|
+| Size | Fixed, compile-time | Fixed, compile-time | Dynamic, runtime |
+| Storage | Stack | Stack | Heap |
+| STL features | None | Yes | Yes |
+| Pointer decay | Yes | No | No |
+| `.size()` | No | Yes | Yes |
+
+<!-- Slide 2 -->
+
+---
+
+## When to use each
+
+| Situation | Choose |
+|---|---|
+| Size changes at runtime | `vector<T>` |
+| Size fixed, need STL or clean function passing | `array<T,N>` |
+| C library interop, no overhead, legacy code | `int[]` |
+
+- Default to `vector` for general work
+- Reach for `std::array` when size is compile-time fixed and you need `.size()` or no-decay passing
+- Use `int[]` only when interfacing with C APIs or when the environment forbids heap allocation
+
+<!-- Slide 3 -->
+
+---
+
+## Summary
+
+- All three are contiguous, same-type sequences — they differ in size flexibility, STL support, and passing behavior
+- Default to `vector`; use `std::array` for fixed-size collections; use `int[]` only when the context demands it
+
+<!-- Slide 4 -->

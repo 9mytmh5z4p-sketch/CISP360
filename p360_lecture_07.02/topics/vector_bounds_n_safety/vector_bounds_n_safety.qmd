@@ -1,0 +1,414 @@
+# Vector Bounds and Safety
+
+What actually happens when a program tries to access a vector element that does not exist? Today we'll learn about out-of-bounds access, undefined behavior, and how to write code that accesses vectors safely.
+
+::: notes
+Total slides: 15
+
+Consider including a visual showing a vector with numbered positions and an arrow pointing past the end.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## What is Out-of-Bounds Access?
+
+A vector stores elements at positions numbered from 0 to size-1. Attempting to access any position outside this range is called out-of-bounds access.
+
+```cpp
+vector<int> scores = {85, 92, 78};
+// Valid positions: 0, 1, 2
+
+cout << scores[0];  // valid: first element
+cout << scores[2];  // valid: last element
+cout << scores[3];  // OUT OF BOUNDS: position 3 does not exist
+cout << scores[5];  // OUT OF BOUNDS: position 5 does not exist
+```
+
+Out-of-bounds access is one of the most common and dangerous errors in C++ programs. The consequences range from incorrect output to program crashes to serious security vulnerabilities.
+
+::: notes
+Consider a diagram showing a vector of 3 elements with valid indices 0-2 highlighted and positions 3+ marked as danger zones.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## What is Undefined Behavior?
+
+Undefined behavior occurs when a C++ program performs an operation that the language standard does not define a result for. The compiler and operating system are free to handle it in any way.
+
+When undefined behavior occurs, your program might produce incorrect output silently, crash immediately, appear to work correctly most of the time, or behave differently on different computers. There is no predictable outcome.
+
+Out-of-bounds vector access with `[]` is a classic example of undefined behavior. This makes it particularly dangerous: your program may seem to work fine during development but fail unpredictably in production.
+
+::: notes
+Consider a visual showing three different "undefined" outcomes from the same bad code: wrong output, crash, and apparent success.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## The [] Operator — Fast but Unsafe
+
+The `[]` operator accesses a vector element directly by position with no safety checks. It trusts that you have provided a valid position.
+
+```cpp
+vector<string> names = {"Alice", "Bob", "Carol"};
+
+cout << names[0];   // prints "Alice"
+cout << names[2];   // prints "Carol"
+cout << names[10];  // undefined behavior — no error thrown
+```
+
+When you use `[]` with an invalid position, C++ does not stop you or warn you. It simply reads or writes memory at an unintended location, causing undefined behavior silently.
+
+<!-- Slide 4 -->
+
+---
+
+## The .at() Method — Safer Access
+
+The `.at()` method also accesses elements by position, but it checks whether the position is valid first. If the position is out of bounds, it throws an exception instead of causing undefined behavior.
+
+```cpp
+vector<string> names = {"Alice", "Bob", "Carol"};
+
+cout << names.at(0);   // prints "Alice"
+cout << names.at(2);   // prints "Carol"
+cout << names.at(10);  // throws an exception — program stops cleanly
+```
+
+The `.at()` method produces a predictable, catchable error rather than silent undefined behavior. This makes bugs easier to find and programs safer to run.
+
+<!-- Slide 5 -->
+
+---
+
+## Introduction to Exceptions
+
+An exception is a signal that something has gone wrong during program execution. When `.at()` detects an out-of-bounds position, it throws an exception to report the problem.
+
+When an exception is thrown and not handled, the program terminates immediately with an error message. While a crash may seem bad, it is far better than undefined behavior, which can silently corrupt data.
+
+```cpp
+// This will terminate the program with an error message
+vector<int> data = {1, 2, 3};
+cout << data.at(99);  // throws std::out_of_range exception
+// Output: terminate called after throwing an instance of 'std::out_of_range'
+```
+
+::: notes
+Consider a diagram comparing the two outcomes: [] causes silent corruption while .at() causes a clean, identifiable crash.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## try/catch Blocks — Handling Exceptions
+
+A try/catch block allows your program to detect and respond to exceptions rather than crashing. The try block contains the code that might throw, and the catch block handles the exception.
+
+```cpp
+vector<int> scores = {85, 92, 78};
+int position = 10;
+
+try {
+    cout << scores.at(position) << endl;
+    cout << "Access succeeded" << endl;
+} catch (exception& e) {
+    cout << "Error: " << e.what() << endl;
+    cout << "Position " << position << " is out of bounds" << endl;
+}
+```
+
+When an exception is thrown inside try, execution jumps immediately to catch. The program continues running after the catch block rather than crashing.
+
+::: notes
+Consider a flowchart showing execution flow: try → exception thrown → jump to catch → continue after catch.
+:::
+
+<!-- Slide 7 -->
+
+---
+
+## Comparing [] vs .at()
+
+Both operators access vector elements by position, but they handle invalid access very differently. The choice between them reflects a tradeoff between performance and safety.
+
+Use `[]` when you are certain the position is valid and performance is critical. Use `.at()` when you are not certain a position is valid or you want predictable error behavior.
+
+```cpp
+vector<int> temps = {72, 68, 75, 80};
+
+// [] : no check, undefined behavior if wrong
+cout << temps[2];      // fine here, dangerous if index uncertain
+
+// .at() : checks first, throws if wrong
+cout << temps.at(2);   // fine here, safe if index uncertain
+```
+
+::: notes
+Consider a comparison table: [] (fast, no check, undefined behavior) vs .at() (slightly slower, checks, throws exception).
+:::
+
+<!-- Slide 8 -->
+
+---
+
+## Using .size() Defensively
+
+The `.size()` method returns the number of elements in a vector. Using this value in conditions before accessing elements is a reliable way to prevent out-of-bounds access.
+
+```cpp
+vector<int> scores = {85, 92, 78};
+
+// Safe: check emptiness before accessing
+if (!scores.empty()) {
+    cout << "First score: " << scores[0] << endl;
+}
+
+// Safe: check that at least 3 elements exist
+if (scores.size() >= 3) {
+    cout << "Third score: " << scores[2] << endl;
+}
+```
+
+Comparing `.size()` against the position you intend to access ensures the element exists before you reach for it. This defensive approach stops problems before they start.
+
+<!-- Slide 9 -->
+
+---
+
+## Checking Bounds Before Access
+
+Combining a size check with a conditional gives you precise control over whether an access is safe. This pattern works with any access position you need to verify.
+
+```cpp
+vector<double> prices = {9.99, 14.99, 4.99};
+int position = 2;
+
+if (position >= 0 && position < prices.size()) {
+    cout << "Price: " << prices[position] << endl;
+} else {
+    cout << "Position " << position << " is not valid" << endl;
+}
+```
+
+This pattern compares the intended position against both zero and `.size()` to ensure it falls within valid bounds. Notice how this requires an indexed position variable — a hint that some tasks go beyond what for-each loops can easily handle.
+
+::: notes
+Consider a number line diagram showing valid positions 0 to size-1, with the condition checking both boundaries.
+
+Technical note for instructor: comparing a signed int against size_t (the unsigned return type of .size()) can produce compiler warnings. This is a type mismatch that students will learn to address properly when they cover type casting and unsigned integers. For now, the pattern is correct and the warning can be safely ignored in an introductory context.
+:::
+
+<!-- Slide 10 -->
+
+---
+
+## Limitations of For-Each Loops
+
+For-each loops are excellent for processing every element in a vector safely. However, they do not give you access to position information, which limits what you can do.
+
+```cpp
+vector<int> values = {10, 20, 30, 40, 50};
+
+// For-each: safe, but no position information
+for (int val : values) {
+    cout << val << endl;  // can process elements, but don't know where we are
+}
+
+// To access by position safely, you need an index variable
+// This requires tools you haven't learned yet
+// int i = 0;
+// while (i < values.size()) { ... }
+```
+
+Some problems simply require knowing the position of each element. Comparing adjacent elements, accessing specific positions, and bounded checks are tasks that indexed loops handle naturally. These are tools you will learn soon.
+
+::: notes
+Note to instructor: This is an intentional moment to be honest with students that for-each loops, while safe and powerful, are not the right tool for every problem. This builds intellectual curiosity for indexed loops.
+:::
+
+<!-- Slide 11 -->
+
+---
+
+## Prevention Strategies
+
+Preventing out-of-bounds access requires combining the tools available to you. Each strategy adds a layer of protection appropriate to different situations.
+
+Use `.empty()` before accessing the first element of any vector that might be empty. Use `.size()` comparisons when you need to access specific positions or verify a vector is large enough.
+
+Use `.at()` with try/catch when you need to handle invalid access gracefully rather than preventing it. Choose `.at()` over `[]` whenever the validity of your position is uncertain.
+
+::: notes
+Consider a decision tree diagram: Is the vector empty? → Use .empty(). Need a specific position? → Check against .size(). Position uncertain? → Use .at() with try/catch.
+:::
+
+<!-- Slide 12 -->
+
+---
+
+## Complete Safe Vector Access Program
+
+This program demonstrates all safety strategies working together in a realistic context.
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void printElement(vector<int> data, int position) {  // simplified for now
+    if (position >= 0 && position < data.size()) {
+        cout << "Element at " << position << ": " << data[position] << endl;
+    } else {
+        cout << "Invalid position: " << position << endl;
+    }
+}
+
+int main() {
+    vector<int> scores = {85, 92, 78, 95, 60};
+
+    if (scores.empty()) {
+        cout << "No scores available." << endl;
+        return 0;
+    }
+
+    cout << "Score count: " << scores.size() << endl;
+
+    // Safe access using size check
+    printElement(scores, 2);
+    printElement(scores, 10);
+
+    // Safe access using .at() with exception handling
+    try {
+        cout << scores.at(1) << endl;
+        cout << scores.at(20) << endl;
+    } catch (exception& e) {
+        cout << "Caught: " << e.what() << endl;
+    }
+
+    return 0;
+}
+```
+
+<!-- Slide 13 -->
+
+---
+
+## Common Practices
+
+Always check `.empty()` or use `.size()` before accessing vector elements by position. This one habit prevents the majority of out-of-bounds errors in programs.
+
+Prefer `.at()` over `[]` during development and testing when performance is not critical. The safety checks help catch bugs early before they become hard-to-trace undefined behavior in larger programs.
+
+Use try/catch with `.at()` in situations where invalid input is possible and the program should recover gracefully. Functions that process user-provided positions are a prime candidate for this pattern.
+
+Reserve `[]` for situations where you have already verified the position is valid, such as immediately after a size check. Using `[]` after a confirmed valid check combines safety with performance.
+
+<!-- Slide 14 -->
+
+---
+
+## Summary
+
+Out-of-bounds vector access with `[]` causes undefined behavior, while `.at()` throws a catchable exception that makes errors predictable and safe. Defensive use of `.size()` in conditions, combined with `.at()` and try/catch, protects programs from the dangers of invalid vector access.
+
+<!-- Slide 15 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Common Mistakes
+
+Using `[]` with a position that seems valid but was calculated incorrectly leads to silent undefined behavior. Always verify the final computed position value against `.size()` before using `[]`.
+
+Forgetting that vector positions start at 0 and end at size-1 causes off-by-one errors. A vector with 5 elements has valid positions 0 through 4, not 1 through 5.
+
+Catching exceptions but doing nothing with the information hides bugs instead of fixing them. Always log or display the error message so you know what went wrong and where.
+
+Assuming a program works correctly just because it did not crash is dangerous with `[]`. Silent undefined behavior can corrupt data invisibly for many executions before a crash eventually occurs.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## More Examples
+
+```cpp
+// Safe first and last element access
+vector<int> data = {10, 20, 30, 40, 50};
+
+if (!data.empty()) {
+    cout << "First: " << data.at(0) << endl;
+    cout << "Last: " << data.at(data.size() - 1) << endl;
+}
+
+// Processing elements with size-based conditions
+vector<double> temps = {72.5, 68.0, 75.3, 80.1};
+
+if (temps.size() >= 2) {
+    cout << "First two temps recorded." << endl;
+}
+
+// Using .at() in a for-each compatible pattern
+vector<string> names = {"Alice", "Bob", "Carol"};
+int target = 1;
+
+try {
+    string found = names.at(target);
+    cout << "Found: " << found << endl;
+} catch (exception& e) {
+    cout << "Not found: " << e.what() << endl;
+}
+```
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## Practice Problems
+
+1. Given `vector<int> v = {5, 10, 15}`, write a condition using `.size()` that safely prints the last element.
+2. Write a try/catch block that attempts to access `v.at(100)` and prints a friendly error message if it fails.
+3. Write an if statement that prints "Large vector" only if the vector has more than 10 elements, using `.size()`.
+4. Given a position variable provided by the user, write code that checks whether the position is valid before accessing the element, and prints an appropriate message in each case.
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## AI Search Terms
+
+When searching for help or using AI assistants, try these search terms:
+
+- "C++ vector out of bounds access"
+- "C++ vector at vs bracket operator"
+- "C++ undefined behavior vector access"
+- "C++ vector size defensive programming"
+- "C++ try catch out_of_range exception"
+- "C++ safe vector element access"
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## Questions for Reflection
+
+1. Why is undefined behavior considered more dangerous than a program crash?
+2. What is the tradeoff between using `[]` and `.at()` for vector access?
+3. Why can for-each loops not solve all vector access problems, and what does that tell you about what you will learn next?
+4. How does using `.size()` defensively connect to the conditional logic you learned in Week 6?
+
+<!-- Appendix Slide 5 -->

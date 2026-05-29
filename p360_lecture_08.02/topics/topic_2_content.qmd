@@ -1,0 +1,301 @@
+# The While Loop
+
+## The While Loop
+
+An if statement checks a condition once. What if you need to keep checking until the condition becomes false? The while loop is an if statement that jumps back to the top.
+
+::: notes
+Total slides: 10
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The While Loop Is a Looping If Statement
+
+An if statement checks a condition and runs a block — once. A while loop checks a condition and runs a block — then jumps back and checks again.
+
+```
+if (condition) {        while (condition) {
+    // runs once            // runs repeatedly
+}                       }
+```
+
+The only structural difference: at the end of the block, a while loop returns to the condition instead of falling through.
+
+::: notes
+[Graphic suggestion: Side-by-side flowchart — if statement flows down after the block; while loop has an arrow looping back from the end of the block to the condition diamond.]
+:::
+
+<!-- Slide 2 -->
+
+::: notes
+
+:::
+
+---
+
+## Syntax
+
+```cpp
+while (condition) {
+    // body — executes as long as condition is true
+}
+```
+
+The condition is evaluated before each iteration. If it is false the first time, the body never runs. This makes the while loop an **entry-condition loop**.
+
+<!-- Slide 3 -->
+
+::: notes
+
+:::
+
+---
+
+## The Three Parts of Every Loop
+
+Every loop needs three things or it will run forever.
+
+1. Initialize the loop control variable
+2. Test the condition
+3. Update the loop control variable
+
+<!-- Slide 3a -->
+
+::: notes
+
+:::
+
+## The Three Parts of Every Loop
+
+```cpp
+int count = 0;          // 1. Initialize the loop control variable
+
+while (count < 5) {     // 2. Test the condition
+    cout << count << "\n";
+    count++;            // 3. Update the loop control variable
+}
+```
+
+If you forget to update the loop control variable inside the body, the condition never changes and the loop runs forever.
+
+::: notes
+[Graphic suggestion: Annotated code diagram with colored brackets highlighting each of the three parts: initialize (before loop), test (condition), update (inside body).]
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Loop Control Variable Scope
+
+- The loop control variable can live in different places depending on how the rest of the program uses it.
+- With while loops, the loop control variable must be declared **before** the loop if you need to read its final value afterward.
+
+
+## Before Variable Scope
+
+```cpp
+// Declared before the loop — visible outside it
+int count = 0;
+while (count < 5) {
+    count++;
+}
+cout << count;   // 5 — still accessible here
+
+```
+
+## After Variable Scope
+
+```cpp
+
+
+// Declared inside the loop — this is a compile error:
+while (int i = 0; i < 5) {  // NOT valid while syntax
+    i = i + 1;
+}
+```
+
+
+<!-- Slide 5 -->
+
+---
+
+## Counting Up
+
+```cpp
+int i = 1;
+while (i <= 10) {
+    cout << i << "\n";
+    i = i + 1;
+}
+// Prints 1 through 10
+```
+
+This is the most common while loop pattern. Start at a known value, test against a limit, increment each pass.
+
+<!-- Slide 6 -->
+
+---
+
+## Counting Down
+
+```cpp
+int countdown = 5;
+while (countdown > 0) {
+    cout << countdown << "\n";
+    countdown = countdown - 1;
+}
+cout << "Launch!\n";
+// Prints 5, 4, 3, 2, 1, then Launch!
+```
+
+The loop control variable can move in any direction as long as the condition will eventually become false.
+
+<!-- Slide 7 -->
+
+---
+
+## Input Validation
+
+- One of the most practical uses of the while loop is forcing valid input. Keep asking until the user provides an acceptable value.
+
+
+
+## Input Validation
+
+```cpp
+int age;
+cout << "Enter your age (1-120): ";
+cin >> age;             // called a priming read
+
+while (age < 1 || age > 120) {
+    cout << "Invalid. Enter your age (1-120): ";
+    cin >> age;
+}
+
+// age is guaranteed valid here
+```
+
+The input is read once before the loop, then again inside the body so the condition can re-evaluate.
+
+::: notes
+Instructor note: Point out the "priming read" pattern — cin before the loop, then cin again at the bottom of the body. This is a classic pattern students will use repeatedly.
+:::
+
+<!-- Slide 8 -->
+
+---
+
+## Unknown Iteration Count
+
+- Use a while loop when you do not know in advance how many times the loop will run.
+
+
+## Unknown Iteration Count
+
+```cpp
+int value;
+int sum = 0;
+cout << "Enter values (0 to stop): ";
+cin >> value;
+
+while (value != 0) {
+    sum = sum + value;
+    cin >> value;
+}
+
+cout << "Sum: " << sum << "\n";
+```
+
+The loop runs until the user decides to stop. There is no way to know in advance how many values they will enter.
+
+<!-- Slide 9 -->
+
+---
+
+## Summary
+
+The while loop tests its condition before every iteration — if the condition starts false, the body never runs. Initialize your loop control variable before the loop, test it in the condition, and update it inside the body.
+
+<!-- Slide 10 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Read input once before a validation loop, then again at the bottom of the body. This pattern — called a priming read — keeps the condition clean.
+- Prefer while over for when the number of iterations is not known at the start of the loop.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Forgetting to update the loop control variable inside the body, causing an infinite loop.
+- Using `=` instead of `==` in the condition — this assigns a value rather than comparing, which is almost always a bug.
+- Initializing the loop control variable inside the loop body instead of before it, which resets it every iteration.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Sum all positive numbers entered by the user
+int n, total = 0;
+cout << "Enter a number (negative to stop): ";
+cin >> n;
+
+while (n >= 0) {
+    total += n;
+    cout << "Enter a number (negative to stop): ";
+    cin >> n;
+}
+
+cout << "Total: " << total << "\n";
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a while loop that prints all even numbers from 2 to 20.
+2. Write a while loop that asks the user for a password and keeps asking until they enter "open sesame".
+3. Write a while loop that counts down from 100 to 1 in steps of 10.
+4. What is the output of this loop? `int x = 10; while (x > 0) { cout << x << " "; x -= 3; }`
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ while loop syntax"
+- "C++ entry condition loop"
+- "C++ input validation while loop"
+- "C++ infinite loop how to fix"
+- "C++ priming read pattern"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- What happens if the condition of a while loop is false before the loop body ever executes? Is this a bug or valid behavior?
+- How would you redesign an input validation loop if you needed to give the user exactly three chances before the program exits?
+
+<!-- Appendix Slide 6 -->

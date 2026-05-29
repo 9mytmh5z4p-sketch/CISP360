@@ -1,0 +1,449 @@
+# Logical Operators
+
+## How can you combine multiple<br> conditions in a single decision?
+
+Programs often need to check multiple conditions simultaneously. Logical operators allow you to combine boolean expressions to create more complex decision-making logic in your code.
+
+::: notes
+Total slides in main content: 10 (not including 7 appendix slides)
+
+This section assumes students understand boolean expressions, comparison operators, and basic if statements. We're now introducing the tools to combine multiple conditions using AND, OR, and NOT operators.
+:::
+
+<!-- Slide 1 -->
+
+## The AND Operator (&&)
+
+The **AND operator** (`&&`) returns true only when both operands are true. If either operand is false, the entire expression is false.
+
+```cpp
+int age = 20;
+bool hasLicense = true;
+
+if (age >= 18 && hasLicense) {
+    cout << "You can drive." << endl;  // Executes: both conditions true
+}
+
+// If age were 16: (16 >= 18) is false, so the AND is false
+```
+
+Both conditions must be satisfied for the AND expression to evaluate to true.
+
+::: notes
+A truth table or Venn diagram would be helpful here showing the four possible combinations of two boolean values and which result in true for AND. Emphasize that BOTH must be true - if either is false, the result is false. Walk through examples: (age=20, hasLicense=true) → true AND true = true; (age=16, hasLicense=true) → false AND true = false; (age=20, hasLicense=false) → true AND false = false.
+:::
+
+<!-- Slide 2 -->
+
+## The OR Operator (||)
+
+The **OR operator** (`||`) returns true when at least one operand is true. It only returns false when both operands are false.
+
+```cpp
+bool isWeekend = true;
+bool isHoliday = false;
+
+if (isWeekend || isHoliday) {
+    cout << "No work today!" << endl;  // Executes: at least one is true
+}
+
+// Only false if BOTH isWeekend and isHoliday are false
+```
+
+At least one condition must be satisfied for the OR expression to evaluate to true.
+
+::: notes
+A truth table or Venn diagram showing OR would be effective. Emphasize that only ONE needs to be true - it's inclusive OR, not exclusive. Both being true also results in true. Contrast this with AND where both must be true.
+:::
+
+<!-- Slide 3 -->
+
+## The NOT Operator (!)
+
+The **NOT operator** (`!`) reverses a boolean value. True becomes false, and false becomes true. It operates on boolean expressions or values that can be evaluated as boolean.
+
+```cpp
+bool isRaining = false;
+
+if (!isRaining) {
+    cout << "Go for a walk!" << endl;  // Executes: !false is true
+}
+
+// Equivalent to: if (isRaining == false)
+```
+
+The NOT operator is unary (operates on a single value) and appears before the expression it negates.
+
+::: notes
+Show a simple table: true -> false, false -> true. Emphasize that ! goes BEFORE the expression. Common beginner mistake is confusing ! with !=. Point out that while !isRaining and (isRaining == false) are equivalent, the ! form is more idiomatic and readable. Note that ! works with boolean values and expressions - you can use !condition or !(x > 5).
+:::
+
+<!-- Slide 4 -->
+
+## Truth Tables
+
+Truth tables show all possible combinations of inputs and their resulting outputs for logical operators.
+
+---
+
+**AND Operator (`&&`):**
+
+| A | B | A && B |
+|---|---|--------|
+| true | true | true |
+| true | false | false |
+| false | true | false |
+| false | false | false |
+
+---
+
+**OR Operator (`||`):**
+
+| A | B | A &#124;&#124; B |
+|---|---|--------|
+| true | true | true |
+| true | false | true |
+| false | true | true |
+| false | false | false |
+
+---
+
+**NOT Operator (`!`):**
+
+| A | !A |
+|---|-----|
+| true | false |
+| false | true |
+
+::: notes
+Walk through each row of the truth tables. For AND, point out only the first row is true. For OR, point out only the last row is false. For NOT, emphasize it's a simple reversal. These tables are fundamental references students should memorize or be able to quickly derive.
+:::
+
+<!-- Slide 5 -->
+
+## Operator Precedence
+
+Logical operators have specific precedence rules that determine the order of evaluation in complex expressions.
+
+---
+
+**Precedence from highest to lowest:**
+
+1. `!` (NOT) - highest precedence
+2. Comparison operators (`<`, `>`, `<=`, `>=`, `==`, `!=`)
+3. `&&` (AND)
+4. `||` (OR) - lowest precedence
+
+---
+
+```cpp
+// Evaluated as: (x > 5) && (y < 10)
+if (x > 5 && y < 10) { }
+
+// INCORRECT: Evaluated as (!x) > 5, which treats boolean as int
+if (!x > 5) { }
+
+// CORRECT: Use parentheses to negate the comparison
+if (!(x > 5)) { }
+```
+
+When in doubt, use parentheses to make your intention explicit.
+
+::: notes
+Emphasize that comparison operators are evaluated before && and ||, so you don't need parentheses around comparisons (though they don't hurt). The ! operator has very high precedence and applies only to what immediately follows. In !x > 5, the ! applies to x first (creating !x, a boolean), then that boolean is compared to 5 (which converts the boolean to 0 or 1). This is rarely what you want. The correct form !(x > 5) negates the entire comparison. Always recommend parentheses for clarity with !.
+:::
+
+<!-- Slide 6 -->
+
+## Short-Circuit Evaluation
+
+C++ uses **short-circuit evaluation**: it stops evaluating a logical expression as soon as the result is determined.
+
+**For AND (&&):** If the left operand is false, the right operand is not evaluated (result is already false).
+
+**For OR (||):** If the left operand is true, the right operand is not evaluated (result is already true).
+
+--- 
+
+```cpp
+int x = 0;
+
+// Safe: checks x != 0 before dividing
+if (x != 0 && 100 / x > 5) {
+    cout << "Large quotient" << endl;
+}
+
+// If x is 0, the division never happens (no error)
+```
+
+This behavior prevents errors and improves performance by avoiding unnecessary computations.
+
+::: notes
+Emphasize that this is not just an optimization - it's part of the language specification and can be relied upon. Walk through the example: when x is 0, the left side (x != 0) is false, so the && operator knows the result must be false without evaluating the right side. If it did evaluate 100/x, it would cause a division by zero error. Beyond safety, short-circuit evaluation also improves performance - if the left side of && is false, expensive function calls or complex calculations on the right side are skipped entirely. This pattern is commonly used for both safety checks and optimization.
+:::
+
+<!-- Slide 7 -->
+
+## Combining Multiple Operators
+
+You can combine multiple logical operators to create complex conditions. Precedence rules determine evaluation order, but parentheses improve clarity.
+
+```cpp
+int age = 25;
+bool hasTicket = true;
+bool isVIP = false;
+
+// AND has higher precedence than OR
+// Evaluated as: (age >= 18 && hasTicket) || isVIP
+if (age >= 18 && hasTicket || isVIP) {
+    cout << "Entry granted" << endl;
+}
+
+// More readable with explicit parentheses:
+if ((age >= 18 && hasTicket) || isVIP) {
+    cout << "Entry granted" << endl;
+}
+```
+
+::: notes
+Walk through the evaluation: AND binds tighter than OR, so the expression is grouped as (age >= 18 && hasTicket) || isVIP. This means either (you're an adult with a ticket) OR (you're a VIP). Without parentheses, readers must remember precedence rules. With explicit parentheses, the logic is immediately clear. Encourage students to add parentheses whenever there's any possibility of confusion, even if they know the precedence rules. Code is read more often than written.
+:::
+
+<!-- Slide 8 -->
+
+## Practical Examples
+
+Logical operators are essential for implementing realistic business rules and validation logic.
+
+**Example 1: Login validation**
+```cpp
+if (username == "admin" && password == "secret") {
+    cout << "Access granted" << endl;
+}
+```
+
+--- 
+
+**Example 2: Temperature warning**
+```cpp
+if (temperature < 32 || temperature > 100) {
+    cout << "Extreme temperature warning!" << endl;
+}
+```
+
+--- 
+
+**Example 3: Eligibility check**
+```cpp
+if ((age >= 18 && age <= 65) && !hasDisqualification) {
+    cout << "Eligible for program" << endl;
+}
+```
+
+::: notes
+Point out how these mirror real-world logic: login requires both username AND password (security), temperature warnings trigger for too cold OR too hot (either extreme is dangerous), eligibility requires age range AND no disqualification (all criteria must be met). These patterns appear constantly in real programs - input validation, access control, business rules, etc. Walk through each example and ask students to identify which operator is most appropriate and why.
+:::
+
+<!-- Slide 9 -->
+
+## Summary
+
+Logical operators (&&, ||, !) combine boolean expressions to create complex conditions: && requires all true, || requires at least one true, and ! negates a value. C++ uses precedence rules and short-circuit evaluation to determine results efficiently.
+
+::: notes
+Reinforce the three key concepts: (1) what each operator does (AND, OR, NOT), (2) precedence determines evaluation order (! highest, then comparisons, then &&, then ||), and (3) short-circuit evaluation stops early when result is known. These operators are fundamental to control flow and students will use them constantly. Connect back to the intro: these are how you combine multiple conditions in decision-making.
+:::
+
+<!-- Slide 10 -->
+
+## Appendix
+
+<!-- Slide 11 -->
+
+## Good Practices
+
+**Use parentheses for clarity** - Even when not required by precedence, add parentheses to make complex conditions explicit and easier to read. This helps others (and future you) understand your logic quickly.
+
+**Prefer positive conditions when possible** - Instead of `if (!isNotReady)`, write `if (isReady)`. Double negatives are confusing and error-prone.
+
+## Good Practices (cont)
+
+**Order short-circuit conditions strategically** - Put simpler or more likely checks first in AND expressions, and most likely true conditions first in OR expressions. This can improve both clarity and performance.
+
+**Use descriptive boolean variable names** - Name boolean variables so they read naturally in conditions: `isValid`, `hasPermission`, `canProceed`. Avoid names like `flag` or `check`.
+
+<!-- Slide 12 -->
+
+## Common Mistakes
+
+**Confusing && with & and || with |:**
+```cpp
+if (x > 0 && y > 0) { }  // CORRECT: logical AND
+if (x > 0 & y > 0) { }   // WRONG: bitwise AND (different operation)
+```
+Always use && and || for logical operations, not & and |.
+
+## Common Mistakes
+
+**Forgetting operator precedence:**
+```cpp
+if (!x > 5) { }        // WRONG: evaluates as (!x) > 5
+if (!(x > 5)) { }      // CORRECT: negates the comparison
+```
+
+## Common Mistakes
+
+**Redundant comparisons with boolean variables:**
+```cpp
+if (isReady == true) { }   // Redundant
+if (isReady) { }           // CORRECT: isReady is already boolean
+
+if (isReady == false) { }  // Redundant
+if (!isReady) { }          // CORRECT: cleaner negation
+```
+
+## Common Mistakes
+
+**Chaining comparisons incorrectly:**
+```cpp
+if (x > 0 && < 10) { }           // WRONG: syntax error
+if (x > 0 && x < 10) { }         // CORRECT: complete both sides
+```
+
+<!-- Slide 13 -->
+
+## More Examples
+
+**Example 1: Grade classification**
+```cpp
+int score = 85;
+if (score >= 90) {
+    cout << "A" << endl;
+} else if (score >= 80 && score < 90) {
+    cout << "B" << endl;
+}
+```
+
+## More Examples
+
+**Example 2: Leap year calculation**
+```cpp
+int year = 2024;
+if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+    cout << "Leap year" << endl;
+}
+```
+
+## More Examples
+
+**Example 3: Input validation**
+```cpp
+int age;
+cin >> age;
+if (age < 0 || age > 120) {
+    cout << "Invalid age entered" << endl;
+}
+```
+
+## More Examples
+
+**Example 4: Access control**
+```cpp
+bool isAdmin = false;
+bool isOwner = true;
+bool isPublic = false;
+
+if (isPublic || isOwner || isAdmin) {
+    cout << "Access granted" << endl;
+} else {
+    cout << "Access denied" << endl;
+}
+```
+
+## More Examples
+
+**Example 5: Safe division with multiple checks**
+```cpp
+int numerator = 100;
+int denominator = 0;
+
+if (denominator != 0 && numerator / denominator > 5) {
+    cout << "Result is greater than 5" << endl;
+}
+// Safe: division doesn't happen when denominator is 0
+```
+
+<!-- Slide 14 -->
+
+## Practice Problems
+
+**Problem 1:** Write a condition that checks if a number `x` is between 10 and 20 (inclusive).
+
+**Problem 2:** Write a condition that checks if a person can vote: age must be at least 18 AND they must be a citizen.
+
+**Problem 3:** Write a condition for a store discount: customers get a discount if they spend over $100 OR if they have a membership card.
+
+**Problem 4:** Write a condition that checks if a character `ch` is a vowel (a, e, i, o, or u). Use the OR operator.
+
+---
+
+**Problem 5:** Write a condition that checks if a year is NOT a leap year. A leap year is divisible by 4, except for years divisible by 100 unless also divisible by 400.
+
+**Problem 6:** Given three boolean variables `hasKey`, `knowsPassword`, and `isAuthorized`, write a condition that grants access if the person has the key AND (knows the password OR is authorized).
+
+**Problem 7:** Given three integers `a`, `b`, and `count`, write a condition using short-circuit evaluation to check if `count` is not zero AND the average `(a + b) / count` is greater than 10. The condition must prevent division by zero.
+
+<!-- Slide 15 -->
+
+## AI Search Terms
+
+**Core concepts:**
+- "C++ logical operators AND OR NOT"
+- "C++ && || ! operators tutorial"
+- "boolean logic in C++"
+
+**Understanding behavior:**
+- "C++ short circuit evaluation"
+- "logical operator precedence C++"
+- "C++ truth tables for logical operators"
+
+---
+
+**Combining conditions:**
+- "C++ combining multiple conditions"
+- "complex boolean expressions C++"
+- "C++ parentheses in logical expressions"
+
+**Troubleshooting:**
+- "difference between && and & in C++"
+- "C++ logical operators not working as expected"
+- "C++ boolean operator precedence rules"
+
+<!-- Slide 16 -->
+
+## Questions for Reflection
+
+**Conceptual understanding:**
+- Why does C++ use && and || instead of 'and' and 'or' keywords?
+- How does short-circuit evaluation make code safer and more efficient?
+
+**Application:**
+- When would you choose to use || versus &&?
+- How do you decide whether to use parentheses in a complex logical expression?
+
+**Design decisions:**
+- Why is it important to order operands strategically in AND and OR expressions?
+- When might you intentionally rely on short-circuit evaluation versus when should you avoid depending on it?
+
+---
+
+**Code analysis:**
+- If you see `if (!isInvalid)`, how would you refactor it to be more readable?
+- Given the expression `a && b || c`, how is it evaluated, and how would you make it clearer?
+
+**Debugging:**
+- How would you debug a complex condition that isn't behaving as expected?
+- What's the difference between `if (x = 5)` and `if (x == 5)`, and why is this relevant to logical operators?
+
+<!-- Slide 17 -->
+

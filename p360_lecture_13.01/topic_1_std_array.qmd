@@ -1,0 +1,92 @@
+<!-- Topic 1: std::array -->
+<!-- Total slides: 5 -->
+
+# std::array
+
+---
+
+## A fixed-size array that knows its own size? {.smaller}
+
+- `std::array<T, N>` wraps a C array with STL features
+- Same compile-time fixed size — but `.size()`, `.at()`, and no pointer decay
+
+::: notes
+Total slides: 5
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Declaration and initialization
+
+```{.cpp}
+#include <array>
+using namespace std;
+
+array<int, 5> scores = {91, 78, 84, 95, 62};  // all 5 values
+array<int, 5> zeros  = {};                     // all zeros
+```
+
+- Template parameters: element type first, then size
+- Partial initializer list zero-fills the remaining elements, same as C arrays
+- `array<int, 5>` and `array<int, 10>` are different types — size is part of the type
+
+<!-- Slide 2 -->
+
+---
+
+## Member functions
+
+```{.cpp}
+array<int, 5> scores = {91, 78, 84, 95, 62};
+
+scores.size();      // 5 — no pointer decay
+scores.at(2);       // 84 — bounds-checked, throws if out of range
+scores[2];          // 84 — no bounds check
+scores.front();     // 91 — first element
+scores.back();      // 62 — last element
+```
+
+- Works with range-for: `for (int s : scores)`
+- Compatible with all STL algorithms (`sort`, `find`, etc.)
+
+<!-- Slide 3 -->
+
+---
+
+## Passing to a function
+
+```{.cpp}
+#include <array>
+#include <iostream>
+using namespace std;
+
+void print(const array<int, 5>& arr);
+
+int main() {
+    array<int, 5> scores = {91, 78, 84, 95, 62};
+    print(scores);
+    return 0;
+}
+
+void print(const array<int, 5>& arr) {
+    for (int s : arr) {
+        cout << s << "\n";
+    }
+}
+```
+
+- No size parameter needed — size is part of the type
+- `const &` avoids copying the array
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
+- `std::array<T, N>` gives a fixed-size array `.size()`, `.at()`, and range-for support
+- Unlike `int[]`, it does not decay to a pointer when passed to a function
+
+<!-- Slide 5 -->

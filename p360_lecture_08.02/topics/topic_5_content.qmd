@@ -1,0 +1,234 @@
+# Which Loop to Use?
+
+## Which Loop to Use?
+
+You now have three loops. The question is not which one works — any of them can technically solve most problems. The question is which one communicates your intent most clearly.
+
+::: notes
+Total slides: 8
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The Decision Framework
+
+Three questions narrow the choice quickly.
+
+```
+1. Do you know the number of iterations in advance?
+       YES → for loop
+
+2. Must the body run at least once before you can test?
+       YES → do-while loop
+
+3. Neither of the above?
+       → while loop
+```
+
+When in doubt, start with while. It is the most general-purpose loop and the easiest to reason about.
+
+::: notes
+[Graphic suggestion: Flowchart with three decision diamonds leading to each loop type.]
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## While — Unknown Count, May Skip
+
+Use while when you do not know how many times the loop will run, and it is acceptable — or required — that the body never runs at all.
+
+```cpp
+// Read values until the user stops
+int val;
+cin >> val;
+while (val != -1) {
+    process(val);
+    cin >> val;
+}
+```
+
+If the user enters -1 immediately, the body runs zero times. That is correct behavior here.
+
+<!-- Slide 3 -->
+
+---
+
+## Do-While — <br>Must Run At Least Once
+
+- Use do-while when the body must execute before you have anything to test. 
+- Menus and input prompts are the defining cases.
+
+```cpp
+int choice;
+do {
+    displayMenu();
+    cin >> choice;
+    handleChoice(choice);
+} while (choice != 0);
+```
+
+::: notes
+You cannot show a menu and ask for a choice without running the body first. Do-while is the right tool.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## For — Known Count
+
+Use for when you know exactly how many iterations are needed before the loop starts.
+
+```cpp
+int n;
+cout << "How many students? ";
+cin >> n;               // count is read before the loop begins
+
+for (int i = 1; i <= n; i++) { // header makes the iteration plan explicit
+    int score;
+    cout << "Enter score for student " << i << ": ";
+    cin >> score;
+    process(score);
+}
+```
+
+<!-- Slide 5 -->
+
+---
+
+## Scenario: Processing Test Scores
+You ask the instructor how many students are in the class. You will read one test score per student. You do not run the program with zero students.
+
+<br>
+**Which loop?**
+
+::: {.columns}
+::: {.column width="50%"}
+- For-Each loop
+- While loop
+- Do While loop
+:::
+
+::: {.column width="50%"}
+- for loop
+- If statement
+:::
+::: 
+
+::: notes
+[Graphic suggestion: Pause slide with the scenario — let students call it out before revealing the answer on the next slide.]
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Scenario: Processing Test Scores — Answer
+
+**For loop.**
+
+The count is known before iteration begins (`n` students). The loop runs a fixed number of times. There is no need to test a condition mid-stream or guarantee at least one execution.
+
+```cpp
+for (int i = 1; i <= n; i++) {
+    cin >> score;
+    total += score;
+}
+```
+
+<!-- Slide 7 -->
+
+---
+
+## Summary
+
+For: known count. Do-while: must run once. While: everything else. When the right answer is not obvious, while is the safe default — it is the most flexible and easiest to reason about.
+
+<!-- Slide 8 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Choose the loop that communicates intent, not just the one that works. A for loop signals "I know how many times" to the next person reading the code.
+- When refactoring, if you find yourself adding a counter variable to a while loop just to track iterations, consider replacing it with a for loop.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Using a for loop when the iteration count depends on runtime input that might change mid-loop — this forces awkward workarounds; use while instead.
+- Using do-while when the body should potentially run zero times — use while to avoid an unintended first execution.
+- Choosing a loop based on what "looks right" syntactically rather than what the problem actually requires.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Scenario: Read records from a network. Process if age > 18.
+// The record count is unknown and may be zero.
+// → while loop
+
+while (readRecord(record)) {
+    if (record.age > 18) {
+        process(record);
+    }
+}
+
+// Scenario: Run a GUI event loop until the quit button is pressed.
+// The loop must execute at least once to display the window.
+// → do-while
+
+do {
+    event = getNextEvent();
+    handleEvent(event);
+} while (event.type != QUIT);
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. You are reading a file where the first line is the number of records. Which loop processes the records?
+2. You prompt the user for a team number (1–5, excluding 2). Which loop validates the input?
+3. A program monitors a server and checks its status every 10 seconds until a timeout is reached. You know the maximum check count. Which loop is most appropriate?
+4. Rewrite a for loop as a while loop. Does the behavior change?
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ which loop to use when"
+- "C++ while vs for vs do while"
+- "C++ entry condition vs exit condition loop"
+- "C++ loop selection criteria"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- All three loops are computationally equivalent — you can rewrite any one as another. So why does it matter which one you choose?
+- Can you think of a real-world program feature from an app you use where each loop type would be the natural fit?
+
+<!-- Appendix Slide 6 -->

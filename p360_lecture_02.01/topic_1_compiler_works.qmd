@@ -1,0 +1,196 @@
+# How the Compiler Works
+
+## How the Compiler Works
+
+What happens when you press "build" in your IDE? The compiler transforms your source code through several distinct stages into an executable program. Understanding this process helps you debug faster and write better C++ code.
+
+::: notes
+Total slides: 10
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The Compilation Process Overview
+
+- Stage 1: **Preprocessing** — resolves `#include`, `#define`, and macro directives
+- Stage 2: **Compilation** — type-checks source and translates to object code
+- Stage 3: **Linking** — combines object files and resolves library references
+
+::: {style="width: 80%; margin-left: 0; margin-right: auto;"}
+```{.plantuml}
+@startuml compilation_stages
+
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Helvetica Neue"
+skinparam defaultFontSize 13
+
+skinparam rectangle {
+  BackgroundColor #2C3E50
+  FontColor #ECEFF1
+  BorderColor #1A252F
+  BorderThickness 2
+  RoundCorner 14
+  FontSize 13
+}
+
+skinparam note {
+  BackgroundColor #F2F3F4
+  BorderColor #BDC3C7
+  FontColor #2C3E50
+  FontSize 11
+}
+
+skinparam arrow {
+  Color #7F8C8D
+  FontColor #5D6D7E
+  FontSize 10
+  Thickness 2
+}
+
+left to right direction
+
+note as N0
+  <b>main.cpp</b>
+  <i>.h files</i>
+end note
+
+rectangle "<b>1 — Preprocessor</b>\n\n&#35;include, &#35;define\nmacro expansion" as P
+
+note as N1
+  <b>Expanded Source</b>
+  <i>(.ii)</i>
+end note
+
+rectangle "<b>2 — Compiler</b>\n\nsyntax & type check\n→ object code" as C
+
+note as N2
+  <b>Object File</b>
+  <i>(.o)</i>
+end note
+
+rectangle "<b>3 — Linker</b>\n\nresolve symbols\ncombine .o files" as L
+
+note as N3
+  <b>Executable</b>
+end note
+
+note as LIB
+  Standard Library
+  <i>(.a / .so)</i>
+end note
+
+N0 --> P
+P --> N1
+N1 --> C
+C --> N2
+N2 --> L
+L --> N3
+LIB -up-> L
+
+@enduml
+```
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Stage 1: Preprocessing
+
+- Runs before compilation; processes all directives that start with `#`
+- Expands macros and inserts the full contents of `#include` files
+- Removes comments; output is still C++ source, not object code
+
+<!-- Slide 3 -->
+
+---
+
+## Preprocessing Directives
+
+- `#include <file>` — inserts a header file's contents verbatim
+- `#define NAME value` — textual substitution before compilation
+- `#pragma once` / header guards — prevents duplicate inclusion
+
+::: notes
+`#include <file>`: The preprocessor inserts the entire contents of the header file into your source. It does not validate syntax — that happens in the compiler.
+
+`#define NAME value`: Creates a textual substitution. Every occurrence of NAME is replaced with value before the compiler ever sees your code.
+
+`#pragma once` (or header guards): Prevents a header from being inserted more than once per translation unit. Without it, including the same header twice causes redeclaration errors.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Stage 2: Compilation
+
+- Takes preprocessed source and checks syntax and type correctness
+- Translates valid C++ into processor-specific assembly or object code
+- One `.cpp` file → one `.o` object file
+
+<!-- Slide 5 -->
+
+---
+
+## What the Compiler Checks
+
+- **Syntax**: Does your code follow C++ grammar rules?
+- **Types**: Do variable types match in assignments, function calls, and operations? C++ is statically typed — type mismatches are caught here, not at runtime.
+- **Scope and declarations**: Are variables and functions declared before use? Do names conflict?
+
+<!-- Slide 6 -->
+
+---
+
+## Stage 3: Linking
+
+- Combines multiple `.o` object files into a single executable
+- Resolves references to library functions (e.g., `<iostream>`)
+- Reports "undefined reference" when a called function has no definition
+
+<!-- Slide 7 -->
+
+---
+
+## Linking: How It Works
+
+- **Symbol resolution**: The linker matches each function call to its definition across all object files and libraries.
+- **Library linking**: Standard headers like `<iostream>` declare functions; the linker connects your calls to their implementations in the standard library.
+- If `math.o` is missing, linking fails with "undefined reference to add()" even though `main.cpp` compiled cleanly.
+
+<!-- Slide 8 -->
+
+---
+
+## Translation Units
+
+Each `.cpp` file is compiled independently — it is called a **translation unit**. The compiler sees only one `.cpp` file at a time; it has no knowledge of other `.cpp` files until the linker joins them. This is why declarations go in `.h` files: the preprocessor copies them into every `.cpp` that needs them.
+
+```cpp
+// math.h — declaration only (shared via #include)
+int add(int a, int b);
+
+// math.cpp — definition lives in its own translation unit
+int add(int a, int b) { return a + b; }
+
+// main.cpp — sees the declaration via #include, not the definition
+#include "math.h"
+int main() { return add(2, 3); }
+```
+
+::: notes
+Future topic: name mangling. C++ encodes each function's parameter types into its linker symbol name — this is what makes function overloading possible at the linker level. When you see a linker error like `undefined reference to '_Z3addii'`, the garbled name is the mangled form of `add(int, int)`. Calling a C library from C++ requires `extern "C"` to disable name mangling so the linker can match the symbols.
+:::
+
+<!-- Slide 9 -->
+
+---
+
+## Summary
+
+The compiler transforms source code through preprocessing, compilation, and linking. Understanding these stages helps you interpret error messages and locate bugs faster.
+
+<!-- Slide 10 -->

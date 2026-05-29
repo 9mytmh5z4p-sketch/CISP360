@@ -1,0 +1,464 @@
+# STL Tools for Vectors
+
+Why write your own code to sort, search, or calculate when C++ already provides powerful, tested tools for these tasks? Today we'll explore six Standard Template Library functions that make common vector operations simple and reliable.
+
+::: notes
+Total slides: 15
+
+Consider a visual showing six labeled toolbox items representing each STL function.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Iterators — begin() and end()
+
+Most STL functions do not work directly on vectors. Instead they require iterators, which mark the start and end of the range to process.
+
+```cpp
+#include <vector>
+#include <algorithm>
+#include <numeric>
+using namespace std;
+
+vector<int> numbers = {5, 3, 8, 1, 9, 2};
+
+// begin() points to the first element
+// end() points just past the last element
+// Pass them to STL functions to define the range
+sort(numbers.begin(), numbers.end());
+```
+
+Think of `begin()` and `end()` as bookmarks: they tell the STL function where to start and where to stop. You will learn the full details of iterators later in the course.
+
+::: notes
+Consider a diagram showing a vector with an arrow labeled "begin()" pointing to the first element and an arrow labeled "end()" pointing just past the last element.
+
+Instructor note: This is a brief and intentionally simplified introduction. Iterators are a deep topic that will be covered thoroughly in a later unit. For now, students only need to know that begin() and end() are passed to STL functions to define the range.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## sort() — Concept
+
+The `sort()` function rearranges vector elements into ascending order by default. It requires the `<algorithm>` header and takes begin() and end() iterators as arguments.
+
+`sort()` works with any element type that supports the `<` operator, including int, double, and string. Sorting strings produces alphabetical order.
+
+The function modifies the vector in place, meaning the original vector is permanently reordered. There is no return value.
+
+::: notes
+Consider a before/after diagram showing an unsorted vector transforming into a sorted one.
+
+Instructor note: Demonstrate sort() with other data structures (arrays, deque) in a later class when students are more comfortable with iterators and templates.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## sort() — Examples
+
+```cpp
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+// Sorting integers
+vector<int> scores = {85, 42, 97, 63, 71};
+sort(scores.begin(), scores.end());
+// scores is now: {42, 63, 71, 85, 97}
+
+// Sorting doubles
+vector<double> prices = {9.99, 3.49, 14.99, 1.99};
+sort(prices.begin(), prices.end());
+// prices is now: {1.99, 3.49, 9.99, 14.99}
+
+// Sorting strings alphabetically
+vector<string> names = {"Charlie", "Alice", "Bob"};
+sort(names.begin(), names.end());
+// names is now: {"Alice", "Bob", "Charlie"}
+
+// Confirming result
+for (string name : names) {
+    cout << name << " ";
+}
+```
+
+<!-- Slide 4 -->
+
+---
+
+## find() — Concept
+
+The `find()` function searches a vector for a specific value and returns an iterator pointing to the first match. It requires the `<algorithm>` header.
+
+If the value is not found, `find()` returns the end() iterator. Comparing the result to end() tells you whether the search succeeded.
+
+`find()` performs a linear search, checking each element in order from begin() to end(). It stops and returns as soon as the first match is found.
+
+::: notes
+Consider a diagram showing find() scanning elements left to right, stopping at the match with an arrow pointing to the found element.
+
+Instructor note: Demonstrate find() with other containers and with custom comparison logic in a later class. Also mention find_if() as a teaser for lambda functions.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## find() — Examples
+
+```cpp
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+vector<int> scores = {85, 42, 97, 63, 71};
+
+// Searching for a value that exists
+auto result = find(scores.begin(), scores.end(), 97);  // auto = iterator type
+if (result != scores.end()) {
+    cout << "Found: " << *result << endl;  // * retrieves value from iterator — prints: Found: 97
+} else {
+    cout << "Not found" << endl;
+}
+
+// Searching for a value that does not exist
+auto result2 = find(scores.begin(), scores.end(), 100);  // auto = iterator type
+if (result2 != scores.end()) {
+    cout << "Found: " << *result2 << endl;
+} else {
+    cout << "Not found" << endl;  // prints: Not found
+}
+
+// Searching strings
+vector<string> names = {"Alice", "Bob", "Carol"};
+auto nameResult = find(names.begin(), names.end(), "Bob");
+if (nameResult != names.end()) {
+    cout << "Found name: " << *nameResult << endl;  // * retrieves the string value
+}
+```
+
+::: notes
+Note: The * operator before result dereferences the iterator to get the actual value. This is a preview of pointer/iterator dereferencing students will learn in detail later.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## min_element() and max_element() — Concept
+
+`min_element()` returns an iterator to the smallest element in a range. `max_element()` returns an iterator to the largest. Both require the `<algorithm>` header.
+
+Like `find()`, both functions return iterators that must be dereferenced with `*` to retrieve the actual value. If the vector is empty, the result is undefined.
+
+Both functions work with any type that supports the `<` operator, including int, double, and string. For strings, comparison is alphabetical.
+
+::: notes
+Consider a diagram showing a vector with arrows pointing to the minimum and maximum elements.
+
+Instructor note: Demonstrate min_element() and max_element() with other containers and with custom comparators in a later class. Also briefly mention minmax_element() as a way to find both simultaneously.
+:::
+
+<!-- Slide 7 -->
+
+---
+
+## min_element() — Examples
+
+```cpp
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+// Finding minimum integer
+vector<int> scores = {85, 42, 97, 63, 71};
+auto minIt = min_element(scores.begin(), scores.end());  // auto = iterator type
+cout << "Lowest score: " << *minIt << endl;  // * retrieves value — prints: 42
+
+// Finding minimum double
+vector<double> prices = {9.99, 3.49, 14.99, 1.99};
+auto cheapest = min_element(prices.begin(), prices.end());
+cout << "Cheapest: $" << *cheapest << endl;  // prints: $1.99
+
+// Finding minimum string (alphabetical)
+vector<string> names = {"Charlie", "Alice", "Bob"};
+auto firstName = min_element(names.begin(), names.end());
+cout << "First alphabetically: " << *firstName << endl;  // prints: Alice
+
+// Always check for empty before calling
+if (!scores.empty()) {
+    cout << *min_element(scores.begin(), scores.end()) << endl;
+}
+```
+
+<!-- Slide 8 -->
+
+---
+
+## max_element() — Examples
+
+```cpp
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+// Finding maximum integer
+vector<int> scores = {85, 42, 97, 63, 71};
+auto maxIt = max_element(scores.begin(), scores.end());  // auto = iterator type
+cout << "Highest score: " << *maxIt << endl;  // * retrieves value — prints: 97
+
+// Finding maximum double
+vector<double> prices = {9.99, 3.49, 14.99, 1.99};
+auto priciest = max_element(prices.begin(), prices.end());
+cout << "Most expensive: $" << *priciest << endl;  // prints: $14.99
+
+// Finding maximum string (last alphabetically)
+vector<string> names = {"Charlie", "Alice", "Bob"};
+auto lastName = max_element(names.begin(), names.end());
+cout << "Last alphabetically: " << *lastName << endl;  // prints: Charlie
+
+// Always check for empty before calling
+if (!scores.empty()) {
+    cout << *max_element(scores.begin(), scores.end()) << endl;
+}
+```
+
+<!-- Slide 9 -->
+
+---
+
+## fill() — Concept
+
+The `fill()` function sets every element in a range to a specified value. It requires the `<algorithm>` header and modifies the vector in place.
+
+`fill()` takes three arguments: begin(), end(), and the value to assign. Every element between begin() and end() is overwritten with that value.
+
+`fill()` is useful for initializing or resetting a vector to a known state before processing. It works with any element type.
+
+::: notes
+Consider a diagram showing a vector with varied values transforming into one where all elements are the same.
+
+Instructor note: Demonstrate fill() with partial ranges (begin() + offset) in a later class when students understand iterator arithmetic. Also mention fill_n() as an alternative.
+:::
+
+<!-- Slide 10 -->
+
+---
+
+## fill() — Examples
+
+```cpp
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+// Filling integers with a value
+vector<int> scores = {85, 42, 97, 63, 71};
+fill(scores.begin(), scores.end(), 0);
+// scores is now: {0, 0, 0, 0, 0}
+
+// Filling doubles
+vector<double> prices = {9.99, 3.49, 14.99, 1.99};
+fill(prices.begin(), prices.end(), 1.00);
+// prices is now: {1.00, 1.00, 1.00, 1.00}
+
+// Filling strings
+vector<string> names = {"Alice", "Bob", "Carol"};
+fill(names.begin(), names.end(), "Unknown");
+// names is now: {"Unknown", "Unknown", "Unknown"}
+
+// Confirming result
+for (int s : scores) {
+    cout << s << " ";  // prints: 0 0 0 0 0
+}
+```
+
+<!-- Slide 11 -->
+
+---
+
+## accumulate() — Concept
+
+The `accumulate()` function combines all elements in a range into a single value. It requires the `<numeric>` header and takes three arguments: begin(), end(), and a starting value.
+
+By default, `accumulate()` adds all elements together, starting from the initial value you provide. The starting value is typically 0 for sums.
+
+Unlike the other functions covered today, `accumulate()` returns a value rather than modifying the vector. The return type matches the type of the starting value you provide.
+
+::: notes
+Consider a diagram showing accumulate() walking through a vector, adding each element to a running total.
+
+Instructor note: Demonstrate accumulate() with custom binary operations (multiplication, concatenation) in a later class when students learn lambdas or function objects. This is a powerful function that scales well beyond simple addition.
+:::
+
+<!-- Slide 12 -->
+
+---
+
+## accumulate() — Examples
+
+```cpp
+#include <numeric>
+#include <vector>
+using namespace std;
+
+// Summing integers
+vector<int> scores = {85, 42, 97, 63, 71};
+int total = accumulate(scores.begin(), scores.end(), 0);
+cout << "Total: " << total << endl;  // prints: 358
+
+// Calculating integer average (note: result is truncated to int)
+cout << "Average: " << total / scores.size() << endl;  // prints: 71
+
+// Summing doubles — use 0.0 as starting value for decimal result
+vector<double> prices = {9.99, 3.49, 14.99, 1.99};
+double sum = accumulate(prices.begin(), prices.end(), 0.0);
+cout << "Total cost: $" << sum << endl;  // prints: $30.46
+
+// Average using doubles — accurate decimal result
+vector<double> temps = {72.5, 68.0, 75.3};
+double tempSum = accumulate(temps.begin(), temps.end(), 0.0);
+cout << "Avg temp: " << tempSum / temps.size() << endl;  // prints: 71.9333
+```
+
+::: notes
+Note: The integer average example shows truncation (358/5 = 71 not 71.6). This is intentional to reinforce integer division behavior students learned earlier. For accurate averages, use a double vector or declare the starting value as 0.0.
+:::
+
+<!-- Slide 13 -->
+
+---
+
+## When to Use Each STL Tool
+
+Use `sort()` when you need elements in order for display, binary search, or comparison. Sorting is a prerequisite for many other algorithms.
+
+Use `find()` when searching for a specific value and you need to know if it exists or where it is. It works on unsorted vectors; sorted vectors have faster alternatives you will learn later.
+
+Use `min_element()` or `max_element()` when you need the extreme value in a collection without sorting the entire vector. Use both when you need to report or compare boundaries.
+
+Use `fill()` when initializing or resetting a vector to a uniform value before processing. Use `accumulate()` when combining all elements into a single result such as a sum, total, or concatenated string.
+
+::: notes
+Consider a quick-reference table: Function | Header | Returns | Modifies Vector? — one row per function.
+:::
+
+<!-- Slide 14 -->
+
+---
+
+## Summary
+
+The STL provides sort(), find(), min_element(), max_element(), fill(), and accumulate() as reliable, reusable tools for common vector operations. All require iterators via begin() and end() to define the range they operate on.
+
+<!-- Slide 15 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Common Practices
+
+Always include the correct header for each function: `<algorithm>` for sort, find, min_element, max_element, and fill, and `<numeric>` for accumulate. Missing headers produce confusing compiler errors.
+
+Check that a vector is not empty before calling min_element() or max_element(). Calling these on an empty vector produces undefined behavior since there is no valid element to return.
+
+Always compare the result of find() to end() before dereferencing it. Dereferencing an end() iterator causes undefined behavior if the element was not found.
+
+Store the initial value type carefully when using accumulate(). Passing 0 instead of 0.0 for a vector of doubles will perform integer arithmetic and truncate the result.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+Forgetting that sort() modifies the original vector causes problems if the original order is needed later. Make a copy of the vector before sorting if you need to preserve the original order.
+
+Dereferencing the result of find() without checking if it equals end() causes undefined behavior. Always guard the dereference with an if statement that confirms the search succeeded.
+
+Passing the wrong starting value to accumulate() produces incorrect results. For summing doubles, always use 0.0 as the starting value, not 0.
+
+Confusing min_element() with a function that returns the value directly rather than an iterator is a common source of errors. Remember to dereference with * to get the actual value.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Combining sort and find
+vector<int> data = {50, 20, 80, 10, 60};
+sort(data.begin(), data.end());
+// data: {10, 20, 50, 60, 80}
+
+auto found = find(data.begin(), data.end(), 50);
+if (found != data.end()) {
+    cout << "Found 50 in sorted vector" << endl;
+}
+
+// Using min, max, and accumulate together
+vector<double> temps = {72.5, 68.0, 75.3, 80.1, 65.5};
+double minTemp = *min_element(temps.begin(), temps.end());
+double maxTemp = *max_element(temps.begin(), temps.end());
+double sumTemp = accumulate(temps.begin(), temps.end(), 0.0);
+double avgTemp = sumTemp / temps.size();
+
+cout << "Min: " << minTemp << endl;   // 65.5
+cout << "Max: " << maxTemp << endl;   // 80.1
+cout << "Avg: " << avgTemp << endl;   // 72.28
+
+// Reset and refill
+fill(temps.begin(), temps.end(), 70.0);
+cout << "Reset to: " << *temps.begin() << endl;  // 70.0
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Create a vector of 5 integers, sort it, and print the result using a for-each loop.
+2. Use find() to search a vector of strings for "banana" and print whether it was found or not.
+3. Given a vector of test scores, use accumulate() to calculate the total and then divide by size() to find the average.
+4. Create a vector of 6 doubles, use fill() to set all values to 3.14, then use min_element() and max_element() to confirm they are all equal.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+When searching for help or using AI assistants, try these search terms:
+
+- "C++ STL sort vector example"
+- "C++ find algorithm vector"
+- "C++ min_element max_element iterator"
+- "C++ fill vector all elements"
+- "C++ accumulate sum vector"
+- "C++ algorithm header functions"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+1. Why do STL functions use iterators (begin() and end()) instead of working directly on vectors?
+2. What is the difference between a function that modifies the vector in place versus one that returns a value?
+3. Why must you always check if find() returned end() before using the result?
+4. How does the starting value in accumulate() affect the result, and why does the type of that value matter?
+
+<!-- Appendix Slide 6 -->

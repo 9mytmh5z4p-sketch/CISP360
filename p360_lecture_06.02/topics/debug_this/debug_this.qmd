@@ -1,0 +1,133 @@
+
+# Debug This
+
+::: notes
+
+::: 
+
+##
+
+The following program has several intentional bugs.
+
+Can you find them?
+
+---
+
+```cpp
+// This program should calculate the average of three scores and display a grade
+// There are 5 bugs hidden in this code - can you find them all?
+#include <iostream>
+using namespace std;
+
+double calculateAverage(int score1, int score2, int score3);
+void displayGrade(double average);
+
+int main() {
+    int s1 = 85, s2 = 92, s3 = 88;
+    double avg = calculateAverage(s1, s2, s3);
+    cout << "Average score: " << avg << endl;
+    displayGrade(avg);
+}
+double calculateAverage(int score1, int score2, int score3) {
+    int sum = score1 + score2 + score3;
+    return sum / 3;
+}
+
+void displayGrade(double average) {
+    if (average >= 90)
+        cout << "Grade: A" << endl;
+    else if (average = 80)
+        cout << "Grade: B" << endl;
+    else
+        cout << "Grade: C or lower" << endl;
+}
+```
+
+## Spoilers Ahead
+
+## Errors
+
+- Integer division - loses decimal precision
+- Assignment vs. comparison - the classic = vs >= mistake we discussed earlier!
+- Type mismatch - using int when double is needed
+- Missing range check - logic error in conditionals
+- Incomplete logic - simplified grading scale
+
+## LINE 9 - INTEGER DIVISION BUG
+
+   Problem: return sum / 3;
+   Issue: Integer division truncates the decimal
+   Fix: return sum / 3.0;
+   Or: Change sum to double type
+
+## LINE 16 - ASSIGNMENT VS COMPARISON BUG
+
+   Problem: else if (average = 80)
+   Issue: Using = (assignment) instead of >= (comparison)
+   Fix: else if (average >= 80)
+
+## LINE 9 - LOGIC ERROR (Integer vs Double)
+
+   Problem: int sum = score1 + score2 + score3;
+   Issue: Using int when function returns double causes precision loss
+   Fix: double sum = score1 + score2 + score3;
+
+## LINE 16 - MISSING RANGE CHECK
+
+   Problem: else if (average >= 80) doesn't check upper bound
+   Issue: Score of 95 would be both A and B
+   Fix: else if (average >= 80 && average < 90)
+
+## LINE 18 - INCOMPLETE GRADING LOGIC
+
+   Problem: Only checks for C or lower
+   Issue: Doesn't distinguish between D, F, etc.
+   Optional: Could add more detailed grade ranges
+
+## Front Matter
+
+This does not use function prototypes.
+
+## Working Code
+
+::: {.columns}
+::: {.column width="75%"}
+
+```{.cpp} 
+#include <iostream>
+using namespace std;
+
+double calculateAverage(int score1, int score2, int score3);
+void displayGrade(double average);
+
+int main() {
+    int s1 = 85, s2 = 92, s3 = 88;
+    double avg = calculateAverage(s1, s2, s3);
+    cout << "Average score: " << avg << endl;
+    displayGrade(avg);
+}
+double calculateAverage(int score1, int score2, int score3) {
+    double sum = score1 + score2 + score3;
+    return sum / 3.0;
+}
+
+void displayGrade(double average) {
+    if (average >= 90)
+        cout << "Grade: A" << endl;
+    else if (average >= 80 && average < 90)
+        cout << "Grade: B" << endl;
+    else
+        cout << "Grade: C or lower" << endl;
+}
+```
+:::
+
+::: {.column width="25%"}
+
+Expected Output: Average score: 88.3333
+                 Grade: B
+
+:::
+::: 
+
+

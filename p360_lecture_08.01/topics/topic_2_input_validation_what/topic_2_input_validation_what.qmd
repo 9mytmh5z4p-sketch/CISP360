@@ -1,0 +1,179 @@
+# Input Validation - What?
+
+## Input Validation - What?
+
+- What exactly should we check when validating input? 
+- Are there categories of checks that apply across different programs and domains?
+
+::: notes
+Total slides: 7
+
+Consider showing a flowchart with the seven validation types as decision points.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Catagories of Validation Checks
+
+1. Presence (is there any data at all?)
+2. Data type (is it an int, string, etc.?)
+3. Range / bounds (is a number within min/max?)
+4. Format (does it match a pattern like a zip code or phone number?)
+5. Set membership (is it one of a specific list of allowed values?)
+6. Business logic (does it make sense in context — e.g., end date after start date?)
+7. Consistency (does it agree with other fields already entered?)
+
+---
+
+## 1. Presence
+
+- Presence validation checks whether data exists at all.
+
+- Example: a form field that requires a name. An empty string fails presence validation. This is the first gate: no data means no valid input.
+
+<!-- Slide 2 -->
+
+---
+
+## 2. Data Type
+
+- Data type validation ensures the data matches the expected type (integer, string, floating-point, etc.).
+
+
+<!-- Slide 3 -->
+
+---
+
+## 3. Range and Bounds
+
+- Range validation ensures a numeric value falls between acceptable minimum and maximum boundaries. 
+- Prevents overflow, underflow, and nonsensical calculations. For example, validating that an array index is within the array's actual size.
+
+<!-- Slide 4 -->
+
+---
+
+## 4. Format
+
+- Format validation checks whether data matches an expected pattern. 
++ Phone numbers follow "123-456-7890" or similar patterns. 
++ Zip codes are five digits. 
++ Email addresses contain an @ symbol.
+
+<!-- Slide 5 -->
+
+---
+
+## 5. Set Membership
+
+- Set membership validation checks whether the input is one of a specific list of allowed values. A menu might accept only "A", "B", or "C"; a response field might accept only "Yes" or "No".
+
+- This is a whitelist approach: only explicitly approved values are accepted. Everything else is rejected.
+
+<!-- Slide 6 -->
+
+---
+
+## 6. Business Logic and Consistency
+
+- Whether the input makes sense in the context of your program's rules. 
++ An end date must be after a start date. 
++ A discount percentage cannot exceed 100%. 
++ A withdrawal amount cannot exceed account balance.
+
+- Consistency validation ensures new input agrees with data already in the system (e.g., a zip code matches the city entered earlier).
+
+<!-- Slide 7 -->
+
+---
+
+## Summary
+
+The seven validation types—presence, data type, range, format, set membership, business logic, and consistency—cover all common checks. Apply them in order: first verify data exists, then its type, then its bounds, format, and allowed values, then logic and consistency rules.
+
+<!-- Slide 8 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Appendix Contents
+
+- [Common Practices](#common-practices)
+- [Common Mistakes](#common-mistakes)
+- [More Examples](#more-examples)
+- [Practice Problems](#practice-problems)
+- [AI Search Terms](#ai-search-terms)
+- [Questions for Reflection](#questions-for-reflection)
+
+<!-- Appendix Slide 0 -->
+
+---
+
+## Common Practices
+
+Apply validation checks in layers, starting with presence and type, then range and format, then business logic. This order prevents crashes before logic errors. Use helper functions for each validation type—one function for range, one for format, etc.—to keep code readable and reusable.
+
+Document what valid input means for each field. Include constraints in comments or assertions. When validation fails, report which type of validation failed (e.g., "Range error: value must be 0–100") so the user knows how to correct it.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+Mixing multiple validation types in a single function makes code hard to debug and reuse. Validating inconsistently (checking format in one place, range in another) allows invalid data to slip through.
+
+Forgetting presence and type checks and jumping straight to range checks causes crashes when data doesn't exist or is the wrong type. Validating too strictly (rejecting valid input due to overly narrow rules) frustrates users.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+Presence: checking that a user's name field is not empty. Data type: ensuring an age input can be parsed as an integer. Range: ensuring a month value is 1–12. Format: checking that a phone number matches "XXX-XXX-XXXX". Set membership: allowing only "M" or "F" for gender. Business logic: checking that a loan end date is after the start date. Consistency: checking that a zip code matches the state the user entered.
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. For a program that reads a birth year (must be 1900–2026), which validation types must you apply and in what order?
+
+2. A form asks for a country name. What validation type ensures the input is one of your program's supported countries?
+
+3. Write a scenario where business logic validation is necessary but range validation alone is not enough.
+
+4. When would consistency validation matter in a multi-step form?
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- input validation types categories
+- data type validation C++
+- range checking validation
+- format validation patterns regex
+- business logic validation examples
+- data consistency validation
+- validation rules and constraints
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+Why is the order of validation types important? Can you think of a real application where all seven types are needed? Which validation type is hardest to implement correctly?
+
+<!-- Appendix Slide 6 -->

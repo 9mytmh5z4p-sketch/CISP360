@@ -1,0 +1,67 @@
+<!-- Topic 4: Array-Pointer Relationship -->
+<!-- Total slides: 4 -->
+
+# Array-Pointer Relationship
+
+---
+
+## Why does an array name look like a pointer? {.smaller}
+
+- An array name evaluates to the address of its first element
+- This "decay" explains why arrays lose their size when passed to functions
+
+::: notes
+Total slides: 4
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Decay in action
+
+```{.cpp}
+int scores[5] = {91, 78, 84, 95, 62};
+
+cout << scores    << "\n";    // address of scores[0]
+cout << &scores[0]<< "\n";    // same address
+```
+
+- `scores` and `&scores[0]` produce identical values
+- The array name is not a pointer variable — you cannot reassign it — but it evaluates to an address wherever a pointer is expected
+
+::: notes
+[Graphic suggestion: the five-element array from topic 1, with two arrows both pointing to element 0 — one labeled "scores" and one labeled "&scores[0]" — converging at the same cell]
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Subscript is pointer arithmetic
+
+```{.cpp}
+int scores[5] = {91, 78, 84, 95, 62};
+
+scores[2]       // standard subscript notation
+*(scores + 2)   // identical — add 2, then dereference
+```
+
+| Subscript | Pointer form |
+|---|---|
+| `scores[0]` | `*(scores + 0)` |
+| `scores[1]` | `*(scores + 1)` |
+| `scores[i]` | `*(scores + i)` |
+
+- The compiler treats both forms identically — subscript is syntactic sugar
+
+<!-- Slide 3 -->
+
+---
+
+## Summary
+
+- An array name decays to a pointer to its first element; `arr` == `&arr[0]`
+- `arr[i]` and `*(arr + i)` are the same operation — subscript notation is shorthand for pointer arithmetic
+
+<!-- Slide 4 -->

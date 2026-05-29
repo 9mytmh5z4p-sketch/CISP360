@@ -1,0 +1,255 @@
+# Code This
+
+## Code This
+
+Six progressive tasks — one per slide. Each isolates a single loop concept. Write your solution before advancing to the answer.
+
+::: notes
+Total slides: 13
+
+Timing: 13 min for this topic. Running total across all topics + wrapper: ~64 min of 75 available. 11-min buffer.
+
+Task progression: for (known count) → while (unknown count) → do-while (act first, then check) → range-based for (every element). Each task forces students to justify their loop choice, not just get the code running.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Task 1 — Times Table Strip
+
+**`for` loop · Easy**
+
+Given a number N entered by the user, print the first 10 multiples of N (N×1 through N×10).
+
+You know exactly how many lines to print before the loop starts.
+
+<!-- Slide 2 -->
+
+---
+
+## Task 1 — Answer
+
+```cpp
+int n;
+cout << "Enter a number: ";
+cin >> n;
+
+for (int i = 1; i <= 10; i = i + 1) {
+    cout << n << " x " << i << " = " << n * i << "\n";
+}
+```
+
+<!-- Slide 3 -->
+
+---
+
+## Task 2 — Guess the Number
+
+**`while` loop · Easy**
+
+The program has a secret number: 42. Keep asking the user to guess. Print `Too low`, `Too high`, or `Correct!` after each guess. Loop until they get it right.
+
+You don't know how many guesses they'll need.
+
+<!-- Slide 4 -->
+
+---
+
+## Task 2 — Answer
+
+```cpp
+int secret = 42;
+int guess;
+
+cout << "Guess the number: ";
+cin >> guess;
+
+while (guess != secret) {
+    if (guess < secret)
+        cout << "Too low. Try again: ";
+    else
+        cout << "Too high. Try again: ";
+    cin >> guess;
+}
+
+cout << "Correct!\n";
+```
+
+<!-- Slide 5 -->
+
+---
+
+## Task 3 — Menu Selector
+
+**`do-while` loop · Easy**
+
+Display a menu with 3 options. Ask the user to pick one (1, 2, or 3). If they enter anything else, show the menu again and ask again.
+
+The menu must appear at least once before you can check whether the input is valid.
+
+<!-- Slide 6 -->
+
+---
+
+## Task 3 — Answer
+
+```cpp
+int choice;
+
+do {
+    cout << "1. Start\n";
+    cout << "2. Settings\n";
+    cout << "3. Quit\n";
+    cout << "Choose (1-3): ";
+    cin >> choice;
+} while (choice < 1 || choice > 3);
+
+cout << "You selected option " << choice << "\n";
+```
+
+<!-- Slide 7 -->
+
+---
+
+## Task 4 — Running Total
+
+**`for` loop · Medium**
+
+Ask the user how many numbers they want to enter (N). Read exactly N numbers. After each one, print the running total.
+
+The count is fixed and known before the loop starts.
+
+<!-- Slide 8 -->
+
+---
+
+## Task 4 — Answer
+
+```cpp
+int n, num, total = 0;
+
+cout << "How many numbers? ";
+cin >> n;
+
+for (int i = 1; i <= n; i = i + 1) {
+    cout << "Enter number " << i << ": ";
+    cin >> num;
+    total = total + num;
+    cout << "Running total: " << total << "\n";
+}
+```
+
+<!-- Slide 9 -->
+
+---
+
+## Task 5 — Validated Input
+
+**`do-while` loop · Medium**
+
+Ask the user to enter a number between 1 and 100. If they enter something outside that range, tell them and ask again. Once valid, print `You entered: X`.
+
+The prompt must fire before any check is possible.
+
+<!-- Slide 10 -->
+
+---
+
+## Task 5 — Answer
+
+```cpp
+int n;
+
+do {
+    cout << "Enter a number (1-100): ";
+    cin >> n;
+    if (n < 1 || n > 100)
+        cout << "Out of range. Try again.\n";
+} while (n < 1 || n > 100);
+
+cout << "You entered: " << n << "\n";
+```
+
+<!-- Slide 11 -->
+
+---
+
+## Task 6 — List Analyser
+
+**Range-based `for` · Medium**
+
+Given a hardcoded `vector<int>` of 6 numbers, find and print the largest value, the smallest value, and the sum. Use a range-based `for` loop.
+
+No index needed — you want every element.
+
+<!-- Slide 12 -->
+
+---
+
+## Task 6 — Answer
+
+```cpp
+vector<int> nums = {14, 3, 27, 8, 19, 5};
+
+int largest  = nums[0];
+int smallest = nums[0];
+int sum      = 0;
+
+for (int n : nums) {
+    if (n > largest)  largest  = n;
+    if (n < smallest) smallest = n;
+    sum = sum + n;
+}
+
+cout << "Largest:  " << largest  << "\n";
+cout << "Smallest: " << smallest << "\n";
+cout << "Sum:      " << sum      << "\n";
+```
+
+<!-- Slide 13 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Before writing any loop, state out loud which type you're using and why. If you can't justify the choice, reconsider it.
+- Initialize accumulator variables (`total`, `sum`, `largest`) before the loop, not inside it — reinitializing every iteration resets the accumulated value.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Hardcoding the loop bound instead of using a variable — `i <= 10` is fine for Task 1, but `i <= n` is required once the count comes from the user.
+- Forgetting the priming read before a `while` loop that validates input — the condition must have something to test before the first check.
+- Initializing `largest` and `smallest` to 0 instead of `nums[0]` — if all values are negative, 0 is never the correct answer.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## AI Search Terms
+
+- "C++ for loop accumulator pattern"
+- "C++ while loop unknown iterations"
+- "C++ do while input validation"
+- "C++ range-based for loop find max min"
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Questions for Reflection
+
+- Tasks 3 and 5 both use `do-while`. What is the structural difference between a menu and input validation — or are they the same pattern?
+- For Task 2, could you rewrite the solution using a `do-while`? Would the behavior be identical?
+
+<!-- Appendix Slide 4 -->

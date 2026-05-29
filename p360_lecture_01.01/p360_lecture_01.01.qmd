@@ -1,118 +1,393 @@
----
-title: "CISP 360 \n Structured Programming"
-subtitle: "Introduction to C++"
-author: "Dr. Caleb Fowler"
+# Welcome to CISP 360
 
-format:
-  revealjs:
-    css: ../styles/styles.css
-    theme: serif
-    slide-number: true
-    navigation-mode: vertical
-    transition: slide
-    incremental: false
-    scrollable: false
-    controls: true
-    hash: true
-    history: true
-    title-slide: false
-    footer: "CISP 360 · Fowler"
-    keyboard: true  # Keep this as true to enable the system
-    include-after-body:
-      - text: |
-          <script>
-          window.Reveal.on('ready', event => {
-            Reveal.configure({
-              keyboard: {
-                34: 'down',   // Forward button
-                33: 'up',     // Back button
-                116: 'right',  // Start/Play button
-                190: 'left'    // Black Screen button
-              }
-            });
-          });
-          </script>
+::: notes
+This is the first lecture in the sequence. There is no "Last Time" — this is the beginning. Use this slide to greet the class and set the tone before moving into the agenda.
+:::
 
-engine: jupyter
-execute:
-  eval: true
-  echo: true
 
-resources:
- - topics/**/images/**
-
----
-
-## Today's Agenda
+# Today's Agenda
 
 - Course Overview
 - Parts of a C++ Program
 - Common Elements
 - Top Matter
-- The main() function
-- What comes next
+- The main() Function
+- Coding Exercise 1-1
 
 ::: notes
-This slide is deliberately lightweight.
-You will expand most of this vertically later.
+
 :::
 
-
-
-{{< include topics/course_overview/course_overview.qmd >}}
-{{< include topics/common_elements/common_elements.qmd >}}
-{{< include topics/parts_of_a_program/parts_of_a_program.qmd >}}
-{{< include topics/top_matter/top_matter.qmd >}}
-{{< include topics/main_function/main_function.qmd >}}
-{{< include topics/exercise_1-1/exercise_1-1.qmd >}}
-
-
-
-
-
-# Key Takaways
-
-**Philosophy**: Focuses on **Structured Programming** and logical reasoning (sequence, selection, iteration) rather than just syntax.
-
-**Core Elements**: Differentiates between **Identifiers** (custom names), **Reserved Words** (compiler-fixed), and **Literals** (fixed data).
-
-**Comments**: Essential for explaining programmer intent and debugging; completely ignored by the compiler.
-
-**Structure**: Every program requires **Top Matter** (environment setup and headers) and a **`main()` function** for execution.
-
-# Printed Copies
-
-You can turn the browser lecture slides into a pdf. It will be an Ok copy. Here's how you do it:
-
-1. In the slide URL
-2. delete any text up to .html
-3. add ?print-pdf
-4. File -> print in your browser to print a pdf.
+{{< include topic_1_course_overview.qmd >}}
+{{< include topic_2_parts_of_program.qmd >}}
+{{< include topic_3_common_elements.qmd >}}
+{{< include topic_4_top_matter.qmd >}}
+{{< include topic_5_main_function.qmd >}}
+{{< include topic_6_exercise_1_1.qmd >}}
 
 ---
 
-Change this ...
+# Key Takeaways
 
-``` html
-https://9mytmh5z4p-sketch.github.io/CISP360/p360_lecture_01.01/index.html#/title-slide
-```
+- This course teaches structured thinking through C++ — the goal is reasoning, not syntax
+- Every C++ program has two parts: **top matter** (environment setup) and **main()** (where execution begins)
+- Every word in a program is an identifier, a reserved word, a literal, or a comment — and the difference matters
+- Top matter is the same every time: SFH, `#include <iostream>`, `using namespace std`
+- `main()` is the entry point; statements run top to bottom; `return 0` closes the program
 
-to this ...
+---
 
-``` .html
-https://9mytmh5z4p-sketch.github.io/CISP360/p360_lecture_01.01/index.html?print-pdf
-```
-
-
-# FLC++
-
-
-# Class Discord Server
-
-
-<!-- The agenda from the next lecture -->
 # Next Time
 
-- Overview of variable types
-- Variables and assignment
-- Arithmetic operators
+- Variables and data types
+- Declaring and initializing variables
+- Basic arithmetic operators
+- Displaying output with `cout`
+
+---
+
+# Appendix
+
+---
+
+## Course Overview: Good Practices
+
+- Treat difficulty as signal, not obstacle — confusion in week one is normal and expected.
+- Write code every day, even if only for 15 minutes; programming is a physical skill that degrades without practice.
+- Ask questions early — a question in week one costs one minute; the same question in week eight costs an hour.
+
+---
+
+## Course Overview: Common Mistakes
+
+- Treating lectures as the primary activity — lectures are the map, coding is the territory.
+- Waiting to understand before trying — understanding comes from trying, not the other way around.
+- Comparing early progress to experienced programmers — every expert was once a complete beginner.
+
+---
+
+## Course Overview: More Examples
+
+- Structured programming in practice: a payroll calculator, a grade tracker, a temperature converter — all built from sequence, selection, and iteration only.
+- OOP preview: a `BankAccount` class where the account knows its own balance and rules — covered in the second half of the course.
+
+---
+
+## Course Overview: Practice Problems
+
+1. In your own words, explain the difference between structured programming and object-oriented programming.
+2. Name three professions outside of software development where algorithmic thinking is valuable and explain why.
+3. What does it mean for a program to be "correct"? Is a program that produces the right output always correct?
+
+---
+
+## Course Overview: AI Search Terms
+
+- "structured programming vs object-oriented programming"
+- "why learn C++ over Python"
+- "TIOBE index language rankings"
+- "computational thinking definition"
+- "abstraction decomposition algorithm thinking"
+
+---
+
+## Course Overview: Questions for Reflection
+
+- What does it mean to "learn how to think" through programming — and how would you know if you had succeeded?
+- Is there a profession you are interested in where the skills from this course would apply? What would that look like?
+- After today's lecture, what do you expect will be the hardest part of this course for you?
+
+---
+
+## Parts of a C++ Program: Good Practices
+
+- Always write top matter before main() — establish the habit from the first program.
+- Leave a blank line between the end of top matter and the opening of main() — it is a convention that aids readability.
+- If a program has two parts and one is missing or corrupt, the compiler will produce errors that seem unrelated to the actual problem.
+
+---
+
+## Parts of a C++ Program: Common Mistakes
+
+- Writing main() content before top matter — the compiler processes files top to bottom; headers must come first.
+- Thinking the two-part structure changes with the problem — it does not; only the content inside main() changes.
+- Confusing the two parts: top matter does not execute; only the code inside main() executes.
+
+---
+
+## Parts of a C++ Program: More Examples
+
+```cpp
+// temperature.cpp
+// Student Name
+// Today's Date
+// Converts Celsius to Fahrenheit.
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    double celsius = 100.0;
+    double fahrenheit = (celsius * 9.0 / 5.0) + 32.0;
+
+    cout << celsius << "C = " << fahrenheit << "F" << endl;
+
+    return 0;
+}
+```
+
+---
+
+## Parts of a C++ Program: Practice Problems
+
+1. Write the top matter for a program called `greeting.cpp` that you are writing today.
+2. Without looking at notes, write the complete skeleton of a C++ program — top matter and an empty main() — from memory.
+3. Given a program with 50 lines, how would you quickly identify where top matter ends and main() begins?
+
+---
+
+## Parts of a C++ Program: AI Search Terms
+
+- "C++ program structure top matter main function"
+- "C++ minimum program required parts"
+- "C++ #include using namespace main skeleton"
+
+---
+
+## Parts of a C++ Program: Questions for Reflection
+
+- Why does C++ require a `main()` function when some other languages do not?
+- If you could rename `main()` to anything you wanted, what would the tradeoffs be?
+
+---
+
+## Common Elements: Good Practices
+
+- When you cannot figure out why code does not compile, classify each word on the problem line: identifier, reserved word, or literal. The error is often a category confusion.
+- Name identifiers after what they represent, not how they are used — `age` is better than `x`; `totalPrice` is better than `tp`.
+- Write comments that explain intent. If the code is clear, a comment may not be needed. If the code is not clear, a comment is required.
+
+---
+
+## Common Elements: Common Mistakes
+
+- Using a reserved word as a variable name — the compiler error message is confusing until you recognize the pattern.
+- Assuming C++ is case-insensitive — `Int`, `INT`, and `int` are three different things; only `int` is a reserved word.
+- Writing comments that restate the code — "this is an int" next to `int age` adds no value.
+
+---
+
+## Common Elements: More Examples
+
+```cpp
+// Reserved words: int, string, cout, endl, return, using, namespace
+// Identifiers: age, name, main
+// Literals: 25, "Pat Smith", 0, "\n"
+
+int age = 25;
+string name = "Pat Smith";
+
+cout << "I'm " << name << ", age: " << age << endl;
+
+return 0;
+```
+
+---
+
+## Common Elements: Practice Problems
+
+1. In the program above, identify every identifier, every reserved word, and every literal.
+2. Write two versions of a comment for the line `int score = 0;` — one helpful, one unhelpful. Explain the difference.
+3. What would happen if you named a variable `return`? Try it and record the error message.
+
+---
+
+## Common Elements: AI Search Terms
+
+- "C++ reserved words list"
+- "C++ identifiers rules naming"
+- "C++ literals types integer string float"
+- "C++ comments best practices"
+- "C++ case sensitivity rules"
+
+---
+
+## Common Elements: Questions for Reflection
+
+- Why does C++ distinguish between identifiers and reserved words? What problem does this solve for the language designer?
+- If you were designing a programming language, what words would you reserve and why?
+- What makes a comment "good"? Can you write a rule for it?
+
+---
+
+## Top Matter: Good Practices
+
+- Write top matter before you write a single statement — it is the foundation everything else compiles against.
+- Fill in the SFH completely: a description that says "does stuff" is not a description.
+- Include only the headers you actually use — adding `#include <vector>` to a program that uses no vectors is unnecessary.
+
+---
+
+## Top Matter: Common Mistakes
+
+- Forgetting `#include <iostream>` — produces errors like `'cout' was not declared in this scope` that seem unrelated to the problem.
+- Writing `#Include` instead of `#include` — preprocessor directives are case-sensitive; this produces `invalid preprocessing directive`.
+- Omitting `using namespace std` — produces errors like `'cout' is not a member of 'std'` or requires `std::` in front of every standard name.
+
+---
+
+## Top Matter: More Examples
+
+```cpp
+// A program using multiple headers
+// calculator.cpp
+// Student Name
+// Today's Date
+// Basic arithmetic calculator.
+#include <iostream>
+#include <cmath>     // provides sqrt(), pow(), abs()
+using namespace std;
+
+int main()
+{
+    double x = 16.0;
+    cout << "sqrt(" << x << ") = " << sqrt(x) << endl;
+    return 0;
+}
+```
+
+---
+
+## Top Matter: Practice Problems
+
+1. Write the complete top matter for a program called `hello.cpp` written by you today that prints a greeting.
+2. What happens if you remove `using namespace std` from a program that uses `cout`? Try it and record the error.
+3. What is the difference between `#include <iostream>` and `#include "iostream"`? When would you use each?
+
+---
+
+## Top Matter: AI Search Terms
+
+- "C++ #include directive preprocessor"
+- "C++ using namespace std explained"
+- "C++ iostream header what does it provide"
+- "C++ angle brackets vs quotes include"
+- "C++ source file header comment convention"
+
+---
+
+## Top Matter: Questions for Reflection
+
+- The SFH is made entirely of comments — the compiler ignores it. Why include it at all?
+- If `using namespace std` is so convenient, why might an experienced programmer choose not to use it?
+- What would happen if two different libraries both defined a function called `cout`? How does a namespace solve that problem?
+
+---
+
+## The main() Function: Good Practices
+
+- End every `main()` with `return 0` — always, without exception, until you have a reason not to.
+- Keep `main()` focused on the high-level logic of the program; detailed work belongs in separate functions.
+- Match every opening brace `{` with a closing brace `}` — mismatched braces are a common source of confusing errors.
+
+---
+
+## The main() Function: Common Mistakes
+
+- Forgetting the semicolon at the end of a statement — produces `expected ';' before` errors that point to the next line, not the actual problem.
+- Misspelling `main` — `mian()`, `Main()`, or `MAIN()` are all undefined; the linker error message is `undefined reference to 'main'`.
+- Putting statements outside the braces of `main()` — executable statements must be inside a function.
+
+---
+
+## The main() Function: More Examples
+
+```cpp
+int main()
+{
+    // Sequence: three statements run top to bottom
+    cout << "Step 1" << endl;
+    cout << "Step 2" << endl;
+    cout << "Step 3" << endl;
+
+    return 0;
+}
+```
+
+---
+
+## The main() Function: Practice Problems
+
+1. What is the return type of `main()`? Why is it not `void`?
+2. Write a `main()` function that prints your name, your major, and the current year — one per line.
+3. What happens if you omit `return 0` from `main()`? Is it an error, a warning, or silently accepted?
+
+---
+
+## The main() Function: AI Search Terms
+
+- "C++ main function explained"
+- "C++ return 0 from main meaning"
+- "C++ curly braces block scope"
+- "C++ statements semicolons syntax"
+- "C++ entry point program execution"
+
+---
+
+## The main() Function: Questions for Reflection
+
+- Why does execution always start at `main()` and not at the top of the file?
+- What would change if C++ programs could have multiple entry points?
+- `main()` always returns an `int`. What does it mean for a function to "return" a value?
+
+---
+
+## Coding Exercise 1-1: Good Practices
+
+- Type the program by hand — do not copy and paste. Typing forces you to see every character.
+- Compile frequently as you type; don't wait until the whole program is written to check for errors.
+- When the compiler gives an error, read it carefully and try to understand it before making a change.
+
+---
+
+## Coding Exercise 1-1: Common Mistakes
+
+- Forgetting a closing quote `"` on a string literal — the compiler error is confusing because it points to the wrong line.
+- Typing `Cout` or `COUT` instead of `cout` — C++ is case-sensitive; `cout` is always lowercase.
+- Forgetting a semicolon at the end of a `cout` statement — the error message points to the next line.
+
+---
+
+## Coding Exercise 1-1: More Examples
+
+```cpp
+// Extension: add a third variable and print it
+string major = "Computer Science";
+cout << "My major is " << major << endl;
+```
+
+---
+
+## Coding Exercise 1-1: Practice Problems
+
+1. Modify 1-1.cpp to also print your major and the name of this class.
+2. Add a third variable of type `double` to store your GPA and print it.
+3. What happens if you remove `#include <iostream>` from 1-1.cpp? Record the exact error message.
+
+---
+
+## Coding Exercise 1-1: AI Search Terms
+
+- "C++ hello world program explained"
+- "C++ cout print variable"
+- "C++ string variable declaration"
+- "C++ compile error missing semicolon"
+- "C++ first program structure"
+
+---
+
+## Coding Exercise 1-1: Questions for Reflection
+
+- Every line of 1-1.cpp uses at least one concept from today's lecture. Can you identify which concept each line demonstrates?
+- What would you need to change to make the program print a different person's information?
+- The program always prints the same output. What would have to change to make it print different output each time it runs?

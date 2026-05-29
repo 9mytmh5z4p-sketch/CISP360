@@ -1,0 +1,219 @@
+# Breaking Out of a Loop
+
+## Breaking Out of a Loop
+
+Every loop exits when its condition becomes false. But what if you need to exit immediately — from the middle of the loop body, before the condition is checked?
+
+::: notes
+Total slides: 7
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The `break` Statement
+
+`break` exits the nearest enclosing loop immediately. Execution continues with the first statement after the loop.
+
+```cpp
+for (int i = 1; i <= 10; i++) {
+    if (i == 5)
+        break;          // exit the loop immediately
+    cout << i << "\n";
+}
+cout << "Loop ended.\n";
+// Output: 1, 2, 3, 4, Loop ended.
+```
+
+The loop runs until `i == 5`, then stops — even though the condition `i <= 10` is still true.
+
+<!-- Slide 2 -->
+
+---
+
+## `break` in a While Loop
+
+```cpp
+int value;
+while (true) {          // loop runs forever...
+    cout << "Enter a value (-1 to quit): ";
+    cin >> value;
+
+    if (value == -1)
+        break;          // ...until break fires
+
+    cout << "You entered: " << value << "\n";
+}
+cout << "Goodbye.\n";
+```
+
+`while (true)` is an intentional infinite loop. `break` is the only exit. This pattern is common for interactive programs.
+
+<!-- Slide 3 -->
+
+---
+
+## `break` Exits One Loop
+
+`break` only exits the loop it is directly inside. In nested loops, it exits the inner loop only.
+
+```cpp
+for (int i = 1; i <= 3; i++) {
+    for (int j = 1; j <= 3; j++) {
+        if (j == 2)
+            break;      // exits inner loop only
+        cout << i << "," << j << "\n";
+    }
+}
+// Output: 1,1  2,1  3,1
+```
+
+::: notes
+Instructor note: Nested loops are not a focus of this lecture. This slide is awareness-only. Students don't need to write nested loop break statements yet.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## When to Use `break`
+
+- When the exit condition is complex and awkward to express in the loop header.
+- When the loop runs until the user signals done (sentinel pattern).
+- When searching a collection and you want to stop the moment you find a match.
+
+```cpp
+// Stop searching when target is found
+for (int i = 0; i < scores.size(); i++) {
+    if (scores[i] == target) {
+        cout << "Found at position " << i << "\n";
+        break;
+    }
+}
+```
+
+<!-- Slide 5 -->
+
+---
+
+## `break` vs Condition-Based Exit
+
+Both approaches work. The right choice depends on which is clearer.
+
+::: {.columns}
+::: {.column width="50%"}
+**Condition in header**
+
+```{.cpp}
+while (value != -1) {
+    cin >> value;
+    process(value);
+}
+```
+:::
+
+::: {.column width="50%"}
+**break inside body**
+
+```{.cpp}
+while (true) {
+    cin >> value;
+    if (value == -1) break;
+    process(value);
+}
+```
+:::
+:::
+
+Prefer the condition-in-header form when possible — it makes the exit visible at the top of the loop.
+
+<!-- Slide 6 -->
+
+---
+
+## Summary
+
+`break` exits the nearest enclosing loop immediately. Use it when the exit condition cannot be cleanly expressed in the loop header, or when you need to stop a loop from inside the body.
+
+<!-- Slide 7 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Prefer expressing the exit condition in the loop header when possible — `while (value != -1)` is clearer than `while (true)` with a `break`.
+- Use `break` intentionally — it should be obvious to the reader *why* the loop is exiting at that point.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Assuming `break` exits all loops — it only exits the innermost one.
+- Using `break` in a switch statement inside a loop expecting it to exit the loop — `break` exits the switch, not the loop.
+- Placing `break` where the loop condition would suffice, making the logic harder to follow.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Search a vector for the first negative number
+vector<int> nums = {4, 7, -2, 9, -5, 1};
+int pos = -1;
+
+for (int i = 0; i < nums.size(); i++) {
+    if (nums[i] < 0) {
+        pos = i;
+        break;
+    }
+}
+
+if (pos != -1)
+    cout << "First negative at position " << pos << "\n";
+else
+    cout << "No negatives found.\n";
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a loop that reads integers until the user enters 0, then prints the count of numbers entered.
+2. What is the output of this loop? `for (int i = 0; i < 10; i++) { if (i % 4 == 0 && i != 0) break; cout << i << " "; }`
+3. Rewrite a `while (true)` / `break` loop as a standard while loop with the condition in the header.
+4. Why does `break` inside a switch statement inside a for loop *not* exit the for loop?
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ break statement loop"
+- "C++ break vs loop condition"
+- "C++ while true break pattern"
+- "C++ break nested loop"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- Is `while (true)` with a `break` ever clearer than a standard while loop? When would you choose it?
+- What does it say about a program's design if `break` appears frequently throughout its loops?
+
+<!-- Appendix Slide 6 -->

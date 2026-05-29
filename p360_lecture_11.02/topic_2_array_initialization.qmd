@@ -1,0 +1,100 @@
+<!-- Topic 2: Array Initialization -->
+<!-- Total slides: 6 -->
+
+# Array Initialization
+
+---
+
+## Declaring vs. initializing — what's the difference? {.smaller}
+
+- Declaration allocates the space; initialization sets the values
+- Arrays give you several ways to do both at once
+
+::: notes
+Total slides: 6
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Initializer list — full
+
+```{.cpp}
+int scores[5] = {91, 78, 84, 95, 62};  // all 5 values
+```
+
+- Brace-enclose the values separated by commas
+- The count of values must not exceed the declared size
+- If the count matches the size, you can omit the size entirely:
+
+```{.cpp}
+int scores[] = {91, 78, 84, 95, 62};   // size inferred as 5
+```
+
+<!-- Slide 2 -->
+
+---
+
+## Initializer list — partial
+
+```{.cpp}
+int scores[5] = {91, 78};   // first 2 set; rest zero-initialized
+```
+
+- Provide fewer values than the declared size
+- Remaining elements are **zero-initialized** automatically
+- This is the idiomatic way to zero out an array:
+
+```{.cpp}
+int scores[5] = {};          // all elements zero
+int scores[5] = {0};         // same effect
+```
+
+<!-- Slide 3 -->
+
+---
+
+## Size rules
+
+```{.cpp}
+const int SIZE = 5;
+int scores[SIZE];             // OK — const is compile-time
+
+int n = 5;
+int scores[n];                // not standard C++ — avoid
+```
+
+- Array size must be a **compile-time constant**
+- A plain `int` variable is not a compile-time constant, even if you assign it immediately
+- Prefer `const int` or a named constant for the size
+
+::: notes
+Variable-length arrays (VLAs) are a GCC extension and exist in C99, but they are not standard C++ and should not be taught as portable practice.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## What if you don't initialize?
+
+```{.cpp}
+int scores[5];          // uninitialized — garbage values
+```
+
+- Local arrays without an initializer hold whatever was in memory at that address
+- Reading an uninitialized element is undefined behavior
+- Always initialize, or fill every element before reading it
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
+- Provide an initializer list to set values at declaration; `= {}` zeros the entire array
+- Size must be a compile-time constant — use `const int` for named sizes
+- Uninitialized local arrays hold garbage; always initialize before reading
+
+<!-- Slide 6 -->

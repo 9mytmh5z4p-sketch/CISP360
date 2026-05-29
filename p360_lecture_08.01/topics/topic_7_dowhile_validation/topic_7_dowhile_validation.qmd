@@ -1,0 +1,250 @@
+# Input Validation with the Do-While Loop
+
+What if the loop body must always run at least once? The do-while loop eliminates the need for a priming read—the body executes first, then the condition at the bottom decides whether to repeat.
+
+::: notes
+Total slides: 6
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Do-While vs While: The Key Difference
+
+- A **while loop** checks the condition before the first iteration. 
+- A **do-while loop** executes the body first, then checks the condition.
+
+For input validation, this means a do-while never needs a priming read. The prompt and cin are inside the do block and always execute at least once.
+
+<!-- Slide 2 -->
+
+---
+
+## Simple Do-While Validation Example
+
+```cpp
+const int MIN = 1, MAX = 10;
+int val;
+do {
+    cout << "Enter a number (1-10): ";
+    cin >> val;
+} while (val < MIN || val > MAX);
+```
+
+The loop body runs first, gets the input, and then checks the condition. If invalid, it loops back to the beginning of the do block and re-prompts. No priming read needed.
+
+<!-- Slide 3 -->
+
+---
+
+## While vs Do-While: Side-by-Side Comparison
+
+**While loop approach:**
+
+```cpp
+int val;
+cout << "Enter (1-10): ";
+cin >> val;
+while (val < 1 || val > 10) {
+    cout << "Enter (1-10): ";
+    cin >> val;
+}
+```
+
+**Do-while loop approach:**
+
+```cpp
+int val;
+do {
+    cout << "Enter (1-10): ";
+    cin >> val;
+} while (val < 1 || val > 10);
+```
+
+The do-while is more concise—one cin statement instead of two. Choose based on whether you prefer the structure that best fits your logic.
+
+<!-- Slide 4 -->
+
+---
+
+## Handling cin Failures in Do-While
+
+Stream error handling inside a do-while works the same as in a while loop. Clear the fail state and discard bad input before looping.
+
+```cpp
+int val;
+do {
+    cout << "Enter an integer (1-100): ";
+    if (!(cin >> val)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        val = -1;  // Force invalid to loop again
+    }
+} while (val < 1 || val > 100);
+```
+
+Set the variable to an invalid value inside the if block to ensure the while condition is true and the loop repeats.
+
+<!-- Slide 5 -->
+
+---
+
+## When to Choose Do-While for Validation
+
+Use do-while when it makes logical sense that the user must provide input at least once. This is often the case in interactive programs: ask once, validate, and loop only if needed.
+
+Do-while is also preferred when the prompt and input are tightly coupled—they belong together and should appear only once in the code. The structure prevents code duplication.
+
+<!-- Slide 6 -->
+
+---
+
+## Summary
+
+A do-while loop validates input without a priming read. The body executes first, then the condition at the bottom decides whether to repeat. Use do-while when the prompt and input must run at least once.
+
+<!-- Slide 7 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Appendix Contents
+
+- [Common Practices](#common-practices)
+- [Common Mistakes](#common-mistakes)
+- [More Examples](#more-examples)
+- [Practice Problems](#practice-problems)
+- [AI Search Terms](#ai-search-terms)
+- [Questions for Reflection](#questions-for-reflection)
+
+<!-- Appendix Slide 0 -->
+
+---
+
+## Common Practices
+
+**Use do-while to eliminate code duplication.** When the prompt and cin must appear more than once, do-while lets you write them once inside the loop body.
+
+**Keep the condition clear and simple.** Write `while (condition_is_invalid)` at the bottom. This reads naturally: "loop while the input is bad."
+
+**Place the closing brace and while keyword on the same line.** The syntax `} while (condition);` makes it clear that this is a do-while, not a regular while loop.
+
+**Use named constants for bounds.** Constants document intent and make changes easy. Define them before the do-while, outside the loop.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+**Forgetting the semicolon after the while condition.** The syntax is `} while (condition);` — the semicolon is required. Omitting it causes a compile error.
+
+**Using while (condition_is_valid) instead of while (condition_is_invalid).** If you write `while (val >= 1 && val <= 10)`, the loop exits when the input is valid, which is backwards. Always write the condition to mean "loop while bad."
+
+**Comparing different types in the condition.** Type mismatches between the input variable and the bounds cause unexpected conversions. Keep all types consistent.
+
+**Not handling cin failures inside the do block.** If the user enters non-numeric input, `cin >> val` fails and the stream enters a fail state. Always check for failure and call `cin.clear()` and `cin.ignore()`.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+**Validating a yes/no response:**
+
+```cpp
+char response;
+do {
+    cout << "Continue? (Y/N): ";
+    cin >> response;
+} while (response != 'Y' && response != 'N');
+```
+
+**Validating a GPA between 0.0 and 4.0:**
+
+```cpp
+double gpa;
+do {
+    cout << "Enter GPA (0.0-4.0): ";
+    cin >> gpa;
+} while (gpa < 0.0 || gpa > 4.0);
+```
+
+**Validating with error handling and retries:**
+
+```cpp
+int attempts = 0;
+int pin;
+do {
+    cout << "Enter PIN (1000-9999): ";
+    if (!(cin >> pin)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        pin = -1;
+    }
+    attempts++;
+} while ((pin < 1000 || pin > 9999) && attempts < 3);
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a do-while loop that repeatedly asks the user to enter a single character. Accept only 'A', 'B', or 'C'.
+
+2. Write a do-while loop that prompts for a positive integer (at least 1). Include error handling for non-numeric input.
+
+3. Write a do-while loop that validates a password: must be at least 8 characters long and contain at least one digit.
+
+4. Rewrite the following while loop as a do-while loop:
+```cpp
+int num;
+cout << "Enter an even number: ";
+cin >> num;
+while (num % 2 != 0) {
+    cout << "Not even. Try again: ";
+    cin >> num;
+}
+```
+
+5. Write a menu system using a do-while loop that prompts the user to choose option 1, 2, or 3. Re-prompt on invalid choice.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "do-while loop input validation C++"
+- "do-while vs while C++ validation"
+- "cin.clear() do-while loop"
+- "prompt user C++ do-while"
+- "validate range do-while loop"
+- "menu validation do-while C++"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+1. Why does a do-while loop eliminate the need for a priming read?
+
+2. When would you choose a while loop over a do-while for the same validation task?
+
+3. What is the purpose of writing the condition at the bottom of a do-while loop?
+
+4. How would you validate that the user enters exactly 3 digits using a do-while?
+
+5. What happens if you forget the semicolon after `while (condition)` in a do-while loop?
+
+<!-- Appendix Slide 6 -->

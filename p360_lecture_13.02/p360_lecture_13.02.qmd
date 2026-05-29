@@ -1,45 +1,49 @@
 # Last Time
 
 ::: {.incremental}
-+ **The Address Operator**
-+ **Pointer Variables**
-+ **Array-Pointer Relationship**
-+ **Pointer Arithmetic**
++ **Two-Dimensional Arrays**
++ **Lab — Array-Backed Stack**
++ **C-Strings**
 :::
 
 ::: notes
-13.01 recap. Address operator: & returns address, cout prints hex, &arr[0] == arr. Pointer variables: int* declaration, & to assign, * to dereference, modifying through pointer. Array-pointer relationship: array name decays to pointer, arr[i] == *(arr+i). Pointer arithmetic: ptr+1 steps one element forward, traversal with sentinel.
+12.02 recap. 2D arrays: type name[rows][cols], nested-loop traversal (outer on rows), row-major storage. Stack lab: five-function API (push/pop/peek/isFull/isEmpty), top index sentinel (-1). C-strings: char array + null terminator, strlen/strcpy/strcmp/strcat, contrast with std::string.
 :::
 
 ---
 
 # Today's Agenda
 
-- Pointers as Function Parameters
-- Pointers to Constants and Constant Pointers
-- Returning Pointers from Functions
-- Smart Pointers
-- Memory Inspection with C++
+- Closer Look — Arrays & Memory
+- The Address Operator
+- Pointer Variables
+- Array-Pointer Relationship
+- Pointer Arithmetic
+- Initializing Pointers
+- Comparing Pointers
+- VLAs & G++
 
 ::: notes
 
 :::
 
-{{< include topic_1_pointer_parameters.qmd >}}
-{{< include topic_2_const_pointers.qmd >}}
-{{< include topic_3_returning_pointers.qmd >}}
-{{< include topic_5_smart_pointers.qmd >}}
-{{< include topic_6_memory_inspection.qmd >}}
+{{< include topic_1_arrays_memory.qmd >}}
+{{< include topic_2_address_operator.qmd >}}
+{{< include topic_3_pointer_variables.qmd >}}
+{{< include topic_4_array_pointer.qmd >}}
+{{< include topic_5_pointer_arithmetic.qmd >}}
+{{< include topic_6_initializing_pointers.qmd >}}
+{{< include topic_7_comparing_pointers.qmd >}}
+{{< include topic_8_vlas_gpp.qmd >}}
 
 ---
 
 # Key Takeaways
 
-- A pointer parameter gives a function access to the caller's variable — dereference to read or write
-- `const int*` protects data; `int* const` locks the address — position of `const` relative to `*` determines which
-- Never return the address of a local variable — it is destroyed when the function exits
-- Smart pointers (`unique_ptr`, `shared_ptr`) release memory automatically — prefer them over raw `new`/`delete`
-- `reinterpret_cast<const unsigned char*>` lets you walk any variable's raw bytes — endianness and type sizes become visible
+- Every variable has an address; `&` gets it; a pointer variable stores it; `*` follows it
+- An array name decays to a pointer to its first element — `arr[i]` and `*(arr + i)` are identical
+- Pointer arithmetic scales by element size — `ptr + 1` steps one element forward, not one byte
+- Always initialize pointers to `nullptr` or a valid address; never dereference an uninitialized pointer
 
 ---
 
@@ -51,120 +55,192 @@
 
 ---
 
-## Pointers as Function Parameters: Good Practices
+## Closer Look — Arrays & Memory: Good Practices
 
 ---
 
-## Pointers as Function Parameters: Common Mistakes
+## Closer Look — Arrays & Memory: Common Mistakes
 
 ---
 
-## Pointers as Function Parameters: More Examples
+## Closer Look — Arrays & Memory: More Examples
 
 ---
 
-## Pointers as Function Parameters: Practice Problems
+## Closer Look — Arrays & Memory: Practice Problems
 
 ---
 
-## Pointers as Function Parameters: AI Search Terms
+## Closer Look — Arrays & Memory: AI Search Terms
 
 ---
 
-## Pointers as Function Parameters: Questions for Reflection
+## Closer Look — Arrays & Memory: Questions for Reflection
 
 ---
 
-## Pointers to Constants and Constant Pointers: Good Practices
+## The Address Operator: Good Practices
 
 ---
 
-## Pointers to Constants and Constant Pointers: Common Mistakes
+## The Address Operator: Common Mistakes
 
 ---
 
-## Pointers to Constants and Constant Pointers: More Examples
+## The Address Operator: More Examples
 
 ---
 
-## Pointers to Constants and Constant Pointers: Practice Problems
+## The Address Operator: Practice Problems
 
 ---
 
-## Pointers to Constants and Constant Pointers: AI Search Terms
+## The Address Operator: AI Search Terms
 
 ---
 
-## Pointers to Constants and Constant Pointers: Questions for Reflection
+## The Address Operator: Questions for Reflection
 
 ---
 
-## Returning Pointers from Functions: Good Practices
+## Pointer Variables: Good Practices
 
 ---
 
-## Returning Pointers from Functions: Common Mistakes
+## Pointer Variables: Common Mistakes
 
 ---
 
-## Returning Pointers from Functions: More Examples
+## Pointer Variables: More Examples
 
 ---
 
-## Returning Pointers from Functions: Practice Problems
+## Pointer Variables: Practice Problems
 
 ---
 
-## Returning Pointers from Functions: AI Search Terms
+## Pointer Variables: AI Search Terms
 
 ---
 
-## Returning Pointers from Functions: Questions for Reflection
+## Pointer Variables: Questions for Reflection
 
 ---
 
-## Smart Pointers: Good Practices
+## Array-Pointer Relationship: Good Practices
 
 ---
 
-## Smart Pointers: Common Mistakes
+## Array-Pointer Relationship: Common Mistakes
 
 ---
 
-## Smart Pointers: More Examples
+## Array-Pointer Relationship: More Examples
 
 ---
 
-## Smart Pointers: Practice Problems
+## Array-Pointer Relationship: Practice Problems
 
 ---
 
-## Smart Pointers: AI Search Terms
+## Array-Pointer Relationship: AI Search Terms
 
 ---
 
-## Smart Pointers: Questions for Reflection
+## Array-Pointer Relationship: Questions for Reflection
 
 ---
 
-## Memory Inspection with C++: Good Practices
+## Pointer Arithmetic: Good Practices
 
 ---
 
-## Memory Inspection with C++: Common Mistakes
+## Pointer Arithmetic: Common Mistakes
 
 ---
 
-## Memory Inspection with C++: More Examples
+## Pointer Arithmetic: More Examples
 
 ---
 
-## Memory Inspection with C++: Practice Problems
+## Pointer Arithmetic: Practice Problems
 
 ---
 
-## Memory Inspection with C++: AI Search Terms
+## Pointer Arithmetic: AI Search Terms
 
 ---
 
-## Memory Inspection with C++: Questions for Reflection
+## Pointer Arithmetic: Questions for Reflection
+
+---
+
+## Initializing Pointers: Good Practices
+
+---
+
+## Initializing Pointers: Common Mistakes
+
+---
+
+## Initializing Pointers: More Examples
+
+---
+
+## Initializing Pointers: Practice Problems
+
+---
+
+## Initializing Pointers: AI Search Terms
+
+---
+
+## Initializing Pointers: Questions for Reflection
+
+---
+
+## Comparing Pointers: Good Practices
+
+---
+
+## Comparing Pointers: Common Mistakes
+
+---
+
+## Comparing Pointers: More Examples
+
+---
+
+## Comparing Pointers: Practice Problems
+
+---
+
+## Comparing Pointers: AI Search Terms
+
+---
+
+## Comparing Pointers: Questions for Reflection
+
+---
+
+## VLAs & G++: Good Practices
+
+---
+
+## VLAs & G++: Common Mistakes
+
+---
+
+## VLAs & G++: More Examples
+
+---
+
+## VLAs & G++: Practice Problems
+
+---
+
+## VLAs & G++: AI Search Terms
+
+---
+
+## VLAs & G++: Questions for Reflection

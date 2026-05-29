@@ -1,0 +1,193 @@
+# What Can't the For-Each Loop Do?
+
+## What Can't the For-Each Loop Do?
+
+The for-each loop is clean and readable — so why do we need three more loops? Today we'll look at the specific tasks for-each cannot handle, which is exactly why while, do-while, and for exist.
+
+::: notes
+Total slides: 6
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## For-Each Is Great — Until It Isn't
+
+- Great when you need to visit every element of a collection and read it.
+- Anything beyond "visit each element in order," for-each starts to break down.
+
+```cpp
+vector<int> scores = {85, 72, 90, 63};
+
+for (int s : scores) {
+    cout << s << "\n";
+}
+```
+
+::: notes
+
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## No Index Access
+
+For-each gives you the value, not the position. If the task depends on where an element is, you are stuck.
+
+```cpp
+// CANNOT do this with for-each:
+// "Print only odd-indexed elements"
+// "Find the position of the maximum value"
+// "Replace element at position 3"
+
+// You need a traditional loop for index access:
+for (int i = 0; i < scores.size(); i++) {
+    cout << "Position " << i << ": " << scores[i] << "\n";
+}
+```
+
+::: notes
+
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## No Parallel Vectors
+
+Parallel vectors store related data across two separate vectors at matching indices. For-each has no way to walk two vectors in sync.
+
+```cpp
+vector<string> names  = {"Alice", "Bob", "Carol"};
+vector<int>    grades = {88,      74,    95};
+
+// For-each can only see one vector at a time.
+// You CANNOT pair names with grades using for-each.
+
+// A traditional loop keeps the index in sync:
+for (int i = 0; i < names.size(); i++) {
+    cout << names[i] << ": " << grades[i] << "\n";
+}
+```
+
+This is one of the most common real-world reasons to leave for-each behind.
+
+::: notes
+
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## No Menu-Driven Programs
+
+- menu-driven program loops until the user chooses to quit. 
+
+```cpp
+// For-each has nothing to loop over in this scenario.
+// The loop must run based on user input, not a collection.
+
+int choice = 0;
+do {
+    displayMenu();
+    cin >> choice;
+    processChoice(choice);
+} while (choice != 0);
+```
+
+
+
+::: notes
+For-each requires a collection to iterate over — there is no collection here, just a condition.
+Menu-driven programs are the natural home of the do-while loop. We will build one today.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
+For-each is the right tool when you read every element of a single collection in order. When you need an index, parallel data, or condition-based repetition, you need a different loop.
+
+<!-- Slide 6 -->
+
+::: notes
+
+:::
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Use for-each when you only need the value and do not need to modify the collection.
+- Switch to a traditional loop the moment you need the index, parallel traversal, or any form of early exit.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Using for-each with `auto` and expecting to modify the original vector — the loop variable is a copy.
+- Trying to keep a manual counter inside a for-each to simulate an index — this works but defeats the purpose; use a for loop instead.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Modifying elements requires a reference — but for-each still
+// cannot give you the index even with a reference:
+for (auto& s : scores) {
+    s += 5;  // adds 5 to every element — OK
+}
+
+// Still cannot do: "add 5 only to elements at even positions"
+// That requires a for loop.
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Given a vector of integers, write a loop that prints each element alongside its index. Can you do this with for-each? Why or why not?
+2. Given two parallel vectors `names` and `scores`, print each name with its corresponding score. Which loop type is most appropriate?
+3. List two real-world tasks from this course where for-each is the right choice and two where it is not.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ range-based for loop limitations"
+- "C++ for-each vs index-based loop"
+- "C++ parallel vector iteration"
+- "C++ when to use for loop vs range for"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- Why would a language designer include a for-each loop if it cannot do everything a regular for loop can?
+- Can you think of a case where you might start writing a for-each and then realize you need to switch to a different loop? What clue would tip you off?
+
+<!-- Appendix Slide 6 -->

@@ -1,0 +1,302 @@
+# Multi-Dimensional Vectors
+
+How can we store data that naturally forms a grid or table — like a tic-tac-toe board, a spreadsheet, or a seating chart? Today we'll learn how vectors can contain other vectors, creating multi-dimensional structures for organizing complex data.
+
+::: notes
+Total slides: 9
+
+Consider a visual showing a grid or table transforming into nested vector boxes.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## What is a Multi-Dimensional Vector?
+
+A multi-dimensional vector is a vector whose elements are themselves vectors. The outer vector contains rows, and each row is a vector containing columns.
+
+```cpp
+// A regular vector holds individual values
+vector<int> numbers = {1, 2, 3};
+
+// A 2D vector holds vectors as its elements
+vector<vector<int>> grid;
+// The outer vector<> contains
+// The inner vector<int> elements
+```
+
+This creates a structure similar to a table or spreadsheet where data is organized in rows and columns. Each element in the outer vector is an entire row, and each row contains individual values.
+
+::: notes
+Consider a diagram showing a 1D vector as a single row, then a 2D vector as a grid with rows and columns labeled.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Declaring and Initializing 2D Vectors
+
+A 2D vector is declared with nested angle brackets. The type `vector<vector<int>>` means "a vector of vectors of int."
+
+```cpp
+// Empty 2D vector
+vector<vector<int>> grid;
+
+// 2D vector initialized with values (3 rows, 3 columns)
+vector<vector<int>> board = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+
+// 2D vector of strings (2 rows, different column counts)
+vector<vector<string>> names = {
+    {"Alice", "Bob", "Carol"},
+    {"Dan", "Eve"}
+};
+```
+
+Notice the nested curly braces: the outer braces contain the rows, and each inner set of braces defines one row. Rows can have different lengths, though equal-length rows are more common.
+
+<!-- Slide 3 -->
+
+---
+
+## Understanding the Structure — Rows and Columns
+
+Think of a 2D vector as a vector of rows, where each row is itself a vector. The outer vector manages rows, and each inner vector manages the columns within that row.
+
+```cpp
+vector<vector<int>> grid = {
+    {10, 20, 30},  // row 0: three columns
+    {40, 50, 60},  // row 1: three columns
+    {70, 80, 90}   // row 2: three columns
+};
+
+// grid.size() tells you how many rows
+cout << "Rows: " << grid.size() << endl;  // prints 3
+
+// grid[0].size() tells you how many columns in row 0
+cout << "Columns in row 0: " << grid[0].size() << endl;  // prints 3
+```
+
+Each row is accessed by its index in the outer vector. Each row then has its own `.size()` because it is a vector itself.
+
+::: notes
+Consider a diagram showing the structure: outer vector labeled "rows" containing inner vectors labeled "columns."
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Accessing Elements in 2D Vectors
+
+Access elements using two sets of brackets: the first selects the row, the second selects the column within that row.
+
+```cpp
+vector<vector<int>> grid = {
+    {10, 20, 30},
+    {40, 50, 60},
+    {70, 80, 90}
+};
+
+// Access row 0, column 1
+cout << grid[0][1] << endl;  // prints 20
+
+// Access row 2, column 2
+cout << grid[2][2] << endl;  // prints 90
+
+// Modify an element
+grid[1][0] = 99;  // row 1, column 0 now contains 99
+
+// Get an entire row as a vector
+vector<int> firstRow = grid[0];  // {10, 20, 30}
+```
+
+The first bracket `[row]` retrieves an entire row (which is a vector). The second bracket `[column]` accesses a specific element within that row's vector.
+
+<!-- Slide 5 -->
+
+---
+
+## Adding Data to 2D Vectors
+
+Add rows to a 2D vector using `.push_back()` with an entire row vector. Add elements to individual rows by accessing the row first, then using `.push_back()` on that row.
+
+```cpp
+vector<vector<int>> grid;
+
+// Add entire rows
+grid.push_back({1, 2, 3});  // {1,2,3} creates and adds a row
+grid.push_back({4, 5, 6});  // add row 1
+
+// Add a column to an existing row
+grid[0].push_back(10);  // row 0 now: {1, 2, 3, 10}
+
+// Create a row, then add it
+vector<int> newRow = {7, 8, 9};
+grid.push_back(newRow);  // add row 2
+```
+
+Remember that `.push_back()` on the outer vector adds rows, while `.push_back()` on `grid[i]` adds columns to that specific row.
+
+::: notes
+Consider a step-by-step animation showing rows being added to an empty 2D vector.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Iterating Through 2D Vectors
+
+Use nested for-each loops to process every element in a 2D vector. The outer loop visits each row, and the inner loop visits each element within that row.
+
+```cpp
+vector<vector<int>> grid = {
+    {10, 20, 30},
+    {40, 50, 60},
+    {70, 80, 90}
+};
+
+// Nested for-each to visit every element
+for (vector<int> row : grid) {
+    for (int value : row) {
+        cout << value << " ";
+    }
+    cout << endl;  // newline after each row
+}
+// Output:
+// 10 20 30
+// 40 50 60
+// 70 80 90
+```
+
+The outer loop retrieves each row (which is a `vector<int>`). The inner loop processes each individual value within that row.
+
+<!-- Slide 7 -->
+
+---
+
+## Common Use Cases for 2D Vectors
+
+Game boards like tic-tac-toe, chess, or Sudoku naturally fit 2D vectors where each position in the grid holds a value. Rows and columns represent positions on the board.
+
+Spreadsheet-like data where each row represents a record and each column represents a field works well with 2D vectors. Student grades, sales data, or schedules all benefit from this structure.
+
+Image processing uses 2D vectors to represent pixels, where each position stores color or brightness values. Matrix operations in mathematics use 2D vectors for calculations involving rows and columns.
+
+<!-- Slide 8 -->
+
+---
+
+## Summary
+
+Multi-dimensional vectors use nested vector structures to store grid-like data, with the outer vector managing rows and inner vectors managing columns. Access elements using double bracket notation, and iterate using nested for-each loops.
+
+<!-- Slide 9 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Common Practices
+
+Always check that a 2D vector is not empty before accessing any elements using bracket notation. An empty outer vector has no rows, so `grid[0]` would cause undefined behavior.
+
+Be mindful that rows can have different lengths unless you explicitly enforce uniform dimensions. Accessing `grid[0][5]` will fail if row 0 has fewer than 6 elements.
+
+Use `.size()` on the outer vector to get the number of rows, and `.size()` on individual rows to get column counts. This defensive approach prevents out-of-bounds access.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+Confusing the order of row and column in bracket notation leads to accessing the wrong element. Remember that `grid[row][col]` means "row first, then column."
+
+Assuming all rows have the same length can cause out-of-bounds errors. Unless you initialize with uniform dimensions, each row's length should be checked before access.
+
+Forgetting that `grid[i]` returns a vector (not a single value) causes type errors. To access an individual element, you must use two bracket operations: `grid[i][j]`.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Tic-tac-toe board (3x3 grid of characters)
+vector<vector<char>> board = {
+    {'X', 'O', 'X'},
+    {'O', 'X', 'O'},
+    {'X', 'O', 'X'}
+};
+
+cout << "Center square: " << board[1][1] << endl;  // prints O
+
+// Student grades (rows are students, columns are test scores)
+vector<vector<int>> grades = {
+    {85, 90, 78},  // Student 0
+    {92, 88, 95},  // Student 1
+    {76, 82, 84}   // Student 2
+};
+
+// Calculate average for student 0
+int sum = 0;
+for (int grade : grades[0]) {
+    sum += grade;
+}
+cout << "Student 0 average: " << sum / grades[0].size() << endl;
+
+// Empty 2D vector that grows dynamically
+vector<vector<string>> schedule;
+schedule.push_back({"Math", "English", "History"});  // Monday
+schedule.push_back({"Science", "PE", "Art"});        // Tuesday
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Create a 2D vector representing a 2x2 grid of integers, initialized with values 1, 2, 3, 4.
+2. Write nested for-each loops to print every element in a 3x3 2D vector of strings.
+3. Create an empty 2D vector of doubles, add three rows with two columns each, then print the entire structure.
+4. Given a 2D vector of integers, write code to access and print the element in row 1, column 2.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+When searching for help or using AI assistants, try these search terms:
+
+- "C++ 2D vector tutorial"
+- "C++ vector of vectors example"
+- "C++ multi-dimensional vector initialization"
+- "C++ nested vector access"
+- "C++ 2D vector iterate for-each"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+1. Why is a 2D vector described as "a vector of vectors" and how does that affect how we access elements?
+2. What is the difference between `grid.size()` and `grid[0].size()` in a 2D vector?
+3. Why do we need two sets of brackets `grid[i][j]` to access individual elements?
+4. In what situations would a 2D vector be more appropriate than parallel vectors?
+
+<!-- Appendix Slide 6 -->

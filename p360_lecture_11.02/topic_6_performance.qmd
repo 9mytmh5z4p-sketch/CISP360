@@ -1,0 +1,65 @@
+<!-- Topic 6: Performance — Vectors vs. Arrays -->
+<!-- Total slides: 5 -->
+
+# Performance — Vectors vs. Arrays
+
+---
+
+## Stack vs. heap — does the difference matter? {.smaller}
+
+- Arrays live on the stack; vectors allocate on the heap
+- The difference is measurable — but rarely the deciding factor
+
+::: notes
+Total slides: 5
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Why arrays are faster — in theory
+
+- **Stack allocation**: the compiler reserves space at function entry; no system call, no bookkeeping
+- **Heap allocation**: `new` (what `vector` uses internally) requests memory from the OS; involves overhead and possible cache misses
+- Arrays also avoid storing a pointer, size, and capacity — three extra words that vectors carry
+
+::: notes
+[Graphic suggestion: two side-by-side memory diagrams — left shows the call stack with an array block sitting directly inside the frame; right shows the call stack with a vector object (pointer + size + capacity) pointing out to a heap block]
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## What the numbers look like
+
+- For small arrays (< a few hundred elements), the practical difference is nanoseconds
+- The bottleneck in most programs is I/O, algorithm complexity, or cache misses — not stack vs. heap
+- Modern allocators are fast; vector's heap overhead is often negligible
+
+::: notes
+If you have a timing demo ready, show it here. A tight loop summing 1,000 ints as an array vs. vector will show a small but real difference. The point is not that arrays are always faster — it's that the difference matters only in constrained contexts.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## When the difference actually matters
+
+- Embedded systems and microcontrollers with no heap (or a tiny one)
+- Real-time systems where allocation latency must be bounded
+- Hot inner loops called millions of times in numerical or signal-processing code
+- Interfacing with C libraries that expect raw arrays
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
+- Arrays are faster than vectors because stack allocation has no overhead and no indirection
+- The gap matters in constrained or performance-critical contexts; for general programming, choose based on safety and flexibility, not speed
+
+<!-- Slide 5 -->

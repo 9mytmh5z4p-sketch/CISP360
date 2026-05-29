@@ -1,17 +1,13 @@
-# Topics — p360_lecture_11.02
+# Topics — p360_lecture_11.01
 
 | Topic | Emphasis | Time Budget | Optional | Prerequisites | Tone Flag | Note |
 |-------|----------|-------------|----------|---------------|-----------|------|
-|  Processing Array Contents (sum, min, max) | |  | | | |  draw a comparison with  what we did with loops |
-|  Linear search | |  | | | |   |
-|  Sorting (Simple) | |  | | | |   |
-|  The typedef Statement | | 5 | | | |   |
-|  typedef and arrays and/or vectors | | 5 | | | |   |
-|  sizeof with arrays | |  | | | |   |
-|  Arrays as Function Arguments | |  | | | |   |
-|   | |  | | | |   |
-|   | |  | | | |   |
-|   | |  | | | |   |
+|  introduction to arrays | |  | | | |   |
+| accessing ray elements in lo | |  | | | |  show and contrast for each and for loops |
+| inputting and displaying array data | |  | | | |   |
+|  array initialization| |  | | | |   |
+|  vectors versus arrays comparison| |  | | | |  array size and bounds safety are issues |
+|  show the performance difference between a vector and an array| |  | | | |   |
 
 ---
 

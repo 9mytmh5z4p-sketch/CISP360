@@ -1,0 +1,109 @@
+<!-- Topic 2: Linear Search -->
+<!-- Total slides: 6 -->
+
+# Linear Search
+
+---
+
+## Finding a value — without any shortcuts {.smaller}
+
+- Linear search checks each element in order until it finds a match or runs out of elements
+- No sorting required; works on any array
+
+::: notes
+Total slides: 6
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The basic search loop
+
+```{.cpp}
+const int SIZE = 5;
+int scores[SIZE] = {91, 78, 84, 95, 62};
+int target = 84;
+
+for (int i = 0; i < SIZE; i++) {
+    if (scores[i] == target) {           //.......... found it
+        std::cout << "Found at index " << i << "\n";
+    }
+}
+```
+
+::: notes
+This naive version keeps looping after a match — it will report every occurrence. The next slide shows how to stop early once a match is found.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Stopping early with a flag
+
+```{.cpp}
+bool found = false;
+int  foundAt = -1;                       //.......... -1 signals "not found"
+
+for (int i = 0; i < SIZE; i++) {
+    if (scores[i] == target) {
+        found   = true;
+        foundAt = i;
+        break;                           //.......... stop at first match
+    }
+}
+
+if (found) {
+    std::cout << "Found at index " << foundAt << "\n";
+} else {
+    std::cout << "Not found\n";
+}
+```
+
+<!-- Slide 3 -->
+
+---
+
+## Returning the index from a function
+
+```{.cpp}
+int linearSearch(int arr[], int size, int target) {
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == target) {
+            return i;                    //.......... return index on match
+        }
+    }
+    return -1;                           //.......... -1 means not found
+}
+```
+
+::: notes
+-1 as a sentinel return value is a C++ convention for "not found" with index-returning functions. Students will see this pattern again with string's find() method later in the course.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Performance — how slow is slow?
+
+- Linear search inspects at most **N** elements for an array of size N
+- Best case: target is at index 0 — one comparison
+- Worst case: target is at the last index or not present — N comparisons
+- For small arrays this is fine; for large sorted data, binary search is faster
+
+::: notes
+Keep this brief — the point is that students understand the tradeoff exists, not that they implement binary search today.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
+- Linear search walks the array from index 0, checking each element; `-1` as the return value signals "not found"
+- Use `break` or `return` to stop at the first match rather than scanning the rest of the array
+
+<!-- Slide 6 -->

@@ -1,0 +1,64 @@
+<!-- Topic 2: The Address Operator -->
+<!-- Total slides: 4 -->
+
+# The Address Operator
+
+---
+
+## How do we find out where a variable lives? {.smaller}
+
+- The address operator `&` returns the memory address of a variable
+- This is the same `&` used in pass-by-reference — now we're seeing what it actually does
+
+::: notes
+Total slides: 4
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Getting and printing an address
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int x = 42;
+    cout << x    << "\n";   // 42 — the value
+    cout << &x   << "\n";   // 0x... — the address
+    return 0;
+}
+```
+
+- `&x` produces the address of `x` — a number representing its location in memory
+- `cout` prints addresses in hexadecimal by default
+
+<!-- Slide 2 -->
+
+---
+
+## Addresses of array elements
+
+```{.cpp}
+int scores[5] = {91, 78, 84, 95, 62};
+
+cout << &scores[0] << "\n";   // base address
+cout << &scores[1] << "\n";   // base + 4 bytes
+cout << &scores[2] << "\n";   // base + 8 bytes
+```
+
+- Each address is 4 bytes past the previous one — one `int` apart
+- `&scores[0]` equals the array's own address: `scores` and `&scores[0]` print the same value
+
+<!-- Slide 3 -->
+
+---
+
+## Summary
+
+- `&variable` returns the memory address of that variable
+- Array element addresses are spaced by element size — `&arr[i]` is `i` elements past the base address
+
+<!-- Slide 4 -->

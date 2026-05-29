@@ -1,0 +1,198 @@
+# Input Validation Architectures
+
+## Input Validation Architectures
+
+How should we structure validation in a real program? Are there different patterns for organizing validation logic, each suited to different scenarios?
+
+::: notes
+Total slides: 7
+
+Consider showing a comparison table or flowchart of the eight architectures.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Overview of Eight Architectures
+
+1. Inline Validation
+2. Validation Layer / Gateway
+3. Loop-Until-Valid (Input Loop)
+4. Whitelist vs. Blacklist Validation
+5. Type-First Validation
+6. Exception-Based Validation
+7. State Machine Validation
+8. Schema / Contract Validation
+
+<!-- Slide 2 -->
+
+---
+
+## 1. Inline Validation
+
+- Inline validation embeds checks directly in the code where data is used. 
+  + After reading an integer, you immediately check if it's in range before using it in a calculation.
+
+- This approach is simple and works well for small programs. However, it scatters validation logic throughout your code, making it hard to maintain or reuse checks across multiple locations.
+
+<!-- Slide 3 -->
+
+---
+
+## 2. Validation Layer / Gateway
+
+- Validation layer abstracts checks into a separate module.
+
+---
+
+## 3. Loop-Until-Valid: The Input Loop
+
+- Repeatedly asks the user for input until a valid value is received. 
+  + After reading a value, you validate it; if invalid, display an error and loop back to ask again.
+
+- This pattern ensures you never proceed with invalid data. 
+- It's the most practical approach for interactive programs in C++ and is your primary tool at this stage.
+
+<!-- Slide 4 -->
+
+---
+
+## 4. Whitelist vs. Blacklist Validation
+
+- Whitelist validation explicitly approves only known-good values; everything else is rejected.
+  + More secure and correct but requires knowing all valid values upfront.
+- Blacklist validation rejects known-bad values; everything else is accepted.
+  + Easier but incomplete—new attack vectors or edge cases slip through. 
+- Always prefer whitelist when possible.
+
+<!-- Slide 5 -->
+
+---
+
+## 5. Type-First Validation
+
+- Checks the data type before applying other checks. 
+  + In C++, this means testing whether `cin` successfully read an integer before checking its range or format.
+- This architecture makes type errors visible immediately.
+
+<!-- Slide 6 -->
+
+---
+
+## 6. Exception-Based Validation
+
+- Exception-based validation throws exceptions for invalid data.
+
+---
+
+## 7. State Machine Validation
+
+- State machine validation models valid input sequences.
+- It assumes there is a valid path through the program.
+- Each stop on the path has a limited number of allowable things to do there.
+- The program only allows those limited things to be performed.
+
+---
+
+## 8. Schema / Contract Validation
+
+- Schema validation (contracts) declares what valid data looks like.
+
+
+
+<!-- Slide 7 -->
+
+---
+
+## Summary
+
+- There are a number of different architectural designs that we can use for input validation.
+- We can also combine designs (ex: Validation Layer + Loop-Until-Valid)
+
+<!-- Slide 8 -->
+
+---
+
+## Appendix
+
+<!-- Appendix Slide -->
+
+---
+
+## Appendix Contents
+
+- [Common Practices](#common-practices)
+- [Common Mistakes](#common-mistakes)
+- [More Examples](#more-examples)
+- [Practice Problems](#practice-problems)
+- [AI Search Terms](#ai-search-terms)
+- [Questions for Reflection](#questions-for-reflection)
+
+<!-- Appendix Slide 0 -->
+
+---
+
+## Common Practices
+
+Use loop-until-valid as your default architecture for interactive input. Always check `cin.fail()` after reading, and clear the input buffer with `cin.clear()` and `cin.ignore()` on failure. Build a library of reusable validation functions (e.g., `isValidAge()`, `isValidPhoneNumber()`) and call them consistently.
+
+Document which architecture you're using and why. For inline validation, keep checks close to where data is used. For loop-until-valid, keep the loop condition clear and the error message helpful.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+Forgetting to clear the input buffer after a `cin` failure causes the failed input to remain, blocking all subsequent reads. Mixing inline and loop-based validation in the same program creates inconsistency and confusion.
+
+Using blacklist validation when whitelist is safer (e.g., accepting any string that doesn't look like a SQL injection, rather than accepting only known-good values). Leaving validation logic scattered throughout the code instead of consolidating it into reusable functions.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+Loop-until-valid example: ask for an age. Read a value. If it's out of range, print "Age must be 0–150" and loop back. Type-first example: attempt to read an integer. If `cin.fail()` is true, clear the buffer, print "Please enter a number", and ask again.
+
+Whitelist example: accept only menu choices "A", "B", or "C". Reject anything else. Inline validation: after reading a test score, immediately check if it's 0–100 before using it in a GPA calculation.
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a loop-until-valid pattern for reading an integer between 1 and 10. What happens if the user enters "abc"?
+
+2. Explain how to clear the input buffer in C++ after a failed `cin` read.
+
+3. Compare whitelist and blacklist validation for a program that asks "Did you finish your homework?" (valid answers: "yes" or "no").
+
+4. When might inline validation be preferable to loop-until-valid, and when might it fall short?
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- input validation patterns C++
+- loop until valid cin
+- whitelist vs blacklist validation
+- cin.fail() input validation
+- type checking input streams
+- validation architecture patterns
+- defensive programming input loops
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+Why is loop-until-valid considered safer than inline validation? What advantage does type-first validation provide? Can you describe a program where whitelist validation is essential for security?
+
+<!-- Appendix Slide 6 -->

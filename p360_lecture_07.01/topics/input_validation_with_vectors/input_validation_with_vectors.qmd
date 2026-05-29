@@ -1,0 +1,500 @@
+# Input Validation with Vectors
+
+## How do you ensure the data in your vector is valid and usable?
+
+Input validation checks that data meets specific requirements before or after it enters a vector. Without validation, invalid data can cause incorrect calculations, program crashes, or misleading results.
+
+::: notes
+Total slides in main content: 8 (not including 7 appendix slides)
+
+This section assumes students understand vectors, basic input/output (cin/cout), if/else statements, and for-each loops. We're teaching how to verify data quality both before adding to vectors and after data is already stored.
+:::
+
+<!-- Slide 1 -->
+
+## What is Input Validation?
+
+**Input validation** is the process of checking data to ensure it meets specific criteria before using it in your program. Validation prevents invalid, incomplete, or problematic data from corrupting your program's state.
+
+Common validation checks include: range validation (values within bounds), type validation (correct data type), required field validation (non-empty), and format validation (matching expected patterns).
+
+Validation can happen at two points: before adding data to a vector (preventing bad data entry), or after data is in a vector (detecting and handling existing problems).
+
+::: notes
+Give concrete examples: age must be 0-120, test scores 0-100, menu choice 1-5, username can't be empty, email must contain @. Emphasize that validation is defensive programming - assume input will be wrong and check it. Distinguish between the two validation points: pre-insertion (gates) and post-insertion (audits). Both are important for robust programs.
+:::
+
+<!-- Slide 2 -->
+
+## Validating Before Adding to Vector
+
+The most effective approach is to validate data before calling push_back, preventing invalid values from ever entering the vector.
+
+```cpp
+vector<int> scores;
+int score;
+
+cout << "Enter test score (0-100): ";
+cin >> score;
+
+if (score >= 0 && score <= 100) {
+    scores.push_back(score);
+    cout << "Score added" << endl;
+} else {
+    cout << "Invalid score - must be 0-100" << endl;
+    // Could prompt user to try again (requires loops)
+}
+```
+
+This pattern validates the input value and only adds it to the vector if it passes validation. Invalid values are rejected with an error message, and the vector remains clean.
+
+::: notes
+Walk through the logic: get input, validate, add only if valid. This is the "gatekeeper" pattern - validate at entry point. Point out that the vector remains clean - it only contains valid data. The user gets immediate feedback about what went wrong. This is better than letting bad data in and dealing with it later. Show how you can combine multiple validation checks with && or ||. The comment about retrying hints at using loops to repeatedly ask until valid input is received - students will implement this pattern once they learn while loops.
+:::
+
+<!-- Slide 3 -->
+
+## Handling Invalid Input
+
+Beyond checking value ranges, you must also handle type mismatches. When cin receives the wrong data type, it enters a fail state and stops reading - you must clear the error and discard the invalid input.
+
+```cpp
+vector<int> numbers;
+int value;
+
+cout << "Enter a number: ";
+cin >> value;
+
+if (cin.fail()) {
+    cout << "Invalid input - not a number" << endl;
+    cin.clear();              // Clear the error state
+    cin.ignore(1000, '\n');   // Discard invalid input up to newline
+} else if (value >= 0) {
+    numbers.push_back(value);
+    cout << "Number added" << endl;
+} else {
+    cout << "Number must be non-negative" << endl;
+}
+```
+
+Use `cin.fail()` to detect type mismatches, `cin.clear()` to reset the error state, and `cin.ignore()` to skip the invalid characters.
+
+::: notes
+This is CRITICAL for handling type validation. When cin expects an int but gets "abc", it fails and leaves "abc" in the input buffer. Without cin.clear(), all future cin operations will fail. Without cin.ignore(), the "abc" stays in the buffer and causes the next cin to immediately fail too. Walk through: cin.fail() returns true if last input failed, cin.clear() resets the error flags, cin.ignore(1000, '\n') discards up to 1000 characters or until newline. The 1000 is arbitrary but safely large. Students might ask why we need both clear and ignore - explain they serve different purposes (reset state vs. remove junk). This builds on the previous slide - now we're handling type errors in addition to range errors.
+:::
+
+<!-- Slide 4 -->
+
+## Validating Existing Vector Data
+
+After data is in a vector, use a for-each loop to validate each element. You can count invalid items, report them, or flag them for attention.
+
+```cpp
+vector<int> ages = {25, 150, -5, 30, 200, 45};
+int invalidCount = 0;
+
+cout << "Validating ages (must be 0-120):" << endl;
+
+for (int age : ages) {
+    if (age < 0 || age > 120) {
+        cout << "Invalid age found: " << age << endl;
+        invalidCount++;
+    }
+}
+
+cout << "Total invalid entries: " << invalidCount << endl;
+```
+
+**Important limitation:** For-each loops can detect and report invalid data but cannot remove or modify elements. The loop gives you a copy of each element, so you can read and check it, but not change the vector itself. You'll learn other loop types later for removal and modification operations.
+
+::: notes
+This is the "audit" pattern - validating existing data. The for-each loop reads each element and validates it. We count invalids and report them. CRITICAL LIMITATION: for-each gives you a copy (or read-only access), so you can't remove bad data or fix it in place. To actually remove invalid entries, you'd need a different loop type (which they'll learn later). For now, they can: identify problems, count them, display them, make decisions based on the count. Alternative approach: create a new "clean" vector by conditionally push_back-ing only valid items during the validation pass.
+:::
+
+<!-- Slide 5 -->
+
+## Common Validation Patterns
+
+Different types of data require different validation approaches before adding to vectors.
+
+**Range validation** - Value must be within specific bounds before adding
+```cpp
+if (age >= 0 && age <= 120) {
+    ages.push_back(age);  // Only add valid ages
+}
+```
+
+**Type validation** - Input matches expected data type
+```cpp
+cin >> score;
+if (!cin.fail()) {
+    scores.push_back(score);  // Only add if cin succeeded
+}
+```
+
+**Non-empty validation** - String must contain data
+```cpp
+if (!name.empty()) {
+    names.push_back(name);  // Only add non-empty names
+}
+```
+
+**Set membership** - Value must be from allowed options
+```cpp
+if (choice >= 1 && choice <= 5) {  // Menu choices 1-5
+    choices.push_back(choice);
+}
+```
+
+Match your validation pattern to your data requirements, and always validate before push_back.
+
+::: notes
+These are the most common validation patterns students will use with vectors. Range: test scores 0-100, ages 0-120, menu 1-5. Type: cin.fail() catches when user types "abc" for an integer - always check before adding. Non-empty: names, IDs, passwords shouldn't be blank strings. Set membership: could also write as (choice == 1 || choice == 2 || choice == 3 || choice == 4 || choice == 5) but the range version is cleaner for consecutive values. Emphasize choosing the right pattern for the data. Some data needs multiple checks: age must be int (type) AND 0-120 (range). Students should think "what makes this data valid?" then implement those checks before push_back. Each example now shows the complete pattern: validate, then conditionally add to vector.
+:::
+
+<!-- Slide 6 -->
+
+## Complete Example
+
+Here's a program that demonstrates both validation approaches: checking before adding, and validating existing data.
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    // Pre-loaded data to validate
+    vector<int> grades = {85, 150, 92, -5, 78, 95};
+    
+    // Stage 1: Validate before adding new grade
+    int newGrade;
+    cout << "Enter a new grade (0-100): ";
+    cin >> newGrade;
+    
+    if (cin.fail()) {
+        cout << "Error: Not a number" << endl;
+        cin.clear();
+        cin.ignore(1000, '\n');
+    } else if (newGrade < 0 || newGrade > 100) {
+        cout << "Error: Grade must be 0-100" << endl;
+    } else {
+        grades.push_back(newGrade);
+        cout << "Grade added successfully" << endl;
+    }
+    
+    // Stage 2: Validate existing data in vector
+    cout << "\nValidating all grades in vector:" << endl;
+    int validCount = 0;
+    int invalidCount = 0;
+    
+    for (int grade : grades) {
+        if (grade >= 0 && grade <= 100) {
+            validCount++;
+        } else {
+            cout << "Invalid grade found: " << grade << endl;
+            invalidCount++;
+        }
+    }
+    
+    cout << "Valid: " << validCount << ", Invalid: " 
+         << invalidCount << endl;
+    
+    return 0;
+}
+```
+
+This demonstrates validation at both entry (preventing bad data) and audit (detecting existing problems).
+
+::: notes
+Walk through the two validation stages. Stage 1 (input validation): Get new grade input. Check cin.fail() for type errors - clear and ignore if error. Check range 0-100 - reject if invalid. Only push_back if both checks pass. This is the gatekeeper: only valid data enters. Stage 2 (existing data validation): Use for-each to examine every grade already in vector. Count valid (0-100) and invalid (outside range). Report invalid values found. This is the audit: identify problems in existing data. The vector starts with some invalid data (150, -5) to show the audit stage finds them. This demonstrates both prevention (stage 1) and detection (stage 2). Emphasize that stage 1 keeps vector clean going forward, stage 2 finds historical problems.
+:::
+
+<!-- Slide 7 -->
+
+## Summary
+
+Input validation checks data quality at two points: before adding to vectors (preventing invalid entries) and after data is stored (detecting problems in existing data). Use validation patterns like range checking, type checking with cin.fail(), and conditional logic to ensure vectors contain only valid, usable data.
+
+::: notes
+Reinforce the two-stage approach: (1) gate-keeping with validation before push_back keeps vectors clean, and (2) auditing with for-each loops identifies issues in existing data. Key techniques: if statements for logic checks, cin.fail() for type errors, cin.clear() and cin.ignore() for recovery. Acknowledge the for-each limitation - they can detect but not easily fix/remove invalid data. Later they'll learn loops that can modify/remove. For now, focus on prevention (validate before adding) and detection (check what's there). Good validation makes programs robust and user-friendly.
+:::
+
+<!-- Slide 8 -->
+
+## Appendix
+
+<!-- Slide 9 -->
+
+## Good Practices
+
+**Validate as early as possible** - Check data immediately when received, before it enters your vector. Prevention is better than correction - invalid data that never gets stored can't cause problems.
+
+**Provide clear error messages** - Tell users exactly what's wrong and what's expected. Instead of "Invalid input", say "Age must be between 0 and 120".
+
+**Handle cin.fail() before checking values** - Always check for type errors first, then check value ranges. If cin failed, the variable contains garbage that shouldn't be tested.
+
+**Count and report validation results** - When checking existing data, track how many items passed vs. failed. This gives users actionable information about data quality.
+
+**Create validation helper functions** - If you're checking the same validation repeatedly (like validating scores), consider putting that logic in a separate function you can reuse.
+
+<!-- Slide 10 -->
+
+## Common Mistakes
+
+**Forgetting cin.clear() after cin.fail():**
+```cpp
+if (cin.fail()) {
+    cin.ignore(1000, '\n');  // Ignores input but error state remains
+}
+// Next cin will immediately fail!
+
+// Correct:
+if (cin.fail()) {
+    cin.clear();             // Reset error state first
+    cin.ignore(1000, '\n');  // Then discard invalid input
+}
+```
+
+**Checking value ranges when cin.fail() is true:**
+```cpp
+cin >> age;
+if (age >= 0 && age <= 120) {  // BAD: age contains garbage if cin failed
+    // ...
+}
+
+// Correct: Check cin.fail() first
+if (cin.fail()) {
+    // handle type error
+} else if (age >= 0 && age <= 120) {
+    // now safe to check value
+}
+```
+
+**Not giving users a chance to retry:**
+```cpp
+cin >> score;
+if (score < 0 || score > 100) {
+    cout << "Invalid" << endl;
+    // Program continues with no valid score
+}
+
+// Better: Loop until valid input received
+bool valid = false;
+while (!valid) {
+    cin >> score;
+    if (/* validation passes */) {
+        valid = true;
+    } else {
+        cout << "Try again" << endl;
+    }
+}
+```
+
+**Using for-each to try to remove invalid elements:**
+```cpp
+for (int num : numbers) {
+    if (num < 0) {
+        // Can't remove num from numbers with for-each!
+    }
+}
+// For-each can detect but not remove
+```
+
+**Validating after operations instead of before:**
+```cpp
+scores.push_back(score);     // Added first
+if (score < 0) {              // Checked second - too late!
+    cout << "Invalid" << endl;
+}
+```
+
+<!-- Slide 11 -->
+
+## More Examples
+
+**Example 1: Menu choice validation with retry**
+```cpp
+vector<int> choices;
+int choice;
+bool valid = false;
+
+while (!valid) {
+    cout << "Enter choice (1-4): ";
+    cin >> choice;
+    
+    if (cin.fail()) {
+        cout << "Must be a number" << endl;
+        cin.clear();
+        cin.ignore(1000, '\n');
+    } else if (choice >= 1 && choice <= 4) {
+        choices.push_back(choice);
+        valid = true;
+    } else {
+        cout << "Must be 1-4" << endl;
+    }
+}
+```
+
+**Example 2: Multiple validation checks**
+```cpp
+vector<double> temperatures;
+double temp;
+
+cout << "Enter temperature in Celsius: ";
+cin >> temp;
+
+if (cin.fail()) {
+    cout << "Error: Not a number" << endl;
+    cin.clear();
+    cin.ignore(1000, '\n');
+} else if (temp < -273.15) {
+    cout << "Error: Below absolute zero" << endl;
+} else if (temp > 1000) {
+    cout << "Error: Unreasonably high" << endl;
+} else {
+    temperatures.push_back(temp);
+    cout << "Temperature recorded" << endl;
+}
+```
+
+**Example 3: Validating string input**
+```cpp
+vector<string> usernames;
+string name;
+
+cout << "Enter username: ";
+cin >> name;
+
+if (name.empty()) {
+    cout << "Error: Username cannot be empty" << endl;
+} else if (name.length() < 3) {
+    cout << "Error: Username must be at least 3 characters" << endl;
+} else if (name.length() > 20) {
+    cout << "Error: Username must be 20 characters or less" << endl;
+} else {
+    usernames.push_back(name);
+    cout << "Username accepted" << endl;
+}
+```
+
+**Example 4: Checking for duplicates before adding**
+```cpp
+vector<int> ids = {101, 102, 103};
+int newId;
+bool isDuplicate = false;
+
+cout << "Enter new ID: ";
+cin >> newId;
+
+// Check if ID already exists
+for (int id : ids) {
+    if (id == newId) {
+        isDuplicate = true;
+    }
+}
+
+if (isDuplicate) {
+    cout << "Error: ID already exists" << endl;
+} else {
+    ids.push_back(newId);
+    cout << "ID added" << endl;
+}
+```
+
+**Example 5: Percentage of valid data in vector**
+```cpp
+vector<int> data = {5, -3, 12, 150, 8, -1, 25};
+int validCount = 0;
+int totalCount = 0;
+
+// Count valid items (range 0-100)
+for (int value : data) {
+    totalCount++;
+    if (value >= 0 && value <= 100) {
+        validCount++;
+    }
+}
+
+double validPercent = (validCount * 100.0) / totalCount;
+cout << validPercent << "% of data is valid" << endl;
+```
+
+<!-- Slide 12 -->
+
+## Practice Problems
+
+**Problem 1:** Write code that prompts for an age and validates it's between 0 and 120 before adding to a vector. Handle both type errors and range errors.
+
+**Problem 2:** Create validation code that checks if a grade is in the valid range (0-100) before adding it to a vector. Reject out-of-range grades with an appropriate error message.
+
+**Problem 3:** Write a for-each loop that examines a vector of prices and counts how many are negative (invalid). Report the count of invalid prices.
+
+**Problem 4:** Implement input validation for a menu choice (1-5) that uses cin.clear() and cin.ignore() to handle non-numeric input, then checks the range.
+
+**Problem 5:** Given a vector of test scores, write code that calculates what percentage of scores are valid (0-100 range) using a for-each loop.
+
+**Problem 6:** Create validation code that checks if a string username is non-empty and between 4-15 characters before adding it to a vector of usernames.
+
+**Problem 7:** Write code that validates a temperature input (must be above -273.15°C) and handles both type errors with cin.fail() and range errors with if statements.
+
+**Problem 8:** Using a for-each loop, check a vector of ages and create a new vector containing only the valid ages (0-120). Count how many ages were invalid.
+
+<!-- Slide 13 -->
+
+## AI Search Terms
+
+**Core concepts:**
+- "C++ input validation"
+- "C++ vector validation"
+- "validate data before adding to vector C++"
+
+**Input handling:**
+- "C++ cin.fail() validation"
+- "C++ cin.clear() and cin.ignore()"
+- "C++ type validation with cin"
+
+**Validation patterns:**
+- "C++ range validation"
+- "validate user input C++"
+- "C++ check if number in range"
+
+**Vector operations:**
+- "C++ check vector elements for-each"
+- "validate vector data C++"
+- "C++ count invalid elements in vector"
+
+**Error handling:**
+- "C++ handle invalid input"
+- "C++ input validation loop"
+- "recover from cin error C++"
+
+<!-- Slide 14 -->
+
+## Questions for Reflection
+
+**Conceptual understanding:**
+- Why is it better to validate data before adding it to a vector rather than after?
+- What's the difference between cin.clear() and cin.ignore(), and why do you need both?
+
+**Application:**
+- What types of validation would you use for: email addresses, phone numbers, credit card numbers?
+- When checking existing vector data with for-each, what can you do with invalid entries given the loop's limitations?
+
+**Design decisions:**
+- Should validation reject invalid data, or accept it and flag it for review? When would you choose each approach?
+- How do you decide what error message to show when validation fails?
+
+**Code analysis:**
+- If cin.fail() returns true, what state is the input stream in, and what happens to the target variable?
+- What happens if you check a variable's value before checking cin.fail()?
+
+**Problem-solving:**
+- How would you validate that a vector contains at least one valid element before proceeding with calculations?
+- What approach would you use to ensure a user provides valid input without letting them proceed until it's correct?
+
+**Real-world application:**
+- Why is input validation critical for programs that interact with users or external data sources?
+- How does validation improve program reliability and user experience?
+
+<!-- Slide 15 -->

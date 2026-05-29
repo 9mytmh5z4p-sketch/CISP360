@@ -1,0 +1,88 @@
+<!-- Topic 5: Smart Pointers -->
+<!-- Total slides: 5 -->
+
+# Smart Pointers
+
+---
+
+## What if the pointer cleaned up after itself? {.smaller}
+
+- Raw pointers require manual memory management — easy to forget, easy to double-free
+- Smart pointers wrap a raw pointer and automatically release memory when done
+
+::: notes
+Total slides: 5
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## unique_ptr — sole ownership
+
+```{.cpp}
+#include <memory>
+#include <iostream>
+using namespace std;
+
+int main() {
+    unique_ptr<int> p = make_unique<int>(42);
+    cout << *p << "\n";    // 42 — dereference like a raw pointer
+    // no delete needed — memory released when p goes out of scope
+    return 0;
+}
+```
+
+- Only one `unique_ptr` can own a given object at a time — ownership cannot be copied
+- When `p` goes out of scope, the destructor runs and the memory is freed automatically
+
+<!-- Slide 2 -->
+
+---
+
+## shared_ptr — shared ownership
+
+```{.cpp}
+#include <memory>
+#include <iostream>
+using namespace std;
+
+int main() {
+    shared_ptr<int> p1 = make_shared<int>(99);
+    shared_ptr<int> p2 = p1;     // both share ownership
+
+    cout << *p1 << "\n";         // 99
+    cout << p1.use_count() << "\n";  // 2 — two owners
+    // memory freed when the last shared_ptr goes out of scope
+    return 0;
+}
+```
+
+- A reference count tracks how many `shared_ptr`s own the object
+- Memory is released when the count reaches zero
+
+<!-- Slide 3 -->
+
+---
+
+## When to use each
+
+| Situation | Use |
+|---|---|
+| One clear owner, no sharing | `unique_ptr` |
+| Multiple owners, shared lifetime | `shared_ptr` |
+| C API, legacy interface, performance-critical | raw pointer |
+
+- Default to `unique_ptr` — it has zero overhead over a raw pointer
+- Prefer `make_unique` and `make_shared` over calling `new` directly
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
+- Smart pointers automate memory management using RAII — the destructor frees memory when the pointer goes out of scope
+- Use `unique_ptr` for sole ownership and `shared_ptr` for shared lifetime; both live in `<memory>`
+
+<!-- Slide 5 -->

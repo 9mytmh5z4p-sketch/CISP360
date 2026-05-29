@@ -1,0 +1,61 @@
+<!-- Topic 5: Pointer Arithmetic -->
+<!-- Total slides: 4 -->
+
+# Pointer Arithmetic
+
+---
+
+## What happens when you add 1 to a pointer? {.smaller}
+
+- Adding 1 to a pointer advances it by one element — not one byte
+- The step size is `sizeof` the pointed-to type
+
+::: notes
+Total slides: 4
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Arithmetic scales by element size
+
+```{.cpp}
+int scores[5] = {91, 78, 84, 95, 62};
+int* ptr = scores;           // points to scores[0]
+
+cout << *ptr       << "\n";  // 91
+cout << *(ptr + 1) << "\n";  // 78
+cout << *(ptr + 2) << "\n";  // 84
+```
+
+- `ptr + 1` adds `sizeof(int)` bytes (4) to the address — it points to the next int
+- `ptr + n` points to the element `n` positions forward
+
+<!-- Slide 2 -->
+
+---
+
+## Traversal with a pointer
+
+```{.cpp}
+int scores[5] = {91, 78, 84, 95, 62};
+
+for (int* ptr = scores; ptr < scores + 5; ptr++) {
+    cout << *ptr << "\n";
+}
+```
+
+- `ptr++` moves to the next element each iteration
+- `scores + 5` points one past the end — a valid sentinel address but never dereferenced
+
+<!-- Slide 3 -->
+
+---
+
+## Summary
+
+- Pointer arithmetic scales by element size — `ptr + 1` steps forward one element, not one byte
+- A pointer can traverse an array the same way an index does; `ptr++` is equivalent to `i++` in an index loop
+
+<!-- Slide 4 -->

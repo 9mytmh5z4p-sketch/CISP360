@@ -1,0 +1,115 @@
+<!-- Topic 1: Binary Search -->
+<!-- Total slides: 6 -->
+
+# Binary Search
+
+---
+
+## Can we search faster than scanning every element? {.smaller}
+
+- Linear search checks every element — worst case is O(N)
+- Binary search cuts the search space in half at each step — but only works on sorted data
+
+::: notes
+Total slides: 6
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The algorithm
+
+```
+sorted: { 62, 78, 84, 91, 95 }
+          low           high
+```
+
+1. Set `low = 0`, `high = SIZE - 1`
+2. Compute `mid = (low + high) / 2`
+3. If `arr[mid]` equals the target — found
+4. If target is less than `arr[mid]` — search the left half (`high = mid - 1`)
+5. If target is greater than `arr[mid]` — search the right half (`low = mid + 1`)
+6. Repeat until found or `low > high`
+
+<!-- Slide 2 -->
+
+---
+
+## Implementation
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int binarySearch(int arr[], int size, int target);
+
+int main() {
+    int scores[5] = {62, 78, 84, 91, 95};
+    int result = binarySearch(scores, 5, 84);
+    if (result != -1)
+        cout << "Found at index " << result << "\n";
+    else
+        cout << "Not found\n";
+    return 0;
+}
+
+int binarySearch(int arr[], int size, int target) {
+    int low  = 0;
+    int high = size - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (arr[mid] == target) return mid;
+        if (target < arr[mid])  high = mid - 1;
+        else                    low  = mid + 1;
+    }
+    return -1;  // not found
+}
+```
+
+<!-- Slide 3 -->
+
+---
+
+## Trace — searching for 84
+
+```
+array:  { 62, 78, 84, 91, 95 }   indices 0–4
+
+Step 1: low=0  high=4  mid=2  arr[2]=84  → found at index 2
+```
+
+Searching for 91:
+
+```
+Step 1: low=0  high=4  mid=2  arr[2]=84  84 < 91  → low = 3
+Step 2: low=3  high=4  mid=3  arr[3]=91  → found at index 3
+```
+
+- Two comparisons to find 91 in five elements — linear search averages 2.5
+
+<!-- Slide 4 -->
+
+---
+
+## Performance
+
+| Search | Worst case | Requires sorted data? |
+|---|---|---|
+| Linear | O(N) | No |
+| Binary | O(log₂ N) | Yes |
+
+- For 1,000 elements: linear checks up to 1,000; binary checks at most 10
+- The trade-off: the array must be sorted before every search — sorting costs O(N log N)
+- If you search rarely, sort once and search many times; otherwise linear search may be simpler
+
+<!-- Slide 5 -->
+
+---
+
+## Summary
+
+- Binary search halves the search space at each step, reaching O(log N) performance
+- It requires a sorted array — unsorted data produces incorrect results
+
+<!-- Slide 6 -->

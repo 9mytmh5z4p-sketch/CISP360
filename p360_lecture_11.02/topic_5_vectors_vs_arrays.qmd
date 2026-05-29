@@ -1,0 +1,94 @@
+<!-- Topic 5: Vectors vs. Arrays -->
+<!-- Total slides: 5 -->
+
+# Vectors vs. Arrays
+
+---
+
+## Same idea — different contract {.smaller}
+
+- You already know vectors; arrays trade flexibility for simplicity
+- Knowing both means choosing the right tool for the job
+
+::: notes
+Total slides: 5
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Side-by-side comparison
+
+::: {.columns}
+
+::: {.column width="50%"}
+**Array**
+```{.cpp}
+const int SIZE = 5;
+int scores[SIZE] = {};
+
+scores[2] = 84;
+// can't grow
+// no .size()
+```
+:::
+
+::: {.column width="50%"}
+**Vector**
+```{.cpp}
+vector<int> scores(5, 0);
+
+scores[2] = 84;
+scores.push_back(100);  // grows
+scores.size();          // available
+```
+:::
+
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Bounds safety
+
+```{.cpp}
+int scores[5] = {91, 78, 84, 95, 62};
+scores[5] = 99;          // out of bounds — undefined behavior
+```
+
+```{.cpp}
+vector<int> scores = {91, 78, 84, 95, 62};
+scores.at(5) = 99;       // throws out_of_range
+scores[5] = 99;          // still undefined behavior
+```
+
+- Neither `[]` on arrays nor `[]` on vectors checks bounds
+- Vectors expose `.at()` as a checked alternative; arrays have no equivalent
+
+<!-- Slide 3 -->
+
+---
+
+## When to use each
+
+| Use an array when… | Use a vector when… |
+|--------------------|-------------------|
+| Size is fixed and known at compile time | Size is unknown or changes at runtime |
+| You need zero overhead | You need `push_back`, `size`, or algorithms |
+| Interfacing with C APIs or hardware | General-purpose collection work |
+
+- Default to vector — it is safer and more flexible
+- Reach for arrays only when overhead or API constraints require it
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
+- Arrays are fixed-size and stack-allocated; vectors are dynamic and heap-allocated
+- Neither `[]` operator checks bounds — use `.at()` on vectors when safety matters, and be deliberate with array indices
+
+<!-- Slide 5 -->

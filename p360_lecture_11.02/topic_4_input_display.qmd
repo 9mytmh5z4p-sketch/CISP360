@@ -1,0 +1,87 @@
+<!-- Topic 4: Inputting and Displaying Array Data -->
+<!-- Total slides: 5 -->
+
+# Inputting and Displaying Array Data
+
+---
+
+## Reading values from the user into an array {.smaller}
+
+- The pattern is a loop — same index mechanics, now with `cin`
+- Fill first, display second: two separate passes
+
+::: notes
+Total slides: 5
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Input loop — filling the array
+
+```{.cpp}
+const int SIZE = 5;
+int scores[SIZE];
+
+for (int i = 0; i < SIZE; i++) {
+    cout << "Enter score " << i + 1 << ": ";
+    cin  >> scores[i];              // fill each element
+}
+```
+
+::: notes
+i + 1 in the prompt gives users a 1-based label ("Enter score 1") while the array remains 0-indexed. This is a common display convention worth pointing out.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Display loop — printing the array
+
+```{.cpp}
+for (int i = 0; i < SIZE; i++) {
+    cout << "Score " << i + 1 << ": " << scores[i] << "\n";
+}
+```
+
+::: notes
+This is deliberately separate from the input loop. Mixing input and output in a single loop works but makes programs harder to read and test. Teach the two-pass pattern early.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Combined example
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+const int SIZE = 5;
+
+int main() {
+    int scores[SIZE];
+
+    for (int i = 0; i < SIZE; i++) {       // fill
+        cout << "Enter score " << i + 1 << ": ";
+        cin  >> scores[i];
+    }
+
+    for (int i = 0; i < SIZE; i++) {       // display
+        cout << "Score " << i + 1 << ": " << scores[i] << "\n";
+    }
+}
+```
+
+<!-- Slide 4 -->
+
+---
+
+## Summary
+
+- Fill the array in one loop, display it in a second loop — keep the two passes separate
+- The same index-based `for` pattern applies to both; `i + 1` in the prompt gives users a 1-based label
+
+<!-- Slide 5 -->

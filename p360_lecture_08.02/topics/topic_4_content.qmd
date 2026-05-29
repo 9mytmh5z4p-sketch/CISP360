@@ -1,0 +1,244 @@
+# The For Loop
+
+## The For Loop
+
+When you know exactly how many times a loop should run, the for loop puts initialization, condition, and update in one place — making the loop's intent immediately clear.
+
+::: notes
+Total slides: 9
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## One Line, Three Jobs
+
+The for loop consolidates the three parts of every loop into its header, so nothing is scattered across the code.
+
+```cpp
+//    initialize    condition    update
+for ( int i = 0;   i < 10;      i++    ) {
+    // body
+}
+```
+
+Compare this to while, where initialize lives before the loop and update lives somewhere inside the body. The for loop makes the loop's mechanics visible at a glance.
+
+::: notes
+[Graphic suggestion: Annotated diagram of a for loop header with colored brackets over each of the three parts: initialize (green), condition (yellow), update (red).]
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Execution Order
+
+The three parts of a for loop do not execute in the order they are written.
+
+```
+1. Initialize  — runs once, before the loop starts
+2. Condition   — evaluated before every iteration
+3. Body        — runs if condition is true
+4. Update      — runs after the body, before the next condition check
+5. Repeat from step 2
+```
+
+```cpp
+for (int i = 0; i < 3; i= 1 + 1) { // Initialize & Condition here
+    cout << i << "\n";        // Body
+}                             // Update implied here
+// Output: 0, 1, 2
+```
+
+The initialize step is never repeated. Everything else cycles until the condition is false.
+
+<!-- Slide 3 -->
+
+---
+
+## Loop Control Variable Scope
+
+The loop control variable declared in a for header exists only inside the loop.
+
+```cpp
+for (int i = 0; i < 5; i++) {
+    cout << i;  // valid
+}
+// cout << i;   // compile error — i is out of scope
+
+// If you need the final value after the loop, declare it before:
+int j;
+for (j = 0; j < 5; j++) { }
+cout << j;  // 5 — valid
+```
+
+Keeping the loop variable inside the header is preferred when you do not need it afterward — it limits its scope intentionally.
+
+<!-- Slide 4 -->
+
+---
+
+## Counting Up
+
+```cpp
+for (int i = 1; i <= 5; i++) {
+    cout << i << "\n";
+}
+// Prints 1, 2, 3, 4, 5
+```
+
+This is the most common for loop pattern: start at a lower bound, stop at an upper bound, step by one.
+
+<!-- Slide 5 -->
+
+---
+
+## Counting Down
+
+```cpp
+for (int i = 10; i >= 1; i--) {
+    cout << i << "\n";
+}
+// Prints 10, 9, 8, ... 1
+```
+
+The update expression can be any valid operation. Counting down requires decrementing (`i--`) and reversing the condition (`>=`).
+
+<!-- Slide 6 -->
+
+---
+
+## Step Size
+
+The update expression is not limited to `i++`. Any arithmetic works.
+
+```cpp
+// Count by 5s
+for (int i = 0; i <= 50; i += 5) {
+    cout << i << "\n";
+}
+// Prints 0, 5, 10, 15, ... 50
+
+// Count by 2s — even numbers only
+for (int i = 2; i <= 20; i += 2) {
+    cout << i << " ";
+}
+```
+
+Choose the step size that matches the problem. Every step size is valid as long as the condition will eventually become false.
+
+<!-- Slide 7 -->
+
+---
+
+## Iterating Over a Vector by Index
+
+For loops are the natural choice for index-based vector iteration.
+
+```cpp
+vector<string> names = {"Alice", "Bob", "Carol"};
+
+for (int i = 0; i < names.size(); i++) {
+    cout << i << ": " << names[i] << "\n";
+}
+// Output:
+// 0: Alice
+// 1: Bob
+// 2: Carol
+```
+
+This gives you both the index and the value — something for-each cannot do.
+
+::: notes
+Instructor note: This is a good moment to contrast with for-each and tie back to topic 1. Ask: "When would you use for-each here instead?"
+:::
+
+<!-- Slide 8 -->
+
+---
+
+## Summary
+
+Use the for loop when you know the number of iterations in advance. Its header puts initialize, condition, and update in one place, making counter-controlled loops readable and compact.
+
+<!-- Slide 9 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Declare the loop control variable in the for header when you do not need it outside the loop — this keeps its scope intentionally small.
+- Use `i < size` rather than `i <= size - 1` for clarity when iterating over a vector or array.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Using `i <= size` instead of `i < size` when iterating a vector — this causes an off-by-one error and accesses an out-of-bounds element.
+- Modifying the loop control variable inside the body as well as in the update expression — this double-increments and is almost always a bug.
+- Forgetting that the loop control variable declared in the header does not exist outside the loop.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Print a multiplication table row for 7
+for (int i = 1; i <= 10; i++) {
+    cout << "7 x " << i << " = " << 7 * i << "\n";
+}
+
+// Sum all elements in a vector
+vector<int> scores = {85, 72, 90, 63, 78};
+int total = 0;
+for (int i = 0; i < scores.size(); i++) {
+    total += scores[i];
+}
+cout << "Total: " << total << "\n";
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a for loop that prints all multiples of 3 from 3 to 30.
+2. Write a for loop that counts backward from 20 to 1.
+3. Given a vector of integers, use a for loop to find and print the largest value.
+4. What is the output? `for (int i = 0; i < 5; i += 2) { cout << i << " "; }`
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ for loop syntax"
+- "C++ for loop counter controlled"
+- "C++ for loop step size increment"
+- "C++ for loop vs while loop"
+- "C++ for loop iterate vector by index"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- The for loop can be rewritten as a while loop — so why does the for loop exist? What does it add?
+- When does a for loop become the wrong choice? What would tip you off that you should switch to a while?
+
+<!-- Appendix Slide 6 -->

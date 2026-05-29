@@ -1,0 +1,190 @@
+# Validating User Input
+
+## Validating User Input
+
+Programs trust the user to provide correct data. That trust is almost always misplaced. Input validation is how we make sure only good data reaches the rest of the program.
+
+::: notes
+Total slides: 7
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Why Validate?
+
+- Programs that accept bad data produce bad results — or crash entirely.
+- The user may make typos, misread a prompt, or deliberately enter garbage.
+- Validation is not optional. It is part of the contract between the program and the client.
+
+<!-- Slide 2 -->
+
+---
+
+## Two Validation Strategies
+
+Every validation approach falls into one of two categories.
+
+::: {.columns}
+::: {.column width="50%"}
+**Let everything in**
+
+- Default: accept all input.
+- Explicitly reject what you don't want.
+- Example: accept any name *except* "Bob".
+:::
+
+::: {.column width="50%"}
+**Keep everything out**
+
+- Default: reject all input.
+- Explicitly allow what you want.
+- Example: accept only "Sue" or "Dan".
+:::
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Let Everything In — Example
+
+```cpp
+string name;
+cout << "Enter your name: ";
+cin >> name;
+
+while (name == "Bob") {
+    cout << "Access denied. Enter your name: ";
+    cin >> name;
+}
+
+cout << "Welcome, " << name << "\n";
+```
+
+<!-- Slide 4 -->
+
+---
+
+## Keep Everything Out — Example
+
+```cpp
+string name;
+cout << "Enter your name: ";
+cin >> name;
+
+while (name != "Sue" && name != "Dan") {
+    cout << "Access denied. Enter your name: ";
+    cin >> name;
+}
+
+cout << "Welcome, " << name << "\n";
+```
+
+<!-- Slide 5 -->
+
+---
+
+## Which Strategy to Use?
+
+- **Let everything in** works when the invalid set is small and well-defined (e.g., one banned user).
+- **Keep everything out** works for small, fixed valid sets (e.g., a menu with 3 choices).
+- For general input validation — zip codes, account numbers, ranges — neither is enough on its own. You need a finer-grained approach.
+
+::: notes
+Instructor note: This slide sets up the Gauntlet of Trust topic directly. General validation (zip codes, numbers in range) requires layered checks — which is exactly what the Gauntlet addresses.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Minimum Validation Behaviors
+
+Every validation loop must do two things.
+
+- **Give the client a specific error message.** "Invalid input" is useless. "Entry must be between 1 and 10" is actionable.
+- **Reprompt.** Never silently accept bad data or silently exit. Give the client a chance to correct the mistake.
+
+<!-- Slide 7 -->
+
+---
+
+## Summary
+
+Input validation ensures only acceptable data reaches the program. The two core strategies — let everything in, or keep everything out — each have a natural home. Always give a specific error message and always reprompt.
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Default to "keep everything out" for menus — the valid set is small and fixed.
+- Default to "let everything in" only when the invalid set is explicitly smaller than the valid set.
+- Always test your validation loop with boundary values: the lowest valid input, the highest valid input, and one value just outside each boundary.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Accepting input outside the valid range without informing the user.
+- Giving a vague error message like "Error" or "Invalid" — the client cannot correct what they do not understand.
+- Forgetting to reprompt after rejecting input, forcing the user to restart the program.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+// Keep everything out: only accept 1, 2, or 3
+int choice;
+cout << "Enter 1, 2, or 3: ";
+cin >> choice;
+
+while (choice != 1 && choice != 2 && choice != 3) {
+    cout << "Invalid. Enter 1, 2, or 3: ";
+    cin >> choice;
+}
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Write a validation loop that accepts only positive integers. What strategy are you using?
+2. Write a validation loop that accepts only the letters A, B, C, or D (for a multiple-choice answer). Which strategy fits better?
+3. Why is "keep everything out" impractical for validating a user's age (1–120)?
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- "C++ input validation while loop"
+- "C++ let everything in keep everything out strategy"
+- "C++ user input error message reprompt"
+- "C++ validate string input"
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- A program accepts a bank account number from the user. Which validation strategy applies, and what are the limits of that strategy?
+- What is the difference between validating that input *exists* and validating that it is *correct*?
+
+<!-- Appendix Slide 6 -->

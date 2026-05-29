@@ -1,0 +1,43 @@
+<!-- Topic 8: VLAs & G++ -->
+<!-- Total slides: 3 -->
+
+# VLAs & G++
+
+---
+
+## Runtime array size without a vector? {.smaller}
+
+- A variable-length array (VLA) uses a runtime value as the array size
+- Legal in C99; a non-standard GCC extension in C++ — not guaranteed to compile on other compilers
+
+::: notes
+Total slides: 3
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## VLA syntax and trade-offs
+
+```{.cpp}
+int n;
+cin >> n;
+int arr[n];        // GCC compiles this — MSVC and Clang may not
+```
+
+- Allocated on the stack — no `new`, no `delete`, no heap overhead
+- No `.size()`, no range-for, no STL compatibility
+- Undefined behavior if `n <= 0`; stack overflow risk for large `n`
+- Prefer `vector<int> arr(n);` — same runtime size, portable, safe
+
+<!-- Slide 2 -->
+
+---
+
+## Summary
+
+- VLAs allow a runtime-determined stack array in G++, but they are a non-standard extension not available in all compilers
+- Use `vector` for any dynamically sized collection — it is portable, bounds-safe, and STL-compatible
+
+<!-- Slide 3 -->

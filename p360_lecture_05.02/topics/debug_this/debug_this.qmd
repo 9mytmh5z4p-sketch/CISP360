@@ -1,0 +1,193 @@
+
+# Debug This
+
+::: notes
+.04.02
+::: 
+
+##
+
+The following program has several intentional bugs.
+
+Can you find them?
+
+---
+
+```cpp
+// Contact Book Program - Debug This!
+// This program collects contact information and displays it
+// There are 5 bugs hidden in this code - can you find them all?
+
+#include <iostream>
+#include <string>
+#include <limits>
+using namespace std;
+
+int getAge();
+string getName();
+
+int main() {
+    string name;
+    string phone;
+    int age;
+    
+    age = getAge();
+    name = getName();
+    
+    cout << "Enter your phone: ";
+    cin >> phone;
+    
+    if (age >= 18) {
+        string status = "Adult";
+    }
+    
+    cout << "\n=== Contact Info ===" << endl;
+    cout << "Name: " << name << endl;
+    cout << "Age: " << age << endl;
+    cout << "Status: " << status << endl;
+    cout << "Phone: " << phone << endl;
+    
+    return 0;
+}
+
+int getAge() {
+    int age;
+    cout << "Enter your age: ";
+    cin >> age;
+    return age;
+}
+
+string getName() {
+    string name;
+    cout << "Enter your full name: ";
+    getline(cin, name);
+    return name;
+}
+```
+
+## Spoilers Ahead
+
+## Errors
+
+- **Missing cin.ignore()** - getline reads leftover newline instead of user input
+- **Wrong input method** - cin >> truncates phone number at first space
+- **Variable scope error** - status declared inside if block, not accessible outside
+- **Uninitialized variable** - status never set if age < 18
+- **Variable shadowing** - status declared inside if block shadows outer status (if it existed)
+
+## LINE 48 - MISSING cin.ignore()
+
+**Problem:** `getAge()` uses `cin >> age` which leaves `\n` in buffer. Then `getName()` calls `getline()` immediately.
+
+**Issue:** The newline left by `cin >> age` is immediately read by `getline()`, making name an empty string.
+
+**Fix:** Add `cin.ignore(numeric_limits<streamsize>::max(), '\n');` at the end of `getAge()` before returning.
+
+## LINE 23 - WRONG INPUT METHOD
+
+**Problem:** `cin >> phone;`
+
+**Issue:** Using `cin >>` stops at the first space. Phone "555 123 4567" becomes "555".
+
+**Fix:** Change to `getline(cin, phone);`
+
+## LINES 25-27 - VARIABLE SCOPE ERROR
+
+**Problem:** `status` is declared inside the if block but used outside it (line 32).
+
+**Issue:** Variables declared inside `{ }` blocks only exist within that block. Compiler error: "status was not declared in this scope".
+
+**Fix:** Declare `string status;` before the if statement (line 24).
+
+## LINE 24 - UNINITIALIZED VARIABLE
+
+**Problem:** If we declare `status` before the if block, it's still uninitialized when age < 18.
+
+**Issue:** `status` contains garbage or empty string when printed if the user is under 18.
+
+**Fix:** Initialize when declared: `string status = "Minor";`
+
+## LINE 26 - VARIABLE SHADOWING (BONUS)
+
+**Problem:** Even after declaring status outside, `string status = "Adult";` creates a NEW variable inside the if block.
+
+**Issue:** This shadows the outer status. The inner variable is destroyed when the block ends, leaving outer status unchanged.
+
+**Fix:** Change to `status = "Adult";` (assignment, not declaration).
+
+## Working Code
+
+::: {.columns}
+::: {.column width="75%"}
+
+```cpp
+#include <iostream>
+#include <string>
+#include <limits>
+using namespace std;
+
+int getAge();
+string getName();
+
+int main() {
+    string name;
+    string phone;
+    int age;
+    
+    age = getAge();
+    name = getName();
+    
+    cout << "Enter your phone: ";
+    getline(cin, phone);
+    
+    string status = "Minor";
+    if (age >= 18) {
+        status = "Adult";
+    }
+    
+    cout << "\n=== Contact Info ===" << endl;
+    cout << "Name: " << name << endl;
+    cout << "Age: " << age << endl;
+    cout << "Status: " << status << endl;
+    cout << "Phone: " << phone << endl;
+    
+    return 0;
+}
+
+int getAge() {
+    int age;
+    cout << "Enter your age: ";
+    cin >> age;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    return age;
+}
+
+string getName() {
+    string name;
+    cout << "Enter your full name: ";
+    getline(cin, name);
+    return name;
+}
+```
+:::
+
+::: {.column width="25%"}
+
+**Expected Output:**
+
+```
+Enter your age: 25
+Enter your full name: John Smith
+Enter your phone: 555 123 4567
+
+=== Contact Info ===
+Name: John Smith
+Age: 25
+Status: Adult
+Phone: 555 123 4567
+```
+
+:::
+::: 
+
+
