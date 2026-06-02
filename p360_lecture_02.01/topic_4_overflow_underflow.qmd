@@ -1,0 +1,255 @@
+<!-- Topic 4: Overflow and Underflow -->
+<!-- Total slides: 14 -->
+
+# Overflow and Underflow
+
+## What happens when a value exceeds its type's range? {.smaller}
+
++ Every numeric type has a fixed range. Assign a value outside that range and the result is not what you expect.
++ **Overflow** — value exceeds the maximum.
++ **Underflow** — value drops below the minimum (or, for floating point, below the smallest representable positive value).
++ The compiler does not always warn you, and the behavior differs between signed and unsigned types.
+
+::: notes
+Total slides: 14
+Frame this as a consequence of the type system. Students now understand that types have fixed sizes. This section shows what happens at the boundaries. The signed/unsigned distinction is critical here — one behavior is undefined, the other is well-defined.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## Signed overflow — undefined behavior {.smaller}
+
++ For **signed** integers, overflow is **undefined behavior** in C++.
++ The compiler is free to assume it never happens — which can produce counter-intuitive optimizations.
++ In practice on most platforms it wraps around, but you cannot rely on this.
+
+```{.cpp}
+#include <climits>
+
+int x = INT_MAX;   // 2,147,483,647
+x++;               // undefined behavior — do NOT rely on any result
+```
+
+::: notes
+Undefined behavior means the C++ standard places no requirement on what happens. The compiler may assume signed overflow never occurs and optimize accordingly — which can eliminate safety checks, infinite loops, and other constructs that depend on overflow behavior. This is not theoretical: real compilers (GCC, Clang) aggressively exploit undefined behavior for optimization.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Unsigned overflow — well-defined wrapping {.smaller}
+
++ For **unsigned** integers, overflow is **well-defined**: the value wraps modulo 2ⁿ (where n is the bit width).
++ An unsigned value that exceeds the maximum wraps back to zero.
++ An unsigned value that goes below zero wraps to the maximum.
+
+```{.cpp}
+#include <climits>
+
+unsigned int u = UINT_MAX;  // 4,294,967,295
+u++;                        // wraps to 0 — well-defined
+
+unsigned int v = 0;
+v--;                        // wraps to 4,294,967,295 — well-defined
+```
+
+::: notes
+This is one of the few cases where signed and unsigned types have genuinely different semantics at the language level. Unsigned overflow being well-defined makes it usable in hash functions, checksums, and modular arithmetic. Signed overflow being undefined is a source of real bugs in security-critical code.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## {background-iframe="images/signed_unsigned_overflow_viz.html" background-interactive="true"}
+
+<!-- Slide 4 -->
+
+---
+
+## `numeric_limits` — querying type boundaries {.smaller}
+
++ `std::numeric_limits<T>` from `<limits>` provides the exact min and max for any numeric type.
++ More reliable than `INT_MAX` macros from `<climits>` — works with any type including user-defined ones.
+
+```{.cpp}
+#include <limits>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    cout << "int max: "    << numeric_limits<int>::max()    << "\n";
+    cout << "int min: "    << numeric_limits<int>::min()    << "\n";
+    cout << "uint max: "   << numeric_limits<unsigned int>::max() << "\n";
+    cout << "double max: " << numeric_limits<double>::max() << "\n";
+}
+```
+
+<!-- Slide 5 -->
+
+---
+
+## Worked example: short overflow {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    short s = 32767;   // SHRT_MAX
+    cout << s << "\n"; // 32767
+    s++;
+    cout << s << "\n"; // -32768 on most platforms (undefined for signed)
+}
+```
+
+::: notes
+On most platforms with most compilers, signed overflow wraps two's complement — 32767 + 1 = -32768. But this is implementation-defined behavior, not guaranteed. The example illustrates why you should never write code that depends on this. Use unsigned types and explicit modular arithmetic when you need wrap-around behavior.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Worked example: unsigned underflow {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    unsigned int u = 0;
+    cout << u << "\n";  // 0
+    u--;
+    cout << u << "\n";  // 4,294,967,295 — wraps (well-defined)
+}
+```
+
+<!-- Slide 7 -->
+
+---
+
+## {background-iframe="images/unsigned_underflow_viz.html" background-interactive="true"}
+
+<!-- Slide 8 -->
+
+---
+
+## Worked example: INT_MAX + 1 {.smaller}
+
+```{.cpp}
+#include <iostream>
+#include <climits>
+using namespace std;
+
+int main()
+{
+    int x = INT_MAX;
+    cout << "x     = " << x     << "\n";  // 2147483647
+    cout << "x + 1 = " << x + 1 << "\n"; // undefined behavior
+
+    unsigned int u = INT_MAX;
+    u++;
+    cout << "u     = " << u << "\n";      // 2147483648 — well-defined
+}
+```
+
+<!-- Slide 9 -->
+
+---
+
+## Floating point underflow {.smaller}
+
++ Floating point underflow occurs when a positive value becomes too small to represent — the result rounds to zero.
++ Unlike integer overflow, floating point underflow is generally not catastrophic — it produces zero rather than garbage.
+
+```{.cpp}
+#include <limits>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    double tiny = numeric_limits<double>::min();  // ~2.2e-308
+    tiny /= 2.0;
+    cout << tiny << "\n";  // may print 0 or a denormalized value
+}
+```
+
+::: notes
+Floating point has two special cases: overflow (result becomes infinity) and underflow (result becomes zero or a denormalized number). Neither crashes the program, but both produce incorrect results. This is different from integer overflow, which is undefined behavior for signed types.
+:::
+
+<!-- Slide 10 -->
+
+---
+
+## Detecting overflow before it happens {.smaller}
+
++ The safest approach: check whether the operation would overflow **before** performing it.
++ For addition: if `a > INT_MAX - b`, then `a + b` would overflow.
+
+```{.cpp}
+#include <climits>
+#include <iostream>
+using namespace std;
+
+bool safeAdd(int a, int b, int &result)
+{
+    if (b > 0 && a > INT_MAX - b) return false;  // would overflow
+    if (b < 0 && a < INT_MIN - b) return false;  // would underflow
+    result = a + b;
+    return true;
+}
+```
+
+::: notes
+This is the defensive programming pattern for integer arithmetic. Checking after the addition is too late — the overflow has already produced undefined behavior. The check must happen before the operation using rearranged algebra that avoids overflow in the check itself.
+:::
+
+<!-- Slide 11 -->
+
+---
+
+## What to do in practice {.smaller}
+
++ For general arithmetic: use `int` or `long long` and validate inputs to ensure they stay in range.
++ For counters and indexes that can never be negative: use `unsigned` and know that decrement below zero wraps.
++ When exact range matters: use `numeric_limits<T>::max()` rather than hardcoded values.
++ When overflow is a real risk: detect before the operation, not after.
+
+<!-- Slide 12 -->
+
+---
+
+## The compiler will not save you {.smaller}
+
+```{.cpp}
+int x = 2000000000;
+int y = 2000000000;
+int z = x + y;     // undefined behavior — no compile error, no warning
+cout << z << "\n"; // may print -294967296 or anything else
+```
+
+::: notes
+Compile this and run it to show students what undefined behavior looks like in practice. The output depends on the compiler, optimization level, and platform. Some compilers emit a warning with -ftrapv (which traps on signed overflow). The lesson: overflow does not announce itself — you have to think about whether it can happen.
+:::
+
+<!-- Slide 13 -->
+
+---
+
+## Summary {.smaller}
+
++ Signed integer overflow is undefined behavior — never rely on it.
++ Unsigned integer overflow wraps modulo 2ⁿ — well-defined and sometimes intentional.
++ Use `numeric_limits<T>` to query type boundaries portably.
++ Detect potential overflow before the operation, not after.
+
+<!-- Slide 14 -->

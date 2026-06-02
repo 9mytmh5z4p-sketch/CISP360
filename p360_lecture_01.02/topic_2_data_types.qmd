@@ -1,0 +1,349 @@
+<!-- Topic 2: Data Types -->
+<!-- Total slides: 18 -->
+
+# Data Types
+
+---
+
+## Why does C++ have so many types? {.smaller}
+
++ **Type controls memory** — each type reserves a specific amount of space.
++ **Type controls behavior** — the same bit pattern means different things depending on type.
++ Choosing the right type for your data is part of the job.
+
+::: notes
+Total slides: 18
+Frame this before listing anything: type is not arbitrary syntax. It is a contract between the programmer and the computer about what kind of data lives in a variable. A char and an int might hold the same bits, but the program interprets them differently. This motivates why the language has more than one number type.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The type families {.smaller}
+
+| Type | Keyword | Holds | Typical use |
+|------|---------|-------|-------------|
+| Integer | `int` | Whole numbers | Counts, indexes, IDs |
+| Floating point | `double` | Decimal numbers | Measurements, money |
+| Character | `char` | One character | Grades, single letters |
+| String | `string` | Text | Names, messages |
+| Boolean | `bool` | True or false | Flags, conditions |
+| Void | `void` | Nothing | Functions that return nothing |
+| Auto | `auto` | Compiler decides | Modern convenience |
+
+::: notes
+This is the map before the territory. Students should be able to return to this table when they need to choose a type. The goal is not memorization — it is familiarity. By the end of the course every row in this table will feel automatic.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Integers {.smaller}
+
++ Whole numbers only — no decimal component.
++ Can be **signed** (positive and negative) or **unsigned** (positive only).
++ C++ has multiple integer sizes because different problems need different ranges.
+
+```{.cpp}
+int age      = 25;
+int count    = -3;
+int students = 0;
+```
+
+::: notes
+Keep this brief — the detail comes in the next two slides. The key conceptual points: integers are exact (no rounding), they cannot hold decimals (7/2 is 3, not 3.5), and sign matters. Students often assume int is the only integer type; the next slide shows the full family.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Integer types {.smaller}
+
+| Data Type | Size | Range |
+|-----------|------|-------|
+| `short int` | 2 bytes | −32,768 to +32,767 |
+| `unsigned short int` | 2 bytes | 0 to +65,535 |
+| `int` | 4 bytes | −2,147,483,648 to +2,147,483,647 |
+| `unsigned int` | 4 bytes | 0 to +4,294,967,295 |
+| `long int` | 4 bytes | −2,147,483,648 to +2,147,483,647 |
+| `unsigned long int` | 4 bytes | 0 to +4,294,967,295 |
+| `long long int` | 8 bytes | −9.2×10¹⁸ to +9.2×10¹⁸ |
+| `unsigned long long int` | 8 bytes | 0 to +1.8×10¹⁹ |
+
+::: notes
+Students don't need to memorize the exact ranges — they need to understand the pattern: more bytes = larger range, unsigned = no negatives but twice the positive range. The practical takeaway is on the next slide. Note that sizes are "typical" — the C++ standard guarantees minimums, not exact sizes.
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## Unsigned integers {.smaller}
+
++ Dropping the sign bit gives the type a larger positive range.
++ **Risk**: assigning a negative value to an `unsigned` variable wraps around to a large positive number — no error, wrong answer.
+
+```{.cpp}
+unsigned int speed = 100;    // fine
+unsigned int error = -1;     // compiles — stores 4,294,967,295
+```
+
+::: notes
+The wrap-around behavior is the core gotcha. It produces no compiler error and no runtime crash — just a wrong value. This is one of the hardest classes of bug to find because the variable looks populated and non-zero. Use unsigned types only when you are certain the value will never be negative.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Which integer size should I use? {.smaller}
+
++ Pick the type whose range comfortably covers what you are counting or storing.
++ For most work in this course, plain `int` is the right choice.
++ Use `long long` when you need to count beyond 2 billion.
+
+| You are storing... | Use |
+|--------------------|-----|
+| A person's age | `int` |
+| A grade (0–100) | `int` |
+| Population of a country | `long long int` |
+| Always positive count | `unsigned int` |
+
+::: notes
+The practical decision rule: start with int, switch to long long only when the range demands it. The table gives students concrete examples. The general principle: match the type to the domain of the thing you are counting, not to the specific value at this moment — your count might grow.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Sample integer declarations {.smaller}
+
+```{.cpp}
+// Full data type names        // Abbreviated names
+short int  month;              short    month;
+unsigned short int amount;     unsigned short amount;
+int        days;               int      days;    // no short form
+unsigned int speed;            unsigned speed;
+long int   deficit;            long     deficit;
+unsigned long int insects;     unsigned long insects;
+long long int grandTotal;      long long grandTotal;
+unsigned long long int pop;    unsigned long long pop;
+```
+
+::: notes
+C++ allows abbreviated names for most integer types — 'int' can be dropped when another size keyword is present. int days has no short form because 'int' alone is the only way to write it. Both columns compile to identical types. Students will see both forms in code they read.
+:::
+
+<!-- Slide 7 -->
+
+---
+
+## Floating point numbers {.smaller}
+
++ Decimal numbers — values that include a fractional part.
++ **Precision**: how faithfully the stored value represents the real number. All floating point values are approximations beyond some number of significant digits.
++ Floating point types are always signed — no unsigned float.
+
+```{.cpp}
+double price  = 99.95;
+double pi     = 3.14159265358979;
+double small  = 1.5e-10;    // scientific notation
+```
+
+::: notes
+The precision point is critical and often misunderstood. Floating point numbers are stored in binary using a fixed number of bits — most decimal fractions cannot be represented exactly. This is why 0.1 + 0.2 does not equal exactly 0.3 in any language that uses IEEE 754 floating point. Students don't need to understand the binary encoding, but they need to know that floating point arithmetic is approximate.
+:::
+
+<!-- Slide 8 -->
+
+---
+
+## Floating point types {.smaller}
+
+| Type | Size | Significant Digits | Use |
+|------|----- |--------------------|-----|
+| `float` | 4 bytes | ~7 | When memory is tight |
+| `double` | 8 bytes | ~15 | Default choice — use this |
+| `long double` | 8+ bytes | ~15–18 | High-precision scientific work |
+
+::: notes
+In this class, always use double — it is the default floating point type in C++ and the one cout uses for floating point output. float has only 7 significant digits, which is often not enough for calculations that accumulate error. long double is platform-dependent and rarely needed in introductory work.
+:::
+
+<!-- Slide 9 -->
+
+---
+
+## `float` vs. `double` {.smaller}
+
++ `float` is good to about **6 decimal places**.
++ `double` is good to about **15 decimal places**.
++ In this class, always use `double`.
+
+```{.cpp}
+float  tub  = 10.0 / 3.0;   // 3.333333   (6 digits)
+double mint = 10.0 / 3.0;   // 3.333333333333333  (15 digits)
+```
+
+::: notes
+The example is from the original lecture — floatnum.cpp. The key takeaway: float loses precision much earlier than double. In calculations that chain together multiple operations, float errors accumulate and the result diverges from the correct answer. The cost of using double instead of float is 4 extra bytes per variable — almost never worth worrying about.
+:::
+
+<!-- Slide 10 -->
+
+---
+
+## `char` {.smaller}
+
++ Holds a **single character** using single-quote literals.
++ Internally, `char` stores a small integer — 1 byte.
++ Signed or unsigned behavior is implementation-specific.
+
+```{.cpp}
+char grade  = 'A';
+char letter = 'z';
+char digit  = '5';    // the character 5, not the number 5
+```
+
+::: notes
+The distinction between '5' (the character, ASCII 53) and 5 (the integer) is worth calling out explicitly. Students frequently confuse them. Also: single quotes for char, double quotes for string — this is a compile error if mixed up, so students learn it quickly. A char can also store any integer in the range -128 to 127 (signed) or 0 to 255 (unsigned).
+:::
+
+<!-- Slide 11 -->
+
+---
+
+## `char` and ASCII {.smaller}
+
++ C++ knows which character to display by looking up the stored integer in the **ASCII table**.
++ `'M'` is stored as the integer `77`. Adding 1 gives `78`, which displays as `'N'`.
++ Characters and integers are interchangeable in C++ — they share the same memory layout.
+
+```{.cpp}
+char ch = 'M';    // stored as 77
+int  i  = ch;     // i = 77
+ch = ch + 1;      // ch now holds 78, displays as 'N'
+```
+
+::: notes
+The ASCII table maps integers 0–127 to characters. Students should know that 'A' = 65, 'a' = 97, '0' = 48 — these come up repeatedly. The fact that char is just a small integer is what enables character arithmetic: adding 1 to a char letter gives the next letter. This underpins a lot of string processing later in the course.
+[Graphic suggestion: ASCII table showing decimal, hex, and character columns for the printable range 32–127.]
+:::
+
+<!-- Slide 12 -->
+
+---
+
+## `string` {.smaller}
+
++ Holds a **sequence of characters** — text of any length.
++ Requires `#include <string>`.
++ Uses **double-quote** literals.
++ Not a built-in type — it is a class from the C++ standard library.
+
+```{.cpp}
+#include <string>
+
+string name    = "Pat Smith";
+string message = "Hello, World!";
+string empty   = "";
+```
+
+::: notes
+string is technically not a primitive type — it is a class. This matters because string has behaviors (member functions like .length(), .substr()) that int and double do not. For now, students only need to know how to declare and initialize one. The #include <string> is separate from #include <iostream> — forgetting it produces a confusing error.
+:::
+
+<!-- Slide 13 -->
+
+---
+
+## `bool` {.smaller}
+
++ Holds exactly two values: **`true`** or **`false`**.
++ Stored internally as `1` (true) and `0` (false).
++ Named after George Boole, who formalized the algebra of logic.
+
+```{.cpp}
+bool isOver  = true;
+bool isEmpty = false;
+
+cout << isOver  << endl;   // prints: 1
+cout << isEmpty << endl;   // prints: 0
+```
+
+::: notes
+bool is essential for every conditional and loop students will write. The fact that true prints as 1 and false as 0 surprises some students — cout does not print "true" or "false" by default. This behavior can be changed with boolalpha manipulator, but that comes later. For now: bool holds a flag, and its printed representation is numeric.
+:::
+
+<!-- Slide 14 -->
+
+---
+
+## `void` {.smaller}
+
++ `void` means **no type** — it is an incomplete type.
++ The compiler knows the word exists but cannot allocate memory for it.
++ You will use `void` later for functions that return nothing. You cannot create a `void` variable.
+
+```{.cpp}
+void someVar;       // ERROR: variable has incomplete type 'void'
+void stuff = 99;    // ERROR: variable has incomplete type 'void'
+```
+
+::: notes
+Students encounter void when they start writing functions. Introducing it here as "the type that means no type" gives context for why main() returns int (it returns a value) versus a void function that does not. The compiler error messages for void variables are clear — show them so students recognize the pattern.
+:::
+
+<!-- Slide 15 -->
+
+---
+
+## `auto` {.smaller}
+
++ C++11 keyword — the compiler **deduces the type** from the initialization value.
++ You must initialize the variable immediately; `auto` without a value is a compile error.
+
+```{.cpp}
+auto age   = 78;       // compiler deduces: int
+auto cost  = 99.95;    // compiler deduces: double
+auto grade = 'A';      // compiler deduces: char
+auto name  = "Pat";    // compiler deduces: const char*
+```
+
+::: notes
+auto is convenient but hides the type from the reader. In learning contexts, explicit types are usually better because they make the type visible for inspection and discussion. Use auto sparingly in this course; know it exists when reading other people's code. The last example — "Pat" — deduces to const char* (a C-style string pointer), not std::string, which surprises students who expect it to behave like string.
+:::
+
+<!-- Slide 16 -->
+
+---
+
+## Which type should I use? {.smaller}
+
+| I need to store... | Use |
+|--------------------|-----|
+| A whole number (count, age, index) | `int` |
+| A decimal number (price, measurement) | `double` |
+| A single character (grade, initial) | `char` |
+| Text (name, message) | `string` |
+| A yes/no flag | `bool` |
+| Nothing (function return) | `void` |
+
+::: notes
+This is the practical decision table students will use all semester. Reinforce the heuristic: if it counts, use int; if it measures, use double; if it's a word or sentence, use string. The most common beginner mistake is using double for things that should be int (ages, counts, IDs) or using int for things that need decimals (prices, averages).
+:::
+
+<!-- Slide 17 -->
+
+---
+
+## Summary {.smaller}
+
++ Each type reserves a specific amount of memory and constrains which operations make sense on that data.
++ For whole numbers use `int`; for decimals use `double`; for text use `string`; for flags use `bool`.
+
+<!-- Slide 18 -->

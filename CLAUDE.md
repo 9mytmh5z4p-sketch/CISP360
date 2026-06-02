@@ -92,6 +92,13 @@ All running code examples use the following style:
 - If you have a best practices slide, title it **"Common Practices"**
 - Let content dictate slide count — don't pad, don't compress. Use `emphasis` and `time_budget` from `topics.md` to calibrate depth.
 
+**Last Time slide (stitched file):**
+- List only the bold topic names — no explanatory text after the em-dash.
+- Correct: `+ **Variables and Assignment**`
+- Wrong: `+ **Variables and Assignment** — declaration reserves memory; initialization fills it.`
+- Do **not** place a `---` separator between `# Last Time` and `# Today's Agenda` — two consecutive `#` headings without a separator is correct; a `---` between them creates a blank slide.
+- Do **not** place a `---` separator between a `#` (h1) heading and the first `##` (h2) slide that follows it — the `##` already creates a new slide; a `---` between them creates a blank intermediate slide. The `# Topic Name` in a topic file should be followed directly by `## First slide`, not `---` then `## First slide`.
+
 **Per topic file:**
 - First slide: one introductory slide — preferably a question the section will answer. Max 3 sentences.
   - Speaker notes on first slide: total slide count for this topic
@@ -207,8 +214,6 @@ The main `p360_lecture_0x.0y.qmd` has no YAML frontmatter — all settings come 
 ::: notes
 [Brief recall notes]
 :::
-
----
 
 # Today's Agenda
 

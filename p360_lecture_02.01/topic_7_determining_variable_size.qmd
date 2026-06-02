@@ -1,0 +1,100 @@
+<!-- Topic 7: Determining Variable Size -->
+<!-- Total slides: 6 -->
+
+# Determining Variable Size
+
+## How can you measure how much memory a variable uses? {.smaller}
+
++ C++ provides the `sizeof` operator — the only portable way to measure memory.
++ It evaluates at **compile time** and works on any type, variable, or array.
++ The return type is `size_t`.
+
+::: notes
+Total slides: 6
+Keep this focused and practical. sizeof with arrays and sizeof with structs are deferred — arrays to lecture 11.02, struct padding to lecture 15.02.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The `sizeof` operator {.smaller}
+
+```{.cpp}
+sizeof(type)      // size of a type
+sizeof variable   // size of a declared variable (parentheses optional)
+sizeof(expr)      // size of the type an expression would produce
+```
+
++ Does not execute code or evaluate the operand's value — it determines size from type information alone.
++ Result is always in bytes.
+
+<!-- Slide 2 -->
+
+---
+
+## Typical platform sizes {.smaller}
+
+Sizes are not mandated by the standard and vary by platform and compiler. These are typical on a 64-bit system:
+
+| Type | Typical Size |
+|------|:------------:|
+| `char` | 1 byte |
+| `short` | 2 bytes |
+| `int` | 4 bytes |
+| `long` | 8 bytes |
+| `float` | 4 bytes |
+| `double` | 8 bytes |
+| `bool` | 1 byte |
+| pointer | 8 bytes |
+
+Always use `sizeof` rather than hardcoding these values.
+
+<!-- Slide 3 -->
+
+---
+
+## Why sizes vary {.smaller}
+
++ **Architecture** — 32-bit systems use 4-byte pointers; 64-bit systems use 8-byte pointers.
++ **Compiler choices** — `long` is 4 bytes on Windows (MSVC) and 8 bytes on Linux (GCC/Clang).
++ **Alignment** — the compiler inserts padding between struct members to align data on word boundaries for performance.
+
+<!-- Slide 4 -->
+
+---
+
+## Printing all type sizes {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    cout << "char:   " << sizeof(char)   << " byte(s)\n";
+    cout << "short:  " << sizeof(short)  << " byte(s)\n";
+    cout << "int:    " << sizeof(int)    << " byte(s)\n";
+    cout << "long:   " << sizeof(long)   << " byte(s)\n";
+    cout << "float:  " << sizeof(float)  << " byte(s)\n";
+    cout << "double: " << sizeof(double) << " byte(s)\n";
+    cout << "bool:   " << sizeof(bool)   << " byte(s)\n";
+    return 0;
+}
+```
+
+::: notes
+Students should run this on their own machine. The output is specific to their compiler and platform. Comparing results with classmates on different systems is an effective way to make platform dependence concrete.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## Summary {.smaller}
+
++ `sizeof` is the portable, compile-time way to determine memory size.
++ Use it instead of hardcoding byte counts.
++ Sizes vary by architecture and compiler — always measure, never assume.
+
+<!-- Slide 6 -->

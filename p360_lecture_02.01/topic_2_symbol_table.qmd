@@ -1,184 +1,95 @@
+<!-- Topic 2: The Symbol Table -->
+<!-- Total slides: 7 -->
+
 # The Symbol Table
 
-## The Symbol Table
+## What problems does the compiler face tracking every identifier? {.smaller}
 
-What problems does the compiler face when tracking every identifier in your code, and how does it solve them? The symbol table is the compiler's internal database that records every identifier — variable, function, or type — along with its name, data type, scope, and memory location. Understanding it helps you recognize compile-time errors and write code the compiler can reason about cleanly.
++ The symbol table is the compiler's internal database that records every identifier — variable, function, or type — along with its name, type, scope, and location.
++ Every type mismatch, undeclared variable, and redeclaration error traces back to this table.
 
 ::: notes
-Total slides: 12
+Total slides: 7
+Frame this as the mechanism behind error messages students already encounter. "Undeclared identifier" means: the compiler searched the symbol table and found no entry. "Redeclaration" means: the compiler found an entry already. Once students understand the table, the error messages make sense.
 :::
 
 <!-- Slide 1 -->
 
 ---
 
-## What Is the Symbol Table?
+## What goes in the symbol table? {.smaller}
 
-The symbol table is a compiler-maintained record that maps identifiers to their properties. Every time you declare a variable, function, or type, the compiler adds an entry. This table drives type checking, scope resolution, error detection, and code generation.
+![](images/2-panel_symbol_table.png)
 
 ::: notes
-
+Two-panel diagram: source code on the left, symbol table entries on the right with arrows connecting each identifier to its row. Name, type, scope, and address are the four fields. This image replaces the text description — the visual makes the mapping between code and table entries concrete.
 :::
 
 <!-- Slide 2 -->
 
 ---
 
-## The Symbol Table
+## How the compiler uses it {.smaller}
 
-![](images/symbol_table.png)
++ **Type checking** — when you write `int x = "hello"`, the compiler looks up `x` in the table, sees `int`, and rejects the string.
++ **Scope resolution** — when you reference `count`, the compiler searches from the innermost scope outward.
++ **Duplicate detection** — if you declare the same name twice in the same scope, the compiler finds the first entry and rejects the second.
++ **Code generation** — addresses stored in the table tell the compiler where to read and write each variable.
 
 <!-- Slide 3 -->
 
 ---
 
-## What Goes in the Symbol Table?
+## Undeclared identifier error {.smaller}
 
-- **Name**: The identifier as written in code (`count`, `processData`).
-- **Data type**: The declared type (`int`, `double`, `string`) — used for type checking.
-- **Scope**: Whether the identifier is local, global, or block-scoped — determines visibility.
-- **Memory location**: Where the variable lives, or the entry point of a function.
+```{.cpp}
+int main()
+{
+    count = 10;   // error: 'count' was not declared in this scope
+    return 0;
+}
+```
 
 ::: notes
-
+The compiler searched the symbol table — starting in main()'s scope, then global scope — and found no entry for 'count'. The fix is always the same: declare the variable before you use it. The error message tells students exactly what went wrong and where to look.
 :::
 
 <!-- Slide 4 -->
 
 ---
 
-## How the Compiler Uses It
+## Redeclaration error {.smaller}
 
-- **Type checking**: When you assign `int x = "hello"`, the compiler checks the table and reports a type mismatch.
-- **Scope resolution**: When you reference `count`, the compiler searches from innermost scope outward.
-- **Duplicate detection**: If you declare the same variable twice in the same scope, the compiler finds the first entry and rejects the second.
-- **Code generation**: The compiler uses addresses stored in the table to read and write each variable.
+```{.cpp}
+int main()
+{
+    int x = 5;
+    int x = 10;   // error: redeclaration of 'int x'
+    return 0;
+}
+```
 
 ::: notes
-
+The compiler found 'x' already in the symbol table for this scope and cannot add a second entry with the same name. Each identifier can have only one entry per scope. The solution: either rename the second variable or remove the redundant declaration.
 :::
 
 <!-- Slide 5 -->
 
 ---
 
-## Undeclared Variable Error
+## Type mismatch error {.smaller}
 
-```cpp
-int main() {
-    count = 10;   // Error: 'count' was not declared in this scope
-    return 0;
-}
-```
-
-The compiler searched the symbol table and found no entry for `count`. Declare it before you use it.
-
-::: notes
-
-:::
-
-<!-- Slide 6 -->
-
----
-
-## Redeclaration Error
-
-```cpp
-int main() {
-    int x = 5;
-    int x = 10;   // Error: redeclaration of 'int x'
-    return 0;
-}
-```
-
-The compiler found `x` already in the symbol table for this scope. Each identifier can have only one entry per scope.
-
-::: notes
-
-:::
-
-<!-- Slide 7 -->
-
----
-
-## Type Mismatch Error
-
-```cpp
-int main() {
+```{.cpp}
+int main()
+{
     int age = 25;
-    age = "twenty-five";  // Error: invalid conversion from 'const char*' to 'int'
+    age = "twenty-five";  // error: invalid conversion from 'const char*' to 'int'
     return 0;
 }
 ```
 
-The symbol table records `age` as type `int`. The compiler checks the incoming value's type and rejects the assignment.
-
 ::: notes
-
+The symbol table records 'age' as type int. When the compiler evaluates the assignment, it checks the incoming value's type (const char*) against the table entry (int) and rejects it. This is static type checking at work.
 :::
 
-<!-- Slide 8 -->
 
----
-
-## Scope and the Symbol Table
-
-Each scope (global, function, block) has its own region in the table. When you reference an identifier, the compiler searches from the innermost scope outward. A local variable with the same name as a global one shadows the global — the compiler finds the local entry first.
-
-```cpp
-int x = 5;           // global
-void func() {
-    int x = 10;      // local — shadows global x
-    cout << x;       // prints 10
-}
-```
-
-::: notes
-
-:::
-
-<!-- Slide 9 -->
-
----
-
-## Function Overloading and the Symbol Table
-
-C++ allows multiple functions with the same name as long as their parameter types differ. The compiler stores each overloaded version as a separate symbol table entry, keyed on name **and** parameter types.
-
-```cpp
-int    add(int a, int b);      // entry: add / (int, int) → int
-double add(double a, double b); // entry: add / (double, double) → double
-
-add(2, 3);       // compiler matches (int, int) entry
-add(2.0, 3.0);   // compiler matches (double, double) entry
-add(2, 3.0);     // ambiguous — compiler reports an error
-```
-
-<!-- Slide 10 -->
-
----
-
-## Namespaces and the Symbol Table
-
-A namespace creates a separate symbol table region. `std::cout` and a local `cout` can coexist because they live in different regions.
-
-```cpp
-// Without using:
-std::cout << "hello";   // explicit lookup in std region
-
-// With using namespace std:
-using namespace std;
-cout << "hello";        // compiler searches std region automatically
-```
-
-`using namespace std;` merges the entire `std` region into the current scope — every name in the standard library becomes a potential collision. For large programs, prefer `std::` prefixes.
-
-<!-- Slide 11 -->
-
----
-
-## Summary
-
-The symbol table is the compiler's record of every identifier: its name, type, scope, and location. Type mismatches, undeclared variables, and redeclarations all stem from symbol table violations — the compiler cannot build what it cannot track.
-
-<!-- Slide 12 -->

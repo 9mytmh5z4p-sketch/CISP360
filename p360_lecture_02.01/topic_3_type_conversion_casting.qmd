@@ -1,0 +1,250 @@
+<!-- Topic 3: Data Type Conversion and Casting -->
+<!-- Total slides: 15 -->
+
+# Data Type Conversion and Casting
+
+## Type coercion — the compiler converts automatically {.smaller}
+
++ The compiler automatically promotes the lower-ranking type to match the higher-ranking type.
++ **Promotion** — moving up the ranking. No data is lost.
++ **Demotion** — moving down the ranking. Data may be lost.
+
+<!-- Slide 1 -->
+
+---
+
+## Data type ranking {.smaller}
+
+When two operands of different types appear in an expression, the lower-ranking type is promoted to the higher before the operation executes.
+
+| Rank | Type |
+|:----:|------|
+| 1 (highest) | `long double` |
+| 2 | `double` |
+| 3 | `float` |
+| 4 | `unsigned long long` |
+| 5 | `long long` |
+| 6 | `unsigned long` |
+| 7 | `long` |
+| 8 | `unsigned int` |
+| 9 (lowest) | `int` |
+
+::: notes
+Data Type Ranking table (Table 3-7 from the original lecture). The result of any mixed-type expression takes the type of the higher-ranking operand. Note abbreviated names: long = long int, long long = long long int, etc.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Three rules of coercion {.smaller}
+
++ **Rule 1:** `char`, `short`, and `unsigned short` are automatically promoted to `int` in any expression.
++ **Rule 2:** When two operands of different types appear in an operation, the lower-ranking type is promoted to the higher-ranking type.
++ **Rule 3:** The final value of an expression is converted to the type of the variable it is being assigned to.
+
+::: notes
+Rule 3 is where demotion happens. If you compute a double result and assign it to an int, the decimal part is silently dropped — no error, no warning by default. This is the most common source of unexpected results in beginner programs.
+:::
+
+<!-- Slide 3 -->
+
+---
+
+## Promotion — moving up {.smaller}
+
++ Promotion happens when a smaller type is used where a larger type is expected.
++ No data is lost. C++ performs this automatically.
+
+```{.cpp}
+int x = 5;
+double y = x;        // int promoted to double; y = 5.0
+
+char c = 'A';
+int val = c;         // char promoted to int; val = 65
+
+int a = 10;
+double r = a / 2.0;  // a promoted before division; r = 5.0
+```
+
+<!-- Slide 4 -->
+
+---
+
+## Demotion — moving down {.smaller}
+
++ Demotion (narrowing) happens when a larger type is assigned to a smaller type.
++ **Data loss is likely.** The compiler may warn but will not always stop you.
+
+```{.cpp}
+double x = 3.7;
+int y = x;             // Warning: y = 3 (decimal discarded — not rounded)
+
+long bigNum = 100000;
+short s = bigNum;      // Warning: may overflow
+
+int a = 7, b = 2;
+int result = a / b;    // result = 3, not 3.5
+```
+
+<!-- Slide 5 -->
+
+---
+
+## The problem: integer division gives the wrong answer {.smaller}
+
+```{.cpp}
+// 3-7x.cpp — casting & expressions
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int books, months;
+    double booksPerMonth;
+
+    cout << "How many books: ";
+    cin >> books;
+    cout << "How many months to read them? ";
+    cin >> months;
+
+    booksPerMonth = books / months;   // integer division — decimal dropped!
+    cout << "That is " << booksPerMonth << " books per month.\n";
+    return 0;
+}
+```
+
+::: notes
+Input: books = 10, months = 6. Expected: 1.66667. Actual: 1. Why? books and months are both int. Integer division runs first and produces 1. That 1 is then assigned to a double — so booksPerMonth becomes 1.0, not 1.66667. The type of the variable receiving the result does not affect the division. The fix is on the next slide.
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## The fix: cast one operand to double {.smaller}
+
+```{.cpp}
+// Without cast — integer division, wrong answer
+booksPerMonth = books / months;
+// Input: 10 books, 6 months → output: 1
+
+// With static_cast — floating point division, correct answer
+booksPerMonth = static_cast<double>(books) / months;
+// Input: 10 books, 6 months → output: 1.66667
+```
+
+::: notes
+Casting one operand to double forces the entire division to use floating point. Only one operand needs to be cast — the other is promoted automatically by coercion rule 2. The pattern static_cast<double>(intVariable) is the idiomatic C++ way to get a decimal result from integer operands.
+:::
+
+<!-- Slide 7 -->
+
+---
+
+## Type casting — you control the conversion {.smaller}
+
++ Type casting is explicitly telling the compiler to convert from one type to another.
++ It is better to be explicit with your code than to rely on the compiler doing something automatically.
++ Three syntactic forms exist in C++. Only one is recommended.
+
+```{.cpp}
+static_cast<to_type>(value)    // C++ static cast — preferred
+(to_type)value                 // C style — prefix notation — avoid
+to_type(value)                 // pre-standard C++ functional — avoid
+```
+
+<!-- Slide 8 -->
+
+---
+
+## `static_cast` — the C++ way {.smaller}
+
++ `static_cast<TargetType>(value)` is the preferred form for numeric conversion.
++ Makes your intent explicit and is easy to find in a codebase.
++ Use it any time you need an intentional narrowing or explicit promotion.
+
+```{.cpp}
+double x = 3.7;
+int y = static_cast<int>(x);              // explicit truncation; y = 3
+
+int dividend = 7, divisor = 2;
+double r = static_cast<double>(dividend) / divisor;  // r = 3.5
+
+char letter = 'Z';
+int ascii = static_cast<int>(letter);     // ascii = 90
+```
+
+<!-- Slide 9 -->
+
+---
+
+## C-style casts — avoid {.smaller}
+
++ Syntax: `(TargetType)value` — carried over from C.
++ Works, but is not recommended in modern C++.
++ Hard to search for in a large codebase; hides intent; performs dangerous conversions without warning.
+
+```{.cpp}
+double x = 3.7;
+int y = (int)x;    // C-style cast — works, but avoid in new C++ code
+```
+
+::: notes
+Students will encounter C-style casts in textbooks and older code. They should be able to read them but should write static_cast in their own programs. The main problem with C-style casts: they are difficult to distinguish visually from other constructs and they bypass safety checks that static_cast enforces.
+:::
+
+<!-- Slide 10 -->
+
+---
+
+## Functional notation — avoid {.smaller}
+
++ Pre-standard C++ syntax: `to_type(value)` — looks like a constructor call.
++ Equivalent to a C-style cast for primitive types. Avoid in new code.
+
+```{.cpp}
+int(3.7)       // converts double to int; result: 3
+double(7)      // converts int to double; result: 7.0
+char(65)       // converts int to char; result: 'A'
+```
+
+<!-- Slide 11 -->
+
+---
+
+## When to cast and when not to {.smaller}
+
++ Use a cast to **express intent** — when you know truncation or conversion is correct.
++ Do **not** cast just to silence a compiler warning without fixing the underlying mismatch.
++ A cast that hides a narrowing bug is worse than the warning it suppressed.
+
+::: notes
+This is the discipline point. Students sometimes discover they can make warnings disappear with a cast and treat that as solving the problem. It is not — it is hiding the symptom. The right response to a narrowing warning is to understand why the narrowing occurs and whether it is safe. If it is safe, cast with intent. If it is not safe, fix the types.
+:::
+
+<!-- Slide 12 -->
+
+---
+
+## Implicit vs. explicit at a glance {.smaller}
+
+| | Implicit (Coercion) | Explicit (Cast) |
+|--|---------------------|-----------------|
+| Who initiates | Compiler | Programmer |
+| Syntax required | None | `static_cast<>` |
+| Promotion | Automatic, safe | Rarely needed |
+| Narrowing | Automatic, may lose data | Intentional, visible |
+| Risk | Hidden data loss | Visible — you own the result |
+
+<!-- Slide 14 -->
+
+---
+
+## Summary {.smaller}
+
++ Implicit coercion promotes the lower-ranking type automatically; narrowing silently loses data.
++ Use `static_cast<>` to make conversions explicit and intentional.
++ Never cast just to silence a warning — the warning usually means there is a real issue to address.
+
+<!-- Slide 15 -->

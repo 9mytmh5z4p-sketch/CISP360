@@ -1,0 +1,139 @@
+<!-- Topic 6: Fixed-Width Integers and size_t -->
+<!-- Total slides: 9 -->
+
+# Fixed-Width Integers and size_t
+
+## What if `int` is a different size on a different machine? {.smaller}
+
++ The standard types `int`, `short`, and `long` have minimum guaranteed sizes but no maximum.
++ Code that assumes a fixed size silently breaks when compiled on a different platform.
++ C++ provides fixed-width integer types that guarantee an exact size everywhere.
+
+::: notes
+Total slides: 9
+This is a practical portability topic. Students writing code for embedded systems, network protocols, or binary file formats will encounter this immediately. The key lesson: never hardcode byte counts — use fixed-width types when the width matters and sizeof() when you need to measure.
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## The problem: platform-dependent sizes {.smaller}
+
++ `int` is 4 bytes on most modern desktops, but 2 bytes on some embedded platforms.
++ `long` is 8 bytes on 64-bit Linux but 4 bytes on 64-bit Windows.
++ Writing `int x` and assuming it is always 32 bits is a portability bug.
+
+::: notes
+Real-world scenario: a network protocol field is exactly 32 bits. Using int on a platform where int is 16 bits corrupts the data silently. The solution is to name the width explicitly using the fixed-width types from <cstdint>.
+:::
+
+<!-- Slide 2 -->
+
+---
+
+## Fixed-width types from `<cstdint>` {.smaller}
+
+| Signed | Unsigned | Width |
+|--------|----------|-------|
+| `int8_t` | `uint8_t` | 8 bits |
+| `int16_t` | `uint16_t` | 16 bits |
+| `int32_t` | `uint32_t` | 32 bits |
+| `int64_t` | `uint64_t` | 64 bits |
+
+If the platform cannot provide that exact size, the type does not exist — you get a compile error rather than silent data corruption.
+
+<!-- Slide 3 -->
+
+---
+
+## Using fixed-width types {.smaller}
+
+```{.cpp}
+#include <cstdint>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int32_t  count   = 2000000000;   // guaranteed 32-bit signed
+    uint8_t  flags   = 0b10101010;   // guaranteed 8-bit unsigned
+    int64_t  balance = -900000000000LL;
+
+    cout << count        << "\n";
+    cout << (int)flags   << "\n";
+    cout << balance      << "\n";
+}
+```
+
+<!-- Slide 4 -->
+
+---
+
+## When to use fixed-width types {.smaller}
+
++ Use fixed-width types when:
+  + The exact bit width matters: network protocols, binary file formats, hardware registers.
+  + Code must be portable across platforms with different word sizes.
+  + You need bit manipulation with a known field width.
++ For general arithmetic where exact size does not matter, plain `int` and `long` are fine.
+
+<!-- Slide 5 -->
+
+---
+
+## What is `size_t`? {.smaller}
+
++ `size_t` is the unsigned integer type returned by `sizeof()` and by `.size()` on any container.
++ Guaranteed to be large enough to represent the size of any object in memory on the current platform.
++ Typically 4 bytes on 32-bit systems and 8 bytes on 64-bit systems.
+
+```{.cpp}
+cout << sizeof(int)    << "\n";   // returns size_t
+cout << sizeof(double) << "\n";
+
+vector<int> v = {1, 2, 3};
+cout << v.size() << "\n";         // also returns size_t
+```
+
+<!-- Slide 6 -->
+
+---
+
+## Using `size_t` for loop indexes {.smaller}
+
++ Comparing `int` to `size_t` triggers a sign-comparison warning.
++ Using `size_t` for the loop counter eliminates the warning and is semantically correct — an index into a container cannot be negative.
+
+```{.cpp}
+vector<string> names = {"Alice", "Bob", "Carol"};
+
+for (size_t i = 0; i < names.size(); ++i) {
+    cout << names[i] << "\n";
+}
+```
+
+<!-- Slide 7 -->
+
+---
+
+## Fast and least variants {.smaller}
+
++ `<cstdint>` also defines performance-oriented variants:
+  + `int_fast32_t` — at least 32 bits; the fastest available type of that width on the platform.
+  + `int_least8_t` — the smallest type with at least 8 bits.
++ These exist for performance-sensitive code.
++ At the introductory level, use the exact-width types (`int32_t`) unless you have a specific reason to choose otherwise.
+
+<!-- Slide 8 -->
+
+---
+
+## Summary {.smaller}
+
++ Fixed-width integer types guarantee an exact size on any platform.
++ Use them when bit width matters — protocols, file formats, hardware.
++ Use `size_t` for sizes, indexes, and anything that measures memory or container length.
++ For everything else, `int` is fine.
+
+<!-- Slide 9 -->

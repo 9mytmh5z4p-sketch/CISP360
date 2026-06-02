@@ -1,106 +1,218 @@
----
-title: "CISP 360 \n Structured Programming"
-subtitle: "Introduction to C++"
-author: "Dr. Caleb Fowler"
-
-format:
-  html:
-    filters:
-      - plantuml-filter.lua
-  revealjs:
-    css: ../styles/styles.css
-    theme: serif
-    slide-number: true
-    navigation-mode: vertical
-    transition: slide
-    incremental: false
-    scrollable: false
-    controls: true
-    hash: true
-    history: true
-    title-slide: false
-    footer: "CISP 360 · Fowler"
-    keyboard: true  # Keep this as true to enable the system
-    include-after-body:
-      - text: |
-          <script>
-          window.Reveal.on('ready', event => {
-            Reveal.configure({
-              keyboard: {
-                34: 'down',   // Forward button
-                33: 'up',     // Back button
-                116: 'right',  // Start/Play button
-                190: 'left'    // Black Screen button
-              }
-            });
-          });
-          </script>
-
-engine: jupyter
-execute:
-  eval: true
-  echo: true
-
-resources:
- - topics/**/images/**
-
----
-
-## Last Time
+# Last Time
 
 ::: {.incremental}
++ **Two-part structure** — every C++ program has top matter and a main() function.
++ **Common elements** — identifiers, reserved words, literals, and comments are the vocabulary of every program.
++ **Top matter** — SFH, `#include <iostream>`, and `using namespace std` appear at the top of every program you write.
+:::
 
-- **Programming is about disciplined thinking, not memorizing syntax.** Last time we talked about this course as training your ability to think logically, precisely, and deliberately, with C++ serving as the medium rather than the goal itself.  ￼
-
-- **We are starting with structured programming as our foundation.** I emphasized that we will focus first on sequence, selection, and iteration, because these ideas form the backbone of how programs execute and how programmers reason about behavior.  ￼
-
+::: notes
+Brief recall of lecture 01.01. Students should be able to point at any line of the intro.cpp program and classify it: which part is top matter, which part is main(), and within those, which words are identifiers, reserved words, literals, and comments.
 :::
 
 ---
 
-::: {.incremental}
+# Today's Agenda
 
-- **All programs share a small set of universal elements.** We introduced identifiers, reserved words, literals, and comments, and discussed why understanding their roles matters more than memorizing examples.  ￼
-
-
-- **Every C++ program has a predictable structure.** We walked through the idea that programs are divided into top matter that sets the environment and the main() function where execution always begins.  ￼
-
-- **Learning to program is iterative and requires practice.** qI stressed that mistakes are expected, that debugging is part of thinking, and that the exercise was meant to reinforce structure and confidence rather than perfection.  ￼
- ￼
-:::
-
-
-## Today's Agenda
-
-- Overview of Variable Types
-- Variable Assignment
+- Variables and Assignment
+- Data Types
 - Arithmetic Operators
 
 ::: notes
 
 :::
 
+{{< include topic_1_variables_assignment.qmd >}}
+{{< include topic_2_data_types.qmd >}}
+{{< include topic_3_arithmetic_operators.qmd >}}
 
+---
 
-{{< include topics/type_overview/type_overview.qmd >}}
-{{< include topics/variables_n_assignment/variables_n_assignment.qmd >}}
-{{< include topics/arithmetic_operators/arithmetic_operators.qmd >}}
+# Key Takeaways
 
+- A variable is a named, typed memory location — declaration reserves the space, initialization fills it
+- The assignment operator `=` moves data; it is not mathematical equality
+- Choose the right type: `int` for whole numbers, `double` for decimals, `string` for text, `bool` for flags
+- When both operands are integers, `/` performs integer division — the remainder is dropped silently
+- The compiler validates syntax, not logic — division by zero compiles fine and crashes at runtime
 
-# Key Takaways
-
-1. **Data Types & Memory Control**: C++ uses specific types (like `int`, `double`, and `bool`) to allow programmers to precisely manage memory reservation and data behaviors.
-
-
-2. **Variable Management**: Variables must be declared before use, while keywords like `const` (for read-only data) and `auto` (for type inference) streamline assignment logic.
-
-
-3. **Arithmetic Logic**: Mathematical operations follow standard algebraic precedence, with integer division resulting in truncation and the modulus operator (`%`) used to find remainders.
-
+---
 
 # Next Time
 
-- `cin`
-- `cout`
-- Manipulators
-- Table Architectures
+- Terminal interactions: `cout` and `cin` in depth
+- Formatting output
+- Reading input from the user
+
+---
+
+# Appendix
+
+---
+
+## Variables and Assignment: Good Practices
+
+- Always initialize variables at the point of declaration — never rely on a default value being zero.
+- Name variables after what they represent, not how they are used: `studentAge` is better than `x`.
+- Use `const` for any value that should not change after initialization — the compiler enforces it.
+
+---
+
+## Variables and Assignment: Common Mistakes
+
+- Reading an uninitialized variable — the value is undefined behavior; results are unpredictable.
+- Confusing `=` (assignment) with `==` (equality comparison) — one stores a value, the other tests one.
+- Declaring a variable inside a block and then trying to use it outside that block.
+
+---
+
+## Variables and Assignment: More Examples
+
+```cpp
+// Tracking a running total
+int total = 0;
+total = total + 50;
+total = total + 75;
+cout << "Total: " << total << endl;
+```
+
+---
+
+## Variables and Assignment: Practice Problems
+
+1. Declare and initialize one variable of each basic type. Print all five using `cout`.
+2. Write a program that swaps the values of two integer variables using a third temporary variable.
+3. What is the output of `int x = 5; x = x * 2; x = x + 3; cout << x;`? Trace through it step by step.
+
+---
+
+## Variables and Assignment: AI Search Terms
+
+- "C++ variable declaration vs initialization"
+- "C++ assignment operator vs equality"
+- "C++ const keyword explained"
+- "C++ list initialization brace syntax"
+- "C++ uninitialized variable undefined behavior"
+
+---
+
+## Variables and Assignment: Questions for Reflection
+
+- Why does C++ not automatically initialize variables to zero? What tradeoff does that represent?
+- If `=` means "move data," what does `a = b` actually do to the values of `a` and `b`?
+- What would go wrong if variable names were not case-sensitive?
+
+---
+
+## Data Types: Good Practices
+
+- Use `double` rather than `float` for all floating point work — the precision difference matters.
+- Use `int` for counts, indexes, and identifiers — not `double`, even if the value happens to be whole.
+- Use `bool` for yes/no flags rather than `int` — it communicates intent to the reader.
+
+---
+
+## Data Types: Common Mistakes
+
+- Using `int` to store a value that needs decimals (e.g., a price or a GPA).
+- Mixing `'A'` (char literal, single quotes) with `"A"` (string literal, double quotes).
+- Assuming `auto age = "25";` gives an `int` — it deduces `const char*` from a string literal.
+
+---
+
+## Data Types: More Examples
+
+```cpp
+// ASCII arithmetic
+char grade = 'A';
+grade = grade + 1;
+cout << grade << endl;   // B
+
+// Check even or odd using bool
+int n = 42;
+bool isEven = (n % 2 == 0);
+cout << isEven << endl;  // 1
+```
+
+---
+
+## Data Types: Practice Problems
+
+1. Declare one variable of every basic type and print each one. Observe what `bool` prints.
+2. Write a program that stores your name, age, GPA, and class initial. Print them all.
+3. What happens if you try to store `3.9` in an `int`? Try it and record the result.
+
+---
+
+## Data Types: AI Search Terms
+
+- "C++ fundamental data types overview"
+- "C++ char ASCII relationship"
+- "C++ float vs double precision"
+- "C++ bool true false integer representation"
+- "C++ auto type deduction"
+
+---
+
+## Data Types: Questions for Reflection
+
+- Why does C++ store `char` as an integer rather than directly as a symbol?
+- If `float` uses less memory than `double`, when would it ever make sense to use it?
+- What would change if C++ had only one numeric type that handled both integers and decimals?
+
+---
+
+## Arithmetic Operators: Good Practices
+
+- Use `double` operands whenever you need a decimal result from division.
+- Add parentheses around sub-expressions when precedence is not obvious.
+- Never divide by a variable without checking first that it is not zero.
+
+---
+
+## Arithmetic Operators: Common Mistakes
+
+- Integer division: computing `sum / count` when both are `int` and expecting a decimal average.
+- Expecting `^` to mean exponentiation — in C++ it is bitwise XOR. Use `pow()` from `<cmath>`.
+- Using `%` with floating point types — modulus is integers-only.
+
+---
+
+## Arithmetic Operators: More Examples
+
+```cpp
+// Even/odd test
+int n = 17;
+cout << (n % 2 == 0 ? "even" : "odd") << endl;
+
+// Decimal average from integer inputs
+int a = 85, b = 92, c = 78;
+double avg = (a + b + c) / 3.0;
+cout << avg << endl;
+```
+
+---
+
+## Arithmetic Operators: Practice Problems
+
+1. Write a program that reads two integers and prints their sum, difference, product, quotient, and remainder.
+2. What is `17 % 5`? What is `100 % 7`? Work it out by hand then verify in code.
+3. Write an expression that extracts the ones digit from any integer `n`.
+
+---
+
+## Arithmetic Operators: AI Search Terms
+
+- "C++ arithmetic operators integer division"
+- "C++ modulus operator use cases"
+- "C++ operator precedence table"
+- "C++ cmath library functions"
+- "C++ division by zero behavior"
+
+---
+
+## Arithmetic Operators: Questions for Reflection
+
+- Integer division drops the remainder silently. Should the compiler warn about this? Why or why not?
+- If you had to write a program without the `%` operator, how would you compute a remainder?
+- Why does C++ have separate behavior for integer and floating point division rather than always returning a decimal?
