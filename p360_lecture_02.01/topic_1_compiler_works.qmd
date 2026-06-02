@@ -1,7 +1,8 @@
 <!-- Topic 1: How the Compiler Works -->
-<!-- Total slides: 16 -->
+<!-- Slides 4–19 -->
 
 # How the Compiler Works
+<!-- Slide 3 -->
 
 ## What happens when you press "build"? {.smaller}
 
@@ -9,11 +10,11 @@
 + Understanding this process helps you read error messages, locate bugs faster, and write code that compiles cleanly.
 
 ::: notes
-Total slides: 16
+Slides 4–19
 Frame this as practical knowledge, not theory. Every error message a student sees — "undeclared identifier," "undefined reference," "no matching function" — comes from one of the three stages. Knowing which stage produced the error tells you where to look.
 :::
 
-<!-- Slide 1 -->
+<!-- Slide 4 -->
 
 ---
 
@@ -87,7 +88,7 @@ LIB -up-> L
 [Graphic suggestion: horizontal pipeline diagram — source → preprocessor → expanded source → compiler → object file → linker (+ library) → executable.]
 :::
 
-<!-- Slide 2 -->
+<!-- Slide 5 -->
 
 ---
 
@@ -101,7 +102,7 @@ LIB -up-> L
 Students sometimes think the preprocessor is part of the compiler — it is not. It is a separate text-processing step that knows nothing about C++ syntax. The preprocessor cannot catch type errors or undefined variables. It simply performs textual substitution.
 :::
 
-<!-- Slide 3 -->
+<!-- Slide 6 -->
 
 ---
 
@@ -115,7 +116,7 @@ Students sometimes think the preprocessor is part of the compiler — it is not.
 Without pragma once (or header guards), including the same header twice from different files causes redeclaration errors at compile time. Students will see both pragma once and the classic #ifndef/#define/#endif pattern in code they read.
 :::
 
-<!-- Slide 4 -->
+<!-- Slide 7 -->
 
 ---
 
@@ -129,7 +130,7 @@ Without pragma once (or header guards), including the same header twice from dif
 This is the stage students interact with most — syntax errors and type errors both appear here. The compiler processes one .cpp file at a time; it has no knowledge of other .cpp files. Definitions are resolved at link time.
 :::
 
-<!-- Slide 5 -->
+<!-- Slide 8 -->
 
 ---
 
@@ -148,7 +149,7 @@ int main()
 error: expected '{' before 'cout'
 ```
 
-<!-- Slide 6 -->
+<!-- Slide 9 -->
 
 ---
 
@@ -165,22 +166,7 @@ age = "twenty-five";   // ERROR: can't store a string in an int
 error: invalid conversion from 'const char*' to 'int'
 ```
 
-<!-- Slide 7 -->
-
----
-
-## Static typing — a C++ strength {.smaller}
-
-::: {.columns}
-::: {.column width="45%"}
-![](images/static_typing_strong.png)
-:::
-::: {.column width="55%"}
-Static typing is a key C++ strength: an entire class of bugs that would appear only at runtime in Python or JavaScript are caught at compile time in C++.
-:::
-:::
-
-<!-- Slide 15 -->
+<!-- Slide 10 -->
 
 ---
 
@@ -204,7 +190,7 @@ error: 'count' was not declared in this scope
 Static typing is a key C++ strength: an entire class of bugs that would appear only at runtime in Python or JavaScript are caught at compile time in C++.
 :::
 
-<!-- Slide 8 -->
+<!-- Slide 11 -->
 
 ---
 
@@ -218,7 +204,7 @@ Static typing is a key C++ strength: an entire class of bugs that would appear o
 The most common linker error beginners see: "undefined reference to 'main'" (forgot to write main) or "undefined reference to 'sqrt'" (forgot to link the math library). These are not compile errors — the code compiled fine; the linker just cannot find the implementation.
 :::
 
-<!-- Slide 9 -->
+<!-- Slide 12 -->
 
 ---
 
@@ -228,7 +214,7 @@ The most common linker error beginners see: "undefined reference to 'main'" (for
 + **Type errors** — mismatched types in assignments or operations.
 + **Scope and declaration errors** — using identifiers that are undeclared or redeclared.
 
-<!-- Slide 10 -->
+<!-- Slide 13 -->
 
 ---
 
@@ -254,7 +240,7 @@ int main() { return add(2, 3); }
 This explains why a function defined in another .cpp causes an "undeclared" error: the compiler only sees the .cpp it is currently compiling. The declaration in the header gives the compiler what it needs for type checking; the linker handles connecting the call to the definition.
 :::
 
-<!-- Slide 11 -->
+<!-- Slide 14 -->
 
 ---
 
@@ -268,7 +254,7 @@ This explains why a function defined in another .cpp causes an "undeclared" erro
 This is a gentle landing after a fairly dense slide. Students at this level do not need to write multi-file programs yet. The goal of the translation unit slide was to explain why declarations go in headers; this slide releases the pressure and lets students know the concept is background knowledge, not something they will be tested on.
 :::
 
-<!-- Slide 12 -->
+<!-- Slide 15 -->
 
 ---
 
@@ -282,7 +268,7 @@ This is a gentle landing after a fairly dense slide. Students at this level do n
 Teaching students to categorize errors by stage is a practical debugging skill. A linker error means the code compiled correctly — the problem is a missing definition, not a syntax mistake.
 :::
 
-<!-- Slide 13 -->
+<!-- Slide 16 -->
 
 ---
 
@@ -290,7 +276,23 @@ Teaching students to categorize errors by stage is a practical debugging skill. 
 
 ![](images/error_by_stage.png)
 
-<!-- Slide 14 -->
+<!-- Slide 17 -->
+
+---
+
+## Static typing — a C++ strength {.smaller}
+
+::: {.columns}
+::: {.column width="45%"}
+![](images/static_typing_strong.png)
+:::
+::: {.column width="55%"}
+Static typing is a key C++ strength: an entire class of bugs that would appear only at runtime in Python or JavaScript are caught at compile time in C++.
+:::
+:::
+
+<!-- Slide 18 -->
+
 
 ---
 
@@ -301,4 +303,4 @@ Teaching students to categorize errors by stage is a practical debugging skill. 
 + Understanding these stages helps you interpret error messages and locate bugs faster.
 + Compile errors → Stage 2. Linker errors → Stage 3. File-not-found → Stage 1.
 
-<!-- Slide 16 -->
+<!-- Slide 19 -->

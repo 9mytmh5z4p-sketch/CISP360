@@ -1,7 +1,8 @@
 <!-- Topic 2: The Symbol Table -->
-<!-- Total slides: 7 -->
+<!-- Slides 21–27 -->
 
 # The Symbol Table
+<!-- Slide 20 -->
 
 ## What problems does the compiler face tracking every identifier? {.smaller}
 
@@ -9,11 +10,11 @@
 + Every type mismatch, undeclared variable, and redeclaration error traces back to this table.
 
 ::: notes
-Total slides: 7
+Slides 21–27
 Frame this as the mechanism behind error messages students already encounter. "Undeclared identifier" means: the compiler searched the symbol table and found no entry. "Redeclaration" means: the compiler found an entry already. Once students understand the table, the error messages make sense.
 :::
 
-<!-- Slide 1 -->
+<!-- Slide 21 -->
 
 ---
 
@@ -25,7 +26,7 @@ Frame this as the mechanism behind error messages students already encounter. "U
 Two-panel diagram: source code on the left, symbol table entries on the right with arrows connecting each identifier to its row. Name, type, scope, and address are the four fields. This image replaces the text description — the visual makes the mapping between code and table entries concrete.
 :::
 
-<!-- Slide 2 -->
+<!-- Slide 22 -->
 
 ---
 
@@ -36,7 +37,7 @@ Two-panel diagram: source code on the left, symbol table entries on the right wi
 + **Duplicate detection** — if you declare the same name twice in the same scope, the compiler finds the first entry and rejects the second.
 + **Code generation** — addresses stored in the table tell the compiler where to read and write each variable.
 
-<!-- Slide 3 -->
+<!-- Slide 23 -->
 
 ---
 
@@ -54,7 +55,7 @@ int main()
 The compiler searched the symbol table — starting in main()'s scope, then global scope — and found no entry for 'count'. The fix is always the same: declare the variable before you use it. The error message tells students exactly what went wrong and where to look.
 :::
 
-<!-- Slide 4 -->
+<!-- Slide 24 -->
 
 ---
 
@@ -73,7 +74,7 @@ int main()
 The compiler found 'x' already in the symbol table for this scope and cannot add a second entry with the same name. Each identifier can have only one entry per scope. The solution: either rename the second variable or remove the redundant declaration.
 :::
 
-<!-- Slide 5 -->
+<!-- Slide 25 -->
 
 ---
 
@@ -92,4 +93,14 @@ int main()
 The symbol table records 'age' as type int. When the compiler evaluates the assignment, it checks the incoming value's type (const char*) against the table entry (int) and rejects it. This is static type checking at work.
 :::
 
+<!-- Slide 26 -->
 
+---
+
+## Summary {.smaller}
+
++ The symbol table records every identifier: name, type, scope, and address.
++ Type mismatches, undeclared variables, and redeclarations all stem from symbol table violations.
++ Understanding the table turns cryptic compiler error messages into actionable information.
+
+<!-- Slide 27 -->

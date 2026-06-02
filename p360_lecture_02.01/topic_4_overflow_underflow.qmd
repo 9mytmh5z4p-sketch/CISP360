@@ -1,7 +1,8 @@
 <!-- Topic 4: Overflow and Underflow -->
-<!-- Total slides: 14 -->
+<!-- Slides 56–69 -->
 
 # Overflow and Underflow
+<!-- Slide 55 -->
 
 ## What happens when a value exceeds its type's range? {.smaller}
 
@@ -11,11 +12,11 @@
 + The compiler does not always warn you, and the behavior differs between signed and unsigned types.
 
 ::: notes
-Total slides: 14
+Slides 56–69
 Frame this as a consequence of the type system. Students now understand that types have fixed sizes. This section shows what happens at the boundaries. The signed/unsigned distinction is critical here — one behavior is undefined, the other is well-defined.
 :::
 
-<!-- Slide 1 -->
+<!-- Slide 56 -->
 
 ---
 
@@ -36,7 +37,7 @@ x++;               // undefined behavior — do NOT rely on any result
 Undefined behavior means the C++ standard places no requirement on what happens. The compiler may assume signed overflow never occurs and optimize accordingly — which can eliminate safety checks, infinite loops, and other constructs that depend on overflow behavior. This is not theoretical: real compilers (GCC, Clang) aggressively exploit undefined behavior for optimization.
 :::
 
-<!-- Slide 2 -->
+<!-- Slide 57 -->
 
 ---
 
@@ -60,13 +61,13 @@ v--;                        // wraps to 4,294,967,295 — well-defined
 This is one of the few cases where signed and unsigned types have genuinely different semantics at the language level. Unsigned overflow being well-defined makes it usable in hash functions, checksums, and modular arithmetic. Signed overflow being undefined is a source of real bugs in security-critical code.
 :::
 
-<!-- Slide 3 -->
+<!-- Slide 58 -->
 
 ---
 
 ## {background-iframe="images/signed_unsigned_overflow_viz.html" background-interactive="true"}
 
-<!-- Slide 4 -->
+<!-- Slide 59 -->
 
 ---
 
@@ -89,7 +90,7 @@ int main()
 }
 ```
 
-<!-- Slide 5 -->
+<!-- Slide 60 -->
 
 ---
 
@@ -112,7 +113,7 @@ int main()
 On most platforms with most compilers, signed overflow wraps two's complement — 32767 + 1 = -32768. But this is implementation-defined behavior, not guaranteed. The example illustrates why you should never write code that depends on this. Use unsigned types and explicit modular arithmetic when you need wrap-around behavior.
 :::
 
-<!-- Slide 6 -->
+<!-- Slide 61 -->
 
 ---
 
@@ -131,13 +132,13 @@ int main()
 }
 ```
 
-<!-- Slide 7 -->
+<!-- Slide 62 -->
 
 ---
 
 ## {background-iframe="images/unsigned_underflow_viz.html" background-interactive="true"}
 
-<!-- Slide 8 -->
+<!-- Slide 63 -->
 
 ---
 
@@ -160,7 +161,7 @@ int main()
 }
 ```
 
-<!-- Slide 9 -->
+<!-- Slide 64 -->
 
 ---
 
@@ -186,7 +187,7 @@ int main()
 Floating point has two special cases: overflow (result becomes infinity) and underflow (result becomes zero or a denormalized number). Neither crashes the program, but both produce incorrect results. This is different from integer overflow, which is undefined behavior for signed types.
 :::
 
-<!-- Slide 10 -->
+<!-- Slide 65 -->
 
 ---
 
@@ -213,7 +214,7 @@ bool safeAdd(int a, int b, int &result)
 This is the defensive programming pattern for integer arithmetic. Checking after the addition is too late — the overflow has already produced undefined behavior. The check must happen before the operation using rearranged algebra that avoids overflow in the check itself.
 :::
 
-<!-- Slide 11 -->
+<!-- Slide 66 -->
 
 ---
 
@@ -224,7 +225,7 @@ This is the defensive programming pattern for integer arithmetic. Checking after
 + When exact range matters: use `numeric_limits<T>::max()` rather than hardcoded values.
 + When overflow is a real risk: detect before the operation, not after.
 
-<!-- Slide 12 -->
+<!-- Slide 67 -->
 
 ---
 
@@ -241,7 +242,7 @@ cout << z << "\n"; // may print -294967296 or anything else
 Compile this and run it to show students what undefined behavior looks like in practice. The output depends on the compiler, optimization level, and platform. Some compilers emit a warning with -ftrapv (which traps on signed overflow). The lesson: overflow does not announce itself — you have to think about whether it can happen.
 :::
 
-<!-- Slide 13 -->
+<!-- Slide 68 -->
 
 ---
 
@@ -252,4 +253,4 @@ Compile this and run it to show students what undefined behavior looks like in p
 + Use `numeric_limits<T>` to query type boundaries portably.
 + Detect potential overflow before the operation, not after.
 
-<!-- Slide 14 -->
+<!-- Slide 69 -->

@@ -1,7 +1,8 @@
 <!-- Topic 3: Data Type Conversion and Casting -->
-<!-- Total slides: 15 -->
+<!-- Slides 29–43 -->
 
 # Data Type Conversion and Casting
+<!-- Slide 28 -->
 
 ## Type coercion — the compiler converts automatically {.smaller}
 
@@ -9,7 +10,7 @@
 + **Promotion** — moving up the ranking. No data is lost.
 + **Demotion** — moving down the ranking. Data may be lost.
 
-<!-- Slide 1 -->
+<!-- Slide 29 -->
 
 ---
 
@@ -33,7 +34,7 @@ When two operands of different types appear in an expression, the lower-ranking 
 Data Type Ranking table (Table 3-7 from the original lecture). The result of any mixed-type expression takes the type of the higher-ranking operand. Note abbreviated names: long = long int, long long = long long int, etc.
 :::
 
-<!-- Slide 2 -->
+<!-- Slide 30 -->
 
 ---
 
@@ -47,7 +48,7 @@ Data Type Ranking table (Table 3-7 from the original lecture). The result of any
 Rule 3 is where demotion happens. If you compute a double result and assign it to an int, the decimal part is silently dropped — no error, no warning by default. This is the most common source of unexpected results in beginner programs.
 :::
 
-<!-- Slide 3 -->
+<!-- Slide 31 -->
 
 ---
 
@@ -67,7 +68,7 @@ int a = 10;
 double r = a / 2.0;  // a promoted before division; r = 5.0
 ```
 
-<!-- Slide 4 -->
+<!-- Slide 32 -->
 
 ---
 
@@ -87,7 +88,7 @@ int a = 7, b = 2;
 int result = a / b;    // result = 3, not 3.5
 ```
 
-<!-- Slide 5 -->
+<!-- Slide 33 -->
 
 ---
 
@@ -118,7 +119,7 @@ int main()
 Input: books = 10, months = 6. Expected: 1.66667. Actual: 1. Why? books and months are both int. Integer division runs first and produces 1. That 1 is then assigned to a double — so booksPerMonth becomes 1.0, not 1.66667. The type of the variable receiving the result does not affect the division. The fix is on the next slide.
 :::
 
-<!-- Slide 6 -->
+<!-- Slide 34 -->
 
 ---
 
@@ -138,7 +139,7 @@ booksPerMonth = static_cast<double>(books) / months;
 Casting one operand to double forces the entire division to use floating point. Only one operand needs to be cast — the other is promoted automatically by coercion rule 2. The pattern static_cast<double>(intVariable) is the idiomatic C++ way to get a decimal result from integer operands.
 :::
 
-<!-- Slide 7 -->
+<!-- Slide 35 -->
 
 ---
 
@@ -154,7 +155,7 @@ static_cast<to_type>(value)    // C++ static cast — preferred
 to_type(value)                 // pre-standard C++ functional — avoid
 ```
 
-<!-- Slide 8 -->
+<!-- Slide 36 -->
 
 ---
 
@@ -175,7 +176,7 @@ char letter = 'Z';
 int ascii = static_cast<int>(letter);     // ascii = 90
 ```
 
-<!-- Slide 9 -->
+<!-- Slide 37 -->
 
 ---
 
@@ -194,7 +195,7 @@ int y = (int)x;    // C-style cast — works, but avoid in new C++ code
 Students will encounter C-style casts in textbooks and older code. They should be able to read them but should write static_cast in their own programs. The main problem with C-style casts: they are difficult to distinguish visually from other constructs and they bypass safety checks that static_cast enforces.
 :::
 
-<!-- Slide 10 -->
+<!-- Slide 38 -->
 
 ---
 
@@ -209,7 +210,7 @@ double(7)      // converts int to double; result: 7.0
 char(65)       // converts int to char; result: 'A'
 ```
 
-<!-- Slide 11 -->
+<!-- Slide 39 -->
 
 ---
 
@@ -223,7 +224,15 @@ char(65)       // converts int to char; result: 'A'
 This is the discipline point. Students sometimes discover they can make warnings disappear with a cast and treat that as solving the problem. It is not — it is hiding the symptom. The right response to a narrowing warning is to understand why the narrowing occurs and whether it is safe. If it is safe, cast with intent. If it is not safe, fix the types.
 :::
 
-<!-- Slide 12 -->
+<!-- Slide 40 -->
+
+---
+
+## {.smaller}
+
+![](images/static_typing_strong.png)
+
+<!-- Slide 41 -->
 
 ---
 
@@ -237,7 +246,7 @@ This is the discipline point. Students sometimes discover they can make warnings
 | Narrowing | Automatic, may lose data | Intentional, visible |
 | Risk | Hidden data loss | Visible — you own the result |
 
-<!-- Slide 14 -->
+<!-- Slide 42 -->
 
 ---
 
@@ -247,4 +256,4 @@ This is the discipline point. Students sometimes discover they can make warnings
 + Use `static_cast<>` to make conversions explicit and intentional.
 + Never cast just to silence a warning — the warning usually means there is a real issue to address.
 
-<!-- Slide 15 -->
+<!-- Slide 43 -->

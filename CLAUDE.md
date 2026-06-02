@@ -99,9 +99,18 @@ All running code examples use the following style:
 - Do **not** place a `---` separator between `# Last Time` and `# Today's Agenda` — two consecutive `#` headings without a separator is correct; a `---` between them creates a blank slide.
 - Do **not** place a `---` separator between a `#` (h1) heading and the first `##` (h2) slide that follows it — the `##` already creates a new slide; a `---` between them creates a blank intermediate slide. The `# Topic Name` in a topic file should be followed directly by `## First slide`, not `---` then `## First slide`.
 
+**Slide numbering — global (matches the Reveal.js counter):**
+- `<!-- Slide N -->` comments use **global** slide numbers that match what appears on screen, not local topic numbers.
+- Numbering starts in the stitched `.qmd` file: `# Last Time` = Slide 1, `# Today's Agenda` = Slide 2.
+- Each topic file contributes: one slide for the `# Topic Name` section header, then one per `##` content slide.
+- The topic file header should read `<!-- Slides X–Y -->` showing the global range for that topic.
+- The speaker notes on the first `##` slide should read `Slides X–Y` (global range).
+- The `# Topic Name` heading in each topic file gets its own `<!-- Slide N -->` marker immediately after it.
+- When building a new lecture, compute global offsets before writing any topic file: count Last Time (1) + Today's Agenda (1) + each prior topic's section header (1) + content slides, then continue from there.
+
 **Per topic file:**
 - First slide: one introductory slide — preferably a question the section will answer. Max 3 sentences.
-  - Speaker notes on first slide: total slide count for this topic
+  - Speaker notes on first slide: global range, e.g. `Slides 4–19`
 - Last slide: a brief summary of the key point. Max 2 sentences.
 - Where a drawing or graphic would help, note it in speaker notes only:
   ```
@@ -110,9 +119,9 @@ All running code examples use the following style:
   :::
   ```
 - Speaker notes (`:::notes ... :::`) go at the bottom of the slide, after all content and before the `<!-- Slide N -->` comment.
-- At the bottom of each slide, add an HTML comment with the slide number:
+- At the bottom of each slide, add an HTML comment with the **global** slide number:
   ```
-  <!-- Slide 3 -->
+  <!-- Slide 14 -->
   ```
 
 ---
@@ -163,21 +172,20 @@ Place in `assets/topics.md` within the working subfolder. The instructor fills t
 
 ```markdown
 <!-- Topic N: Topic Name Here -->
-<!-- Total slides: N -->
+<!-- Slides X–Y -->
 
 # Topic Name Here
-
----
+<!-- Slide X-1 -->
 
 ## Opening Question or Title {.smaller}
 
 Brief intro — preferably a question the section will answer. Max 3 sentences.
 
 ::: notes
-Total slides: N
+Slides X–Y
 :::
 
-<!-- Slide 1 -->
+<!-- Slide X -->
 
 ---
 
@@ -185,7 +193,7 @@ Total slides: N
 
 Content here.
 
-<!-- Slide 2 -->
+<!-- Slide X+1 -->
 
 ---
 
