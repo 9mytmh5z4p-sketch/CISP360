@@ -1,81 +1,441 @@
----
-title: "CISP 360 \n Structured Programming"
-subtitle: "Introduction to C++"
-author: "Dr. Caleb Fowler"
+# Last Time
 
-format:
-  revealjs:
-    margin: 0.05      # A touch more space on slide
-    css: ../styles/styles.css
-    filters:
-      - plantuml-filter.lua
-    theme: serif
-    slide-number: true
-    navigation-mode: vertical
-    transition: slide
-    incremental: false
-    scrollable: false
-    controls: true
-    hash: true
-    history: true
-    title-slide: false
-    footer: "CISP 360 · Fowler"
-    keyboard: true  # Keep this as true to enable the system
-    include-after-body:
-      - text: |
-          <script>
-          window.Reveal.on('ready', event => {
-            Reveal.configure({
-              keyboard: {
-                34: 'down',   // Forward button
-                33: 'up',     // Back button
-                116: 'right',  // Start/Play button
-                190: 'left'    // Black Screen button
-              }
-            });
-          });
-          </script>
+::: {.incremental}
++ **How the Compiler Works**
++ **The Symbol Table**
++ **Data Type Conversion and Casting**
++ **Signed vs Unsigned Variables**
++ **Overflow and Underflow**
++ **Fixed-Width Integers and size_t**
++ **Determining Variable Size**
+:::
 
-execute:
-  eval: false
-  echo: true
+::: notes
+Brief recall of lecture 02.01. Students should remember that C++ checks types at compile time, silently converts some values, and can behave badly at numeric boundaries. This lecture shifts from how code is processed to how a program communicates through the terminal.
+:::
 
-resources:
- - topics/**/images/**
+<!-- Slide 1 -->
 
----
-
-## Last Time
-
-![Mind Map](images/p360_lecture_01.02_mm.png)
-
-
-## Today's Agenda
+# Today's Agenda
 
 - `cout`
 - `cin`
-- Manipulators
+- Output Manipulators
+- Terminal Color Codes
 - Table Architectures
 
 ::: notes
 
 :::
 
+<!-- Slide 2 -->
 
-{{< include topics/cout/cout.qmd >}}
-{{< include topics/cin/cin.qmd >}}
-{{< include topics/manipulators/manipulators.qmd >}}
-{{< include topics/table_architectures/table_architectures.qmd >}}
+{{< include topic_1_cout.qmd >}}
+{{< include topic_2_cin.qmd >}}
+{{< include topic_3_output_manipulators.qmd >}}
+{{< include topic_4_terminal_color_codes.qmd >}}
+{{< include topic_5_table_architectures.qmd >}}
+{{< include topic_6_coding_exercise.qmd >}}
 
+---
 
-# Key Takaways
+# Key Takeaways
 
-- Output with `cout`. The `cout` statement displays data to the screen using the insertion operator `<<,` allows chaining multiple items together, and requires text to be enclosed in double quotes while variables display their values directly.
+- `cout` sends text, variable values, and line breaks to the terminal.
+- `cin` reads typed input into variables and treats whitespace as a separator.
+- Manipulators from `<iomanip>` control width, alignment, and decimal precision.
+- ANSI color codes can emphasize terminal output when reset carefully.
+- Tables are repeated output patterns designed for scanning.
 
-- Input with `cin`. The `cin` statement reads user input using the extraction operator `>>`, waits for the user to press Enter before continuing, and stops reading at whitespace characters like spaces.
+<!-- Slide 65 -->
 
+---
 
 # Next Time
 
-- Debugging
-- Graphs
+- Debugging workflow
+- Reading compiler errors
+- More careful input handling
+
+<!-- Slide 66 -->
+
+---
+
+# Appendix
+
+<!-- Slide 67 -->
+
+---
+
+## cout: Good Practices
+
+- Put prompts before reads and labels before values.
+- Use `"\n"` or `endl` intentionally; both create a new line, but `endl` also flushes.
+- Keep chained output readable by breaking long statements across lines.
+
+<!-- Slide 68 -->
+
+---
+
+## cout: Common Mistakes
+
+- Putting variable names inside quotes and expecting their values to print.
+- Forgetting spaces inside string literals, causing output to run together.
+- Ending every prompt with `endl` when the input should appear on the same line.
+
+<!-- Slide 69 -->
+
+---
+
+## cout: More Examples
+
+```cpp
+cout << "Total: $" << total << "\n";
+cout << "Tax: $" << tax << "\n";
+cout << "Grand total: $" << grandTotal << "\n";
+```
+
+<!-- Slide 70 -->
+
+---
+
+## cout: Practice Problems
+
+1. Print your name and favorite number on separate lines.
+2. Print a sentence that includes one `string` variable and one `int` variable.
+3. Write a prompt that keeps the cursor on the same line.
+
+<!-- Slide 71 -->
+
+---
+
+## cout: AI Search Terms
+
+- "C++ cout insertion operator"
+- "C++ endl vs newline"
+- "C++ print variable with text"
+
+<!-- Slide 72 -->
+
+---
+
+## cout: Questions for Reflection
+
+- Why does output formatting matter even when the values are correct?
+- When would a prompt on the same line be clearer than a prompt on its own line?
+
+<!-- Slide 73 -->
+
+---
+
+## cin: Good Practices
+
+- Prompt immediately before reading.
+- Match the variable type to the kind of input expected.
+- Keep early examples to single-word `string` input until full-line input is introduced.
+
+<!-- Slide 74 -->
+
+---
+
+## cin: Common Mistakes
+
+- Typing words when the program expects a number.
+- Expecting `cin >> name` to read a full name with spaces.
+- Reading values in a different order than the prompt asks for them.
+
+<!-- Slide 75 -->
+
+---
+
+## cin: More Examples
+
+```cpp
+double length;
+double width;
+
+cout << "Length and width: ";
+cin >> length >> width;
+
+cout << "Area: " << length * width << endl;
+```
+
+<!-- Slide 76 -->
+
+---
+
+## cin: Practice Problems
+
+1. Read a user's first name and age, then print both values.
+2. Read two integers and print their sum.
+3. Read a price and quantity, then print the subtotal.
+
+<!-- Slide 77 -->
+
+---
+
+## cin: AI Search Terms
+
+- "C++ cin extraction operator"
+- "C++ cin whitespace behavior"
+- "C++ read multiple values cin"
+
+<!-- Slide 78 -->
+
+---
+
+## cin: Questions for Reflection
+
+- Why should the prompt come before the read?
+- Why does `cin` need to know the receiving variable's type?
+
+<!-- Slide 79 -->
+
+---
+
+## Output Manipulators: Good Practices
+
+- Include `<iomanip>` only when formatting tools are needed.
+- Use `fixed << setprecision(2)` for money-like values.
+- Choose column widths after testing with realistic values.
+
+<!-- Slide 80 -->
+
+---
+
+## Output Manipulators: Common Mistakes
+
+- Forgetting that `setw` applies only to the next item.
+- Expecting `setprecision(2)` to mean two decimal places without `fixed`.
+- Using column widths too small for the data.
+
+<!-- Slide 81 -->
+
+---
+
+## Output Manipulators: More Examples
+
+```cpp
+cout << fixed << setprecision(1);
+cout << left << setw(10) << "Day"
+     << right << setw(8) << "Temp" << endl;
+cout << left << setw(10) << "Monday"
+     << right << setw(8) << 71.4 << endl;
+```
+
+<!-- Slide 82 -->
+
+---
+
+## Output Manipulators: Practice Problems
+
+1. Print a three-column table with a name, score, and average.
+2. Format a `double` so it always prints two decimal places.
+3. Use `setw` to right-align three numbers.
+
+<!-- Slide 83 -->
+
+---
+
+## Output Manipulators: AI Search Terms
+
+- "C++ iomanip setw"
+- "C++ fixed setprecision"
+- "C++ left right output alignment"
+
+<!-- Slide 84 -->
+
+---
+
+## Output Manipulators: Questions for Reflection
+
+- Why do numbers usually read better right-aligned?
+- Which formatting settings affect one item, and which stay active?
+
+<!-- Slide 85 -->
+
+---
+
+## Terminal Color Codes: Good Practices
+
+- Store escape codes as named `const string` values.
+- Use color only when it communicates status or emphasis.
+- Reset with `NORM` after every colored message.
+
+<!-- Slide 86 -->
+
+---
+
+## Terminal Color Codes: Common Mistakes
+
+- Forgetting to reset and accidentally coloring later output.
+- Adding color to every line until nothing stands out.
+- Using colors that do not display well on the target terminal.
+
+<!-- Slide 87 -->
+
+---
+
+## Terminal Color Codes: More Examples
+
+```cpp
+const string BLUE = "\033[034m";
+const string NORM = "\033[0m";
+
+cout << BLUE << "Info: loading settings." << NORM << endl;
+```
+
+<!-- Slide 88 -->
+
+---
+
+## Terminal Color Codes: Practice Problems
+
+1. Print one red error message and reset afterward.
+2. Print a green success message after a calculation.
+3. Add a blue heading to a formatted report.
+
+<!-- Slide 89 -->
+
+---
+
+## Terminal Color Codes: AI Search Terms
+
+- "C++ ANSI escape codes terminal color"
+- "C++ color text console"
+- "ANSI reset code terminal"
+
+<!-- Slide 90 -->
+
+---
+
+## Terminal Color Codes: Questions for Reflection
+
+- When does color improve output, and when does it become noise?
+- Why is a reset code part of the output contract?
+
+<!-- Slide 91 -->
+
+---
+
+## Table Architectures: Good Practices
+
+- Decide column order before writing output statements.
+- Use the same widths for the header and every row.
+- Align text left and numbers right unless there is a clear reason not to.
+
+<!-- Slide 92 -->
+
+---
+
+## Table Architectures: Common Mistakes
+
+- Changing widths from one row to the next.
+- Forgetting that long text can break a narrow column.
+- Printing decimals with inconsistent precision.
+
+<!-- Slide 93 -->
+
+---
+
+## Table Architectures: More Examples
+
+```cpp
+cout << left << setw(12) << "Course"
+     << right << setw(8) << "Units" << endl;
+cout << left << setw(12) << "CISP 360"
+     << right << setw(8) << 4 << endl;
+```
+
+<!-- Slide 94 -->
+
+---
+
+## Table Architectures: Practice Problems
+
+1. Print a two-row table of products and prices.
+2. Add a separator line under the table header.
+3. Format a small grade report with names and scores.
+
+<!-- Slide 95 -->
+
+---
+
+## Table Architectures: AI Search Terms
+
+- "C++ formatted table output setw"
+- "C++ align columns cout"
+- "C++ console receipt formatting"
+
+<!-- Slide 96 -->
+
+---
+
+## Table Architectures: Questions for Reflection
+
+- What makes a table easier to scan than a paragraph of values?
+- How can a table structure reveal mistakes in output?
+
+<!-- Slide 97 -->
+
+---
+
+## Coding Exercise 2-1: Good Practices
+
+- Read all required values before calculating totals.
+- Use clear variable names such as `quantity`, `price`, and `total`.
+- Test with small numbers first so the expected result is easy to verify.
+
+<!-- Slide 98 -->
+
+---
+
+## Coding Exercise 2-1: Common Mistakes
+
+- Calculating the total before reading the input values.
+- Forgetting `fixed << setprecision(2)` for receipt output.
+- Coloring the success message without resetting afterward.
+
+<!-- Slide 99 -->
+
+---
+
+## Coding Exercise 2-1: More Examples
+
+```cpp
+double total = quantity * price;
+
+cout << fixed << setprecision(2);
+cout << "Total: $" << total << endl;
+```
+
+<!-- Slide 100 -->
+
+---
+
+## Coding Exercise 2-1: Practice Problems
+
+1. Add sales tax to the receipt.
+2. Add a colored warning if quantity is zero.
+3. Print the receipt title in blue.
+
+<!-- Slide 101 -->
+
+---
+
+## Coding Exercise 2-1: AI Search Terms
+
+- "C++ receipt program cout cin"
+- "C++ multiply quantity price"
+- "C++ format money output"
+
+<!-- Slide 102 -->
+
+---
+
+## Coding Exercise 2-1: Questions for Reflection
+
+- Which part of the program communicates with the user before calculation?
+- Which part communicates the result after calculation?
+
+<!-- Slide 103 -->

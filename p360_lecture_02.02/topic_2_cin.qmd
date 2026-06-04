@@ -1,0 +1,180 @@
+<!-- Topic 2: cin -->
+<!-- Slides 13-23 -->
+
+# cin
+<!-- Slide 13 -->
+
+## Input as a Conversation {.smaller}
+
++ How does a program listen to the person using it?
++ `cin` reads typed input from the terminal and stores it in variables.
+
+
+
+::: notes
+Slides 13-23
+:::
+
+<!-- Slide 14 -->
+
+---
+
+## The Input Stream
+
+`cin` is the standard input stream.
+
+Use the extraction operator `>>` to pull typed data into a variable.
+
+`cin` comes from the `<iostream>` header.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int age;
+
+cin >> age;
+```
+
+<!-- Slide 15 -->
+
+---
+
+## Prompt Then Read
+
+Most input follows a two-step pattern.
+
+```cpp
+int age;
+
+cout << "Enter your age: ";
+cin >> age;
+```
+
+The prompt explains what the program expects before `cin` waits.
+
+<!-- Slide 16 -->
+
+---
+
+## Matching Types
+
+`cin` reads according to the receiving variable's type.
+
+```cpp
+int count;
+double price;
+
+cout << "How many items? ";
+cin >> count;
+
+cout << "Price per item? ";
+cin >> price;
+```
+
+If the input cannot be converted, the read fails.
+
+<!-- Slide 17 -->
+
+---
+
+## Reading Multiple Values
+
+One statement can read several values in order.
+
+```cpp
+int feet;
+int inches;
+
+cout << "Enter feet and inches: ";
+cin >> feet >> inches;
+```
+
+The user can type both values on one line separated by whitespace.
+
+<!-- Slide 18 -->
+
+---
+
+## Whitespace Behavior
+
+`cin >>` skips leading whitespace and stops at the next whitespace.
+
+```cpp
+string fullName;
+
+cout << "Full name: ";
+cin >> fullName;
+```
+
+If the user types `Maya Chen`, only `Maya` is stored. The space stops the read.
+
+<!-- Slide 19 -->
+
+---
+
+## When cin Fails
+
+If the user types data that does not match the variable type, `cin` enters a failed state.
+
+```cpp
+int age;
+
+cout << "Age: ";
+cin >> age;   // typing "ten" fails
+```
+
+After a failed read, the variable is not updated with useful input.
+
+<!-- Slide 20 -->
+
+---
+
+## Complete Example
+
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string fullName;
+    int age = 0;
+
+    cout << "Full name: ";
+    cin >> fullName;
+
+    cout << "Age: ";
+    cin >> age;
+
+    cout << fullName << " is " << age << " years old." << endl;
+    return 0;
+}
+```
+
+If the user types `Maya Chen`, `fullName` stores `Maya` and `Chen` remains waiting for the next read.
+
+<!-- Slide 21 -->
+
+---
+
+## Summary
+
++ `cin` reads terminal input into variables.
++ Prompts should appear before reads.
++ `cin >>` treats whitespace as a separator.
+
+<!-- Slide 22 -->
+
+---
+
+## Complete Example Output
+
+```text
+Full name: Maya Chen
+Age: Maya is 0 years old.
+```
+
+`Chen` is left in the input stream, so the age read fails when it expects a number.
+
+<!-- Slide 23 -->
