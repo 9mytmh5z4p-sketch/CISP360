@@ -206,22 +206,39 @@ Dr.&nbsp;Caleb Fowler
 </div>
 
 </section>
-<section id="last-time" class="slide level2">
-<h2>Last Time</h2>
+<section id="last-time" class="title-slide slide level1 center">
+<h1>Last Time</h1>
 <ul>
-<li class="fragment">Scope</li>
-<li class="fragment">Shadow Variables I</li>
-<li class="fragment">Advanced <code>cin</code></li>
-<li class="fragment">Random Numbers</li>
+<li class="fragment"><strong>Vectors</strong></li>
+<li class="fragment"><strong>Vector Operations</strong></li>
+<li class="fragment"><strong>Index Notation</strong></li>
+<li class="fragment"><strong>Range-Based For Loops</strong></li>
+<li class="fragment"><strong>Choosing Access Style</strong></li>
 </ul>
+<aside class="notes">
+<p>Brief recall of lecture 03.02. Students should remember that vectors group related values, index notation reaches one known position, and range-based for loops process every value in a collection.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
 </section>
-<section id="todays-agenda" class="slide level2">
-<h2>Today’s Agenda</h2>
+
+<section id="todays-agenda" class="title-slide slide level1 center">
+<h1>Today’s Agenda</h1>
 <ul>
-<li>Function Centric Architecture</li>
-<li>Functions</li>
+<li>Modular Programming</li>
+<li>Coding Functions</li>
+<li>Passing Data to a Function</li>
+<li>Returning Data from a Function</li>
 <li>Void Functions</li>
-<li>Passing Data In and Out of Functions</li>
 </ul>
 <aside class="notes">
 
@@ -236,12 +253,25 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 2 -->
+<!-- Topic 1: Modular Programming -->
+<!-- Slides 3-14 -->
 </section>
+
 <section>
-<section id="function-centered-architecture" class="title-slide slide level1 center">
-<h1>Function Centered Architecture</h1>
+<section id="modular-programming" class="title-slide slide level1 center">
+<h1>Modular Programming</h1>
+<!-- Slide 3 -->
+</section>
+<section id="programs-as-pieces" class="slide level2 smaller">
+<h2>Programs as Pieces</h2>
+<ul>
+<li>How can we make a program easier to understand before we read every line?</li>
+<li>Modular programming breaks a program into named pieces.</li>
+<li>Each piece handles one part of the larger job.</li>
+</ul>
 <aside class="notes">
-<p>~ 15 min</p>
+<p>Slides 3-14</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -253,28 +283,168 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 4 -->
 </section>
-<section id="function-centered-architecture-1" class="slide level2">
-<h2>Function Centered Architecture</h2>
-<p>Function-centric architecture refers to a program design approach where the code is organized primarily around functions (procedures) rather than objects or classes.</p>
-<p>A function is a block of code we assign a name to. We call the name to execute the code.</p>
-</section>
-<section id="other-architectures" class="slide level2">
-<h2>Other Architectures</h2>
+<section id="what-changes-when-code-grows" class="slide level2">
+<h2>What Changes When Code Grows?</h2>
 <ul>
-<li>Object Oriented</li>
-<li>Spaghetti Coding</li>
+<li>A short <code>main()</code> is easy to scan.</li>
+<li>A long <code>main()</code> can hide the program’s structure inside many details.</li>
+<li>Bugs become harder to isolate when all processing happens in one place.</li>
 </ul>
+<!-- Slide 5 -->
 </section>
-<section id="object-oriented-architecture" class="slide level2">
-<h2>Object-Oriented Architecture</h2>
+<section id="one-job-per-piece" class="slide level2">
+<h2>One Job Per Piece</h2>
 <ul>
-<li>Organized around classes/objects.</li>
-<li>Data and functions bundled together (mini programs).</li>
-<li>Focus: “What entities/objects exist?”</li>
+<li>A module should have a clear job.</li>
+<li>In beginner C++, our modules are usually functions.</li>
+<li>A function name should describe the work the function performs.</li>
 </ul>
+<!-- Slide 6 -->
+</section>
+<section id="main-as-coordinator" class="slide level2">
+<h2>Main as Coordinator</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href=""></a>    displayTitle<span class="op">();</span></span>
+<span id="cb1-3"><a href=""></a>    readScores<span class="op">();</span></span>
+<span id="cb1-4"><a href=""></a>    calculateAverage<span class="op">();</span></span>
+<span id="cb1-5"><a href=""></a>    displayResults<span class="op">();</span></span>
+<span id="cb1-6"><a href=""></a></span>
+<span id="cb1-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>main()</code> should show the program’s outline before the implementation details.</p>
+<!-- Slide 7 -->
+</section>
+<section id="function-centered-architecture" class="slide level2">
+<h2>Function-Centered Architecture</h2>
+<ul>
+<li>Structured C++ programs are often organized around functions.</li>
+<li>Data is stored in variables.</li>
+<li>Processing is grouped into functions that can call other functions.</li>
+</ul>
+<!-- Slide 8 -->
+</section>
+<section id="functions-and-the-ipo-model" class="slide level2">
+<h2>Functions and the IPO Model</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Input</th>
+<th>Processing</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>scores typed by user</td>
+<td>calculate total and average</td>
+<td>printed report</td>
+</tr>
+</tbody>
+</table>
+<p>Functions do not change what the program can do. They reorganize where the processing is written.</p>
+<!-- Slide 9 -->
+</section>
+<section id="functions-and-the-execution-trace" class="slide level2">
+<h2>Functions and the Execution Trace</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Step</th>
+<th>Location</th>
+<th>What Happens</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td><code>main()</code></td>
+<td>Program reaches a function call</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td>function</td>
+<td>Processing happens inside the function</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td><code>main()</code></td>
+<td>Execution returns to the next line</td>
+</tr>
+</tbody>
+</table>
+<p>An execution trace now follows control into and out of functions.</p>
+<!-- Slide 10 -->
+</section>
+<section id="before-and-after" class="slide level2">
+<h2>Before and After</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Grade Report</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb2-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"-------------</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb2-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score: "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> avg <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href=""></a>    displayHeader<span class="op">();</span></span>
+<span id="cb3-3"><a href=""></a>    displayScore<span class="op">(</span>score<span class="op">);</span></span>
+<span id="cb3-4"><a href=""></a>    displayAverage<span class="op">(</span>avg<span class="op">);</span></span>
+<span id="cb3-5"><a href=""></a></span>
+<span id="cb3-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<!-- Slide 11 -->
+</section>
+<section id="function-call-on-the-stack" class="slide level2">
+<h2>Function Call on the Stack</h2>
+<div class="stack-demo" id="single-stack-demo">
+  <div class="stack-controls">
+    <button onclick="singleStackStep(0)">1. main starts</button>
+    <button onclick="singleStackStep(1)">2. call function</button>
+    <button onclick="singleStackStep(2)">3. function runs</button>
+    <button onclick="singleStackStep(3)">4. return</button>
+  </div>
+  <div class="stack-area">
+    <div class="stack-label">Call stack</div>
+    <div class="stack-frame frame-main">main()</div>
+    <div class="stack-frame frame-helper" id="single-helper">displayHeader()</div>
+  </div>
+  <p id="single-stack-caption">The program begins in main().</p>
+</div>
+
+<style>
+.stack-demo { font-size: 0.78em; }
+.stack-controls { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 0.8rem; flex-wrap: wrap; }
+.stack-controls button { font-size: 0.72em; padding: 0.25rem 0.5rem; }
+.stack-area { width: 44%; min-width: 320px; margin: 0 auto; border: 2px solid #444; border-top: none; padding: 0.5rem; min-height: 220px; display: flex; flex-direction: column-reverse; gap: 0.5rem; }
+.stack-label { text-align: center; font-weight: bold; border-top: 2px solid #444; padding-top: 0.35rem; }
+.stack-frame { border: 2px solid #26547c; background: #eef6fb; padding: 0.8rem; text-align: center; font-family: monospace; }
+.frame-helper { background: #fff5d6; border-color: #a15c00; display: none; }
+.frame-helper.is-running { background: #fff7ed; border-color: #c2410c; border-width: 4px; box-shadow: inset 0 0 0 3px #fed7aa; }
+.stack-demo p { text-align: center; margin-top: 0.7rem; }
+</style>
+
+<script>
+function singleStackStep(step) {
+  const helper = document.getElementById("single-helper");
+  const caption = document.getElementById("single-stack-caption");
+  const captions = [
+    "main() is the only active function.",
+    "The helper function gets its own stack frame.",
+    "main() waits while the helper function runs.",
+    "The helper frame disappears, and execution continues in main()."
+  ];
+  helper.style.display = step >= 1 && step <= 2 ? "block" : "none";
+  helper.classList.toggle("is-running", step === 2);
+  caption.textContent = captions[step];
+}
+</script>
 <aside class="notes">
-<p>I’ll have more to say about this later in the course.</p>
+<p>[Graphic suggestion: if the HTML control is not available in the exported format, replace this with four still frames showing the helper stack frame appearing and disappearing.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -286,256 +456,42 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 12 -->
 </section>
-<section id="spaghetti-coding" class="slide level2">
-<h2>Spaghetti Coding</h2>
-<p>Just type it in as you go along.</p>
-</section>
-<section class="slide level2">
-
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb1-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb1-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb1-4"><a href=""></a></span>
-<span id="cb1-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb1-6"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
-<span id="cb1-7"><a href=""></a>    <span class="dt">int</span> index<span class="op">;</span></span>
-<span id="cb1-8"><a href=""></a>    <span class="dt">int</span> total<span class="op">;</span></span>
-<span id="cb1-9"><a href=""></a>    <span class="dt">double</span> average<span class="op">;</span></span>
-<span id="cb1-10"><a href=""></a>    <span class="dt">int</span> highest<span class="op">;</span></span>
-<span id="cb1-11"><a href=""></a>    </span>
-<span id="cb1-12"><a href=""></a>    <span class="co">// Jump to display section</span></span>
-<span id="cb1-13"><a href=""></a>    <span class="cf">goto</span> display_scores<span class="op">;</span></span>
-<span id="cb1-14"><a href=""></a>    </span>
-<span id="cb1-15"><a href=""></a>display_scores<span class="op">:</span></span>
-<span id="cb1-16"><a href=""></a>    index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-17"><a href=""></a>display_loop<span class="op">:</span></span>
-<span id="cb1-18"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>index <span class="op">&gt;=</span> scores<span class="op">.</span>size<span class="op">())</span> <span class="cf">goto</span> display_done<span class="op">;</span></span>
-<span id="cb1-19"><a href=""></a>    cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb1-20"><a href=""></a>    index<span class="op">++;</span></span>
-<span id="cb1-21"><a href=""></a>    <span class="cf">goto</span> display_loop<span class="op">;</span></span>
-<span id="cb1-22"><a href=""></a>    </span>
-<span id="cb1-23"><a href=""></a>display_done<span class="op">:</span></span>
-<span id="cb1-24"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb1-25"><a href=""></a>    <span class="cf">goto</span> calculate_average<span class="op">;</span></span>
-<span id="cb1-26"><a href=""></a>    </span>
-<span id="cb1-27"><a href=""></a>calculate_average<span class="op">:</span></span>
-<span id="cb1-28"><a href=""></a>    total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-29"><a href=""></a>    index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-30"><a href=""></a>avg_loop<span class="op">:</span></span>
-<span id="cb1-31"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>index <span class="op">&gt;=</span> scores<span class="op">.</span>size<span class="op">())</span> <span class="cf">goto</span> avg_done<span class="op">;</span></span>
-<span id="cb1-32"><a href=""></a>    total <span class="op">+=</span> scores<span class="op">[</span>index<span class="op">];</span></span>
-<span id="cb1-33"><a href=""></a>    index<span class="op">++;</span></span>
-<span id="cb1-34"><a href=""></a>    <span class="cf">goto</span> avg_loop<span class="op">;</span></span>
-<span id="cb1-35"><a href=""></a>    </span>
-<span id="cb1-36"><a href=""></a>avg_done<span class="op">:</span></span>
-<span id="cb1-37"><a href=""></a>    average <span class="op">=</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> scores<span class="op">.</span>size<span class="op">();</span></span>
-<span id="cb1-38"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb1-39"><a href=""></a>    <span class="cf">goto</span> find_highest<span class="op">;</span></span>
-<span id="cb1-40"><a href=""></a>    </span>
-<span id="cb1-41"><a href=""></a>find_highest<span class="op">:</span></span>
-<span id="cb1-42"><a href=""></a>    highest <span class="op">=</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
-<span id="cb1-43"><a href=""></a>    index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-44"><a href=""></a>high_loop<span class="op">:</span></span>
-<span id="cb1-45"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>index <span class="op">&gt;=</span> scores<span class="op">.</span>size<span class="op">())</span> <span class="cf">goto</span> high_done<span class="op">;</span></span>
-<span id="cb1-46"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>index<span class="op">]</span> <span class="op">&gt;</span> highest<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb1-47"><a href=""></a>        highest <span class="op">=</span> scores<span class="op">[</span>index<span class="op">];</span></span>
-<span id="cb1-48"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb1-49"><a href=""></a>    index<span class="op">++;</span></span>
-<span id="cb1-50"><a href=""></a>    <span class="cf">goto</span> high_loop<span class="op">;</span></span>
-<span id="cb1-51"><a href=""></a>    </span>
-<span id="cb1-52"><a href=""></a>high_done<span class="op">:</span></span>
-<span id="cb1-53"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Highest: "</span> <span class="op">&lt;&lt;</span> highest <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb1-54"><a href=""></a>    <span class="cf">goto</span> program_end<span class="op">;</span></span>
-<span id="cb1-55"><a href=""></a>    </span>
-<span id="cb1-56"><a href=""></a>program_end<span class="op">:</span></span>
-<span id="cb1-57"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-58"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="why-is-this-bad-code" class="slide level2">
-<h2>Why is this bad code?</h2>
+<section id="common-practices" class="slide level2">
+<h2>Common Practices</h2>
 <ul>
-<li>Unreadable - Jump around to understand flow</li>
-<li>Unmaintainable - Hard to modify without breaking</li>
-<li>Not reusable - Can’t call “display” from elsewhere</li>
-<li>Error-prone - Easy to create infinite loops or skip code</li>
-<li>Hard to debug - Control flow is non-linear</li>
-<li>No abstraction - All details exposed in one place</li>
+<li>Use verb-based function names, such as <code>displayMenu()</code> or <code>calculateTotal()</code>.</li>
+<li>Keep each function focused on one clear job.</li>
+<li>Put function prototypes above <code>main()</code> and function definitions below <code>main()</code>.</li>
 </ul>
-<p><strong>Never, ever, code like this.</strong></p>
-<aside class="notes">
-<p>This style resembles assembly language programming or very early programming languages (like early BASIC or FORTRAN) before structured programming paradigms emerged in the 1960s-70s. The famous paper “Go To Statement Considered Harmful” by Edsger Dijkstra (1968) advocated against this style and promoted structured programming with functions, loops, and conditionals. Modern C++ strongly discourages goto usage - it’s considered a code smell in almost all cases!</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<!-- Slide 13 -->
 </section>
-<section id="function-centric-architecture" class="slide level2">
-<h2>Function Centric Architecture</h2>
-<ol type="1">
-<li>Functions are the primary building blocks of Structured Code</li>
-</ol>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
 <ul>
-<li>The program is decomposed into a collection of functions</li>
-<li>Each function performs a specific task</li>
-<li>Functions call other functions to accomplish complex operations</li>
+<li>Modular programming breaks a program into named pieces.</li>
+<li>Functions reorganize processing without changing the IPO model.</li>
+<li>A clear <code>main()</code> helps the reader see the program’s structure first.</li>
 </ul>
-</section>
-<section id="function-centric-architecture-cont" class="slide level2">
-<h2>Function Centric Architecture (cont)</h2>
-<ol type="1">
-<li>Functions are the primary building blocks of Structured Code</li>
-<li>Data and behavior are separated</li>
-</ol>
-<ul>
-<li>Data is typically stored in variables or structs</li>
-<li>Functions operate on that data</li>
-<li>Data is passed to functions as parameters</li>
-</ul>
-</section>
-<section id="function-centric-architecture-cont-1" class="slide level2">
-<h2>Function Centric Architecture (cont)</h2>
-<ol type="1">
-<li>Functions are the primary building blocks of Structured Code</li>
-<li>Data and behavior are separated</li>
-<li>Top-down design approach:</li>
-</ol>
-<ul>
-<li>Start with the main problem</li>
-<li>Break it into smaller sub-problems (functions)</li>
-<li>Each sub-problem becomes a function</li>
-</ul>
-</section>
-<section id="example" class="slide level2">
-<h2>Example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb2-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb2-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb2-4"><a href=""></a></span>
-<span id="cb2-5"><a href=""></a><span class="co">// Function declarations</span></span>
-<span id="cb2-6"><a href=""></a><span class="dt">double</span> calculateAverage<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">);</span></span>
-<span id="cb2-7"><a href=""></a><span class="dt">void</span> displayScores<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">);</span></span>
-<span id="cb2-8"><a href=""></a><span class="dt">int</span> findHighest<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">);</span></span>
-<span id="cb2-9"><a href=""></a></span>
-<span id="cb2-10"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb2-11"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
-<span id="cb2-12"><a href=""></a>    </span>
-<span id="cb2-13"><a href=""></a>    displayScores<span class="op">(</span>scores<span class="op">);</span></span>
-<span id="cb2-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> calculateAverage<span class="op">(</span>scores<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb2-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Highest: "</span> <span class="op">&lt;&lt;</span> findHighest<span class="op">(</span>scores<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb2-16"><a href=""></a>    </span>
-<span id="cb2-17"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-18"><a href=""></a><span class="op">}</span></span>
-<span id="cb2-19"><a href=""></a></span>
-<span id="cb2-20"><a href=""></a><span class="dt">double</span> calculateAverage<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-21"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-22"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-23"><a href=""></a>        total <span class="op">+=</span> score<span class="op">;</span></span>
-<span id="cb2-24"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb2-25"><a href=""></a>    <span class="cf">return</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> scores<span class="op">.</span>size<span class="op">();</span></span>
-<span id="cb2-26"><a href=""></a><span class="op">}</span></span>
-<span id="cb2-27"><a href=""></a></span>
-<span id="cb2-28"><a href=""></a><span class="dt">void</span> displayScores<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-29"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-30"><a href=""></a>        cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb2-31"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb2-32"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb2-33"><a href=""></a><span class="op">}</span></span>
-<span id="cb2-34"><a href=""></a></span>
-<span id="cb2-35"><a href=""></a><span class="dt">int</span> findHighest<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-36"><a href=""></a>    <span class="dt">int</span> highest <span class="op">=</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
-<span id="cb2-37"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-38"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>score <span class="op">&gt;</span> highest<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-39"><a href=""></a>            highest <span class="op">=</span> score<span class="op">;</span></span>
-<span id="cb2-40"><a href=""></a>        <span class="op">}</span></span>
-<span id="cb2-41"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb2-42"><a href=""></a>    <span class="cf">return</span> highest<span class="op">;</span></span>
-<span id="cb2-43"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="use-cases" class="slide level2">
-<h2>Use Cases</h2>
-<ul>
-<li>Introductory programming courses</li>
-<li>Simple, straightforward problems</li>
-<li>Mathematical computations</li>
-<li>Small to medium programs</li>
-<li>Scripts and utilities</li>
-</ul>
-</section>
-<section id="anti-use-cases" class="slide level2">
-<h2>Anti-Use Cases</h2>
-<ul>
-<li>Large, complex systems</li>
-<li>Programs modeling real-world entities</li>
-<li>Systems requiring data encapsulation</li>
-<li>Projects with many developers</li>
-</ul>
-</section>
-<section id="conceptual-process" class="slide level2">
-<h2>Conceptual Process</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<ul>
-<li>Here’s some code</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<p><img data-src="topics/function_centric_architecture/images/cb1.png" style="margin-top: -3em;;width:50.0%"></p>
-</div></div>
-</section>
-<section class="slide level2">
-
-<div class="columns">
-<div class="column" style="width:50%;">
-<ul>
-<li>Say several sections repeat</li>
-<li>This duplicate code will diverge at some point.</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<p><img data-src="topics/function_centric_architecture/images/cb2.png" style="width:50.0%"></p>
-</div></div>
-</section>
-<section id="solution" class="slide level2">
-<h2>Solution</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<ul>
-<li>Pull the duplicated code out.</li>
-<li>Give it a name.</li>
-<li>Call the duplicated code in the main part of the program.</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<p><img data-src="topics/function_centric_architecture/images/cb3.png" style="width:50.0%"></p>
-</div></div>
-</section>
-<section id="full-solution" class="slide level2">
-<h2>Full Solution</h2>
-<pre><code>
-statement
-statement
-function_name
-statement
-function_name
-statement
-statement
-function_name
-
-function_name
-statement
-statement
-</code></pre>
+<!-- Slide 14 -->
+<!-- Topic 2: Coding Functions -->
+<!-- Slides 15-26 -->
 </section></section>
 <section>
 <section id="coding-functions" class="title-slide slide level1 center">
 <h1>Coding Functions</h1>
+<!-- Slide 15 -->
+</section>
+<section id="where-does-a-function-live" class="slide level2 smaller">
+<h2>Where Does a Function Live?</h2>
+<ul>
+<li>A function has a prototype, a call, and a definition.</li>
+<li>The prototype appears above <code>main()</code>.</li>
+<li>The definition usually appears below <code>main()</code>.</li>
+</ul>
 <aside class="notes">
-<p>~ 10</p>
+<p>Slides 15-26 [Graphic suggestion: show a vertical code map with prototype near the top, main in the middle, and function definition below.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -547,442 +503,135 @@ statement
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 16 -->
 </section>
-<section id="how-we-create-functions" class="slide level2">
-<h2>How We Create Functions</h2>
-<aside class="notes">
-<p>Clutter code is a good place to look at first - headers or footers, prompts. housekeeping stuff.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="creating-a-function" class="slide level2">
-<h2>Creating a Function</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="co">// 6-1.cpp -- Demo of functions</span></span>
-<span id="cb4-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb4-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb4-4"><a href=""></a></span>
-<span id="cb4-5"><a href=""></a><span class="co">// Function Prototype</span></span>
-<span id="cb4-6"><a href=""></a><span class="dt">void</span> DisplayMessage<span class="op">();</span></span>
-<span id="cb4-7"><a href=""></a></span>
-<span id="cb4-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span>                          <span class="co">// function 1</span></span>
-<span id="cb4-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from main()</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb4-10"><a href=""></a>    DisplayMessage<span class="op">();</span>                 <span class="co">// call function 2</span></span>
-<span id="cb4-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from main() again</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb4-12"><a href=""></a></span>
-<span id="cb4-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb4-14"><a href=""></a><span class="op">}</span></span>
-<span id="cb4-15"><a href=""></a></span>
-<span id="cb4-16"><a href=""></a><span class="dt">void</span> DisplayMessage<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb4-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from DisplayMessage()</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb4-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="smallest-useful-function" class="slide level2">
+<h2>Smallest Useful Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb4-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb4-3"><a href=""></a></span>
+<span id="cb4-4"><a href=""></a><span class="dt">void</span> displayMessage<span class="op">();</span>      <span class="co">// Function Prototype</span></span>
+<span id="cb4-5"><a href=""></a></span>
+<span id="cb4-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-7"><a href=""></a>    displayMessage<span class="op">();</span>       <span class="co">// Function Call</span></span>
+<span id="cb4-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-9"><a href=""></a><span class="op">}</span></span>
+<span id="cb4-10"><a href=""></a></span>
+<span id="cb4-11"><a href=""></a><span class="dt">void</span> displayMessage<span class="op">()</span> <span class="op">{</span>     <span class="co">// Function Definition</span></span>
+<span id="cb4-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from a function!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb4-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 17 -->
 </section>
 <section id="function-prototype" class="slide level2">
 <h2>Function Prototype</h2>
-<p>“<em>A function prototype eliminates the need to place a function definition before all calls to the function.</em>”</p>
-<p>– Textbook, p.332.</p>
-</section>
-<section id="function-prototype-example" class="slide level2">
-<h2>Function Prototype Example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-code-line-numbers="6|16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="co">// 6-1.cpp -- Demo of functions</span></span>
-<span id="cb5-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb5-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb5-4"><a href=""></a></span>
-<span id="cb5-5"><a href=""></a><span class="co">// Function Prototype</span></span>
-<span id="cb5-6"><a href=""></a><span class="dt">void</span> DisplayMessage<span class="op">();</span></span>
-<span id="cb5-7"><a href=""></a></span>
-<span id="cb5-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span>                 <span class="co">// function 1</span></span>
-<span id="cb5-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from main()</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb5-10"><a href=""></a>    DisplayMessage<span class="op">();</span>        <span class="co">// call function 2</span></span>
-<span id="cb5-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from main() again</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb5-12"><a href=""></a></span>
-<span id="cb5-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb5-14"><a href=""></a><span class="op">}</span></span>
-<span id="cb5-15"><a href=""></a></span>
-<span id="cb5-16"><a href=""></a><span class="dt">void</span> DisplayMessage<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb5-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from DisplayMessage()</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb5-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="wheres-the-code" class="slide level2">
-<h2>Where’s the code?</h2>
-<div class="columns">
-<div class="column" style="width:65%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" data-code-line-numbers="16-18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="co">// 6-1.cpp -- Demo of functions</span></span>
-<span id="cb6-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb6-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb6-4"><a href=""></a></span>
-<span id="cb6-5"><a href=""></a><span class="co">// Function Prototype</span></span>
-<span id="cb6-6"><a href=""></a><span class="dt">void</span> DisplayMessage<span class="op">();</span></span>
-<span id="cb6-7"><a href=""></a></span>
-<span id="cb6-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span>                 <span class="co">// function 1</span></span>
-<span id="cb6-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from main()</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb6-10"><a href=""></a>    DisplayMessage<span class="op">();</span>        <span class="co">// call function 2</span></span>
-<span id="cb6-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from main() again</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb6-12"><a href=""></a></span>
-<span id="cb6-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb6-14"><a href=""></a><span class="op">}</span></span>
-<span id="cb6-15"><a href=""></a></span>
-<span id="cb6-16"><a href=""></a><span class="dt">void</span> DisplayMessage<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb6-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from DisplayMessage()</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb6-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:35%;">
-<p>Notice how the function itself is BELOW main()</p>
-</div></div>
-</section>
-<section id="function-location" class="slide level2">
-<h2>Function Location</h2>
-<p>A function can go above or below main().</p>
-<p>The style in this language is to place them below main() AND use function prototypes.</p>
-</section>
-<section id="function-calls-in-a-function" class="slide level2">
-<h2>Function Calls in a Function</h2>
-<div class="columns">
-<div class="column" style="width:75%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-code-line-numbers="14|15|16|8|9|10|4|5|11|17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb7-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb7-3"><a href=""></a></span>
-<span id="cb7-4"><a href=""></a><span class="dt">void</span> Deeper<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb7-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Now inside function Deeper()</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb7-6"><a href=""></a><span class="op">}</span></span>
-<span id="cb7-7"><a href=""></a></span>
-<span id="cb7-8"><a href=""></a><span class="dt">void</span> Deep<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb7-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from Deep()</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb7-10"><a href=""></a>    Deeper<span class="op">();</span></span>
-<span id="cb7-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Now back in Deep() again</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb7-12"><a href=""></a><span class="op">}</span></span>
-<span id="cb7-13"><a href=""></a></span>
-<span id="cb7-14"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span>                 <span class="co">// function 1</span></span>
-<span id="cb7-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from main()</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb7-16"><a href=""></a>    Deep<span class="op">();</span></span>
-<span id="cb7-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from main() again</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb7-18"><a href=""></a></span>
-<span id="cb7-19"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb7-20"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:25%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="topics/functions/images/funcDemo2Out.png"></p>
-<figcaption>Output</figcaption>
-</figure>
-</div>
-</div></div>
-</section>
-<section id="with-function-prototype" class="slide level2">
-<h2>with Function Prototype</h2>
-<div class="columns">
-<div class="column" style="width:75%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" data-code-line-numbers="10|11|17|18|19|23|24|20|12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="co">// 6-4.cpp -- Functions calling functions</span></span>
-<span id="cb8-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb8-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb8-4"><a href=""></a></span>
-<span id="cb8-5"><a href=""></a><span class="co">// Function Prototype</span></span>
-<span id="cb8-6"><a href=""></a><span class="dt">void</span> Deep<span class="op">();</span></span>
-<span id="cb8-7"><a href=""></a><span class="dt">void</span> Deeper<span class="op">();</span></span>
-<span id="cb8-8"><a href=""></a></span>
-<span id="cb8-9"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span>        </span>
-<span id="cb8-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from main()</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb8-11"><a href=""></a>    Deep<span class="op">();</span></span>
-<span id="cb8-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from main() again</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb8-13"><a href=""></a></span>
-<span id="cb8-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb8-15"><a href=""></a><span class="op">}</span></span>
-<span id="cb8-16"><a href=""></a></span>
-<span id="cb8-17"><a href=""></a><span class="dt">void</span> Deep<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb8-18"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from Deep()</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb8-19"><a href=""></a>    Deeper<span class="op">();</span></span>
-<span id="cb8-20"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Now back in Deep() again</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb8-21"><a href=""></a><span class="op">}</span></span>
-<span id="cb8-22"><a href=""></a></span>
-<span id="cb8-23"><a href=""></a><span class="dt">void</span> Deeper<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb8-24"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Now inside function Deeper()</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb8-25"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:25%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="topics/functions/images/funcDemo2aOut.png"></p>
-<figcaption>Output</figcaption>
-</figure>
-</div>
-</div></div>
-</section>
-<section id="we-can-call-but-not-define" class="slide level2">
-<h2>We can call but not define</h2>
-<p>Notice we did not define a function inside another function, we just called it.</p>
-<p>Defining a function inside a function is called <strong>nesting</strong> and is not allowed with functions in this language.</p>
-</section>
-<section class="slide level2">
-
-
-<img data-src="topics/functions/images/funcSketch.jpg" style="width:25.0%" class="r-stretch quarto-figure-center"><p class="caption">Output</p></section></section>
-<section>
-<section id="return-of-void" class="title-slide slide level1 center">
-<h1>Return of Void</h1>
-<aside class="notes">
-<p>~ 14 min</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="remember-void" class="slide level2">
-<h2>Remember void?</h2>
-<p>We last saw void when we were looking at variable types.</p>
-<aside class="notes">
-<p>It’s a type, but we can’t declare variables with it.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="void-functions-in-c" class="slide level2">
-<h2>Void Functions in C++</h2>
-<p>Usually when we create a function, we need to pass data back and forth between the function and the calling code.</p>
-<p><strong>But what if a function doesn’t need to return anything?</strong></p>
-<p>That’s where <code>void</code> comes in!</p>
-<aside class="notes">
-<p>We start here because these tend to be the simplest class of functions.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="what-is-void" class="slide level2">
-<h2>What is void?</h2>
-<p><strong>void</strong> means “nothing” or “empty”</p>
-<p>When you use <code>void</code> as a return type, you’re telling C++:</p>
-<blockquote>
-<p>“This function does something, but it doesn’t give back a value.”</p>
-</blockquote>
-<p><strong>Think of it like:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb5-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb5-3"><a href=""></a></span>
+<span id="cb5-4"><a href=""></a><span class="co">// Function Prototypes</span></span>
+<span id="cb5-5"><a href=""></a><span class="dt">void</span> displayMessage<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>A light switch: It turns on a light (action), but doesn’t give you anything back</li>
-<li>A printer: It prints a document (action), but doesn’t return a value</li>
+<li>The prototype tells the compiler the function exists.</li>
+<li>It gives the return type, function name, and parameter list.</li>
+<li>The semicolon marks this as a declaration, not the function body.</li>
 </ul>
+<!-- Slide 18 -->
 </section>
-<section id="a-void-function" class="slide level2">
-<h2>A Void Function</h2>
-<div class="columns">
-<div class="column" style="width:75%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb9-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<section id="function-definition" class="slide level2">
+<h2>Function Definition</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-2"><a href=""></a><span class="op">}</span>       <span class="co">// main()</span></span>
+<span id="cb6-3"><a href=""></a></span>
+<span id="cb6-4"><a href=""></a><span class="dt">void</span> displayMessage<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello from a function!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb6-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The definition contains the function body.</li>
+<li>This is the code that runs when the function is called.</li>
+</ul>
+<!-- Slide 19 -->
+</section>
+<section id="function-call" class="slide level2">
+<h2>Function Call</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a>displayMessage<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The function call transfers control to the function.</li>
+<li>When the function finishes, execution returns to the next line.</li>
+</ul>
+<!-- Slide 20 -->
+</section>
+<section id="function-call-overview" class="slide level2">
+<h2>Function Call Overview</h2>
+
+<!-- Slide 21 -->
+<img data-src="images/0401FuncOver.png" style="width:72.0%" class="r-stretch quarto-figure-center"><p class="caption">Function call overview</p></section>
+<section id="call-order" class="slide level2">
+<h2>Call Order</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Before"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb8-3"><a href=""></a>    displayMessage<span class="op">();</span></span>
+<span id="cb8-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"After"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb8-5"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>Before</code> prints first.</li>
+<li>The function runs next.</li>
+<li><code>After</code> prints when control returns to <code>main()</code>.</li>
+</ul>
+<!-- Slide 22 -->
+</section>
+<section id="functions-calling-functions" class="slide level2">
+<h2>Functions Calling Functions</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="dt">void</span> deeper<span class="op">();</span></span>
+<span id="cb9-2"><a href=""></a><span class="dt">void</span> deep<span class="op">();</span></span>
 <span id="cb9-3"><a href=""></a></span>
-<span id="cb9-4"><a href=""></a><span class="dt">void</span> greet<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb9-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello, World!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb9-6"><a href=""></a><span class="op">}</span></span>
-<span id="cb9-7"><a href=""></a></span>
-<span id="cb9-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb9-9"><a href=""></a>    greet<span class="op">();</span>  <span class="co">// Call the function</span></span>
-<span id="cb9-10"><a href=""></a>    </span>
-<span id="cb9-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb9-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:25%;">
-<p><strong>Output:</strong></p>
-<pre><code>Hello, World!</code></pre>
-</div></div>
-<p><strong>Notice:</strong></p>
-<ul>
-<li><code>void</code> means no return value</li>
-<li>No <code>return</code> statement needed (or use <code>return;</code> with nothing after it)</li>
-<li>Just call the function by its name with <code>()</code></li>
-</ul>
+<span id="cb9-4"><a href=""></a><span class="dt">void</span> deep<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Inside deep()"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb9-6"><a href=""></a>    deeper<span class="op">();</span></span>
+<span id="cb9-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb9-8"><a href=""></a></span>
+<span id="cb9-9"><a href=""></a><span class="dt">void</span> deeper<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Inside deeper()"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb9-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A function can call another function.</p>
+<!-- Slide 23 -->
 </section>
-<section id="void-function-syntax" class="slide level2">
-<h2>Void Function Syntax</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">void</span> functionName<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb11-2"><a href=""></a>    <span class="co">// Code to execute</span></span>
-<span id="cb11-3"><a href=""></a>    <span class="co">// No return statement required</span></span>
-<span id="cb11-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Parts:</strong></p>
-<ul>
-<li><code>void</code> - The return type (nothing returned)</li>
-<li><code>functionName</code> - The name you choose</li>
-<li><code>()</code> - Parentheses (empty for now)</li>
-<li><code>{ }</code> - Curly braces contain the function body</li>
-</ul>
-</section>
-<section id="example-display-a-message" class="slide level2">
-<h2>Example: Display a Message</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb12-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb12-3"><a href=""></a></span>
-<span id="cb12-4"><a href=""></a><span class="dt">void</span> displayWelcome<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb12-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb12-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"   WELCOME TO MY PROGRAM!       "</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb12-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"================================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb12-8"><a href=""></a><span class="op">}</span></span>
-<span id="cb12-9"><a href=""></a></span>
-<span id="cb12-10"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb12-11"><a href=""></a>    displayWelcome<span class="op">();</span></span>
-<span id="cb12-12"><a href=""></a>    </span>
-<span id="cb12-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Let's get started..."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb12-14"><a href=""></a>    </span>
-<span id="cb12-15"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb12-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>================================
-   WELCOME TO MY PROGRAM!       
-================================
-Let's get started...</code></pre>
-</section>
-<section id="example-multiple-void-functions" class="slide level2">
-<h2>Example: Multiple Void Functions</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb14-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb14-3"><a href=""></a></span>
-<span id="cb14-4"><a href=""></a><span class="dt">void</span> displayHeader<span class="op">()</span></span>
-<span id="cb14-5"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">()</span></span>
-<span id="cb14-6"><a href=""></a><span class="dt">void</span> displayFooter<span class="op">()</span></span>
-<span id="cb14-7"><a href=""></a></span>
-<span id="cb14-8"><a href=""></a><span class="dt">void</span> displayHeader<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb14-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"*** GRADE CALCULATOR ***"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb14-10"><a href=""></a><span class="op">}</span></span>
-<span id="cb14-11"><a href=""></a></span>
-<span id="cb14-12"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb14-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"1. Enter grades"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb14-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"2. Calculate average"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb14-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"3. Exit"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb14-16"><a href=""></a><span class="op">}</span></span>
-<span id="cb14-17"><a href=""></a></span>
-<span id="cb14-18"><a href=""></a><span class="dt">void</span> displayFooter<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb14-19"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"*** END OF PROGRAM ***"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb14-20"><a href=""></a><span class="op">}</span></span>
-<span id="cb14-21"><a href=""></a></span>
-<span id="cb14-22"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb14-23"><a href=""></a>    displayHeader<span class="op">();</span></span>
-<span id="cb14-24"><a href=""></a>    displayMenu<span class="op">();</span></span>
-<span id="cb14-25"><a href=""></a>    displayFooter<span class="op">();</span></span>
-<span id="cb14-26"><a href=""></a>    </span>
-<span id="cb14-27"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb14-28"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="why-use-void-functions" class="slide level2">
-<h2>Why Use Void Functions?</h2>
-<ol type="1">
-<li><strong>Organize your code</strong></li>
-<li><strong>Avoid repetition</strong></li>
-<li><strong>Make code readable</strong></li>
-</ol>
-</section>
-<section id="organize-your-code" class="slide level2">
-<h2>Organize your code</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">void</span> displayTitle<span class="op">()</span> <span class="op">{</span> <span class="co">/* ... */</span> <span class="op">}</span></span>
-<span id="cb15-2"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">()</span> <span class="op">{</span> <span class="co">/* ... */</span> <span class="op">}</span></span>
-<span id="cb15-3"><a href=""></a><span class="dt">void</span> displayResults<span class="op">()</span> <span class="op">{</span> <span class="co">/* ... */</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="avoid-repetition" class="slide level2">
-<h2>Avoid repetition</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">void</span> printLine<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb16-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"------------------------"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb16-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb16-4"><a href=""></a></span>
-<span id="cb16-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb16-6"><a href=""></a>    printLine<span class="op">();</span>  <span class="co">// Use multiple times</span></span>
-<span id="cb16-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Section 1"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb16-8"><a href=""></a>    printLine<span class="op">();</span></span>
-<span id="cb16-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Section 2"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb16-10"><a href=""></a>    printLine<span class="op">();</span></span>
-<span id="cb16-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="make-code-readable" class="slide level2">
-<h2>Make code readable</h2>
-<ul>
-<li><code>displayWelcomeMessage()</code> is clearer than 10 lines of cout</li>
-<li>Functions act as labels for what the code does</li>
-</ul>
-</section>
-<section id="using-return-in-void-functions" class="slide level2">
-<h2>Using return in Void Functions</h2>
-<p>Void functions can use <code>return</code> to exit early (no value after it):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">void</span> checkAge<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb17-2"><a href=""></a>    <span class="dt">int</span> age <span class="op">=</span> <span class="dv">15</span><span class="op">;</span></span>
-<span id="cb17-3"><a href=""></a>    </span>
-<span id="cb17-4"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>age <span class="op">&lt;</span> <span class="dv">18</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb17-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Access denied."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb17-6"><a href=""></a>        <span class="cf">return</span><span class="op">;</span>  <span class="co">// Exit function early</span></span>
-<span id="cb17-7"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb17-8"><a href=""></a>    </span>
-<span id="cb17-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Access granted."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb17-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>Access denied.</code></pre>
-<p>The function exits at <code>return;</code> and never reaches the “Access granted” line.</p>
-</section>
-<section id="example-clean-code-with-void-functions" class="slide level2">
-<h2>Example:<br> Clean Code with Void Functions</h2>
-<p><strong>Before (messy main):</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb19-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"=== CALCULATOR ==="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"1. Add"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"2. Subtract"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Select: "</span><span class="op">;</span></span>
-<span id="cb19-6"><a href=""></a>    <span class="co">// ... more code ...</span></span>
-<span id="cb19-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"=== END ==="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb19-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section class="slide level2">
+<section id="multiple-function-calls-on-the-stack" class="slide level2">
+<h2>Multiple Function Calls on the Stack</h2>
+<div class="stack-demo" id="multi-stack-demo">
+  <div class="stack-controls">
+    <button onclick="multiStackStep(0)">1. main</button>
+    <button onclick="multiStackStep(1)">2. deep</button>
+    <button onclick="multiStackStep(2)">3. deeper</button>
+    <button onclick="multiStackStep(3)">4. return to deep</button>
+    <button onclick="multiStackStep(4)">5. return to main</button>
+  </div>
+  <div class="stack-area">
+    <div class="stack-label">Call stack</div>
+    <div class="stack-frame frame-main">main()</div>
+    <div class="stack-frame frame-helper" id="multi-deep">deep()</div>
+    <div class="stack-frame frame-helper" id="multi-deeper">deeper()</div>
+  </div>
+  <p id="multi-stack-caption">main() starts the call chain.</p>
+</div>
 
-<p><strong>After (organized with void functions):</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">void</span> displayTitle<span class="op">()</span> <span class="op">{</span> <span class="co">/* ... */</span> <span class="op">}</span></span>
-<span id="cb20-2"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">()</span> <span class="op">{</span> <span class="co">/* ... */</span> <span class="op">}</span></span>
-<span id="cb20-3"><a href=""></a><span class="dt">void</span> displayFooter<span class="op">()</span> <span class="op">{</span> <span class="co">/* ... */</span> <span class="op">}</span></span>
-<span id="cb20-4"><a href=""></a></span>
-<span id="cb20-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb20-6"><a href=""></a>    displayTitle<span class="op">();</span></span>
-<span id="cb20-7"><a href=""></a>    displayMenu<span class="op">();</span></span>
-<span id="cb20-8"><a href=""></a>    <span class="co">// ... main logic ...</span></span>
-<span id="cb20-9"><a href=""></a>    displayFooter<span class="op">();</span></span>
-<span id="cb20-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb20-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Much cleaner and easier to understand!</p>
-</section>
-<section id="summary" class="slide level2">
-<h2>Summary</h2>
-<p><strong>Void Functions:</strong></p>
-<ul>
-<li>Use <code>void</code> as return type when no value is returned</li>
-<li>Perfect for displaying output or performing actions</li>
-<li>Make code more organized and readable</li>
-<li>Don’t use <code>return</code> with a value</li>
-<li>Can’t be used in expressions or assignments</li>
-</ul>
-</section>
-<section id="appendix-additional-materials" class="slide level2">
-<h2>Appendix<br> Additional Materials</h2>
-<ul>
-<li>Common Mistakes</li>
-</ul>
+<script>
+function multiStackStep(step) {
+  const deep = document.getElementById("multi-deep");
+  const deeper = document.getElementById("multi-deeper");
+  const caption = document.getElementById("multi-stack-caption");
+  deep.style.display = step >= 1 && step <= 3 ? "block" : "none";
+  deeper.style.display = step >= 2 && step <= 2 ? "block" : "none";
+  caption.textContent = [
+    "main() is active.",
+    "main() calls deep(), so deep() is placed on top.",
+    "deep() calls deeper(), so deeper() is placed on top.",
+    "deeper() finishes first, and control returns to deep().",
+    "deep() finishes, and control returns to main()."
+  ][step];
+}
+</script>
 <aside class="notes">
-<p>Don’t cover this in class - not a good use of time.</p>
+<p>[Graphic suggestion: emphasize last-in, first-out order. The most recent function call returns first.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -994,77 +643,46 @@ Let's get started...</code></pre>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 24 -->
 </section>
-<section id="common-mistakes" class="slide level2">
-<h2>Common Mistakes</h2>
+<section id="no-nested-function-definitions" class="slide level2">
+<h2>No Nested Function Definitions</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">void</span> outer<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href=""></a>    <span class="dt">void</span> inner<span class="op">()</span> <span class="op">{</span>          <span class="co">// not allowed in C++</span></span>
+<span id="cb10-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Nope"</span><span class="op">;</span></span>
+<span id="cb10-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb10-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Trying to Return a Value</li>
-<li>Using Return Value</li>
+<li>C++ functions can call other functions.</li>
+<li>C++ functions cannot be defined inside other functions.</li>
 </ul>
+<!-- Slide 25 -->
 </section>
-<section id="common-mistake-trying-to-return-a-value" class="slide level2">
-<h2>Common Mistake: Trying to Return a Value</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="dt">void</span> displayNumber<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb21-2"><a href=""></a>    <span class="cf">return</span> <span class="dv">42</span><span class="op">;</span>  <span class="co">// ERROR! void means no return value</span></span>
-<span id="cb21-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Compiler error:</strong></p>
-<pre><code>return-statement with a value, in function returning 'void'</code></pre>
-<p><strong>Fix:</strong> Either change to <code>void</code> with no return value, or change return type to <code>int</code>.</p>
-</section>
-<section id="common-mistake-using-return-value" class="slide level2">
-<h2>Common Mistake: Using Return Value</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">void</span> greet<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb23-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb23-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb23-4"><a href=""></a></span>
-<span id="cb23-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb23-6"><a href=""></a>    <span class="dt">int</span> result <span class="op">=</span> greet<span class="op">();</span>  <span class="co">// ERROR! greet() returns nothing</span></span>
-<span id="cb23-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Compiler error:</strong></p>
-<pre><code>void value not ignored as it ought to be</code></pre>
-<p><strong>Fix:</strong> Just call the function without trying to capture a return value:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a>greet<span class="op">();</span>  <span class="co">// Correct!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="practice-create-your-own" class="slide level2">
-<h2>Practice: Create Your Own</h2>
-<p><strong>Try creating these void functions:</strong></p>
-<ol type="1">
-<li><code>void displayStars()</code> - Prints a line of 20 asterisks</li>
-<li><code>void displaySeparator()</code> - Prints a line of 30 dashes</li>
-<li><code>void displayGreeting()</code> - Prints “Welcome to C++ Programming!”</li>
-<li><code>void displayNumbers()</code> - Prints numbers 1 through 10</li>
-</ol>
-<p><strong>Then call them from main()!</strong></p>
+<section id="summary-1" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>A prototype declares the function before it is called.</li>
+<li>A call runs the function.</li>
+<li>A definition contains the function body.</li>
+</ul>
+<!-- Slide 26 -->
+<!-- Topic 3: Passing Data to a Function -->
+<!-- Slides 27-38 -->
 </section></section>
 <section>
-<section id="passing-data-to-and-from-functions" class="title-slide slide level1 center">
-<h1>Passing Data To and From Functions</h1>
-<aside class="notes">
-<p>Target duration: ~20 minutes</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<section id="passing-data-to-a-function" class="title-slide slide level1 center">
+<h1>Passing Data to a Function</h1>
+<!-- Slide 27 -->
 </section>
-<section id="topics" class="slide level2">
-<h2>Topics:</h2>
+<section id="functions-need-inputs" class="slide level2 smaller">
+<h2>Functions Need Inputs</h2>
 <ul>
-<li>Understanding parameters and arguments</li>
-<li>Passing data into functions</li>
-<li>Returning data from functions</li>
-<li>Function prototypes</li>
-<li>Common mistakes and how to avoid them</li>
-<li>Practical examples</li>
+<li>A fixed function works only for one situation.</li>
+<li>A flexible function receives data from the caller.</li>
+<li>Parameters let one function work with different values.</li>
 </ul>
 <aside class="notes">
-<p>This lecture builds on void functions by showing how to make functions more flexible and powerful through data passing.</p>
+<p>Slides 27-38</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1076,99 +694,149 @@ Let's get started...</code></pre>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 28 -->
 </section>
-<section id="why-functions-need-data" class="slide level2">
-<h2>Why Functions Need Data</h2>
-<p>Consider this function:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="dt">void</span> displayName<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb26-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello, Alice!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb26-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Problem:</strong> This only works for Alice. What about Bob or Charlie?</p>
-<p><strong>Challenge:</strong> How can we make one function work for any name?</p>
-<p><strong>Solution:</strong> Give functions the ability to receive and process different data.</p>
-</section>
-<section id="parameters-receiving-data" class="slide level2">
-<h2>Parameters: Receiving Data</h2>
-<p><strong>Parameters</strong> are variables in the function definition that receive data.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">void</span> displayName<span class="op">(</span>string name<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb27-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello, "</span> <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">"!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb27-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Anatomy:</strong></p>
+<section id="parameters-receive-data" class="slide level2">
+<h2>Parameters Receive Data</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">void</span> greet<span class="op">(</span>string person<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello, "</span> <span class="op">&lt;&lt;</span> person <span class="op">&lt;&lt;</span> <span class="st">"!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb11-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><code>string</code> is the data type</li>
-<li><code>name</code> is the parameter variable</li>
-<li>Parameters exist only inside the function</li>
+<li><code>person</code> is a parameter.</li>
+<li>It is a variable that belongs to the function.</li>
+<li>It receives data when the function is called.</li>
 </ul>
-<aside class="notes">
-<p>A diagram showing the function definition with the parameter highlighted would be useful here.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<!-- Slide 29 -->
+</section>
+<section id="arguments-provide-data" class="slide level2">
+<h2>Arguments Provide Data</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a>greet<span class="op">(</span><span class="st">"Maya"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>"Maya"</code> is an argument.</li>
+<li>An argument is the actual value supplied by the caller.</li>
+<li>The argument is copied into the parameter.</li>
+</ul>
+<!-- Slide 30 -->
 </section>
 <section id="arguments-vs-parameters" class="slide level2">
 <h2>Arguments vs Parameters</h2>
-<p><strong>Parameter:</strong> Variable in the function definition (placeholder)</p>
-<p><strong>Argument:</strong> Actual value passed when calling the function (real data)</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="dt">void</span> displayName<span class="op">(</span>string name<span class="op">)</span> <span class="op">{</span>     <span class="co">// name is a PARAMETER</span></span>
-<span id="cb28-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello, "</span> <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">"!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb28-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb28-4"><a href=""></a></span>
-<span id="cb28-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb28-6"><a href=""></a>    displayName<span class="op">(</span><span class="st">"Alice"</span><span class="op">);</span>           <span class="co">// "Alice" is an ARGUMENT</span></span>
-<span id="cb28-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb28-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The argument value is copied into the parameter variable.</p>
+
+<!-- Slide 31 -->
+<img data-src="images/0401ArgvsParm.png" style="width:76.0%" class="r-stretch quarto-figure-center"><p class="caption">Arguments vs parameters</p></section>
+<section id="argument-to-parameter" class="slide level2">
+<h2>Argument to Parameter</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">void</span> greet<span class="op">(</span>string person<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Hello, "</span> <span class="op">&lt;&lt;</span> person <span class="op">&lt;&lt;</span> <span class="st">"!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb13-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb13-4"><a href=""></a></span>
+<span id="cb13-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-6"><a href=""></a>    greet<span class="op">(</span><span class="st">"Maya"</span><span class="op">);</span></span>
+<span id="cb13-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The call sends <code>"Maya"</code> into the function, where <code>person</code> stores the copy.</p>
+<!-- Slide 32 -->
 </section>
-<section id="single-parameter-example" class="slide level2">
-<h2>Single Parameter Example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb29-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb29-3"><a href=""></a></span>
-<span id="cb29-4"><a href=""></a><span class="dt">void</span> greet<span class="op">(</span>string person<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb29-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Welcome, "</span> <span class="op">&lt;&lt;</span> person <span class="op">&lt;&lt;</span> <span class="st">"!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb29-6"><a href=""></a><span class="op">}</span></span>
-<span id="cb29-7"><a href=""></a></span>
-<span id="cb29-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb29-9"><a href=""></a>    greet<span class="op">(</span><span class="st">"Alice"</span><span class="op">);</span></span>
-<span id="cb29-10"><a href=""></a>    greet<span class="op">(</span><span class="st">"Bob"</span><span class="op">);</span></span>
-<span id="cb29-11"><a href=""></a>    greet<span class="op">(</span><span class="st">"Charlie"</span><span class="op">);</span></span>
-<span id="cb29-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb29-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>Welcome, Alice!
-Welcome, Bob!
-Welcome, Charlie!</code></pre>
+<section id="one-parameter" class="slide level2">
+<h2>One Parameter</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb14-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb14-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb14-4"><a href=""></a></span>
+<span id="cb14-5"><a href=""></a><span class="dt">void</span> greet<span class="op">(</span>string person<span class="op">);</span></span>
+<span id="cb14-6"><a href=""></a></span>
+<span id="cb14-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb14-8"><a href=""></a>    greet<span class="op">(</span><span class="st">"Maya"</span><span class="op">);</span></span>
+<span id="cb14-9"><a href=""></a>    greet<span class="op">(</span><span class="st">"Ari"</span><span class="op">);</span></span>
+<span id="cb14-10"><a href=""></a>    greet<span class="op">(</span><span class="st">"Chen"</span><span class="op">);</span></span>
+<span id="cb14-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb14-12"><a href=""></a><span class="op">}</span></span>
+<span id="cb14-13"><a href=""></a></span>
+<span id="cb14-14"><a href=""></a><span class="dt">void</span> greet<span class="op">(</span>string person<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Welcome, "</span> <span class="op">&lt;&lt;</span> person <span class="op">&lt;&lt;</span> <span class="st">"!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>One function can handle many different values.</p>
+<!-- Slide 33 -->
 </section>
 <section id="multiple-parameters" class="slide level2">
 <h2>Multiple Parameters</h2>
-<p>Functions can accept multiple pieces of data:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="dt">void</span> displayProduct<span class="op">(</span>string name<span class="op">,</span> <span class="dt">double</span> price<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb31-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">" costs $"</span> <span class="op">&lt;&lt;</span> price <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb31-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb31-4"><a href=""></a></span>
-<span id="cb31-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb31-6"><a href=""></a>    displayProduct<span class="op">(</span><span class="st">"Laptop"</span><span class="op">,</span> <span class="fl">899.99</span><span class="op">);</span></span>
-<span id="cb31-7"><a href=""></a>    displayProduct<span class="op">(</span><span class="st">"Mouse"</span><span class="op">,</span> <span class="fl">24.50</span><span class="op">);</span></span>
-<span id="cb31-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb31-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb15-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb15-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb15-4"><a href=""></a></span>
+<span id="cb15-5"><a href=""></a><span class="dt">void</span> displayProduct<span class="op">(</span>string name<span class="op">,</span> <span class="dt">double</span> price<span class="op">);</span></span>
+<span id="cb15-6"><a href=""></a></span>
+<span id="cb15-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb15-8"><a href=""></a>    displayProduct<span class="op">(</span><span class="st">"Notebook"</span><span class="op">,</span> <span class="fl">4.99</span><span class="op">);</span></span>
+<span id="cb15-9"><a href=""></a>    displayProduct<span class="op">(</span><span class="st">"Backpack"</span><span class="op">,</span> <span class="fl">39.95</span><span class="op">);</span></span>
+<span id="cb15-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb15-11"><a href=""></a><span class="op">}</span></span>
+<span id="cb15-12"><a href=""></a></span>
+<span id="cb15-13"><a href=""></a><span class="dt">void</span> displayProduct<span class="op">(</span>string name<span class="op">,</span> <span class="dt">double</span> price<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">" costs $"</span> <span class="op">&lt;&lt;</span> price <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb15-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Separate parameters with commas.</p>
+<!-- Slide 34 -->
 </section>
-<section id="key-rules" class="slide level2">
-<h2>Key Rules</h2>
+<section id="order-matters" class="slide level2">
+<h2>Order Matters</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">void</span> displayStudent<span class="op">(</span>string name<span class="op">,</span> <span class="dt">int</span> age<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">" is "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb16-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb16-4"><a href=""></a></span>
+<span id="cb16-5"><a href=""></a>displayStudent<span class="op">(</span><span class="st">"Maya"</span><span class="op">,</span> <span class="dv">20</span><span class="op">);</span>  <span class="co">// correct</span></span>
+<span id="cb16-6"><a href=""></a>displayStudent<span class="op">(</span><span class="dv">20</span><span class="op">,</span> <span class="st">"Maya"</span><span class="op">);</span>  <span class="co">// wrong order</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Arguments match parameters by position.</p>
+<!-- Slide 35 -->
+</section>
+<section id="types-matter" class="slide level2">
+<h2>Types Matter</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">void</span> displayStudent<span class="op">(</span>string name<span class="op">,</span> <span class="dt">int</span> age<span class="op">,</span> <span class="dt">double</span> gpa<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Separate parameters with commas</li>
-<li>Each parameter needs a type</li>
-<li>Order matters - arguments must match parameter order</li>
+<li>Each parameter needs its own type.</li>
+<li>The argument type must be compatible with the parameter type.</li>
+<li>The compiler checks function calls before the program runs.</li>
+</ul>
+<!-- Slide 36 -->
+</section>
+<section id="parameters-are-local" class="slide level2">
+<h2>Parameters Are Local</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">void</span> printDouble<span class="op">(</span><span class="dt">int</span> number<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> number <span class="op">*</span> <span class="dv">2</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb18-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb18-4"><a href=""></a></span>
+<span id="cb18-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb18-6"><a href=""></a>    printDouble<span class="op">(</span><span class="dv">7</span><span class="op">);</span></span>
+<span id="cb18-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> number <span class="op">&lt;&lt;</span> endl<span class="op">;</span>  <span class="co">// error</span></span>
+<span id="cb18-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb18-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>number</code> exists only inside <code>printDouble()</code>.</p>
+<!-- Slide 37 -->
+</section>
+<section id="summary-2" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Parameters receive data inside a function.</li>
+<li>Arguments provide data at the function call.</li>
+<li>Order and type determine how values match up.</li>
+</ul>
+<!-- Slide 38 -->
+<!-- Topic 4: Returning Data from a Function -->
+<!-- Slides 39-48 -->
+</section></section>
+<section>
+<section id="returning-data-from-a-function" class="title-slide slide level1 center">
+<h1>Returning Data from a Function</h1>
+<!-- Slide 39 -->
+</section>
+<section id="functions-can-send-data-back" class="slide level2 smaller">
+<h2>Functions Can Send Data Back</h2>
+<ul>
+<li>Parameters move data into a function.</li>
+<li>A return value sends one result back to the caller.</li>
+<li>This completes the basic data-flow pattern for functions.</li>
 </ul>
 <aside class="notes">
-<p>Emphasize that you cannot write <code>string name, price</code> - each parameter needs its own type. Show what happens when you call with arguments in wrong order.</p>
+<p>Slides 39-48</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1180,168 +848,115 @@ Welcome, Charlie!</code></pre>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 40 -->
 </section>
-<section id="parameter-order-and-types" class="slide level2">
-<h2>Parameter Order and Types</h2>
-<p>Arguments must match parameters in <strong>order</strong> and <strong>type</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a><span class="dt">void</span> displayStudent<span class="op">(</span>string name<span class="op">,</span> <span class="dt">int</span> age<span class="op">,</span> <span class="dt">double</span> gpa<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb32-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">" is "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> <span class="st">" years old"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb32-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"GPA: "</span> <span class="op">&lt;&lt;</span> gpa <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb32-4"><a href=""></a><span class="op">}</span></span>
-<span id="cb32-5"><a href=""></a></span>
-<span id="cb32-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb32-7"><a href=""></a>    displayStudent<span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="fl">3.8</span><span class="op">);</span>     <span class="co">// Correct</span></span>
-<span id="cb32-8"><a href=""></a>    displayStudent<span class="op">(</span><span class="dv">20</span><span class="op">,</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="fl">3.8</span><span class="op">);</span>     <span class="co">// ERROR - wrong types</span></span>
-<span id="cb32-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb32-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Consider showing a visual matching of arguments to parameters with arrows. Demonstrate the compiler error message for type mismatch.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="function-prototypes" class="slide level2">
-<h2>Function Prototypes</h2>
-<p><strong>Problem:</strong> C++ requires functions to be defined before they’re called.</p>
-<p><strong>Solution:</strong> Declare the function’s signature at the top with a <strong>prototype</strong>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a><span class="co">// Prototype (declaration) - tells compiler function exists</span></span>
-<span id="cb33-2"><a href=""></a><span class="dt">void</span> displayStudent<span class="op">(</span>string name<span class="op">,</span> <span class="dt">int</span> age<span class="op">,</span> <span class="dt">double</span> gpa<span class="op">);</span></span>
-<span id="cb33-3"><a href=""></a></span>
-<span id="cb33-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb33-5"><a href=""></a>    displayStudent<span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="fl">3.8</span><span class="op">);</span>  <span class="co">// Can call here</span></span>
-<span id="cb33-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb33-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb33-8"><a href=""></a></span>
-<span id="cb33-9"><a href=""></a><span class="co">// Definition (implementation) - actual code</span></span>
-<span id="cb33-10"><a href=""></a><span class="dt">void</span> displayStudent<span class="op">(</span>string name<span class="op">,</span> <span class="dt">int</span> age<span class="op">,</span> <span class="dt">double</span> gpa<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb33-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">" is "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> <span class="st">" years old"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb33-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Explain that prototypes are especially important when working with multiple files. The prototype is like a table of contents - it tells the compiler what to expect.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="prototype-syntax" class="slide level2">
-<h2>Prototype Syntax</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a><span class="co">// Full prototype with parameter names (recommended)</span></span>
-<span id="cb34-2"><a href=""></a><span class="dt">double</span> calculateAverage<span class="op">(</span><span class="dt">double</span> score1<span class="op">,</span> <span class="dt">double</span> score2<span class="op">,</span> <span class="dt">double</span> score3<span class="op">);</span></span>
-<span id="cb34-3"><a href=""></a></span>
-<span id="cb34-4"><a href=""></a><span class="co">// Parameter names optional, but less clear</span></span>
-<span id="cb34-5"><a href=""></a><span class="dt">double</span> calculateAverage<span class="op">(</span><span class="dt">double</span><span class="op">,</span> <span class="dt">double</span><span class="op">,</span> <span class="dt">double</span><span class="op">);</span></span>
-<span id="cb34-6"><a href=""></a></span>
-<span id="cb34-7"><a href=""></a><span class="co">// Multiple prototypes</span></span>
-<span id="cb34-8"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">();</span></span>
-<span id="cb34-9"><a href=""></a><span class="dt">int</span> getChoice<span class="op">();</span></span>
-<span id="cb34-10"><a href=""></a><span class="dt">double</span> calculateTax<span class="op">(</span><span class="dt">double</span> amount<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Common practice:</strong> Include parameter names for readability. They don’t have to match the definition’s names, but usually do.</p>
-<aside class="notes">
-<p>Show students where prototypes typically go: after includes and namespace, before main. Mention that professional code often puts prototypes in header files (.h).</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="return-values-sending-data-back" class="slide level2">
-<h2>Return Values: Sending Data Back</h2>
-<p><strong>So far:</strong> Functions receive data through parameters (input)</p>
-<p><strong>Now:</strong> Functions can send data back through return values (output)</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb35-2"><a href=""></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
-<span id="cb35-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Key components:</strong></p>
+<section id="return-type" class="slide level2">
+<h2>Return Type</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> first<span class="op">,</span> <span class="dt">int</span> second<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-2"><a href=""></a>    <span class="cf">return</span> first <span class="op">+</span> second<span class="op">;</span></span>
+<span id="cb19-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><code>int</code> is the return type</li>
-<li><code>return</code> statement sends the value back</li>
-<li>Return type must match the returned value</li>
+<li><code>int</code> is the return type.</li>
+<li>It tells C++ what kind of value comes back.</li>
 </ul>
-<aside class="notes">
-<p>A data flow diagram showing data going into the function via parameters and coming out via return would be helpful. Emphasize this completes the picture: data in (parameters) and data out (return).</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<!-- Slide 41 -->
 </section>
-<section id="using-return-values" class="slide level2">
-<h2>Using Return Values</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb36-2"><a href=""></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
-<span id="cb36-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb36-4"><a href=""></a></span>
-<span id="cb36-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb36-6"><a href=""></a>    <span class="co">// Store in a variable</span></span>
-<span id="cb36-7"><a href=""></a>    <span class="dt">int</span> result <span class="op">=</span> add<span class="op">(</span><span class="dv">5</span><span class="op">,</span> <span class="dv">3</span><span class="op">);</span></span>
-<span id="cb36-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Result: "</span> <span class="op">&lt;&lt;</span> result <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb36-9"><a href=""></a>    </span>
-<span id="cb36-10"><a href=""></a>    <span class="co">// Use directly in expression</span></span>
-<span id="cb36-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Sum: "</span> <span class="op">&lt;&lt;</span> add<span class="op">(</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb36-12"><a href=""></a>    </span>
-<span id="cb36-13"><a href=""></a>    <span class="co">// Pass to another function</span></span>
-<span id="cb36-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> add<span class="op">(</span><span class="dv">5</span><span class="op">,</span> add<span class="op">(</span><span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">))</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb36-15"><a href=""></a>    </span>
-<span id="cb36-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb36-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Emphasize the flexibility of return values. The inner add(2,3) executes first, returns 5, then add(5,5) executes. This demonstrates function composition.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<section id="the-return-statement" class="slide level2">
+<h2>The Return Statement</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="cf">return</span> first <span class="op">+</span> second<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>return</code> sends a value back to the caller.</li>
+<li>The function ends when the return statement runs.</li>
+<li>The returned value replaces the function call.</li>
+</ul>
+<!-- Slide 42 -->
+</section>
+<section id="store-the-returned-value" class="slide level2">
+<h2>Store the Returned Value</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb21-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb21-3"><a href=""></a></span>
+<span id="cb21-4"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> first<span class="op">,</span> <span class="dt">int</span> second<span class="op">);</span></span>
+<span id="cb21-5"><a href=""></a></span>
+<span id="cb21-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb21-7"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> add<span class="op">(</span><span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">);</span></span>
+<span id="cb21-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-10"><a href=""></a><span class="op">}</span></span>
+<span id="cb21-11"><a href=""></a></span>
+<span id="cb21-12"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> first<span class="op">,</span> <span class="dt">int</span> second<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-13"><a href=""></a>    <span class="cf">return</span> first <span class="op">+</span> second<span class="op">;</span></span>
+<span id="cb21-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The variable <code>total</code> stores the value returned by <code>add()</code>.</p>
+<!-- Slide 43 -->
+</section>
+<section id="use-the-returned-value-directly" class="slide level2">
+<h2>Use the Returned Value Directly</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> add<span class="op">(</span><span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb22-2"><a href=""></a></span>
+<span id="cb22-3"><a href=""></a><span class="dt">int</span> result <span class="op">=</span> add<span class="op">(</span><span class="dv">10</span><span class="op">,</span> add<span class="op">(</span><span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">));</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A returned value can be printed directly.</li>
+<li>A returned value can be used inside a larger expression.</li>
+</ul>
+<!-- Slide 44 -->
 </section>
 <section id="return-type-must-match" class="slide level2">
 <h2>Return Type Must Match</h2>
-<p>The return statement must match the function’s return type:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a><span class="dt">int</span> getValue<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb37-2"><a href=""></a>    <span class="cf">return</span> <span class="fl">3.14</span><span class="op">;</span>        <span class="co">// </span><span class="al">WARNING</span><span class="co"> - truncated to 3</span></span>
-<span id="cb37-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb37-4"><a href=""></a></span>
-<span id="cb37-5"><a href=""></a><span class="dt">double</span> getNumber<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb37-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">42</span><span class="op">;</span>          <span class="co">// OK - converts to 42.0</span></span>
-<span id="cb37-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb37-8"><a href=""></a></span>
-<span id="cb37-9"><a href=""></a>string getName<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb37-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">123</span><span class="op">;</span>         <span class="co">// ERROR - cannot convert int to string</span></span>
-<span id="cb37-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Rule:</strong> The compiler will error or warn if types don’t match or convert properly.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">int</span> getWholeNumber<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb23-2"><a href=""></a>    <span class="cf">return</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb23-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb23-4"><a href=""></a></span>
+<span id="cb23-5"><a href=""></a>string getName<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb23-6"><a href=""></a>    <span class="cf">return</span> <span class="st">"Maya"</span><span class="op">;</span></span>
+<span id="cb23-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The value after <code>return</code> must be compatible with the function’s return type.</p>
+<!-- Slide 45 -->
+</section>
+<section id="one-value-comes-back" class="slide level2">
+<h2>One Value Comes Back</h2>
+<ul>
+<li>A normal return statement sends one value back.</li>
+<li>That value may be stored, printed, or used in another expression.</li>
+<li>Later tools give us other ways to communicate more data.</li>
+</ul>
+<!-- Slide 46 -->
+</section>
+<section id="returned-data-on-the-stack" class="slide level2">
+<h2>Returned Data on the Stack</h2>
+<div class="stack-demo" id="return-stack-demo">
+  <div class="stack-controls">
+    <button onclick="returnStackStep(0)">1. call</button>
+    <button onclick="returnStackStep(1)">2. calculate</button>
+    <button onclick="returnStackStep(2)">3. return value</button>
+    <button onclick="returnStackStep(3)">4. continue</button>
+  </div>
+  <div class="stack-area">
+    <div class="stack-label">Call stack</div>
+    <div class="stack-frame frame-main">main()<br><span id="main-result">result = ?</span></div>
+    <div class="stack-frame frame-helper" id="return-add">add(3, 4)<br>first = 3<br>second = 4</div>
+  </div>
+  <p id="return-stack-caption">main() calls add(3, 4).</p>
+</div>
+
+<script>
+function returnStackStep(step) {
+  const add = document.getElementById("return-add");
+  const result = document.getElementById("main-result");
+  const caption = document.getElementById("return-stack-caption");
+  add.style.display = step <= 2 ? "block" : "none";
+  add.classList.toggle("is-running", step === 1);
+  result.textContent = step >= 3 ? "result = 7" : "result = ?";
+  caption.textContent = [
+    "The add() frame receives copies of both arguments.",
+    "The function calculates first + second inside its stack frame.",
+    "return sends 7 back to the caller.",
+    "The add() frame is gone, and main() stores the returned value."
+  ][step];
+}
+</script>
 <aside class="notes">
-<p>Demonstrate the actual compiler warnings/errors. Explain implicit conversion (int to double is safe, double to int loses precision). String conversion requires explicit methods like to_string().</p>
+<p>[Graphic suggestion: show the return value leaving the function frame before the frame disappears.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1353,372 +968,445 @@ Welcome, Charlie!</code></pre>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 47 -->
 </section>
-<section id="multiple-return-statements" class="slide level2">
-<h2>Multiple Return Statements</h2>
-<p>Functions can have multiple returns, but only one executes:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a><span class="dt">char</span> getLetterGrade<span class="op">(</span><span class="dt">int</span> score<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb38-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>score <span class="op">&gt;=</span> <span class="dv">90</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb38-3"><a href=""></a>        <span class="cf">return</span> <span class="ch">'A'</span><span class="op">;</span></span>
-<span id="cb38-4"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb38-5"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>score <span class="op">&gt;=</span> <span class="dv">80</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb38-6"><a href=""></a>        <span class="cf">return</span> <span class="ch">'B'</span><span class="op">;</span></span>
-<span id="cb38-7"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb38-8"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>score <span class="op">&gt;=</span> <span class="dv">70</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb38-9"><a href=""></a>        <span class="cf">return</span> <span class="ch">'C'</span><span class="op">;</span></span>
-<span id="cb38-10"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb38-11"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>score <span class="op">&gt;=</span> <span class="dv">60</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb38-12"><a href=""></a>        <span class="cf">return</span> <span class="ch">'D'</span><span class="op">;</span></span>
-<span id="cb38-13"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb38-14"><a href=""></a>    <span class="cf">return</span> <span class="ch">'F'</span><span class="op">;</span></span>
-<span id="cb38-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Important:</strong> Once a return executes, the function immediately exits.</p>
+<section id="summary-3" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>A return value lets a function compute an answer.</li>
+<li>The return type tells C++ what kind of answer comes back.</li>
+<li>The caller decides what to do with the returned value.</li>
+</ul>
+<!-- Slide 48 -->
+<!-- Topic 5: Void Functions -->
+<!-- Slides 49-57 -->
+</section></section>
+<section>
+<section id="void-functions" class="title-slide slide level1 center">
+<h1>Void Functions</h1>
+<!-- Slide 49 -->
 </section>
-<section id="round-trip-method" class="slide level2">
-<h2>Round-Trip Method</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb39-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
-<span id="cb39-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb39-4"><a href=""></a></span>
-<span id="cb39-5"><a href=""></a><span class="dt">int</span> CalcYears<span class="op">(</span>boolean<span class="op">);</span></span>
-<span id="cb39-6"><a href=""></a></span>
-<span id="cb39-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb39-8"><a href=""></a>    <span class="dt">int</span> age <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb39-9"><a href=""></a></span>
-<span id="cb39-10"><a href=""></a>    age <span class="op">=</span> CalcYears<span class="op">(</span><span class="kw">true</span><span class="op">);</span></span>
-<span id="cb39-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb39-12"><a href=""></a><span class="op">}</span></span>
-<span id="cb39-13"><a href=""></a></span>
-<span id="cb39-14"><a href=""></a><span class="dt">int</span> CalcYears<span class="op">(</span>boolean isDog<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb39-15"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>isDog<span class="op">)</span> <span class="cf">return</span> <span class="dv">7</span><span class="op">;</span></span>
-<span id="cb39-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb39-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="what-if-nothing-comes-back" class="slide level2 smaller">
+<h2>What If Nothing Comes Back?</h2>
+<ul>
+<li>Some functions calculate an answer.</li>
+<li>Other functions perform an action.</li>
+<li><code>void</code> functions are for action-only work.</li>
+</ul>
+<aside class="notes">
+<p>Slides 49-57</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 50 -->
+</section>
+<section id="void-means-no-return-value" class="slide level2">
+<h2>Void Means No Return Value</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">void</span> displayLine<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb24-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"--------------------"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb24-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>void</code> means the function does not send a value back.</li>
+<li>The function can still do useful work.</li>
+</ul>
+<!-- Slide 51 -->
+</section>
+<section id="a-void-function" class="slide level2">
+<h2>A Void Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb25-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb25-3"><a href=""></a></span>
+<span id="cb25-4"><a href=""></a><span class="dt">void</span> displayWelcome<span class="op">();</span></span>
+<span id="cb25-5"><a href=""></a></span>
+<span id="cb25-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb25-7"><a href=""></a>    displayWelcome<span class="op">();</span></span>
+<span id="cb25-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb25-9"><a href=""></a><span class="op">}</span></span>
+<span id="cb25-10"><a href=""></a></span>
+<span id="cb25-11"><a href=""></a><span class="dt">void</span> displayWelcome<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb25-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Grade Calculator"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb25-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Ready to begin."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb25-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The visible result is the action the function performs.</p>
+<!-- Slide 52 -->
+</section>
+<section id="call-it-like-any-other-function" class="slide level2">
+<h2>Call It Like Any Other Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a>displayWelcome<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A void function is called by name with parentheses.</li>
+<li>Do not store a void function call in a variable.</li>
+<li>There is no returned value to store.</li>
+</ul>
+<!-- Slide 53 -->
+</section>
+<section id="when-void-makes-sense" class="slide level2">
+<h2>When Void Makes Sense</h2>
+<ul>
+<li>Display a header.</li>
+<li>Show a menu.</li>
+<li>Print a divider line.</li>
+<li>Pause or clear part of the interface.</li>
+</ul>
+<p>Use <code>void</code> when the caller needs an action, not an answer.</p>
+<!-- Slide 54 -->
+</section>
+<section id="return-in-a-void-function" class="slide level2">
+<h2>Return in a Void Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">void</span> checkAge<span class="op">(</span><span class="dt">int</span> age<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>age <span class="op">&lt;</span> <span class="dv">18</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Access denied."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb27-4"><a href=""></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb27-5"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb27-6"><a href=""></a></span>
+<span id="cb27-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Access granted."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb27-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>return;</code> exits a void function early, but it does not return a value.</p>
+<!-- Slide 55 -->
+</section>
+<section id="void-or-return-value" class="slide level2">
+<h2>Void or Return Value?</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Use This</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>return value</td>
+<td>the caller needs an answer</td>
+</tr>
+<tr class="even">
+<td><code>void</code></td>
+<td>the function performs an action</td>
+</tr>
+</tbody>
+</table>
+<p>Choose based on what the caller needs after the function runs.</p>
+<!-- Slide 56 -->
+</section>
+<section id="summary-4" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li><code>void</code> functions do not return values.</li>
+<li>They still help modularize a program.</li>
+<li>Their result is the action they perform.</li>
+</ul>
+<!-- Slide 57 -->
 </section>
 <section class="slide level2">
 
-
-<img data-src="topics/function_data_to_and_fro/images/round_trip_method.png" style="width:5.0%" class="r-stretch"></section>
-<section id="example-temperature-conversion" class="slide level2">
-<h2>Example: Temperature Conversion</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb40-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
-<span id="cb40-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb40-4"><a href=""></a></span>
-<span id="cb40-5"><a href=""></a><span class="dt">double</span> celsiusToFahrenheit<span class="op">(</span><span class="dt">double</span> celsius<span class="op">);</span>  <span class="co">// Prototype</span></span>
-<span id="cb40-6"><a href=""></a></span>
-<span id="cb40-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb40-8"><a href=""></a>    <span class="dt">double</span> tempC <span class="op">=</span> <span class="fl">25.0</span><span class="op">;</span></span>
-<span id="cb40-9"><a href=""></a>    <span class="dt">double</span> tempF <span class="op">=</span> celsiusToFahrenheit<span class="op">(</span>tempC<span class="op">);</span></span>
-<span id="cb40-10"><a href=""></a>    </span>
-<span id="cb40-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
-<span id="cb40-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> tempC <span class="op">&lt;&lt;</span> <span class="st">"°C = "</span> <span class="op">&lt;&lt;</span> tempF <span class="op">&lt;&lt;</span> <span class="st">"°F"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb40-13"><a href=""></a>    </span>
-<span id="cb40-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb40-15"><a href=""></a><span class="op">}</span></span>
-<span id="cb40-16"><a href=""></a></span>
-<span id="cb40-17"><a href=""></a><span class="dt">double</span> celsiusToFahrenheit<span class="op">(</span><span class="dt">double</span> celsius<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb40-18"><a href=""></a>    <span class="cf">return</span> <span class="op">(</span>celsius <span class="op">*</span> <span class="fl">9.0</span> <span class="op">/</span> <span class="fl">5.0</span><span class="op">)</span> <span class="op">+</span> <span class="fl">32.0</span><span class="op">;</span></span>
-<span id="cb40-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong> <code>25.0°C = 77.0°F</code></p>
-</section>
-<section id="example-grade-determination" class="slide level2">
-<h2>Example: Grade Determination</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb41-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb41-3"><a href=""></a></span>
-<span id="cb41-4"><a href=""></a><span class="dt">char</span> determineGrade<span class="op">(</span><span class="dt">double</span> average<span class="op">);</span>  <span class="co">// Prototype</span></span>
-<span id="cb41-5"><a href=""></a></span>
-<span id="cb41-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb41-7"><a href=""></a>    <span class="dt">char</span> grade <span class="op">=</span> determineGrade<span class="op">(</span><span class="fl">87.5</span><span class="op">);</span></span>
-<span id="cb41-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Grade: "</span> <span class="op">&lt;&lt;</span> grade <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb41-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb41-10"><a href=""></a><span class="op">}</span></span>
-<span id="cb41-11"><a href=""></a></span>
-<span id="cb41-12"><a href=""></a><span class="dt">char</span> determineGrade<span class="op">(</span><span class="dt">double</span> average<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb41-13"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>average <span class="op">&gt;=</span> <span class="dv">90</span><span class="op">)</span> <span class="cf">return</span> <span class="ch">'A'</span><span class="op">;</span></span>
-<span id="cb41-14"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>average <span class="op">&gt;=</span> <span class="dv">80</span><span class="op">)</span> <span class="cf">return</span> <span class="ch">'B'</span><span class="op">;</span></span>
-<span id="cb41-15"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>average <span class="op">&gt;=</span> <span class="dv">70</span><span class="op">)</span> <span class="cf">return</span> <span class="ch">'C'</span><span class="op">;</span></span>
-<span id="cb41-16"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>average <span class="op">&gt;=</span> <span class="dv">60</span><span class="op">)</span> <span class="cf">return</span> <span class="ch">'D'</span><span class="op">;</span></span>
-<span id="cb41-17"><a href=""></a>    <span class="cf">return</span> <span class="ch">'F'</span><span class="op">;</span></span>
-<span id="cb41-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong> <code>Grade: B</code></p>
-</section>
-<section id="example-grade-calculator" class="slide level2">
-<h2>Example: Grade Calculator</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb42-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb42-3"><a href=""></a></span>
-<span id="cb42-4"><a href=""></a><span class="co">// Prototypes</span></span>
-<span id="cb42-5"><a href=""></a><span class="dt">double</span> calculateAverage<span class="op">(</span><span class="dt">int</span> s1<span class="op">,</span> <span class="dt">int</span> s2<span class="op">,</span> <span class="dt">int</span> s3<span class="op">);</span></span>
-<span id="cb42-6"><a href=""></a><span class="dt">char</span> determineGrade<span class="op">(</span><span class="dt">double</span> average<span class="op">);</span></span>
-<span id="cb42-7"><a href=""></a><span class="dt">void</span> displayResults<span class="op">(</span>string name<span class="op">,</span> <span class="dt">double</span> avg<span class="op">,</span> <span class="dt">char</span> grade<span class="op">);</span></span>
-<span id="cb42-8"><a href=""></a></span>
-<span id="cb42-9"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb42-10"><a href=""></a>    string student <span class="op">=</span> <span class="st">"Alice"</span><span class="op">;</span></span>
-<span id="cb42-11"><a href=""></a>    <span class="dt">double</span> avg <span class="op">=</span> calculateAverage<span class="op">(</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">88</span><span class="op">);</span></span>
-<span id="cb42-12"><a href=""></a>    <span class="dt">char</span> grade <span class="op">=</span> determineGrade<span class="op">(</span>avg<span class="op">);</span></span>
-<span id="cb42-13"><a href=""></a>    displayResults<span class="op">(</span>student<span class="op">,</span> avg<span class="op">,</span> grade<span class="op">);</span></span>
-<span id="cb42-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb42-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>Alice's average: 88.3333
-Letter grade: B</code></pre>
-<aside class="notes">
-<p>This example demonstrates the complete workflow: prototypes at top, main coordinates the logic, definitions below.</p>
-<p>Function implementations:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb44-1"><a href=""></a><span class="dt">double</span> calculateAverage<span class="op">(</span><span class="dt">int</span> s1<span class="op">,</span> <span class="dt">int</span> s2<span class="op">,</span> <span class="dt">int</span> s3<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb44-2"><a href=""></a>    <span class="cf">return</span> <span class="op">(</span>s1 <span class="op">+</span> s2 <span class="op">+</span> s3<span class="op">)</span> <span class="op">/</span> <span class="fl">3.0</span><span class="op">;</span></span>
-<span id="cb44-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb44-4"><a href=""></a></span>
-<span id="cb44-5"><a href=""></a><span class="dt">char</span> determineGrade<span class="op">(</span><span class="dt">double</span> average<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb44-6"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>average <span class="op">&gt;=</span> <span class="dv">90</span><span class="op">)</span> <span class="cf">return</span> <span class="ch">'A'</span><span class="op">;</span></span>
-<span id="cb44-7"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>average <span class="op">&gt;=</span> <span class="dv">80</span><span class="op">)</span> <span class="cf">return</span> <span class="ch">'B'</span><span class="op">;</span></span>
-<span id="cb44-8"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>average <span class="op">&gt;=</span> <span class="dv">70</span><span class="op">)</span> <span class="cf">return</span> <span class="ch">'C'</span><span class="op">;</span></span>
-<span id="cb44-9"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>average <span class="op">&gt;=</span> <span class="dv">60</span><span class="op">)</span> <span class="cf">return</span> <span class="ch">'D'</span><span class="op">;</span></span>
-<span id="cb44-10"><a href=""></a>    <span class="cf">return</span> <span class="ch">'F'</span><span class="op">;</span></span>
-<span id="cb44-11"><a href=""></a><span class="op">}</span></span>
-<span id="cb44-12"><a href=""></a></span>
-<span id="cb44-13"><a href=""></a><span class="dt">void</span> displayResults<span class="op">(</span>string name<span class="op">,</span> <span class="dt">double</span> avg<span class="op">,</span> <span class="dt">char</span> grade<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb44-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">"'s average: "</span> <span class="op">&lt;&lt;</span> avg <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb44-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Letter grade: "</span> <span class="op">&lt;&lt;</span> grade <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb44-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Walk through the flow: main calls calculateAverage with 3 test scores, stores result, calls determineGrade with the average, then displayResults shows the output. This demonstrates how functions work together to solve a complete problem.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="appendix" class="slide level2">
-<h2>Appendix</h2>
-<ul>
-<li>Common Mistakes</li>
-</ul>
-</section>
-<section id="common-mistake-missing-return" class="slide level2">
-<h2>Common Mistake: Missing Return</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb45-1"><a href=""></a><span class="dt">int</span> getValue<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb45-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb45-3"><a href=""></a>    <span class="co">// ERROR - no return statement</span></span>
-<span id="cb45-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Compiler error:</strong> Control reaches end of non-void function.</p>
-<p><strong>Fix:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb46-1"><a href=""></a><span class="dt">int</span> getValue<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb46-2"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb46-3"><a href=""></a>    <span class="cf">return</span> x<span class="op">;</span></span>
-<span id="cb46-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Rule:</strong> Non-void functions must return a value on all code paths.</p>
-</section>
-<section id="common-mistake-argument-count-and-type" class="slide level2">
-<h2>Common Mistake:<br> Argument Count and Type</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb47-1"><a href=""></a><span class="dt">void</span> displayInfo<span class="op">(</span>string name<span class="op">,</span> <span class="dt">int</span> age<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb47-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">" is "</span> <span class="op">&lt;&lt;</span> age <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb47-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb47-4"><a href=""></a></span>
-<span id="cb47-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb47-6"><a href=""></a>    displayInfo<span class="op">(</span><span class="st">"Alice"</span><span class="op">);</span>           <span class="co">// ERROR - missing argument</span></span>
-<span id="cb47-7"><a href=""></a>    displayInfo<span class="op">(</span><span class="st">"Bob"</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="fl">3.5</span><span class="op">);</span>    <span class="co">// ERROR - too many arguments</span></span>
-<span id="cb47-8"><a href=""></a>    displayInfo<span class="op">(</span><span class="st">"Charlie"</span><span class="op">,</span> <span class="st">"20"</span><span class="op">);</span>   <span class="co">// ERROR - wrong type</span></span>
-<span id="cb47-9"><a href=""></a>    displayInfo<span class="op">(</span><span class="st">"David"</span><span class="op">,</span> <span class="dv">25</span><span class="op">);</span>       <span class="co">// CORRECT</span></span>
-<span id="cb47-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb47-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Fix:</strong> Match the exact number, order, and types of parameters.</p>
 </section></section>
 <section>
-<section id="whats-the-output" class="title-slide slide level1 center">
-<h1>What’s the Output?</h1>
-<aside class="notes">
-<p>04.01</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="exercise-goals" class="slide level2">
-<h2>Exercise Goals</h2>
+<section id="key-takeaways" class="title-slide slide level1 center">
+<h1>Key Takeaways</h1>
 <ul>
-<li>Review of code syntax</li>
-<li>Check understanding of syntax</li>
+<li>Modular programming organizes a program into named pieces.</li>
+<li>Functions reorganize processing without changing the IPO model.</li>
+<li>A function prototype tells the compiler a function exists before it is called.</li>
+<li>Parameters receive data from arguments.</li>
+<li>Return values send one answer back to the caller.</li>
+<li><code>void</code> functions perform actions without returning a value.</li>
 </ul>
-</section>
-<section id="what-to-do" class="slide level2">
-<h2>What to Do</h2>
-<ul>
-<li>Using the given code …</li>
-<li>Compute the output</li>
-</ul>
-</section>
-<section id="whats-the-output-1" class="slide level2">
-<h2>What’s the Output?</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb48-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb48-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb48-3"><a href=""></a></span>
-<span id="cb48-4"><a href=""></a><span class="dt">double</span> calculateArea<span class="op">(</span><span class="dt">double</span> radius<span class="op">);</span></span>
-<span id="cb48-5"><a href=""></a></span>
-<span id="cb48-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb48-7"><a href=""></a>    <span class="dt">double</span> radius <span class="op">=</span> <span class="fl">5.0</span><span class="op">;</span></span>
-<span id="cb48-8"><a href=""></a>    <span class="dt">double</span> area <span class="op">=</span> calculateArea<span class="op">(</span>radius<span class="op">);</span></span>
-<span id="cb48-9"><a href=""></a>    </span>
-<span id="cb48-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Radius: "</span> <span class="op">&lt;&lt;</span> radius <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Area: "</span> <span class="op">&lt;&lt;</span> area <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-12"><a href=""></a>    </span>
-<span id="cb48-13"><a href=""></a>    <span class="dt">double</span> newRadius <span class="op">=</span> <span class="fl">3.0</span><span class="op">;</span></span>
-<span id="cb48-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"New area: "</span> <span class="op">&lt;&lt;</span> calculateArea<span class="op">(</span>newRadius<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb48-15"><a href=""></a>    </span>
-<span id="cb48-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb48-17"><a href=""></a><span class="op">}</span></span>
-<span id="cb48-18"><a href=""></a></span>
-<span id="cb48-19"><a href=""></a><span class="dt">double</span> calculateArea<span class="op">(</span><span class="dt">double</span> radius<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb48-20"><a href=""></a>    <span class="cf">return</span> <span class="fl">3.14</span> <span class="op">*</span> radius <span class="op">*</span> radius<span class="op">;</span></span>
-<span id="cb48-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 58 -->
 </section>
 <section class="slide level2">
 
-<div class="columns">
-<div class="column" style="width:75%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb49-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb49-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb49-3"><a href=""></a></span>
-<span id="cb49-4"><a href=""></a><span class="dt">double</span> calculateArea<span class="op">(</span><span class="dt">double</span> radius<span class="op">);</span></span>
-<span id="cb49-5"><a href=""></a></span>
-<span id="cb49-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb49-7"><a href=""></a>    <span class="dt">double</span> radius <span class="op">=</span> <span class="fl">5.0</span><span class="op">;</span></span>
-<span id="cb49-8"><a href=""></a>    <span class="dt">double</span> area <span class="op">=</span> calculateArea<span class="op">(</span>radius<span class="op">);</span></span>
-<span id="cb49-9"><a href=""></a>    </span>
-<span id="cb49-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Radius: "</span> <span class="op">&lt;&lt;</span> radius <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb49-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Area: "</span> <span class="op">&lt;&lt;</span> area <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb49-12"><a href=""></a>    </span>
-<span id="cb49-13"><a href=""></a>    <span class="dt">double</span> newRadius <span class="op">=</span> <span class="fl">3.0</span><span class="op">;</span></span>
-<span id="cb49-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"New area: "</span> <span class="op">&lt;&lt;</span> calculateArea<span class="op">(</span>newRadius<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb49-15"><a href=""></a>    </span>
-<span id="cb49-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb49-17"><a href=""></a><span class="op">}</span></span>
-<span id="cb49-18"><a href=""></a></span>
-<span id="cb49-19"><a href=""></a><span class="dt">double</span> calculateArea<span class="op">(</span><span class="dt">double</span> radius<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb49-20"><a href=""></a>    <span class="cf">return</span> <span class="fl">3.14</span> <span class="op">*</span> radius <span class="op">*</span> radius<span class="op">;</span></span>
-<span id="cb49-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:25%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb50-1"><a href=""></a></span>
-<span id="cb50-2"><a href=""></a>Radius<span class="op">:</span> <span class="dv">5</span></span>
-<span id="cb50-3"><a href=""></a>Area<span class="op">:</span> <span class="fl">78.5</span></span>
-<span id="cb50-4"><a href=""></a>New area<span class="op">:</span> <span class="fl">28.26</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
 </section></section>
 <section>
-<section id="code-this-pizza-order-calculator" class="title-slide slide level1 center">
-<h1>Code This: Pizza Order Calculator</h1>
-<p><strong>Estimated Time:</strong> 20 minutes</p>
-</section>
-<section id="problem-description" class="slide level2">
-<h2>Problem Description</h2>
-<p>Write a program that calculates the cost of a pizza order. Your program should use multiple functions to break down the calculation into logical steps.</p>
-</section>
-<section id="requirements" class="slide level2">
-<h2>Requirements</h2>
-<p>Your program must include the following functions:</p>
-<ol type="1">
-<li><strong>calculatePizzaCost</strong> - Takes the pizza size (small, medium, or large) as a character (‘S’, ‘M’, or ‘L’) and returns the base cost as a double.
-<ul>
-<li>Small: $8.99</li>
-<li>Medium: $12.99</li>
-<li>Large: $16.99</li>
-</ul></li>
-<li><strong>calculateToppingsCost</strong> - Takes the number of toppings as an integer and returns the total topping cost as a double.
-<ul>
-<li>Each topping costs $1.50</li>
-</ul></li>
-</ol>
-</section>
-<section id="requirements-cont" class="slide level2">
-<h2>Requirements (cont)</h2>
-<ol start="3" type="1">
-<li><p><strong>calculateTotal</strong> - Takes the pizza cost and toppings cost as parameters and returns the final total as a double.</p></li>
-<li><p><strong>displayReceipt</strong> - A void function that takes the pizza size (char), number of toppings (int), and total cost (double) as parameters and displays a formatted receipt.</p></li>
-</ol>
-</section>
-<section id="sample-output" class="slide level2">
-<h2>Sample Output</h2>
-<p>For a medium pizza with 3 toppings, your program should display:</p>
-<pre><code>Pizza Order Receipt
--------------------
-Size: M
-Toppings: 3
--------------------
-Total: $17.49</code></pre>
-</section>
-<section id="your-task" class="slide level2">
-<h2>Your Task</h2>
-<ol type="1">
-<li>Write function prototypes for all four functions</li>
-<li>Implement the main() function to:
-<ul>
-<li>Create variables for pizza size (‘M’) and number of toppings (3)</li>
-<li>Call the functions in the correct order</li>
-<li>Display the receipt</li>
-</ul></li>
-<li>Implement all four function definitions below main()</li>
-</ol>
-</section>
-<section id="starter-code-structure" class="slide level2">
-<h2>Starter Code Structure</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb52-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb52-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
-<span id="cb52-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb52-4"><a href=""></a></span>
-<span id="cb52-5"><a href=""></a><span class="co">// Write your function prototypes here</span></span>
-<span id="cb52-6"><a href=""></a></span>
-<span id="cb52-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb52-8"><a href=""></a>    <span class="co">// Your code here</span></span>
-<span id="cb52-9"><a href=""></a>    </span>
-<span id="cb52-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb52-11"><a href=""></a><span class="op">}</span></span>
-<span id="cb52-12"><a href=""></a></span>
-<span id="cb52-13"><a href=""></a><span class="co">// Write your function definitions here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="tips" class="slide level2">
-<h2>Tips</h2>
-<ul>
-<li>Remember to use function prototypes before main()</li>
-<li>The displayReceipt function should use cout with proper formatting</li>
-<li>Use setprecision(2) and fixed for dollar amounts</li>
-<li>Make sure your function calls pass arguments in the correct order</li>
-<li>Test with the given values first: size ‘M’ and 3 toppings</li>
-</ul>
-</section>
-<section id="challenge-optional---if-you-finish-early" class="slide level2">
-<h2>Challenge (Optional - if you finish early)</h2>
-<p>Modify your program to ask the user for their pizza size and number of toppings using cin, then display the receipt with their choices.</p>
-</section></section>
-<section id="key-takaways" class="title-slide slide level1 center">
-<h1>Key Takaways</h1>
-<ol type="1">
-<li><strong>Function-Centric Architecture</strong>. A program design approach organizing code around functions as primary building blocks, separating data and behavior through a top-down design where main problems are broken into smaller sub-problems implemented as functions.</li>
-<li><strong>Void Functions</strong>. Functions declared with void return type perform actions without returning values, used to organize code, avoid repetition, and improve readability through descriptive function names that act as labels for code blocks.</li>
-<li><strong>Passing Data and Function Prototypes</strong>. Functions accept input through parameters and return output via return statements, with function prototypes declared before main to enable forward references and organize code with definitions below main.</li>
-</ol>
-</section>
-
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next Time</h1>
 <ul>
-<li>Local and global variables</li>
-<li>Memory and functions</li>
+<li>Function practice with vectors</li>
+<li>Scope across function calls</li>
+<li>Memory model for function execution</li>
 </ul>
-
+<!-- Slide 59 -->
 </section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="appendix" class="title-slide slide level1 center">
+<h1>Appendix</h1>
+<!-- Slide 60 -->
+</section>
+<section id="modular-programming-good-practices" class="slide level2">
+<h2>Modular Programming: Good Practices</h2>
+<ul>
+<li>Let <code>main()</code> show the program outline.</li>
+<li>Give each function one clear job.</li>
+<li>Use function names that describe actions.</li>
+</ul>
+<!-- Slide 61 -->
+</section>
+<section id="modular-programming-common-mistakes" class="slide level2">
+<h2>Modular Programming: Common Mistakes</h2>
+<ul>
+<li>Moving code into functions without making the program easier to read.</li>
+<li>Creating one large helper function that replaces one large <code>main()</code>.</li>
+<li>Choosing names that describe implementation details instead of purpose.</li>
+</ul>
+<!-- Slide 62 -->
+</section>
+<section id="modular-programming-more-examples" class="slide level2">
+<h2>Modular Programming: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a>displayTitle<span class="op">();</span></span>
+<span id="cb28-2"><a href=""></a>readInput<span class="op">();</span></span>
+<span id="cb28-3"><a href=""></a>calculateResult<span class="op">();</span></span>
+<span id="cb28-4"><a href=""></a>displayResult<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The function calls make the program structure visible.</p>
+<!-- Slide 63 -->
+</section>
+<section id="modular-programming-practice-problems" class="slide level2">
+<h2>Modular Programming: Practice Problems</h2>
+<ol type="1">
+<li>List three function names for a program that prints a receipt.</li>
+<li>Identify which part of an IPO model would likely move into a calculation function.</li>
+<li>Rewrite a long <code>main()</code> outline as four function calls.</li>
+</ol>
+<!-- Slide 64 -->
+</section>
+<section id="modular-programming-ai-search-terms" class="slide level2">
+<h2>Modular Programming: AI Search Terms</h2>
+<ul>
+<li>“C++ modular programming beginner”</li>
+<li>“C++ function centered design”</li>
+<li>“C++ main function coordinator”</li>
+</ul>
+<!-- Slide 65 -->
+</section>
+<section id="modular-programming-questions-for-reflection" class="slide level2">
+<h2>Modular Programming: Questions for Reflection</h2>
+<ul>
+<li>Why does modular code make a program easier to read?</li>
+<li>Why do functions reorganize processing without changing the IPO model?</li>
+</ul>
+<!-- Slide 66 -->
+</section>
+<section id="coding-functions-good-practices" class="slide level2">
+<h2>Coding Functions: Good Practices</h2>
+<ul>
+<li>Put prototypes above <code>main()</code>.</li>
+<li>Put function definitions below <code>main()</code>.</li>
+<li>Keep prototype and definition signatures consistent.</li>
+</ul>
+<!-- Slide 67 -->
+</section>
+<section id="coding-functions-common-mistakes" class="slide level2">
+<h2>Coding Functions: Common Mistakes</h2>
+<ul>
+<li>Forgetting the semicolon after a prototype.</li>
+<li>Calling a function before the compiler has seen a declaration.</li>
+<li>Defining a function inside another function.</li>
+</ul>
+<!-- Slide 68 -->
+</section>
+<section id="coding-functions-more-examples" class="slide level2">
+<h2>Coding Functions: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">();</span></span>
+<span id="cb29-2"><a href=""></a><span class="dt">void</span> displayLine<span class="op">();</span></span>
+<span id="cb29-3"><a href=""></a></span>
+<span id="cb29-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb29-5"><a href=""></a>    displayMenu<span class="op">();</span></span>
+<span id="cb29-6"><a href=""></a>    displayLine<span class="op">();</span></span>
+<span id="cb29-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb29-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 69 -->
+</section>
+<section id="coding-functions-practice-problems" class="slide level2">
+<h2>Coding Functions: Practice Problems</h2>
+<ol type="1">
+<li>Write a prototype for <code>displayHeader</code>.</li>
+<li>Identify the function call in a short program.</li>
+<li>Move a function definition from above <code>main()</code> to below <code>main()</code> and add a prototype.</li>
+</ol>
+<!-- Slide 70 -->
+</section>
+<section id="coding-functions-ai-search-terms" class="slide level2">
+<h2>Coding Functions: AI Search Terms</h2>
+<ul>
+<li>“C++ function prototype”</li>
+<li>“C++ function definition”</li>
+<li>“C++ function call order”</li>
+</ul>
+<!-- Slide 71 -->
+</section>
+<section id="coding-functions-questions-for-reflection" class="slide level2">
+<h2>Coding Functions: Questions for Reflection</h2>
+<ul>
+<li>Why does the compiler need a function prototype?</li>
+<li>Why is calling a function different from defining it?</li>
+</ul>
+<!-- Slide 72 -->
+</section>
+<section id="passing-data-to-a-function-good-practices" class="slide level2">
+<h2>Passing Data to a Function: Good Practices</h2>
+<ul>
+<li>Use parameter names that describe the data received.</li>
+<li>Keep parameter order predictable.</li>
+<li>Pass only the data the function needs.</li>
+</ul>
+<!-- Slide 73 -->
+</section>
+<section id="passing-data-to-a-function-common-mistakes" class="slide level2">
+<h2>Passing Data to a Function: Common Mistakes</h2>
+<ul>
+<li>Swapping argument order.</li>
+<li>Giving one type for multiple parameters.</li>
+<li>Trying to use a parameter outside its function.</li>
+</ul>
+<!-- Slide 74 -->
+</section>
+<section id="passing-data-to-a-function-more-examples" class="slide level2">
+<h2>Passing Data to a Function: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="dt">void</span> printScore<span class="op">(</span>string name<span class="op">,</span> <span class="dt">int</span> score<span class="op">);</span></span>
+<span id="cb30-2"><a href=""></a><span class="dt">void</span> displayPrice<span class="op">(</span>string item<span class="op">,</span> <span class="dt">double</span> price<span class="op">);</span></span>
+<span id="cb30-3"><a href=""></a><span class="dt">void</span> repeatMessage<span class="op">(</span>string message<span class="op">,</span> <span class="dt">int</span> times<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Each parameter has its own type and name.</p>
+<!-- Slide 75 -->
+</section>
+<section id="passing-data-to-a-function-practice-problems" class="slide level2">
+<h2>Passing Data to a Function: Practice Problems</h2>
+<ol type="1">
+<li>Identify the arguments in <code>greet("Maya")</code>.</li>
+<li>Identify the parameters in <code>void greet(string person)</code>.</li>
+<li>Write a function call for <code>displayPrice(string item, double price)</code>.</li>
+</ol>
+<!-- Slide 76 -->
+</section>
+<section id="passing-data-to-a-function-ai-search-terms" class="slide level2">
+<h2>Passing Data to a Function: AI Search Terms</h2>
+<ul>
+<li>“C++ parameters and arguments”</li>
+<li>“C++ function parameter order”</li>
+<li>“C++ local parameter variable”</li>
+</ul>
+<!-- Slide 77 -->
+</section>
+<section id="passing-data-to-a-function-questions-for-reflection" class="slide level2">
+<h2>Passing Data to a Function: Questions for Reflection</h2>
+<ul>
+<li>Why does a parameter make a function more reusable?</li>
+<li>Why does argument order matter?</li>
+</ul>
+<!-- Slide 78 -->
+</section>
+<section id="returning-data-from-a-function-good-practices" class="slide level2">
+<h2>Returning Data from a Function: Good Practices</h2>
+<ul>
+<li>Choose a return type before writing the function body.</li>
+<li>Return a value that matches the declared type.</li>
+<li>Store the returned value when the program needs it later.</li>
+</ul>
+<!-- Slide 79 -->
+</section>
+<section id="returning-data-from-a-function-common-mistakes" class="slide level2">
+<h2>Returning Data from a Function: Common Mistakes</h2>
+<ul>
+<li>Forgetting to return a value from a non-void function.</li>
+<li>Returning a value with the wrong type.</li>
+<li>Calling a value-returning function and ignoring the result.</li>
+</ul>
+<!-- Slide 80 -->
+</section>
+<section id="returning-data-from-a-function-more-examples" class="slide level2">
+<h2>Returning Data from a Function: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> first<span class="op">,</span> <span class="dt">int</span> second<span class="op">);</span></span>
+<span id="cb31-2"><a href=""></a><span class="dt">double</span> calculateAverage<span class="op">(</span><span class="dt">int</span> total<span class="op">,</span> <span class="dt">int</span> count<span class="op">);</span></span>
+<span id="cb31-3"><a href=""></a>string makeLabel<span class="op">(</span>string name<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The return type appears before the function name.</p>
+<!-- Slide 81 -->
+</section>
+<section id="returning-data-from-a-function-practice-problems" class="slide level2">
+<h2>Returning Data from a Function: Practice Problems</h2>
+<ol type="1">
+<li>Write a function prototype for a function that returns a <code>double</code>.</li>
+<li>Store the result of <code>add(4, 5)</code> in a variable.</li>
+<li>Explain what value replaces the call <code>add(4, 5)</code>.</li>
+</ol>
+<!-- Slide 82 -->
+</section>
+<section id="returning-data-from-a-function-ai-search-terms" class="slide level2">
+<h2>Returning Data from a Function: AI Search Terms</h2>
+<ul>
+<li>“C++ return value”</li>
+<li>“C++ function return type”</li>
+<li>“C++ return statement beginner”</li>
+</ul>
+<!-- Slide 83 -->
+</section>
+<section id="returning-data-from-a-function-questions-for-reflection" class="slide level2">
+<h2>Returning Data from a Function: Questions for Reflection</h2>
+<ul>
+<li>Why does a function’s return type matter?</li>
+<li>What should the caller do with a returned value?</li>
+</ul>
+<!-- Slide 84 -->
+</section>
+<section id="void-functions-good-practices" class="slide level2">
+<h2>Void Functions: Good Practices</h2>
+<ul>
+<li>Use <code>void</code> for functions that perform actions.</li>
+<li>Name void functions with action verbs.</li>
+<li>Keep display and menu helpers focused.</li>
+</ul>
+<!-- Slide 85 -->
+</section>
+<section id="void-functions-common-mistakes" class="slide level2">
+<h2>Void Functions: Common Mistakes</h2>
+<ul>
+<li>Trying to store the result of a void function.</li>
+<li>Returning a value from a void function.</li>
+<li>Using <code>void</code> when the caller needs an answer.</li>
+</ul>
+<!-- Slide 86 -->
+</section>
+<section id="void-functions-more-examples" class="slide level2">
+<h2>Void Functions: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a><span class="dt">void</span> displayHeader<span class="op">();</span></span>
+<span id="cb32-2"><a href=""></a><span class="dt">void</span> printLine<span class="op">();</span></span>
+<span id="cb32-3"><a href=""></a><span class="dt">void</span> showMenu<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>These functions do work, but they do not send a value back.</p>
+<!-- Slide 87 -->
+</section>
+<section id="void-functions-practice-problems" class="slide level2">
+<h2>Void Functions: Practice Problems</h2>
+<ol type="1">
+<li>Decide whether <code>calculateTax</code> should be <code>void</code> or value-returning.</li>
+<li>Decide whether <code>displayMenu</code> should be <code>void</code> or value-returning.</li>
+<li>Write a call to <code>displayHeader()</code>.</li>
+</ol>
+<!-- Slide 88 -->
+</section>
+<section id="void-functions-ai-search-terms" class="slide level2">
+<h2>Void Functions: AI Search Terms</h2>
+<ul>
+<li>“C++ void function”</li>
+<li>“C++ return in void function”</li>
+<li>“C++ void vs return value”</li>
+</ul>
+<!-- Slide 89 -->
+</section>
+<section id="void-functions-questions-for-reflection" class="slide level2">
+<h2>Void Functions: Questions for Reflection</h2>
+<ul>
+<li>Why can a void function still be useful?</li>
+<li>How do you decide between <code>void</code> and a return value?</li>
+</ul>
+<!-- Slide 90 -->
+
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
@@ -1775,7 +1463,7 @@ Total: $17.49</code></pre>
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'h.v',
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -1816,7 +1504,7 @@ Total: $17.49</code></pre>
         rtl: false,
 
         // see https://revealjs.com/vertical-slides/#navigation-mode
-        navigationMode: 'default',
+        navigationMode: 'linear',
 
         // Randomizes the order of slides each time the presentation loads
         shuffle: false,
@@ -2102,19 +1790,6 @@ Total: $17.49</code></pre>
         }
       });
       </script>
-    <script>
-    window.Reveal.on('ready', event => {
-      Reveal.configure({
-        keyboard: {
-          34: 'down',   // Forward button
-          33: 'up',     // Back button
-          116: 'right',  // Start/Play button
-          190: 'left'    // Black Screen button
-          79: null        // Disable 'O' for overview
-        }
-      });
-    });
-    </script>
     
 
 </body></html>
