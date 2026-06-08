@@ -1,108 +1,309 @@
----
-title: "CISP 360 \n Structured Programming"
-subtitle: "Introduction to C++"
-author: "Dr. Caleb Fowler"
-version: "1.0.1"
-# Changelog:
-# 1.0.0 (2026-02-03) - Added versioning to YAML to keep track across lectures.
-# 1.0.1 (2026-02-03) - Disable 'O' for overview 
-
-format:
-  revealjs:
-    margin: 0.05      # A touch more space on slide
-    css: ../styles/styles.css
-    theme: serif
-    slide-number: true
-    navigation-mode: vertical
-    transition: slide
-    incremental: false
-    scrollable: false
-    controls: true
-    hash: true
-    history: true
-    title-slide: false
-    footer: "CISP 360 · Fowler"
-    keyboard: true  # Keep this as true to enable the system
-    include-after-body:
-      - text: |
-          <script>
-          window.Reveal.on('ready', event => {
-            Reveal.configure({
-              keyboard: {
-                34: 'down',   // Forward button
-                33: 'up',     // Back button
-                116: 'right',  // Start/Play button
-                190: 'left'    // Black Screen button
-                79: null        // Disable 'O' for overview
-              }
-            });
-          });
-          </script>
-
-engine: jupyter
-execute:
-  eval: true
-  echo: true
-
-resources:
- - topics/**/images/**
-
----
-
-
-## Last Time
+# Last Time
 
 ::: {.incremental}
-
-- Passing Vectors
-- Local and global variables
-- Memory and functions
-
++ **Choosing a Parameter Style**
++ **Function Side Effects**
++ **Static Local Variables**
 :::
 
+::: notes
+Brief recall from function design. Students should remember that scope, lifetime, and side effects affect how predictable a function is.
+:::
 
-## Today's Agenda
-### Function Odds n Ends
+<!-- Slide 1 -->
 
-- Function Overloading
-- Static Local Variables
-- Reference Variables
-- Pass by Reference
-- Reference Variables as Parameters
-- Default Arguments
-- Exit() Function
+# Today's Agenda
 
+- Very Brief Review of Static
+- Design Patterns
+- Singleton Pattern
+- Strategy Pattern
 
 ::: notes
 
 :::
 
+<!-- Slide 2 -->
 
+{{< include topic_1_static_review.qmd >}}
+{{< include topic_2_design_patterns.qmd >}}
+{{< include topic_3_singleton_pattern.qmd >}}
+{{< include topic_4_strategy_pattern.qmd >}}
 
-{{< include topics/func_overloading/func_overloading.qmd >}}
-{{< include topics/default_args/default_args.qmd >}}
-{{< include topics/ref_vars/ref_vars.qmd >}}
-{{< include topics/pass_by_ref/pass_by_ref.qmd >}}
-{{< include topics/ref_var_as_parms/ref_var_as_parms.qmd >}}
-{{< include topics/whats_the_output/whats_the_output.qmd >}}
-{{< include topics/static_local_var/static_local_var.qmd >}}
-{{< include topics/whats_the_output2/whats_the_output2.qmd >}}
-{{< include topics/exit_func/exit_func.qmd >}}
-{{< include topics/code_this/code_this.qmd >}}
+---
 
+# Key Takeaways
 
-# Key Takaways
+- Design patterns name recurring design choices.
+- Static local storage can support a larger design rule, but it is not the design itself.
+- Singleton controls access to one shared instance.
+- Strategy makes behavior interchangeable behind a stable calling pattern.
 
+<!-- Slide 45 -->
 
-
+---
 
 # Next Time
 
-- Relational Operators
-- if Statement
-- if/else Statement
-- if/else if Statement
-- Logical Operators
-- Nested if Statements
+<!-- Slide 46 -->
 
+---
 
+# Appendix
+
+<!-- Slide 47 -->
+
+---
+
+## Very Brief Review of Static: Good Practices
+
+- Use `static` local variables when a function intentionally needs memory between calls.
+- Keep the remembered state small and easy to explain.
+- Prefer visible parameters and return values when state does not need to persist.
+
+<!-- Slide 48 -->
+
+---
+
+## Very Brief Review of Static: Common Mistakes
+
+- Treating `static` as a shortcut for avoiding parameters.
+- Forgetting that previous calls affect the next call.
+- Assuming local scope means short lifetime.
+
+<!-- Slide 49 -->
+
+---
+
+## Very Brief Review of Static: More Examples
+
+```cpp
+int nextId() {
+    static int id = 1000;
+    id++;
+    return id;
+}
+```
+
+Each call returns a new value because `id` keeps its previous value.
+
+<!-- Slide 50 -->
+
+---
+
+## Very Brief Review of Static: Practice Problems
+
+1. Predict the output of a function that increments a `static int count`.
+2. Rewrite a static counter so the caller owns the counter instead.
+3. Explain the difference between scope and lifetime in one sentence.
+
+<!-- Slide 51 -->
+
+---
+
+## Very Brief Review of Static: AI Search Terms
+
+- "C++ static local variable lifetime"
+- "C++ scope vs lifetime static local"
+- "C++ function remembers value between calls"
+
+<!-- Slide 52 -->
+
+---
+
+## Very Brief Review of Static: Questions for Reflection
+
+- When does hidden function memory make a program clearer?
+- When does hidden function memory make a program harder to debug?
+
+<!-- Slide 53 -->
+
+---
+
+## Design Patterns: Good Practices
+
+- Start by naming the design problem.
+- Use a pattern when it clarifies the structure of the solution.
+- Explain the tradeoff every time you explain the pattern.
+
+<!-- Slide 54 -->
+
+---
+
+## Design Patterns: Common Mistakes
+
+- Choosing a pattern before understanding the problem.
+- Treating patterns as recipes with fixed code.
+- Adding structure that does not make the program easier to reason about.
+
+<!-- Slide 55 -->
+
+---
+
+## Design Patterns: More Examples
+
+| Pattern idea | Recurring problem |
+|---|---|
+| Singleton | exactly one shared instance |
+| Strategy | interchangeable behavior |
+| Adapter | make one interface fit another |
+
+<!-- Slide 56 -->
+
+---
+
+## Design Patterns: Practice Problems
+
+1. Name a repeated design problem in a program you have written.
+2. Decide whether that problem needs a named pattern or ordinary functions.
+3. For one pattern, identify the problem, structure, and tradeoff.
+
+<!-- Slide 57 -->
+
+---
+
+## Design Patterns: AI Search Terms
+
+- "Christopher Alexander pattern language software design"
+- "Gang of Four design patterns beginner"
+- "design pattern problem structure tradeoff"
+
+<!-- Slide 58 -->
+
+---
+
+## Design Patterns: Questions for Reflection
+
+- Why is a shared vocabulary useful for design?
+- What can go wrong when a pattern name becomes more important than the problem?
+
+<!-- Slide 59 -->
+
+---
+
+## Singleton Pattern: Good Practices
+
+- Use Singleton only when the one-instance rule is part of the problem.
+- Keep the shared object focused on one responsibility.
+- Make shared state easy to find and explain.
+
+<!-- Slide 60 -->
+
+---
+
+## Singleton Pattern: Common Mistakes
+
+- Using Singleton as a disguised global variable.
+- Storing unrelated program data in one shared object.
+- Ignoring the testing cost of hidden shared state.
+
+<!-- Slide 61 -->
+
+---
+
+## Singleton Pattern: More Examples
+
+```cpp
+class Logger {
+private:
+    Logger();
+
+public:
+    static Logger& getInstance();
+    void write(string message);
+};
+```
+
+A logger is a common example because the program may want one coordinated output path.
+
+<!-- Slide 62 -->
+
+---
+
+## Singleton Pattern: Practice Problems
+
+1. Decide whether a random number generator should be a Singleton.
+2. List one reason a settings object might need exactly one shared instance.
+3. List one reason a settings object might not belong in a Singleton.
+
+<!-- Slide 63 -->
+
+---
+
+## Singleton Pattern: AI Search Terms
+
+- "C++ Singleton static local instance"
+- "Singleton pattern tradeoffs shared state"
+- "Singleton disguised global variable"
+
+<!-- Slide 64 -->
+
+---
+
+## Singleton Pattern: Questions for Reflection
+
+- What does Singleton make easier?
+- What does Singleton hide from the caller?
+
+<!-- Slide 65 -->
+
+---
+
+## Strategy Pattern: Good Practices
+
+- Use Strategy when behavior changes independently from the caller.
+- Give each strategy a clear behavior name.
+- Keep the caller's main task stable.
+
+<!-- Slide 66 -->
+
+---
+
+## Strategy Pattern: Common Mistakes
+
+- Creating strategies for behavior that never changes.
+- Hiding simple logic behind too many layers.
+- Giving strategies vague names that do not describe the rule.
+
+<!-- Slide 67 -->
+
+---
+
+## Strategy Pattern: More Examples
+
+| Caller task | Strategy choices |
+|---|---|
+| calculate shipping | standard, express, pickup |
+| format output | plain text, table, receipt |
+| score an assignment | raw points, curve, pass/fail |
+
+<!-- Slide 68 -->
+
+---
+
+## Strategy Pattern: Practice Problems
+
+1. Find a long conditional chain that chooses among behaviors.
+2. Name each behavior as a possible strategy.
+3. Decide whether the extra structure would make the code clearer.
+
+<!-- Slide 69 -->
+
+---
+
+## Strategy Pattern: AI Search Terms
+
+- "Strategy pattern interchangeable behavior"
+- "C++ Strategy pattern function pointer beginner"
+- "replace switch with strategy pattern"
+
+<!-- Slide 70 -->
+
+---
+
+## Strategy Pattern: Questions for Reflection
+
+- How is choosing a behavior different from sharing one object?
+- When is a simple `if` statement better than Strategy?
+
+<!-- Slide 71 -->

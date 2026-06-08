@@ -1,0 +1,129 @@
+<!-- Topic 3: Singleton Pattern -->
+<!-- Slides 21-31 -->
+
+# Singleton Pattern
+<!-- Slide 21 -->
+
+## What If There Should Only Be One? {.smaller}
+
++ Some program resources should not have many independent copies.
++ A settings manager, logger, or shared configuration may need one controlled access point.
+
+::: notes
+Slides 21-31
+:::
+
+<!-- Slide 22 -->
+
+---
+
+## Singleton Pattern
+
++ Singleton controls object creation so a program uses one shared instance.
++ The class decides when the instance is created.
++ Other code asks for access instead of creating its own copy.
+
+<!-- Slide 23 -->
+
+---
+
+## One Instance, One Access Point
+
+| Rule | Meaning |
+|---|---|
+| one instance | the program should not create several copies |
+| controlled access | other code reaches the instance through one function |
+| shared state | callers see the same stored data |
+
+<!-- Slide 24 -->
+
+---
+
+## A Simple Singleton Shape
+
+```{.cpp}
+class Settings {
+private:
+    Settings();
+
+public:
+    static Settings& getInstance();
+};
+```
+
++ The constructor is private.
++ The access function is static.
++ Callers use the access function instead of constructing directly.
+
+<!-- Slide 25 -->
+
+---
+
+## Why Static Shows Up Here
+
+```{.cpp}
+Settings& Settings::getInstance() {
+    static Settings instance;
+    return instance;
+}
+```
+
++ The local `static` object is created once.
++ Each later call returns the same object.
++ The object is stored inside the access function's control.
+
+<!-- Slide 26 -->
+
+---
+
+## Example: Program Settings
+
++ Several functions may need the same display mode, file path, or course setting.
++ A Singleton can keep those values in one shared place.
++ The pattern says the shared place is intentional, not accidental.
+
+::: notes
+[Graphic suggestion: a central Settings object with several program areas pointing to the same access function.]
+:::
+
+<!-- Slide 27 -->
+
+---
+
+## The Tradeoff
+
++ Singleton makes access convenient.
++ It also creates shared state.
++ Shared state can make testing and order-of-calls harder to reason about.
+
+<!-- Slide 28 -->
+
+---
+
+## When Singleton Is a Bad Fit
+
++ The data could be passed as a parameter.
++ The program may need multiple versions later.
++ The object changes state in ways callers cannot easily see.
+
+<!-- Slide 29 -->
+
+---
+
+## Common Practices
+
++ Use Singleton only when one instance is part of the problem.
++ Keep the object small and focused.
++ Do not use Singleton as a disguised global variable.
+
+<!-- Slide 30 -->
+
+---
+
+## Summary
+
++ Singleton controls access to one shared instance.
++ It is useful when the one-instance rule is intentional.
++ It should be chosen for a design reason, not convenience alone.
+
+<!-- Slide 31 -->
