@@ -1,6 +1,9 @@
 #### File Schema
 
 p360 Lectures/
+├── AGENTS.md
+├── CLAUDE.md
+├── Conv2PPT.md
 ├── index.html
 ├── p360_lecture_01.00 *** Week 1 ***
 ├──── p360_lecture_01.01/
