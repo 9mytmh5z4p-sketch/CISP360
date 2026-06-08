@@ -1,266 +1,253 @@
 <!-- Topic 3: Arithmetic Operators -->
-<!-- Total slides: 13 -->
+<!-- Slides 32-45 -->
 
 # Arithmetic Operators
+<!-- Slide 32 -->
 
----
+## Tools For Transforming Data {.smaller}
 
-## The tools for transforming data {.smaller}
-
-+ Structured programming is about **data and transforming that data**.
-+ Arithmetic operators are how you compute new values from existing ones.
-+ Every transformation you write this semester uses them.
++ Structured programs store data, transform it, and produce output.
++ Arithmetic operators are the first tools for computing new values.
++ Operator behavior depends on the types of the operands.
 
 ::: notes
-Total slides: 13
-Connect directly to the course framing from lecture 01.01: structured programming = data + transformations. Arithmetic operators are the mechanism of transformation. This section is short but foundational — students need fluency with these operators before they can write any meaningful computation.
+Slides 32-45
+Connect this section back to the larger course framing: data plus transformations.
 :::
 
-<!-- Slide 1 -->
+<!-- Slide 33 -->
 
 ---
 
-## The five arithmetic operators {.smaller}
+## The Five Arithmetic Operators {.smaller}
 
 | Operator | Meaning | Example | Result |
 |----------|---------|---------|--------|
-| `+` | Addition | `4 + 2` | `6` |
-| `-` | Subtraction | `4 - 2` | `2` |
-| `*` | Multiplication | `4 * 2` | `8` |
-| `/` | Division | `4 / 2` | `2` |
-| `%` | Modulus (remainder) | `5 % 2` | `1` |
+| `+` | addition | `4 + 2` | `6` |
+| `-` | subtraction | `4 - 2` | `2` |
+| `*` | multiplication | `4 * 2` | `8` |
+| `/` | division | `4 / 2` | `2` |
+| `%` | modulus | `5 % 2` | `1` |
 
 ::: notes
-The symbols to flag: * for multiplication (not ×), / for division (not ÷), % for remainder (modulus). Students from other languages sometimes expect ^ for exponentiation — C++ uses ^ as a bitwise XOR operator, not as a power. Exponentiation requires the pow() function from <cmath>.
+Flag the symbols that differ from handwritten math: `*`, `/`, and `%`.
 :::
 
-<!-- Slide 2 -->
+<!-- Slide 34 -->
 
 ---
 
-## Arithmetic in code {.smaller}
+## Arithmetic In Code {.smaller}
 
 ```{.cpp}
-// arith.cpp
 #include <iostream>
 using namespace std;
 
 int main()
 {
-    double hats  = 3.14;
+    double hats = 3.14;
     double heads = 7.89;
 
-    cout << "hats + heads = " << hats + heads << endl;
-    cout << "hats - heads = " << hats - heads << endl;
-    cout << "hats * heads = " << hats * heads << endl;
-    cout << "hats / heads = " << hats / heads << endl;
+    cout << "sum: " << hats + heads << endl;
+    cout << "product: " << hats * heads << endl;
 
     return 0;
 }
 ```
 
 ::: notes
-Operators work on variables exactly as they work on literals. Expressions can appear directly inside cout — the expression is evaluated first, then the result is passed to cout. Students sometimes expect to need a temporary variable; they do not. The variable names (hats and heads) are from the original lecture — memorable and slightly silly, which helps.
+Expressions can appear directly inside output statements. They are evaluated first, then the result is printed.
 :::
 
-<!-- Slide 3 -->
+<!-- Slide 35 -->
 
 ---
 
-## Integer division {.smaller}
+## Integer Division {.smaller}
 
-+ When **both operands are integers**, `/` performs integer division — the remainder is dropped entirely.
-+ This is not rounding — it is truncation toward zero.
++ When both operands are integers, `/` performs integer division.
++ The remainder is dropped.
++ This is truncation, not rounding.
 
 ```{.cpp}
-int a = 9 / 5;    // 1  (not 1.8)
-int b = 1 / 2;    // 0  (not 0.5)
-int c = 7 / 2;    // 3  (not 3.5)
+int a = 9 / 5;    // 1
+int b = 1 / 2;    // 0
+int c = 7 / 2;    // 3
 ```
 
 ::: notes
-Integer division surprises beginners every time. The rule: if both operands are int, the result is int — the fractional part is discarded before the value is stored anywhere. The next slide shows how to get a decimal result. Common student mistake: computing an average as sum / count when both are int and wondering why the answer is wrong.
+This is the first place where type visibly changes arithmetic behavior.
 :::
 
-<!-- Slide 4 -->
+<!-- Slide 36 -->
 
 ---
 
-## Floating point division {.smaller}
+## Floating Point Division {.smaller}
 
-+ If **either operand is a floating point type**, the result is floating point.
-+ The operand's type — not the variable it's stored in — determines which division occurs.
++ If either operand is floating point, the result is floating point.
++ The operands determine the division behavior before assignment happens.
 
 ```{.cpp}
-double a = 9.0 / 5;     // 1.8   — one double operand
-double b = 9   / 5.0;   // 1.8   — one double operand
-double c = 9   / 5;     // 1.0   — both int; integer division first
-                         //         then stored as double
+double a = 9.0 / 5;    // 1.8
+double b = 9 / 5.0;    // 1.8
+double c = 9 / 5;      // 1.0
 
-int    d = 9.0 / 5;     // 1     — 1.8 computed, then truncated to int
+int d = 9.0 / 5;       // 1
 ```
 
 ::: notes
-The third example is the key trap: even though the result is stored in a double, the division 9/5 is evaluated as integer division first because both operands are int. The double conversion happens after the remainder is already lost. Students must ensure at least one operand is double to get decimal division. The fourth example shows the reverse: a decimal result truncated on assignment to int.
+The third line is the trap: storing into a double is too late if the expression already used integer division.
 :::
 
-<!-- Slide 5 -->
+<!-- Slide 37 -->
 
 ---
 
-## Division by zero {.smaller}
+## Division By Zero {.smaller}
 
-+ **Integer division by zero** causes undefined behavior — typically a crash at runtime.
-+ **Floating point division by zero** produces infinity or NaN — the program continues with a wrong result.
-+ In both cases, the **compiler does not warn you**. This is your bug to prevent.
++ Integer division by zero is undefined behavior and often crashes.
++ Floating point division by zero may produce infinity or NaN.
++ The compiler may accept both because the syntax is legal.
 
 ::: notes
-Division by zero is one of the first runtime errors students encounter. The two cases behave differently: integer div-by-zero crashes immediately (on most platforms), while float div-by-zero silently produces an infinite value that propagates through subsequent calculations. The next slide demonstrates that the compiler accepts both without complaint.
+Make the distinction between compile-time syntax checks and runtime behavior.
 :::
 
-<!-- Slide 6 -->
+<!-- Slide 38 -->
 
 ---
 
-## The compiler is not your safety net {.smaller}
+## The Compiler Is Not Your Safety Net {.smaller}
 
 ```{.cpp}
-// divbyzero.cpp
 #include <iostream>
 using namespace std;
 
 int main()
 {
-    int    a = 9;
+    int a = 9;
     double b = 9.0;
-    int    z = 0;
+    int z = 0;
 
-    cout << a / z   << endl;   // runtime crash — integer div by zero
-    cout << b / z   << endl;   // prints: inf   — float div by zero
+    cout << a / z << endl;
+    cout << b / z << endl;
 
     return 0;
 }
 ```
 
-What the compiler and runtime say:
-
-```
-g++ divbyzero.cpp       ← compiles with no errors, no warnings
-./a.out
-Floating point exception (core dumped)
-```
-
 ::: notes
-The point of this slide: the compiler validates syntax, not logic. Dividing by zero is syntactically legal — the compiler has no way to know at compile time that z will hold zero at runtime. The crash or inf result only appears when the program runs. This is a preview of the class of bugs called runtime errors, as distinguished from compile errors. Students need to learn to distrust "it compiled" as a sign that the program is correct.
+The program can compile because the grammar is valid. The bug appears when the program runs.
 :::
 
-<!-- Slide 7 -->
+<!-- Slide 39 -->
 
 ---
 
-## The modulus operator {.smaller}
+## The Modulus Operator {.smaller}
 
-+ `%` gives the **remainder** after integer division.
-+ Works with integers only — not with floating point types.
++ `%` gives the remainder after integer division.
++ It works with integers only.
++ It is useful for divisibility, even/odd checks, and extracting digits.
 
 ```{.cpp}
-cout << 10 % 3 << endl;   // 1  (10 = 3*3 + 1)
-cout << 15 % 5 << endl;   // 0  (15 = 5*3 + 0, divides evenly)
-cout << 7  % 2 << endl;   // 1  (odd number)
-cout << 6  % 2 << endl;   // 0  (even number)
+cout << 10 % 3 << endl;    // 1
+cout << 15 % 5 << endl;    // 0
+cout << 7 % 2 << endl;     // 1
+cout << 42 % 10 << endl;   // 2
 ```
 
 ::: notes
-Practical uses of modulus: testing even vs. odd (n % 2 == 0), cycling a value through a range (index % size), extracting the last digit of a number (n % 10), checking divisibility. Modulus is used more often than beginners expect — it appears in loops, games, and any algorithm that needs to "wrap around."
+Modulus appears later in loops, games, menus, and algorithms that wrap around a range.
 :::
 
-<!-- Slide 8 -->
+<!-- Slide 40 -->
 
 ---
 
-## Mathematical expressions {.smaller}
+## Mathematical Expressions {.smaller}
 
-+ C++ expressions follow the same evaluation rules as algebra.
-+ An expression evaluates to a single value that can be stored, printed, or used in further calculations.
++ An expression evaluates to a single value.
++ That value can be stored, printed, or used inside a larger expression.
 
 ```{.cpp}
-int result1 = 5 + 3 * 2;       // 11  (not 16)
-int result2 = (5 + 3) * 2;     // 16
-int result3 = 10 - 6 / 2;      // 7   (not 2)
-double avg  = (a + b + c) / 3.0;
+int result1 = 5 + 3 * 2;      // 11
+int result2 = (5 + 3) * 2;    // 16
+int result3 = 10 - 6 / 2;     // 7
+double avg = (a + b + c) / 3.0;
 ```
 
 ::: notes
-The expression (a + b + c) / 3.0 is worth unpacking: dividing by 3.0 (double) rather than 3 (int) ensures floating point division even if a, b, and c are all int. This is the idiomatic way to compute a decimal average from integer inputs.
+Use the average line to reinforce floating point division from integer inputs.
 :::
 
-<!-- Slide 9 -->
+<!-- Slide 41 -->
 
 ---
 
-## Order of precedence {.smaller}
+## Order Of Precedence {.smaller}
 
-+ Operators are evaluated in this order (highest to lowest priority):
+| Priority | Operator | Meaning |
+|----------|----------|---------|
+| 1 | `()` | parentheses |
+| 2 | `-` | unary negation |
+| 3 | `*` `/` `%` | multiply, divide, modulus |
+| 4 | `+` `-` | add, subtract |
 
-| Precedence | Operator | Type | Notes |
-|------------|----------|------|-------|
-| 1 | `()` | — | Parentheses first |
-| 2 | `-` | unary | Negation (`-6`) |
-| 3 | `*` `/` `%` | binary | Multiply, divide, modulus |
-| 4 | `+` `-` | binary | Add, subtract |
-
-+ When in doubt, **add parentheses** to make your intent explicit.
++ When intent is not obvious, add parentheses.
 
 ::: notes
-Same rules as math class — PEMDAS equivalent. The only surprise is unary negation ranking above multiplication. Students rarely need the full precedence table; the practical rule is: multiplication and division happen before addition and subtraction, and parentheses override everything.
+Students do not need the full C++ precedence table yet. This is the arithmetic subset they need today.
 :::
 
-<!-- Slide 10 -->
+<!-- Slide 42 -->
 
 ---
 
 ## Associativity {.smaller}
 
-+ When two operators of **equal precedence** appear in sequence, evaluation goes **left to right**.
++ When operators have equal precedence, arithmetic evaluates left to right.
 
 ```{.cpp}
-int a = 10 - 3 - 2;    // (10 - 3) - 2 = 5   (not 10 - (3-2) = 9)
-int b = 12 / 6 / 2;    // (12 / 6) / 2 = 1   (not 12 / (6/2) = 4)
+int a = 10 - 3 - 2;    // (10 - 3) - 2 = 5
+int b = 12 / 6 / 2;    // (12 / 6) / 2 = 1
 ```
 
 ::: notes
-Associativity resolves ambiguity when precedence alone does not determine order. Left-to-right is the rule for all arithmetic operators in C++. Students rarely run into this explicitly, but it explains why 10 - 3 - 2 is 5 and not 9 — which is a common source of confusion when students expect subtraction to "just work" like they learned in elementary school.
+Associativity explains cases where precedence alone does not decide the grouping.
 :::
 
-<!-- Slide 11 -->
+<!-- Slide 43 -->
 
 ---
 
-## `#include <cmath>` {.smaller}
+## The `cmath` Header {.smaller}
 
-+ C++ has only five built-in arithmetic operators.
-+ Advanced math operations — square roots, powers, trig functions, logarithms — require `#include <cmath>`.
++ C++ has five built-in arithmetic operators.
++ Powers, square roots, trigonometry, and logarithms are functions.
++ Those functions require `#include <cmath>`.
 
 ```{.cpp}
 #include <cmath>
 
-double root  = sqrt(16.0);     // 4.0
-double power = pow(2.0, 10.0); // 1024.0
-double ab    = abs(-7.5);      // 7.5
+double root = sqrt(16.0);
+double power = pow(2.0, 10.0);
+double distance = abs(-7.5);
 ```
 
 ::: notes
-This is a brief flag — we will use cmath when it is needed. The important takeaway: the five arithmetic operators are built in; everything else requires a header. The cmath reference at cplusplus.com/reference/cmath is a useful bookmark for students who want to explore.
+Brief recognition slide only. The main point is that `^` is not exponentiation in C++.
 :::
 
-<!-- Slide 12 -->
+<!-- Slide 44 -->
 
 ---
 
 ## Summary {.smaller}
 
-+ The five arithmetic operators (`+`, `-`, `*`, `/`, `%`) transform numeric data.
-+ When both operands are integers, `/` drops the remainder — use a `double` operand to get a decimal result.
-+ Precedence and associativity determine evaluation order; parentheses override both.
++ Arithmetic operators transform numeric data.
++ Integer division drops the remainder.
++ Precedence and associativity determine evaluation order; parentheses make intent clear.
 
-<!-- Slide 13 -->
+<!-- Slide 45 -->

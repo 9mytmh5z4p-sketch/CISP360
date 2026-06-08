@@ -1,283 +1,201 @@
 <!-- Topic 1: Variables and Assignment -->
-<!-- Total slides: 15 -->
+<!-- Slides 3-14 -->
 
 # Variables and Assignment
-
----
-
-## A named spot in memory that holds data {.smaller}
-
-+ A variable is a named memory location that holds a value — and that value can change while the program runs.
-+ Unlike a literal, which is fixed in the source code, a variable is under program control.
-
-::: notes
-Total slides: 15
-Frame this section as the foundational tool of transformation: every useful program reads data, transforms it, and produces output. Variables are where you hold the data while you work on it. Without variables, a program can only compute fixed answers — nothing that adapts to real input.
-:::
-
-<!-- Slide 1 -->
-
----
-
-## What declaration does {.smaller}
-
-+ Declaring a variable asks the computer to **reserve a named spot in memory**.
-+ The type you specify tells the computer how much memory to reserve.
-+ The variable's name is how you refer to that spot in every statement that follows.
-
-| Variable | Address | Value |
-|----------|---------|-------|
-| `age`  | 0xFA2 | — |
-| `name` | 0xFA6 | — |
-
-::: notes
-This is the memory model students need before they see any code. The table is a simplified version of the hand-drawn diagram from the original lecture. The key idea: declaration does not put a value anywhere — it just carves out the space. The address is shown to make the memory location concrete; students don't need to know what 0xFA2 means, only that each variable lives at a specific place.
-[Graphic suggestion: redraw the hand-drawn memory diagram from original lecture — variable name table on the left, memory column on the right with reserved blocks labeled by address.]
-:::
-
-<!-- Slide 2 -->
-
----
-
-## Declaration syntax {.smaller}
-
-```{.cpp}
-int    age;      // type · name · semicolon
-double price;
-char   grade;
-string name;
-bool   isOver;
-```
-
-::: notes
-All five basic types declared without initialization. The pattern is always: type, then name, then semicolon. No value is placed in any of these variables yet — they exist in memory but hold whatever garbage happened to be in that location. This is exactly why initialization matters.
-:::
-
 <!-- Slide 3 -->
 
----
+## A Named Spot In Memory {.smaller}
 
-## Initialization {.smaller}
-
-+ Declaration reserves the memory slot. **Initialization puts a value into it.**
-+ A variable that has been declared but never initialized contains an unknown (garbage) value.
-+ Always initialize before you read.
-
-```{.cpp}
-int age;        // declared — value is garbage
-age = 25;       // initialized — value is 25
-```
++ A variable is a named memory location that holds a value.
++ The value can change while the program runs.
++ A literal is fixed in the source code; a variable is under program control.
 
 ::: notes
-The two-step pattern is deliberate here: show declaration and initialization as separate acts before combining them. Students need to understand that these are distinct operations. The garbage value problem is real: reading an uninitialized variable is undefined behavior in C++ — the program may produce wrong results silently.
+Slides 3-14
+Frame variables as the first tool students get for making programs respond to changing data.
 :::
 
 <!-- Slide 4 -->
 
 ---
 
-## `=` does not mean what you think it does {.smaller}
+## What Declaration Does {.smaller}
 
-+ In programming, `=` is not the equals sign from math.
-+ It is the **assignment operator** — it means: evaluate the right side, then store the result in the variable on the left.
-+ The right side is always evaluated first.
++ Declaring a variable asks the computer to reserve a named spot in memory.
++ The type tells the computer how much memory to reserve.
++ The name is how the program refers to that spot later.
 
-```{.cpp}
-int age = 25;     // store 25 in age
-age = age + 1;    // evaluate age+1 (26), store it back in age
-```
+| Variable | Address | Value |
+|----------|---------|-------|
+| `age` | `0xFA2` | unknown |
+| `name` | `0xFA6` | unknown |
 
 ::: notes
-This is one of the most important conceptual corrections in week one. Students with math backgrounds read = as a statement of equality. In C++, it is an instruction to move data. The second line — age = age + 1 — is impossible in algebra but perfectly legal in C++. Make sure students can trace what happens: right side evaluates to 26, then 26 is stored in age, replacing 25.
+The addresses are illustrative. Students only need the idea that a variable lives somewhere specific in memory.
+[Graphic suggestion: redraw the declaration/init memory model as labeled memory boxes.]
 :::
 
 <!-- Slide 5 -->
 
 ---
 
-## {background-iframe="images/declaration_init_viz.html" background-interactive="true"}
+## Declaration Syntax {.smaller}
+
+```{.cpp}
+int age;
+double price;
+char grade;
+string name;
+bool isOver;
+```
+
+::: notes
+The pattern is type, then name, then semicolon. These declarations create variables, but they do not give most of them useful values yet.
+:::
 
 <!-- Slide 6 -->
 
 ---
 
-## Five ways to initialize a variable {.smaller}
+## Initialization {.smaller}
 
-| Method | Example | Note |
-|--------|---------|------|
-| Default | `int age;` | No value — garbage until assigned |
-| Direct | `int age = 10;` | The form used throughout this course |
-| Constant | `const int age = 10;` | Read-only — value cannot change |
-| Value | `int age{};` | Compiler zeros the variable |
-| List | `int age{10};` | Modern C++11 — prevents narrowing |
++ Declaration reserves the memory slot.
++ Initialization puts the first value into it.
++ Always initialize a variable before reading from it.
+
+```{.cpp}
+int age;      // declared; value is unknown
+age = 25;     // initialized; value is 25
+```
 
 ::: notes
-All five forms are valid C++. Students will encounter all of them when reading code. The goal is recognition, not memorization. Direct initialization is what this course uses — it is readable, works with all basic types, and requires no extra syntax knowledge. List initialization is worth flagging as the recommended modern practice so students are not confused when they see it in documentation or online examples.
+Keep the two-step version first so students can see that declaration and initialization are separate actions.
 :::
 
 <!-- Slide 7 -->
 
 ---
 
-## Default initialization {.smaller}
+## Assignment Is Not Equality {.smaller}
 
-+ Declare the variable but provide no value.
-+ The memory slot is reserved but its contents are unknown — whatever was in that location previously.
-+ Use only when you will assign a value before you read it.
++ In C++, `=` is the assignment operator.
++ It means: evaluate the right side, then store the result in the variable on the left.
++ The old value is replaced.
 
 ```{.cpp}
-// Default Initialization
-int    age;
-double price;
-char   grade;
-string name;
-bool   isOver;
+int age = 25;
+age = age + 1;    // age becomes 26
 ```
 
 ::: notes
-Default initialization is legal but risky. An uninitialized variable holds undefined behavior — the compiler is not required to zero the memory. Some compilers zero it in debug builds but not release builds, which leads to bugs that only appear in production. The rule: never read a variable before writing to it.
+This is the key math-to-programming correction. The second line is impossible as algebra but normal as a programming instruction.
 :::
 
 <!-- Slide 8 -->
 
 ---
 
-## Direct initialization {.smaller}
+## Declaration And Initialization Together {.smaller}
 
-+ Declare and assign a value in the same statement using `=`.
-+ Simple, readable, works with all basic types.
-+ The form used throughout this course.
++ Most variables should be declared and initialized in one statement.
++ This gives the variable a name, a type, and a useful first value immediately.
 
 ```{.cpp}
-// Direct Initialization
-int    age    = 10;
-double price  = 99.95;
-char   grade  = 'A';
-string name   = "Pat";
-bool   isOver = true;
+int age = 25;
+double price = 19.95;
+char grade = 'A';
+string name = "Pat";
+bool isPassing = true;
 ```
 
 ::: notes
-Direct initialization is the most readable form and the one students should write by reflex by the end of week one. The = here is the assignment operator, not mathematical equality. Note that char literals use single quotes and string literals use double quotes — this distinction matters.
+This is the form students should write most often at the beginning of the course.
 :::
 
 <!-- Slide 9 -->
 
 ---
 
-## Constant initialization {.smaller}
+## Constants {.smaller}
 
-+ Adding `const` makes the variable **read-only** — the compiler will reject any attempt to change it.
-+ Must be initialized at declaration — a `const` variable with no value is a compile error.
++ `const` makes a variable read-only after initialization.
++ Use it for values that should not change while the program runs.
++ A constant must be initialized when it is declared.
 
 ```{.cpp}
-// Constant Initialization
-const int    age    = 10;
-const double price  = 99.95;
-const char   grade  = 'A';
-const string name   = "Pat";
-const bool   isOver = true;
+const double TAX_RATE = 0.0825;
+const int MAX_SCORE = 100;
 
-age = 30;   // ERROR: assignment of read-only variable
+TAX_RATE = 0.09;    // error
 ```
 
 ::: notes
-Constants are used for values that should never change — tax rates, physical constants, maximum sizes. The const keyword communicates intent to anyone reading the code: this value is fixed by design. The compiler enforces it. Students will use const for named constants throughout the course.
+Use constants for values that represent a rule, limit, or fixed setting. The compiler enforces the promise.
 :::
 
 <!-- Slide 10 -->
 
 ---
 
-## Value initialization {.smaller}
+## Other Initialization Forms {.smaller}
 
-+ Empty braces zero-initialize the variable — the compiler sets it to the type's zero equivalent.
-+ Tradeoff: you need to know what "zero" means for each type.
-
-```{.cpp}
-// Value Initialization — braces with no value
-int    age{};      // age = 0
-double price{};    // price = 0.0
-char   grade{};    // grade = ' '  (null character)
-string name{};     // name = ""    (empty string)
-bool   isOver{};   // isOver = 0   (false)
-```
+| Form | Example | What to Know |
+|------|---------|--------------|
+| Default | `int age;` | no useful value yet |
+| Direct | `int age = 10;` | course default |
+| Value | `int age{};` | zero-initializes |
+| List | `int age{10};` | modern C++ form |
 
 ::: notes
-Value initialization guarantees a known starting state — no garbage. The cost is that students must remember what zero means for each type (null character for char, empty string for string, false for bool). This form is less common in introductory code but appears frequently in professional C++.
+The goal is recognition, not memorization. Students will see brace forms in references and examples outside class.
 :::
 
 <!-- Slide 11 -->
 
 ---
 
-## List initialization {.smaller}
+## Which Form Should I Use? {.smaller}
 
-+ Braces with a value — the recommended modern C++11 form.
-+ Prevents *narrowing*: the compiler will reject an initializer that doesn't fit the type.
-
-```{.cpp}
-// List Initialization — braces with value
-int    age{10};
-double price{99.95};
-char   grade{'A'};
-string name{"Pat"};
-bool   isOver{true};
-
-int    score{3.7};  // ERROR: narrowing — 3.7 doesn't fit in int
-```
++ Start with direct initialization: `int age = 10;`.
++ Use `const` when the value should not change.
++ Recognize brace initialization when reading modern C++ examples.
 
 ::: notes
-List initialization catches type mismatches at compile time that direct initialization would silently truncate. int score = 3.7 compiles fine and stores 3; int score{3.7} is a compile error. This is a genuine safety improvement. The syntax is unusual compared to other languages, which is why students are sometimes confused by it. Mention it as the direction modern C++ is heading.
+Direct initialization keeps the type and starting value visible, which helps beginners read their own code.
 :::
 
 <!-- Slide 12 -->
 
 ---
 
-## Which form should I use? {.smaller}
+## Variable Naming Rules {.smaller}
 
-+ Any of the five forms is valid — the choice is a matter of context and habit.
-+ Most students start with **direct initialization** (`int age = 10;`) — it reads like natural language and works cleanly across all basic types.
-+ When you need a value that should never change, use `const`.
-+ You will encounter all five forms in code you read this semester.
++ Must start with a letter or underscore, not a digit.
++ Can contain letters, digits, and underscores.
++ Cannot be a reserved word.
++ Names are case-sensitive.
+
+```{.cpp}
+int age;
+double taxRate;
+string first_name;
+
+int 2fast;      // error
+int return;     // error
+```
 
 ::: notes
-Don't mandate a single form — expose the landscape and let students build habits. Direct initialization is the practical starting point. The important skill is being able to read any form, not memorize which one to use when. Over the semester, students will naturally develop preferences as they see more code.
+Variable names should usually be nouns because variables hold things: age, score, total, name, taxRate.
 :::
 
 <!-- Slide 13 -->
 
 ---
 
-## Variable naming rules {.smaller}
-
-+ Must start with a **letter** or **underscore** — not a digit.
-+ Can contain letters, digits, and underscores — no spaces or symbols.
-+ **Case-sensitive**: `Age`, `age`, and `AGE` are three different variables.
-+ Cannot be a reserved word: `int`, `return`, `if` are taken.
-+ Variable names are typically **nouns** — they represent things that hold a value.
-
-```{.cpp}
-int age;          // good — noun, lowercase
-double taxRate;   // good — noun, camelCase
-string _name;     // valid — underscore start
-int 2fast;        // ERROR — starts with digit
-int return;       // ERROR — reserved word
-```
-
-::: notes
-The noun convention is worth emphasizing: a variable named 'age' holds an age, 'price' holds a price. When students name variables 'x' or 'temp', they make their own code harder to read and debug. CamelCase (taxRate) and snake_case (tax_rate) are both common in C++; either is acceptable in this class as long as it's consistent.
-:::
-
-<!-- Slide 14 -->
-
----
-
 ## Summary {.smaller}
 
-+ A variable is a named, typed memory location — declaration reserves the space, initialization fills it.
-+ The assignment operator `=` moves data into memory; it is not a statement of equality.
-+ Every variable should be initialized before it is read.
++ A variable is a named, typed memory location.
++ Declaration reserves the space; initialization fills it.
++ Assignment updates the stored value.
 
-<!-- Slide 15 -->
+<!-- Slide 14 -->
