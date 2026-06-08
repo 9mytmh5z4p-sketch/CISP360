@@ -19,7 +19,7 @@ This is a practical portability topic. Students writing code for embedded system
 
 ---
 
-## The problem: platform-dependent sizes {.smaller}
+## The problem: platform-dependent sizes
 
 + `int` is 4 bytes on most modern desktops, but 2 bytes on some embedded platforms.
 + `long` is 8 bytes on 64-bit Linux but 4 bytes on 64-bit Windows.
@@ -33,7 +33,7 @@ Real-world scenario: a network protocol field is exactly 32 bits. Using int on a
 
 ---
 
-## Fixed-width types from `<cstdint>` {.smaller}
+## Fixed-width types from `<cstdint>`
 
 | Signed | Unsigned | Width |
 |--------|----------|-------|
@@ -48,7 +48,7 @@ If the platform cannot provide that exact size, the type does not exist — you 
 
 ---
 
-## Using fixed-width types {.smaller}
+## Using fixed-width types
 
 ```{.cpp}
 #include <cstdint>
@@ -71,7 +71,7 @@ int main()
 
 ---
 
-## When to use fixed-width types {.smaller}
+## When to use fixed-width types
 
 + Use fixed-width types when:
   + The exact bit width matters: network protocols, binary file formats, hardware registers.
@@ -83,7 +83,7 @@ int main()
 
 ---
 
-## What is `size_t`? {.smaller}
+## What is `size_t`?
 
 + `size_t` is the unsigned integer type returned by `sizeof()` and by `.size()` on any container.
 + Guaranteed to be large enough to represent the size of any object in memory on the current platform.
@@ -101,7 +101,7 @@ cout << v.size() << "\n";         // also returns size_t
 
 ---
 
-## Using `size_t` for loop indexes {.smaller}
+## Using `size_t` for loop indexes
 
 + Comparing `int` to `size_t` triggers a sign-comparison warning.
 + Using `size_t` for the loop counter eliminates the warning and is semantically correct — an index into a container cannot be negative.
@@ -118,7 +118,7 @@ for (size_t i = 0; i < names.size(); ++i) {
 
 ---
 
-## Fast and least variants {.smaller}
+## Fast and least variants
 
 + `<cstdint>` also defines performance-oriented variants:
   + `int_fast32_t` — at least 32 bits; the fastest available type of that width on the platform.
@@ -130,7 +130,7 @@ for (size_t i = 0; i < names.size(); ++i) {
 
 ---
 
-## Summary {.smaller}
+## Summary
 
 + Fixed-width integer types guarantee an exact size on any platform.
 + Use them when bit width matters — protocols, file formats, hardware.

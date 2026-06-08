@@ -14,7 +14,7 @@
 
 ---
 
-## Data type ranking {.smaller}
+## Data type ranking
 
 When two operands of different types appear in an expression, the lower-ranking type is promoted to the higher before the operation executes.
 
@@ -38,7 +38,7 @@ Data Type Ranking table (Table 3-7 from the original lecture). The result of any
 
 ---
 
-## Three rules of coercion {.smaller}
+## Three rules of coercion
 
 + **Rule 1:** `char`, `short`, and `unsigned short` are automatically promoted to `int` in any expression.
 + **Rule 2:** When two operands of different types appear in an operation, the lower-ranking type is promoted to the higher-ranking type.
@@ -52,7 +52,7 @@ Rule 3 is where demotion happens. If you compute a double result and assign it t
 
 ---
 
-## Promotion — moving up {.smaller}
+## Promotion — moving up
 
 + Promotion happens when a smaller type is used where a larger type is expected.
 + No data is lost. C++ performs this automatically.
@@ -72,7 +72,7 @@ double r = a / 2.0;  // a promoted before division; r = 5.0
 
 ---
 
-## Demotion — moving down {.smaller}
+## Demotion — moving down
 
 + Demotion (narrowing) happens when a larger type is assigned to a smaller type.
 + **Data loss is likely.** The compiler may warn but will not always stop you.
@@ -92,7 +92,7 @@ int result = a / b;    // result = 3, not 3.5
 
 ---
 
-## The problem: integer division gives the wrong answer {.smaller}
+## The problem: integer division gives the wrong answer
 
 ```{.cpp}
 // 3-7x.cpp — casting & expressions
@@ -123,7 +123,7 @@ Input: books = 10, months = 6. Expected: 1.66667. Actual: 1. Why? books and mont
 
 ---
 
-## The fix: cast one operand to double {.smaller}
+## The fix: cast one operand to double
 
 ```{.cpp}
 // Without cast — integer division, wrong answer
@@ -143,7 +143,7 @@ Casting one operand to double forces the entire division to use floating point. 
 
 ---
 
-## Type casting — you control the conversion {.smaller}
+## Type casting — you control the conversion
 
 + Type casting is explicitly telling the compiler to convert from one type to another.
 + It is better to be explicit with your code than to rely on the compiler doing something automatically.
@@ -159,7 +159,7 @@ to_type(value)                 // pre-standard C++ functional — avoid
 
 ---
 
-## `static_cast` — the C++ way {.smaller}
+## `static_cast` — the C++ way
 
 + `static_cast<TargetType>(value)` is the preferred form for numeric conversion.
 + Makes your intent explicit and is easy to find in a codebase.
@@ -180,7 +180,7 @@ int ascii = static_cast<int>(letter);     // ascii = 90
 
 ---
 
-## C-style casts — avoid {.smaller}
+## C-style casts — avoid
 
 + Syntax: `(TargetType)value` — carried over from C.
 + Works, but is not recommended in modern C++.
@@ -199,7 +199,7 @@ Students will encounter C-style casts in textbooks and older code. They should b
 
 ---
 
-## Functional notation — avoid {.smaller}
+## Functional notation — avoid
 
 + Pre-standard C++ syntax: `to_type(value)` — looks like a constructor call.
 + Equivalent to a C-style cast for primitive types. Avoid in new code.
@@ -214,7 +214,7 @@ char(65)       // converts int to char; result: 'A'
 
 ---
 
-## When to cast and when not to {.smaller}
+## When to cast and when not to
 
 + Use a cast to **express intent** — when you know truncation or conversion is correct.
 + Do **not** cast just to silence a compiler warning without fixing the underlying mismatch.
@@ -228,7 +228,7 @@ This is the discipline point. Students sometimes discover they can make warnings
 
 ---
 
-## {.smaller}
+##
 
 ![](images/static_typing_strong.png)
 
@@ -236,7 +236,7 @@ This is the discipline point. Students sometimes discover they can make warnings
 
 ---
 
-## Implicit vs. explicit at a glance {.smaller}
+## Implicit vs. explicit at a glance
 
 | | Implicit (Coercion) | Explicit (Cast) |
 |--|---------------------|-----------------|
@@ -250,7 +250,7 @@ This is the discipline point. Students sometimes discover they can make warnings
 
 ---
 
-## Summary {.smaller}
+## Summary
 
 + Implicit coercion promotes the lower-ranking type automatically; narrowing silently loses data.
 + Use `static_cast<>` to make conversions explicit and intentional.

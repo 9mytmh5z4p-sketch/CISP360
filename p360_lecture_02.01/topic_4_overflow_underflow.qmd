@@ -20,7 +20,7 @@ Frame this as a consequence of the type system. Students now understand that typ
 
 ---
 
-## Signed overflow — undefined behavior {.smaller}
+## Signed overflow — undefined behavior
 
 + For **signed** integers, overflow is **undefined behavior** in C++.
 + The compiler is free to assume it never happens — which can produce counter-intuitive optimizations.
@@ -41,7 +41,7 @@ Undefined behavior means the C++ standard places no requirement on what happens.
 
 ---
 
-## Unsigned overflow — well-defined wrapping {.smaller}
+## Unsigned overflow — well-defined wrapping
 
 + For **unsigned** integers, overflow is **well-defined**: the value wraps modulo 2ⁿ (where n is the bit width).
 + An unsigned value that exceeds the maximum wraps back to zero.
@@ -71,7 +71,7 @@ This is one of the few cases where signed and unsigned types have genuinely diff
 
 ---
 
-## `numeric_limits` — querying type boundaries {.smaller}
+## `numeric_limits` — querying type boundaries
 
 + `std::numeric_limits<T>` from `<limits>` provides the exact min and max for any numeric type.
 + More reliable than `INT_MAX` macros from `<climits>` — works with any type including user-defined ones.
@@ -94,7 +94,7 @@ int main()
 
 ---
 
-## Worked example: short overflow {.smaller}
+## Worked example: short overflow
 
 ```{.cpp}
 #include <iostream>
@@ -117,7 +117,7 @@ On most platforms with most compilers, signed overflow wraps two's complement �
 
 ---
 
-## Worked example: unsigned underflow {.smaller}
+## Worked example: unsigned underflow
 
 ```{.cpp}
 #include <iostream>
@@ -142,7 +142,7 @@ int main()
 
 ---
 
-## Worked example: INT_MAX + 1 {.smaller}
+## Worked example: INT_MAX + 1
 
 ```{.cpp}
 #include <iostream>
@@ -165,7 +165,7 @@ int main()
 
 ---
 
-## Floating point underflow {.smaller}
+## Floating point underflow
 
 + Floating point underflow occurs when a positive value becomes too small to represent — the result rounds to zero.
 + Unlike integer overflow, floating point underflow is generally not catastrophic — it produces zero rather than garbage.
@@ -191,7 +191,7 @@ Floating point has two special cases: overflow (result becomes infinity) and und
 
 ---
 
-## Detecting overflow before it happens {.smaller}
+## Detecting overflow before it happens
 
 + The safest approach: check whether the operation would overflow **before** performing it.
 + For addition: if `a > INT_MAX - b`, then `a + b` would overflow.
@@ -218,7 +218,7 @@ This is the defensive programming pattern for integer arithmetic. Checking after
 
 ---
 
-## What to do in practice {.smaller}
+## What to do in practice
 
 + For general arithmetic: use `int` or `long long` and validate inputs to ensure they stay in range.
 + For counters and indexes that can never be negative: use `unsigned` and know that decrement below zero wraps.
@@ -229,7 +229,7 @@ This is the defensive programming pattern for integer arithmetic. Checking after
 
 ---
 
-## The compiler will not save you {.smaller}
+## The compiler will not save you
 
 ```{.cpp}
 int x = 2000000000;
@@ -246,7 +246,7 @@ Compile this and run it to show students what undefined behavior looks like in p
 
 ---
 
-## Summary {.smaller}
+## Summary
 
 + Signed integer overflow is undefined behavior — never rely on it.
 + Unsigned integer overflow wraps modulo 2ⁿ — well-defined and sometimes intentional.
