@@ -1,8 +1,8 @@
 <!-- Topic 7: Determining Variable Size -->
-<!-- Slides 81–86 -->
+<!-- Slides 83-90 -->
 
 # Determining Variable Size
-<!-- Slide 80 -->
+<!-- Slide 83 -->
 
 ## How can you measure how much memory a variable uses? {.smaller}
 
@@ -11,11 +11,11 @@
 + The return type is `size_t`.
 
 ::: notes
-Slides 81–86
+Slides 83-89
 Keep this focused and practical. sizeof with arrays and sizeof with structs are deferred — arrays to lecture 11.02, struct padding to lecture 15.02.
 :::
 
-<!-- Slide 81 -->
+<!-- Slide 84 -->
 
 ---
 
@@ -30,7 +30,7 @@ sizeof(expr)      // size of the type an expression would produce
 + Does not execute code or evaluate the operand's value — it determines size from type information alone.
 + Result is always in bytes.
 
-<!-- Slide 82 -->
+<!-- Slide 85 -->
 
 ---
 
@@ -51,7 +51,7 @@ Sizes are not mandated by the standard and vary by platform and compiler. These 
 
 Always use `sizeof` rather than hardcoding these values.
 
-<!-- Slide 83 -->
+<!-- Slide 86 -->
 
 ---
 
@@ -61,7 +61,7 @@ Always use `sizeof` rather than hardcoding these values.
 + **Compiler choices** — `long` is 4 bytes on Windows (MSVC) and 8 bytes on Linux (GCC/Clang).
 + **Alignment** — the compiler inserts padding between struct members to align data on word boundaries for performance.
 
-<!-- Slide 84 -->
+<!-- Slide 87 -->
 
 ---
 
@@ -88,7 +88,42 @@ int main()
 Students should run this on their own machine. The output is specific to their compiler and platform. Comparing results with classmates on different systems is an effective way to make platform dependence concrete.
 :::
 
-<!-- Slide 85 -->
+<!-- Slide 88 -->
+
+---
+
+## Printing All Type Sizes: Output
+
+::: {.columns}
+
+::: {.column width="55%"}
+::: {style="font-size: 50%;"}
+```{.cpp .smaller}
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    cout << "char:   " << sizeof(char)   << " byte(s)\n";
+    cout << "short:  " << sizeof(short)  << " byte(s)\n";
+    cout << "int:    " << sizeof(int)    << " byte(s)\n";
+    cout << "long:   " << sizeof(long)   << " byte(s)\n";
+    cout << "float:  " << sizeof(float)  << " byte(s)\n";
+    cout << "double: " << sizeof(double) << " byte(s)\n";
+    cout << "bool:   " << sizeof(bool)   << " byte(s)\n";
+    return 0;
+}
+```
+:::
+:::
+
+::: {.column width="45%"}
+![](images/0201size_out.png)
+:::
+
+:::
+
+<!-- Slide 89 -->
 
 ---
 
@@ -98,4 +133,4 @@ Students should run this on their own machine. The output is specific to their c
 + Use it instead of hardcoding byte counts.
 + Sizes vary by architecture and compiler — always measure, never assume.
 
-<!-- Slide 86 -->
+<!-- Slide 90 -->

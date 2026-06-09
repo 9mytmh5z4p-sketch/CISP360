@@ -1,5 +1,5 @@
 <!-- Topic 1: How the Compiler Works -->
-<!-- Slides 4–19 -->
+<!-- Slides 3-20 -->
 
 # How the Compiler Works
 <!-- Slide 3 -->
@@ -10,7 +10,7 @@
 + Understanding this process helps you read error messages, locate bugs faster, and write code that compiles cleanly.
 
 ::: notes
-Slides 4–19
+Slides 3-20
 Frame this as practical knowledge, not theory. Every error message a student sees — "undeclared identifier," "undefined reference," "no matching function" — comes from one of the three stages. Knowing which stage produced the error tells you where to look.
 :::
 
@@ -24,65 +24,7 @@ Frame this as practical knowledge, not theory. Every error message a student see
 + **Stage 2 — Compilation:** type-checks the source and translates it to object code.
 + **Stage 3 — Linking:** combines object files and resolves references to library functions.
 
-::: {style="width: 80%; margin-left: 0; margin-right: auto;"}
-```{.plantuml}
-@startuml compilation_stages
-skinparam backgroundColor #FFFFFF
-skinparam defaultFontName "Helvetica Neue"
-skinparam defaultFontSize 13
-skinparam rectangle {
-  BackgroundColor #2C3E50
-  FontColor #ECEFF1
-  BorderColor #1A252F
-  BorderThickness 2
-  RoundCorner 14
-  FontSize 13
-}
-skinparam note {
-  BackgroundColor #F2F3F4
-  BorderColor #BDC3C7
-  FontColor #2C3E50
-  FontSize 11
-}
-skinparam arrow {
-  Color #7F8C8D
-  FontColor #5D6D7E
-  FontSize 10
-  Thickness 2
-}
-left to right direction
-note as N0
-  <b>main.cpp</b>
-  <i>.h files</i>
-end note
-rectangle "<b>1 — Preprocessor</b>\n\n&#35;include, &#35;define\nmacro expansion" as P
-note as N1
-  <b>Expanded Source</b>
-  <i>(.ii)</i>
-end note
-rectangle "<b>2 — Compiler</b>\n\nsyntax & type check\n→ object code" as C
-note as N2
-  <b>Object File</b>
-  <i>(.o)</i>
-end note
-rectangle "<b>3 — Linker</b>\n\nresolve symbols\ncombine .o files" as L
-note as N3
-  <b>Executable</b>
-end note
-note as LIB
-  Standard Library
-  <i>(.a / .so)</i>
-end note
-N0 --> P
-P --> N1
-N1 --> C
-C --> N2
-N2 --> L
-L --> N3
-LIB -up-> L
-@enduml
-```
-:::
+![](images/0201pipeline.png)
 
 ::: notes
 [Graphic suggestion: horizontal pipeline diagram — source → preprocessor → expanded source → compiler → object file → linker (+ library) → executable.]
@@ -134,6 +76,16 @@ This is the stage students interact with most — syntax errors and type errors 
 
 ---
 
+## What the compiler checks
+
++ **Syntax errors** — missing braces, semicolons, or mismatched delimiters.
++ **Type errors** — mismatched types in assignments or operations.
++ **Scope and declaration errors** — using identifiers that are undeclared or redeclared.
+
+<!-- Slide 16 -->
+
+---
+
 ## What the compiler checks: syntax errors
 
 + **Syntax** — does your code follow C++ grammar rules? Missing braces, semicolons, or mismatched delimiters are caught here.
@@ -153,6 +105,7 @@ error: expected '{' before 'cout'
 
 ---
 
+
 ## What the compiler checks: type errors
 
 + **Types** — do variable types match in assignments and operations? C++ is statically typed — mismatches are caught at compile time, not at runtime.
@@ -166,7 +119,7 @@ age = "twenty-five";   // ERROR: can't store a string in an int
 error: invalid conversion from 'const char*' to 'int'
 ```
 
-<!-- Slide 10 -->
+<!-- Slide 11 -->
 
 ---
 
@@ -190,7 +143,7 @@ error: 'count' was not declared in this scope
 Static typing is a key C++ strength: an entire class of bugs that would appear only at runtime in Python or JavaScript are caught at compile time in C++.
 :::
 
-<!-- Slide 11 -->
+<!-- Slide 12 -->
 
 ---
 
@@ -204,16 +157,6 @@ Static typing is a key C++ strength: an entire class of bugs that would appear o
 The most common linker error beginners see: "undefined reference to 'main'" (forgot to write main) or "undefined reference to 'sqrt'" (forgot to link the math library). These are not compile errors — the code compiled fine; the linker just cannot find the implementation.
 :::
 
-<!-- Slide 12 -->
-
----
-
-## What the compiler checks
-
-+ **Syntax errors** — missing braces, semicolons, or mismatched delimiters.
-+ **Type errors** — mismatched types in assignments or operations.
-+ **Scope and declaration errors** — using identifiers that are undeclared or redeclared.
-
 <!-- Slide 13 -->
 
 ---
@@ -223,6 +166,16 @@ The most common linker error beginners see: "undefined reference to 'main'" (for
 + Each `.cpp` file is compiled independently — it is called a **translation unit**.
 + The compiler sees one `.cpp` file at a time and has no knowledge of other `.cpp` files until linking.
 + Declarations go in `.h` files so the preprocessor can copy them into every `.cpp` that needs them.
+
+::: notes
+This explains why a function defined in another .cpp causes an "undeclared" error: the compiler only sees the .cpp it is currently compiling. The declaration in the header gives the compiler what it needs for type checking; the linker handles connecting the call to the definition.
+:::
+
+<!-- Slide 14 -->
+
+---
+
+## Translation units: code example
 
 ```{.cpp}
 // math.h — declaration only (shared via #include)
@@ -236,11 +189,7 @@ int add(int a, int b) { return a + b; }
 int main() { return add(2, 3); }
 ```
 
-::: notes
-This explains why a function defined in another .cpp causes an "undeclared" error: the compiler only sees the .cpp it is currently compiling. The declaration in the header gives the compiler what it needs for type checking; the linker handles connecting the call to the definition.
-:::
-
-<!-- Slide 14 -->
+<!-- Slide 15 -->
 
 ---
 
@@ -251,12 +200,13 @@ This explains why a function defined in another .cpp causes an "undeclared" erro
 + You may come across the term in your readings or online — now you know what it means.
 
 ::: notes
-This is a gentle landing after a fairly dense slide. Students at this level do not need to write multi-file programs yet. The goal of the translation unit slide was to explain why declarations go in headers; this slide releases the pressure and lets students know the concept is background knowledge, not something they will be tested on.
+This is a gentle landing after a fairly dense concept. Students at this level do not need to write multi-file programs yet. The goal is to explain why declarations go in headers without making translation units feel like a test target.
 :::
 
-<!-- Slide 15 -->
+<!-- Slide 10 -->
 
 ---
+
 
 ## Reading error messages by stage
 
@@ -268,7 +218,7 @@ This is a gentle landing after a fairly dense slide. Students at this level do n
 Teaching students to categorize errors by stage is a practical debugging skill. A linker error means the code compiled correctly — the problem is a missing definition, not a syntax mistake.
 :::
 
-<!-- Slide 16 -->
+<!-- Slide 17 -->
 
 ---
 
@@ -276,7 +226,7 @@ Teaching students to categorize errors by stage is a practical debugging skill. 
 
 ![](images/error_by_stage.png)
 
-<!-- Slide 17 -->
+<!-- Slide 18 -->
 
 ---
 
@@ -291,7 +241,7 @@ Static typing is a key C++ strength: an entire class of bugs that would appear o
 :::
 :::
 
-<!-- Slide 18 -->
+<!-- Slide 19 -->
 
 
 ---
@@ -303,4 +253,4 @@ Static typing is a key C++ strength: an entire class of bugs that would appear o
 + Understanding these stages helps you interpret error messages and locate bugs faster.
 + Compile errors → Stage 2. Linker errors → Stage 3. File-not-found → Stage 1.
 
-<!-- Slide 19 -->
+<!-- Slide 20 -->

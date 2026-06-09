@@ -102,6 +102,8 @@ All running code examples use the following style:
 - No filler phrases. Say what needs to be said and stop.
 - Lists: no more than two sentences per item
 - Text per slide: no more than three short paragraphs
+- Title slides must use Title Case unless the title includes C++ syntax that should preserve its exact spelling or capitalization.
+- In a two-column slide with code only in the left column, reduce the code font size by 50% from the normal code size.
 - Do **not** put programming exercises or common mistakes in the main slide content
 - If you have a best practices slide, title it **"Common Practices"**
 - Let content dictate slide count — don't pad, don't compress. Use `emphasis` and `time_budget` from `topics.md` to calibrate depth.

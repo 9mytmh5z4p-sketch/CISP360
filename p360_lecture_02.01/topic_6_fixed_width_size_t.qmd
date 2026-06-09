@@ -1,8 +1,8 @@
 <!-- Topic 6: Fixed-Width Integers and size_t -->
-<!-- Slides 71–79 -->
+<!-- Slides 73-82 -->
 
 # Fixed-Width Integers and size_t
-<!-- Slide 70 -->
+<!-- Slide 73 -->
 
 ## What if `int` is a different size on a different machine? {.smaller}
 
@@ -11,11 +11,11 @@
 + C++ provides fixed-width integer types that guarantee an exact size everywhere.
 
 ::: notes
-Slides 71–79
+Slides 73-82
 This is a practical portability topic. Students writing code for embedded systems, network protocols, or binary file formats will encounter this immediately. The key lesson: never hardcode byte counts — use fixed-width types when the width matters and sizeof() when you need to measure.
 :::
 
-<!-- Slide 71 -->
+<!-- Slide 74 -->
 
 ---
 
@@ -29,7 +29,7 @@ This is a practical portability topic. Students writing code for embedded system
 Real-world scenario: a network protocol field is exactly 32 bits. Using int on a platform where int is 16 bits corrupts the data silently. The solution is to name the width explicitly using the fixed-width types from <cstdint>.
 :::
 
-<!-- Slide 72 -->
+<!-- Slide 75 -->
 
 ---
 
@@ -44,7 +44,7 @@ Real-world scenario: a network protocol field is exactly 32 bits. Using int on a
 
 If the platform cannot provide that exact size, the type does not exist — you get a compile error rather than silent data corruption.
 
-<!-- Slide 73 -->
+<!-- Slide 76 -->
 
 ---
 
@@ -67,7 +67,7 @@ int main()
 }
 ```
 
-<!-- Slide 74 -->
+<!-- Slide 77 -->
 
 ---
 
@@ -79,7 +79,7 @@ int main()
   + You need bit manipulation with a known field width.
 + For general arithmetic where exact size does not matter, plain `int` and `long` are fine.
 
-<!-- Slide 75 -->
+<!-- Slide 78 -->
 
 ---
 
@@ -97,7 +97,7 @@ vector<int> v = {1, 2, 3};
 cout << v.size() << "\n";         // also returns size_t
 ```
 
-<!-- Slide 76 -->
+<!-- Slide 79 -->
 
 ---
 
@@ -114,7 +114,7 @@ for (size_t i = 0; i < names.size(); ++i) {
 }
 ```
 
-<!-- Slide 77 -->
+<!-- Slide 80 -->
 
 ---
 
@@ -126,7 +126,7 @@ for (size_t i = 0; i < names.size(); ++i) {
 + These exist for performance-sensitive code.
 + At the introductory level, use the exact-width types (`int32_t`) unless you have a specific reason to choose otherwise.
 
-<!-- Slide 78 -->
+<!-- Slide 81 -->
 
 ---
 
@@ -137,4 +137,4 @@ for (size_t i = 0; i < names.size(); ++i) {
 + Use `size_t` for sizes, indexes, and anything that measures memory or container length.
 + For everything else, `int` is fine.
 
-<!-- Slide 79 -->
+<!-- Slide 82 -->
