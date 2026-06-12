@@ -1,5 +1,5 @@
 <!-- Topic 2: Dates and Random Numbers -->
-<!-- Slides 16-29 -->
+<!-- Slides 16-30 -->
 
 # Dates and Random Numbers
 <!-- Slide 16 -->
@@ -10,7 +10,7 @@
 + Date/time values and random numbers let programs respond to the current moment.
 
 ::: notes
-Slides 16-29
+Slides 16-30
 :::
 
 <!-- Slide 17 -->
@@ -43,16 +43,43 @@ int main() {
 }
 ```
 
+Example output:
+
+```text
+1780612200
+```
+
 <!-- Slide 19 -->
 
 ---
 
 ## Date Illustration
 
+```cpp
+#include <iostream>
+#include <ctime>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    time_t now = time(0);
+    tm* date = localtime(&now);
+
+    int month = date->tm_mon + 1;
+    int day = date->tm_mday;
+    int year = (date->tm_year + 1900) % 100;
+
+    cout << setfill('0');
+    cout << setw(2) << month << "/";
+    cout << setw(2) << day << "/";
+    cout << setw(2) << year << endl;
+
+    return 0;
+}
+```
+
 ```text
-Calendar time:     June 4, 2026, 10:30 AM
-Timestamp value:   seconds since a fixed starting point
-Program use:       store, compare, seed, or display
+06/11/26
 ```
 
 ::: notes
@@ -60,6 +87,24 @@ Program use:       store, compare, seed, or display
 :::
 
 <!-- Slide 20 -->
+
+---
+
+## Time Variables
+
+| Member | Type | Meaning | Range |
+|--------|------|---------|-------|
+| `tm_sec` | `int` | seconds after the minute | 0-60* |
+| `tm_min` | `int` | minutes after the hour | 0-59 |
+| `tm_hour` | `int` | hours since midnight | 0-23 |
+| `tm_mday` | `int` | day of the month | 1-31 |
+| `tm_mon` | `int` | months since January | 0-11 |
+| `tm_year` | `int` | years since 1900 | |
+| `tm_wday` | `int` | days since Sunday | 0-6 |
+| `tm_yday` | `int` | days since January 1 | 0-365 |
+| `tm_isdst` | `int` | Daylight Saving Time flag | |
+
+<!-- Slide 21 -->
 
 ---
 
@@ -71,7 +116,7 @@ The timestamp is useful even before we format it as a human-readable date.
 + It can be stored in a variable.
 + It can make random-number sequences start differently.
 
-<!-- Slide 21 -->
+<!-- Slide 22 -->
 
 ---
 
@@ -81,7 +126,7 @@ Random numbers let a program choose from several possible values.
 
 They are useful for games, simulations, sampling, and practice programs.
 
-<!-- Slide 22 -->
+<!-- Slide 23 -->
 
 ---
 
@@ -97,7 +142,7 @@ srand(5);
 
 The same seed produces the same sequence.
 
-<!-- Slide 23 -->
+<!-- Slide 24 -->
 
 ---
 
@@ -114,7 +159,7 @@ srand(time(0));
 
 Seed once near the beginning of the program.
 
-<!-- Slide 24 -->
+<!-- Slide 25 -->
 
 ---
 
@@ -128,7 +173,7 @@ int raw = rand();
 
 The raw value is usually too large for the program's actual need.
 
-<!-- Slide 25 -->
+<!-- Slide 26 -->
 
 ---
 
@@ -142,7 +187,7 @@ int roll = rand() % 6 + 1;
 
 This produces values from 1 through 6.
 
-<!-- Slide 26 -->
+<!-- Slide 27 -->
 
 ---
 
@@ -164,7 +209,13 @@ int main() {
 }
 ```
 
-<!-- Slide 27 -->
+Example output:
+
+```text
+Roll: 4
+```
+
+<!-- Slide 28 -->
 
 ---
 
@@ -174,7 +225,7 @@ int main() {
 + Use a range formula that matches the values you want.
 + Use random numbers only when unpredictability helps the program.
 
-<!-- Slide 28 -->
+<!-- Slide 29 -->
 
 ---
 
@@ -184,4 +235,4 @@ int main() {
 + A seed controls where the random sequence begins.
 + A range formula turns raw random numbers into useful program values.
 
-<!-- Slide 29 -->
+<!-- Slide 30 -->

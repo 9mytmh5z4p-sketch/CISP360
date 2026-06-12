@@ -96,7 +96,7 @@
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="p360_lecture_03.01_files/libs/revealjs/dist/theme/quarto-99eeafcedac04850354b682963cedae3.css">
-  <link rel="stylesheet" href="../styles/styles.css?v=04.06.00">
+  <link rel="stylesheet" href="../styles/styles.css">
   <link href="p360_lecture_03.01_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="p360_lecture_03.01_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="p360_lecture_03.01_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -382,7 +382,7 @@ Dr.&nbsp;Caleb Fowler
 </ul>
 <!-- Slide 15 -->
 <!-- Topic 2: Dates and Random Numbers -->
-<!-- Slides 16-29 -->
+<!-- Slides 16-30 -->
 </section></section>
 <section>
 <section id="dates-and-random-numbers" class="title-slide slide level1 center">
@@ -396,7 +396,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Date/time values and random numbers let programs respond to the current moment.</li>
 </ul>
 <aside class="notes">
-<p>Slides 16-29</p>
+<p>Slides 16-30</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -428,13 +428,33 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb7-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> now <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
 <span id="cb7-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb7-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Example output:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href=""></a>1780612200</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <!-- Slide 19 -->
 </section>
 <section id="date-illustration" class="slide level2">
 <h2>Date Illustration</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href=""></a>Calendar time:     June 4, 2026, 10:30 AM</span>
-<span id="cb8-2"><a href=""></a>Timestamp value:   seconds since a fixed starting point</span>
-<span id="cb8-3"><a href=""></a>Program use:       store, compare, seed, or display</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb9-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;ctime&gt;</span></span>
+<span id="cb9-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
+<span id="cb9-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb9-5"><a href=""></a></span>
+<span id="cb9-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-7"><a href=""></a>    <span class="dt">time_t</span> now <span class="op">=</span> time<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb9-8"><a href=""></a>    tm<span class="op">*</span> date <span class="op">=</span> localtime<span class="op">(&amp;</span>now<span class="op">);</span></span>
+<span id="cb9-9"><a href=""></a></span>
+<span id="cb9-10"><a href=""></a>    <span class="dt">int</span> month <span class="op">=</span> date<span class="op">-&gt;</span>tm_mon <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb9-11"><a href=""></a>    <span class="dt">int</span> day <span class="op">=</span> date<span class="op">-&gt;</span>tm_mday<span class="op">;</span></span>
+<span id="cb9-12"><a href=""></a>    <span class="dt">int</span> year <span class="op">=</span> <span class="op">(</span>date<span class="op">-&gt;</span>tm_year <span class="op">+</span> <span class="dv">1900</span><span class="op">)</span> <span class="op">%</span> <span class="dv">100</span><span class="op">;</span></span>
+<span id="cb9-13"><a href=""></a></span>
+<span id="cb9-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> setfill<span class="op">(</span><span class="ch">'0'</span><span class="op">);</span></span>
+<span id="cb9-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">&lt;&lt;</span> month <span class="op">&lt;&lt;</span> <span class="st">"/"</span><span class="op">;</span></span>
+<span id="cb9-16"><a href=""></a>    cout <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">&lt;&lt;</span> day <span class="op">&lt;&lt;</span> <span class="st">"/"</span><span class="op">;</span></span>
+<span id="cb9-17"><a href=""></a>    cout <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">&lt;&lt;</span> year <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb9-18"><a href=""></a></span>
+<span id="cb9-19"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-20"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a href=""></a>06/11/26</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
 <p>[Graphic suggestion: a calendar label connected to a numeric timestamp, then to a program output line.]</p>
 <style type="text/css">
@@ -450,6 +470,76 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 20 -->
 </section>
+<section id="time-variables" class="slide level2">
+<h2>Time Variables</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Member</th>
+<th>Type</th>
+<th>Meaning</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tm_sec</code></td>
+<td><code>int</code></td>
+<td>seconds after the minute</td>
+<td>0-60*</td>
+</tr>
+<tr class="even">
+<td><code>tm_min</code></td>
+<td><code>int</code></td>
+<td>minutes after the hour</td>
+<td>0-59</td>
+</tr>
+<tr class="odd">
+<td><code>tm_hour</code></td>
+<td><code>int</code></td>
+<td>hours since midnight</td>
+<td>0-23</td>
+</tr>
+<tr class="even">
+<td><code>tm_mday</code></td>
+<td><code>int</code></td>
+<td>day of the month</td>
+<td>1-31</td>
+</tr>
+<tr class="odd">
+<td><code>tm_mon</code></td>
+<td><code>int</code></td>
+<td>months since January</td>
+<td>0-11</td>
+</tr>
+<tr class="even">
+<td><code>tm_year</code></td>
+<td><code>int</code></td>
+<td>years since 1900</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>tm_wday</code></td>
+<td><code>int</code></td>
+<td>days since Sunday</td>
+<td>0-6</td>
+</tr>
+<tr class="even">
+<td><code>tm_yday</code></td>
+<td><code>int</code></td>
+<td>days since January 1</td>
+<td>0-365</td>
+</tr>
+<tr class="odd">
+<td><code>tm_isdst</code></td>
+<td><code>int</code></td>
+<td>Daylight Saving Time flag</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 21 -->
+</section>
 <section id="time-as-a-number" class="slide level2">
 <h2>Time as a Number</h2>
 <p>The timestamp is useful even before we format it as a human-readable date.</p>
@@ -458,62 +548,64 @@ Dr.&nbsp;Caleb Fowler
 <li>It can be stored in a variable.</li>
 <li>It can make random-number sequences start differently.</li>
 </ul>
-<!-- Slide 21 -->
+<!-- Slide 22 -->
 </section>
 <section id="random-numbers" class="slide level2">
 <h2>Random Numbers</h2>
 <p>Random numbers let a program choose from several possible values.</p>
 <p>They are useful for games, simulations, sampling, and practice programs.</p>
-<!-- Slide 22 -->
+<!-- Slide 23 -->
 </section>
 <section id="why-random-needs-a-seed" class="slide level2">
 <h2>Why Random Needs a Seed</h2>
 <p><code>rand()</code> follows a repeatable sequence.</p>
 <p>The seed chooses where that sequence starts.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a>srand<span class="op">(</span><span class="dv">5</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a>srand<span class="op">(</span><span class="dv">5</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The same seed produces the same sequence.</p>
-<!-- Slide 23 -->
+<!-- Slide 24 -->
 </section>
 <section id="seeding-with-time" class="slide level2">
 <h2>Seeding with Time</h2>
 <p>Use the current time as a changing seed.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span></span>
-<span id="cb10-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;ctime&gt;</span></span>
-<span id="cb10-3"><a href=""></a></span>
-<span id="cb10-4"><a href=""></a>srand<span class="op">(</span>time<span class="op">(</span><span class="dv">0</span><span class="op">));</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span></span>
+<span id="cb12-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;ctime&gt;</span></span>
+<span id="cb12-3"><a href=""></a></span>
+<span id="cb12-4"><a href=""></a>srand<span class="op">(</span>time<span class="op">(</span><span class="dv">0</span><span class="op">));</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Seed once near the beginning of the program.</p>
-<!-- Slide 24 -->
+<!-- Slide 25 -->
 </section>
 <section id="generating-a-random-number" class="slide level2">
 <h2>Generating a Random Number</h2>
 <p><code>rand()</code> returns a large integer.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">int</span> raw <span class="op">=</span> rand<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">int</span> raw <span class="op">=</span> rand<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The raw value is usually too large for the program’s actual need.</p>
-<!-- Slide 25 -->
+<!-- Slide 26 -->
 </section>
 <section id="limiting-the-range" class="slide level2">
 <h2>Limiting the Range</h2>
 <p>Use modulus to reduce the raw value to a smaller range.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">int</span> roll <span class="op">=</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span> roll <span class="op">=</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This produces values from 1 through 6.</p>
-<!-- Slide 26 -->
+<!-- Slide 27 -->
 </section>
 <section id="die-roll-example" class="slide level2">
 <h2>Die Roll Example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb13-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span></span>
-<span id="cb13-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;ctime&gt;</span></span>
-<span id="cb13-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb13-5"><a href=""></a></span>
-<span id="cb13-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb13-7"><a href=""></a>    srand<span class="op">(</span>time<span class="op">(</span><span class="dv">0</span><span class="op">));</span></span>
-<span id="cb13-8"><a href=""></a></span>
-<span id="cb13-9"><a href=""></a>    <span class="dt">int</span> roll <span class="op">=</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb13-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Roll: "</span> <span class="op">&lt;&lt;</span> roll <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb13-11"><a href=""></a></span>
-<span id="cb13-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb13-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 27 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb15-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span></span>
+<span id="cb15-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;ctime&gt;</span></span>
+<span id="cb15-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb15-5"><a href=""></a></span>
+<span id="cb15-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb15-7"><a href=""></a>    srand<span class="op">(</span>time<span class="op">(</span><span class="dv">0</span><span class="op">));</span></span>
+<span id="cb15-8"><a href=""></a></span>
+<span id="cb15-9"><a href=""></a>    <span class="dt">int</span> roll <span class="op">=</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb15-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Roll: "</span> <span class="op">&lt;&lt;</span> roll <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb15-11"><a href=""></a></span>
+<span id="cb15-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb15-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Example output:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb16-1"><a href=""></a>Roll: 4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 28 -->
 </section>
 <section id="common-practices-1" class="slide level2">
 <h2>Common Practices</h2>
@@ -522,7 +614,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use a range formula that matches the values you want.</li>
 <li>Use random numbers only when unpredictability helps the program.</li>
 </ul>
-<!-- Slide 28 -->
+<!-- Slide 29 -->
 </section>
 <section id="summary-1" class="slide level2">
 <h2>Summary</h2>
@@ -531,14 +623,14 @@ Dr.&nbsp;Caleb Fowler
 <li>A seed controls where the random sequence begins.</li>
 <li>A range formula turns raw random numbers into useful program values.</li>
 </ul>
-<!-- Slide 29 -->
+<!-- Slide 30 -->
 <!-- Topic 3: IPO Models -->
-<!-- Slides 30-43 -->
+<!-- Slides 31-44 -->
 </section></section>
 <section>
 <section id="ipo-models" class="title-slide slide level1 center">
 <h1>IPO Models</h1>
-<!-- Slide 30 -->
+<!-- Slide 31 -->
 </section>
 <section id="before-code-name-the-shape" class="slide level2 smaller">
 <h2>Before Code, Name the Shape</h2>
@@ -547,7 +639,7 @@ Dr.&nbsp;Caleb Fowler
 <li>IPO separates a problem into inputs, processing, and outputs.</li>
 </ul>
 <aside class="notes">
-<p>Slides 30-43</p>
+<p>Slides 31-44</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -559,7 +651,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 31 -->
+<!-- Slide 32 -->
 </section>
 <section id="what-is-an-ipo-model" class="slide level2">
 <h2>What Is an IPO Model?</h2>
@@ -569,25 +661,25 @@ Dr.&nbsp;Caleb Fowler
 <li><strong>Processing:</strong> work the program does.</li>
 <li><strong>Output:</strong> result the program produces.</li>
 </ul>
-<!-- Slide 32 -->
+<!-- Slide 33 -->
 </section>
 <section id="input" class="slide level2">
 <h2>Input</h2>
 <p>Inputs are the values the program needs before it can do useful work.</p>
 <p>They may come from the user, a file, a constant, or a system function.</p>
-<!-- Slide 33 -->
+<!-- Slide 34 -->
 </section>
 <section id="processing" class="slide level2">
 <h2>Processing</h2>
 <p>Processing is the calculation, decision, or transformation applied to the input.</p>
 <p>This is where the program changes data into a useful result.</p>
-<!-- Slide 34 -->
+<!-- Slide 35 -->
 </section>
 <section id="output" class="slide level2">
 <h2>Output</h2>
 <p>Outputs are the values, messages, or reports the program produces.</p>
 <p>Good outputs answer the problem the program was written to solve.</p>
-<!-- Slide 35 -->
+<!-- Slide 36 -->
 </section>
 <section id="a-small-ipo-table" class="slide level2">
 <h2>A Small IPO Table</h2>
@@ -608,17 +700,17 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>The table turns a word problem into a program plan.</p>
-<!-- Slide 36 -->
+<!-- Slide 37 -->
 </section>
 <section id="from-ipo-to-variables" class="slide level2">
 <h2>From IPO to Variables</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span> quantity<span class="op">;</span></span>
-<span id="cb14-2"><a href=""></a><span class="dt">double</span> price<span class="op">;</span></span>
-<span id="cb14-3"><a href=""></a><span class="dt">double</span> total<span class="op">;</span></span>
-<span id="cb14-4"><a href=""></a></span>
-<span id="cb14-5"><a href=""></a>total <span class="op">=</span> quantity <span class="op">*</span> price<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">int</span> quantity<span class="op">;</span></span>
+<span id="cb17-2"><a href=""></a><span class="dt">double</span> price<span class="op">;</span></span>
+<span id="cb17-3"><a href=""></a><span class="dt">double</span> total<span class="op">;</span></span>
+<span id="cb17-4"><a href=""></a></span>
+<span id="cb17-5"><a href=""></a>total <span class="op">=</span> quantity <span class="op">*</span> price<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Inputs often become variables; processing becomes statements; output becomes <code>cout</code>.</p>
-<!-- Slide 37 -->
+<!-- Slide 38 -->
 </section>
 <section id="common-practices-2" class="slide level2">
 <h2>Common Practices</h2>
@@ -627,7 +719,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Work backward to the required inputs.</li>
 <li>Name the processing step as a verb or formula.</li>
 </ul>
-<!-- Slide 38 -->
+<!-- Slide 39 -->
 </section>
 <section id="date-and-time-ipo" class="slide level2">
 <h2>Date and Time IPO</h2>
@@ -648,16 +740,16 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>The program does not ask the user for the time; it asks the system.</p>
-<!-- Slide 39 -->
+<!-- Slide 40 -->
 </section>
 <section id="date-and-time-variables" class="slide level2">
 <h2>Date and Time Variables</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">time_t</span> now<span class="op">;</span>   <span class="co">// a time type variable</span></span>
-<span id="cb15-2"><a href=""></a></span>
-<span id="cb15-3"><a href=""></a>now <span class="op">=</span> time<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
-<span id="cb15-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> now <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">time_t</span> now<span class="op">;</span>   <span class="co">// a time type variable</span></span>
+<span id="cb18-2"><a href=""></a></span>
+<span id="cb18-3"><a href=""></a>now <span class="op">=</span> time<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb18-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> now <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The input comes from <code>time(0)</code>, the variable stores it, and <code>cout</code> displays it.</p>
-<!-- Slide 40 -->
+<!-- Slide 41 -->
 </section>
 <section id="random-number-ipo" class="slide level2">
 <h2>Random Number IPO</h2>
@@ -678,17 +770,17 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>The processing step turns a large raw value into the range the program needs.</p>
-<!-- Slide 41 -->
+<!-- Slide 42 -->
 </section>
 <section id="random-number-variables" class="slide level2">
 <h2>Random Number Variables</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span> raw<span class="op">;</span></span>
-<span id="cb16-2"><a href=""></a><span class="dt">int</span> roll<span class="op">;</span></span>
-<span id="cb16-3"><a href=""></a></span>
-<span id="cb16-4"><a href=""></a>raw <span class="op">=</span> rand<span class="op">();</span></span>
-<span id="cb16-5"><a href=""></a>roll <span class="op">=</span> raw <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">int</span> raw<span class="op">;</span></span>
+<span id="cb19-2"><a href=""></a><span class="dt">int</span> roll<span class="op">;</span></span>
+<span id="cb19-3"><a href=""></a></span>
+<span id="cb19-4"><a href=""></a>raw <span class="op">=</span> rand<span class="op">();</span></span>
+<span id="cb19-5"><a href=""></a>roll <span class="op">=</span> raw <span class="op">%</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Separating <code>raw</code> and <code>roll</code> makes the design easier to trace.</p>
-<!-- Slide 42 -->
+<!-- Slide 43 -->
 </section>
 <section id="summary-2" class="slide level2">
 <h2>Summary</h2>
@@ -697,14 +789,14 @@ Dr.&nbsp;Caleb Fowler
 <li>The model helps choose variables before coding.</li>
 <li>A clear IPO plan makes code easier to write and test.</li>
 </ul>
-<!-- Slide 43 -->
+<!-- Slide 44 -->
 <!-- Topic 4: Execution Trace Models -->
-<!-- Slides 44-55 -->
+<!-- Slides 45-56 -->
 </section></section>
 <section>
 <section id="execution-trace-models" class="title-slide slide level1 center">
 <h1>Execution Trace Models</h1>
-<!-- Slide 44 -->
+<!-- Slide 45 -->
 </section>
 <section id="follow-the-program-one-line-at-a-time" class="slide level2 smaller">
 <h2>Follow the Program, One Line at a Time</h2>
@@ -713,7 +805,7 @@ Dr.&nbsp;Caleb Fowler
 <li>An execution trace records statements, variables, and output in order.</li>
 </ul>
 <aside class="notes">
-<p>Slides 44-55</p>
+<p>Slides 45-56</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -725,13 +817,13 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 45 -->
+<!-- Slide 46 -->
 </section>
 <section id="what-is-an-execution-trace" class="slide level2">
 <h2>What Is an Execution Trace?</h2>
 <p>An execution trace is a table or notes showing program state after each statement runs.</p>
 <p>It slows the program down enough for humans to inspect it.</p>
-<!-- Slide 46 -->
+<!-- Slide 47 -->
 </section>
 <section id="trace-columns" class="slide level2">
 <h2>Trace Columns</h2>
@@ -743,13 +835,13 @@ Dr.&nbsp;Caleb Fowler
 <li>output</li>
 </ul>
 <p>Only update the values that change on that line.</p>
-<!-- Slide 47 -->
+<!-- Slide 48 -->
 </section>
 <section id="simple-assignment-trace" class="slide level2">
 <h2>Simple Assignment Trace</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
-<span id="cb17-2"><a href=""></a><span class="dt">int</span> b <span class="op">=</span> <span class="dv">6</span><span class="op">;</span></span>
-<span id="cb17-3"><a href=""></a><span class="dt">int</span> total <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb20-2"><a href=""></a><span class="dt">int</span> b <span class="op">=</span> <span class="dv">6</span><span class="op">;</span></span>
+<span id="cb20-3"><a href=""></a><span class="dt">int</span> total <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -780,7 +872,7 @@ Dr.&nbsp;Caleb Fowler
 </tr>
 </tbody>
 </table>
-<!-- Slide 48 -->
+<!-- Slide 49 -->
 </section>
 <section id="output-in-a-trace" class="slide level2">
 <h2>Output in a Trace</h2>
@@ -802,7 +894,7 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>Output is part of the program’s observable behavior.</p>
-<!-- Slide 49 -->
+<!-- Slide 50 -->
 </section>
 <section id="input-in-a-trace" class="slide level2">
 <h2>Input in a Trace</h2>
@@ -824,7 +916,7 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>The trace depends on the input you assume.</p>
-<!-- Slide 50 -->
+<!-- Slide 51 -->
 </section>
 <section id="trace-vs.-ipo" class="slide level2">
 <h2>Trace vs.&nbsp;IPO</h2>
@@ -833,7 +925,7 @@ Dr.&nbsp;Caleb Fowler
 <li>An execution trace is a reading model used after code exists.</li>
 <li>IPO asks “what should happen?”; tracing asks “what does happen?”</li>
 </ul>
-<!-- Slide 51 -->
+<!-- Slide 52 -->
 </section>
 <section id="date-and-time-trace" class="slide level2">
 <h2>Date and Time Trace</h2>
@@ -859,7 +951,7 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>The exact timestamp changes, but the trace pattern stays the same.</p>
-<!-- Slide 52 -->
+<!-- Slide 53 -->
 </section>
 <section id="random-number-trace" class="slide level2">
 <h2>Random Number Trace</h2>
@@ -894,7 +986,7 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>Tracing separates the raw value from the final bounded value.</p>
-<!-- Slide 53 -->
+<!-- Slide 54 -->
 </section>
 <section id="common-practices-3" class="slide level2">
 <h2>Common Practices</h2>
@@ -904,7 +996,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Record output exactly.</li>
 <li>Do not skip lines that seem obvious.</li>
 </ul>
-<!-- Slide 54 -->
+<!-- Slide 55 -->
 </section>
 <section id="summary-3" class="slide level2">
 <h2>Summary</h2>
@@ -913,14 +1005,14 @@ Dr.&nbsp;Caleb Fowler
 <li>They help catch mistaken assumptions before or after running code.</li>
 <li>A good trace makes invisible variable changes visible.</li>
 </ul>
-<!-- Slide 55 -->
+<!-- Slide 56 -->
 <!-- Topic 5: Terminal Charts and Graphs -->
-<!-- Slides 56-65 -->
+<!-- Slides 57-66 -->
 </section></section>
 <section>
 <section id="terminal-charts-and-graphs" class="title-slide slide level1 center">
 <h1>Terminal Charts and Graphs</h1>
-<!-- Slide 56 -->
+<!-- Slide 57 -->
 </section>
 <section id="when-output-becomes-a-display" class="slide level2 smaller">
 <h2>When Output Becomes a Display</h2>
@@ -929,7 +1021,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Terminal charts use labels, spacing, and repeated characters to show simple data.</li>
 </ul>
 <aside class="notes">
-<p>Slides 56-65</p>
+<p>Slides 57-66</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -941,7 +1033,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 57 -->
+<!-- Slide 58 -->
 </section>
 <section id="chart-as-design-problem" class="slide level2">
 <h2>Chart as Design Problem</h2>
@@ -963,50 +1055,50 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>The chart is planned before it is printed.</p>
-<!-- Slide 58 -->
+<!-- Slide 59 -->
 </section>
 <section id="bar-charts-with-characters" class="slide level2">
 <h2>Bar Charts With Characters</h2>
 <p>A terminal bar chart uses repeated characters to represent quantity.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb18-1"><a href=""></a>Apples  #####</span>
-<span id="cb18-2"><a href=""></a>Oranges ###</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb21-1"><a href=""></a>Apples  #####</span>
+<span id="cb21-2"><a href=""></a>Oranges ###</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The longer bar represents the larger value.</p>
-<!-- Slide 59 -->
+<!-- Slide 60 -->
 </section>
 <section id="one-bar-by-hand" class="slide level2">
 <h2>One Bar by Hand</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Apples"</span></span>
-<span id="cb19-2"><a href=""></a>     <span class="op">&lt;&lt;</span> <span class="st">"#####"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Apples"</span></span>
+<span id="cb22-2"><a href=""></a>     <span class="op">&lt;&lt;</span> <span class="st">"#####"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Start with one correct row before building a larger display.</p>
-<!-- Slide 60 -->
+<!-- Slide 61 -->
 </section>
 <section id="several-bars-by-repetition" class="slide level2">
 <h2>Several Bars by Repetition</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Apples"</span>  <span class="op">&lt;&lt;</span> <span class="st">"#####"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb20-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Oranges"</span> <span class="op">&lt;&lt;</span> <span class="st">"###"</span>   <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb20-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Pears"</span>   <span class="op">&lt;&lt;</span> <span class="st">"####"</span>  <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Apples"</span>  <span class="op">&lt;&lt;</span> <span class="st">"#####"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb23-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Oranges"</span> <span class="op">&lt;&lt;</span> <span class="st">"###"</span>   <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb23-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Pears"</span>   <span class="op">&lt;&lt;</span> <span class="st">"####"</span>  <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each row follows the same output pattern.</p>
-<!-- Slide 61 -->
+<!-- Slide 62 -->
 </section>
 <section id="tables-as-charts" class="slide level2">
 <h2>Tables as Charts</h2>
 <p>Tables are charts when their layout helps the reader compare values.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb21-1"><a href=""></a>Item        Qty</span>
-<span id="cb21-2"><a href=""></a>Apples        5</span>
-<span id="cb21-3"><a href=""></a>Oranges       3</span>
-<span id="cb21-4"><a href=""></a>Pears         4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb24-1"><a href=""></a>Item        Qty</span>
+<span id="cb24-2"><a href=""></a>Apples        5</span>
+<span id="cb24-3"><a href=""></a>Oranges       3</span>
+<span id="cb24-4"><a href=""></a>Pears         4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Alignment turns separate lines into one display.</p>
-<!-- Slide 62 -->
+<!-- Slide 63 -->
 </section>
 <section id="a-small-sales-display" class="slide level2">
 <h2>A Small Sales Display</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb22-1"><a href=""></a>Sales Display</span>
-<span id="cb22-2"><a href=""></a>Item        Qty  Bar</span>
-<span id="cb22-3"><a href=""></a>Apples        5  #####</span>
-<span id="cb22-4"><a href=""></a>Oranges       3  ###</span>
-<span id="cb22-5"><a href=""></a>Pears         4  ####</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb25-1"><a href=""></a>Sales Display</span>
+<span id="cb25-2"><a href=""></a>Item        Qty  Bar</span>
+<span id="cb25-3"><a href=""></a>Apples        5  #####</span>
+<span id="cb25-4"><a href=""></a>Oranges       3  ###</span>
+<span id="cb25-5"><a href=""></a>Pears         4  ####</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The table gives exact values; the bars make comparison fast.</p>
-<!-- Slide 63 -->
+<!-- Slide 64 -->
 </section>
 <section id="common-practices-4" class="slide level2">
 <h2>Common Practices</h2>
@@ -1016,7 +1108,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use the same row pattern throughout the display.</li>
 <li>Make the chart readable before making it clever.</li>
 </ul>
-<!-- Slide 64 -->
+<!-- Slide 65 -->
 </section>
 <section id="summary-4" class="slide level2">
 <h2>Summary</h2>
@@ -1025,7 +1117,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Labels, spacing, and repeated symbols carry the meaning.</li>
 <li>A good display makes the important comparison visible.</li>
 </ul>
-<!-- Slide 65 -->
+<!-- Slide 66 -->
 </section>
 <section class="slide level2">
 
@@ -1040,7 +1132,7 @@ Dr.&nbsp;Caleb Fowler
 <li>IPO models plan a program before code; execution traces inspect code after it exists.</li>
 <li>Terminal charts are structured output designed for quick comparison.</li>
 </ul>
-<!-- Slide 66 -->
+<!-- Slide 67 -->
 </section>
 <section class="slide level2">
 
@@ -1053,7 +1145,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Function calls and parameters</li>
 <li>Local variables in functions</li>
 </ul>
-<!-- Slide 67 -->
+<!-- Slide 68 -->
 </section>
 <section class="slide level2">
 
@@ -1061,7 +1153,7 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-<!-- Slide 68 -->
+<!-- Slide 69 -->
 </section>
 <section id="advanced-cin-good-practices" class="slide level2">
 <h2>Advanced cin: Good Practices</h2>
@@ -1070,7 +1162,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use <code>getline</code> when spaces are part of the input.</li>
 <li>Clear failed input before reading again.</li>
 </ul>
-<!-- Slide 69 -->
+<!-- Slide 70 -->
 </section>
 <section id="advanced-cin-common-mistakes" class="slide level2">
 <h2>Advanced cin: Common Mistakes</h2>
@@ -1079,20 +1171,20 @@ Dr.&nbsp;Caleb Fowler
 <li>Mixing <code>cin &gt;&gt;</code> and <code>getline</code> without handling the leftover newline.</li>
 <li>Trying another read after a failed numeric extraction without clearing the stream.</li>
 </ul>
-<!-- Slide 70 -->
+<!-- Slide 71 -->
 </section>
 <section id="advanced-cin-more-examples" class="slide level2">
 <h2>Advanced cin: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a>string city<span class="op">;</span></span>
-<span id="cb23-2"><a href=""></a><span class="dt">int</span> population<span class="op">;</span></span>
-<span id="cb23-3"><a href=""></a></span>
-<span id="cb23-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Population: "</span><span class="op">;</span></span>
-<span id="cb23-5"><a href=""></a>cin <span class="op">&gt;&gt;</span> population<span class="op">;</span></span>
-<span id="cb23-6"><a href=""></a>cin<span class="op">.</span>ignore<span class="op">(</span><span class="dv">1000</span><span class="op">,</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span></span>
-<span id="cb23-7"><a href=""></a></span>
-<span id="cb23-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"City name: "</span><span class="op">;</span></span>
-<span id="cb23-9"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> city<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 71 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a>string city<span class="op">;</span></span>
+<span id="cb26-2"><a href=""></a><span class="dt">int</span> population<span class="op">;</span></span>
+<span id="cb26-3"><a href=""></a></span>
+<span id="cb26-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Population: "</span><span class="op">;</span></span>
+<span id="cb26-5"><a href=""></a>cin <span class="op">&gt;&gt;</span> population<span class="op">;</span></span>
+<span id="cb26-6"><a href=""></a>cin<span class="op">.</span>ignore<span class="op">(</span><span class="dv">1000</span><span class="op">,</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span></span>
+<span id="cb26-7"><a href=""></a></span>
+<span id="cb26-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"City name: "</span><span class="op">;</span></span>
+<span id="cb26-9"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> city<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 72 -->
 </section>
 <section id="advanced-cin-practice-problems" class="slide level2">
 <h2>Advanced cin: Practice Problems</h2>
@@ -1101,7 +1193,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Read an age with <code>cin &gt;&gt;</code>, then read a full address with <code>getline</code>.</li>
 <li>Show what remains in the stream when a user types two words into a <code>cin &gt;&gt;</code> read.</li>
 </ol>
-<!-- Slide 72 -->
+<!-- Slide 73 -->
 </section>
 <section id="advanced-cin-ai-search-terms" class="slide level2">
 <h2>Advanced cin: AI Search Terms</h2>
@@ -1110,7 +1202,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ cin fail state clear ignore”</li>
 <li>“C++ cin whitespace extraction”</li>
 </ul>
-<!-- Slide 73 -->
+<!-- Slide 74 -->
 </section>
 <section id="advanced-cin-questions-for-reflection" class="slide level2">
 <h2>Advanced cin: Questions for Reflection</h2>
@@ -1119,7 +1211,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why does a failed read affect the next read?</li>
 <li>When is a full-line read the better design choice?</li>
 </ul>
-<!-- Slide 74 -->
+<!-- Slide 75 -->
 </section>
 <section id="dates-and-random-numbers-good-practices" class="slide level2">
 <h2>Dates and Random Numbers: Good Practices</h2>
@@ -1128,7 +1220,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use clear variable names such as <code>raw</code>, <code>roll</code>, and <code>now</code>.</li>
 <li>Keep range formulas visible until the pattern is familiar.</li>
 </ul>
-<!-- Slide 75 -->
+<!-- Slide 76 -->
 </section>
 <section id="dates-and-random-numbers-common-mistakes" class="slide level2">
 <h2>Dates and Random Numbers: Common Mistakes</h2>
@@ -1137,14 +1229,14 @@ Dr.&nbsp;Caleb Fowler
 <li>Forgetting the <code>+ 1</code> when the desired range starts at 1.</li>
 <li>Treating a timestamp as a formatted calendar date.</li>
 </ul>
-<!-- Slide 76 -->
+<!-- Slide 77 -->
 </section>
 <section id="dates-and-random-numbers-more-examples" class="slide level2">
 <h2>Dates and Random Numbers: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">int</span> card <span class="op">=</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">13</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb24-2"><a href=""></a><span class="dt">int</span> coin <span class="op">=</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb24-3"><a href=""></a><span class="dt">int</span> percent <span class="op">=</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">101</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 77 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">int</span> card <span class="op">=</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">13</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb27-2"><a href=""></a><span class="dt">int</span> coin <span class="op">=</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb27-3"><a href=""></a><span class="dt">int</span> percent <span class="op">=</span> rand<span class="op">()</span> <span class="op">%</span> <span class="dv">101</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 78 -->
 </section>
 <section id="dates-and-random-numbers-practice-problems" class="slide level2">
 <h2>Dates and Random Numbers: Practice Problems</h2>
@@ -1153,7 +1245,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Generate a random number from 0 through 4.</li>
 <li>Print the current timestamp, then use it as a random seed.</li>
 </ol>
-<!-- Slide 78 -->
+<!-- Slide 79 -->
 </section>
 <section id="dates-and-random-numbers-ai-search-terms" class="slide level2">
 <h2>Dates and Random Numbers: AI Search Terms</h2>
@@ -1162,7 +1254,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ srand time rand beginner”</li>
 <li>“C++ rand modulo range”</li>
 </ul>
-<!-- Slide 79 -->
+<!-- Slide 80 -->
 </section>
 <section id="dates-and-random-numbers-questions-for-reflection" class="slide level2">
 <h2>Dates and Random Numbers: Questions for Reflection</h2>
@@ -1170,7 +1262,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why does the same seed create the same random sequence?</li>
 <li>Why is a raw random number usually not the final value a program needs?</li>
 </ul>
-<!-- Slide 80 -->
+<!-- Slide 81 -->
 </section>
 <section id="ipo-models-good-practices" class="slide level2">
 <h2>IPO Models: Good Practices</h2>
@@ -1179,7 +1271,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Identify only the inputs needed for that output.</li>
 <li>Name processing as a clear calculation or transformation.</li>
 </ul>
-<!-- Slide 81 -->
+<!-- Slide 82 -->
 </section>
 <section id="ipo-models-common-mistakes" class="slide level2">
 <h2>IPO Models: Common Mistakes</h2>
@@ -1188,7 +1280,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Treating every variable as an input.</li>
 <li>Skipping processing because the calculation feels obvious.</li>
 </ul>
-<!-- Slide 82 -->
+<!-- Slide 83 -->
 </section>
 <section id="ipo-models-more-examples" class="slide level2">
 <h2>IPO Models: More Examples</h2>
@@ -1216,7 +1308,7 @@ Dr.&nbsp;Caleb Fowler
 </tr>
 </tbody>
 </table>
-<!-- Slide 83 -->
+<!-- Slide 84 -->
 </section>
 <section id="ipo-models-practice-problems" class="slide level2">
 <h2>IPO Models: Practice Problems</h2>
@@ -1225,7 +1317,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Create an IPO table for printing a greeting.</li>
 <li>Create an IPO table for rolling a die.</li>
 </ol>
-<!-- Slide 84 -->
+<!-- Slide 85 -->
 </section>
 <section id="ipo-models-ai-search-terms" class="slide level2">
 <h2>IPO Models: AI Search Terms</h2>
@@ -1234,7 +1326,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“software design IPO chart”</li>
 <li>“beginner programming problem decomposition”</li>
 </ul>
-<!-- Slide 85 -->
+<!-- Slide 86 -->
 </section>
 <section id="ipo-models-questions-for-reflection" class="slide level2">
 <h2>IPO Models: Questions for Reflection</h2>
@@ -1242,7 +1334,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why might identifying output first make inputs easier to find?</li>
 <li>How does an IPO table reduce guessing while coding?</li>
 </ul>
-<!-- Slide 86 -->
+<!-- Slide 87 -->
 </section>
 <section id="execution-trace-models-good-practices" class="slide level2">
 <h2>Execution Trace Models: Good Practices</h2>
@@ -1251,7 +1343,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Record output exactly when it happens.</li>
 <li>Update only the variable values that change.</li>
 </ul>
-<!-- Slide 87 -->
+<!-- Slide 88 -->
 </section>
 <section id="execution-trace-models-common-mistakes" class="slide level2">
 <h2>Execution Trace Models: Common Mistakes</h2>
@@ -1260,16 +1352,16 @@ Dr.&nbsp;Caleb Fowler
 <li>Skipping assignments because they look simple.</li>
 <li>Recording final output before the <code>cout</code> statement runs.</li>
 </ul>
-<!-- Slide 88 -->
+<!-- Slide 89 -->
 </section>
 <section id="execution-trace-models-more-examples" class="slide level2">
 <h2>Execution Trace Models: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb25-2"><a href=""></a><span class="dt">int</span> y <span class="op">=</span> x <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb25-3"><a href=""></a>x <span class="op">=</span> y <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb25-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> x<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb28-2"><a href=""></a><span class="dt">int</span> y <span class="op">=</span> x <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb28-3"><a href=""></a>x <span class="op">=</span> y <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb28-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> x<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Trace <code>x</code>, <code>y</code>, and output after each statement.</p>
-<!-- Slide 89 -->
+<!-- Slide 90 -->
 </section>
 <section id="execution-trace-models-practice-problems" class="slide level2">
 <h2>Execution Trace Models: Practice Problems</h2>
@@ -1278,7 +1370,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Trace a program that reads one input value.</li>
 <li>Trace the raw and bounded values in a random-number example.</li>
 </ol>
-<!-- Slide 90 -->
+<!-- Slide 91 -->
 </section>
 <section id="execution-trace-models-ai-search-terms" class="slide level2">
 <h2>Execution Trace Models: AI Search Terms</h2>
@@ -1287,7 +1379,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“desk checking code variables output”</li>
 <li>“trace table beginner programming”</li>
 </ul>
-<!-- Slide 91 -->
+<!-- Slide 92 -->
 </section>
 <section id="execution-trace-models-questions-for-reflection" class="slide level2">
 <h2>Execution Trace Models: Questions for Reflection</h2>
@@ -1295,7 +1387,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why is tracing different from reading code casually?</li>
 <li>What kinds of bugs become easier to see in a trace?</li>
 </ul>
-<!-- Slide 92 -->
+<!-- Slide 93 -->
 </section>
 <section id="terminal-charts-and-graphs-good-practices" class="slide level2">
 <h2>Terminal Charts and Graphs: Good Practices</h2>
@@ -1304,7 +1396,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Keep columns aligned.</li>
 <li>Use a simple scale for bars.</li>
 </ul>
-<!-- Slide 93 -->
+<!-- Slide 94 -->
 </section>
 <section id="terminal-charts-and-graphs-common-mistakes" class="slide level2">
 <h2>Terminal Charts and Graphs: Common Mistakes</h2>
@@ -1313,15 +1405,15 @@ Dr.&nbsp;Caleb Fowler
 <li>Choosing a scale that exaggerates or hides differences.</li>
 <li>Mixing exact values and visual bars without clear labels.</li>
 </ul>
-<!-- Slide 94 -->
+<!-- Slide 95 -->
 </section>
 <section id="terminal-charts-and-graphs-more-examples" class="slide level2">
 <h2>Terminal Charts and Graphs: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb26-1"><a href=""></a>Books      ####</span>
-<span id="cb26-2"><a href=""></a>Games      ##</span>
-<span id="cb26-3"><a href=""></a>Snacks     ######</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb29-1"><a href=""></a>Books      ####</span>
+<span id="cb29-2"><a href=""></a>Games      ##</span>
+<span id="cb29-3"><a href=""></a>Snacks     ######</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each <code>#</code> can represent one item, five items, or another stated unit.</p>
-<!-- Slide 95 -->
+<!-- Slide 96 -->
 </section>
 <section id="terminal-charts-and-graphs-practice-problems" class="slide level2">
 <h2>Terminal Charts and Graphs: Practice Problems</h2>
@@ -1330,7 +1422,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Add a numeric column beside each bar.</li>
 <li>Redesign a plain list as a small table.</li>
 </ol>
-<!-- Slide 96 -->
+<!-- Slide 97 -->
 </section>
 <section id="terminal-charts-and-graphs-ai-search-terms" class="slide level2">
 <h2>Terminal Charts and Graphs: AI Search Terms</h2>
@@ -1339,7 +1431,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ formatted table output setw”</li>
 <li>“ASCII chart beginner programming”</li>
 </ul>
-<!-- Slide 97 -->
+<!-- Slide 98 -->
 </section>
 <section id="terminal-charts-and-graphs-questions-for-reflection" class="slide level2">
 <h2>Terminal Charts and Graphs: Questions for Reflection</h2>
@@ -1347,7 +1439,7 @@ Dr.&nbsp;Caleb Fowler
 <li>When is a visual bar clearer than only a number?</li>
 <li>What makes a terminal display easy to scan?</li>
 </ul>
-<!-- Slide 98 -->
+<!-- Slide 99 -->
 
 </section></section>
     </div>

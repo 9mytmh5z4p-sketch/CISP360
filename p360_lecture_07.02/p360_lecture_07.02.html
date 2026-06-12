@@ -206,52 +206,18 @@ Dr.&nbsp;Caleb Fowler
 </div>
 
 </section>
-<section id="last-time" class="slide level2">
-<h2>Last Time</h2>
-<ol type="1">
-<li class="fragment"><strong>While Loop</strong></li>
-<li class="fragment"><strong>Do-While Loop</strong></li>
-<li class="fragment"><strong>For Loop</strong></li>
-</ol>
-</section>
-<section id="todays-agenda" class="slide level2">
-<h2>Today’s Agenda</h2>
+<section id="last-time" class="title-slide slide level1 center">
+<h1>Last Time</h1>
 <ul>
-<li>Input Validation — why and what</li>
-<li>Validation architectures</li>
-<li>Inline and loop-until-valid design patterns</li>
-<li>Validation with <code>while</code> and <code>do-while</code></li>
-<li>Increment &amp; decrement operators</li>
-<li>Breaking out of a loop</li>
+<li class="fragment"><strong>Conditional Statements</strong></li>
+<li class="fragment"><strong>The Conditional Operator</strong></li>
+<li class="fragment"><strong>The switch Statement</strong></li>
+<li class="fragment"><strong>Nested if Statements</strong></li>
+<li class="fragment"><strong>Compound Conditions</strong></li>
+<li class="fragment"><strong>Range Checking</strong></li>
 </ul>
 <aside class="notes">
-
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section>
-<section id="input-validation---why" class="title-slide slide level1 center">
-<h1>Input Validation - Why?</h1>
-
-</section>
-<section id="input-validation---why-1" class="slide level2">
-<h2>Input Validation - Why?</h2>
-<ul>
-<li>What happens when a program receives bad input?</li>
-<li>How do we prevent garbage data from corrupting our results or crashing our application?</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 6</p>
-<p>Consider showing a visual comparison of good vs.&nbsp;bad data flow.</p>
+<p>Recall that conditionals used true/false questions to choose whether code should run. Today uses the same condition idea, but the control flow can return to an earlier point and repeat.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -265,111 +231,145 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 1 -->
 </section>
-<section id="gigo-garbage-in-garbage-out" class="slide level2">
-<h2>GIGO: Garbage In, Garbage Out</h2>
-<p>Unvalidated input is the most common source of program failures. If bad data enters your program, bad output (or a crash) follows.</p>
 
+<section id="todays-agenda" class="title-slide slide level1 center">
+<h1>Today’s Agenda</h1>
+<ul>
+<li>Why Iteration Matters</li>
+<li>Loop Anatomy and Program Control</li>
+<li>The while Loop</li>
+<li>The do-while Loop</li>
+<li>The for Loop</li>
+<li>Choosing a Loop</li>
+</ul>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <!-- Slide 2 -->
-<img data-src="assets/gigo.png" style="width:80.0%" class="r-stretch"></section>
-<section id="consequences-of-unvalidated-input" class="slide level2">
-<h2>Consequences of Unvalidated Input</h2>
-<ol type="1">
-<li class="fragment">Crash program</li>
-<li class="fragment">Wrong output</li>
-<li class="fragment">Security vulnerabilities</li>
-</ol>
+<!-- Topic 1: Why Iteration Matters -->
+<!-- Slides 3-8 -->
+</section>
+
+<section>
+<section id="why-iteration-matters" class="title-slide slide level1 center">
+<h1>Why Iteration Matters</h1>
 <!-- Slide 3 -->
 </section>
-<section id="the-programmers-responsibility" class="slide level2">
-<h2>The Programmer’s Responsibility</h2>
+<section id="why-repeat-work" class="slide level2 smaller">
+<h2>Why Repeat Work?</h2>
 <ul>
-<li>You control what your program accepts.</li>
-<li>Trusting the user to provide correct data is naive—they may mistype, misunderstand, or (rarely) act maliciously.</li>
-<li>Validation is not optional; it is part of correct program design.</li>
-<li>Your program must check data before using it.</li>
+<li>How do we tell a program to do the same kind of work more than once?</li>
+<li>Iteration is controlled repetition.</li>
 </ul>
+<aside class="notes">
+<p>Slides 3-8</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="programming-vs.-coding" class="slide level2">
+<h2>Programming vs.&nbsp;Coding</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Design Question</th>
+<th>Syntax Question</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>What work repeats?</td>
+<td>Which loop construct expresses it?</td>
+</tr>
+<tr class="even">
+<td>What changes each time?</td>
+<td>Where does the update happen?</td>
+</tr>
+<tr class="odd">
+<td>When should repetition stop?</td>
+<td>Where is the condition checked?</td>
+</tr>
+</tbody>
+</table>
 <!-- Slide 5 -->
+</section>
+<section id="iteration-in-ipo" class="slide level2">
+<h2>Iteration in IPO</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>IPO Part</th>
+<th>Loop Connection</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Input</td>
+<td>New data may arrive each pass</td>
+</tr>
+<tr class="even">
+<td>Process</td>
+<td>The repeated work usually lives here</td>
+</tr>
+<tr class="odd">
+<td>Output</td>
+<td>Results may appear once per pass or after the loop</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 6 -->
+</section>
+<section id="same-work-new-data" class="slide level2">
+<h2>Same Work, New Data</h2>
+<ul>
+<li>Each pass through a loop should have a purpose.</li>
+<li>The repeated work may use a new input value, a new counter value, or a new program state.</li>
+<li>A loop is useful when the shape of the work stays the same.</li>
+</ul>
+<!-- Slide 7 -->
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
-<p>Input validation prevents crashes, wrong output, and security holes. As a programmer, you are responsible for ensuring that only sensible data enters your program’s logic.</p>
-<!-- Slide 6 -->
-</section>
-<section id="appendix" class="slide level2">
-<h2>Appendix</h2>
-<!-- Appendix Slide -->
-</section>
-<section id="appendix-contents" class="slide level2">
-<h2>Appendix Contents</h2>
 <ul>
-<li><a href="#/common-practices">Common Practices</a></li>
-<li><a href="#/common-mistakes">Common Mistakes</a></li>
-<li><a href="#/more-examples">More Examples</a></li>
-<li><a href="#/practice-problems">Practice Problems</a></li>
-<li><a href="#/ai-search-terms">AI Search Terms</a></li>
-<li><a href="#/questions-for-reflection">Questions for Reflection</a></li>
+<li>Iteration repeats useful work under control of a condition.</li>
+<li>The design question comes first: what repeats, what changes, and when should it stop?</li>
 </ul>
-<!-- Appendix Slide 0 -->
-</section>
-<section id="common-practices" class="slide level2">
-<h2>Common Practices</h2>
-<p>Always check input immediately after reading it from the user. Validate at the boundary—right where data enters your program. Use clear error messages that tell the user exactly what was wrong and what is expected.</p>
-<p>Separate validation logic from business logic. Write reusable validation functions rather than scattering checks throughout your code. Document what “valid” means for each input field.</p>
-<!-- Appendix Slide 1 -->
-</section>
-<section id="common-mistakes" class="slide level2">
-<h2>Common Mistakes</h2>
-<p>Assuming the user will enter correct data is the root of most validation bugs. Never skip validation for “trusted” sources; corners of your code that seemed safe can become entry points later. Vague error messages (“Invalid input”) frustrate users and make debugging harder.</p>
-<p>Validating too late (after the data has been used in calculations) allows bad data to corrupt results. Validating in too many places creates inconsistency and maintenance headaches.</p>
-<!-- Appendix Slide 2 -->
-</section>
-<section id="more-examples" class="slide level2">
-<h2>More Examples</h2>
-<p>A program asks for a percentage (0–100). Without validation, entering “150” silently calculates wrong results. With validation, you reject 150 and ask again. A program asks for an age in years. Entering “-5” should be caught immediately, not stored in the database and discovered months later.</p>
-<p>A program reads a file path from the user. Validation ensures the path is not empty and exists before attempting to open it.</p>
-<!-- Appendix Slide 3 -->
-</section>
-<section id="practice-problems" class="slide level2">
-<h2>Practice Problems</h2>
-<ol type="1">
-<li><p>Write a function that validates a user’s age input (must be between 0 and 150). What should it return if the input is invalid?</p></li>
-<li><p>Describe what a program should do if a user enters a non-numeric value when an integer is expected.</p></li>
-<li><p>List three types of bad input your program might receive and the consequences if not caught.</p></li>
-</ol>
-<!-- Appendix Slide 4 -->
-</section>
-<section id="ai-search-terms" class="slide level2">
-<h2>AI Search Terms</h2>
-<ul>
-<li>input validation best practices C++</li>
-<li>why is input validation important</li>
-<li>garbage in garbage out examples</li>
-<li>data validation strategies</li>
-<li>defensive programming input checking</li>
-<li>input verification patterns</li>
-<li>data integrity and validation</li>
-</ul>
-<!-- Appendix Slide 5 -->
-</section>
-<section id="questions-for-reflection" class="slide level2">
-<h2>Questions for Reflection</h2>
-<p>Why is input validation considered a security issue, not just a correctness issue? What is the difference between validation that prevents crashes and validation that prevents logic errors? How does a program know what “valid” means for a given input field?</p>
-<!-- Appendix Slide 6 -->
+<!-- Slide 8 -->
+<!-- Topic 2: Loop Anatomy and Program Control -->
+<!-- Slides 9-19 -->
 </section></section>
 <section>
-<section id="input-validation---what" class="title-slide slide level1 center">
-<h1>Input Validation - What?</h1>
-
+<section id="loop-anatomy-and-program-control" class="title-slide slide level1 center">
+<h1>Loop Anatomy and Program Control</h1>
+<!-- Slide 9 -->
 </section>
-<section id="input-validation---what-1" class="slide level2">
-<h2>Input Validation - What?</h2>
+<section id="a-loop-you-already-know" class="slide level2 smaller">
+<h2>A Loop You Already Know</h2>
 <ul>
-<li>What exactly should we check when validating input?</li>
-<li>Are there categories of checks that apply across different programs and domains?</li>
+<li>A range-based <code>for</code> loop says: do this once for each item in a collection.</li>
+<li>You have already used loops when reading or displaying every value in a vector.</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 7</p>
-<p>Consider showing a flowchart with the seven validation types as decision points.</p>
+<p>Slides 9-19</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -381,149 +381,151 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 10 -->
 </section>
-<section id="catagories-of-validation-checks" class="slide level2">
-<h2>Catagories of Validation Checks</h2>
-<ol type="1">
-<li>Presence (is there any data at all?)</li>
-<li>Data type (is it an int, string, etc.?)</li>
-<li>Range / bounds (is a number within min/max?)</li>
-<li>Format (does it match a pattern like a zip code or phone number?)</li>
-<li>Set membership (is it one of a specific list of allowed values?)</li>
-<li>Business logic (does it make sense in context — e.g., end date after start date?)</li>
-<li>Consistency (does it agree with other fields already entered?)</li>
-</ol>
+<section id="what-for-each-hides" class="slide level2">
+<h2>What for-each Hides</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The loop visits each element, but the stopping condition and movement through the collection are handled for you.</p>
+<!-- Slide 11 -->
 </section>
-<section id="presence" class="slide level2">
-<h2>1. Presence</h2>
+<section id="that-sounds-like-an-if-statement" class="slide level2">
+<h2>That Sounds Like an if Statement</h2>
 <ul>
-<li><p>Presence validation checks whether data exists at all.</p></li>
-<li><p>Example: a form field that requires a name. An empty string fails presence validation. This is the first gate: no data means no valid input.</p></li>
+<li>Both <code>if</code> statements and loops use a condition.</li>
+<li>The condition decides whether a block should run.</li>
+<li>The difference is what happens after the block finishes.</li>
 </ul>
-<!-- Slide 2 -->
+<!-- Slide 12 -->
 </section>
-<section id="data-type" class="slide level2">
-<h2>2. Data Type</h2>
-<ul>
-<li>Data type validation ensures the data matches the expected type (integer, string, floating-point, etc.).</li>
-</ul>
-<!-- Slide 3 -->
+<section id="the-difference-is-control-flow" class="slide level2">
+<h2>The Difference Is Control Flow</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Structure</th>
+<th>After the Block</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>if</code></td>
+<td>Continue to the next statement</td>
+</tr>
+<tr class="even">
+<td>Loop</td>
+<td>Return to the loop condition or end the loop</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 13 -->
 </section>
-<section id="range-and-bounds" class="slide level2">
-<h2>3. Range and Bounds</h2>
-<ul>
-<li>Range validation ensures a numeric value falls between acceptable minimum and maximum boundaries.</li>
-<li>Prevents overflow, underflow, and nonsensical calculations. For example, validating that an array index is within the array’s actual size.</li>
-</ul>
-<!-- Slide 4 -->
+<section id="if-vs.-loop-control-flow" class="slide level2">
+<h2>if vs.&nbsp;Loop Control Flow</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>if</strong></p>
+<p><img data-src="images/if_small.png" style="width:52.0%" alt="Control flow for an if statement"></p>
+</div><div class="column" style="width:50%;">
+<p><strong>loop</strong></p>
+<p><img data-src="images/loop_small.png" style="width:68.0%" alt="Control flow for a loop statement"></p>
+</div></div>
+<!-- Slide 14 -->
 </section>
-<section id="format" class="slide level2">
-<h2>4. Format</h2>
+<section id="the-three-pieces-of-a-loop" class="slide level2">
+<h2>The Three Pieces of a Loop</h2>
 <ul>
-<li>Format validation checks whether data matches an expected pattern.</li>
-<li>Phone numbers follow “123-456-7890” or similar patterns.</li>
-<li>Zip codes are five digits.</li>
-<li>Email addresses contain an @ symbol.</li>
+<li><strong>Condition</strong>: the true/false test that controls repetition.</li>
+<li><strong>Control variable</strong>: the value that helps decide whether to continue.</li>
+<li><strong>Body</strong>: the block of work that repeats.</li>
 </ul>
-<!-- Slide 5 -->
+<!-- Slide 15 -->
 </section>
-<section id="set-membership" class="slide level2">
-<h2>5. Set Membership</h2>
-<ul>
-<li><p>Set membership validation checks whether the input is one of a specific list of allowed values. A menu might accept only “A”, “B”, or “C”; a response field might accept only “Yes” or “No”.</p></li>
-<li><p>This is a whitelist approach: only explicitly approved values are accepted. Everything else is rejected.</p></li>
-</ul>
-<!-- Slide 6 -->
+<section id="entry-vs.-exit-conditions" class="slide level2">
+<h2>Entry vs.&nbsp;Exit Conditions</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="images/while_loop.png" style="width:58.0%" alt="Entry-condition while loop flowchart"></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/do_loop.png" style="width:58.0%" alt="Exit-condition do-while loop flowchart"></p>
+</div></div>
+<p>Entry-condition loops may run zero times. Exit-condition loops run at least once.</p>
+<!-- Slide 16 -->
 </section>
-<section id="business-logic-and-consistency" class="slide level2">
-<h2>6. Business Logic and Consistency</h2>
+<section id="the-condition-must-change" class="slide level2">
+<h2>The Condition Must Change</h2>
 <ul>
-<li><p>Whether the input makes sense in the context of your program’s rules.</p></li>
-<li><p>An end date must be after a start date.</p></li>
-<li><p>A discount percentage cannot exceed 100%.</p></li>
-<li><p>A withdrawal amount cannot exceed account balance.</p></li>
-<li><p>Consistency validation ensures new input agrees with data already in the system (e.g., a zip code matches the city entered earlier).</p></li>
+<li>A loop must move toward stopping.</li>
+<li>That usually means input changes, a counter changes, or a flag changes.</li>
+<li>If the condition never becomes false, the loop does not end.</li>
 </ul>
-<!-- Slide 7 -->
+<!-- Slide 17 -->
+</section>
+<section id="tracing-the-control-variable" class="slide level2">
+<h2>Tracing the Control Variable</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Pass</th>
+<th style="text-align: right;"><code>count</code></th>
+<th>Condition <code>count &lt;= 3</code></th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td>true</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td>true</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td>true</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td>false</td>
+<td>stop</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 18 -->
 </section>
 <section id="summary-1" class="slide level2">
 <h2>Summary</h2>
-<p>The seven validation types—presence, data type, range, format, set membership, business logic, and consistency—cover all common checks. Apply them in order: first verify data exists, then its type, then its bounds, format, and allowed values, then logic and consistency rules.</p>
-<!-- Slide 8 -->
-</section>
-<section id="appendix-1" class="slide level2">
-<h2>Appendix</h2>
-<!-- Appendix Slide -->
-</section>
-<section id="appendix-contents-1" class="slide level2">
-<h2>Appendix Contents</h2>
 <ul>
-<li><a href="#/common-practices">Common Practices</a></li>
-<li><a href="#/common-mistakes">Common Mistakes</a></li>
-<li><a href="#/more-examples">More Examples</a></li>
-<li><a href="#/practice-problems">Practice Problems</a></li>
-<li><a href="#/ai-search-terms">AI Search Terms</a></li>
-<li><a href="#/questions-for-reflection">Questions for Reflection</a></li>
+<li>Explicit loops expose the control machinery that range-based <code>for</code> keeps out of sight.</li>
+<li>A loop is a decision plus a path back to the decision.</li>
 </ul>
-<!-- Appendix Slide 0 -->
-</section>
-<section id="common-practices-1" class="slide level2">
-<h2>Common Practices</h2>
-<p>Apply validation checks in layers, starting with presence and type, then range and format, then business logic. This order prevents crashes before logic errors. Use helper functions for each validation type—one function for range, one for format, etc.—to keep code readable and reusable.</p>
-<p>Document what valid input means for each field. Include constraints in comments or assertions. When validation fails, report which type of validation failed (e.g., “Range error: value must be 0–100”) so the user knows how to correct it.</p>
-<!-- Appendix Slide 1 -->
-</section>
-<section id="common-mistakes-1" class="slide level2">
-<h2>Common Mistakes</h2>
-<p>Mixing multiple validation types in a single function makes code hard to debug and reuse. Validating inconsistently (checking format in one place, range in another) allows invalid data to slip through.</p>
-<p>Forgetting presence and type checks and jumping straight to range checks causes crashes when data doesn’t exist or is the wrong type. Validating too strictly (rejecting valid input due to overly narrow rules) frustrates users.</p>
-<!-- Appendix Slide 2 -->
-</section>
-<section id="more-examples-1" class="slide level2">
-<h2>More Examples</h2>
-<p>Presence: checking that a user’s name field is not empty. Data type: ensuring an age input can be parsed as an integer. Range: ensuring a month value is 1–12. Format: checking that a phone number matches “XXX-XXX-XXXX”. Set membership: allowing only “M” or “F” for gender. Business logic: checking that a loan end date is after the start date. Consistency: checking that a zip code matches the state the user entered.</p>
-<!-- Appendix Slide 3 -->
-</section>
-<section id="practice-problems-1" class="slide level2">
-<h2>Practice Problems</h2>
-<ol type="1">
-<li><p>For a program that reads a birth year (must be 1900–2026), which validation types must you apply and in what order?</p></li>
-<li><p>A form asks for a country name. What validation type ensures the input is one of your program’s supported countries?</p></li>
-<li><p>Write a scenario where business logic validation is necessary but range validation alone is not enough.</p></li>
-<li><p>When would consistency validation matter in a multi-step form?</p></li>
-</ol>
-<!-- Appendix Slide 4 -->
-</section>
-<section id="ai-search-terms-1" class="slide level2">
-<h2>AI Search Terms</h2>
-<ul>
-<li>input validation types categories</li>
-<li>data type validation C++</li>
-<li>range checking validation</li>
-<li>format validation patterns regex</li>
-<li>business logic validation examples</li>
-<li>data consistency validation</li>
-<li>validation rules and constraints</li>
-</ul>
-<!-- Appendix Slide 5 -->
-</section>
-<section id="questions-for-reflection-1" class="slide level2">
-<h2>Questions for Reflection</h2>
-<p>Why is the order of validation types important? Can you think of a real application where all seven types are needed? Which validation type is hardest to implement correctly?</p>
-<!-- Appendix Slide 6 -->
+<!-- Slide 19 -->
+<!-- Topic 3: The while Loop -->
+<!-- Slides 20-29 -->
 </section></section>
 <section>
-<section id="input-validation-architectures" class="title-slide slide level1 center">
-<h1>Input Validation Architectures</h1>
-
+<section id="the-while-loop" class="title-slide slide level1 center">
+<h1>The while Loop</h1>
+<!-- Slide 20 -->
 </section>
-<section id="input-validation-architectures-1" class="slide level2">
-<h2>Input Validation Architectures</h2>
-<p>How should we structure validation in a real program? Are there different patterns for organizing validation logic, each suited to different scenarios?</p>
+<section id="when-might-the-work-happen-zero-times" class="slide level2 smaller">
+<h2>When Might the Work Happen Zero Times?</h2>
+<ul>
+<li>A <code>while</code> loop checks the condition before the body runs.</li>
+<li>Use it when the program may need to skip the repeated work entirely.</li>
+</ul>
 <aside class="notes">
-<p>Total slides: 7</p>
-<p>Consider showing a comparison table or flowchart of the eight architectures.</p>
+<p>Slides 20-29</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -535,180 +537,147 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 21 -->
 </section>
-<section id="overview-of-eight-architectures" class="slide level2">
-<h2>Overview of Eight Architectures</h2>
-<ol type="1">
-<li>Inline Validation</li>
-<li>Validation Layer / Gateway</li>
-<li>Loop-Until-Valid (Input Loop)</li>
-<li>Whitelist vs.&nbsp;Blacklist Validation</li>
-<li>Type-First Validation</li>
-<li>Exception-Based Validation</li>
-<li>State Machine Validation</li>
-<li>Schema / Contract Validation</li>
-</ol>
-<!-- Slide 2 -->
+<section id="the-shape-of-a-while-loop" class="slide level2">
+<h2>The Shape of a while Loop</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="cf">while</span> <span class="op">(</span>condition<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href=""></a>    statement<span class="op">;</span></span>
+<span id="cb2-3"><a href=""></a>    statement<span class="op">;</span></span>
+<span id="cb2-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The condition is tested first. If it is true, the body runs.</p>
+<!-- Slide 22 -->
 </section>
-<section id="inline-validation" class="slide level2">
-<h2>1. Inline Validation</h2>
+<section id="while-loop-control-flow" class="slide level2">
+<h2>while Loop Control Flow</h2>
+
+<!-- Slide 23 -->
+<img data-src="images/while_loop.png" style="width:52.0%" alt="Control flow for a while loop" class="r-stretch"></section>
+<section id="while-in-ipo" class="slide level2">
+<h2>while in IPO</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>IPO Part</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Input</td>
+<td>Get or already have a value</td>
+</tr>
+<tr class="even">
+<td>Process</td>
+<td>Repeat while the condition is true</td>
+</tr>
+<tr class="odd">
+<td>Output</td>
+<td>Show each result or the final result</td>
+</tr>
+</tbody>
+</table>
+<p>The loop belongs to the processing design.</p>
+<!-- Slide 24 -->
+</section>
+<section id="a-first-while-example" class="slide level2">
+<h2>A First while Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb3-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb3-3"><a href=""></a></span>
+<span id="cb3-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-5"><a href=""></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-6"><a href=""></a></span>
+<span id="cb3-7"><a href=""></a>    <span class="cf">while</span> <span class="op">(</span>count <span class="op">&lt;=</span> <span class="dv">3</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-8"><a href=""></a>        cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb3-9"><a href=""></a>        count<span class="op">++;</span></span>
+<span id="cb3-10"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb3-11"><a href=""></a></span>
+<span id="cb3-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 25 -->
+</section>
+<section id="trace-the-control-variable" class="slide level2">
+<h2>Trace the Control Variable</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Pass</th>
+<th style="text-align: right;"><code>count</code> Before Test</th>
+<th>Test</th>
+<th style="text-align: right;"><code>count</code> After Update</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td>true</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td>true</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td>true</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td>false</td>
+<td style="text-align: right;">4</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 26 -->
+</section>
+<section id="the-stop-condition" class="slide level2">
+<h2>The Stop Condition</h2>
 <ul>
-<li>Inline validation embeds checks directly in the code where data is used.
-<ul>
-<li>After reading an integer, you immediately check if it’s in range before using it in a calculation.</li>
-</ul></li>
-<li>This approach is simple and works well for small programs. However, it scatters validation logic throughout your code, making it hard to maintain or reuse checks across multiple locations.</li>
+<li>The loop stops when the condition becomes false.</li>
+<li>In the example, <code>count &lt;= 3</code> becomes false when <code>count</code> reaches <code>4</code>.</li>
+<li>The update is what moves the loop toward stopping.</li>
 </ul>
-<!-- Slide 3 -->
+<!-- Slide 27 -->
 </section>
-<section id="validation-layer-gateway" class="slide level2">
-<h2>2. Validation Layer / Gateway</h2>
+<section id="unknown-repetition" class="slide level2">
+<h2>Unknown Repetition</h2>
 <ul>
-<li>Validation layer abstracts checks into a separate module.</li>
+<li><code>while</code> is useful when the number of passes is not known ahead of time.</li>
+<li>The program keeps checking whether more work is needed.</li>
+<li>The loop might run many times, once, or not at all.</li>
 </ul>
-</section>
-<section id="loop-until-valid-the-input-loop" class="slide level2">
-<h2>3. Loop-Until-Valid: The Input Loop</h2>
-<ul>
-<li>Repeatedly asks the user for input until a valid value is received.
-<ul>
-<li>After reading a value, you validate it; if invalid, display an error and loop back to ask again.</li>
-</ul></li>
-<li>This pattern ensures you never proceed with invalid data.</li>
-<li>It’s the most practical approach for interactive programs in C++ and is your primary tool at this stage.</li>
-</ul>
-<!-- Slide 4 -->
-</section>
-<section id="whitelist-vs.-blacklist-validation" class="slide level2">
-<h2>4. Whitelist vs.&nbsp;Blacklist Validation</h2>
-<ul>
-<li>Whitelist validation explicitly approves only known-good values; everything else is rejected.
-<ul>
-<li>More secure and correct but requires knowing all valid values upfront.</li>
-</ul></li>
-<li>Blacklist validation rejects known-bad values; everything else is accepted.
-<ul>
-<li>Easier but incomplete—new attack vectors or edge cases slip through.</li>
-</ul></li>
-<li>Always prefer whitelist when possible.</li>
-</ul>
-<!-- Slide 5 -->
-</section>
-<section id="type-first-validation" class="slide level2">
-<h2>5. Type-First Validation</h2>
-<ul>
-<li>Checks the data type before applying other checks.
-<ul>
-<li>In C++, this means testing whether <code>cin</code> successfully read an integer before checking its range or format.</li>
-</ul></li>
-<li>This architecture makes type errors visible immediately.</li>
-</ul>
-<!-- Slide 6 -->
-</section>
-<section id="exception-based-validation" class="slide level2">
-<h2>6. Exception-Based Validation</h2>
-<ul>
-<li>Exception-based validation throws exceptions for invalid data.</li>
-</ul>
-</section>
-<section id="state-machine-validation" class="slide level2">
-<h2>7. State Machine Validation</h2>
-<ul>
-<li>State machine validation models valid input sequences.</li>
-<li>It assumes there is a valid path through the program.</li>
-<li>Each stop on the path has a limited number of allowable things to do there.</li>
-<li>The program only allows those limited things to be performed.</li>
-</ul>
-</section>
-<section id="schema-contract-validation" class="slide level2">
-<h2>8. Schema / Contract Validation</h2>
-<ul>
-<li>Schema validation (contracts) declares what valid data looks like.</li>
-</ul>
-<!-- Slide 7 -->
+<!-- Slide 28 -->
 </section>
 <section id="summary-2" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>There are a number of different architectural designs that we can use for input validation.</li>
-<li>We can also combine designs (ex: Validation Layer + Loop-Until-Valid)</li>
+<li>A <code>while</code> loop tests first.</li>
+<li>Use it when repetition depends on a condition that may already be false.</li>
 </ul>
-<!-- Slide 8 -->
-</section>
-<section id="appendix-2" class="slide level2">
-<h2>Appendix</h2>
-<!-- Appendix Slide -->
-</section>
-<section id="appendix-contents-2" class="slide level2">
-<h2>Appendix Contents</h2>
-<ul>
-<li><a href="#/common-practices">Common Practices</a></li>
-<li><a href="#/common-mistakes">Common Mistakes</a></li>
-<li><a href="#/more-examples">More Examples</a></li>
-<li><a href="#/practice-problems">Practice Problems</a></li>
-<li><a href="#/ai-search-terms">AI Search Terms</a></li>
-<li><a href="#/questions-for-reflection">Questions for Reflection</a></li>
-</ul>
-<!-- Appendix Slide 0 -->
-</section>
-<section id="common-practices-2" class="slide level2">
-<h2>Common Practices</h2>
-<p>Use loop-until-valid as your default architecture for interactive input. Always check <code>cin.fail()</code> after reading, and clear the input buffer with <code>cin.clear()</code> and <code>cin.ignore()</code> on failure. Build a library of reusable validation functions (e.g., <code>isValidAge()</code>, <code>isValidPhoneNumber()</code>) and call them consistently.</p>
-<p>Document which architecture you’re using and why. For inline validation, keep checks close to where data is used. For loop-until-valid, keep the loop condition clear and the error message helpful.</p>
-<!-- Appendix Slide 1 -->
-</section>
-<section id="common-mistakes-2" class="slide level2">
-<h2>Common Mistakes</h2>
-<p>Forgetting to clear the input buffer after a <code>cin</code> failure causes the failed input to remain, blocking all subsequent reads. Mixing inline and loop-based validation in the same program creates inconsistency and confusion.</p>
-<p>Using blacklist validation when whitelist is safer (e.g., accepting any string that doesn’t look like a SQL injection, rather than accepting only known-good values). Leaving validation logic scattered throughout the code instead of consolidating it into reusable functions.</p>
-<!-- Appendix Slide 2 -->
-</section>
-<section id="more-examples-2" class="slide level2">
-<h2>More Examples</h2>
-<p>Loop-until-valid example: ask for an age. Read a value. If it’s out of range, print “Age must be 0–150” and loop back. Type-first example: attempt to read an integer. If <code>cin.fail()</code> is true, clear the buffer, print “Please enter a number”, and ask again.</p>
-<p>Whitelist example: accept only menu choices “A”, “B”, or “C”. Reject anything else. Inline validation: after reading a test score, immediately check if it’s 0–100 before using it in a GPA calculation.</p>
-<!-- Appendix Slide 3 -->
-</section>
-<section id="practice-problems-2" class="slide level2">
-<h2>Practice Problems</h2>
-<ol type="1">
-<li><p>Write a loop-until-valid pattern for reading an integer between 1 and 10. What happens if the user enters “abc”?</p></li>
-<li><p>Explain how to clear the input buffer in C++ after a failed <code>cin</code> read.</p></li>
-<li><p>Compare whitelist and blacklist validation for a program that asks “Did you finish your homework?” (valid answers: “yes” or “no”).</p></li>
-<li><p>When might inline validation be preferable to loop-until-valid, and when might it fall short?</p></li>
-</ol>
-<!-- Appendix Slide 4 -->
-</section>
-<section id="ai-search-terms-2" class="slide level2">
-<h2>AI Search Terms</h2>
-<ul>
-<li>input validation patterns C++</li>
-<li>loop until valid cin</li>
-<li>whitelist vs blacklist validation</li>
-<li>cin.fail() input validation</li>
-<li>type checking input streams</li>
-<li>validation architecture patterns</li>
-<li>defensive programming input loops</li>
-</ul>
-<!-- Appendix Slide 5 -->
-</section>
-<section id="questions-for-reflection-2" class="slide level2">
-<h2>Questions for Reflection</h2>
-<p>Why is loop-until-valid considered safer than inline validation? What advantage does type-first validation provide? Can you describe a program where whitelist validation is essential for security?</p>
-<!-- Appendix Slide 6 -->
+<!-- Slide 29 -->
+<!-- Topic 4: The do-while Loop -->
+<!-- Slides 30-39 -->
 </section></section>
 <section>
-<section id="inline-validation-design" class="title-slide slide level1 center">
-<h1>Inline Validation Design</h1>
-
+<section id="the-do-while-loop" class="title-slide slide level1 center">
+<h1>The do-while Loop</h1>
+<!-- Slide 30 -->
 </section>
-<section id="inline-validation-design-1" class="slide level2">
-<h2>Inline Validation Design</h2>
-<p>What does it mean to validate input right where it’s used, rather than in a separate validation function?</p>
+<section id="when-must-the-work-happen-once" class="slide level2 smaller">
+<h2>When Must the Work Happen Once?</h2>
+<ul>
+<li>A <code>do-while</code> loop runs the body before testing the condition.</li>
+<li>Use it when the program must act once before it can decide whether to repeat.</li>
+</ul>
 <aside class="notes">
-<p>Total slides: 6</p>
-<p>Consider a visual diagram showing the flow: Input → if condition → respond (accept or reject).</p>
+<p>Slides 30-39</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -720,160 +689,154 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 31 -->
 </section>
-<section id="the-basic-structure" class="slide level2">
-<h2>The Basic Structure</h2>
+<section id="the-shape-of-a-do-while-loop" class="slide level2">
+<h2>The Shape of a do-while Loop</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="cf">do</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href=""></a>    statement<span class="op">;</span></span>
+<span id="cb4-3"><a href=""></a>    statement<span class="op">;</span></span>
+<span id="cb4-4"><a href=""></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>condition<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The semicolon after the condition is part of the syntax.</p>
+<!-- Slide 32 -->
+</section>
+<section id="do-while-loop-control-flow" class="slide level2">
+<h2>do-while Loop Control Flow</h2>
+
+<!-- Slide 33 -->
+<img data-src="images/do_loop.png" style="width:52.0%" alt="Control flow for a do-while loop" class="r-stretch"></section>
+<section id="do-while-in-ipo" class="slide level2">
+<h2>do-while in IPO</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>IPO Part</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Input</td>
+<td>Ask at least once</td>
+</tr>
+<tr class="even">
+<td>Process</td>
+<td>Decide whether the value is acceptable</td>
+</tr>
+<tr class="odd">
+<td>Output</td>
+<td>Prompt again or continue</td>
+</tr>
+</tbody>
+</table>
+<p>The first pass happens before the loop can stop.</p>
+<!-- Slide 34 -->
+</section>
+<section id="a-prompt-then-check-example" class="slide level2">
+<h2>A Prompt-Then-Check Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb5-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb5-3"><a href=""></a></span>
+<span id="cb5-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb5-5"><a href=""></a>    <span class="dt">int</span> choice<span class="op">;</span></span>
+<span id="cb5-6"><a href=""></a></span>
+<span id="cb5-7"><a href=""></a>    <span class="cf">do</span> <span class="op">{</span></span>
+<span id="cb5-8"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Enter 1 to continue or 0 to quit: "</span><span class="op">;</span></span>
+<span id="cb5-9"><a href=""></a>        cin <span class="op">&gt;&gt;</span> choice<span class="op">;</span></span>
+<span id="cb5-10"><a href=""></a>    <span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>choice <span class="op">!=</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb5-11"><a href=""></a></span>
+<span id="cb5-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 35 -->
+</section>
+<section id="trace-the-first-pass" class="slide level2">
+<h2>Trace the First Pass</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Moment</th>
+<th style="text-align: right;"><code>choice</code></th>
+<th>Condition <code>choice != 0</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Before body</td>
+<td style="text-align: right;">unknown</td>
+<td>not tested yet</td>
+</tr>
+<tr class="even">
+<td>After input</td>
+<td style="text-align: right;">1</td>
+<td>true</td>
+</tr>
+<tr class="odd">
+<td>After input</td>
+<td style="text-align: right;">0</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 36 -->
+</section>
+<section id="menus-and-validation" class="slide level2">
+<h2>Menus and Validation</h2>
 <ul>
-<li>Checking input in place.
-<ul>
-<li>Read a value,</li>
-<li>Test it with a condition, and</li>
-<li>React immediately.</li>
-</ul></li>
-<li>This is the clearest approach for single-point checks that don’t require re-prompting.</li>
+<li>Menus usually need to display before the user can choose.</li>
+<li>Prompts usually need to ask before the program can judge the answer.</li>
+<li>That makes <code>do-while</code> a common fit for “ask, then check” designs.</li>
 </ul>
-<!-- Slide 2 -->
+<!-- Slide 37 -->
 </section>
-<section id="range-checking-inline" class="slide level2">
-<h2>Range Checking Inline</h2>
-<p>Range checking verifies that a value falls between a minimum and maximum. Use AND (<code>&amp;&amp;</code>) to test both boundaries at once.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> MIN_AGE <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-2"><a href=""></a><span class="at">const</span> <span class="dt">int</span> MAX_AGE <span class="op">=</span> <span class="dv">120</span><span class="op">;</span></span>
-<span id="cb1-3"><a href=""></a></span>
-<span id="cb1-4"><a href=""></a><span class="dt">int</span> age<span class="op">;</span></span>
-<span id="cb1-5"><a href=""></a>cin <span class="op">&gt;&gt;</span> age<span class="op">;</span></span>
-<span id="cb1-6"><a href=""></a></span>
-<span id="cb1-7"><a href=""></a><span class="cf">if</span> <span class="op">(</span>age <span class="op">&lt;</span> MIN_AGE <span class="op">||</span> age <span class="op">&gt;</span> MAX_AGE<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb1-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Invalid age."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb1-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 3 -->
-</section>
-<section id="type-failure-check-and-cin-recovery" class="slide level2">
-<h2>Type Failure Check and cin Recovery</h2>
-<p>When <code>cin &gt;&gt; x</code> fails the input stream enters a failed state. You must clear the error flag and discard bad input.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span> count<span class="op">;</span></span>
-<span id="cb2-2"><a href=""></a><span class="cf">if</span> <span class="op">(!(</span>cin <span class="op">&gt;&gt;</span> count<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb2-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Error: expected an integer."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb2-4"><a href=""></a>    cin<span class="op">.</span>clear<span class="op">();</span>                    <span class="co">// Clear the fail flag</span></span>
-<span id="cb2-5"><a href=""></a>    cin<span class="op">.</span>ignore<span class="op">(</span><span class="dv">10000</span><span class="op">,</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span>        <span class="co">// Skip to next line</span></span>
-<span id="cb2-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 4 -->
-</section>
-<section id="the-isdirty-flag-pattern" class="slide level2">
-<h2>The isDirty Flag Pattern</h2>
-<p>When multiple conditions can invalidate input, use a boolean flag to track validity. Set the flag to true if any check fails, then use it to decide how to proceed.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">bool</span> isDirty <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb3-2"><a href=""></a></span>
-<span id="cb3-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>name<span class="op">.</span>length<span class="op">()</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>   <span class="co">// test for errors here</span></span>
-<span id="cb3-4"><a href=""></a>    isDirty <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb3-5"><a href=""></a><span class="op">}</span></span>
-<span id="cb3-6"><a href=""></a><span class="cf">if</span> <span class="op">(</span>age <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>              <span class="co">// and here</span></span>
-<span id="cb3-7"><a href=""></a>    isDirty <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb3-8"><a href=""></a><span class="op">}</span></span>
-<span id="cb3-9"><a href=""></a></span>
-<span id="cb3-10"><a href=""></a><span class="cf">if</span> <span class="op">(</span>isDirty<span class="op">)</span> <span class="op">{</span>              <span class="co">// display error message here</span></span>
-<span id="cb3-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Input rejected."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb3-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 5 -->
+<section id="do-while-vs.-while" class="slide level2">
+<h2>do-while vs.&nbsp;while</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Use <code>while</code> when…</th>
+<th>Use <code>do-while</code> when…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>The test should happen first</td>
+<td>The body must happen first</td>
+</tr>
+<tr class="even">
+<td>Zero passes are possible</td>
+<td>One pass is required</td>
+</tr>
+<tr class="odd">
+<td>Existing state controls entry</td>
+<td>New input controls the next pass</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 38 -->
 </section>
 <section id="summary-3" class="slide level2">
 <h2>Summary</h2>
-<p>Inline validation is the simplest approach: read input, test it with a condition, respond immediately in an <code>if</code> block.</p>
-<!-- Slide 6 -->
-</section>
-<section id="appendix-3" class="slide level2">
-<h2>Appendix</h2>
-<!-- Appendix Slide -->
-</section>
-<section id="appendix-contents-3" class="slide level2">
-<h2>Appendix Contents</h2>
 <ul>
-<li><a href="#/common-practices">Common Practices</a></li>
-<li><a href="#/common-mistakes">Common Mistakes</a></li>
-<li><a href="#/more-examples">More Examples</a></li>
-<li><a href="#/practice-problems">Practice Problems</a></li>
-<li><a href="#/ai-search-terms">AI Search Terms</a></li>
-<li><a href="#/questions-for-reflection">Questions for Reflection</a></li>
+<li>A <code>do-while</code> loop tests after the body.</li>
+<li>Use it when the first pass is part of getting the information needed to decide.</li>
 </ul>
-<!-- Appendix Slide 0 -->
-</section>
-<section id="common-practices-3" class="slide level2">
-<h2>Common Practices</h2>
-<p>Always use named constants for range boundaries (<code>MIN_VALUE</code>, <code>MAX_VALUE</code>) instead of hardcoding numbers. This makes code self-documenting and simplifies maintenance.</p>
-<p>When <code>cin &gt;&gt;</code> fails, always call both <code>cin.clear()</code> and <code>cin.ignore(10000, '\n')</code> to reset the stream and skip the bad input. The <code>10000</code> parameter is a large number that safely discards any remaining characters on the line.</p>
-<!-- Appendix Slide 1 -->
-</section>
-<section id="common-mistakes-3" class="slide level2">
-<h2>Common Mistakes</h2>
-<p><strong>Forgetting to clear the input stream</strong> — After a type mismatch, if you don’t call <code>cin.clear()</code>, the stream remains in a failed state and all subsequent reads will fail silently.</p>
-<p><strong>Using magic numbers for bounds</strong> — Hardcoding <code>if (age &gt; 120)</code> instead of <code>if (age &gt; MAX_AGE)</code> makes code harder to maintain and understand. Always use constants.</p>
-<p><strong>Mixing validation logic</strong> — Don’t scatter checks across multiple unrelated <code>if</code> statements. Group related validation checks together or use a <code>isDirty</code> flag to keep logic coherent.</p>
-<!-- Appendix Slide 2 -->
-</section>
-<section id="more-examples-3" class="slide level2">
-<h2>More Examples</h2>
-<p><strong>Example 1: Email string length check</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a>string email<span class="op">;</span></span>
-<span id="cb4-2"><a href=""></a>cin <span class="op">&gt;&gt;</span> email<span class="op">;</span></span>
-<span id="cb4-3"><a href=""></a></span>
-<span id="cb4-4"><a href=""></a><span class="cf">if</span> <span class="op">(</span>email<span class="op">.</span>length<span class="op">()</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Email cannot be empty."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb4-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Example 2: Character classification inline</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">char</span> grade<span class="op">;</span></span>
-<span id="cb5-2"><a href=""></a>cin <span class="op">&gt;&gt;</span> grade<span class="op">;</span></span>
-<span id="cb5-3"><a href=""></a></span>
-<span id="cb5-4"><a href=""></a><span class="cf">if</span> <span class="op">(!</span>isupper<span class="op">(</span>grade<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb5-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Grade must be uppercase A–F."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb5-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Appendix Slide 3 -->
-</section>
-<section id="practice-problems-3" class="slide level2">
-<h2>Practice Problems</h2>
-<ol type="1">
-<li><p>Write code to validate that a temperature is between -50 and 150 degrees Fahrenheit. Use named constants and print an error message if out of range.</p></li>
-<li><p>Write code to read an integer and check if the input operation failed. If it did, clear the stream and print an error message.</p></li>
-<li><p>Use a <code>isDirty</code> flag to validate that a username is non-empty and contains no spaces. Set the flag to true if either check fails.</p></li>
-<li><p>Write code to validate that a character input is a lowercase letter using <code>islower()</code>.</p></li>
-</ol>
-<!-- Appendix Slide 4 -->
-</section>
-<section id="ai-search-terms-3" class="slide level2">
-<h2>AI Search Terms</h2>
-<ul>
-<li>“C++ validate input with if statement”</li>
-<li>“C++ cin.clear() cin.ignore() stream recovery”</li>
-<li>“C++ range checking logic”</li>
-<li>“C++ check input type failure”</li>
-<li>“C++ isupper islower isdigit character classification”</li>
-<li>“C++ named constants for bounds”</li>
-</ul>
-<!-- Appendix Slide 5 -->
-</section>
-<section id="questions-for-reflection-3" class="slide level2">
-<h2>Questions for Reflection</h2>
-<ol type="1">
-<li><p>When should you use inline validation instead of a loop-until-valid approach?</p></li>
-<li><p>Why must you call both <code>cin.clear()</code> and <code>cin.ignore()</code> after a type failure, not just one?</p></li>
-<li><p>When is a <code>isDirty</code> flag useful, and when might simpler direct <code>if</code> statements be clearer?</p></li>
-<li><p>How does using named constants improve the readability and maintainability of validation code?</p></li>
-</ol>
-<!-- Appendix Slide 6 -->
+<!-- Slide 39 -->
+<!-- Topic 5: The for Loop -->
+<!-- Slides 40-49 -->
 </section></section>
 <section>
-<section id="loop-until-valid-design" class="title-slide slide level1 center">
-<h1>Loop-Until-Valid Design</h1>
-
+<section id="the-for-loop" class="title-slide slide level1 center">
+<h1>The for Loop</h1>
+<!-- Slide 40 -->
 </section>
-<section id="loop-until-valid-design-1" class="slide level2">
-<h2>Loop-Until-Valid Design</h2>
+<section id="when-do-we-know-the-count" class="slide level2 smaller">
+<h2>When Do We Know the Count?</h2>
 <ul>
-<li>Inline validation is one and done code.</li>
-<li>What if we need to keep asking the user for input until they provide a valid answer?</li>
+<li>A <code>for</code> loop is a natural fit for counted repetition.</li>
+<li>Use it when the program knows the number of passes or the numeric range to visit.</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 6 Users tend to hate their programs ending because of an incorrect input. Consider a visual flowchart: Prompt → Read → Test condition → if invalid, loop back; if valid, exit.</p>
+<p>Slides 40-49</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -885,654 +848,628 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 41 -->
 </section>
-<section id="the-concept-loop-condition-as-validation" class="slide level2">
-<h2>The Concept: Loop Condition as Validation</h2>
-<ul>
-<li>Keep re-prompting until the user enters valid data.
-<ul>
-<li>The loop condition IS your validation test.</li>
-<li>When the condition becomes false, the loop exits and you have a guaranteed valid input.</li>
-</ul></li>
-</ul>
-<!-- Slide 2 -->
+<section id="the-shape-of-a-for-loop" class="slide level2">
+<h2>The Shape of a for Loop</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span>initialization<span class="op">;</span> condition<span class="op">;</span> update<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href=""></a>    statement<span class="op">;</span></span>
+<span id="cb6-3"><a href=""></a>    statement<span class="op">;</span></span>
+<span id="cb6-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The header gathers the counter setup, the test, and the update in one place.</p>
+<!-- Slide 42 -->
 </section>
-<section id="what-kind-of-loop" class="slide level2">
-<h2>What kind of loop?</h2>
-<ol type="1">
-<li>while loop</li>
-<li>do while loop</li>
-<li>for loop</li>
-<li>for-each loop</li>
-</ol>
-<!-- Slide 3 -->
+<section id="for-loop-control-flow" class="slide level2">
+<h2>for Loop Control Flow</h2>
+
+<!-- Slide 43 -->
+<img data-src="images/for_loop.png" style="width:54.0%" alt="Control flow for a for loop" class="r-stretch"></section>
+<section id="for-in-ipo" class="slide level2">
+<h2>for in IPO</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>IPO Part</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Input</td>
+<td>Read <code>speed</code> and <code>totalHours</code></td>
+</tr>
+<tr class="even">
+<td>Process</td>
+<td>Calculate distance once per hour</td>
+</tr>
+<tr class="odd">
+<td>Output</td>
+<td>Display the hour and distance</td>
+</tr>
+</tbody>
+</table>
+<p>The count is known before the repeated processing begins.</p>
+<!-- Slide 44 -->
 </section>
-<section id="what-kind-of-loop-1" class="slide level2">
-<h2>What kind of loop?</h2>
-<ol type="1">
-<li><strong>while loop</strong></li>
-<li><strong>do while loop</strong></li>
-<li>for loop</li>
-<li>for-each loop</li>
-</ol>
-<!-- Slide 4 -->
+<section id="the-header-controls-the-counter" class="slide level2">
+<h2>The Header Controls the Counter</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> hour <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> hour <span class="op">&lt;=</span> totalHours<span class="op">;</span> hour<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href=""></a>    <span class="dt">int</span> distance <span class="op">=</span> speed <span class="op">*</span> hour<span class="op">;</span></span>
+<span id="cb7-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> hour <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> distance <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb7-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The counter starts at <code>1</code>, continues through <code>totalHours</code>, and changes by <code>1</code> each pass.</p>
+<!-- Slide 45 -->
 </section>
-<section id="while-loop-validation" class="slide level2">
-<h2>While Loop Validation</h2>
-<ul>
-<li>Runs AS LONG AS the input is invalid.
-<ul>
-<li>The key difference from other loops: the condition is “input is bad,” not “input is good.”</li>
-</ul></li>
-<li>Requires a priming read before the loop
-<ul>
-<li>get input once,</li>
-<li>then check it.</li>
-<li>if invalid, the loop body re-prompts and checks input again.</li>
-</ul></li>
-</ul>
-<!-- Slide 2 -->
+<section id="distance-by-hour" class="slide level2">
+<h2>Distance by Hour</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb8-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb8-3"><a href=""></a></span>
+<span id="cb8-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-5"><a href=""></a>    <span class="dt">int</span> speed <span class="op">=</span> <span class="dv">40</span><span class="op">;</span></span>
+<span id="cb8-6"><a href=""></a>    <span class="dt">int</span> totalHours <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb8-7"><a href=""></a></span>
+<span id="cb8-8"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> hour <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> hour <span class="op">&lt;=</span> totalHours<span class="op">;</span> hour<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb8-9"><a href=""></a>        <span class="dt">int</span> distance <span class="op">=</span> speed <span class="op">*</span> hour<span class="op">;</span></span>
+<span id="cb8-10"><a href=""></a>        cout <span class="op">&lt;&lt;</span> hour <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> distance <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb8-11"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb8-12"><a href=""></a></span>
+<span id="cb8-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 46 -->
 </section>
-<section id="example-range-validation" class="slide level2">
-<h2>Example: Range Validation</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> MIN <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> MAX <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>        <span class="co">// const eliminates magic numbers</span></span>
-<span id="cb6-2"><a href=""></a><span class="dt">int</span> val<span class="op">;</span></span>
-<span id="cb6-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a number (1-10): "</span><span class="op">;</span></span>
-<span id="cb6-4"><a href=""></a>cin <span class="op">&gt;&gt;</span> val<span class="op">;</span>   <span class="co">//....................... Priming read</span></span>
-<span id="cb6-5"><a href=""></a><span class="cf">while</span> <span class="op">(</span>val <span class="op">&lt;</span> MIN <span class="op">||</span> val <span class="op">&gt;</span> MAX<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb6-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Invalid. Enter a number (1-10): "</span><span class="op">;</span></span>
-<span id="cb6-7"><a href=""></a>    cin <span class="op">&gt;&gt;</span> val<span class="op">;</span>         <span class="co">// ............ another read needed here</span></span>
-<span id="cb6-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The loop condition <code>val &lt; MIN || val &gt; MAX</code> means “keep looping if the value is out of range.” Once the user enters a valid value, the condition becomes false and the loop exits.</p>
-<!-- Slide 3 -->
+<section id="trace-the-counter" class="slide level2">
+<h2>Trace the Counter</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;"><code>hour</code></th>
+<th style="text-align: right;"><code>speed</code></th>
+<th style="text-align: right;"><code>distance = speed * hour</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">40</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">80</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">120</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">stop</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 47 -->
 </section>
-<section id="example-input-type-mismatches" class="slide level2">
-<h2>Example: Input Type Mismatches</h2>
-<p>When cin fails to read the expected type, the stream enters a fail state. You must clear this state and discard the invalid input before trying again.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;limits&gt;</span><span class="pp">   </span><span class="co">// required for numeric_limits</span></span>
-<span id="cb7-2"><a href=""></a></span>
-<span id="cb7-3"><a href=""></a><span class="dt">int</span> val<span class="op">;</span></span>
-<span id="cb7-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter an integer: "</span><span class="op">;</span></span>
-<span id="cb7-5"><a href=""></a><span class="cf">while</span> <span class="op">(!(</span>cin <span class="op">&gt;&gt;</span> val<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb7-6"><a href=""></a>    cin<span class="op">.</span>clear<span class="op">();</span>        <span class="co">// ............. reset fail bit</span></span>
-<span id="cb7-7"><a href=""></a>    cin<span class="op">.</span>ignore<span class="op">(</span>numeric_limits<span class="op">&lt;</span>streamsize<span class="op">&gt;::</span>max<span class="op">(),</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span>    <span class="co">// discard leftover input</span></span>
-<span id="cb7-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Not an integer. Try again: "</span><span class="op">;</span></span>
-<span id="cb7-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 4 -->
-</section>
-<section id="do-while-loop-validation" class="slide level2">
-<h2>Do While Loop Validation</h2>
-<ul>
-<li>executes the body first, then checks the condition.</li>
-<li>a do-while never needs a priming read. The prompt and cin are inside the loop and always execute at least once.</li>
-</ul>
-</section>
-<section id="example-simple-do-while-validation" class="slide level2">
-<h2>Example: Simple Do-While Validation</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> MIN <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> MAX <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb8-2"><a href=""></a><span class="dt">int</span> val<span class="op">;</span></span>
-<span id="cb8-3"><a href=""></a><span class="cf">do</span> <span class="op">{</span></span>
-<span id="cb8-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a number (1-10): "</span><span class="op">;</span></span>
-<span id="cb8-5"><a href=""></a>    cin <span class="op">&gt;&gt;</span> val<span class="op">;</span></span>
-<span id="cb8-6"><a href=""></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>val <span class="op">&lt;</span> MIN <span class="op">||</span> val <span class="op">&gt;</span> MAX<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The loop body runs first, gets the input, and then checks the condition. If invalid, it loops back to the beginning of the do block and re-prompts. No priming read needed.</p>
-<!-- Slide 3 -->
-</section>
-<section id="example-handling-cin-failures" class="slide level2">
-<h2>Example: Handling cin Failures</h2>
-<p>Stream error handling inside a do-while works the same as in a while loop. Clear the fail state and discard bad input before looping.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="dt">int</span> val<span class="op">;</span></span>
-<span id="cb9-2"><a href=""></a><span class="cf">do</span> <span class="op">{</span>        <span class="co">// .............................. prompt loop</span></span>
-<span id="cb9-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter an integer (1-100): "</span><span class="op">;</span></span>
-<span id="cb9-4"><a href=""></a>    <span class="cf">if</span> <span class="op">(!(</span>cin <span class="op">&gt;&gt;</span> val<span class="op">))</span> <span class="op">{</span>        <span class="co">// ......... check the type</span></span>
-<span id="cb9-5"><a href=""></a>        cin<span class="op">.</span>clear<span class="op">();</span></span>
-<span id="cb9-6"><a href=""></a>        cin<span class="op">.</span>ignore<span class="op">(</span>numeric_limits<span class="op">&lt;</span>streamsize<span class="op">&gt;::</span>max<span class="op">(),</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span></span>
-<span id="cb9-7"><a href=""></a>        val <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span>  <span class="co">//........................Force invalid to loop again</span></span>
-<span id="cb9-8"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb9-9"><a href=""></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>val <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">||</span> val <span class="op">&gt;</span> <span class="dv">100</span><span class="op">);</span>     <span class="co">//.......numeric range validation</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 5 -->
-</section>
-<section id="while-vs-do-while" class="slide level2">
-<h2>While vs Do-While</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">int</span> val<span class="op">;</span></span>
-<span id="cb10-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter (1-10): "</span><span class="op">;</span></span>
-<span id="cb10-3"><a href=""></a>cin <span class="op">&gt;&gt;</span> val<span class="op">;</span> <span class="co">//..................priming read</span></span>
-<span id="cb10-4"><a href=""></a><span class="cf">while</span> <span class="op">(</span>val <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">||</span> val <span class="op">&gt;</span> <span class="dv">10</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb10-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter (1-10): "</span><span class="op">;</span></span>
-<span id="cb10-6"><a href=""></a>    cin <span class="op">&gt;&gt;</span> val<span class="op">;</span></span>
-<span id="cb10-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">int</span> val<span class="op">;</span></span>
-<span id="cb11-2"><a href=""></a><span class="cf">do</span> <span class="op">{</span>    </span>
-<span id="cb11-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter (1-10): "</span><span class="op">;</span></span>
-<span id="cb11-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> val<span class="op">;</span></span>
-<span id="cb11-5"><a href=""></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>val <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">||</span> val <span class="op">&gt;</span> <span class="dv">10</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
-<ul>
-<li>Do-While is more concise.
-<ul>
-<li>One cin statement instead of two</li>
-</ul></li>
-</ul>
-<!-- Slide 4 -->
+<section id="for-vs.-range-based-for" class="slide level2">
+<h2>for vs.&nbsp;Range-Based for</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Use counted <code>for</code> when…</th>
+<th>Use range-based <code>for</code> when…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>The position matters</td>
+<td>Each item is enough</td>
+</tr>
+<tr class="even">
+<td>A numeric range matters</td>
+<td>The collection controls the passes</td>
+</tr>
+<tr class="odd">
+<td>You need a counter value</td>
+<td>You do not need an index</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 48 -->
 </section>
 <section id="summary-4" class="slide level2">
 <h2>Summary</h2>
-<p>Use a while loop with a priming read: get input once before the loop, then loop while the input is invalid. Always include error handling with <code>cin.clear()</code> and <code>cin.ignore()</code> for type mismatches.</p>
-<p>A do-while loop validates input without a priming read. The body executes first, then the condition at the bottom decides whether to repeat. Use do-while when the prompt and input must run at least once.</p>
-<!-- Slide 6 -->
-</section>
-<section id="appendix-4" class="slide level2">
-<h2>Appendix</h2>
-<!-- Appendix Slide -->
-</section>
-<section id="appendix-contents-4" class="slide level2">
-<h2>Appendix Contents</h2>
 <ul>
-<li><a href="#/common-practices">Common Practices</a></li>
-<li><a href="#/common-mistakes">Common Mistakes</a></li>
-<li><a href="#/more-examples">More Examples</a></li>
-<li><a href="#/practice-problems">Practice Problems</a></li>
-<li><a href="#/ai-search-terms">AI Search Terms</a></li>
-<li><a href="#/questions-for-reflection">Questions for Reflection</a></li>
+<li>A <code>for</code> loop packages counter setup, test, and update in the header.</li>
+<li>Use it when the repetition is naturally counted.</li>
 </ul>
-<!-- Appendix Slide 0 -->
-</section>
-<section id="common-practices-4" class="slide level2">
-<h2>Common Practices</h2>
-<p>Always include the re-prompt message in the loop body so the user sees it after an invalid entry. The initial prompt appears before the loop; the reprompt appears inside it.</p>
-<p>Use named constants for range bounds (<code>MIN_SCORE</code>, <code>MAX_SCORE</code>) in both the output message and the loop condition. This keeps the bounds consistent and self-documenting.</p>
-<p>Choose whitelist when you have a small set of acceptable values and blacklist when you want to reject only a few specific inputs. Avoid long lists of whitelisted values; use a range loop instead.</p>
-<!-- Appendix Slide 1 -->
-</section>
-<section id="common-mistakes-4" class="slide level2">
-<h2>Common Mistakes</h2>
-<p><strong>Forgetting the reprompt inside the loop</strong> — The loop condition repeats, but if you don’t print a new prompt inside the loop body, the user won’t know they need to re-enter data.</p>
-<p><strong>Using AND in a whitelist when you need OR</strong> — The condition <code>response == "yes" &amp;&amp; response == "no"</code> is always false (one variable cannot equal two different strings). Use OR: <code>response != "yes" &amp;&amp; response != "no"</code>.</p>
-<p><strong>Mixing whitelist and blacklist logic</strong> — Don’t test <code>response == "yes" &amp;&amp; response != "no"</code> in the loop condition. Pick one approach and stick with it for clarity.</p>
-<p><strong>Not handling type failures in the loop</strong> — If the user enters text when you expect a number, <code>cin &gt;&gt;</code> fails and the loop repeats on old input. Clear the stream inside the loop if needed.</p>
-<!-- Appendix Slide 2 -->
-</section>
-<section id="more-examples-4" class="slide level2">
-<h2>More Examples</h2>
-<p><strong>Example 1: Do-while reprompt (guarantees at least one prompt)</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">int</span> age<span class="op">;</span></span>
-<span id="cb12-2"><a href=""></a><span class="cf">do</span> <span class="op">{</span></span>
-<span id="cb12-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter age (0-150): "</span><span class="op">;</span></span>
-<span id="cb12-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> age<span class="op">;</span></span>
-<span id="cb12-5"><a href=""></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>age <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> age <span class="op">&gt;</span> <span class="dv">150</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The <code>do-while</code> structure ensures the prompt appears at least once before the condition is checked.</p>
-<p><strong>Example 2: Whitelist with multiple acceptable responses</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a>string suit<span class="op">;</span></span>
-<span id="cb13-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter card suit (hearts/diamonds/clubs/spades): "</span><span class="op">;</span></span>
-<span id="cb13-3"><a href=""></a>cin <span class="op">&gt;&gt;</span> suit<span class="op">;</span></span>
-<span id="cb13-4"><a href=""></a></span>
-<span id="cb13-5"><a href=""></a><span class="cf">while</span> <span class="op">(</span>suit <span class="op">!=</span> <span class="st">"hearts"</span> <span class="op">&amp;&amp;</span> suit <span class="op">!=</span> <span class="st">"diamonds"</span> <span class="op">&amp;&amp;</span></span>
-<span id="cb13-6"><a href=""></a>       suit <span class="op">!=</span> <span class="st">"clubs"</span> <span class="op">&amp;&amp;</span> suit <span class="op">!=</span> <span class="st">"spades"</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb13-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Invalid suit. Try again: "</span><span class="op">;</span></span>
-<span id="cb13-8"><a href=""></a>    cin <span class="op">&gt;&gt;</span> suit<span class="op">;</span></span>
-<span id="cb13-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Appendix Slide 3 -->
-</section>
-<section id="practice-problems-4" class="slide level2">
-<h2>Practice Problems</h2>
-<ol type="1">
-<li><p>Write a loop that prompts for a number between 1 and 10 (inclusive) and re-prompts until valid input is received.</p></li>
-<li><p>Write a whitelist loop that accepts only “rock”, “paper”, or “scissors”. Re-prompt if input doesn’t match any of these.</p></li>
-<li><p>Write a do-while loop that prompts for a password and requires the user to enter it at least once, even if it’s valid on the first try.</p></li>
-<li><p>Write a blacklist loop that rejects the word “admin” but accepts any other input.</p></li>
-<li><p>Combine range checking and input type failure: write a loop that validates both that the input is an integer and that it falls within a range.</p></li>
-</ol>
-<!-- Appendix Slide 4 -->
-</section>
-<section id="ai-search-terms-4" class="slide level2">
-<h2>AI Search Terms</h2>
-<ul>
-<li>“C++ while loop validation re-prompt”</li>
-<li>“C++ whitelist blacklist input validation”</li>
-<li>“C++ do-while loop input validation”</li>
-<li>“C++ keep asking user until valid input”</li>
-<li>“C++ loop condition validation test”</li>
-<li>“C++ reprompt user C++”</li>
-</ul>
-<!-- Appendix Slide 5 -->
-</section>
-<section id="questions-for-reflection-4" class="slide level2">
-<h2>Questions for Reflection</h2>
-<ol type="1">
-<li><p>When should you use loop-until-valid instead of inline validation with an error message?</p></li>
-<li><p>Why is the whitelist approach using OR (<code>&amp;&amp;</code> between <code>!=</code> checks) logically correct for continuing the loop?</p></li>
-<li><p>What is the advantage of a do-while loop for input validation compared to a standard while loop?</p></li>
-<li><p>How would you handle a type failure (user enters text instead of a number) inside a range loop?</p></li>
-</ol>
-<!-- Appendix Slide 6 -->
+<!-- Slide 49 -->
+<!-- Topic 6: Choosing a Loop -->
+<!-- Slides 50-57 -->
 </section></section>
 <section>
-<section id="whats-the-output" class="title-slide slide level1 center">
-<h1>What’s the Output?</h1>
-<aside class="notes">
-<p>Total slides: 4</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
+<section id="choosing-a-loop" class="title-slide slide level1 center">
+<h1>Choosing a Loop</h1>
+<!-- Slide 50 -->
 </section>
-<section id="the-code" class="slide level2">
-<h2>The Code</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="co">// inputs: 0, 4, 5, 2</span></span>
-<span id="cb14-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb14-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb14-4"><a href=""></a></span>
-<span id="cb14-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb14-6"><a href=""></a>    <span class="dt">int</span> val<span class="op">;</span></span>
-<span id="cb14-7"><a href=""></a>    cin <span class="op">&gt;&gt;</span> val<span class="op">;</span></span>
-<span id="cb14-8"><a href=""></a></span>
-<span id="cb14-9"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>val <span class="op">&gt;=</span> <span class="dv">1</span> <span class="op">&amp;&amp;</span> val <span class="op">&lt;=</span> <span class="dv">4</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb14-10"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Valid: "</span> <span class="op">&lt;&lt;</span> val <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb14-11"><a href=""></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb14-12"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Invalid"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb14-13"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb14-14"><a href=""></a></span>
-<span id="cb14-15"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb14-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>NO LOOP!</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 2 -->
-</section>
-<section id="output" class="slide level2">
-<h2>Output</h2>
-<div class="columns">
-<div class="column" style="width:75%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="co">// inputs: 0, 4, 5, 2</span></span>
-<span id="cb15-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb15-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb15-4"><a href=""></a></span>
-<span id="cb15-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb15-6"><a href=""></a>    <span class="dt">int</span> val<span class="op">;</span></span>
-<span id="cb15-7"><a href=""></a>    cin <span class="op">&gt;&gt;</span> val<span class="op">;</span></span>
-<span id="cb15-8"><a href=""></a></span>
-<span id="cb15-9"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>val <span class="op">&gt;=</span> <span class="dv">1</span> <span class="op">&amp;&amp;</span> val <span class="op">&lt;=</span> <span class="dv">4</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb15-10"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Valid: "</span> <span class="op">&lt;&lt;</span> val <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb15-11"><a href=""></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb15-12"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Invalid"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb15-13"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb15-14"><a href=""></a></span>
-<span id="cb15-15"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb15-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:25%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="co">/*</span></span>
-<span id="cb16-2"><a href=""></a><span class="co">Input: 0</span></span>
-<span id="cb16-3"><a href=""></a><span class="co">Output: "Invalid"</span></span>
-<span id="cb16-4"><a href=""></a><span class="co">*/</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
-<!-- Slide 3 -->
-</section></section>
-<section>
-<section id="increment-and-decrement-operators" class="title-slide slide level1 center">
-<h1>Increment and Decrement Operators</h1>
-
-</section>
-<section id="increment-and-decrement-operators-1" class="slide level2">
-<h2>Increment and Decrement Operators</h2>
-<p>What is the difference between <code>++x</code> and <code>x++</code>?</p>
-<aside class="notes">
-<p>Total slides: 3</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="x-and-x-shortcuts" class="slide level2">
-<h2>x++ and ++x Shortcuts</h2>
+<section id="start-with-the-repetition-need" class="slide level2 smaller">
+<h2>Start With the Repetition Need</h2>
 <ul>
-<li>Shorthand for incrementing or decrementing</li>
-<li>In a loop, the difference rarely matters:
-<ul>
-<li><code>for (int i = 0; i &lt; 10; i++)</code> and</li>
-<li><code>for (int i = 0; i &lt; 10; ++i)</code> behave identically.</li>
-</ul></li>
+<li>Do not start by picking syntax.</li>
+<li>Start by asking what controls the repetition.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="co">// x++</span></span>
-<span id="cb17-2"><a href=""></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb17-3"><a href=""></a>x <span class="op">=</span> x <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb17-4"><a href=""></a></span>
-<span id="cb17-5"><a href=""></a><span class="co">// --x</span></span>
-<span id="cb17-6"><a href=""></a>x <span class="op">=</span> x <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Slides 50-57</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 51 -->
 </section>
-<section id="pre-increment-vs.-post-increment" class="slide level2">
-<h2>Pre-Increment vs.&nbsp;Post-Increment</h2>
-<ul>
-<li><strong>Pre-increment (<code>++x</code>)</strong>: Increment first, then use the value.</li>
-<li><strong>Post-increment (<code>x++</code>)</strong>: Use the value first, then increment.</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb18-2"><a href=""></a></span>
-<span id="cb18-3"><a href=""></a><span class="co">// Pre-Increment</span></span>
-<span id="cb18-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">++</span>x<span class="op">;</span>  <span class="co">// prints 6, x is now 6</span></span>
-<span id="cb18-5"><a href=""></a></span>
-<span id="cb18-6"><a href=""></a><span class="co">// Post-Increment</span></span>
-<span id="cb18-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> x<span class="op">++;</span>  <span class="co">// prints 6, x is now 7</span></span>
-<span id="cb18-8"><a href=""></a></span>
-<span id="cb18-9"><a href=""></a>cout <span class="op">&lt;&lt;</span> x<span class="op">;</span>    <span class="co">// prints 7</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 2 -->
+<section id="use-range-based-for-when-you-have-a-collection" class="slide level2">
+<h2>Use Range-Based for When You Have a Collection</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href=""></a>    total <span class="op">+=</span> score<span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use this when every item in the collection should be processed and the item value is enough.</p>
+<!-- Slide 52 -->
+</section>
+<section id="use-for-when-you-know-the-count" class="slide level2">
+<h2>Use for When You Know the Count</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> hour <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> hour <span class="op">&lt;=</span> totalHours<span class="op">;</span> hour<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> hour <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb10-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use this when the number of passes or the numeric range is known.</p>
+<!-- Slide 53 -->
+</section>
+<section id="use-while-when-you-must-test-first" class="slide level2">
+<h2>Use while When You Must Test First</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="cf">while</span> <span class="op">(</span>moreData<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href=""></a>    processData<span class="op">();</span></span>
+<span id="cb11-3"><a href=""></a>    moreData <span class="op">=</span> checkForMoreData<span class="op">();</span></span>
+<span id="cb11-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use this when the repeated work should happen only if the condition is already true.</p>
+<!-- Slide 54 -->
+</section>
+<section id="use-do-while-when-one-pass-is-required" class="slide level2">
+<h2>Use do-while When One Pass Is Required</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="cf">do</span> <span class="op">{</span></span>
+<span id="cb12-2"><a href=""></a>    displayMenu<span class="op">();</span></span>
+<span id="cb12-3"><a href=""></a>    cin <span class="op">&gt;&gt;</span> choice<span class="op">;</span></span>
+<span id="cb12-4"><a href=""></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>choice <span class="op">!=</span> <span class="dv">0</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use this when the program must act once before it can decide whether to repeat.</p>
+<!-- Slide 55 -->
+</section>
+<section id="decision-table" class="slide level2">
+<h2>Decision Table</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Repetition Need</th>
+<th>Best Fit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Process every item in a collection</td>
+<td>Range-based <code>for</code></td>
+</tr>
+<tr class="even">
+<td>Repeat a known number of times</td>
+<td><code>for</code></td>
+</tr>
+<tr class="odd">
+<td>Repeat while a condition is true</td>
+<td><code>while</code></td>
+</tr>
+<tr class="even">
+<td>Run once, then decide whether to repeat</td>
+<td><code>do-while</code></td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 56 -->
 </section>
 <section id="summary-5" class="slide level2">
 <h2>Summary</h2>
-<p>Pre-increment (<code>++x</code>) and post-increment (<code>x++</code>) both add 1 to the variable, but pre-increment returns the new value while post-increment returns the old value. For simple loop counters, the difference is negligible.</p>
-<!-- Slide 3 -->
-</section>
-<section id="appendix-5" class="slide level2">
-<h2>Appendix</h2>
-<!-- Appendix Slide -->
-</section>
-<section id="appendix-contents-5" class="slide level2">
-<h2>Appendix Contents</h2>
 <ul>
-<li><a href="#/common-practices">Common Practices</a></li>
-<li><a href="#/common-mistakes">Common Mistakes</a></li>
-<li><a href="#/practice-problems">Practice Problems</a></li>
-<li><a href="#/ai-search-terms">AI Search Terms</a></li>
-<li><a href="#/questions-for-reflection">Questions for Reflection</a></li>
+<li>Choose the loop whose control structure matches the problem.</li>
+<li>The goal is not to memorize loops; the goal is to match the design need.</li>
 </ul>
-<!-- Appendix Slide 0 -->
-</section>
-<section id="common-practices-5" class="slide level2">
-<h2>Common Practices</h2>
-<ul>
-<li><strong>Use <code>++i</code> in loops when possible.</strong> Pre-increment is marginally more efficient (though modern compilers optimize this away) and signals intent clearly.</li>
-<li><strong>Use whichever is clearer in context.</strong> In a standalone statement like <code>x++;</code>, the choice doesn’t matter.</li>
-<li><strong>Know the difference when using in expressions.</strong> Only worry about pre vs.&nbsp;post when the return value is used (e.g., assigned or printed).</li>
-</ul>
-<!-- Appendix Slide 1 -->
-</section>
-<section id="common-mistakes-5" class="slide level2">
-<h2>Common Mistakes</h2>
-<ul>
-<li><strong>Thinking they behave the same everywhere.</strong> In <code>y = x++</code>, y gets the old value of x; in <code>y = ++x</code>, y gets the new value.</li>
-<li><strong>Using post-increment when pre-increment is intended.</strong> If you want to increment and then use the value, pre-increment is clearer.</li>
-<li><strong>Overthinking it in simple loops.</strong> In <code>for (int i = 0; i &lt; 10; i++)</code>, don’t waste mental energy on the distinction—it doesn’t matter.</li>
-</ul>
-<!-- Appendix Slide 2 -->
-</section>
-<section id="practice-problems-5" class="slide level2">
-<h2>Practice Problems</h2>
-<ol type="1">
-<li>What is the value of <code>y</code> after <code>int x = 3; int y = ++x;</code>?</li>
-<li>What is the value of <code>y</code> after <code>int x = 3; int y = x++;</code>?</li>
-<li>What will this print? <code>int a = 5; cout &lt;&lt; a++ &lt;&lt; " " &lt;&lt; a &lt;&lt; endl;</code></li>
-<li>In a for loop, is there any practical difference between <code>i++</code> and <code>++i</code>?</li>
-</ol>
-<!-- Appendix Slide 3 -->
-</section>
-<section id="ai-search-terms-5" class="slide level2">
-<h2>AI Search Terms</h2>
-<ul>
-<li>pre-increment vs post-increment C++</li>
-<li>++x vs x++ difference</li>
-<li>increment operators C++</li>
-<li>return value pre-post increment</li>
-</ul>
-<!-- Appendix Slide 4 -->
-</section>
-<section id="questions-for-reflection-5" class="slide level2">
-<h2>Questions for Reflection</h2>
-<ul>
-<li>Why does a compiler optimize away the difference between <code>++i</code> and <code>i++</code> in loops?</li>
-<li>In what real-world scenario would choosing pre-increment over post-increment actually matter for performance?</li>
-<li>How would you explain the difference to someone who’s never seen these operators?</li>
-</ul>
-<!-- Appendix Slide 5 -->
-</section></section>
-<section>
-<section id="breaking-out-of-a-loop" class="title-slide slide level1 center">
-<h1>Breaking Out of a Loop</h1>
-
-</section>
-<section id="breaking-out-of-a-loop-1" class="slide level2">
-<h2>Breaking Out of a Loop</h2>
-<p>How do you exit a loop before the loop condition becomes false?</p>
-<aside class="notes">
-<p>Total slides: 4</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="the-break-statement" class="slide level2">
-<h2>The <code>break</code> Statement</h2>
-<p>The <code>break</code> statement exits the nearest enclosing loop immediately, skipping any remaining iterations.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb19-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a value (-1 to quit): "</span><span class="op">;</span></span>
-<span id="cb19-3"><a href=""></a>    <span class="dt">int</span> val<span class="op">;</span></span>
-<span id="cb19-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> val<span class="op">;</span></span>
-<span id="cb19-5"><a href=""></a></span>
-<span id="cb19-6"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>val <span class="op">==</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> <span class="cf">break</span><span class="op">;</span>  <span class="co">// Exit the loop with -1</span></span>
-<span id="cb19-7"><a href=""></a></span>
-<span id="cb19-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"You entered: "</span> <span class="op">&lt;&lt;</span> val <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-9"><a href=""></a><span class="op">}</span></span>
-<span id="cb19-10"><a href=""></a></span>
-<span id="cb19-11"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Program ended."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 2 -->
-</section>
-<section id="break-vs.-loop-condition" class="slide level2">
-<h2><code>break</code> vs.&nbsp;Loop Condition</h2>
-<p>You can achieve the same result by adjusting the loop condition, but <code>break</code> is often clearer when the exit condition is a special value (sentinel).</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="co">// Using break with sentinel value</span></span>
-<span id="cb20-2"><a href=""></a><span class="dt">int</span> val<span class="op">;</span></span>
-<span id="cb20-3"><a href=""></a><span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb20-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> val<span class="op">;</span>             <span class="co">// the -1 is called a sentinel value</span></span>
-<span id="cb20-5"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>val <span class="op">==</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> <span class="cf">break</span><span class="op">;</span>   <span class="co">// break makes intent obvious  </span></span>
-<span id="cb20-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> val <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb20-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb20-8"><a href=""></a></span>
-<span id="cb20-9"><a href=""></a><span class="co">// Using condition (more awkward)</span></span>
-<span id="cb20-10"><a href=""></a><span class="dt">int</span> val <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb20-11"><a href=""></a><span class="cf">while</span> <span class="op">(</span>val <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb20-12"><a href=""></a>    cin <span class="op">&gt;&gt;</span> val<span class="op">;</span></span>
-<span id="cb20-13"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>val <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> cout <span class="op">&lt;&lt;</span> val <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb20-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 3 -->
-</section>
-<section id="summary-6" class="slide level2">
-<h2>Summary</h2>
-<p>Use <code>break</code> to exit a loop early when a sentinel value or stopping condition is detected. It’s clearer and more direct than restructuring the loop condition.</p>
-<!-- Slide 4 -->
+<!-- Slide 57 -->
 </section>
 <section class="slide level2">
 
 </section></section>
 <section>
-<section id="whats-the-output-1" class="title-slide slide level1 center">
-<h1>What’s the Output?</h1>
-<aside class="notes">
-<p>Total slides: 3</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="the-code-1" class="slide level2">
-<h2>The Code</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb21-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb21-3"><a href=""></a></span>
-<span id="cb21-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb21-5"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb21-6"><a href=""></a>    <span class="cf">while</span> <span class="op">(</span>x <span class="op">&lt;</span> <span class="dv">5</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb21-7"><a href=""></a>        x<span class="op">++;</span></span>
-<span id="cb21-8"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>x <span class="op">==</span> <span class="dv">3</span><span class="op">)</span> <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb21-9"><a href=""></a>        cout <span class="op">&lt;&lt;</span> x <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb21-10"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb21-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb21-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb21-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>What is the output?</p>
-<!-- Slide 2 -->
-</section>
-<section id="tracing-the-loop" class="slide level2">
-<h2>Tracing the Loop</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb22-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb22-3"><a href=""></a></span>
-<span id="cb22-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb22-5"><a href=""></a>    <span class="dt">int</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb22-6"><a href=""></a>    <span class="cf">while</span> <span class="op">(</span>x <span class="op">&lt;</span> <span class="dv">5</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb22-7"><a href=""></a>        x<span class="op">++;</span></span>
-<span id="cb22-8"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>x <span class="op">==</span> <span class="dv">3</span><span class="op">)</span> <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb22-9"><a href=""></a>        cout <span class="op">&lt;&lt;</span> x <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span>       <span class="co">// prints 1</span></span>
-<span id="cb22-10"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb22-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span>               <span class="co">// prints 2</span></span>
-<span id="cb22-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span>                   <span class="co">// output: 1 2</span></span>
-<span id="cb22-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><p><strong>Iteration 1</strong>: x becomes 1. Is x == 3? No.&nbsp;Print <code>1</code>.</p></li>
-<li><p><strong>Iteration 2</strong>: x becomes 2. Is x == 3? No.&nbsp;Print <code>2</code>.</p></li>
-<li><p><strong>Iteration 3</strong>: x becomes 3. Is x == 3? Yes. <code>break</code> executes. Exit loop (nothing printed this iteration).</p></li>
-<li><p>The key insight: the break happens <em>after</em> x is incremented but <em>before</em> the print statement.</p></li>
-</ul>
-<!-- Slide 3 -->
-</section>
-<section id="summary-7" class="slide level2">
-<h2>Summary</h2>
-<p>Trace loop execution step-by-step: increment, check the break condition, then execute the remaining statements. The break exits immediately, skipping any code after it in that iteration.</p>
-<!-- Slide 4 -->
-</section>
-<section id="appendix-6" class="slide level2">
-<h2>Appendix</h2>
-<!-- Appendix Slide -->
-</section>
-<section id="appendix-contents-6" class="slide level2">
-<h2>Appendix Contents</h2>
-<ul>
-<li><a href="#/common-practices">Common Practices</a></li>
-<li><a href="#/common-mistakes">Common Mistakes</a></li>
-<li><a href="#/practice-problems">Practice Problems</a></li>
-<li><a href="#/ai-search-terms">AI Search Terms</a></li>
-<li><a href="#/questions-for-reflection">Questions for Reflection</a></li>
-</ul>
-<!-- Appendix Slide 0 -->
-</section>
-<section id="common-practices-6" class="slide level2">
-<h2>Common Practices</h2>
-<ul>
-<li><strong>Trace one iteration at a time.</strong> Don’t try to predict the output mentally—write down the state after each line.</li>
-<li><strong>Mark the break point.</strong> Highlight where the break statement is in the code so you don’t forget to check it.</li>
-<li><strong>Simulate on paper.</strong> Use a table: Iteration | x value | Condition check | Output.</li>
-</ul>
-<!-- Appendix Slide 1 -->
-</section>
-<section id="common-mistakes-6" class="slide level2">
-<h2>Common Mistakes</h2>
-<ul>
-<li><strong>Forgetting the break happens after the increment.</strong> If you think break checks <em>before</em> x++, you’ll get the wrong answer.</li>
-<li><strong>Printing the break value.</strong> When x == 3 and break executes, nothing more is printed in that iteration.</li>
-<li><strong>Miscounting iterations.</strong> Off-by-one errors are common. Double-check your iteration count.</li>
-</ul>
-<!-- Appendix Slide 2 -->
-</section>
-<section id="practice-problems-6" class="slide level2">
-<h2>Practice Problems</h2>
-<ol type="1">
-<li>What is the output of this loop?</li>
-</ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb23-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>i <span class="op">==</span> <span class="dv">2</span><span class="op">)</span> <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb23-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> i <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb23-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ol start="2" type="1">
-<li>What is the output of this loop?</li>
-</ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">int</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb24-2"><a href=""></a><span class="cf">while</span> <span class="op">(</span>y <span class="op">&lt;</span> <span class="dv">7</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb24-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> y <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb24-4"><a href=""></a>    y<span class="op">++;</span></span>
-<span id="cb24-5"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>y <span class="op">==</span> <span class="dv">4</span><span class="op">)</span> <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb24-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ol start="3" type="1">
-<li>Write a loop that prints 1, 2, 3, then breaks (do not print 4 or 5).</li>
-</ol>
-<!-- Appendix Slide 3 -->
-</section>
-<section id="ai-search-terms-6" class="slide level2">
-<h2>AI Search Terms</h2>
-<ul>
-<li>trace loop with break C++</li>
-<li>break statement execution order</li>
-<li>loop iteration tracing</li>
-<li>output prediction C++ loops</li>
-</ul>
-<!-- Appendix Slide 4 -->
-</section>
-<section id="questions-for-reflection-6" class="slide level2">
-<h2>Questions for Reflection</h2>
-<ul>
-<li>At what point in the iteration does the break statement execute?</li>
-<li>Would the output change if the break check came <em>before</em> the increment? Why or why not?</li>
-<li>How would the output differ if the print statement came <em>before</em> the break check?</li>
-</ul>
-<!-- Appendix Slide 5 -->
-</section></section>
 <section id="key-takeaways" class="title-slide slide level1 center">
 <h1>Key Takeaways</h1>
 <ul>
-<li>Validate all input — assume nothing.</li>
-<li>Match the architecture to the requirement: inline for one-shot checks, loop-until-valid for re-prompting.</li>
-<li><code>while</code> requires a priming read; <code>do-while</code> does not.</li>
-<li><code>++</code> and <code>--</code> behave differently in prefix vs.&nbsp;postfix position.</li>
-<li><code>break</code> exits immediately — use it deliberately.</li>
+<li>Iteration is controlled repetition.</li>
+<li>Loops extend the IPO model by repeating part of the process.</li>
+<li><code>while</code> tests before the body; <code>do-while</code> tests after the body.</li>
+<li><code>for</code> is best for counted repetition.</li>
+<li>Range-based <code>for</code> remains the clearest choice when each collection item is enough.</li>
 </ul>
+<!-- Slide 58 -->
 </section>
+<section class="slide level2">
 
+</section></section>
+<section>
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next Time</h1>
-
+<!-- Slide 59 -->
 </section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="appendix" class="title-slide slide level1 center">
+<h1>Appendix</h1>
+<!-- Slide 60 -->
+</section>
+<section id="why-iteration-matters-good-practices" class="slide level2">
+<h2>Why Iteration Matters: Good Practices</h2>
+<ul>
+<li>Name the repeated work before choosing syntax.</li>
+<li>Identify what changes each pass.</li>
+<li>State the condition that should eventually stop the repetition.</li>
+</ul>
+<!-- Slide 61 -->
+</section>
+<section id="why-iteration-matters-common-mistakes" class="slide level2">
+<h2>Why Iteration Matters: Common Mistakes</h2>
+<ul>
+<li>Starting with loop syntax before identifying the repeated task.</li>
+<li>Repeating code by copying and pasting instead of using a loop.</li>
+<li>Forgetting that the loop needs a stopping condition.</li>
+</ul>
+<!-- Slide 62 -->
+</section>
+<section id="why-iteration-matters-more-examples" class="slide level2">
+<h2>Why Iteration Matters: More Examples</h2>
+<ul>
+<li>Display every item in a list.</li>
+<li>Ask for input until the user gives an acceptable value.</li>
+<li>Calculate one row of output for each hour, day, or record.</li>
+</ul>
+<!-- Slide 63 -->
+</section>
+<section id="why-iteration-matters-practice-problems" class="slide level2">
+<h2>Why Iteration Matters: Practice Problems</h2>
+<ul>
+<li>Identify the repeated work in a receipt-printing program.</li>
+<li>Describe what changes each pass when processing test scores.</li>
+<li>Decide whether output should appear each pass or after the loop.</li>
+</ul>
+<!-- Slide 64 -->
+</section>
+<section id="why-iteration-matters-ai-search-terms" class="slide level2">
+<h2>Why Iteration Matters: AI Search Terms</h2>
+<ul>
+<li>C++ iteration design</li>
+<li>C++ loop repetition condition</li>
+<li>C++ IPO model loops</li>
+<li>C++ loop control variable</li>
+</ul>
+<!-- Slide 65 -->
+</section>
+<section id="why-iteration-matters-questions-for-reflection" class="slide level2">
+<h2>Why Iteration Matters: Questions for Reflection</h2>
+<ul>
+<li>What work is the program repeating?</li>
+<li>What value or state changes each pass?</li>
+<li>How will the program know the repetition is done?</li>
+</ul>
+<!-- Slide 66 -->
+</section>
+<section id="loop-anatomy-and-program-control-good-practices" class="slide level2">
+<h2>Loop Anatomy and Program Control: Good Practices</h2>
+<ul>
+<li>Keep the condition readable.</li>
+<li>Update the loop-control value in a predictable place.</li>
+<li>Trace a few passes before trusting the loop.</li>
+</ul>
+<!-- Slide 67 -->
+</section>
+<section id="loop-anatomy-and-program-control-common-mistakes" class="slide level2">
+<h2>Loop Anatomy and Program Control: Common Mistakes</h2>
+<ul>
+<li>Writing a condition that never becomes false.</li>
+<li>Updating the wrong variable.</li>
+<li>Confusing the loop body with the code that runs after the loop.</li>
+</ul>
+<!-- Slide 68 -->
+</section>
+<section id="loop-anatomy-and-program-control-more-examples" class="slide level2">
+<h2>Loop Anatomy and Program Control: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb13-2"><a href=""></a><span class="cf">while</span> <span class="op">(</span>count <span class="op">&lt;=</span> <span class="dv">5</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb13-4"><a href=""></a>    count<span class="op">++;</span></span>
+<span id="cb13-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 69 -->
+</section>
+<section id="loop-anatomy-and-program-control-practice-problems" class="slide level2">
+<h2>Loop Anatomy and Program Control: Practice Problems</h2>
+<ul>
+<li>Circle the condition in a loop.</li>
+<li>Identify the loop-control variable.</li>
+<li>Build a Table of Variables for three passes.</li>
+</ul>
+<!-- Slide 70 -->
+</section>
+<section id="loop-anatomy-and-program-control-ai-search-terms" class="slide level2">
+<h2>Loop Anatomy and Program Control: AI Search Terms</h2>
+<ul>
+<li>C++ loop control flow</li>
+<li>C++ loop control variable</li>
+<li>C++ entry condition loop</li>
+<li>C++ exit condition loop</li>
+</ul>
+<!-- Slide 71 -->
+</section>
+<section id="loop-anatomy-and-program-control-questions-for-reflection" class="slide level2">
+<h2>Loop Anatomy and Program Control: Questions for Reflection</h2>
+<ul>
+<li>Where is the condition checked?</li>
+<li>What sends control back to the top?</li>
+<li>What changes so the loop can eventually stop?</li>
+</ul>
+<!-- Slide 72 -->
+</section>
+<section id="the-while-loop-good-practices" class="slide level2">
+<h2>The while Loop: Good Practices</h2>
+<ul>
+<li>Use <code>while</code> when zero passes are possible.</li>
+<li>Make the condition describe the reason to continue.</li>
+<li>Update the value that affects the condition.</li>
+</ul>
+<!-- Slide 73 -->
+</section>
+<section id="the-while-loop-common-mistakes" class="slide level2">
+<h2>The while Loop: Common Mistakes</h2>
+<ul>
+<li>Forgetting the update.</li>
+<li>Writing the condition as the reason to stop instead of the reason to continue.</li>
+<li>Assuming the body always runs at least once.</li>
+</ul>
+<!-- Slide 74 -->
+</section>
+<section id="the-while-loop-more-examples" class="slide level2">
+<h2>The while Loop: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span> value <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb14-2"><a href=""></a></span>
+<span id="cb14-3"><a href=""></a><span class="cf">while</span> <span class="op">(</span>value <span class="op">&lt;=</span> <span class="dv">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-5"><a href=""></a>    value <span class="op">+=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb14-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 75 -->
+</section>
+<section id="the-while-loop-practice-problems" class="slide level2">
+<h2>The while Loop: Practice Problems</h2>
+<ul>
+<li>Write a condition that repeats while <code>score</code> is below <code>70</code>.</li>
+<li>Trace a loop where <code>count</code> starts at <code>0</code> and increases by <code>2</code>.</li>
+<li>Explain why a <code>while</code> body might never run.</li>
+</ul>
+<!-- Slide 76 -->
+</section>
+<section id="the-while-loop-ai-search-terms" class="slide level2">
+<h2>The while Loop: AI Search Terms</h2>
+<ul>
+<li>C++ while loop</li>
+<li>C++ while loop trace table</li>
+<li>C++ while loop condition</li>
+<li>C++ infinite loop causes</li>
+</ul>
+<!-- Slide 77 -->
+</section>
+<section id="the-while-loop-questions-for-reflection" class="slide level2">
+<h2>The while Loop: Questions for Reflection</h2>
+<ul>
+<li>Should the program test before doing the work?</li>
+<li>Could the repeated work be skipped entirely?</li>
+<li>What value moves the loop toward stopping?</li>
+</ul>
+<!-- Slide 78 -->
+</section>
+<section id="the-do-while-loop-good-practices" class="slide level2">
+<h2>The do-while Loop: Good Practices</h2>
+<ul>
+<li>Use <code>do-while</code> when one pass is required.</li>
+<li>Keep the repeated prompt or menu inside the body.</li>
+<li>Remember the semicolon after the condition.</li>
+</ul>
+<!-- Slide 79 -->
+</section>
+<section id="the-do-while-loop-common-mistakes" class="slide level2">
+<h2>The do-while Loop: Common Mistakes</h2>
+<ul>
+<li>Forgetting that the body runs before the test.</li>
+<li>Omitting the final semicolon.</li>
+<li>Using <code>do-while</code> when the program should be allowed to skip the body.</li>
+</ul>
+<!-- Slide 80 -->
+</section>
+<section id="the-do-while-loop-more-examples" class="slide level2">
+<h2>The do-while Loop: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">int</span> number<span class="op">;</span></span>
+<span id="cb15-2"><a href=""></a></span>
+<span id="cb15-3"><a href=""></a><span class="cf">do</span> <span class="op">{</span></span>
+<span id="cb15-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a positive number: "</span><span class="op">;</span></span>
+<span id="cb15-5"><a href=""></a>    cin <span class="op">&gt;&gt;</span> number<span class="op">;</span></span>
+<span id="cb15-6"><a href=""></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>number <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 81 -->
+</section>
+<section id="the-do-while-loop-practice-problems" class="slide level2">
+<h2>The do-while Loop: Practice Problems</h2>
+<ul>
+<li>Describe why a menu often uses <code>do-while</code>.</li>
+<li>Trace one pass where the user enters <code>0</code>.</li>
+<li>Rewrite a simple prompt loop as a <code>while</code> loop and compare the setup.</li>
+</ul>
+<!-- Slide 82 -->
+</section>
+<section id="the-do-while-loop-ai-search-terms" class="slide level2">
+<h2>The do-while Loop: AI Search Terms</h2>
+<ul>
+<li>C++ do while loop</li>
+<li>C++ exit condition loop</li>
+<li>C++ do while menu</li>
+<li>C++ do while semicolon</li>
+</ul>
+<!-- Slide 83 -->
+</section>
+<section id="the-do-while-loop-questions-for-reflection" class="slide level2">
+<h2>The do-while Loop: Questions for Reflection</h2>
+<ul>
+<li>Does the program need information from the first pass before testing?</li>
+<li>Is one pass always required?</li>
+<li>Would a <code>while</code> loop need extra setup before the loop?</li>
+</ul>
+<!-- Slide 84 -->
+</section>
+<section id="the-for-loop-good-practices" class="slide level2">
+<h2>The for Loop: Good Practices</h2>
+<ul>
+<li>Use <code>for</code> for counted repetition.</li>
+<li>Keep initialization, condition, and update easy to read.</li>
+<li>Use a counter name that describes the count, such as <code>hour</code> or <code>day</code>.</li>
+</ul>
+<!-- Slide 85 -->
+</section>
+<section id="the-for-loop-common-mistakes" class="slide level2">
+<h2>The for Loop: Common Mistakes</h2>
+<ul>
+<li>Using <code>&lt;=</code> when the intended range requires <code>&lt;</code>.</li>
+<li>Changing the counter unexpectedly inside the body.</li>
+<li>Using <code>for</code> when the number of passes is not known.</li>
+</ul>
+<!-- Slide 86 -->
+</section>
+<section id="the-for-loop-more-examples" class="slide level2">
+<h2>The for Loop: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> day <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> day <span class="op">&lt;=</span> <span class="dv">7</span><span class="op">;</span> day<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Day "</span> <span class="op">&lt;&lt;</span> day <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb16-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 87 -->
+</section>
+<section id="the-for-loop-practice-problems" class="slide level2">
+<h2>The for Loop: Practice Problems</h2>
+<ul>
+<li>Write a loop that displays numbers 1 through 10.</li>
+<li>Trace a loop that starts at 5 and counts down to 1.</li>
+<li>Decide whether the counter should start at 0 or 1 for a user-facing label.</li>
+</ul>
+<!-- Slide 88 -->
+</section>
+<section id="the-for-loop-ai-search-terms" class="slide level2">
+<h2>The for Loop: AI Search Terms</h2>
+<ul>
+<li>C++ for loop</li>
+<li>C++ counted loop</li>
+<li>C++ for loop initialization condition update</li>
+<li>C++ loop counter trace</li>
+</ul>
+<!-- Slide 89 -->
+</section>
+<section id="the-for-loop-questions-for-reflection" class="slide level2">
+<h2>The for Loop: Questions for Reflection</h2>
+<ul>
+<li>Is the number of passes known?</li>
+<li>What is the first counter value?</li>
+<li>What counter value should stop the loop?</li>
+</ul>
+<!-- Slide 90 -->
+</section>
+<section id="choosing-a-loop-good-practices" class="slide level2">
+<h2>Choosing a Loop: Good Practices</h2>
+<ul>
+<li>Choose based on the repetition need.</li>
+<li>Prefer range-based <code>for</code> when the collection controls the loop.</li>
+<li>Prefer the simplest loop that states the control clearly.</li>
+</ul>
+<!-- Slide 91 -->
+</section>
+<section id="choosing-a-loop-common-mistakes" class="slide level2">
+<h2>Choosing a Loop: Common Mistakes</h2>
+<ul>
+<li>Choosing a loop because it is familiar instead of because it fits.</li>
+<li>Using a counted <code>for</code> loop when the condition is not count-based.</li>
+<li>Forgetting that range-based <code>for</code> is still available.</li>
+</ul>
+<!-- Slide 92 -->
+</section>
+<section id="choosing-a-loop-more-examples" class="slide level2">
+<h2>Choosing a Loop: More Examples</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Loop</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Every vector element</td>
+<td>Range-based <code>for</code></td>
+</tr>
+<tr class="even">
+<td>Hours 1 through N</td>
+<td><code>for</code></td>
+</tr>
+<tr class="odd">
+<td>Repeat while data exists</td>
+<td><code>while</code></td>
+</tr>
+<tr class="even">
+<td>Show menu at least once</td>
+<td><code>do-while</code></td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 93 -->
+</section>
+<section id="choosing-a-loop-practice-problems" class="slide level2">
+<h2>Choosing a Loop: Practice Problems</h2>
+<ul>
+<li>Choose a loop for printing one line per student.</li>
+<li>Choose a loop for displaying a menu until quit.</li>
+<li>Choose a loop for processing every value in a vector.</li>
+</ul>
+<!-- Slide 94 -->
+</section>
+<section id="choosing-a-loop-ai-search-terms" class="slide level2">
+<h2>Choosing a Loop: AI Search Terms</h2>
+<ul>
+<li>C++ which loop to use</li>
+<li>C++ while vs do while</li>
+<li>C++ for loop vs range based for</li>
+<li>C++ loop selection decision table</li>
+</ul>
+<!-- Slide 95 -->
+</section>
+<section id="choosing-a-loop-questions-for-reflection" class="slide level2">
+<h2>Choosing a Loop: Questions for Reflection</h2>
+<ul>
+<li>What controls the repetition: a collection, a count, a condition, or one required pass?</li>
+<li>Which loop makes that control easiest to see?</li>
+<li>Would another loop require extra setup or awkward logic?</li>
+</ul>
+<!-- Slide 96 -->
+
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
@@ -1589,7 +1526,7 @@ Dr.&nbsp;Caleb Fowler
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'h.v',
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -1630,7 +1567,7 @@ Dr.&nbsp;Caleb Fowler
         rtl: false,
 
         // see https://revealjs.com/vertical-slides/#navigation-mode
-        navigationMode: 'default',
+        navigationMode: 'linear',
 
         // Randomizes the order of slides each time the presentation loads
         shuffle: false,
@@ -1916,19 +1853,6 @@ Dr.&nbsp;Caleb Fowler
         }
       });
       </script>
-    <script>
-    window.Reveal.on('ready', event => {
-      Reveal.configure({
-        keyboard: {
-          34: 'down',
-          33: 'up',
-          116: 'right',
-          190: 'left',
-          79: null
-        }
-      });
-    });
-    </script>
     
 
 </body></html>

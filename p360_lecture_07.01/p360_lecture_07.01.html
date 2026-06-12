@@ -206,21 +206,40 @@ Dr.&nbsp;Caleb Fowler
 </div>
 
 </section>
-<section id="last-time" class="slide level2">
-<h2>Last Time</h2>
+<section id="last-time" class="title-slide slide level1 center">
+<h1>Last Time</h1>
 <ul>
-<li class="fragment">The Conditional Operator</li>
-<li class="fragment">The switch Statement</li>
-<li class="fragment">Menu Driven Programs</li>
-<li class="fragment">Menu Architectures</li>
-<li class="fragment">Using Functions in a Menu Driven Program</li>
+<li class="fragment"><strong>Relational Operators</strong></li>
+<li class="fragment"><strong>The if Statement</strong></li>
+<li class="fragment"><strong>The cin Fail Problem</strong></li>
+<li class="fragment"><strong>The if/else Statement</strong></li>
+<li class="fragment"><strong>The if/else if Statement</strong></li>
 </ul>
+<aside class="notes">
+<p>Recall that the previous lecture introduced decisions as blocks controlled by yes/no questions. Today extends that model into compact choices, fixed cases, dependent decisions, and range checks.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 1 -->
 </section>
-<section id="todays-agenda" class="slide level2">
-<h2>Today’s Agenda</h2>
+
+<section id="todays-agenda" class="title-slide slide level1 center">
+<h1>Today’s Agenda</h1>
 <ul>
-<li>Checking if a vector is empty</li>
-<li>Comparing vector elements</li>
+<li>Conditional Statements</li>
+<li>The Conditional Operator</li>
+<li>The switch Statement</li>
+<li>Nested if Statements</li>
+<li>Compound Conditions</li>
+<li>Range Checking</li>
 </ul>
 <aside class="notes">
 
@@ -235,96 +254,24 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section>
-<section id="checking-if-a-vector-is-empty" class="title-slide slide level1 center">
-<h1>Checking if a Vector is Empty</h1>
-<p>How can we determine whether a vector contains any elements before trying to access or process its data? Today we’ll learn what empty vectors are and explore two methods for checking if a vector is empty.</p>
-<aside class="notes">
-<p>Total slides: 6</p>
-<p>Consider including a visual showing an empty vector container versus one with elements.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="what-is-an-empty-vector" class="slide level2">
-<h2>What is an Empty Vector?</h2>
-<p>An empty vector is a vector that contains zero elements. It is a valid, initialized container that exists in memory but currently holds no data.</p>
-<p>Empty vectors commonly occur when you create a new vector without initial values, after removing all elements, or when no data has been added yet. Checking if a vector is empty prevents errors that occur when trying to access elements that don’t exist.</p>
-<p>Understanding empty vectors is crucial for input validation, loop termination conditions, and ensuring your program handles edge cases correctly. Attempting to access elements in an empty vector using bracket notation causes undefined behavior.</p>
-<aside class="notes">
-<p>Consider a diagram showing an empty vector box with “size: 0” label versus a vector with elements.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 <!-- Slide 2 -->
+<!-- Topic 1: Conditional Statements -->
+<!-- Slides 3-9 -->
 </section>
-<section id="using-the-empty-method" class="slide level2">
-<h2>Using the empty Method</h2>
-<p>The <code>.empty()</code> method returns a boolean value indicating whether the vector contains zero elements. This is the most direct and readable way to check for an empty vector.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">;</span></span>
-<span id="cb1-2"><a href=""></a></span>
-<span id="cb1-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>numbers<span class="op">.</span>empty<span class="op">())</span> <span class="op">{</span></span>
-<span id="cb1-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Vector is empty"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb1-5"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb1-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Vector has elements"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb1-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb1-8"><a href=""></a></span>
-<span id="cb1-9"><a href=""></a>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> names <span class="op">=</span> <span class="op">{</span><span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span><span class="op">};</span></span>
-<span id="cb1-10"><a href=""></a><span class="cf">if</span> <span class="op">(!</span>names<span class="op">.</span>empty<span class="op">())</span> <span class="op">{</span></span>
-<span id="cb1-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"First name: "</span> <span class="op">&lt;&lt;</span> names<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb1-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The method returns true when the vector has no elements and false when it contains one or more elements. Use <code>.empty()</code> before accessing elements to avoid runtime errors.</p>
+
+<section>
+<section id="conditional-statements" class="title-slide slide level1 center">
+<h1>Conditional Statements</h1>
 <!-- Slide 3 -->
 </section>
-<section id="using-size-to-check-for-empty-vectors" class="slide level2">
-<h2>Using size to Check for Empty Vectors</h2>
-<p>Checking if <code>.size()</code> equals zero is another way to determine if a vector is empty. This method explicitly compares the number of elements to zero.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> prices<span class="op">;</span></span>
-<span id="cb2-2"><a href=""></a></span>
-<span id="cb2-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>prices<span class="op">.</span>size<span class="op">()</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"No prices available"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb2-5"><a href=""></a><span class="op">}</span></span>
-<span id="cb2-6"><a href=""></a></span>
-<span id="cb2-7"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">char</span><span class="op">&gt;</span> letters <span class="op">=</span> <span class="op">{</span><span class="ch">'a'</span><span class="op">,</span> <span class="ch">'b'</span><span class="op">,</span> <span class="ch">'c'</span><span class="op">};</span></span>
-<span id="cb2-8"><a href=""></a><span class="cf">if</span> <span class="op">(</span>letters<span class="op">.</span>size<span class="op">()</span> <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Vector contains "</span> <span class="op">&lt;&lt;</span> letters<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" elements"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb2-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The <code>.size()</code> method returns the number of elements in the vector. Comparing this value to zero achieves the same result as <code>.empty()</code> but is less direct.</p>
-<!-- Slide 4 -->
-</section>
-<section id="comparing-the-two-approaches" class="slide level2">
-<h2>Comparing the Two Approaches</h2>
-<p>Both <code>.empty()</code> and <code>.size() == 0</code> correctly determine if a vector is empty, but they differ in clarity and intent. The <code>.empty()</code> method explicitly states the question being asked and is more readable.</p>
-<p>Use <code>.empty()</code> when you only need to know whether the vector has elements or not. Use <code>.size()</code> when you need the actual count of elements for other purposes, such as displaying how many items exist.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> data <span class="op">=</span> <span class="op">{</span><span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">15</span><span class="op">};</span></span>
-<span id="cb3-2"><a href=""></a></span>
-<span id="cb3-3"><a href=""></a><span class="co">// Preferred when only checking emptiness</span></span>
-<span id="cb3-4"><a href=""></a><span class="cf">if</span> <span class="op">(</span>data<span class="op">.</span>empty<span class="op">())</span> <span class="op">{</span> <span class="co">/* ... */</span> <span class="op">}</span></span>
-<span id="cb3-5"><a href=""></a></span>
-<span id="cb3-6"><a href=""></a><span class="co">// Better when you need the size value</span></span>
-<span id="cb3-7"><a href=""></a><span class="cf">if</span> <span class="op">(</span>data<span class="op">.</span>size<span class="op">()</span> <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb3-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Processing "</span> <span class="op">&lt;&lt;</span> data<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" items"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb3-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="choosing-the-shape-of-a-decision" class="slide level2 smaller">
+<h2>Choosing the Shape of a Decision</h2>
+<ul>
+<li>A conditional statement chooses whether a block of code should run.</li>
+<li>The structure should match the output paths the program needs.</li>
+</ul>
 <aside class="notes">
-<p>Consider a comparison table showing .empty() vs .size() == 0 with their use cases.</p>
+<p>Slides 3-9</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -336,105 +283,85 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="one-way-two-way-multi-way" class="slide level2">
+<h2>One-Way, Two-Way, Multi-Way</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Structure</th>
+<th>Best Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>if</code></td>
+<td>One optional action</td>
+</tr>
+<tr class="even">
+<td><code>if/else</code></td>
+<td>Two mutually exclusive actions</td>
+</tr>
+<tr class="odd">
+<td><code>if/else if</code></td>
+<td>More than two mutually exclusive categories</td>
+</tr>
+</tbody>
+</table>
 <!-- Slide 5 -->
+</section>
+<section id="focus-on-the-output" class="slide level2">
+<h2>Focus on the Output</h2>
+<ul>
+<li>Start with what the program should do.</li>
+<li>Then choose the conditional structure that matches those possible outcomes.</li>
+<li>Conditions are tools for reaching the intended output, not the starting point of the design.</li>
+</ul>
+<!-- Slide 6 -->
+</section>
+<section id="blocks-decide-what-runs" class="slide level2">
+<h2>Blocks Decide What Runs</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>score <span class="op">&gt;=</span> <span class="dv">70</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Pass"</span><span class="op">;</span></span>
+<span id="cb1-3"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb1-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Try again"</span><span class="op">;</span></span>
+<span id="cb1-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Each branch controls a block. Exactly one of these two blocks runs.</p>
+<!-- Slide 7 -->
+</section>
+<section id="when-basic-selection-is-not-enough" class="slide level2">
+<h2>When Basic Selection Is Not Enough</h2>
+<ul>
+<li>Some decisions compare one value against fixed cases.</li>
+<li>Some decisions require a second question inside the first.</li>
+<li>Some decisions need more than one condition at the same time.</li>
+</ul>
+<!-- Slide 8 -->
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
-<p>A vector is empty when it contains zero elements, and checking for emptiness prevents errors when accessing vector data. Use <code>.empty()</code> for clarity when checking emptiness, or <code>.size() == 0</code> when you also need the element count.</p>
-<!-- Slide 6 -->
-</section>
-<section id="appendix" class="slide level2">
-<h2>Appendix</h2>
-<!-- Appendix Slide -->
-</section>
-<section id="common-practices" class="slide level2">
-<h2>Common Practices</h2>
-<p>Always check if a vector is empty before accessing its first or last element using bracket notation. This prevents undefined behavior that can crash your program or produce incorrect results.</p>
-<p>Use <code>.empty()</code> rather than <code>.size() == 0</code> when you only care about whether the vector has elements. This makes your code’s intent clearer to other programmers reading your code.</p>
-<p>Check for empty vectors at the beginning of functions that process vector data. This allows you to handle the empty case explicitly or return early if there’s nothing to process.</p>
-<p>Combine emptiness checks with meaningful error messages or default behaviors. Don’t silently ignore empty vectors when they might indicate a problem in your program logic.</p>
-<!-- Appendix Slide 1 -->
-</section>
-<section id="common-mistakes" class="slide level2">
-<h2>Common Mistakes</h2>
-<p>Forgetting to check if a vector is empty before accessing elements leads to undefined behavior. Always verify the vector has elements before using bracket notation or calling methods like <code>.front()</code> or <code>.back()</code>.</p>
-<p>Assuming that an uninitialized vector pointer is the same as an empty vector is incorrect. A null pointer is different from a valid vector object that happens to be empty.</p>
-<p>Using <code>.size() &gt; 0</code> instead of <code>!.empty()</code> is less clear when you only need a true/false answer. The <code>.empty()</code> method better communicates the intent of checking for no elements.</p>
-<p>Checking only once at the start of a program and not rechecking after operations that might empty the vector creates bugs. Vectors can become empty during execution through operations like <code>.clear()</code> or <code>.pop_back()</code>.</p>
-<!-- Appendix Slide 2 -->
-</section>
-<section id="more-examples" class="slide level2">
-<h2>More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="co">// Safe element access</span></span>
-<span id="cb4-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">;</span></span>
-<span id="cb4-3"><a href=""></a><span class="cf">if</span> <span class="op">(!</span>scores<span class="op">.</span>empty<span class="op">())</span> <span class="op">{</span></span>
-<span id="cb4-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"First score: "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb4-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Last score: "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span>scores<span class="op">.</span>size<span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb4-6"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb4-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"No scores to display"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb4-8"><a href=""></a><span class="op">}</span></span>
-<span id="cb4-9"><a href=""></a></span>
-<span id="cb4-10"><a href=""></a><span class="co">// Processing only if data exists</span></span>
-<span id="cb4-11"><a href=""></a>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> tasks <span class="op">=</span> getUserTasks<span class="op">();</span></span>
-<span id="cb4-12"><a href=""></a><span class="cf">if</span> <span class="op">(</span>tasks<span class="op">.</span>empty<span class="op">())</span> <span class="op">{</span></span>
-<span id="cb4-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"No tasks today!"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb4-14"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb4-15"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string task <span class="op">:</span> tasks<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-16"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"- "</span> <span class="op">&lt;&lt;</span> task <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb4-17"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb4-18"><a href=""></a><span class="op">}</span></span>
-<span id="cb4-19"><a href=""></a></span>
-<span id="cb4-20"><a href=""></a><span class="co">// Validating input</span></span>
-<span id="cb4-21"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> measurements<span class="op">;</span></span>
-<span id="cb4-22"><a href=""></a>readMeasurements<span class="op">(</span>measurements<span class="op">);</span></span>
-<span id="cb4-23"><a href=""></a></span>
-<span id="cb4-24"><a href=""></a><span class="cf">if</span> <span class="op">(</span>measurements<span class="op">.</span>empty<span class="op">())</span> <span class="op">{</span></span>
-<span id="cb4-25"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Error: No measurements recorded"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb4-26"><a href=""></a>    <span class="cf">return</span><span class="op">;</span></span>
-<span id="cb4-27"><a href=""></a><span class="op">}</span></span>
-<span id="cb4-28"><a href=""></a></span>
-<span id="cb4-29"><a href=""></a><span class="dt">double</span> average <span class="op">=</span> calculateAverage<span class="op">(</span>measurements<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Appendix Slide 3 -->
-</section>
-<section id="practice-problems" class="slide level2">
-<h2>Practice Problems</h2>
-<ol type="1">
-<li>Write code that creates an empty vector of integers and uses <code>.empty()</code> to verify it contains no elements.</li>
-<li>Create a vector with three strings, then write an if statement that prints “Vector has data” only if the vector is not empty.</li>
-<li>Write a function that takes a vector as a parameter and returns true if the vector is empty, false otherwise.</li>
-<li>Given a vector that may or may not have elements, write code that safely accesses and prints the first element only if the vector is not empty.</li>
-</ol>
-<!-- Appendix Slide 4 -->
-</section>
-<section id="ai-search-terms" class="slide level2">
-<h2>AI Search Terms</h2>
-<p>When searching for help or using AI assistants, try these search terms:</p>
 <ul>
-<li>“C++ vector empty method”</li>
-<li>“C++ check if vector is empty”</li>
-<li>“C++ vector size vs empty”</li>
-<li>“C++ vector empty check before access”</li>
-<li>“C++ preventing empty vector errors”</li>
+<li>Conditional statements are design choices.</li>
+<li>Pick the structure that matches the number and relationship of the possible outcomes.</li>
 </ul>
-<!-- Appendix Slide 5 -->
-</section>
-<section id="questions-for-reflection" class="slide level2">
-<h2>Questions for Reflection</h2>
-<ol type="1">
-<li>What is the difference between an empty vector and an uninitialized vector variable?</li>
-<li>Why is it important to check if a vector is empty before accessing its elements?</li>
-<li>When would you choose <code>.empty()</code> over <code>.size() == 0</code> and vice versa?</li>
-<li>What operations can make a non-empty vector become empty during program execution?</li>
-</ol>
-<!-- Appendix Slide 6 -->
+<!-- Slide 9 -->
+<!-- Topic 2: The Conditional Operator -->
+<!-- Slides 10-17 -->
 </section></section>
 <section>
-<section id="comparing-vector-elements" class="title-slide slide level1 center">
-<h1>Comparing Vector Elements</h1>
-<p>How can we determine if values stored in vectors are equal, greater than, or less than each other? Today we’ll explore comparing individual vector elements and comparing entire vectors using both manual and built-in comparison methods.</p>
+<section id="the-conditional-operator" class="title-slide slide level1 center">
+<h1>The Conditional Operator</h1>
+<!-- Slide 10 -->
+</section>
+<section id="a-shorter-two-way-choice" class="slide level2 smaller">
+<h2>A Shorter Two-Way Choice</h2>
+<ul>
+<li>The conditional operator is a compact way to choose between two values.</li>
+<li>It is useful when a full <code>if/else</code> statement would be longer than the idea itself.</li>
+</ul>
 <aside class="notes">
-<p>Total slides: 6</p>
-<p>Consider including a visual showing two vectors with arrows pointing to elements being compared.</p>
+<p>Slides 10-17</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -446,259 +373,916 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 11 -->
 </section>
-<section id="comparing-individual-vector-elements" class="slide level2">
-<h2>Comparing Individual Vector Elements</h2>
-<p>Individual vector elements can be compared using relational operators just like regular variables. Access elements using bracket notation and apply operators such as ==, !=, &lt;, &gt;, &lt;=, and &gt;=.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">85</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">95</span><span class="op">};</span></span>
-<span id="cb5-2"><a href=""></a></span>
-<span id="cb5-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">==</span> scores<span class="op">[</span><span class="dv">2</span><span class="op">])</span> <span class="op">{</span></span>
-<span id="cb5-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"First and third scores are equal"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb5-5"><a href=""></a><span class="op">}</span></span>
-<span id="cb5-6"><a href=""></a></span>
-<span id="cb5-7"><a href=""></a><span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">&gt;</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">])</span> <span class="op">{</span></span>
-<span id="cb5-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Second score is higher than first"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb5-9"><a href=""></a><span class="op">}</span></span>
-<span id="cb5-10"><a href=""></a></span>
-<span id="cb5-11"><a href=""></a><span class="dt">bool</span> isLower <span class="op">=</span> <span class="op">(</span>scores<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">&lt;</span> scores<span class="op">[</span><span class="dv">3</span><span class="op">]);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Each comparison evaluates to a boolean value that can be used in conditionals or stored in variables. The elements being compared must be of compatible types that support the comparison operator being used.</p>
-<!-- Slide 2 -->
+<section id="the-shape-of" class="slide level2">
+<h2>The Shape of <code>?:</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a>condition <span class="op">?</span> value_if_true <span class="op">:</span> value_if_false</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The condition is tested first.</li>
+<li>One of the two values is produced.</li>
+</ul>
+<!-- Slide 12 -->
 </section>
-<section id="manual-element-by-element-comparison" class="slide level2">
-<h2>Manual Element-by-Element Comparison</h2>
-<p>Comparing vectors element-by-element manually is possible but requires accessing elements by position, which is challenging with for-each loops alone. For-each loops iterate through one vector at a time without providing corresponding positions.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="co">// For-each can only compare if vectors contain comparable objects</span></span>
-<span id="cb6-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> values <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">};</span></span>
-<span id="cb6-3"><a href=""></a></span>
-<span id="cb6-4"><a href=""></a><span class="co">// Can check properties of individual elements</span></span>
-<span id="cb6-5"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> val <span class="op">:</span> values<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb6-6"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>val <span class="op">&gt;</span> <span class="dv">25</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb6-7"><a href=""></a>        cout <span class="op">&lt;&lt;</span> val <span class="op">&lt;&lt;</span> <span class="st">" is greater than 25"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb6-8"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb6-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Fortunately, C++ provides built-in operators that handle element-by-element comparison automatically, eliminating the need for manual iteration. These built-in operators are more convenient and less error-prone for comparing entire vectors.</p>
-<aside class="notes">
-<p>Consider a diagram showing the limitation of for-each loops when comparing two vectors simultaneously.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 3 -->
+<section id="an-expression-not-a-statement" class="slide level2">
+<h2>An Expression, Not a Statement</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a>string status <span class="op">=</span> score <span class="op">&gt;=</span> <span class="dv">70</span> <span class="op">?</span> <span class="st">"passing"</span> <span class="op">:</span> <span class="st">"not passing"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The conditional operator produces a value, so it can be used in an assignment, an output statement, or another expression.</p>
+<!-- Slide 13 -->
 </section>
-<section id="comparing-entire-vectors-with-built-in-operators" class="slide level2">
-<h2>Comparing Entire Vectors with Built-in Operators</h2>
-<p>C++ provides built-in comparison operators that work directly on entire vectors. These operators (==, !=, &lt;, &gt;, &lt;=, &gt;=) compare vectors without requiring manual loops.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> vec1 <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">};</span></span>
-<span id="cb7-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> vec2 <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">};</span></span>
-<span id="cb7-3"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> vec3 <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">25</span><span class="op">,</span> <span class="dv">30</span><span class="op">};</span></span>
-<span id="cb7-4"><a href=""></a></span>
-<span id="cb7-5"><a href=""></a><span class="cf">if</span> <span class="op">(</span>vec1 <span class="op">==</span> vec2<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"vec1 and vec2 are equal"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb7-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb7-8"><a href=""></a></span>
-<span id="cb7-9"><a href=""></a><span class="cf">if</span> <span class="op">(</span>vec1 <span class="op">!=</span> vec3<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"vec1 and vec3 are different"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb7-11"><a href=""></a><span class="op">}</span></span>
-<span id="cb7-12"><a href=""></a></span>
-<span id="cb7-13"><a href=""></a><span class="cf">if</span> <span class="op">(</span>vec1 <span class="op">&lt;</span> vec3<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"vec1 is less than vec3"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb7-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The == operator returns true only if both vectors have the same size and all corresponding elements are equal. The != operator returns true if vectors differ in size or any elements differ.</p>
-<!-- Slide 4 -->
+<section id="from-ifelse-to" class="slide level2">
+<h2>From if/else to <code>?:</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>age <span class="op">&gt;=</span> <span class="dv">18</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href=""></a>    label <span class="op">=</span> <span class="st">"adult"</span><span class="op">;</span></span>
+<span id="cb4-3"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb4-4"><a href=""></a>    label <span class="op">=</span> <span class="st">"minor"</span><span class="op">;</span></span>
+<span id="cb4-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a>label <span class="op">=</span> age <span class="op">&gt;=</span> <span class="dv">18</span> <span class="op">?</span> <span class="st">"adult"</span> <span class="op">:</span> <span class="st">"minor"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 14 -->
 </section>
-<section id="understanding-lexicographic-comparison" class="slide level2">
-<h2>Understanding Lexicographic Comparison</h2>
-<p>The relational operators &lt;, &gt;, &lt;=, and &gt;= perform lexicographic comparison, similar to dictionary ordering. Vectors are compared element-by-element from left to right until a difference is found.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> vec1 <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">};</span></span>
-<span id="cb8-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> vec2 <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">25</span><span class="op">,</span> <span class="dv">30</span><span class="op">};</span></span>
-<span id="cb8-3"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> vec3 <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">};</span></span>
-<span id="cb8-4"><a href=""></a></span>
-<span id="cb8-5"><a href=""></a><span class="co">// vec1 &lt; vec2 is true (20 &lt; 25 at index 1)</span></span>
-<span id="cb8-6"><a href=""></a><span class="co">// vec3 &lt; vec1 is true (shorter vector is less if all elements match)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>When elements differ at a position, that difference determines the result regardless of later elements. If all elements match but one vector is shorter, the shorter vector is considered less than the longer one.</p>
-<aside class="notes">
-<p>Consider a visual showing step-by-step lexicographic comparison with arrows indicating where the comparison stops.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 5 -->
+<section id="when-it-helps" class="slide level2">
+<h2>When It Helps</h2>
+<ul>
+<li>Choose one of two short labels.</li>
+<li>Choose one of two numeric values.</li>
+<li>Keep a simple output statement readable.</li>
+</ul>
+<!-- Slide 15 -->
+</section>
+<section id="when-it-hurts" class="slide level2">
+<h2>When It Hurts</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a>grade <span class="op">=</span> score <span class="op">&gt;=</span> <span class="dv">90</span> <span class="op">?</span> <span class="st">"A"</span> <span class="op">:</span> score <span class="op">&gt;=</span> <span class="dv">80</span> <span class="op">?</span> <span class="st">"B"</span> <span class="op">:</span> score <span class="op">&gt;=</span> <span class="dv">70</span> <span class="op">?</span> <span class="st">"C"</span> <span class="op">:</span> <span class="st">"D"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Nested conditional operators are legal, but they are often harder to read than an <code>if/else if</code> chain.</p>
+<!-- Slide 16 -->
 </section>
 <section id="summary-1" class="slide level2">
 <h2>Summary</h2>
-<p>Vector elements can be compared individually using relational operators, or entire vectors can be compared using built-in operators. Built-in comparison operators use lexicographic ordering to determine relationships between vectors.</p>
-<!-- Slide 6 -->
-</section>
-<section id="appendix-1" class="slide level2">
-<h2>Appendix</h2>
-<!-- Appendix Slide -->
-</section>
-<section id="common-practices-1" class="slide level2">
-<h2>Common Practices</h2>
-<p>Always verify that vectors have compatible types before comparing them. Comparing vectors of different element types will result in compilation errors.</p>
-<p>Check vector sizes before manual element-by-element comparison to avoid accessing invalid indices. Attempting to access elements beyond the vector size causes runtime errors.</p>
-<p>Use built-in comparison operators (==, !=, &lt;, &gt;, &lt;=, &gt;=) when comparing entire vectors for simplicity and clarity. Reserve manual element-by-element comparison for cases requiring custom comparison logic.</p>
-<p>Store comparison results in boolean variables with descriptive names when the logic is complex. This improves code readability and makes the purpose of the comparison clear.</p>
-<!-- Appendix Slide 1 -->
-</section>
-<section id="common-mistakes-1" class="slide level2">
-<h2>Common Mistakes</h2>
-<p>Comparing vectors of different sizes without checking lengths first leads to accessing invalid indices. Always verify both vectors have the same size before manual element-by-element iteration.</p>
-<p>Assuming that vector comparison works like array comparison is incorrect. Unlike arrays, vectors support direct comparison operators that handle the comparison logic automatically.</p>
-<p>Forgetting that lexicographic comparison stops at the first difference can lead to unexpected results. Elements after the first difference do not affect the comparison outcome.</p>
-<p>Using == to compare vectors of floating-point numbers may produce unexpected results due to precision issues. Consider using a tolerance-based comparison for floating-point vectors instead.</p>
-<!-- Appendix Slide 2 -->
-</section>
-<section id="more-examples-1" class="slide level2">
-<h2>More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="co">// Finding maximum element by comparing with each element</span></span>
-<span id="cb9-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers <span class="op">=</span> <span class="op">{</span><span class="dv">45</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">67</span><span class="op">,</span> <span class="dv">23</span><span class="op">,</span> <span class="dv">89</span><span class="op">};</span></span>
-<span id="cb9-3"><a href=""></a><span class="dt">int</span> maxValue <span class="op">=</span> numbers<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
-<span id="cb9-4"><a href=""></a></span>
-<span id="cb9-5"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> num <span class="op">:</span> numbers<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-6"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>num <span class="op">&gt;</span> maxValue<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-7"><a href=""></a>        maxValue <span class="op">=</span> num<span class="op">;</span></span>
-<span id="cb9-8"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb9-9"><a href=""></a><span class="op">}</span></span>
-<span id="cb9-10"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Maximum: "</span> <span class="op">&lt;&lt;</span> maxValue <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb9-11"><a href=""></a></span>
-<span id="cb9-12"><a href=""></a><span class="co">// Checking if all elements are positive</span></span>
-<span id="cb9-13"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> values <span class="op">=</span> <span class="op">{</span><span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">20</span><span class="op">};</span></span>
-<span id="cb9-14"><a href=""></a><span class="dt">bool</span> allPositive <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb9-15"><a href=""></a></span>
-<span id="cb9-16"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> val <span class="op">:</span> values<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-17"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>val <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-18"><a href=""></a>        allPositive <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb9-19"><a href=""></a>        <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb9-20"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb9-21"><a href=""></a><span class="op">}</span></span>
-<span id="cb9-22"><a href=""></a></span>
-<span id="cb9-23"><a href=""></a><span class="co">// Comparing vectors with different sizes</span></span>
-<span id="cb9-24"><a href=""></a>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> names1 <span class="op">=</span> <span class="op">{</span><span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span><span class="op">};</span></span>
-<span id="cb9-25"><a href=""></a>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> names2 <span class="op">=</span> <span class="op">{</span><span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span><span class="op">,</span> <span class="st">"Charlie"</span><span class="op">};</span></span>
-<span id="cb9-26"><a href=""></a></span>
-<span id="cb9-27"><a href=""></a><span class="cf">if</span> <span class="op">(</span>names1 <span class="op">!=</span> names2<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-28"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Name lists differ"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb9-29"><a href=""></a><span class="op">}</span></span>
-<span id="cb9-30"><a href=""></a><span class="cf">if</span> <span class="op">(</span>names1 <span class="op">&lt;</span> names2<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-31"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"names1 is less (shorter)"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb9-32"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Appendix Slide 3 -->
-</section>
-<section id="practice-problems-1" class="slide level2">
-<h2>Practice Problems</h2>
-<ol type="1">
-<li>Write code that compares the first and last elements of a vector and prints which one is larger.</li>
-<li>Create two vectors of integers and write code to determine if they are exactly equal using the == operator.</li>
-<li>Given a vector of test scores, write code using a for-each loop to count how many scores are above 90.</li>
-<li>Compare two vectors lexicographically and explain why vector {1, 5, 10} is less than vector {1, 6, 2}.</li>
-</ol>
-<!-- Appendix Slide 4 -->
-</section>
-<section id="ai-search-terms-1" class="slide level2">
-<h2>AI Search Terms</h2>
-<p>When searching for help or using AI assistants, try these search terms:</p>
 <ul>
-<li>“C++ vector element comparison”</li>
-<li>“C++ comparing entire vectors”</li>
-<li>“C++ vector lexicographic comparison”</li>
-<li>“C++ vector equality operator”</li>
-<li>“C++ vector relational operators”</li>
+<li>Use <code>?:</code> when the choice is simple, local, and easier to read as one expression.</li>
+<li>Use a normal conditional statement when the decision needs more room.</li>
 </ul>
-<!-- Appendix Slide 5 -->
-</section>
-<section id="questions-for-reflection-1" class="slide level2">
-<h2>Questions for Reflection</h2>
-<ol type="1">
-<li>What is the difference between comparing individual vector elements and comparing entire vectors?</li>
-<li>How does lexicographic comparison determine which vector is “less than” another?</li>
-<li>When would you choose manual element-by-element comparison over built-in comparison operators?</li>
-<li>Why might comparing floating-point vectors with == produce unexpected results?</li>
-</ol>
-<!-- Appendix Slide 6 -->
+<!-- Slide 17 -->
+<!-- Topic 3: The switch Statement -->
+<!-- Slides 18-26 -->
 </section></section>
 <section>
-<section id="code-this-complete-example" class="title-slide slide level1 center">
-<h1>Code This: Complete Example</h1>
-<p><strong>Estimated Time:</strong> 40 minutes</p>
+<section id="the-switch-statement" class="title-slide slide level1 center">
+<h1>The switch Statement</h1>
+<!-- Slide 18 -->
 </section>
-<section id="problem-description" class="slide level2">
-<h2>Problem Description</h2>
-<p>Write a program that helps you organize the elements of a vector.</p>
-</section>
-<section id="requirements" class="slide level2">
-<h2>Requirements</h2>
-<ol type="1">
-<li>Write function prototypes for all functions.</li>
-<li>Implement all function definitions below main().</li>
-<li>Use for-each loops.</li>
-</ol>
-</section>
-<section id="sample-output" class="slide level2">
-<h2>Sample Output</h2>
-<pre><code></code></pre>
-</section>
-<section id="your-task" class="slide level2">
-<h2>Your Task</h2>
+<section id="choosing-from-fixed-cases" class="slide level2 smaller">
+<h2>Choosing From Fixed Cases</h2>
 <ul>
-<li><p>using a for-each loop initialize the contents of a 10 element vector with random numbers between 1 - 20.</p></li>
-<li><p>Display the entire vector.</p></li>
+<li>A <code>switch</code> statement chooses among fixed exact values.</li>
+<li>It is useful when one expression is compared against several known cases.</li>
 </ul>
-<p>Your task is to eliminate all odd numbers from the vector. You can only transform a number once and you can not have any duplicate even numbers.</p>
+<aside class="notes">
+<p>Slides 18-26</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 19 -->
+</section>
+<section id="the-shape-of-a-switch-statement" class="slide level2">
+<h2>The Shape of a switch Statement</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="cf">switch</span> <span class="op">(</span>category<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href=""></a><span class="cf">case</span> <span class="ch">'A'</span><span class="op">:</span></span>
+<span id="cb7-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Excellent"</span><span class="op">;</span></span>
+<span id="cb7-4"><a href=""></a>    <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb7-5"><a href=""></a><span class="cf">default</span><span class="op">:</span></span>
+<span id="cb7-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Unrecognized category"</span><span class="op">;</span></span>
+<span id="cb7-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 20 -->
+</section>
+<section id="switch-vs.-ifelse-if" class="slide level2">
+<h2>switch vs.&nbsp;if/else if</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Use <code>switch</code> when…</th>
+<th>Use <code>if/else if</code> when…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One expression is checked</td>
+<td>Different expressions are checked</td>
+</tr>
+<tr class="even">
+<td>Cases are exact values</td>
+<td>Conditions use ranges</td>
+</tr>
+<tr class="odd">
+<td>The choices are discrete</td>
+<td>The choices need relational tests</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 21 -->
+</section>
+<section id="case-labels-match-exact-values" class="slide level2">
+<h2>case Labels Match Exact Values</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="cf">case</span> <span class="dv">1</span><span class="op">:</span></span>
+<span id="cb8-2"><a href=""></a><span class="cf">case</span> <span class="ch">'A'</span><span class="op">:</span></span>
+<span id="cb8-3"><a href=""></a><span class="cf">case</span> <span class="kw">true</span><span class="op">:</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>case</code> labels are exact matches. They do not test ranges like <code>score &gt;= 90</code>.</p>
+<!-- Slide 22 -->
+</section>
+<section id="break-controls-fall-through" class="slide level2">
+<h2>break Controls Fall-Through</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="cf">case</span> <span class="ch">'A'</span><span class="op">:</span></span>
+<span id="cb9-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Excellent"</span><span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a>    <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb9-4"><a href=""></a><span class="cf">case</span> <span class="ch">'B'</span><span class="op">:</span></span>
+<span id="cb9-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Good"</span><span class="op">;</span></span>
+<span id="cb9-6"><a href=""></a>    <span class="cf">break</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Without <code>break</code>, execution continues into the next case.</p>
+<!-- Slide 23 -->
+</section>
+<section id="default-handles-everything-else" class="slide level2">
+<h2>default Handles Everything Else</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="cf">default</span><span class="op">:</span></span>
+<span id="cb10-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Unknown category"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>default</code> branch handles values that do not match any listed case.</p>
+<!-- Slide 24 -->
+</section>
+<section id="category-code-example" class="slide level2">
+<h2>Category Code Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">char</span> shippingCode<span class="op">;</span></span>
+<span id="cb11-2"><a href=""></a>cin <span class="op">&gt;&gt;</span> shippingCode<span class="op">;</span></span>
+<span id="cb11-3"><a href=""></a></span>
+<span id="cb11-4"><a href=""></a><span class="cf">switch</span> <span class="op">(</span>shippingCode<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-5"><a href=""></a><span class="cf">case</span> <span class="ch">'S'</span><span class="op">:</span></span>
+<span id="cb11-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Standard shipping"</span><span class="op">;</span></span>
+<span id="cb11-7"><a href=""></a>    <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb11-8"><a href=""></a><span class="cf">case</span> <span class="ch">'E'</span><span class="op">:</span></span>
+<span id="cb11-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Express shipping"</span><span class="op">;</span></span>
+<span id="cb11-10"><a href=""></a>    <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb11-11"><a href=""></a><span class="cf">case</span> <span class="ch">'P'</span><span class="op">:</span></span>
+<span id="cb11-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Pickup"</span><span class="op">;</span></span>
+<span id="cb11-13"><a href=""></a>    <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb11-14"><a href=""></a><span class="cf">default</span><span class="op">:</span></span>
+<span id="cb11-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Unknown shipping code"</span><span class="op">;</span></span>
+<span id="cb11-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 25 -->
+</section>
+<section id="summary-2" class="slide level2">
+<h2>Summary</h2>
 <ul>
-<li>Using a for-each loop, display the current element and
-<ul>
-<li>display a menu of transformations to that element
-<ul>
-<li>add 1 to it.</li>
-<li>subtract 1 from it.</li>
-<li>do not change it (and move to the next element)</li>
-</ul></li>
-</ul></li>
-<li>step through this process until you reach the end of the vector.</li>
+<li><code>switch</code> is best when one expression is compared against a fixed set of exact values.</li>
+<li>Use <code>if/else if</code> when the decision depends on ranges or different questions.</li>
 </ul>
-</section>
-<section id="starter-code-structure" class="slide level2">
-<h2>Starter Code Structure</h2>
-</section>
-<section id="tips" class="slide level2">
-<h2>Tips</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">bool</span> isEven<span class="op">(</span><span class="dt">int</span> number<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb11-2"><a href=""></a>    <span class="cf">return</span> number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb11-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This returns <code>true</code> if even, <code>false</code> if odd.</p>
-</section>
-<section id="challenge-optional---if-you-finish-early" class="slide level2">
-<h2>Challenge (Optional - if you finish early)</h2>
-<ul>
-<li>Check to see if all odd numbers were eliminated from the vector.</li>
-<li>Check to see if there are no duplicate even numbers. Hint: you may want to sort() this vector to make this task easier.</li>
-</ul>
+<!-- Slide 26 -->
+<!-- Topic 4: Nested if Statements -->
+<!-- Slides 27-36 -->
 </section></section>
-<section id="key-takaways" class="title-slide slide level1 center">
-<h1>Key Takaways</h1>
-
+<section>
+<section id="nested-if-statements" class="title-slide slide level1 center">
+<h1>Nested if Statements</h1>
+<!-- Slide 27 -->
 </section>
+<section id="a-decision-inside-a-decision" class="slide level2 smaller">
+<h2>A Decision Inside a Decision</h2>
+<ul>
+<li>A nested <code>if</code> statement places one conditional inside another conditional block.</li>
+<li>The inner decision only matters after the outer decision has selected a path.</li>
+</ul>
+<aside class="notes">
+<p>Slides 27-36</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 28 -->
+</section>
+<section id="when-the-second-test-depends-on-the-first" class="slide level2">
+<h2>When the Second Test Depends on the First</h2>
+<ul>
+<li>Test another condition only if the first condition is true.</li>
+<li>Test another condition only if the first condition is false.</li>
+<li>That dependency is the reason to nest.</li>
+</ul>
+<!-- Slide 29 -->
+</section>
+<section id="nested-if-vs.-ifelse-if" class="slide level2">
+<h2>Nested if vs.&nbsp;if/else if</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Structure</th>
+<th>Question Shape</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>if/else if</code></td>
+<td>Which one category applies?</td>
+</tr>
+<tr class="even">
+<td>Nested <code>if</code></td>
+<td>After this branch, what else must be checked?</td>
+</tr>
+</tbody>
+</table>
+<p>Nested decisions are dependent. <code>if/else if</code> chains are usually categories at the same level.</p>
+<!-- Slide 30 -->
+</section>
+<section id="reading-the-indentation" class="slide level2">
+<h2>Reading the Indentation</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>isMember<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>orderTotal <span class="op">&gt;=</span> <span class="dv">50</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Free shipping"</span><span class="op">;</span></span>
+<span id="cb12-4"><a href=""></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb12-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Member shipping rate"</span><span class="op">;</span></span>
+<span id="cb12-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb12-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Indentation shows that the order-total decision belongs inside the member decision.</p>
+<!-- Slide 31 -->
+</section>
+<section id="shipping-fee-example" class="slide level2">
+<h2>Shipping Fee Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>isMember<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>orderTotal <span class="op">&gt;=</span> <span class="dv">50</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-3"><a href=""></a>        shipping <span class="op">=</span> <span class="fl">0.00</span><span class="op">;</span></span>
+<span id="cb13-4"><a href=""></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb13-5"><a href=""></a>        shipping <span class="op">=</span> <span class="fl">4.99</span><span class="op">;</span></span>
+<span id="cb13-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb13-7"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb13-8"><a href=""></a>    shipping <span class="op">=</span> <span class="fl">7.99</span><span class="op">;</span></span>
+<span id="cb13-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The order total matters only after the program knows the customer is a member.</p>
+<!-- Slide 32 -->
+</section>
+<section id="discount-eligibility-example" class="slide level2">
+<h2>Discount Eligibility Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>accountActive<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>purchaseAmount <span class="op">&gt;=</span> <span class="dv">100</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-3"><a href=""></a>        discountRate <span class="op">=</span> <span class="fl">0.10</span><span class="op">;</span></span>
+<span id="cb14-4"><a href=""></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb14-5"><a href=""></a>        discountRate <span class="op">=</span> <span class="fl">0.00</span><span class="op">;</span></span>
+<span id="cb14-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb14-7"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb14-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Account inactive"</span><span class="op">;</span></span>
+<span id="cb14-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The purchase amount matters only if the account is active.</p>
+<!-- Slide 33 -->
+</section>
+<section id="access-level-example" class="slide level2">
+<h2>Access Level Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>loggedIn<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>role <span class="op">==</span> <span class="st">"admin"</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Full access"</span><span class="op">;</span></span>
+<span id="cb15-4"><a href=""></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb15-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Standard access"</span><span class="op">;</span></span>
+<span id="cb15-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb15-7"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb15-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Please log in"</span><span class="op">;</span></span>
+<span id="cb15-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The role check only makes sense after the program knows the user is logged in.</p>
+<!-- Slide 34 -->
+</section>
+<section id="keep-nesting-shallow" class="slide level2">
+<h2>Keep Nesting Shallow</h2>
+<ul>
+<li>One level of nesting is usually easy to read.</li>
+<li>Multiple levels can hide the main path through the program.</li>
+<li>If the code becomes hard to follow, reconsider the design.</li>
+</ul>
+<!-- Slide 35 -->
+</section>
+<section id="summary-3" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>A nested <code>if</code> is useful when the next question depends on the answer to the first question.</li>
+<li>Use indentation and small blocks to make the dependency visible.</li>
+</ul>
+<!-- Slide 36 -->
+<!-- Topic 5: Compound Conditions -->
+<!-- Slides 37-46 -->
+</section></section>
+<section>
+<section id="compound-conditions" class="title-slide slide level1 center">
+<h1>Compound Conditions</h1>
+<!-- Slide 37 -->
+</section>
+<section id="combining-questions" class="slide level2 smaller">
+<h2>Combining Questions</h2>
+<ul>
+<li>A compound condition joins two or more smaller conditions.</li>
+<li>Logical operators let one decision ask a larger question.</li>
+</ul>
+<aside class="notes">
+<p>Slides 37-46</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 38 -->
+</section>
+<section id="the-and-operator" class="slide level2">
+<h2>The AND Operator <code>&amp;&amp;</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>age <span class="op">&gt;=</span> <span class="dv">18</span> <span class="op">&amp;&amp;</span> hasTicket<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter"</span><span class="op">;</span></span>
+<span id="cb16-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The whole condition is true only when both smaller conditions are true.</p>
+<!-- Slide 39 -->
+</section>
+<section id="the-or-operator" class="slide level2">
+<h2>The OR Operator <code>||</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>payment <span class="op">==</span> <span class="st">"cash"</span> <span class="op">||</span> payment <span class="op">==</span> <span class="st">"card"</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Payment accepted"</span><span class="op">;</span></span>
+<span id="cb17-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The whole condition is true when at least one smaller condition is true.</p>
+<!-- Slide 40 -->
+</section>
+<section id="short-circuit-evaluation" class="slide level2">
+<h2>Short-Circuit Evaluation</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>denominator <span class="op">!=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> numerator <span class="op">/</span> denominator <span class="op">&gt;</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Safe comparison"</span><span class="op">;</span></span>
+<span id="cb18-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>C++ can stop checking once the final answer is already known. Here, the division only happens if the denominator is not zero.</p>
+<!-- Slide 41 -->
+</section>
+<section id="the-not-operator" class="slide level2">
+<h2>The NOT Operator <code>!</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="cf">if</span> <span class="op">(!</span>isOpen<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Closed"</span><span class="op">;</span></span>
+<span id="cb19-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The NOT operator reverses the truth value of a condition.</p>
+<!-- Slide 42 -->
+</section>
+<section id="truth-tables" class="slide level2">
+<h2>Truth Tables</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>A</th>
+<th>B</th>
+<th><code>A &amp;&amp; B</code></th>
+<th><code>A || B</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>true</td>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr class="even">
+<td>true</td>
+<td>false</td>
+<td>false</td>
+<td>true</td>
+</tr>
+<tr class="odd">
+<td>false</td>
+<td>true</td>
+<td>false</td>
+<td>true</td>
+</tr>
+<tr class="even">
+<td>false</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 43 -->
+</section>
+<section id="reading-compound-conditions-out-loud" class="slide level2">
+<h2>Reading Compound Conditions Out Loud</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>score <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> score <span class="op">&lt;=</span> <span class="dv">100</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Valid score"</span><span class="op">;</span></span>
+<span id="cb20-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Read it as: “if score is at least 0 and score is at most 100.”</p>
+<!-- Slide 44 -->
+</section>
+<section id="reducing-extra-branches" class="slide level2">
+<h2>Reducing Extra Branches</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>isWeekend <span class="op">||</span> isHoliday<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-2"><a href=""></a>    rate <span class="op">=</span> <span class="fl">1.5</span><span class="op">;</span></span>
+<span id="cb21-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Logical operators can combine related questions instead of forcing separate branches for every combination.</p>
+<!-- Slide 45 -->
+</section>
+<section id="summary-4" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li><code>&amp;&amp;</code> requires both conditions to be true.</li>
+<li><code>||</code> requires at least one condition to be true.</li>
+<li><code>!</code> reverses a condition.</li>
+</ul>
+<!-- Slide 46 -->
+<!-- Topic 6: Range Checking -->
+<!-- Slides 47-55 -->
+</section></section>
+<section>
+<section id="range-checking" class="title-slide slide level1 center">
+<h1>Range Checking</h1>
+<!-- Slide 47 -->
+</section>
+<section id="inside-or-outside-the-range" class="slide level2 smaller">
+<h2>Inside or Outside the Range</h2>
+<ul>
+<li>Range checking asks whether a value belongs between two boundaries.</li>
+<li>The boundaries may be included or excluded depending on the problem.</li>
+</ul>
+<aside class="notes">
+<p>Slides 47-55</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 48 -->
+</section>
+<section id="checking-inside-a-range" class="slide level2">
+<h2>Checking Inside a Range</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>score <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> score <span class="op">&lt;=</span> <span class="dv">100</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Valid score"</span><span class="op">;</span></span>
+<span id="cb22-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Inside-range checks usually need both boundary comparisons to be true.</p>
+<!-- Slide 49 -->
+</section>
+<section id="why-inside-uses-and" class="slide level2">
+<h2>Why Inside Uses AND</h2>
+<p>For a score to be valid:</p>
+<ul>
+<li>It must be at least <code>0</code>.</li>
+<li>It must be at most <code>100</code>.</li>
+<li>Both facts must be true at the same time.</li>
+</ul>
+<!-- Slide 50 -->
+</section>
+<section id="checking-outside-a-range" class="slide level2">
+<h2>Checking Outside a Range</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>score <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> score <span class="op">&gt;</span> <span class="dv">100</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Invalid score"</span><span class="op">;</span></span>
+<span id="cb23-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Outside-range checks usually need only one boundary problem to be true.</p>
+<!-- Slide 51 -->
+</section>
+<section id="why-outside-uses-or" class="slide level2">
+<h2>Why Outside Uses OR</h2>
+<p>For a score to be invalid:</p>
+<ul>
+<li>It can be below <code>0</code>.</li>
+<li>It can be above <code>100</code>.</li>
+<li>Either problem is enough to reject the score.</li>
+</ul>
+<!-- Slide 52 -->
+</section>
+<section id="boundary-values-matter" class="slide level2">
+<h2>Boundary Values Matter</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Condition</th>
+<th>Are <code>0</code> and <code>100</code> valid?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>score &gt;= 0 &amp;&amp; score &lt;= 100</code></td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td><code>score &gt; 0 &amp;&amp; score &lt; 100</code></td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>Inclusive operators include the endpoints. Exclusive operators leave them out.</p>
+<!-- Slide 53 -->
+</section>
+<section id="score-evaluation-example" class="slide level2">
+<h2>Score Evaluation Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>score <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> score <span class="op">&gt;</span> <span class="dv">100</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Invalid score"</span><span class="op">;</span></span>
+<span id="cb24-3"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>score <span class="op">&gt;=</span> <span class="dv">90</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"A"</span><span class="op">;</span></span>
+<span id="cb24-5"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>score <span class="op">&gt;=</span> <span class="dv">80</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"B"</span><span class="op">;</span></span>
+<span id="cb24-7"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb24-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Keep working"</span><span class="op">;</span></span>
+<span id="cb24-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The range check protects the category logic that follows.</p>
+<!-- Slide 54 -->
+</section>
+<section id="summary-5" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Inside-range checks use <code>&amp;&amp;</code>.</li>
+<li>Outside-range checks use <code>||</code>.</li>
+<li>Decide whether boundary values should count before writing the operators.</li>
+</ul>
+<!-- Slide 55 -->
+</section>
+<section class="slide level2">
 
+</section></section>
+<section>
+<section id="key-takeaways" class="title-slide slide level1 center">
+<h1>Key Takeaways</h1>
+<ul>
+<li>Conditional structures should match the output paths the program needs.</li>
+<li>The conditional operator is useful for simple value choices.</li>
+<li><code>switch</code> works best for exact fixed cases.</li>
+<li>Nested <code>if</code> statements are for dependent decisions.</li>
+<li>Compound conditions and range checks let one decision ask a larger question.</li>
+</ul>
+<!-- Slide 56 -->
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next Time</h1>
-
+<!-- Slide 57 -->
 </section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="appendix" class="title-slide slide level1 center">
+<h1>Appendix</h1>
+<!-- Slide 58 -->
+</section>
+<section id="conditional-statements-good-practices" class="slide level2">
+<h2>Conditional Statements: Good Practices</h2>
+<ul>
+<li>Choose the structure after identifying the possible outputs.</li>
+<li>Keep each branch focused on one clear purpose.</li>
+<li>Use braces even when a branch contains one statement.</li>
+</ul>
+<!-- Slide 59 -->
+</section>
+<section id="conditional-statements-common-mistakes" class="slide level2">
+<h2>Conditional Statements: Common Mistakes</h2>
+<ul>
+<li>Starting with complicated conditions before naming the outputs.</li>
+<li>Using separate <code>if</code> statements when the outcomes should be mutually exclusive.</li>
+<li>Letting indentation suggest a block that braces do not actually create.</li>
+</ul>
+<!-- Slide 60 -->
+</section>
+<section id="conditional-statements-more-examples" class="slide level2">
+<h2>Conditional Statements: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>balance <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Overdrawn"</span><span class="op">;</span></span>
+<span id="cb25-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb25-4"><a href=""></a></span>
+<span id="cb25-5"><a href=""></a><span class="cf">if</span> <span class="op">(</span>age <span class="op">&gt;=</span> <span class="dv">18</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Adult"</span><span class="op">;</span></span>
+<span id="cb25-7"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb25-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Minor"</span><span class="op">;</span></span>
+<span id="cb25-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 61 -->
+</section>
+<section id="conditional-statements-practice-problems" class="slide level2">
+<h2>Conditional Statements: Practice Problems</h2>
+<ul>
+<li>Name the possible outputs before writing a condition.</li>
+<li>Choose <code>if</code>, <code>if/else</code>, or <code>if/else if</code> for a two-category grading message.</li>
+<li>Explain which branch runs when the first condition is false.</li>
+</ul>
+<!-- Slide 62 -->
+</section>
+<section id="conditional-statements-ai-search-terms" class="slide level2">
+<h2>Conditional Statements: AI Search Terms</h2>
+<ul>
+<li>C++ conditional statements</li>
+<li>C++ if else if decision structure</li>
+<li>C++ mutually exclusive branches</li>
+<li>C++ braces and blocks</li>
+</ul>
+<!-- Slide 63 -->
+</section>
+<section id="conditional-statements-questions-for-reflection" class="slide level2">
+<h2>Conditional Statements: Questions for Reflection</h2>
+<ul>
+<li>How many different output paths does the program need?</li>
+<li>Are the outcomes optional, two-way, or multi-way?</li>
+<li>Which code belongs inside the controlled block?</li>
+</ul>
+<!-- Slide 64 -->
+</section>
+<section id="the-conditional-operator-good-practices" class="slide level2">
+<h2>The Conditional Operator: Good Practices</h2>
+<ul>
+<li>Use it for short value choices.</li>
+<li>Keep both possible values easy to see.</li>
+<li>Prefer a normal <code>if/else</code> when the logic needs multiple statements.</li>
+</ul>
+<!-- Slide 65 -->
+</section>
+<section id="the-conditional-operator-common-mistakes" class="slide level2">
+<h2>The Conditional Operator: Common Mistakes</h2>
+<ul>
+<li>Nesting several conditional operators in one line.</li>
+<li>Using it when the goal is to run several statements.</li>
+<li>Hiding a complex condition inside a compact expression.</li>
+</ul>
+<!-- Slide 66 -->
+</section>
+<section id="the-conditional-operator-more-examples" class="slide level2">
+<h2>The Conditional Operator: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a>string access <span class="op">=</span> loggedIn <span class="op">?</span> <span class="st">"continue"</span> <span class="op">:</span> <span class="st">"sign in"</span><span class="op">;</span></span>
+<span id="cb26-2"><a href=""></a><span class="dt">double</span> fee <span class="op">=</span> isMember <span class="op">?</span> <span class="fl">4.99</span> <span class="op">:</span> <span class="fl">7.99</span><span class="op">;</span></span>
+<span id="cb26-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">(</span>passed <span class="op">?</span> <span class="st">"Pass"</span> <span class="op">:</span> <span class="st">"Try again"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 67 -->
+</section>
+<section id="the-conditional-operator-practice-problems" class="slide level2">
+<h2>The Conditional Operator: Practice Problems</h2>
+<ul>
+<li>Choose between <code>"valid"</code> and <code>"invalid"</code> using <code>?:</code>.</li>
+<li>Assign a shipping fee based on whether a customer is a member.</li>
+<li>Rewrite a one-line <code>?:</code> expression as a full <code>if/else</code>.</li>
+</ul>
+<!-- Slide 68 -->
+</section>
+<section id="the-conditional-operator-ai-search-terms" class="slide level2">
+<h2>The Conditional Operator: AI Search Terms</h2>
+<ul>
+<li>C++ conditional operator</li>
+<li>C++ ternary operator</li>
+<li>C++ question mark colon operator</li>
+<li>C++ conditional expression readability</li>
+</ul>
+<!-- Slide 69 -->
+</section>
+<section id="the-conditional-operator-questions-for-reflection" class="slide level2">
+<h2>The Conditional Operator: Questions for Reflection</h2>
+<ul>
+<li>Is the choice producing one value?</li>
+<li>Would a reader understand the expression quickly?</li>
+<li>Would this be clearer as a normal <code>if/else</code>?</li>
+</ul>
+<!-- Slide 70 -->
+</section>
+<section id="the-switch-statement-good-practices" class="slide level2">
+<h2>The switch Statement: Good Practices</h2>
+<ul>
+<li>Use <code>switch</code> when one expression is compared to exact cases.</li>
+<li>Include <code>break</code> unless intentional fall-through is clearly wanted.</li>
+<li>Include <code>default</code> for unexpected values.</li>
+</ul>
+<!-- Slide 71 -->
+</section>
+<section id="the-switch-statement-common-mistakes" class="slide level2">
+<h2>The switch Statement: Common Mistakes</h2>
+<ul>
+<li>Trying to use ranges in <code>case</code> labels.</li>
+<li>Forgetting <code>break</code> and accidentally falling through.</li>
+<li>Using <code>switch</code> when each branch needs a different condition.</li>
+</ul>
+<!-- Slide 72 -->
+</section>
+<section id="the-switch-statement-more-examples" class="slide level2">
+<h2>The switch Statement: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="cf">switch</span> <span class="op">(</span>dayCode<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-2"><a href=""></a><span class="cf">case</span> <span class="dv">1</span><span class="op">:</span></span>
+<span id="cb27-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Monday"</span><span class="op">;</span></span>
+<span id="cb27-4"><a href=""></a>    <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb27-5"><a href=""></a><span class="cf">case</span> <span class="dv">2</span><span class="op">:</span></span>
+<span id="cb27-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Tuesday"</span><span class="op">;</span></span>
+<span id="cb27-7"><a href=""></a>    <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb27-8"><a href=""></a><span class="cf">default</span><span class="op">:</span></span>
+<span id="cb27-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Unknown day"</span><span class="op">;</span></span>
+<span id="cb27-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 73 -->
+</section>
+<section id="the-switch-statement-practice-problems" class="slide level2">
+<h2>The switch Statement: Practice Problems</h2>
+<ul>
+<li>Write cases for three shipping codes.</li>
+<li>Add a <code>default</code> branch for an unknown code.</li>
+<li>Explain what happens if a <code>break</code> is missing.</li>
+</ul>
+<!-- Slide 74 -->
+</section>
+<section id="the-switch-statement-ai-search-terms" class="slide level2">
+<h2>The switch Statement: AI Search Terms</h2>
+<ul>
+<li>C++ switch statement</li>
+<li>C++ case label</li>
+<li>C++ switch break fall through</li>
+<li>C++ switch default branch</li>
+</ul>
+<!-- Slide 75 -->
+</section>
+<section id="the-switch-statement-questions-for-reflection" class="slide level2">
+<h2>The switch Statement: Questions for Reflection</h2>
+<ul>
+<li>Is one expression being checked?</li>
+<li>Are the choices exact values?</li>
+<li>What should happen when no case matches?</li>
+</ul>
+<!-- Slide 76 -->
+</section>
+<section id="nested-if-statements-good-practices" class="slide level2">
+<h2>Nested if Statements: Good Practices</h2>
+<ul>
+<li>Nest only when the second decision depends on the first.</li>
+<li>Keep nested blocks short.</li>
+<li>Use indentation that matches the braces.</li>
+</ul>
+<!-- Slide 77 -->
+</section>
+<section id="nested-if-statements-common-mistakes" class="slide level2">
+<h2>Nested if Statements: Common Mistakes</h2>
+<ul>
+<li>Nesting when an <code>if/else if</code> chain would be clearer.</li>
+<li>Letting several levels of nesting hide the main path.</li>
+<li>Putting the inner decision in the wrong branch.</li>
+</ul>
+<!-- Slide 78 -->
+</section>
+<section id="nested-if-statements-more-examples" class="slide level2">
+<h2>Nested if Statements: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>hasAccount<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>passwordCorrect<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Welcome"</span><span class="op">;</span></span>
+<span id="cb28-4"><a href=""></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb28-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Try again"</span><span class="op">;</span></span>
+<span id="cb28-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb28-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 79 -->
+</section>
+<section id="nested-if-statements-practice-problems" class="slide level2">
+<h2>Nested if Statements: Practice Problems</h2>
+<ul>
+<li>Identify the outer decision and the inner decision.</li>
+<li>Decide whether the second question depends on the first.</li>
+<li>Rewrite a nested decision as plain English.</li>
+</ul>
+<!-- Slide 80 -->
+</section>
+<section id="nested-if-statements-ai-search-terms" class="slide level2">
+<h2>Nested if Statements: AI Search Terms</h2>
+<ul>
+<li>C++ nested if statement</li>
+<li>C++ dependent conditional</li>
+<li>C++ nested if indentation</li>
+<li>C++ nested if vs else if</li>
+</ul>
+<!-- Slide 81 -->
+</section>
+<section id="nested-if-statements-questions-for-reflection" class="slide level2">
+<h2>Nested if Statements: Questions for Reflection</h2>
+<ul>
+<li>Does the inner question make sense before the outer question is answered?</li>
+<li>Which branch owns the inner decision?</li>
+<li>Can the nesting be reduced without changing the meaning?</li>
+</ul>
+<!-- Slide 82 -->
+</section>
+<section id="compound-conditions-good-practices" class="slide level2">
+<h2>Compound Conditions: Good Practices</h2>
+<ul>
+<li>Combine conditions that belong to the same decision.</li>
+<li>Use parentheses when grouping improves readability.</li>
+<li>Put safety checks before expressions that depend on them.</li>
+</ul>
+<!-- Slide 83 -->
+</section>
+<section id="compound-conditions-common-mistakes" class="slide level2">
+<h2>Compound Conditions: Common Mistakes</h2>
+<ul>
+<li>Using <code>&amp;&amp;</code> when either condition should be enough.</li>
+<li>Using <code>||</code> when both conditions are required.</li>
+<li>Forgetting that <code>!</code> reverses the condition that follows it.</li>
+</ul>
+<!-- Slide 84 -->
+</section>
+<section id="compound-conditions-more-examples" class="slide level2">
+<h2>Compound Conditions: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>temperature <span class="op">&gt;=</span> <span class="dv">60</span> <span class="op">&amp;&amp;</span> temperature <span class="op">&lt;=</span> <span class="dv">80</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Comfortable"</span><span class="op">;</span></span>
+<span id="cb29-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb29-4"><a href=""></a></span>
+<span id="cb29-5"><a href=""></a><span class="cf">if</span> <span class="op">(</span>choice <span class="op">==</span> <span class="ch">'Y'</span> <span class="op">||</span> choice <span class="op">==</span> <span class="ch">'y'</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Continuing"</span><span class="op">;</span></span>
+<span id="cb29-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 85 -->
+</section>
+<section id="compound-conditions-practice-problems" class="slide level2">
+<h2>Compound Conditions: Practice Problems</h2>
+<ul>
+<li>Write a condition that accepts <code>Y</code> or <code>y</code>.</li>
+<li>Write a condition that requires a user to be logged in and active.</li>
+<li>Explain why short-circuit evaluation can protect a division.</li>
+</ul>
+<!-- Slide 86 -->
+</section>
+<section id="compound-conditions-ai-search-terms" class="slide level2">
+<h2>Compound Conditions: AI Search Terms</h2>
+<ul>
+<li>C++ logical operators</li>
+<li>C++ AND OR NOT operators</li>
+<li>C++ short circuit evaluation</li>
+<li>C++ compound boolean expressions</li>
+</ul>
+<!-- Slide 87 -->
+</section>
+<section id="compound-conditions-questions-for-reflection" class="slide level2">
+<h2>Compound Conditions: Questions for Reflection</h2>
+<ul>
+<li>Do both smaller conditions need to be true?</li>
+<li>Is either condition enough?</li>
+<li>Does the second condition depend on the first being safe?</li>
+</ul>
+<!-- Slide 88 -->
+</section>
+<section id="range-checking-good-practices" class="slide level2">
+<h2>Range Checking: Good Practices</h2>
+<ul>
+<li>Decide whether endpoints should count before writing the condition.</li>
+<li>Use <code>&amp;&amp;</code> for inside-range checks.</li>
+<li>Use <code>||</code> for outside-range checks.</li>
+</ul>
+<!-- Slide 89 -->
+</section>
+<section id="range-checking-common-mistakes" class="slide level2">
+<h2>Range Checking: Common Mistakes</h2>
+<ul>
+<li>Writing <code>0 &lt;= score &lt;= 100</code> as if C++ understood chained comparisons.</li>
+<li>Using <code>||</code> for inside-range checks.</li>
+<li>Using <code>&amp;&amp;</code> for outside-range checks.</li>
+</ul>
+<!-- Slide 90 -->
+</section>
+<section id="range-checking-more-examples" class="slide level2">
+<h2>Range Checking: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>quantity <span class="op">&gt;=</span> <span class="dv">1</span> <span class="op">&amp;&amp;</span> quantity <span class="op">&lt;=</span> <span class="dv">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Allowed quantity"</span><span class="op">;</span></span>
+<span id="cb30-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb30-4"><a href=""></a></span>
+<span id="cb30-5"><a href=""></a><span class="cf">if</span> <span class="op">(</span>temperature <span class="op">&lt;</span> <span class="dv">32</span> <span class="op">||</span> temperature <span class="op">&gt;</span> <span class="dv">100</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Outside target range"</span><span class="op">;</span></span>
+<span id="cb30-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 91 -->
+</section>
+<section id="range-checking-practice-problems" class="slide level2">
+<h2>Range Checking: Practice Problems</h2>
+<ul>
+<li>Write a valid score check for <code>0</code> through <code>100</code>.</li>
+<li>Write an invalid score check for values outside <code>0</code> through <code>100</code>.</li>
+<li>Decide whether <code>100</code> should count as valid in a percent score.</li>
+</ul>
+<!-- Slide 92 -->
+</section>
+<section id="range-checking-ai-search-terms" class="slide level2">
+<h2>Range Checking: AI Search Terms</h2>
+<ul>
+<li>C++ range checking</li>
+<li>C++ validate number between two values</li>
+<li>C++ inclusive exclusive bounds</li>
+<li>C++ chained comparison error</li>
+</ul>
+<!-- Slide 93 -->
+</section>
+<section id="range-checking-questions-for-reflection" class="slide level2">
+<h2>Range Checking: Questions for Reflection</h2>
+<ul>
+<li>What is the lowest allowed value?</li>
+<li>What is the highest allowed value?</li>
+<li>Are the endpoints inside or outside the valid range?</li>
+</ul>
+<!-- Slide 94 -->
+
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
@@ -755,7 +1339,7 @@ Dr.&nbsp;Caleb Fowler
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'h.v',
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -796,7 +1380,7 @@ Dr.&nbsp;Caleb Fowler
         rtl: false,
 
         // see https://revealjs.com/vertical-slides/#navigation-mode
-        navigationMode: 'default',
+        navigationMode: 'linear',
 
         // Randomizes the order of slides each time the presentation loads
         shuffle: false,
@@ -1082,19 +1666,6 @@ Dr.&nbsp;Caleb Fowler
         }
       });
       </script>
-    <script>
-    window.Reveal.on('ready', event => {
-      Reveal.configure({
-        keyboard: {
-          34: 'down',   // Forward button
-          33: 'up',     // Back button
-          116: 'right',  // Start/Play button
-          190: 'left'    // Black Screen button
-          79: null        // Disable 'O' for overview
-        }
-      });
-    });
-    </script>
     
 
 </body></html>

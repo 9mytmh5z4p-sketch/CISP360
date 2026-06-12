@@ -1,18 +1,15 @@
-# Topics — p360_lecture_08.02
+---
+# Topics - p360_lecture_07.02
+---
 
 | Topic | Emphasis | Time Budget | Optional | Prerequisites | Tone Flag | Note |
 |-------|----------|-------------|----------|---------------|-----------|------|
-| Input Validation - why? | | | | | | include gigo.png from assets folder. SIZE THIS TO SLIDES  |
-| Input Validation - what? | | | | | | See "Types of things we can validate.md" in assets folder |
-|  input validation architectures| |  | | | | See "Input Validation Architectures.md" in assets folder |
-| Inline Validation design | | | | | | See "input validation comparisons.md" in assets folder |
-| Loop-Until-Valid design | | | | | | See "input validation comparisons.md" in assets folder |
-| Input Validation with the While Loop | | | | | |   |
-| Input Validation with the Do-While Loop | | | | | |   |
-| What's the Output? Exercise | | | | | | given a line of input(// 0, 2, 4, 5), tell first one is good data given conditionals |
-| Increment & Decrement Operators | | 2 minutes | | | |   |
-| Breaking out of a Loop | | 2 minutes | | | |   |
-| What's the Output? Exercise | | | yes | | |  |
+| Why Iteration Matters | high | 7 min | no | IPO model; conditionals | connect to prior models | Use the uploaded looping PDF's programming vs. coding framing; ignore exercises. |
+| Loop Anatomy and Program Control | high | 10 min | no | range-based for loops; if statements | familiar-first | Contrast explicit loops with the range-based for loop students already know. |
+| The while Loop | high | 10 min | no | relational and compound conditions | design before syntax | Entry-condition loop; may run zero times; trace with Table of Variables. |
+| The do-while Loop | standard | 8 min | no | while loop | keep syntax focused | Exit-condition loop; prompts, menus, and light validation framing. |
+| The for Loop | high | 10 min | no | counters; range-based for loops | concrete example | Known-count repetition; use distance-by-hour as instructional example. |
+| Choosing a Loop | high | 8 min | no | all loop forms | synthesis | Include range-based for in the decision framework. |
 
 ---
 
@@ -25,5 +22,5 @@
 | **Time Budget** | Rough target in minutes, e.g. "10 min". Leave blank to let content dictate |
 | **Optional** | Yes = cut if running short. Leave blank = required |
 | **Prerequisites** | Topic or lecture number students need to have seen first. Leave blank if none |
-| **Tone Flag** | Any framing notes, e.g. "students find this intimidating — be encouraging" |
+| **Tone Flag** | Any framing notes, e.g. "students find this intimidating - be encouraging" |
 | **Note** | Notes to myself regarding this topic. |

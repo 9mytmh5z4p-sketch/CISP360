@@ -12,6 +12,10 @@ Codex will:
 
 **Scope:** Read `lessons.csv` and `inventory.csv` from the parent folder. Read and write only within the specified working subfolder. Do not touch any other folder.
 
+**Rendering:** Do not attempt to render lectures or run render scripts. The instructor will handle rendering.
+
+**Rendered HTML:** When not rendering, do not update generated `.html` lecture files. Update only source files such as `.qmd`; the instructor will render and replace HTML output.
+
 ---
 
 ## Project Structure
