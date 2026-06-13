@@ -236,9 +236,7 @@ Dr.&nbsp;Caleb Fowler
 <ul>
 <li>Vectors</li>
 <li>Vector Operations</li>
-<li>Index Notation</li>
 <li>Range-Based For Loops</li>
-<li>Choosing Access Style</li>
 </ul>
 <aside class="notes">
 
@@ -346,15 +344,15 @@ Dr.&nbsp;Caleb Fowler
 <p>All values in one vector must have the same type.</p>
 <!-- Slide 9 -->
 </section>
-<section id="vector-memory-picture" class="slide level2">
-<h2>Vector Memory Picture</h2>
+<section id="vector-order-picture" class="slide level2">
+<h2>Vector Order Picture</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Index</th>
-<th style="text-align: right;">0</th>
-<th style="text-align: right;">1</th>
-<th style="text-align: right;">2</th>
+<th>Position</th>
+<th style="text-align: right;">first</th>
+<th style="text-align: right;">second</th>
+<th style="text-align: right;">third</th>
 </tr>
 </thead>
 <tbody>
@@ -366,7 +364,7 @@ Dr.&nbsp;Caleb Fowler
 </tr>
 </tbody>
 </table>
-<p>The values stay in order, and each position has a number.</p>
+<p>The values stay in order, so the vector can process them as one group.</p>
 <aside class="notes">
 <p>[Graphic suggestion: show one vector box labeled scores with three ordered cells.]</p>
 <style type="text/css">
@@ -534,13 +532,16 @@ setTimeout(drawVector0302, 0);
 <p>This prints <code>3</code>.</p>
 <!-- Slide 18 -->
 </section>
-<section id="reading-the-last-value" class="slide level2">
-<h2>Reading the Last Value</h2>
-<p>The last value is at position <code>size() - 1</code>.</p>
+<section id="save-before-removing" class="slide level2">
+<h2>Save Before Removing</h2>
+<p>If the last value matters, save it before removing it.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">88</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">75</span><span class="op">};</span></span>
 <span id="cb7-2"><a href=""></a></span>
-<span id="cb7-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>scores<span class="op">.</span>size<span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This prints <code>75</code>.</p>
+<span id="cb7-3"><a href=""></a><span class="dt">int</span> droppedScore <span class="op">=</span> scores<span class="op">.</span>back<span class="op">();</span></span>
+<span id="cb7-4"><a href=""></a>scores<span class="op">.</span>pop_back<span class="op">();</span></span>
+<span id="cb7-5"><a href=""></a></span>
+<span id="cb7-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Removed: "</span> <span class="op">&lt;&lt;</span> droppedScore <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>After <code>pop_back</code>, the vector no longer stores <code>75</code>.</p>
 <!-- Slide 19 -->
 </section>
 <section id="example-1-daily-temperatures-ipo" class="slide level2">
@@ -628,41 +629,46 @@ setTimeout(drawVector0302, 0);
 <p>The trace makes each vector change visible.</p>
 <!-- Slide 22 -->
 </section>
-<section id="example-2-shopping-list" class="slide level2">
-<h2>Example 2: Shopping List</h2>
+<section id="example-2-loading-scalar-variables" class="slide level2">
+<h2>Example 2: Loading Scalar Variables</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb9-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
 <span id="cb9-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
 <span id="cb9-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
 <span id="cb9-5"><a href=""></a></span>
 <span id="cb9-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb9-7"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> items <span class="op">=</span> <span class="op">{</span><span class="st">"eggs"</span><span class="op">,</span> <span class="st">"rice"</span><span class="op">};</span></span>
-<span id="cb9-8"><a href=""></a></span>
-<span id="cb9-9"><a href=""></a>    items<span class="op">.</span>push_back<span class="op">(</span><span class="st">"apples"</span><span class="op">);</span></span>
-<span id="cb9-10"><a href=""></a></span>
-<span id="cb9-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"First item: "</span> <span class="op">&lt;&lt;</span> items<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb9-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Last item: "</span> <span class="op">&lt;&lt;</span> items<span class="op">[</span>items<span class="op">.</span>size<span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb9-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb9-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-7"><a href=""></a>    string firstItem <span class="op">=</span> <span class="st">"eggs"</span><span class="op">;</span></span>
+<span id="cb9-8"><a href=""></a>    string secondItem <span class="op">=</span> <span class="st">"rice"</span><span class="op">;</span></span>
+<span id="cb9-9"><a href=""></a>    string thirdItem <span class="op">=</span> <span class="st">"apples"</span><span class="op">;</span></span>
+<span id="cb9-10"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> items<span class="op">;</span></span>
+<span id="cb9-11"><a href=""></a></span>
+<span id="cb9-12"><a href=""></a>    items<span class="op">.</span>push_back<span class="op">(</span>firstItem<span class="op">);</span></span>
+<span id="cb9-13"><a href=""></a>    items<span class="op">.</span>push_back<span class="op">(</span>secondItem<span class="op">);</span></span>
+<span id="cb9-14"><a href=""></a>    items<span class="op">.</span>push_back<span class="op">(</span>thirdItem<span class="op">);</span></span>
+<span id="cb9-15"><a href=""></a></span>
+<span id="cb9-16"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Items loaded: "</span> <span class="op">&lt;&lt;</span> items<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb9-17"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <!-- Slide 23 -->
 </section>
-<section id="example-3-game-scores" class="slide level2">
-<h2>Example 3: Game Scores</h2>
+<section id="example-3-storing-formula-results" class="slide level2">
+<h2>Example 3: Storing Formula Results</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb10-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
 <span id="cb10-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
 <span id="cb10-4"><a href=""></a></span>
 <span id="cb10-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb10-6"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">100</span><span class="op">,</span> <span class="dv">80</span><span class="op">};</span></span>
-<span id="cb10-7"><a href=""></a></span>
-<span id="cb10-8"><a href=""></a>    scores<span class="op">.</span>push_back<span class="op">(</span><span class="dv">120</span><span class="op">);</span></span>
-<span id="cb10-9"><a href=""></a>    scores<span class="op">.</span>push_back<span class="op">(</span><span class="dv">60</span><span class="op">);</span></span>
-<span id="cb10-10"><a href=""></a>    scores<span class="op">.</span>pop_back<span class="op">();</span></span>
-<span id="cb10-11"><a href=""></a></span>
-<span id="cb10-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Final score count: "</span> <span class="op">&lt;&lt;</span> scores<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb10-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Last kept score: "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span>scores<span class="op">.</span>size<span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb10-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb10-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-6"><a href=""></a>    <span class="dt">double</span> hourlyRate <span class="op">=</span> <span class="fl">18.50</span><span class="op">;</span></span>
+<span id="cb10-7"><a href=""></a>    <span class="dt">double</span> mondayHours <span class="op">=</span> <span class="fl">6.0</span><span class="op">;</span></span>
+<span id="cb10-8"><a href=""></a>    <span class="dt">double</span> tuesdayHours <span class="op">=</span> <span class="fl">7.5</span><span class="op">;</span></span>
+<span id="cb10-9"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> dailyPay<span class="op">;</span></span>
+<span id="cb10-10"><a href=""></a></span>
+<span id="cb10-11"><a href=""></a>    dailyPay<span class="op">.</span>push_back<span class="op">(</span>hourlyRate <span class="op">*</span> mondayHours<span class="op">);</span></span>
+<span id="cb10-12"><a href=""></a>    dailyPay<span class="op">.</span>push_back<span class="op">(</span>hourlyRate <span class="op">*</span> tuesdayHours<span class="op">);</span></span>
+<span id="cb10-13"><a href=""></a></span>
+<span id="cb10-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Paychecks stored: "</span> <span class="op">&lt;&lt;</span> dailyPay<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb10-15"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <!-- Slide 24 -->
 </section>
 <section id="operation-summary-table" class="slide level2">
@@ -688,8 +694,8 @@ setTimeout(drawVector0302, 0);
 <td>reports the current count</td>
 </tr>
 <tr class="even">
-<td><code>[index]</code></td>
-<td>accesses one position</td>
+<td><code>back()</code></td>
+<td>reads the last value</td>
 </tr>
 </tbody>
 </table>
@@ -707,27 +713,27 @@ setTimeout(drawVector0302, 0);
 <section id="summary-1" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>Vector operations can add, remove, count, or access values.</li>
+<li>Vector operations can add, remove, count, or read values.</li>
 <li><code>push_back</code> and <code>pop_back</code> change the vector.</li>
-<li><code>size</code> and index notation help inspect what the vector contains.</li>
+<li><code>size</code> and <code>back</code> help inspect what the vector contains.</li>
 </ul>
 <!-- Slide 27 -->
-<!-- Topic 3: Index Notation -->
-<!-- Slides 28-38 -->
+<!-- Topic 4: Range-Based For Loops -->
+<!-- Slides 28-39 -->
 </section></section>
 <section>
-<section id="index-notation" class="title-slide slide level1 center">
-<h1>Index Notation</h1>
+<section id="range-based-for-loops" class="title-slide slide level1 center">
+<h1>Range-Based For Loops</h1>
 <!-- Slide 28 -->
 </section>
-<section id="a-position-has-a-number" class="slide level2 smaller">
-<h2>A Position Has a Number</h2>
+<section id="when-every-value-matters" class="slide level2 smaller">
+<h2>When Every Value Matters</h2>
 <ul>
-<li>How does a program name one specific value in a vector?</li>
-<li>Each vector position has an index.</li>
+<li>How can a program use every value in a vector?</li>
+<li>A range-based <code>for</code> loop visits each value without writing position numbers.</li>
 </ul>
 <aside class="notes">
-<p>Slides 28-38</p>
+<p>Slides 28-39</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -741,196 +747,41 @@ setTimeout(drawVector0302, 0);
       }</style></aside>
 <!-- Slide 29 -->
 </section>
-<section id="zero-based-indexing" class="slide level2">
-<h2>Zero-Based Indexing</h2>
-<p>Vector indexes start at <code>0</code>.</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Index</th>
-<th style="text-align: right;">0</th>
-<th style="text-align: right;">1</th>
-<th style="text-align: right;">2</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Value</td>
-<td style="text-align: right;">88</td>
-<td style="text-align: right;">92</td>
-<td style="text-align: right;">75</td>
-</tr>
-</tbody>
-</table>
-<p>The first value is at index <code>0</code>, not index <code>1</code>.</p>
-<!-- Slide 30 -->
-</section>
-<section id="index-picture" class="slide level2">
-<h2>Index Picture</h2>
-<p>Think of the index as the address of one cell in the vector.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">88</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">75</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Expression</th>
-<th style="text-align: right;">Value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>scores[0]</code></td>
-<td style="text-align: right;">88</td>
-</tr>
-<tr class="even">
-<td><code>scores[1]</code></td>
-<td style="text-align: right;">92</td>
-</tr>
-<tr class="odd">
-<td><code>scores[2]</code></td>
-<td style="text-align: right;">75</td>
-</tr>
-</tbody>
-</table>
-<!-- Slide 31 -->
-</section>
-<section id="reading-one-known-position" class="slide level2">
-<h2>Reading One Known Position</h2>
-<p>Use brackets when the program needs one known position.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">88</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">75</span><span class="op">};</span></span>
-<span id="cb12-2"><a href=""></a></span>
-<span id="cb12-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This prints the first stored score.</p>
-<!-- Slide 32 -->
-</section>
-<section id="changing-one-known-position" class="slide level2">
-<h2>Changing One Known Position</h2>
-<p>Index notation can also replace one existing value.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">88</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">75</span><span class="op">};</span></span>
-<span id="cb13-2"><a href=""></a></span>
-<span id="cb13-3"><a href=""></a>scores<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">100</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The value at index <code>1</code> changes from <code>92</code> to <code>100</code>.</p>
-<!-- Slide 33 -->
-</section>
-<section id="execution-trace-change-one-element" class="slide level2">
-<h2>Execution Trace: Change One Element</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Statement</th>
-<th>scores</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>vector&lt;int&gt; scores = {88, 92, 75};</code></td>
-<td><code>{88, 92, 75}</code></td>
-</tr>
-<tr class="even">
-<td><code>scores[1] = 100;</code></td>
-<td><code>{88, 100, 75}</code></td>
-</tr>
-</tbody>
-</table>
-<p>Only one position changes.</p>
-<!-- Slide 34 -->
-</section>
-<section id="the-limit-of-direct-access" class="slide level2">
-<h2>The Limit of Direct Access</h2>
-<p>Printing several positions by hand gets repetitive.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb14-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb14-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This works only when we know exactly how many values there are.</p>
-<!-- Slide 35 -->
-</section>
-<section id="when-we-want-every-value" class="slide level2">
-<h2>When We Want Every Value</h2>
-<p>Direct access is useful for one known position.</p>
-<p>When the program needs every value, a loop is the better tool.</p>
-<p>The next section introduces the simplest loop for vectors.</p>
-<!-- Slide 36 -->
-</section>
-<section id="common-practices-1" class="slide level2">
-<h2>Common Practices</h2>
-<ul>
-<li>Use index notation when a specific position matters.</li>
-<li>Remember that the first position is <code>0</code>.</li>
-<li>Avoid guessing indexes when the vector size may change.</li>
-</ul>
-<!-- Slide 37 -->
-</section>
-<section id="summary-2" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>Index notation names one position in a vector.</li>
-<li>It can read or replace a known value.</li>
-<li>Loops are better when the whole vector matters.</li>
-</ul>
-<!-- Slide 38 -->
-<!-- Topic 4: Range-Based For Loops -->
-<!-- Slides 39-50 -->
-</section></section>
-<section>
-<section id="range-based-for-loops" class="title-slide slide level1 center">
-<h1>Range-Based For Loops</h1>
-<!-- Slide 39 -->
-</section>
-<section id="when-every-value-matters" class="slide level2 smaller">
-<h2>When Every Value Matters</h2>
-<ul>
-<li>How can a program use every value in a vector?</li>
-<li>A range-based <code>for</code> loop visits each value without index management.</li>
-</ul>
-<aside class="notes">
-<p>Slides 39-50</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 40 -->
-</section>
 <section id="the-range-based-for-loop" class="slide level2">
 <h2>The Range-Based For Loop</h2>
 <p>The range-based <code>for</code> loop has this shape:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb15-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb15-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb11-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The loop body runs once for each value in <code>scores</code>.</p>
-<!-- Slide 41 -->
+<!-- Slide 30 -->
 </section>
 <section id="read-it-like-english" class="slide level2">
 <h2>Read It Like English</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Read this as:</p>
 <blockquote>
 <p>for each <code>score</code> in <code>scores</code></p>
 </blockquote>
 <p>The vector name is plural; the loop variable name is singular.</p>
-<!-- Slide 42 -->
+<!-- Slide 31 -->
 </section>
 <section id="display-every-value" class="slide level2">
 <h2>Display Every Value</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb17-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb17-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb17-4"><a href=""></a></span>
-<span id="cb17-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb17-6"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">88</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">75</span><span class="op">};</span></span>
-<span id="cb17-7"><a href=""></a></span>
-<span id="cb17-8"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb17-9"><a href=""></a>        cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb17-10"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb17-11"><a href=""></a></span>
-<span id="cb17-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb17-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 43 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb13-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb13-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb13-4"><a href=""></a></span>
+<span id="cb13-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-6"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">88</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">75</span><span class="op">};</span></span>
+<span id="cb13-7"><a href=""></a></span>
+<span id="cb13-8"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-9"><a href=""></a>        cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb13-10"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb13-11"><a href=""></a></span>
+<span id="cb13-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 32 -->
 </section>
 <section id="execution-trace-for-each" class="slide level2">
 <h2>Execution Trace: For Each</h2>
@@ -961,189 +812,74 @@ setTimeout(drawVector0302, 0);
 </tbody>
 </table>
 <p>The loop variable receives one value at a time.</p>
-<!-- Slide 44 -->
+<!-- Slide 33 -->
 </section>
 <section id="the-loop-variable-is-a-copy" class="slide level2">
 <h2>The Loop Variable Is a Copy</h2>
 <p>In this form, the loop variable stores a copy of each vector value.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-2"><a href=""></a>    score <span class="op">=</span> <span class="dv">100</span><span class="op">;</span></span>
-<span id="cb18-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-2"><a href=""></a>    score <span class="op">=</span> <span class="dv">100</span><span class="op">;</span></span>
+<span id="cb14-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Changing <code>score</code> does not change the original vector.</p>
-<!-- Slide 45 -->
+<!-- Slide 34 -->
 </section>
 <section id="one-value-per-trip" class="slide level2">
 <h2>One Value Per Trip</h2>
 <p>The loop body runs once for each value.</p>
 <p>If the vector has three values, the body runs three times.</p>
 <p>If the vector has five values, the body runs five times.</p>
-<!-- Slide 46 -->
+<!-- Slide 35 -->
 </section>
 <section id="example-print-a-shopping-list" class="slide level2">
 <h2>Example: Print a Shopping List</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb19-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb19-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb19-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb19-5"><a href=""></a></span>
-<span id="cb19-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb19-7"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> items <span class="op">=</span> <span class="op">{</span><span class="st">"eggs"</span><span class="op">,</span> <span class="st">"rice"</span><span class="op">,</span> <span class="st">"apples"</span><span class="op">};</span></span>
-<span id="cb19-8"><a href=""></a></span>
-<span id="cb19-9"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string item <span class="op">:</span> items<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb19-10"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"- "</span> <span class="op">&lt;&lt;</span> item <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb19-11"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb19-12"><a href=""></a></span>
-<span id="cb19-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb19-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 47 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb15-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb15-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb15-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb15-5"><a href=""></a></span>
+<span id="cb15-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb15-7"><a href=""></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> items <span class="op">=</span> <span class="op">{</span><span class="st">"eggs"</span><span class="op">,</span> <span class="st">"rice"</span><span class="op">,</span> <span class="st">"apples"</span><span class="op">};</span></span>
+<span id="cb15-8"><a href=""></a></span>
+<span id="cb15-9"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span>string item <span class="op">:</span> items<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-10"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"- "</span> <span class="op">&lt;&lt;</span> item <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb15-11"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb15-12"><a href=""></a></span>
+<span id="cb15-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb15-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 36 -->
 </section>
 <section id="loop-body-scope" class="slide level2">
 <h2>Loop Body Scope</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb20-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">88</span><span class="op">,</span> <span class="dv">92</span><span class="op">};</span></span>
-<span id="cb20-3"><a href=""></a></span>
-<span id="cb20-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb20-5"><a href=""></a>    count <span class="op">=</span> count <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb20-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb20-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb20-8"><a href=""></a></span>
-<span id="cb20-9"><a href=""></a>cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb20-10"><a href=""></a><span class="co">// cout &lt;&lt; score &lt;&lt; endl;  // score is not available here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb16-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">88</span><span class="op">,</span> <span class="dv">92</span><span class="op">};</span></span>
+<span id="cb16-3"><a href=""></a></span>
+<span id="cb16-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-5"><a href=""></a>    count <span class="op">=</span> count <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb16-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb16-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb16-8"><a href=""></a></span>
+<span id="cb16-9"><a href=""></a>cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb16-10"><a href=""></a><span class="co">// cout &lt;&lt; score &lt;&lt; endl;  // score is not available here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The loop body creates a new level of scope.</p>
-<!-- Slide 48 -->
+<!-- Slide 37 -->
 </section>
-<section id="common-practices-2" class="slide level2">
+<section id="common-practices-1" class="slide level2">
 <h2>Common Practices</h2>
 <ul>
 <li>Use a plural name for the vector and a singular name for the loop variable.</li>
 <li>Use range-based <code>for</code> when every value should be read.</li>
 <li>Keep the loop body focused on one repeated action.</li>
 </ul>
-<!-- Slide 49 -->
+<!-- Slide 38 -->
 </section>
-<section id="summary-3" class="slide level2">
+<section id="summary-2" class="slide level2">
 <h2>Summary</h2>
 <ul>
 <li>A range-based <code>for</code> loop visits every value in a vector.</li>
 <li>The loop variable receives one value per trip.</li>
 <li>The loop body has its own scope.</li>
 </ul>
-<!-- Slide 50 -->
-<!-- Topic 5: Choosing Access Style -->
-<!-- Slides 51-60 -->
-</section></section>
-<section>
-<section id="choosing-access-style" class="title-slide slide level1 center">
-<h1>Choosing Access Style</h1>
-<!-- Slide 51 -->
-</section>
-<section id="two-ways-to-reach-a-value" class="slide level2 smaller">
-<h2>Two Ways to Reach a Value</h2>
-<ul>
-<li>Should the program use one known position or every value?</li>
-<li>The answer chooses the access style.</li>
-</ul>
-<aside class="notes">
-<p>Slides 51-60</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 52 -->
-</section>
-<section id="use-range-based-for" class="slide level2">
-<h2>Use Range-Based For</h2>
-<p>Use range-based <code>for</code> when the program should read every value.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb21-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb21-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The loop handles each value in order.</p>
-<!-- Slide 53 -->
-</section>
-<section id="vector-access-picture" class="slide level2">
-<h2>Vector Access Picture</h2>
-<img data-src="images/0302Vector.png" class="r-stretch">
-<!-- Slide 54 -->
-</section>
-<section id="use-index-notation" class="slide level2">
-<h2>Use Index Notation</h2>
-<p>Use index notation when the program needs one known position.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This reads the first value only.</p>
-<!-- Slide 55 -->
-</section>
-<section id="index-access-picture" class="slide level2">
-<h2>Index Access Picture</h2>
-<img data-src="images/0302Index.png" class="r-stretch">
-<!-- Slide 56 -->
-</section>
-<section id="decision-table" class="slide level2">
-<h2>Decision Table</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Need</th>
-<th>Use</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>every value</td>
-<td>range-based <code>for</code></td>
-</tr>
-<tr class="even">
-<td>one known position</td>
-<td>index notation</td>
-</tr>
-<tr class="odd">
-<td>position number matters</td>
-<td>index notation later, with index-based loops</td>
-</tr>
-</tbody>
-</table>
-<p>For now, range-based <code>for</code> is the main tool for whole-vector processing.</p>
-<!-- Slide 57 -->
-</section>
-<section id="example-first-and-all" class="slide level2">
-<h2>Example: First and All</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">88</span><span class="op">,</span> <span class="dv">92</span><span class="op">,</span> <span class="dv">75</span><span class="op">};</span></span>
-<span id="cb23-2"><a href=""></a></span>
-<span id="cb23-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"First score: "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb23-4"><a href=""></a></span>
-<span id="cb23-5"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb23-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb23-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The first line uses a known position; the loop reads every value.</p>
-<!-- Slide 58 -->
-</section>
-<section id="common-practices-3" class="slide level2">
-<h2>Common Practices</h2>
-<ul>
-<li>Prefer range-based <code>for</code> when position does not matter.</li>
-<li>Use index notation only when the position is part of the problem.</li>
-<li>Do not guess an index without knowing the vector has that position.</li>
-</ul>
-<!-- Slide 59 -->
-</section>
-<section id="summary-4" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>Vectors store ordered groups of values.</li>
-<li>Operations change or inspect the vector.</li>
-<li>Index notation reaches one position; range-based <code>for</code> visits every value.</li>
-</ul>
-<!-- Slide 60 -->
+<!-- Slide 39 -->
 </section>
 <section class="slide level2">
 
@@ -1154,11 +890,10 @@ setTimeout(drawVector0302, 0);
 <ul>
 <li>A vector stores many related values of the same type under one name.</li>
 <li><code>push_back</code>, <code>pop_back</code>, and <code>size</code> change or inspect the vector.</li>
-<li>Index notation reaches one known position.</li>
 <li>Range-based <code>for</code> is the beginner-friendly way to read every value.</li>
 <li>IPO models and execution traces help explain why the vector exists and how it changes.</li>
 </ul>
-<!-- Slide 61 -->
+<!-- Slide 40 -->
 </section>
 <section class="slide level2">
 
@@ -1171,7 +906,7 @@ setTimeout(drawVector0302, 0);
 <li>Inputting vector data</li>
 <li>Processing vector contents</li>
 </ul>
-<!-- Slide 62 -->
+<!-- Slide 41 -->
 </section>
 <section class="slide level2">
 
@@ -1179,7 +914,7 @@ setTimeout(drawVector0302, 0);
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-<!-- Slide 63 -->
+<!-- Slide 42 -->
 </section>
 <section id="vectors-good-practices" class="slide level2">
 <h2>Vectors: Good Practices</h2>
@@ -1188,7 +923,7 @@ setTimeout(drawVector0302, 0);
 <li>Choose the vector element type before choosing the variable name.</li>
 <li>Use vectors when values belong together as one ordered group.</li>
 </ul>
-<!-- Slide 64 -->
+<!-- Slide 43 -->
 </section>
 <section id="vectors-common-mistakes" class="slide level2">
 <h2>Vectors: Common Mistakes</h2>
@@ -1197,14 +932,14 @@ setTimeout(drawVector0302, 0);
 <li>Mixing different value types in one vector.</li>
 <li>Treating the vector as a single value instead of a container.</li>
 </ul>
-<!-- Slide 65 -->
+<!-- Slide 44 -->
 </section>
 <section id="vectors-more-examples" class="slide level2">
 <h2>Vectors: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">90</span><span class="op">,</span> <span class="dv">85</span><span class="op">,</span> <span class="dv">100</span><span class="op">};</span></span>
-<span id="cb24-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> prices <span class="op">=</span> <span class="op">{</span><span class="fl">1.25</span><span class="op">,</span> <span class="fl">2.50</span><span class="op">,</span> <span class="fl">4.99</span><span class="op">};</span></span>
-<span id="cb24-3"><a href=""></a>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> names <span class="op">=</span> <span class="op">{</span><span class="st">"Maya"</span><span class="op">,</span> <span class="st">"Ari"</span><span class="op">,</span> <span class="st">"Chen"</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 66 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">90</span><span class="op">,</span> <span class="dv">85</span><span class="op">,</span> <span class="dv">100</span><span class="op">};</span></span>
+<span id="cb17-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> prices <span class="op">=</span> <span class="op">{</span><span class="fl">1.25</span><span class="op">,</span> <span class="fl">2.50</span><span class="op">,</span> <span class="fl">4.99</span><span class="op">};</span></span>
+<span id="cb17-3"><a href=""></a>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> names <span class="op">=</span> <span class="op">{</span><span class="st">"Maya"</span><span class="op">,</span> <span class="st">"Ari"</span><span class="op">,</span> <span class="st">"Chen"</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 45 -->
 </section>
 <section id="vectors-practice-problems" class="slide level2">
 <h2>Vectors: Practice Problems</h2>
@@ -1213,7 +948,7 @@ setTimeout(drawVector0302, 0);
 <li>Declare a vector named <code>prices</code> with three starting values.</li>
 <li>Describe an IPO model for a program that stores three names.</li>
 </ol>
-<!-- Slide 67 -->
+<!-- Slide 46 -->
 </section>
 <section id="vectors-ai-search-terms" class="slide level2">
 <h2>Vectors: AI Search Terms</h2>
@@ -1222,7 +957,7 @@ setTimeout(drawVector0302, 0);
 <li>“C++ include vector”</li>
 <li>“C++ vector initialization”</li>
 </ul>
-<!-- Slide 68 -->
+<!-- Slide 47 -->
 </section>
 <section id="vectors-questions-for-reflection" class="slide level2">
 <h2>Vectors: Questions for Reflection</h2>
@@ -1230,7 +965,7 @@ setTimeout(drawVector0302, 0);
 <li>Why is a vector more useful than three separate variables?</li>
 <li>Why must every value in one vector have the same type?</li>
 </ul>
-<!-- Slide 69 -->
+<!-- Slide 48 -->
 </section>
 <section id="vector-operations-good-practices" class="slide level2">
 <h2>Vector Operations: Good Practices</h2>
@@ -1239,7 +974,7 @@ setTimeout(drawVector0302, 0);
 <li>Check <code>size()</code> before reading from a vector.</li>
 <li>Remember that <code>pop_back()</code> removes the last value.</li>
 </ul>
-<!-- Slide 70 -->
+<!-- Slide 49 -->
 </section>
 <section id="vector-operations-common-mistakes" class="slide level2">
 <h2>Vector Operations: Common Mistakes</h2>
@@ -1248,17 +983,17 @@ setTimeout(drawVector0302, 0);
 <li>Calling <code>pop_back()</code> on an empty vector.</li>
 <li>Forgetting that <code>size()</code> changes after adding or removing values.</li>
 </ul>
-<!-- Slide 71 -->
+<!-- Slide 50 -->
 </section>
 <section id="vector-operations-more-examples" class="slide level2">
 <h2>Vector Operations: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> names<span class="op">;</span></span>
-<span id="cb25-2"><a href=""></a></span>
-<span id="cb25-3"><a href=""></a>names<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Maya"</span><span class="op">);</span></span>
-<span id="cb25-4"><a href=""></a>names<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Ari"</span><span class="op">);</span></span>
-<span id="cb25-5"><a href=""></a></span>
-<span id="cb25-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> names<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 72 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> names<span class="op">;</span></span>
+<span id="cb18-2"><a href=""></a></span>
+<span id="cb18-3"><a href=""></a>names<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Maya"</span><span class="op">);</span></span>
+<span id="cb18-4"><a href=""></a>names<span class="op">.</span>push_back<span class="op">(</span><span class="st">"Ari"</span><span class="op">);</span></span>
+<span id="cb18-5"><a href=""></a></span>
+<span id="cb18-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> names<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 51 -->
 </section>
 <section id="vector-operations-practice-problems" class="slide level2">
 <h2>Vector Operations: Practice Problems</h2>
@@ -1267,7 +1002,7 @@ setTimeout(drawVector0302, 0);
 <li>Trace a vector after one <code>pop_back</code> statement.</li>
 <li>Write an IPO model for storing three prices.</li>
 </ol>
-<!-- Slide 73 -->
+<!-- Slide 52 -->
 </section>
 <section id="vector-operations-ai-search-terms" class="slide level2">
 <h2>Vector Operations: AI Search Terms</h2>
@@ -1276,7 +1011,7 @@ setTimeout(drawVector0302, 0);
 <li>“C++ vector pop_back”</li>
 <li>“C++ vector size”</li>
 </ul>
-<!-- Slide 74 -->
+<!-- Slide 53 -->
 </section>
 <section id="vector-operations-questions-for-reflection" class="slide level2">
 <h2>Vector Operations: Questions for Reflection</h2>
@@ -1284,59 +1019,7 @@ setTimeout(drawVector0302, 0);
 <li>Why does <code>push_back</code> add to the end instead of the beginning?</li>
 <li>How does an execution trace help explain vector changes?</li>
 </ul>
-<!-- Slide 75 -->
-</section>
-<section id="index-notation-good-practices" class="slide level2">
-<h2>Index Notation: Good Practices</h2>
-<ul>
-<li>Use index notation when one known position matters.</li>
-<li>Remember that the first index is <code>0</code>.</li>
-<li>Avoid direct access when the vector may not have that position.</li>
-</ul>
-<!-- Slide 76 -->
-</section>
-<section id="index-notation-common-mistakes" class="slide level2">
-<h2>Index Notation: Common Mistakes</h2>
-<ul>
-<li>Using index <code>1</code> for the first value.</li>
-<li>Accessing an index that does not exist.</li>
-<li>Trying to print every element by writing many separate index statements.</li>
-</ul>
-<!-- Slide 77 -->
-</section>
-<section id="index-notation-more-examples" class="slide level2">
-<h2>Index Notation: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> names <span class="op">=</span> <span class="op">{</span><span class="st">"Maya"</span><span class="op">,</span> <span class="st">"Ari"</span><span class="op">,</span> <span class="st">"Chen"</span><span class="op">};</span></span>
-<span id="cb26-2"><a href=""></a></span>
-<span id="cb26-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> names<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb26-4"><a href=""></a>names<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="st">"Jordan"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 78 -->
-</section>
-<section id="index-notation-practice-problems" class="slide level2">
-<h2>Index Notation: Practice Problems</h2>
-<ol type="1">
-<li>Identify the first index in <code>{4, 8, 12}</code>.</li>
-<li>Write the expression for the second value in <code>scores</code>.</li>
-<li>Trace what changes after <code>scores[0] = 100;</code>.</li>
-</ol>
-<!-- Slide 79 -->
-</section>
-<section id="index-notation-ai-search-terms" class="slide level2">
-<h2>Index Notation: AI Search Terms</h2>
-<ul>
-<li>“C++ vector index notation”</li>
-<li>“C++ vector zero based indexing”</li>
-<li>“C++ vector square brackets”</li>
-</ul>
-<!-- Slide 80 -->
-</section>
-<section id="index-notation-questions-for-reflection" class="slide level2">
-<h2>Index Notation: Questions for Reflection</h2>
-<ul>
-<li>Why does zero-based indexing feel unfamiliar at first?</li>
-<li>When is direct access clearer than a loop?</li>
-</ul>
-<!-- Slide 81 -->
+<!-- Slide 54 -->
 </section>
 <section id="range-based-for-loops-good-practices" class="slide level2">
 <h2>Range-Based For Loops: Good Practices</h2>
@@ -1345,7 +1028,7 @@ setTimeout(drawVector0302, 0);
 <li>Give the vector a plural name and the loop variable a singular name.</li>
 <li>Keep the repeated action inside the loop body.</li>
 </ul>
-<!-- Slide 82 -->
+<!-- Slide 55 -->
 </section>
 <section id="range-based-for-loops-common-mistakes" class="slide level2">
 <h2>Range-Based For Loops: Common Mistakes</h2>
@@ -1354,16 +1037,16 @@ setTimeout(drawVector0302, 0);
 <li>Expecting the loop variable to exist after the loop ends.</li>
 <li>Expecting changes to the copied loop variable to change the vector.</li>
 </ul>
-<!-- Slide 83 -->
+<!-- Slide 56 -->
 </section>
 <section id="range-based-for-loops-more-examples" class="slide level2">
 <h2>Range-Based For Loops: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> prices <span class="op">=</span> <span class="op">{</span><span class="fl">1.25</span><span class="op">,</span> <span class="fl">2.50</span><span class="op">,</span> <span class="fl">4.99</span><span class="op">};</span></span>
-<span id="cb27-2"><a href=""></a></span>
-<span id="cb27-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">double</span> price <span class="op">:</span> prices<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb27-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"$"</span> <span class="op">&lt;&lt;</span> price <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb27-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 84 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> prices <span class="op">=</span> <span class="op">{</span><span class="fl">1.25</span><span class="op">,</span> <span class="fl">2.50</span><span class="op">,</span> <span class="fl">4.99</span><span class="op">};</span></span>
+<span id="cb19-2"><a href=""></a></span>
+<span id="cb19-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">double</span> price <span class="op">:</span> prices<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"$"</span> <span class="op">&lt;&lt;</span> price <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb19-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 57 -->
 </section>
 <section id="range-based-for-loops-practice-problems" class="slide level2">
 <h2>Range-Based For Loops: Practice Problems</h2>
@@ -1372,7 +1055,7 @@ setTimeout(drawVector0302, 0);
 <li>Write a loop that prints every name in <code>names</code>.</li>
 <li>Trace the loop variable for <code>{10, 20, 30}</code>.</li>
 </ol>
-<!-- Slide 85 -->
+<!-- Slide 58 -->
 </section>
 <section id="range-based-for-loops-ai-search-terms" class="slide level2">
 <h2>Range-Based For Loops: AI Search Terms</h2>
@@ -1381,68 +1064,15 @@ setTimeout(drawVector0302, 0);
 <li>“C++ for each vector”</li>
 <li>“C++ loop variable scope”</li>
 </ul>
-<!-- Slide 86 -->
+<!-- Slide 59 -->
 </section>
 <section id="range-based-for-loops-questions-for-reflection" class="slide level2">
 <h2>Range-Based For Loops: Questions for Reflection</h2>
 <ul>
-<li>Why is range-based <code>for</code> easier than direct access for every value?</li>
+<li>Why is range-based <code>for</code> easier for every value?</li>
 <li>Why is the loop variable unavailable after the loop body?</li>
 </ul>
-<!-- Slide 87 -->
-</section>
-<section id="choosing-access-style-good-practices" class="slide level2">
-<h2>Choosing Access Style: Good Practices</h2>
-<ul>
-<li>Use range-based <code>for</code> for every value.</li>
-<li>Use index notation for one known position.</li>
-<li>Wait for index-based loops when position numbers control the repeated work.</li>
-</ul>
-<!-- Slide 88 -->
-</section>
-<section id="choosing-access-style-common-mistakes" class="slide level2">
-<h2>Choosing Access Style: Common Mistakes</h2>
-<ul>
-<li>Using index notation just because it looks more precise.</li>
-<li>Using a loop when the program needs only one known value.</li>
-<li>Forgetting that this lecture has not introduced index-based loops yet.</li>
-</ul>
-<!-- Slide 89 -->
-</section>
-<section id="choosing-access-style-more-examples" class="slide level2">
-<h2>Choosing Access Style: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb28-2"><a href=""></a></span>
-<span id="cb28-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb28-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb28-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 90 -->
-</section>
-<section id="choosing-access-style-practice-problems" class="slide level2">
-<h2>Choosing Access Style: Practice Problems</h2>
-<ol type="1">
-<li>Choose the access style for printing every price.</li>
-<li>Choose the access style for printing the first name.</li>
-<li>Explain why a range-based loop does not need an index.</li>
-</ol>
-<!-- Slide 91 -->
-</section>
-<section id="choosing-access-style-ai-search-terms" class="slide level2">
-<h2>Choosing Access Style: AI Search Terms</h2>
-<ul>
-<li>“C++ vector range for vs index”</li>
-<li>“C++ vector first element”</li>
-<li>“C++ range based for beginner”</li>
-</ul>
-<!-- Slide 92 -->
-</section>
-<section id="choosing-access-style-questions-for-reflection" class="slide level2">
-<h2>Choosing Access Style: Questions for Reflection</h2>
-<ul>
-<li>What question tells you whether position matters?</li>
-<li>Why should beginners prefer range-based loops for whole-vector reading?</li>
-</ul>
-<!-- Slide 93 -->
+<!-- Slide 60 -->
 
 </section></section>
     </div>

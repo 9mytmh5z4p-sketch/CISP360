@@ -132,17 +132,20 @@ This prints `3`.
 
 ---
 
-## Reading the Last Value
+## Save Before Removing
 
-The last value is at position `size() - 1`.
+If the last value matters, save it before removing it.
 
 ```cpp
 vector<int> scores = {88, 92, 75};
 
-cout << scores[scores.size() - 1] << endl;
+int droppedScore = scores.back();
+scores.pop_back();
+
+cout << "Removed: " << droppedScore << endl;
 ```
 
-This prints `75`.
+After `pop_back`, the vector no longer stores `75`.
 
 <!-- Slide 19 -->
 
@@ -199,7 +202,7 @@ The trace makes each vector change visible.
 
 ---
 
-## Example 2: Shopping List
+## Example 2: Loading Scalar Variables
 
 ```cpp
 #include <iostream>
@@ -208,12 +211,16 @@ The trace makes each vector change visible.
 using namespace std;
 
 int main() {
-    vector<string> items = {"eggs", "rice"};
+    string firstItem = "eggs";
+    string secondItem = "rice";
+    string thirdItem = "apples";
+    vector<string> items;
 
-    items.push_back("apples");
+    items.push_back(firstItem);
+    items.push_back(secondItem);
+    items.push_back(thirdItem);
 
-    cout << "First item: " << items[0] << endl;
-    cout << "Last item: " << items[items.size() - 1] << endl;
+    cout << "Items loaded: " << items.size() << endl;
     return 0;
 }
 ```
@@ -222,7 +229,7 @@ int main() {
 
 ---
 
-## Example 3: Game Scores
+## Example 3: Storing Formula Results
 
 ```cpp
 #include <iostream>
@@ -230,14 +237,15 @@ int main() {
 using namespace std;
 
 int main() {
-    vector<int> scores = {100, 80};
+    double hourlyRate = 18.50;
+    double mondayHours = 6.0;
+    double tuesdayHours = 7.5;
+    vector<double> dailyPay;
 
-    scores.push_back(120);
-    scores.push_back(60);
-    scores.pop_back();
+    dailyPay.push_back(hourlyRate * mondayHours);
+    dailyPay.push_back(hourlyRate * tuesdayHours);
 
-    cout << "Final score count: " << scores.size() << endl;
-    cout << "Last kept score: " << scores[scores.size() - 1] << endl;
+    cout << "Paychecks stored: " << dailyPay.size() << endl;
     return 0;
 }
 ```
@@ -253,7 +261,7 @@ int main() {
 | `push_back(value)` | adds a value to the end |
 | `pop_back()` | removes the last value |
 | `size()` | reports the current count |
-| `[index]` | accesses one position |
+| `back()` | reads the last value |
 
 <!-- Slide 25 -->
 
@@ -271,8 +279,8 @@ int main() {
 
 ## Summary
 
-+ Vector operations can add, remove, count, or access values.
++ Vector operations can add, remove, count, or read values.
 + `push_back` and `pop_back` change the vector.
-+ `size` and index notation help inspect what the vector contains.
++ `size` and `back` help inspect what the vector contains.
 
 <!-- Slide 27 -->
