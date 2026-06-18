@@ -6,8 +6,7 @@
 |-------|----------|-------------|----------|---------------|-----------|------|
 | Very Brief Review of Static | brief bridge | 4 min | no | Static local variables | consequences, not reteaching | Use static as the bridge into Singleton and shared state. |
 | Design Patterns | high | 14 min | no | Functions, scope, static locals | practical and restrained | Include Christopher Alexander, pattern language, and the Gang of Four book. |
-| Singleton Pattern | high | 12 min | no | Static local variables; basic class idea | name the tradeoff clearly | Use Singleton as the first concrete pattern and avoid presenting it as a default choice. |
-| Strategy Pattern | high | 12 min | no | Functions; conditionals; basic class/function-shape idea | contrast with Singleton | Use Strategy to show interchangeable behavior and reduce long conditional chains. |
+| Singleton Pattern | high | 12 min | no | Static local variables | name the tradeoff clearly | Use Singleton as the concrete pattern and avoid presenting it as a default choice. |
 
 ---
 

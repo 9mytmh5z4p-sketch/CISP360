@@ -1,78 +1,82 @@
 <!-- Topic 3: Singleton Pattern -->
-<!-- Slides 21-31 -->
+<!-- Slides 22-33 -->
 
 # Singleton Pattern
-<!-- Slide 21 -->
+<!-- Slide 22 -->
 
 ## What If There Should Only Be One? {.smaller}
 
 + Some program resources should not have many independent copies.
-+ A settings manager, logger, or shared configuration may need one controlled access point.
++ A file name, counter, settings value, or shared output path may need one controlled access point.
 
 ::: notes
-Slides 21-31
+Slides 22-33
 :::
-
-<!-- Slide 22 -->
-
----
-
-## Singleton Pattern
-
-+ Singleton controls object creation so a program uses one shared instance.
-+ The class decides when the instance is created.
-+ Other code asks for access instead of creating its own copy.
 
 <!-- Slide 23 -->
 
 ---
 
-## One Instance, One Access Point
+## Singleton Pattern
 
-| Rule | Meaning |
-|---|---|
-| one instance | the program should not create several copies |
-| controlled access | other code reaches the instance through one function |
-| shared state | callers see the same stored data |
++ Singleton controls access so a program uses one shared resource.
++ The program reaches that resource through one function.
++ Other code asks for the shared resource instead of creating separate copies.
 
 <!-- Slide 24 -->
 
 ---
 
-## A Simple Singleton Shape
+## One Resource, One Access Point
 
-```{.cpp}
-class Settings {
-private:
-    Settings();
-
-public:
-    static Settings& getInstance();
-};
-```
-
-+ The constructor is private.
-+ The access function is static.
-+ Callers use the access function instead of constructing directly.
+| Rule | Meaning |
+|---|---|
+| one resource | the program should not create several copies of the same resource |
+| controlled access | other code reaches the resource through one function |
+| shared state | callers see the same stored data |
 
 <!-- Slide 25 -->
+
+---
+
+## A Simple Singleton Shape
+
+![](images/singleton_code.png){fig-align="center" width="86%"}
+
+::: notes
+The highlighted `static` local value is the controlled shared resource. The function is the access point.
+:::
+
+<!-- Slide 26 -->
+
+---
+
+## Contrast: Global Variable
+
+![](images/Singleton_Code_2.png){fig-align="center" width="86%"}
+
+::: notes
+Use this slide to contrast the global-variable version with the static-local version. Both preserve shared state, but the global version exposes the state more broadly.
+:::
+
+<!-- Slide 27 -->
 
 ---
 
 ## Why Static Shows Up Here
 
 ```{.cpp}
-Settings& Settings::getInstance() {
-    static Settings instance;
-    return instance;
+int& nextReportNumber() {
+    static int reportNumber = 1000;
+    return reportNumber;
 }
 ```
 
-+ The local `static` object is created once.
-+ Each later call returns the same object.
-+ The object is stored inside the access function's control.
++ The local `static` value is created once.
++ Each later call reaches the same stored value.
++ The value is kept inside the access function's control.
 
-<!-- Slide 26 -->
+<!-- Slide 28 -->
 
 ---
 
@@ -83,10 +87,10 @@ Settings& Settings::getInstance() {
 + The pattern says the shared place is intentional, not accidental.
 
 ::: notes
-[Graphic suggestion: a central Settings object with several program areas pointing to the same access function.]
+[Graphic suggestion: several program areas pointing to one settings access function.]
 :::
 
-<!-- Slide 27 -->
+<!-- Slide 29 -->
 
 ---
 
@@ -96,7 +100,7 @@ Settings& Settings::getInstance() {
 + It also creates shared state.
 + Shared state can make testing and order-of-calls harder to reason about.
 
-<!-- Slide 28 -->
+<!-- Slide 30 -->
 
 ---
 
@@ -104,26 +108,26 @@ Settings& Settings::getInstance() {
 
 + The data could be passed as a parameter.
 + The program may need multiple versions later.
-+ The object changes state in ways callers cannot easily see.
++ The shared value changes in ways callers cannot easily see.
 
-<!-- Slide 29 -->
+<!-- Slide 31 -->
 
 ---
 
 ## Common Practices
 
-+ Use Singleton only when one instance is part of the problem.
-+ Keep the object small and focused.
++ Use Singleton only when one shared resource is part of the problem.
++ Keep the shared resource small and focused.
 + Do not use Singleton as a disguised global variable.
 
-<!-- Slide 30 -->
+<!-- Slide 32 -->
 
 ---
 
 ## Summary
 
-+ Singleton controls access to one shared instance.
-+ It is useful when the one-instance rule is intentional.
++ Singleton controls access to one shared resource.
++ It is useful when the single-resource rule is intentional.
 + It should be chosen for a design reason, not convenience alone.
 
-<!-- Slide 31 -->
+<!-- Slide 33 -->

@@ -12,23 +12,31 @@ Brief recall from function design. Students should remember that scope, lifetime
 
 <!-- Slide 1 -->
 
+---
+
+## Why Patterns?
+
+![](images/comic.png){fig-align="center" width="38%"}
+
+<!-- Slide 2 -->
+
+---
+
 # Today's Agenda
 
 - Very Brief Review of Static
 - Design Patterns
 - Singleton Pattern
-- Strategy Pattern
 
 ::: notes
 
 :::
 
-<!-- Slide 2 -->
+<!-- Slide 3 -->
 
 {{< include topic_1_static_review.qmd >}}
 {{< include topic_2_design_patterns.qmd >}}
 {{< include topic_3_singleton_pattern.qmd >}}
-{{< include topic_4_strategy_pattern.qmd >}}
 
 ---
 
@@ -36,22 +44,21 @@ Brief recall from function design. Students should remember that scope, lifetime
 
 - Design patterns name recurring design choices.
 - Static local storage can support a larger design rule, but it is not the design itself.
-- Singleton controls access to one shared instance.
-- Strategy makes behavior interchangeable behind a stable calling pattern.
+- Singleton controls access to one shared resource.
 
-<!-- Slide 45 -->
+<!-- Slide 34 -->
 
 ---
 
 # Next Time
 
-<!-- Slide 46 -->
+<!-- Slide 35 -->
 
 ---
 
 # Appendix
 
-<!-- Slide 47 -->
+<!-- Slide 36 -->
 
 ---
 
@@ -61,7 +68,7 @@ Brief recall from function design. Students should remember that scope, lifetime
 - Keep the remembered state small and easy to explain.
 - Prefer visible parameters and return values when state does not need to persist.
 
-<!-- Slide 48 -->
+<!-- Slide 37 -->
 
 ---
 
@@ -71,7 +78,7 @@ Brief recall from function design. Students should remember that scope, lifetime
 - Forgetting that previous calls affect the next call.
 - Assuming local scope means short lifetime.
 
-<!-- Slide 49 -->
+<!-- Slide 38 -->
 
 ---
 
@@ -87,7 +94,7 @@ int nextId() {
 
 Each call returns a new value because `id` keeps its previous value.
 
-<!-- Slide 50 -->
+<!-- Slide 39 -->
 
 ---
 
@@ -97,7 +104,7 @@ Each call returns a new value because `id` keeps its previous value.
 2. Rewrite a static counter so the caller owns the counter instead.
 3. Explain the difference between scope and lifetime in one sentence.
 
-<!-- Slide 51 -->
+<!-- Slide 40 -->
 
 ---
 
@@ -107,7 +114,7 @@ Each call returns a new value because `id` keeps its previous value.
 - "C++ scope vs lifetime static local"
 - "C++ function remembers value between calls"
 
-<!-- Slide 52 -->
+<!-- Slide 41 -->
 
 ---
 
@@ -116,7 +123,7 @@ Each call returns a new value because `id` keeps its previous value.
 - When does hidden function memory make a program clearer?
 - When does hidden function memory make a program harder to debug?
 
-<!-- Slide 53 -->
+<!-- Slide 42 -->
 
 ---
 
@@ -126,7 +133,7 @@ Each call returns a new value because `id` keeps its previous value.
 - Use a pattern when it clarifies the structure of the solution.
 - Explain the tradeoff every time you explain the pattern.
 
-<!-- Slide 54 -->
+<!-- Slide 43 -->
 
 ---
 
@@ -136,7 +143,7 @@ Each call returns a new value because `id` keeps its previous value.
 - Treating patterns as recipes with fixed code.
 - Adding structure that does not make the program easier to reason about.
 
-<!-- Slide 55 -->
+<!-- Slide 44 -->
 
 ---
 
@@ -144,11 +151,11 @@ Each call returns a new value because `id` keeps its previous value.
 
 | Pattern idea | Recurring problem |
 |---|---|
-| Singleton | exactly one shared instance |
-| Strategy | interchangeable behavior |
+| Singleton | exactly one shared resource |
 | Adapter | make one interface fit another |
+| Template Method | keep a stable process with replaceable steps |
 
-<!-- Slide 56 -->
+<!-- Slide 45 -->
 
 ---
 
@@ -158,7 +165,7 @@ Each call returns a new value because `id` keeps its previous value.
 2. Decide whether that problem needs a named pattern or ordinary functions.
 3. For one pattern, identify the problem, structure, and tradeoff.
 
-<!-- Slide 57 -->
+<!-- Slide 46 -->
 
 ---
 
@@ -168,7 +175,7 @@ Each call returns a new value because `id` keeps its previous value.
 - "Gang of Four design patterns beginner"
 - "design pattern problem structure tradeoff"
 
-<!-- Slide 58 -->
+<!-- Slide 47 -->
 
 ---
 
@@ -177,66 +184,62 @@ Each call returns a new value because `id` keeps its previous value.
 - Why is a shared vocabulary useful for design?
 - What can go wrong when a pattern name becomes more important than the problem?
 
-<!-- Slide 59 -->
+<!-- Slide 48 -->
 
 ---
 
 ## Singleton Pattern: Good Practices
 
-- Use Singleton only when the one-instance rule is part of the problem.
-- Keep the shared object focused on one responsibility.
+- Use Singleton only when the single-resource rule is part of the problem.
+- Keep the shared resource focused on one responsibility.
 - Make shared state easy to find and explain.
 
-<!-- Slide 60 -->
+<!-- Slide 49 -->
 
 ---
 
 ## Singleton Pattern: Common Mistakes
 
 - Using Singleton as a disguised global variable.
-- Storing unrelated program data in one shared object.
+- Storing unrelated program data in one shared resource.
 - Ignoring the testing cost of hidden shared state.
 
-<!-- Slide 61 -->
+<!-- Slide 50 -->
 
 ---
 
 ## Singleton Pattern: More Examples
 
 ```cpp
-class Logger {
-private:
-    Logger();
-
-public:
-    static Logger& getInstance();
-    void write(string message);
-};
+string& logFileName() {
+    static string fileName = "program.log";
+    return fileName;
+}
 ```
 
-A logger is a common example because the program may want one coordinated output path.
+A log file name is a small example because the program may want one coordinated output path.
 
-<!-- Slide 62 -->
+<!-- Slide 51 -->
 
 ---
 
 ## Singleton Pattern: Practice Problems
 
-1. Decide whether a random number generator should be a Singleton.
-2. List one reason a settings object might need exactly one shared instance.
-3. List one reason a settings object might not belong in a Singleton.
+1. Decide whether a report counter should use one shared value.
+2. List one reason a settings file name might need exactly one shared access point.
+3. List one reason a settings value might not belong in a Singleton.
 
-<!-- Slide 63 -->
+<!-- Slide 52 -->
 
 ---
 
 ## Singleton Pattern: AI Search Terms
 
-- "C++ Singleton static local instance"
+- "C++ Singleton static local value"
 - "Singleton pattern tradeoffs shared state"
 - "Singleton disguised global variable"
 
-<!-- Slide 64 -->
+<!-- Slide 53 -->
 
 ---
 
@@ -245,65 +248,4 @@ A logger is a common example because the program may want one coordinated output
 - What does Singleton make easier?
 - What does Singleton hide from the caller?
 
-<!-- Slide 65 -->
-
----
-
-## Strategy Pattern: Good Practices
-
-- Use Strategy when behavior changes independently from the caller.
-- Give each strategy a clear behavior name.
-- Keep the caller's main task stable.
-
-<!-- Slide 66 -->
-
----
-
-## Strategy Pattern: Common Mistakes
-
-- Creating strategies for behavior that never changes.
-- Hiding simple logic behind too many layers.
-- Giving strategies vague names that do not describe the rule.
-
-<!-- Slide 67 -->
-
----
-
-## Strategy Pattern: More Examples
-
-| Caller task | Strategy choices |
-|---|---|
-| calculate shipping | standard, express, pickup |
-| format output | plain text, table, receipt |
-| score an assignment | raw points, curve, pass/fail |
-
-<!-- Slide 68 -->
-
----
-
-## Strategy Pattern: Practice Problems
-
-1. Find a long conditional chain that chooses among behaviors.
-2. Name each behavior as a possible strategy.
-3. Decide whether the extra structure would make the code clearer.
-
-<!-- Slide 69 -->
-
----
-
-## Strategy Pattern: AI Search Terms
-
-- "Strategy pattern interchangeable behavior"
-- "C++ Strategy pattern function pointer beginner"
-- "replace switch with strategy pattern"
-
-<!-- Slide 70 -->
-
----
-
-## Strategy Pattern: Questions for Reflection
-
-- How is choosing a behavior different from sharing one object?
-- When is a simple `if` statement better than Strategy?
-
-<!-- Slide 71 -->
+<!-- Slide 54 -->
