@@ -1,56 +1,53 @@
 <!-- Topic 1: Very Brief Review of Static -->
-<!-- Slides 4-9 -->
+<!-- Slides 4-7 -->
 
 # Very Brief Review of Static
 <!-- Slide 4 -->
 
 ## What Does Static Remember? {.smaller}
 
-+ If local variables disappear after a function ends, how can a function remember anything next time?
-+ `static` changes lifetime without making the name global.
++ A `static` local variable is created once.
++ It keeps its value between function calls.
++ The name is still visible only inside that function.
 
 ::: notes
-Slides 4-9
+Slides 4-7
 :::
 
 <!-- Slide 5 -->
 
 ---
 
-## Local Scope, Longer Lifetime
+## Static Local Example {.smaller}
 
-+ A normal local variable is created when the function runs.
-+ A `static` local variable is created once and keeps its value between calls.
-+ The variable name is still usable only inside that function.
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+void showCount();
+
+int main() {
+    showCount();
+    showCount();
+    showCount();
+    return 0;
+}
+
+void showCount() {
+    static int count = 0;
+    count++;
+    cout << count << endl;
+}
+```
 
 <!-- Slide 6 -->
-
----
-
-## Why This Matters
-
-+ Static locals can give a function memory.
-+ That memory can be useful for counters, cached setup, or one-time initialization.
-+ Hidden memory also makes behavior depend on previous calls.
-
-<!-- Slide 7 -->
 
 ---
 
 ## Bridge to Patterns
 
 + `static` is a mechanism, not the main design idea.
-+ Some patterns use static storage to enforce a larger design rule.
-+ Singleton is one example: one shared resource, reached in a controlled way.
++ It can make one stored value available through one controlled function.
++ Singleton uses that idea to describe a larger design choice.
 
-<!-- Slide 8 -->
-
----
-
-## Summary
-
-+ Static local variables preserve state between calls.
-+ The value lasts, but the name stays local.
-+ That combination makes static useful and easy to misuse.
-
-<!-- Slide 9 -->
+<!-- Slide 7 -->

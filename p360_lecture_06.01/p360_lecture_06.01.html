@@ -206,6 +206,14 @@ Dr.&nbsp;Caleb Fowler
 </div>
 
 </section>
+<section class="slide level2">
+
+
+<!-- Slide 1 -->
+<img data-src="images/comic.png" class="quarto-figure quarto-figure-center r-stretch" style="width:38.0%"></section>
+<section class="slide level2">
+
+</section>
 <section>
 <section id="last-time" class="title-slide slide level1 center">
 <h1>Last Time</h1>
@@ -227,13 +235,8 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="why-patterns" class="slide level2">
-<h2>Why Patterns?</h2>
-
 <!-- Slide 2 -->
-<img data-src="images/comic.png" class="quarto-figure quarto-figure-center r-stretch" style="width:38.0%"></section>
+</section>
 <section class="slide level2">
 
 </section></section>
@@ -259,7 +262,7 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 3 -->
 <!-- Topic 1: Very Brief Review of Static -->
-<!-- Slides 4-9 -->
+<!-- Slides 4-7 -->
 </section>
 
 <section>
@@ -270,11 +273,12 @@ Dr.&nbsp;Caleb Fowler
 <section id="what-does-static-remember" class="slide level2 smaller">
 <h2>What Does Static Remember?</h2>
 <ul>
-<li>If local variables disappear after a function ends, how can a function remember anything next time?</li>
-<li><code>static</code> changes lifetime without making the name global.</li>
+<li>A <code>static</code> local variable is created once.</li>
+<li>It keeps its value between function calls.</li>
+<li>The name is still visible only inside that function.</li>
 </ul>
 <aside class="notes">
-<p>Slides 4-9</p>
+<p>Slides 4-7</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -288,48 +292,42 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 5 -->
 </section>
-<section id="local-scope-longer-lifetime" class="slide level2">
-<h2>Local Scope, Longer Lifetime</h2>
-<ul>
-<li>A normal local variable is created when the function runs.</li>
-<li>A <code>static</code> local variable is created once and keeps its value between calls.</li>
-<li>The variable name is still usable only inside that function.</li>
-</ul>
+<section id="static-local-example" class="slide level2 smaller">
+<h2>Static Local Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb1-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb1-3"><a href=""></a></span>
+<span id="cb1-4"><a href=""></a><span class="dt">void</span> showCount<span class="op">();</span></span>
+<span id="cb1-5"><a href=""></a></span>
+<span id="cb1-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-7"><a href=""></a>    showCount<span class="op">();</span></span>
+<span id="cb1-8"><a href=""></a>    showCount<span class="op">();</span></span>
+<span id="cb1-9"><a href=""></a>    showCount<span class="op">();</span></span>
+<span id="cb1-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-11"><a href=""></a><span class="op">}</span></span>
+<span id="cb1-12"><a href=""></a></span>
+<span id="cb1-13"><a href=""></a><span class="dt">void</span> showCount<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-14"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-15"><a href=""></a>    count<span class="op">++;</span></span>
+<span id="cb1-16"><a href=""></a>    cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <!-- Slide 6 -->
-</section>
-<section id="why-this-matters" class="slide level2">
-<h2>Why This Matters</h2>
-<ul>
-<li>Static locals can give a function memory.</li>
-<li>That memory can be useful for counters, cached setup, or one-time initialization.</li>
-<li>Hidden memory also makes behavior depend on previous calls.</li>
-</ul>
-<!-- Slide 7 -->
 </section>
 <section id="bridge-to-patterns" class="slide level2">
 <h2>Bridge to Patterns</h2>
 <ul>
 <li><code>static</code> is a mechanism, not the main design idea.</li>
-<li>Some patterns use static storage to enforce a larger design rule.</li>
-<li>Singleton is one example: one shared resource, reached in a controlled way.</li>
+<li>It can make one stored value available through one controlled function.</li>
+<li>Singleton uses that idea to describe a larger design choice.</li>
 </ul>
-<!-- Slide 8 -->
-</section>
-<section id="summary" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>Static local variables preserve state between calls.</li>
-<li>The value lasts, but the name stays local.</li>
-<li>That combination makes static useful and easy to misuse.</li>
-</ul>
-<!-- Slide 9 -->
+<!-- Slide 7 -->
 <!-- Topic 2: Design Patterns -->
-<!-- Slides 10-21 -->
+<!-- Slides 8-20 -->
 </section></section>
 <section>
 <section id="design-patterns" class="title-slide slide level1 center">
 <h1>Design Patterns</h1>
-<!-- Slide 10 -->
+<!-- Slide 8 -->
 </section>
 <section id="why-name-solutions" class="slide level2 smaller">
 <h2>Why Name Solutions?</h2>
@@ -338,7 +336,7 @@ Dr.&nbsp;Caleb Fowler
 <li>A shared name lets a team discuss the shape of a solution without redrawing it from scratch.</li>
 </ul>
 <aside class="notes">
-<p>Slides 10-21</p>
+<p>Slides 8-20</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -350,7 +348,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 11 -->
+<!-- Slide 9 -->
 </section>
 <section id="christopher-alexander" class="slide level2">
 <h2>Christopher Alexander</h2>
@@ -368,7 +366,7 @@ Dr.&nbsp;Caleb Fowler
 </figure>
 </div>
 </div></div>
-<!-- Slide 12 -->
+<!-- Slide 10 -->
 </section>
 <section id="a-pattern-language" class="slide level2">
 <h2>A Pattern Language</h2>
@@ -386,7 +384,7 @@ Dr.&nbsp;Caleb Fowler
 </figure>
 </div>
 </div></div>
-<!-- Slide 13 -->
+<!-- Slide 11 -->
 </section>
 <section id="from-buildings-to-software" class="slide level2">
 <h2>From Buildings to Software</h2>
@@ -395,7 +393,7 @@ Dr.&nbsp;Caleb Fowler
 <li>The exact code changes from program to program.</li>
 <li>The design shape can still be recognized, discussed, and reused.</li>
 </ul>
-<!-- Slide 14 -->
+<!-- Slide 12 -->
 </section>
 <section id="the-gang-of-four-book" class="slide level2">
 <h2>The Gang of Four Book</h2>
@@ -413,7 +411,7 @@ Dr.&nbsp;Caleb Fowler
 </figure>
 </div>
 </div></div>
-<!-- Slide 15 -->
+<!-- Slide 13 -->
 </section>
 <section id="what-is-a-design-pattern" class="slide level2">
 <h2>What Is a Design Pattern?</h2>
@@ -422,7 +420,7 @@ Dr.&nbsp;Caleb Fowler
 <li>It names the problem, the structure, and the tradeoff.</li>
 <li>The pattern is about intent, not memorized code.</li>
 </ul>
-<!-- Slide 16 -->
+<!-- Slide 14 -->
 </section>
 <section id="what-patterns-are-not" class="slide level2">
 <h2>What Patterns Are Not</h2>
@@ -432,7 +430,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Patterns are not guaranteed best practices.</li>
 <li>Patterns are design vocabulary with consequences.</li>
 </ul>
-<!-- Slide 17 -->
+<!-- Slide 15 -->
 </section>
 <section id="pattern-not-recipe" class="slide level2">
 <h2>Pattern, Not Recipe</h2>
@@ -441,7 +439,7 @@ Dr.&nbsp;Caleb Fowler
 <li>A pattern gives a shape that must be adapted to the program.</li>
 <li>The same pattern may look different in small, medium, and large programs.</li>
 </ul>
-<!-- Slide 18 -->
+<!-- Slide 16 -->
 </section>
 <section id="the-three-questions" class="slide level2">
 <h2>The Three Questions</h2>
@@ -450,7 +448,7 @@ Dr.&nbsp;Caleb Fowler
 <li>What structure does it use?</li>
 <li>What tradeoff does it introduce?</li>
 </ul>
-<!-- Slide 19 -->
+<!-- Slide 17 -->
 </section>
 <section id="common-practices" class="slide level2">
 <h2>Common Practices</h2>
@@ -459,24 +457,34 @@ Dr.&nbsp;Caleb Fowler
 <li>Use the smallest structure that makes the design clearer.</li>
 <li>Avoid adding pattern machinery when ordinary code is enough.</li>
 </ul>
-<!-- Slide 20 -->
+<!-- Slide 18 -->
 </section>
-<section id="summary-1" class="slide level2">
+<section id="pattern-categories" class="slide level2">
+<h2>Pattern Categories</h2>
+
+<!-- Slide 19 -->
+<img data-src="images/Design_Patterns.png" class="quarto-figure quarto-figure-center r-stretch" style="width:86.0%"></section>
+<section id="summary" class="slide level2">
 <h2>Summary</h2>
 <ul>
 <li>Design patterns name recurring design choices.</li>
 <li>They help programmers recognize, explain, and maintain structure.</li>
 <li>Every pattern also has a cost.</li>
 </ul>
-<!-- Slide 21 -->
+<!-- Slide 20 -->
 <!-- Topic 3: Singleton Pattern -->
-<!-- Slides 22-33 -->
+<!-- Slides 21-31 -->
 </section></section>
 <section>
 <section id="singleton-pattern" class="title-slide slide level1 center">
 <h1>Singleton Pattern</h1>
-<!-- Slide 22 -->
+<!-- Slide 21 -->
 </section>
+<section id="pattern-category" class="slide level2">
+<h2>Pattern Category</h2>
+
+<!-- Slide 22 -->
+<img data-src="images/Design_Patterns_1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
 <section id="what-if-there-should-only-be-one" class="slide level2 smaller">
 <h2>What If There Should Only Be One?</h2>
 <ul>
@@ -484,7 +492,7 @@ Dr.&nbsp;Caleb Fowler
 <li>A file name, counter, settings value, or shared output path may need one controlled access point.</li>
 </ul>
 <aside class="notes">
-<p>Slides 22-33</p>
+<p>Slides 21-31</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -537,8 +545,8 @@ Dr.&nbsp;Caleb Fowler
 </table>
 <!-- Slide 25 -->
 </section>
-<section id="a-simple-singleton-shape" class="slide level2">
-<h2>A Simple Singleton Shape</h2>
+<section id="example" class="slide level2">
+<h2>Example</h2>
 
 <img data-src="images/singleton_code.png" class="quarto-figure quarto-figure-center r-stretch" style="width:86.0%"><aside class="notes">
 <p>The highlighted <code>static</code> local value is the controlled shared resource. The function is the access point.</p>
@@ -555,8 +563,8 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 26 -->
 </section>
-<section id="contrast-global-variable" class="slide level2">
-<h2>Contrast: Global Variable</h2>
+<section id="example-2" class="slide level2">
+<h2>Example 2</h2>
 
 <img data-src="images/Singleton_Code_2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:86.0%"><aside class="notes">
 <p>Use this slide to contrast the global-variable version with the static-local version. Both preserve shared state, but the global version exposes the state more broadly.</p>
@@ -575,47 +583,16 @@ Dr.&nbsp;Caleb Fowler
 </section>
 <section id="why-static-shows-up-here" class="slide level2">
 <h2>Why Static Shows Up Here</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> nextReportNumber<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb1-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> reportNumber <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
-<span id="cb1-3"><a href=""></a>    <span class="cf">return</span> reportNumber<span class="op">;</span></span>
-<span id="cb1-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> nextReportNumber<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> reportNumber <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
+<span id="cb2-3"><a href=""></a>    <span class="cf">return</span> reportNumber<span class="op">;</span></span>
+<span id="cb2-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>The local <code>static</code> value is created once.</li>
 <li>Each later call reaches the same stored value.</li>
 <li>The value is kept inside the access function’s control.</li>
 </ul>
 <!-- Slide 28 -->
-</section>
-<section id="example-program-settings" class="slide level2">
-<h2>Example: Program Settings</h2>
-<ul>
-<li>Several functions may need the same display mode, file path, or course setting.</li>
-<li>A Singleton can keep those values in one shared place.</li>
-<li>The pattern says the shared place is intentional, not accidental.</li>
-</ul>
-<aside class="notes">
-<p>[Graphic suggestion: several program areas pointing to one settings access function.]</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 29 -->
-</section>
-<section id="the-tradeoff" class="slide level2">
-<h2>The Tradeoff</h2>
-<ul>
-<li>Singleton makes access convenient.</li>
-<li>It also creates shared state.</li>
-<li>Shared state can make testing and order-of-calls harder to reason about.</li>
-</ul>
-<!-- Slide 30 -->
 </section>
 <section id="when-singleton-is-a-bad-fit" class="slide level2">
 <h2>When Singleton Is a Bad Fit</h2>
@@ -624,7 +601,7 @@ Dr.&nbsp;Caleb Fowler
 <li>The program may need multiple versions later.</li>
 <li>The shared value changes in ways callers cannot easily see.</li>
 </ul>
-<!-- Slide 31 -->
+<!-- Slide 29 -->
 </section>
 <section id="common-practices-1" class="slide level2">
 <h2>Common Practices</h2>
@@ -633,16 +610,16 @@ Dr.&nbsp;Caleb Fowler
 <li>Keep the shared resource small and focused.</li>
 <li>Do not use Singleton as a disguised global variable.</li>
 </ul>
-<!-- Slide 32 -->
+<!-- Slide 30 -->
 </section>
-<section id="summary-2" class="slide level2">
+<section id="summary-1" class="slide level2">
 <h2>Summary</h2>
 <ul>
 <li>Singleton controls access to one shared resource.</li>
 <li>It is useful when the single-resource rule is intentional.</li>
 <li>It should be chosen for a design reason, not convenience alone.</li>
 </ul>
-<!-- Slide 33 -->
+<!-- Slide 31 -->
 </section>
 <section class="slide level2">
 
@@ -655,7 +632,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Static local storage can support a larger design rule, but it is not the design itself.</li>
 <li>Singleton controls access to one shared resource.</li>
 </ul>
-<!-- Slide 34 -->
+<!-- Slide 32 -->
 </section>
 <section class="slide level2">
 
@@ -663,7 +640,7 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next Time</h1>
-<!-- Slide 35 -->
+<!-- Slide 33 -->
 </section>
 <section class="slide level2">
 
@@ -671,7 +648,7 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-<!-- Slide 36 -->
+<!-- Slide 34 -->
 </section>
 <section id="very-brief-review-of-static-good-practices" class="slide level2">
 <h2>Very Brief Review of Static: Good Practices</h2>
@@ -680,7 +657,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Keep the remembered state small and easy to explain.</li>
 <li>Prefer visible parameters and return values when state does not need to persist.</li>
 </ul>
-<!-- Slide 37 -->
+<!-- Slide 35 -->
 </section>
 <section id="very-brief-review-of-static-common-mistakes" class="slide level2">
 <h2>Very Brief Review of Static: Common Mistakes</h2>
@@ -689,17 +666,17 @@ Dr.&nbsp;Caleb Fowler
 <li>Forgetting that previous calls affect the next call.</li>
 <li>Assuming local scope means short lifetime.</li>
 </ul>
-<!-- Slide 38 -->
+<!-- Slide 36 -->
 </section>
 <section id="very-brief-review-of-static-more-examples" class="slide level2">
 <h2>Very Brief Review of Static: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span> nextId<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb2-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> id <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
-<span id="cb2-3"><a href=""></a>    id<span class="op">++;</span></span>
-<span id="cb2-4"><a href=""></a>    <span class="cf">return</span> id<span class="op">;</span></span>
-<span id="cb2-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">int</span> nextId<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> id <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
+<span id="cb3-3"><a href=""></a>    id<span class="op">++;</span></span>
+<span id="cb3-4"><a href=""></a>    <span class="cf">return</span> id<span class="op">;</span></span>
+<span id="cb3-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each call returns a new value because <code>id</code> keeps its previous value.</p>
-<!-- Slide 39 -->
+<!-- Slide 37 -->
 </section>
 <section id="very-brief-review-of-static-practice-problems" class="slide level2">
 <h2>Very Brief Review of Static: Practice Problems</h2>
@@ -708,7 +685,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Rewrite a static counter so the caller owns the counter instead.</li>
 <li>Explain the difference between scope and lifetime in one sentence.</li>
 </ol>
-<!-- Slide 40 -->
+<!-- Slide 38 -->
 </section>
 <section id="very-brief-review-of-static-ai-search-terms" class="slide level2">
 <h2>Very Brief Review of Static: AI Search Terms</h2>
@@ -717,7 +694,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ scope vs lifetime static local”</li>
 <li>“C++ function remembers value between calls”</li>
 </ul>
-<!-- Slide 41 -->
+<!-- Slide 39 -->
 </section>
 <section id="very-brief-review-of-static-questions-for-reflection" class="slide level2">
 <h2>Very Brief Review of Static: Questions for Reflection</h2>
@@ -725,7 +702,7 @@ Dr.&nbsp;Caleb Fowler
 <li>When does hidden function memory make a program clearer?</li>
 <li>When does hidden function memory make a program harder to debug?</li>
 </ul>
-<!-- Slide 42 -->
+<!-- Slide 40 -->
 </section>
 <section id="design-patterns-good-practices" class="slide level2">
 <h2>Design Patterns: Good Practices</h2>
@@ -734,7 +711,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use a pattern when it clarifies the structure of the solution.</li>
 <li>Explain the tradeoff every time you explain the pattern.</li>
 </ul>
-<!-- Slide 43 -->
+<!-- Slide 41 -->
 </section>
 <section id="design-patterns-common-mistakes" class="slide level2">
 <h2>Design Patterns: Common Mistakes</h2>
@@ -743,7 +720,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Treating patterns as recipes with fixed code.</li>
 <li>Adding structure that does not make the program easier to reason about.</li>
 </ul>
-<!-- Slide 44 -->
+<!-- Slide 42 -->
 </section>
 <section id="design-patterns-more-examples" class="slide level2">
 <h2>Design Patterns: More Examples</h2>
@@ -769,7 +746,7 @@ Dr.&nbsp;Caleb Fowler
 </tr>
 </tbody>
 </table>
-<!-- Slide 45 -->
+<!-- Slide 43 -->
 </section>
 <section id="design-patterns-practice-problems" class="slide level2">
 <h2>Design Patterns: Practice Problems</h2>
@@ -778,7 +755,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Decide whether that problem needs a named pattern or ordinary functions.</li>
 <li>For one pattern, identify the problem, structure, and tradeoff.</li>
 </ol>
-<!-- Slide 46 -->
+<!-- Slide 44 -->
 </section>
 <section id="design-patterns-ai-search-terms" class="slide level2">
 <h2>Design Patterns: AI Search Terms</h2>
@@ -787,7 +764,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“Gang of Four design patterns beginner”</li>
 <li>“design pattern problem structure tradeoff”</li>
 </ul>
-<!-- Slide 47 -->
+<!-- Slide 45 -->
 </section>
 <section id="design-patterns-questions-for-reflection" class="slide level2">
 <h2>Design Patterns: Questions for Reflection</h2>
@@ -795,7 +772,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why is a shared vocabulary useful for design?</li>
 <li>What can go wrong when a pattern name becomes more important than the problem?</li>
 </ul>
-<!-- Slide 48 -->
+<!-- Slide 46 -->
 </section>
 <section id="singleton-pattern-good-practices" class="slide level2">
 <h2>Singleton Pattern: Good Practices</h2>
@@ -804,7 +781,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Keep the shared resource focused on one responsibility.</li>
 <li>Make shared state easy to find and explain.</li>
 </ul>
-<!-- Slide 49 -->
+<!-- Slide 47 -->
 </section>
 <section id="singleton-pattern-common-mistakes" class="slide level2">
 <h2>Singleton Pattern: Common Mistakes</h2>
@@ -813,16 +790,16 @@ Dr.&nbsp;Caleb Fowler
 <li>Storing unrelated program data in one shared resource.</li>
 <li>Ignoring the testing cost of hidden shared state.</li>
 </ul>
-<!-- Slide 50 -->
+<!-- Slide 48 -->
 </section>
 <section id="singleton-pattern-more-examples" class="slide level2">
 <h2>Singleton Pattern: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a>string<span class="op">&amp;</span> logFileName<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb3-2"><a href=""></a>    <span class="at">static</span> string fileName <span class="op">=</span> <span class="st">"program.log"</span><span class="op">;</span></span>
-<span id="cb3-3"><a href=""></a>    <span class="cf">return</span> fileName<span class="op">;</span></span>
-<span id="cb3-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a>string<span class="op">&amp;</span> logFileName<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href=""></a>    <span class="at">static</span> string fileName <span class="op">=</span> <span class="st">"program.log"</span><span class="op">;</span></span>
+<span id="cb4-3"><a href=""></a>    <span class="cf">return</span> fileName<span class="op">;</span></span>
+<span id="cb4-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A log file name is a small example because the program may want one coordinated output path.</p>
-<!-- Slide 51 -->
+<!-- Slide 49 -->
 </section>
 <section id="singleton-pattern-practice-problems" class="slide level2">
 <h2>Singleton Pattern: Practice Problems</h2>
@@ -831,7 +808,7 @@ Dr.&nbsp;Caleb Fowler
 <li>List one reason a settings file name might need exactly one shared access point.</li>
 <li>List one reason a settings value might not belong in a Singleton.</li>
 </ol>
-<!-- Slide 52 -->
+<!-- Slide 50 -->
 </section>
 <section id="singleton-pattern-ai-search-terms" class="slide level2">
 <h2>Singleton Pattern: AI Search Terms</h2>
@@ -840,7 +817,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“Singleton pattern tradeoffs shared state”</li>
 <li>“Singleton disguised global variable”</li>
 </ul>
-<!-- Slide 53 -->
+<!-- Slide 51 -->
 </section>
 <section id="singleton-pattern-questions-for-reflection" class="slide level2">
 <h2>Singleton Pattern: Questions for Reflection</h2>
@@ -848,7 +825,7 @@ Dr.&nbsp;Caleb Fowler
 <li>What does Singleton make easier?</li>
 <li>What does Singleton hide from the caller?</li>
 </ul>
-<!-- Slide 54 -->
+<!-- Slide 52 -->
 
 </section></section>
     </div>
