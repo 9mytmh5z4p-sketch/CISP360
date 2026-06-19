@@ -74,41 +74,53 @@ The single equals sign changes a variable. The double equals sign compares two v
 
 ---
 
-## Chained Comparisons Need Care
+## Comparing Floating-Point Values
+
+Integers can usually be compared directly. Floating-point values may not store the exact value you expect.
 
 ```cpp
-0 < score < 100
+double result = .666667 * 6.0;
+cout << "Printed result: " << result << endl;
 ```
-
-C++ does not read this like a math expression. Split the idea into separate comparisons when you need a range.
-
-::: notes
-[Graphic suggestion: show the math notation on one side and the two separate C++ comparisons on the other.]
-:::
 
 <!-- Slide 9 -->
 
 ---
 
-## Comparing Floating-Point Values
+## The Comparison Problem
 
-Integers can usually be compared directly.
+```cpp
+double result = .666667 * 6.0;
 
-Floating-point values may be slightly different because of rounding. Decide how close is close enough before calling them equal.
+if (result == 4.0) {
+    cout << "Internal result = 4.0\n";
+} else {
+    cout << "Internal result != 4.0\n";
+}
+```
+
+The printed value may look like 4, but the stored value may be slightly different.
 
 <!-- Slide 10 -->
 
 ---
 
-## Conditions Use Relational Expressions
+## Comparing with a Tolerance
 
 ```cpp
-if (score >= 70) {
-    cout << "Passing";
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+double result = .666667 * 6.0;
+double margin = 0.0001;
+
+if (abs(result - 4.0) < margin) {
+    cout << "Close enough to 4.0\n";
 }
 ```
 
-The condition inside the parentheses is a relational expression. It asks the question the `if` statement will use.
+Decide how close is close enough before calling floating-point values equal.
 
 <!-- Slide 11 -->
 
