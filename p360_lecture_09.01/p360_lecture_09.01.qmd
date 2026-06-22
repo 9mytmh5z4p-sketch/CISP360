@@ -4,23 +4,20 @@
 + **Stuff To Do With A Loop**
 + **Drawing Graphs Using Loops**
 + **Menu-Driven Programming**
-+ **Input Validation**
 :::
 
 ::: notes
-Review loops and menu programs as the setting where validation becomes visible to the client.
+Review loop purpose and menu structure before introducing loop-control shorthand and validation patterns.
 :::
 
 <!-- Slide 1 -->
 
 # Today's Agenda
 
-- Input Validation Strategy
-- Range Checking
-- Input Validation with the While Loop
-- Recovering From Bad cin Input
-- Enumerations
-- Assertions
+- Increment and Decrement Operators
+- Break
+- Continue
+- Input Validation
 
 ::: notes
 
@@ -28,440 +25,307 @@ Review loops and menu programs as the setting where validation becomes visible t
 
 <!-- Slide 2 -->
 
-{{< include topic_1_input_validation_strategy.qmd >}}
-{{< include topic_2_range_checking.qmd >}}
-{{< include topic_3_input_validation_with_while.qmd >}}
-{{< include topic_4_cin_recovery.qmd >}}
-{{< include topic_5_enumerations.qmd >}}
-{{< include topic_6_assertions.qmd >}}
+{{< include topic_1_increment_decrement.qmd >}}
+{{< include topic_2_break.qmd >}}
+{{< include topic_3_continue.qmd >}}
+{{< include topic_4_input_validation.qmd >}}
 
 ---
 
 # Key Takeaways
 
-- Validation protects the boundary before bad data becomes program state.
-- Strong validation moves from broad checks to narrow checks: presence, shape, then range or set.
-- Bad `cin` extractions require stream recovery before another read can succeed.
-- Enumerations name small sets of valid choices, while assertions document assumptions that should not fail during development.
+- `++`, `--`, and compound assignment make loop updates easier to read.
+- `break` exits the nearest loop or switch immediately.
+- `continue` skips the rest of the current loop pass but keeps the loop running.
+- Input validation protects the program boundary before client data is trusted.
 
-<!-- Slide 70 -->
+<!-- Slide 40 -->
 
 ---
 
 # Next Time
 
-- More loop patterns
-- Repeated validation helpers
-- Validation inside larger menu-driven programs
+- More input validation practice
+- Validation helpers
+- Validation in menu-driven programs
 
-<!-- Slide 71 -->
+<!-- Slide 41 -->
 
 ---
 
 # Appendix
 
-<!-- Slide 72 -->
+<!-- Slide 42 -->
 
 ---
 
-## Input Validation Strategy: Good Practices
+## Increment and Decrement Operators: Good Practices
 
-- Validate from broadest condition to narrowest condition.
-- Give a specific error message and reprompt.
-- Keep invalid input from reaching the rest of the program.
+- Use `i++` in ordinary for-loop update expressions.
+- Use `+=` or `-=` when the loop moves by more than one.
+- Keep increment and decrement statements easy to see.
 
-<!-- Slide 73 -->
-
----
-
-## Input Validation Strategy: Common Mistakes
-
-- Checking range before checking whether the input is the right type.
-- Printing a generic error message when the client needs a specific correction.
-- Using a value before the program has decided it is safe.
-
-<!-- Slide 74 -->
+<!-- Slide 43 -->
 
 ---
 
-## Input Validation Strategy: More Examples
+## Increment and Decrement Operators: Common Mistakes
+
+- Assuming `x++` and `++x` produce the same value inside a larger expression.
+- Incrementing the wrong variable in a nested or multi-variable loop.
+- Forgetting that `++` always changes the value by exactly one.
+
+<!-- Slide 44 -->
+
+---
+
+## Increment and Decrement Operators: More Examples
 
 ```cpp
-string name;
-cout << "Name: ";
-getline(cin, name);
+for (int i = 2; i <= 20; i += 2) {
+    cout << i << " ";
+}
 
-while (name.empty()) {
-    cout << "Name cannot be blank. Try again: ";
-    getline(cin, name);
+for (int i = 10; i >= 0; i--) {
+    cout << i << " ";
 }
 ```
 
-<!-- Slide 75 -->
+<!-- Slide 45 -->
 
 ---
 
-## Input Validation Strategy: Practice Problems
+## Increment and Decrement Operators: Practice Problems
 
-- Validate that a menu choice is between `1` and `4`.
-- Validate that a password is not blank and has at least seven characters.
-- Validate that a percent is between `0` and `100`.
+- Rewrite `i = i + 1` using the increment operator.
+- Trace `int x = 3; cout << x++ << " " << x;`.
+- Write a loop that counts from `100` down to `0` by tens.
 
-<!-- Slide 76 -->
+<!-- Slide 46 -->
 
 ---
 
-## Input Validation Strategy: AI Search Terms
+## Increment and Decrement Operators: AI Search Terms
+
+- C++ increment decrement operators
+- C++ postfix vs prefix increment
+- C++ compound assignment operators
+- C++ for loop update expression
+
+<!-- Slide 47 -->
+
+---
+
+## Increment and Decrement Operators: Questions for Reflection
+
+- When does shorthand make code easier to read?
+- Why does prefix vs postfix not matter in a standalone statement?
+- What loop steps cannot be expressed with `++` or `--`?
+
+<!-- Slide 48 -->
+
+---
+
+## Break: Good Practices
+
+- Keep the reason for `break` close to the `break` statement.
+- Prefer a clear loop condition when it expresses the exit naturally.
+- Use `break` in searches when the answer is already found.
+
+<!-- Slide 49 -->
+
+---
+
+## Break: Common Mistakes
+
+- Assuming one `break` exits every nested loop.
+- Confusing `break` in a `switch` with `break` in a loop.
+- Using many scattered `break` statements when one loop condition would be clearer.
+
+<!-- Slide 50 -->
+
+---
+
+## Break: More Examples
+
+```cpp
+int value;
+int count = 0;
+
+while (cin >> value) {
+    if (value < 0) {
+        break;
+    }
+
+    count++;
+}
+```
+
+<!-- Slide 51 -->
+
+---
+
+## Break: Practice Problems
+
+- Stop reading numbers when the client enters `0`.
+- Search a vector and stop at the first negative value.
+- Explain what happens when `break` appears inside a `switch` inside a loop.
+
+<!-- Slide 52 -->
+
+---
+
+## Break: AI Search Terms
+
+- C++ break statement loop
+- C++ break in switch statement
+- C++ sentinel loop break
+- C++ stop loop when found
+
+<!-- Slide 53 -->
+
+---
+
+## Break: Questions for Reflection
+
+- Where does execution go immediately after `break`?
+- Would the loop be clearer with the stopping rule in the condition?
+- What makes a `break` statement easy or hard to trust?
+
+<!-- Slide 54 -->
+
+---
+
+## Continue: Good Practices
+
+- Use `continue` for early skip cases.
+- Keep loop-control updates before `continue` in while loops.
+- Prefer a plain `if` when it reads more directly.
+
+<!-- Slide 55 -->
+
+---
+
+## Continue: Common Mistakes
+
+- Confusing `continue` with `break`.
+- Placing `continue` before the loop-control variable changes.
+- Hiding too much logic after multiple `continue` statements.
+
+<!-- Slide 56 -->
+
+---
+
+## Continue: More Examples
+
+```cpp
+for (int value : values) {
+    if (value == 0) {
+        continue;
+    }
+
+    cout << 100 / value << endl;
+}
+```
+
+<!-- Slide 57 -->
+
+---
+
+## Continue: Practice Problems
+
+- Print only odd numbers from `1` to `20` using `continue`.
+- Skip blank names in a list of names.
+- Rewrite a `continue` example using an `if` statement instead.
+
+<!-- Slide 58 -->
+
+---
+
+## Continue: AI Search Terms
+
+- C++ continue statement loop
+- C++ continue vs break
+- C++ skip iteration with continue
+- C++ continue while loop infinite loop
+
+<!-- Slide 59 -->
+
+---
+
+## Continue: Questions for Reflection
+
+- What code is skipped after `continue`?
+- Why can `continue` be risky in a while loop?
+- Would an `if` statement be clearer in this case?
+
+<!-- Slide 60 -->
+
+---
+
+## Input Validation: Good Practices
+
+- Validate immediately after input.
+- Write the loop condition in terms of invalid data.
+- Give an error message that names the valid range or choices.
+
+<!-- Slide 61 -->
+
+---
+
+## Input Validation: Common Mistakes
+
+- Processing the value before validation finishes.
+- Forgetting to read a replacement value inside the loop.
+- Treating type failure and range failure as the same problem.
+
+<!-- Slide 62 -->
+
+---
+
+## Input Validation: More Examples
+
+```cpp
+int month;
+
+cout << "Month (1-12): ";
+cin >> month;
+
+while (month < 1 || month > 12) {
+    cout << "Month must be 1 through 12: ";
+    cin >> month;
+}
+```
+
+<!-- Slide 63 -->
+
+---
+
+## Input Validation: Practice Problems
+
+- Validate a quantity from `1` to `99`.
+- Validate a menu choice of `A`, `D`, or `Q`.
+- Explain why `score < 0 && score > 100` is the wrong invalid condition.
+
+<!-- Slide 64 -->
+
+---
+
+## Input Validation: AI Search Terms
 
 - C++ input validation while loop
-- C++ getline empty string validation
-- C++ range validation loop
-- C++ whitelist blacklist validation
+- C++ validate integer range
+- C++ cin fail clear ignore
+- C++ input validation menu choice
 
-<!-- Slide 77 -->
-
----
-
-## Input Validation Strategy: Questions for Reflection
-
-- What is the first thing that could be wrong with this input?
-- What message would help the client fix the mistake?
-- Where does the program first trust the data?
-
-<!-- Slide 78 -->
+<!-- Slide 65 -->
 
 ---
 
-## Range Checking: Good Practices
+## Input Validation: Questions for Reflection
 
-- Use range checks when valid values form a continuous interval.
-- State both boundaries in the prompt and error message.
-- Test the lowest valid value, highest valid value, and one value outside each boundary.
+- What does the program know after the validation loop exits?
+- What error message would help the client fix the input?
+- Where should validation happen in a larger program?
 
-<!-- Slide 79 -->
-
----
-
-## Range Checking: Common Mistakes
-
-- Checking range before handling type failure.
-- Excluding boundary values that should be valid.
-- Writing impossible conditions such as `score < 0 && score > 100`.
-
-<!-- Slide 80 -->
-
----
-
-## Range Checking: More Examples
-
-```cpp
-double percent;
-cout << "Enter a percent (0-100): ";
-cin >> percent;
-
-while (percent < 0.0 || percent > 100.0) {
-    cout << "Percent must be between 0 and 100. Try again: ";
-    cin >> percent;
-}
-```
-
-<!-- Slide 81 -->
-
----
-
-## Range Checking: Practice Problems
-
-- Validate a month number from `1` to `12`.
-- Validate a test score from `0` to `100`.
-- Validate a quantity from `1` to `99`.
-
-<!-- Slide 82 -->
-
----
-
-## Range Checking: AI Search Terms
-
-- C++ range checking loop
-- C++ validate integer between two values
-- C++ boundary value testing
-- C++ input validation OR condition
-
-<!-- Slide 83 -->
-
----
-
-## Range Checking: Questions for Reflection
-
-- Which boundary values are legal?
-- What input is just outside the valid range?
-- Why does the loop condition describe invalid input?
-
-<!-- Slide 84 -->
-
----
-
-## Input Validation with the While Loop: Good Practices
-
-- Read once before the loop so the condition has a value to test.
-- Loop while the value is invalid.
-- Re-read the same variable inside the loop.
-
-<!-- Slide 85 -->
-
----
-
-## Input Validation with the While Loop: Common Mistakes
-
-- Forgetting the priming read.
-- Forgetting to read again inside the loop.
-- Looping while the value is valid instead of invalid.
-
-<!-- Slide 86 -->
-
----
-
-## Input Validation with the While Loop: More Examples
-
-```cpp
-char answer;
-cout << "Continue (Y/N)? ";
-cin >> answer;
-
-while (answer != 'Y' && answer != 'N') {
-    cout << "Enter Y or N: ";
-    cin >> answer;
-}
-```
-
-<!-- Slide 87 -->
-
----
-
-## Input Validation with the While Loop: Practice Problems
-
-- Validate a temperature between `-50` and `150`.
-- Validate a letter grade: `A`, `B`, `C`, `D`, or `F`.
-- Add validation before a loop uses a client-entered count.
-
-<!-- Slide 88 -->
-
----
-
-## Input Validation with the While Loop: AI Search Terms
-
-- C++ priming read validation loop
-- C++ loop while invalid input
-- C++ validate against set of characters
-- C++ input validation before for loop
-
-<!-- Slide 89 -->
-
----
-
-## Input Validation with the While Loop: Questions for Reflection
-
-- What value is tested the first time the condition runs?
-- What changes inside the loop so the loop can eventually stop?
-- What is guaranteed after the loop exits?
-
-<!-- Slide 90 -->
-
----
-
-## Recovering From Bad cin Input: Good Practices
-
-- Detect failed extraction before using the variable.
-- Call `cin.clear()` before trying another read.
-- Discard the bad input with `cin.ignore()` before reprompting.
-
-<!-- Slide 91 -->
-
----
-
-## Recovering From Bad cin Input: Common Mistakes
-
-- Treating type failure like an ordinary out-of-range value.
-- Calling `clear()` but leaving the same bad input in the buffer.
-- Using a variable that was never successfully read.
-
-<!-- Slide 92 -->
-
----
-
-## Recovering From Bad cin Input: More Examples
-
-```cpp
-int quantity;
-
-while (!(cin >> quantity)) {
-    cin.clear();
-    cin.ignore(10000, '\n');
-    cout << "Enter a whole-number quantity: ";
-}
-```
-
-<!-- Slide 93 -->
-
----
-
-## Recovering From Bad cin Input: Practice Problems
-
-- Recover when the client types `ten` for an integer quantity.
-- Validate an integer menu choice after recovering from bad input.
-- Explain why a failed extraction can appear to loop forever.
-
-<!-- Slide 94 -->
-
----
-
-## Recovering From Bad cin Input: AI Search Terms
-
-- C++ cin fail state
-- C++ cin clear ignore
-- C++ failed extraction loop
-- C++ input buffer bad input
-
-<!-- Slide 95 -->
-
----
-
-## Recovering From Bad cin Input: Questions for Reflection
-
-- Did the input fail because of type or range?
-- Has the stream state been repaired?
-- Has the bad input been removed from the buffer?
-
-<!-- Slide 96 -->
-
----
-
-## Enumerations: Good Practices
-
-- Use an `enum` when a variable should hold one choice from a small named set.
-- Name enumerators with clear nouns or states.
-- Prefer named values over unrelated integer codes.
-
-<!-- Slide 97 -->
-
----
-
-## Enumerations: Common Mistakes
-
-- Treating an enum as a full input-validation system.
-- Using unclear names such as `A`, `B`, and `C`.
-- Forgetting that ordinary console input still arrives as text or numbers.
-
-<!-- Slide 98 -->
-
----
-
-## Enumerations: More Examples
-
-```cpp
-enum Status {
-    PENDING,
-    APPROVED,
-    DENIED
-};
-
-Status current = PENDING;
-```
-
-<!-- Slide 99 -->
-
----
-
-## Enumerations: Practice Problems
-
-- Create an enum for account types: checking, savings, credit.
-- Create an enum for traffic-light states.
-- Replace numeric menu constants with named enum values.
-
-<!-- Slide 100 -->
-
----
-
-## Enumerations: AI Search Terms
-
-- C++ enum beginner example
-- C++ enum switch statement
-- C++ named constants vs enum
-- C++ scoped enum enum class
-
-<!-- Slide 101 -->
-
----
-
-## Enumerations: Questions for Reflection
-
-- What are all the legal states for this value?
-- Would names make this logic easier to read?
-- Is this a choice, a quantity, or open-ended text?
-
-<!-- Slide 102 -->
-
----
-
-## Assertions: Good Practices
-
-- Use assertions for assumptions that should never be false if the code is correct.
-- Keep assertion expressions simple and side-effect free.
-- Use validation, not assertions, for expected client mistakes.
-
-<!-- Slide 103 -->
-
----
-
-## Assertions: Common Mistakes
-
-- Using `assert` to check ordinary client input.
-- Depending on assertion code for required program behavior.
-- Changing program state inside an assertion condition.
-
-<!-- Slide 104 -->
-
----
-
-## Assertions: More Examples
-
-```cpp
-#include <cassert>
-
-double average(int total, int count) {
-    assert(count > 0);
-    return static_cast<double>(total) / count;
-}
-```
-
-<!-- Slide 105 -->
-
----
-
-## Assertions: Practice Problems
-
-- Add an assertion before dividing by a count.
-- Identify whether a condition belongs in validation or an assertion.
-- Explain what happens if assertions are disabled.
-
-<!-- Slide 106 -->
-
----
-
-## Assertions: AI Search Terms
-
-- C++ assert cassert
-- C++ assertions vs input validation
-- C++ precondition assertion
-- C++ NDEBUG disable assert
-
-<!-- Slide 107 -->
-
----
-
-## Assertions: Questions for Reflection
-
-- Is this problem expected client behavior or a programmer mistake?
-- Should the program recover from this condition?
-- Would the program still work if assertions were disabled?
-
-<!-- Slide 108 -->
+<!-- Slide 66 -->

@@ -2,12 +2,10 @@
 
 | Topic | Emphasis | Time Budget | Optional | Prerequisites | Tone Flag | Note |
 |-------|----------|-------------|----------|---------------|-----------|------|
-| Input Validation Strategy | high | | no | Loops, conditionals, menu-driven programs | | Consolidated from 08.02; validation at the input boundary; allow-by-default vs deny-by-default; presence, shape, and range/set checks |
-| Range Checking | high | | no | Relational and compound conditions | | Use the Gauntlet of Trust framing and emphasize boundary values |
-| Input Validation with the While Loop | high | | no | while loops | | Standard priming-read pattern; loop while invalid; reprompt and re-read |
-| Recovering From Bad cin Input | high | | no | cin, while loops | | Distinguish range failure from type failure; use cin.clear and cin.ignore |
-| Enumerations | standard | | no | switch, constants | | Named legal choices; validate raw input before converting to enum |
-| Assertions | standard | | no | functions, conditions | | Development-time assumptions; contrast with client-facing validation |
+| Increment and Decrement Operators | standard | | no | for loops, while loops | | Shorthand for one-step loop updates; prefix/postfix distinction only when expression value is used |
+| Break | standard | | no | loops, switch | | Immediate exit from nearest loop or switch; sentinel and search examples |
+| Continue | standard | | no | loops, break | | Skip the rest of the current loop pass; contrast with break; warn about while-loop updates |
+| Input Validation | high | | no | loops, conditionals, cin | | Validate at the input boundary; range and set validation; priming read; type failure vs range failure |
 
 ---
 

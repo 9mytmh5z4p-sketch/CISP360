@@ -1,0 +1,179 @@
+# Continue
+
+## When Should A Loop Skip The Rest Of This Pass? {.smaller}
+
+`continue` does not stop the loop. It skips the remaining statements in the current pass and moves to the next condition check.
+
+::: notes
+Total slides: 7
+:::
+
+<!-- Slide 1 -->
+
+---
+
+## What `continue` Does
+
+```cpp
+for (int i = 1; i <= 5; i++) {
+    if (i == 3) {
+        continue;
+    }
+
+    cout << i << endl;
+}
+```
+
+The output is `1`, `2`, `4`, and `5`. The loop keeps running, but the print statement is skipped when `i` is `3`.
+
+<!-- Slide 2 -->
+
+---
+
+## Continue vs Break
+
+| Statement | Effect |
+|---|---|
+| `continue` | skip the rest of this pass |
+| `break` | exit the loop immediately |
+
+Use `continue` when this value should be ignored but the loop should keep checking later values.
+
+<!-- Slide 3 -->
+
+---
+
+## Skipping Invalid Items
+
+```cpp
+int total = 0;
+
+for (int score : scores) {
+    if (score < 0) {
+        continue;
+    }
+
+    total += score;
+}
+```
+
+Negative scores are ignored. Valid scores still contribute to the total.
+
+<!-- Slide 4 -->
+
+---
+
+## Continue In A While Loop
+
+Update the loop-control variable before `continue`.
+
+```cpp
+int i = 0;
+
+while (i < 10) {
+    i++;
+
+    if (i % 2 == 0) {
+        continue;
+    }
+
+    cout << i << endl;
+}
+```
+
+If the update comes after `continue`, the loop may never move forward.
+
+<!-- Slide 5 -->
+
+---
+
+## When To Use Continue
+
+- Skip data that should not be processed.
+- Keep the main path less indented.
+- Make the "ignore this case" rule explicit.
+
+Use it sparingly. A simple `if` statement is often clearer.
+
+<!-- Slide 6 -->
+
+---
+
+## Summary
+
+`continue` skips the rest of the current loop pass and returns to the next condition check or update step. It is useful for ignoring one case while allowing the loop to keep working.
+
+<!-- Slide 7 -->
+
+---
+
+## Appendix
+
+<!-- Appendix -->
+
+---
+
+## Common Practices
+
+- Use `continue` for early skip cases.
+- Keep loop-control updates before `continue` in while loops.
+- Prefer a plain `if` when it reads more directly.
+
+<!-- Appendix Slide 1 -->
+
+---
+
+## Common Mistakes
+
+- Confusing `continue` with `break`.
+- Placing `continue` before the loop-control variable changes.
+- Hiding too much logic after multiple `continue` statements.
+
+<!-- Appendix Slide 2 -->
+
+---
+
+## More Examples
+
+```cpp
+for (int value : values) {
+    if (value == 0) {
+        continue;
+    }
+
+    cout << 100 / value << endl;
+}
+```
+
+<!-- Appendix Slide 3 -->
+
+---
+
+## Practice Problems
+
+1. Print only odd numbers from `1` to `20` using `continue`.
+2. Skip blank names in a list of names.
+3. Rewrite a `continue` example using an `if` statement instead.
+
+<!-- Appendix Slide 4 -->
+
+---
+
+## AI Search Terms
+
+- C++ continue statement loop
+- C++ continue vs break
+- C++ skip iteration with continue
+- C++ continue while loop infinite loop
+
+<!-- Appendix Slide 5 -->
+
+---
+
+## Questions for Reflection
+
+- What code is skipped after `continue`?
+- Why can `continue` be risky in a while loop?
+- Would an `if` statement be clearer in this case?
+
+<!-- Appendix Slide 6 -->

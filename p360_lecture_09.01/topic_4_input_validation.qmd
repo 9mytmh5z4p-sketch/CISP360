@@ -1,16 +1,21 @@
+<!-- Topic 4: Input Validation -->
+<!-- Slides 29-39 -->
+
 # Input Validation
+<!-- Slide 29 -->
 
 ## What Makes Input Safe To Use? {.smaller}
 
 Input validation checks client data before the rest of the program trusts it. The goal is to reject bad input early, explain the problem, and ask again.
 
 ::: notes
-Total slides: 10
+Slides 29-39
 :::
 
-<!-- Slide 1 -->
+<!-- Slide 30 -->
 
 ---
+
 
 ## Validate At The Boundary
 
@@ -22,9 +27,10 @@ The best time to validate input is immediately after reading it.
 
 Do not let questionable data travel deeper into the program.
 
-<!-- Slide 2 -->
+<!-- Slide 31 -->
 
 ---
+
 
 ## The Minimum Behavior
 
@@ -36,9 +42,10 @@ A validation loop should do three things.
 
 "Invalid input" is rarely enough. A useful message teaches the client how to recover.
 
-<!-- Slide 3 -->
+<!-- Slide 32 -->
 
 ---
+
 
 ## Range Validation
 
@@ -56,9 +63,10 @@ while (score < 0 || score > 100) {
 
 The loop condition describes bad data. The loop stops when the value is acceptable.
 
-<!-- Slide 4 -->
+<!-- Slide 33 -->
 
 ---
+
 
 ## Set Validation
 
@@ -76,9 +84,10 @@ while (answer != 'Y' && answer != 'N') {
 
 Use set validation when the legal values are specific choices rather than a continuous range.
 
-<!-- Slide 5 -->
+<!-- Slide 34 -->
 
 ---
+
 
 ## The Priming Read
 
@@ -95,9 +104,10 @@ while (value is invalid) {
 
 Without the priming read, the first condition check has no meaningful input value.
 
-<!-- Slide 6 -->
+<!-- Slide 35 -->
 
 ---
+
 
 ## Validate Before Processing
 
@@ -119,9 +129,10 @@ for (int i = 1; i <= count; i++) {
 
 The loop that uses `count` should not run until `count` has been validated.
 
-<!-- Slide 7 -->
+<!-- Slide 36 -->
 
 ---
+
 
 ## Type Failure Is Different
 
@@ -137,9 +148,10 @@ while (!(cin >> age)) {
 
 Recover from type failure before applying ordinary range checks.
 
-<!-- Slide 8 -->
+<!-- Slide 37 -->
 
 ---
+
 
 ## Put It Together
 
@@ -157,87 +169,13 @@ while (!(cin >> age) || age < 1 || age > 120) {
 
 This combines type recovery with range validation in one loop.
 
-<!-- Slide 9 -->
+<!-- Slide 38 -->
 
 ---
+
 
 ## Summary
 
 Input validation protects the program boundary. Read the value, reject invalid data with a specific message, reprompt, and only process the value after it passes the check.
 
-<!-- Slide 10 -->
-
----
-
-## Appendix
-
-<!-- Appendix -->
-
----
-
-## Common Practices
-
-- Validate immediately after input.
-- Write the loop condition in terms of invalid data.
-- Give an error message that names the valid range or choices.
-
-<!-- Appendix Slide 1 -->
-
----
-
-## Common Mistakes
-
-- Processing the value before validation finishes.
-- Forgetting to read a replacement value inside the loop.
-- Treating type failure and range failure as the same problem.
-
-<!-- Appendix Slide 2 -->
-
----
-
-## More Examples
-
-```cpp
-int month;
-
-cout << "Month (1-12): ";
-cin >> month;
-
-while (month < 1 || month > 12) {
-    cout << "Month must be 1 through 12: ";
-    cin >> month;
-}
-```
-
-<!-- Appendix Slide 3 -->
-
----
-
-## Practice Problems
-
-1. Validate a quantity from `1` to `99`.
-2. Validate a menu choice of `A`, `D`, or `Q`.
-3. Explain why `score < 0 && score > 100` is the wrong invalid condition.
-
-<!-- Appendix Slide 4 -->
-
----
-
-## AI Search Terms
-
-- C++ input validation while loop
-- C++ validate integer range
-- C++ cin fail clear ignore
-- C++ input validation menu choice
-
-<!-- Appendix Slide 5 -->
-
----
-
-## Questions for Reflection
-
-- What does the program know after the validation loop exits?
-- What error message would help the client fix the input?
-- Where should validation happen in a larger program?
-
-<!-- Appendix Slide 6 -->
+<!-- Slide 39 -->
