@@ -1,23 +1,23 @@
 # Last Time
 
 ::: {.incremental}
-+ **Stuff To Do With A Loop**
-+ **Drawing Graphs Using Loops**
-+ **Menu-Driven Programming**
++ **The while Loop**
++ **The do-while Loop**
++ **The for Loop**
++ **Choosing a Loop**
 :::
 
 ::: notes
-Review menu loops as the place where validation usually becomes visible to the client.
+Review the loop syntax choices from the previous class before shifting into loop purposes.
 :::
 
 <!-- Slide 1 -->
 
 # Today's Agenda
 
-- Input Validation
-- Recovering From Bad cin Input
-- Enumerations
-- Assertions
+- Stuff To Do With A Loop
+- Drawing Graphs Using Loops
+- Menu-Driven Programming
 
 ::: notes
 
@@ -25,302 +25,246 @@ Review menu loops as the place where validation usually becomes visible to the c
 
 <!-- Slide 2 -->
 
-{{< include topic_1_input_validation_strategy.qmd >}}
-{{< include topic_2_cin_recovery.qmd >}}
-{{< include topic_3_enumerations.qmd >}}
-{{< include topic_4_assertions.qmd >}}
+{{< include topic_1_loop_patterns.qmd >}}
+{{< include topic_2_drawing_graphs.qmd >}}
+{{< include topic_3_menu_driven_programming.qmd >}}
 
 ---
 
 # Key Takeaways
 
-- Validation protects the program boundary before bad data becomes program state.
-- Bad `cin` extractions must be repaired before another read can succeed.
-- Enumerations name a small set of valid choices.
-- Assertions document assumptions that should never be false while the program is being developed.
+- Loop patterns name the problem before the syntax.
+- Terminal graphs are repeated output with labels, scale, and structure.
+- Menu-driven programs use loops to keep interaction going.
 
-<!-- Slide 53 -->
+<!-- Slide 50 -->
 
 ---
 
 # Next Time
 
-- More complete validation helpers
-- Turning repeated checks into functions
-- Using validation inside larger programs
+- Input validation with loops
+- Specific error messages
+- Reprompting until input is usable
 
-<!-- Slide 54 -->
+<!-- Slide 51 -->
 
 ---
 
 # Appendix
 
+<!-- Slide 52 -->
+
+---
+
+## Stuff To Do With A Loop: Good Practices
+
+- Name the purpose of the loop before writing it.
+- Initialize counters, totals, flags, and trackers before the loop.
+- Make the loop move toward stopping.
+
+<!-- Slide 53 -->
+
+---
+
+## Stuff To Do With A Loop: Common Mistakes
+
+- Updating a counter in the wrong place can change how many times the loop runs.
+- Processing a sentinel value as real data changes the result.
+- Initializing a max or min tracker to an arbitrary value can hide real data.
+
+<!-- Slide 54 -->
+
+---
+
+## Stuff To Do With A Loop: More Examples
+
+```cpp
+int total = 0;
+int count = 0;
+int value;
+
+while (cin >> value) {
+    total += value;
+    count++;
+}
+```
+
+This loop combines a running total with a counter.
+
 <!-- Slide 55 -->
 
 ---
 
-## Input Validation Strategy: Good Practices
+## Stuff To Do With A Loop: Practice Problems
 
-- Validate from broadest condition to narrowest condition.
-- Give a specific error message and reprompt.
-- Keep invalid input from reaching the rest of the program.
+- Count how many entered numbers are positive.
+- Add sales values until the client enters `-1`.
+- Find the largest of five quiz scores.
 
 <!-- Slide 56 -->
 
 ---
 
-## Input Validation Strategy: Common Mistakes
+## Stuff To Do With A Loop: AI Search Terms
 
-- Checking range before checking whether the input is the right type.
-- Printing a generic error message when the client needs a specific correction.
-- Using a value before the program has decided it is safe.
+- C++ counter loop examples
+- C++ sentinel value loop
+- C++ running total accumulator
+- C++ max tracker loop
 
 <!-- Slide 57 -->
 
 ---
 
-## Input Validation Strategy: More Examples
+## Stuff To Do With A Loop: Questions for Reflection
 
-```cpp
-string name;
-cout << "Name: ";
-getline(cin, name);
-
-while (name.empty()) {
-    cout << "Name cannot be blank. Try again: ";
-    getline(cin, name);
-}
-```
+- What value changes each pass?
+- What condition stops the loop?
+- What pattern best describes the loop's purpose?
 
 <!-- Slide 58 -->
 
 ---
 
-## Input Validation Strategy: Practice Problems
+## Drawing Graphs Using Loops: Good Practices
 
-- Validate that a menu choice is between `1` and `4`.
-- Validate that a password is not blank and has at least seven characters.
-- Validate that a percent is between `0` and `100`.
+- Decide what comparison the graph should show.
+- Keep labels aligned and symbols consistent.
+- Scale large values so the graph fits the screen.
 
 <!-- Slide 59 -->
 
 ---
 
-## Input Validation Strategy: AI Search Terms
+## Drawing Graphs Using Loops: Common Mistakes
 
-- C++ input validation while loop
-- C++ getline empty string validation
-- C++ range validation loop
-- C++ whitelist blacklist validation
+- Printing raw values can make bars too long.
+- Leaving off labels makes the graph hard to read.
+- Mixing symbols can make the output look accidental.
 
 <!-- Slide 60 -->
 
 ---
 
-## Input Validation Strategy: Questions for Reflection
+## Drawing Graphs Using Loops: More Examples
 
-- What is the first thing that could be wrong with this input?
-- What message would help the client fix the mistake?
-- Where does the program first trust the data?
+```cpp
+for (int row = 1; row <= 5; row++) {
+    cout << row << " ";
+    for (int mark = 1; mark <= row; mark++) {
+        cout << '*';
+    }
+    cout << endl;
+}
+```
+
+This graph grows one symbol longer on each row.
 
 <!-- Slide 61 -->
 
 ---
 
-## Recovering From Bad cin Input: Good Practices
+## Drawing Graphs Using Loops: Practice Problems
 
-- Detect failed extraction before using the variable.
-- Call `cin.clear()` before trying another read.
-- Discard the bad input with `cin.ignore()` before reprompting.
+- Draw a bar for each day of the week.
+- Scale miles traveled so one `#` represents ten miles.
+- Print a triangle with five rows.
 
 <!-- Slide 62 -->
 
 ---
 
-## Recovering From Bad cin Input: Common Mistakes
+## Drawing Graphs Using Loops: AI Search Terms
 
-- Treating type failure like an ordinary out-of-range value.
-- Calling `clear()` but leaving the same bad input in the buffer.
-- Using a variable that was never successfully read.
+- C++ terminal bar chart loop
+- C++ nested loops pattern output
+- C++ console graph scale factor
+- C++ print histogram with loops
 
 <!-- Slide 63 -->
 
 ---
 
-## Recovering From Bad cin Input: More Examples
+## Drawing Graphs Using Loops: Questions for Reflection
 
-```cpp
-int quantity;
-
-while (!(cin >> quantity)) {
-    cin.clear();
-    cin.ignore(10000, '\n');
-    cout << "Enter a whole-number quantity: ";
-}
-```
+- What does each symbol represent?
+- Which loop prints rows?
+- Which loop prints repeated symbols within a row?
 
 <!-- Slide 64 -->
 
 ---
 
-## Recovering From Bad cin Input: Practice Problems
+## Menu-Driven Programming: Good Practices
 
-- Recover when the client types `ten` for an integer quantity.
-- Validate an integer menu choice after recovering from bad input.
-- Explain why a failed extraction can appear to loop forever.
+- Use a clear quit option.
+- Keep the menu cycle easy to read.
+- Move larger actions into functions.
 
 <!-- Slide 65 -->
 
 ---
 
-## Recovering From Bad cin Input: AI Search Terms
+## Menu-Driven Programming: Common Mistakes
 
-- C++ cin fail state
-- C++ cin clear ignore
-- C++ failed extraction loop
-- C++ input buffer bad input
+- Forgetting `break` in a `switch` can run the next case.
+- Mixing menu display and action code makes the program hard to change.
+- A menu with no quit path traps the client.
 
 <!-- Slide 66 -->
 
 ---
 
-## Recovering From Bad cin Input: Questions for Reflection
+## Menu-Driven Programming: More Examples
 
-- Did the input fail because of type or range?
-- Has the stream state been repaired?
-- Has the bad input been removed from the buffer?
+```cpp
+char choice;
+
+do {
+    cout << "A. Add\nD. Display\nQ. Quit\n";
+    cin >> choice;
+
+    switch (choice) {
+    case 'A':
+        cout << "Add" << endl;
+        break;
+    case 'D':
+        cout << "Display" << endl;
+        break;
+    }
+} while (choice != 'Q');
+```
 
 <!-- Slide 67 -->
 
 ---
 
-## Enumerations: Good Practices
+## Menu-Driven Programming: Practice Problems
 
-- Use an `enum` when a variable should hold one choice from a small named set.
-- Name enumerators with clear nouns or states.
-- Prefer named values over unrelated integer codes.
+- Build a menu with options to add, display, and quit.
+- Rewrite a numeric menu as a letter menu.
+- Move each menu action into its own function.
 
 <!-- Slide 68 -->
 
 ---
 
-## Enumerations: Common Mistakes
+## Menu-Driven Programming: AI Search Terms
 
-- Treating an enum as a full input-validation system.
-- Using unclear names such as `A`, `B`, and `C`.
-- Forgetting that ordinary console input still arrives as text or numbers.
+- C++ do while menu
+- C++ switch menu example
+- C++ menu driven program functions
+- C++ numeric vs letter menu
 
 <!-- Slide 69 -->
 
 ---
 
-## Enumerations: More Examples
+## Menu-Driven Programming: Questions for Reflection
 
-```cpp
-enum Status {
-    PENDING,
-    APPROVED,
-    DENIED
-};
-
-Status current = PENDING;
-```
+- What choice stops the menu?
+- Which part of the code dispatches the action?
+- What data should persist between menu choices?
 
 <!-- Slide 70 -->
-
----
-
-## Enumerations: Practice Problems
-
-- Create an enum for account types: checking, savings, credit.
-- Create an enum for traffic-light states.
-- Replace numeric menu constants with named enum values.
-
-<!-- Slide 71 -->
-
----
-
-## Enumerations: AI Search Terms
-
-- C++ enum beginner example
-- C++ enum switch statement
-- C++ named constants vs enum
-- C++ scoped enum enum class
-
-<!-- Slide 72 -->
-
----
-
-## Enumerations: Questions for Reflection
-
-- What are all the legal states for this value?
-- Would names make this logic easier to read?
-- Is this a choice, a quantity, or open-ended text?
-
-<!-- Slide 73 -->
-
----
-
-## Assertions: Good Practices
-
-- Use assertions to check programmer assumptions during development.
-- Keep client-facing validation separate from assertions.
-- Make the assertion condition readable.
-
-<!-- Slide 74 -->
-
----
-
-## Assertions: Common Mistakes
-
-- Using `assert` to handle normal user mistakes.
-- Putting code with side effects inside an assertion condition.
-- Assuming assertions will remain active in every build.
-
-<!-- Slide 75 -->
-
----
-
-## Assertions: More Examples
-
-```cpp
-#include <cassert>
-
-double average(int total, int count) {
-    assert(count > 0);
-    return static_cast<double>(total) / count;
-}
-```
-
-<!-- Slide 76 -->
-
----
-
-## Assertions: Practice Problems
-
-- Assert that an array index is within range before accessing it.
-- Assert that a divisor is not zero inside a helper function.
-- Assert that a function received a non-empty collection.
-
-<!-- Slide 77 -->
-
----
-
-## Assertions: AI Search Terms
-
-- C++ assert cassert
-- C++ debug assertions
-- C++ NDEBUG assert disabled
-- C++ precondition assert example
-
-<!-- Slide 78 -->
-
----
-
-## Assertions: Questions for Reflection
-
-- Is this check for the client or for the programmer?
-- What assumption must be true before this code runs?
-- What would it mean if this assertion failed?
-
-<!-- Slide 79 -->

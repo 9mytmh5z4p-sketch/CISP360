@@ -4,20 +4,19 @@
 + **The while Loop**
 + **The do-while Loop**
 + **The for Loop**
-+ **Choosing a Loop**
++ **Choosing Loops**
 :::
 
 ::: notes
-Review the loop syntax choices from the previous class before shifting into loop purposes.
+Review the loop syntax choices from the previous class before using loops to represent two-dimensional structure.
 :::
 
 <!-- Slide 1 -->
 
 # Today's Agenda
 
-- Stuff To Do With A Loop
-- Drawing Graphs Using Loops
-- Menu-Driven Programming
+- Nested Loops
+- Multi-Dimensional Vectors
 
 ::: notes
 
@@ -25,246 +24,166 @@ Review the loop syntax choices from the previous class before shifting into loop
 
 <!-- Slide 2 -->
 
-{{< include topic_1_loop_patterns.qmd >}}
-{{< include topic_2_drawing_graphs.qmd >}}
-{{< include topic_3_menu_driven_programming.qmd >}}
+{{< include topic_1_nested_loops.qmd >}}
+{{< include topic_2_multi_dimensional_vectors.qmd >}}
 
 ---
 
 # Key Takeaways
 
-- Loop patterns name the problem before the syntax.
-- Terminal graphs are repeated output with labels, scale, and structure.
-- Menu-driven programs use loops to keep interaction going.
+- Nested loops represent repeated work inside repeated work.
+- Row-column thinking gives nested loops a concrete structure.
+- Multi-dimensional vectors store table-like data as a vector of rows.
 
-<!-- Slide 50 -->
+<!-- Slide 38 -->
 
 ---
 
 # Next Time
 
-- Input validation with loops
-- Specific error messages
-- Reprompting until input is usable
+- Processing row-column data
+- Searching and summarizing 2D structures
 
-<!-- Slide 51 -->
+<!-- Slide 39 -->
 
 ---
 
 # Appendix
 
-<!-- Slide 52 -->
+<!-- Slide 40 -->
 
 ---
 
-## Stuff To Do With A Loop: Good Practices
+## Nested Loops: Good Practices
 
-- Name the purpose of the loop before writing it.
-- Initialize counters, totals, flags, and trackers before the loop.
-- Make the loop move toward stopping.
+- Name loop variables for their roles.
+- Keep the inner loop focused on one repeated task.
+- Trace one outer pass before tracing the whole structure.
 
-<!-- Slide 53 -->
-
----
-
-## Stuff To Do With A Loop: Common Mistakes
-
-- Updating a counter in the wrong place can change how many times the loop runs.
-- Processing a sentinel value as real data changes the result.
-- Initializing a max or min tracker to an arbitrary value can hide real data.
-
-<!-- Slide 54 -->
+<!-- Slide 41 -->
 
 ---
 
-## Stuff To Do With A Loop: More Examples
+## Nested Loops: Common Mistakes
+
+- Forgetting that the inner loop starts over for each outer pass.
+- Reusing the same loop variable name in both loops.
+- Assuming total passes without checking whether the inner loop count changes.
+
+<!-- Slide 42 -->
+
+---
+
+## Nested Loops: More Examples
 
 ```cpp
-int total = 0;
-int count = 0;
-int value;
-
-while (cin >> value) {
-    total += value;
-    count++;
+for (int student = 1; student <= 3; student++) {
+    for (int score = 1; score <= 4; score++) {
+        cout << "Student " << student << ", score " << score << endl;
+    }
 }
 ```
 
-This loop combines a running total with a counter.
-
-<!-- Slide 55 -->
+<!-- Slide 43 -->
 
 ---
 
-## Stuff To Do With A Loop: Practice Problems
+## Nested Loops: Practice Problems
 
-- Count how many entered numbers are positive.
-- Add sales values until the client enters `-1`.
-- Find the largest of five quiz scores.
+- Print a 4-by-6 rectangle of `#` symbols.
+- Print a right triangle with seven rows.
+- Count how many times the inner loop runs in a 5-by-3 structure.
 
-<!-- Slide 56 -->
-
----
-
-## Stuff To Do With A Loop: AI Search Terms
-
-- C++ counter loop examples
-- C++ sentinel value loop
-- C++ running total accumulator
-- C++ max tracker loop
-
-<!-- Slide 57 -->
+<!-- Slide 44 -->
 
 ---
 
-## Stuff To Do With A Loop: Questions for Reflection
+## Nested Loops: AI Search Terms
 
-- What value changes each pass?
-- What condition stops the loop?
-- What pattern best describes the loop's purpose?
+- C++ nested loops row column
+- C++ nested loop trace
+- C++ print rectangle nested loops
+- C++ nested loops totals
 
-<!-- Slide 58 -->
-
----
-
-## Drawing Graphs Using Loops: Good Practices
-
-- Decide what comparison the graph should show.
-- Keep labels aligned and symbols consistent.
-- Scale large values so the graph fits the screen.
-
-<!-- Slide 59 -->
+<!-- Slide 45 -->
 
 ---
 
-## Drawing Graphs Using Loops: Common Mistakes
+## Nested Loops: Questions for Reflection
 
-- Printing raw values can make bars too long.
-- Leaving off labels makes the graph hard to read.
-- Mixing symbols can make the output look accidental.
+- What does the outer loop represent?
+- What does the inner loop complete?
+- Does the inner loop count stay the same on every outer pass?
 
-<!-- Slide 60 -->
+<!-- Slide 46 -->
 
 ---
 
-## Drawing Graphs Using Loops: More Examples
+## Multi-Dimensional Vectors: Good Practices
+
+- Treat the outer vector as rows.
+- Use `grid[row].size()` when rows may have different lengths.
+- Check shape assumptions before using `grid[0].size()`.
+
+<!-- Slide 47 -->
+
+---
+
+## Multi-Dimensional Vectors: Common Mistakes
+
+- Forgetting `#include <vector>`.
+- Reversing row and column indexes.
+- Assuming every row has the same number of columns.
+
+<!-- Slide 48 -->
+
+---
+
+## Multi-Dimensional Vectors: More Examples
 
 ```cpp
-for (int row = 1; row <= 5; row++) {
-    cout << row << " ";
-    for (int mark = 1; mark <= row; mark++) {
-        cout << '*';
+vector<vector<int>> seats = {
+    {1, 1, 0},
+    {0, 1, 1}
+};
+
+for (int row = 0; row < seats.size(); row++) {
+    for (int col = 0; col < seats[row].size(); col++) {
+        cout << seats[row][col] << " ";
     }
     cout << endl;
 }
 ```
 
-This graph grows one symbol longer on each row.
-
-<!-- Slide 61 -->
+<!-- Slide 49 -->
 
 ---
 
-## Drawing Graphs Using Loops: Practice Problems
+## Multi-Dimensional Vectors: Practice Problems
 
-- Draw a bar for each day of the week.
-- Scale miles traveled so one `#` represents ten miles.
-- Print a triangle with five rows.
+- Create a 3-by-4 vector of integers.
+- Fill every cell from input.
+- Print the total for each row.
 
-<!-- Slide 62 -->
-
----
-
-## Drawing Graphs Using Loops: AI Search Terms
-
-- C++ terminal bar chart loop
-- C++ nested loops pattern output
-- C++ console graph scale factor
-- C++ print histogram with loops
-
-<!-- Slide 63 -->
+<!-- Slide 50 -->
 
 ---
 
-## Drawing Graphs Using Loops: Questions for Reflection
+## Multi-Dimensional Vectors: AI Search Terms
 
-- What does each symbol represent?
-- Which loop prints rows?
-- Which loop prints repeated symbols within a row?
+- C++ vector of vectors
+- C++ 2D vector rows columns
+- C++ traverse vector of vectors
+- C++ row totals 2D vector
 
-<!-- Slide 64 -->
-
----
-
-## Menu-Driven Programming: Good Practices
-
-- Use a clear quit option.
-- Keep the menu cycle easy to read.
-- Move larger actions into functions.
-
-<!-- Slide 65 -->
+<!-- Slide 51 -->
 
 ---
 
-## Menu-Driven Programming: Common Mistakes
+## Multi-Dimensional Vectors: Questions for Reflection
 
-- Forgetting `break` in a `switch` can run the next case.
-- Mixing menu display and action code makes the program hard to change.
-- A menu with no quit path traps the client.
+- What does the first index select?
+- What does the second index select?
+- Is this grid rectangular or jagged?
 
-<!-- Slide 66 -->
-
----
-
-## Menu-Driven Programming: More Examples
-
-```cpp
-char choice;
-
-do {
-    cout << "A. Add\nD. Display\nQ. Quit\n";
-    cin >> choice;
-
-    switch (choice) {
-    case 'A':
-        cout << "Add" << endl;
-        break;
-    case 'D':
-        cout << "Display" << endl;
-        break;
-    }
-} while (choice != 'Q');
-```
-
-<!-- Slide 67 -->
-
----
-
-## Menu-Driven Programming: Practice Problems
-
-- Build a menu with options to add, display, and quit.
-- Rewrite a numeric menu as a letter menu.
-- Move each menu action into its own function.
-
-<!-- Slide 68 -->
-
----
-
-## Menu-Driven Programming: AI Search Terms
-
-- C++ do while menu
-- C++ switch menu example
-- C++ menu driven program functions
-- C++ numeric vs letter menu
-
-<!-- Slide 69 -->
-
----
-
-## Menu-Driven Programming: Questions for Reflection
-
-- What choice stops the menu?
-- Which part of the code dispatches the action?
-- What data should persist between menu choices?
-
-<!-- Slide 70 -->
+<!-- Slide 52 -->
