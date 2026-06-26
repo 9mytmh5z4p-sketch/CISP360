@@ -5,6 +5,7 @@
 | Increment and Decrement Operators | standard | | no | for loops, while loops | | Shorthand for one-step loop updates; prefix/postfix distinction only when expression value is used |
 | Break | standard | | no | loops, switch | | Immediate exit from nearest loop or switch; sentinel and search examples |
 | Continue | standard | | no | loops, break | | Skip the rest of the current loop pass; contrast with break; warn about while-loop updates |
+| Input Validation Strategy | high | | no | loops, conditionals, cin | | Broad-to-narrow validation decisions; presence, shape, range or set checks; specific error messages |
 | Input Validation | high | | no | loops, conditionals, cin | | Validate at the input boundary; range and set validation; priming read; type failure vs range failure |
 
 ---

@@ -1,287 +1,177 @@
 # Last Time
 
 ::: {.incremental}
-+ **How the Compiler Works**
-+ **Data Types, Overflow, and Casting**
-+ **Signed vs Unsigned, Fixed-Width Integers**
++ **Increment and Decrement Operators**
++ **Break**
++ **Continue**
++ **Input Validation Strategy**
++ **Input Validation**
 :::
 
 ::: notes
-1. **How the Compiler Works**: Three stages — preprocessing, compilation, linking. The symbol table tracks every identifier's name, type, and scope.
-2. **Data Types, Overflow, and Casting**: Signed overflow is undefined behavior; unsigned wraps. Use static_cast<> for intentional conversions; integer division truncates.
-3. **Signed vs Unsigned, Fixed-Width Integers**: Use int by default; size_t for indices and sizes; fixed-width types (int32_t, uint64_t) when exact bit width matters.
+Review validation as a boundary check before introducing files, then contrast validation with assertions later in the lecture.
 :::
 
+<!-- Slide 1 -->
 
 # Today's Agenda
 
-- Review of Menu-Driven Programs
-- Core Loop Patterns
-  - Control Patterns
-  - State Tracking Patterns
-  - Structural Patterns
-- Nested Loops
-- Coding Exercise
+- File I/O
+- Assertions
 
 ::: notes
 
 :::
 
-{{< include topic_1_menu_driven_review.qmd >}}
-{{< include topic_2_loop_patterns_overview.qmd >}}
-{{< include topic_3_control_patterns.qmd >}}
-{{< include topic_4_state_tracking.qmd >}}
-{{< include topic_5_structural_patterns.qmd >}}
-{{< include topic_6_nested_loops.qmd >}}
-{{< include topic_7_coding_exercise.qmd >}}
+<!-- Slide 2 -->
+
+{{< include topic_1_file_io.qmd >}}
+{{< include topic_2_assertions.qmd >}}
 
 ---
 
 # Key Takeaways
 
-- Every loop belongs to a category: control (when to stop), state tracking (what to remember), or structural (how to traverse). Identify the category first, then choose the syntax.
-- State tracking variables follow one rule: initialize before the loop, update inside, read after.
-- Nested loops multiply iteration counts. Keep nesting to two levels; flatten deeper structures with functions.
+- File I/O uses familiar stream operations, but the data persists beyond the program run.
+- A file's format is a contract: record shape and stopping rule determine the read loop.
+- Use validation for expected bad input and assertions for programmer assumptions that should never be false.
+
+<!-- Slide 46 -->
 
 ---
 
 # Next Time
 
+- Arrays
+- Fixed-size collections
+- Array traversal
+
+<!-- Slide 47 -->
+
 ---
 
 # Appendix
 
----
-
-## Menu-Driven Programs: Good Practices
-
-- Use `do-while` so the menu displays before the first check
-- Validate input before dispatching — never let garbage reach your switch/if
-- Define an explicit quit value and check for it in the loop condition
+<!-- Slide 48 -->
 
 ---
 
-## Menu-Driven Programs: Common Mistakes
+## File I/O: Good Practices
 
-- Forgetting to re-display the menu at the top of the loop body
-- Validating after dispatching instead of before
-- Using `while(true)` with no clear exit path
+- Check that a file opened before reading from it or writing to it.
+- Write down a sample file before writing the read loop.
+- Keep text file formats simple enough to inspect by eye.
 
----
-
-## Menu-Driven Programs: More Examples
-
-- A calculator menu with +, -, *, /, quit
-- A student record system: add, delete, search, print, exit
-- A game loop: play again, view scores, quit
+<!-- Slide 49 -->
 
 ---
 
-## Menu-Driven Programs: Practice Problems
+## File I/O: Common Mistakes
 
-1. Write a menu that lets a user add numbers to a running total until they choose quit, then prints the total.
-2. Modify the above to reject any menu choice outside the valid range and reprompt.
+- Assuming the file is in the same folder as the source code.
+- Using `while (!inFile.eof())` instead of testing extraction.
+- Changing the write format without updating the read loop.
 
----
-
-## Menu-Driven Programs: AI Search Terms
-
-- `c++ do-while menu driven program`
-- `c++ input validation menu loop`
-- `c++ switch statement menu example`
+<!-- Slide 50 -->
 
 ---
 
-## Menu-Driven Programs: Questions for Reflection
+## File I/O: More Examples
 
-- Why is `do-while` a better fit for menus than `while`?
-- What happens if you validate input after the dispatch instead of before?
-- When would a flag-controlled loop be better than a sentinel in a menu?
+- A score file with one integer per line.
+- A roster file whose first value is the number of students.
+- A log file opened with `ios::app` to preserve earlier entries.
 
----
-
-## Control Patterns: Good Practices
-
-- Choose your sentinel carefully — it must be outside the valid data range
-- Name flags descriptively: `done`, `found`, `isValid` — not `flag` or `f`
-- In validation loops, give a specific error message, not just "invalid input"
+<!-- Slide 51 -->
 
 ---
 
-## Control Patterns: Common Mistakes
+## File I/O: Practice Problems
 
-- Initializing a sentinel loop without a priming read
-- Forgetting to update the sentinel variable inside the loop body
-- Using a flag but never setting it to `true` — infinite loop
+1. Write a vector of integers to a file, one value per line.
+2. Read the file back into a new vector and print the values.
+3. Create a file where the first value is a count, then read exactly that many records.
 
----
-
-## Control Patterns: More Examples
-
-- Read integers from the user until `-999` is entered (sentinel)
-- Search a vector and stop when a target is found (flag: `found`)
-- Prompt for a password until a valid format is entered (validation)
+<!-- Slide 52 -->
 
 ---
 
-## Control Patterns: Practice Problems
+## File I/O: AI Search Terms
 
-1. Write a sentinel loop that reads positive integers and stops at -1. Print the count of values entered.
-2. Rewrite the above using a flag-controlled loop instead.
-3. Write an input validation loop that accepts only odd numbers between 1 and 99.
+- `c++ ifstream ofstream example`
+- `c++ read file while extraction succeeds`
+- `c++ write vector to text file`
+- `c++ ios app append file`
 
----
-
-## Control Patterns: AI Search Terms
-
-- `c++ sentinel loop example`
-- `c++ flag controlled loop boolean`
-- `c++ input validation do while loop`
+<!-- Slide 53 -->
 
 ---
 
-## Control Patterns: Questions for Reflection
+## File I/O: Questions for Reflection
 
-- What makes a sentinel value "safe"? What could go wrong if you choose poorly?
-- A flag-controlled loop and a sentinel loop can often solve the same problem. When does one read more clearly than the other?
+- How does the file tell the program when to stop reading?
+- What makes a file format easy to debug by eye?
+- Why is a failed extraction different from a normal end of file?
 
----
-
-## State Tracking: Good Practices
-
-- Always initialize accumulators to zero and max/min trackers to the first element
-- Do all state updates inside the loop; read the result after
-- Use meaningful variable names: `total`, `count`, `maxScore` — not `x`, `temp`
+<!-- Slide 54 -->
 
 ---
 
-## State Tracking: Common Mistakes
+## Assertions: Good Practices
 
-- Initializing a max tracker to `0` — fails when all values are negative
-- Reading the accumulator inside the loop before it is complete
-- Forgetting to initialize the counter, causing undefined behavior
+- Assert assumptions that should already be true.
+- Keep assertion expressions simple and free of side effects.
+- Use assertions near the code that depends on the assumption.
 
----
-
-## State Tracking: More Examples
-
-- Count how many students passed (score >= 60)
-- Compute the average of a vector of doubles
-- Find the highest and lowest temperatures in a dataset simultaneously
+<!-- Slide 55 -->
 
 ---
 
-## State Tracking: Practice Problems
+## Assertions: Common Mistakes
 
-1. Read 10 integers. Print the count of even numbers and the sum of odd numbers.
-2. Read integers until -1. Track the maximum, minimum, and running average.
-3. Count how many values in a vector are above the vector's own average (two-pass solution).
+- Using `assert` to handle normal user input errors.
+- Depending on an assertion to perform required work.
+- Fixing the assertion failure instead of finding the bad state that caused it.
 
----
-
-## State Tracking: AI Search Terms
-
-- `c++ accumulator pattern loop`
-- `c++ find max min in array loop`
-- `c++ running average loop`
+<!-- Slide 56 -->
 
 ---
 
-## State Tracking: Questions for Reflection
+## Assertions: More Examples
 
-- Why is initializing a max tracker to `scores[0]` safer than initializing to `0` or `INT_MIN`?
-- A counter and an accumulator are both state tracking patterns. What is the structural difference between them?
+- Assert that a denominator is not zero before division.
+- Assert that an index is inside vector bounds before using it.
+- Assert that two parallel vectors have the same size after loading data.
 
----
-
-## Structural Patterns: Good Practices
-
-- Default to range-for when you only need values — it eliminates off-by-one errors
-- Use `size_t` or `int` consistently for index variables; mixing signed and unsigned invites warnings
-- If you modify elements inside a range-for, use a reference: `for (int& val : scores)`
+<!-- Slide 57 -->
 
 ---
 
-## Structural Patterns: Common Mistakes
+## Assertions: Practice Problems
 
-- Using an index loop when range-for would be cleaner
-- Off-by-one: `i <= scores.size()` instead of `i < scores.size()`
-- Forgetting `&` in range-for when you intend to modify elements
+1. Add an assertion to a function that receives an index and a vector size.
+2. Convert an invalid `assert` on user input into a validation loop.
+3. Add an invariant check after reading names and scores into parallel vectors.
 
----
-
-## Structural Patterns: More Examples
-
-- Print every other element using an index loop
-- Double every value in a vector using range-for with reference
-- Find the index of the maximum value (requires an index loop)
+<!-- Slide 58 -->
 
 ---
 
-## Structural Patterns: Practice Problems
+## Assertions: AI Search Terms
 
-1. Print all elements of a vector in reverse order.
-2. Use range-for with a reference to replace all negative values with zero.
-3. Find both the value and the index of the maximum element in a vector.
+- `c++ assert cassert`
+- `c++ assertion vs input validation`
+- `c++ precondition invariant assert`
+- `c++ NDEBUG disable assert`
 
----
-
-## Structural Patterns: AI Search Terms
-
-- `c++ range based for loop vector`
-- `c++ for loop vector index`
-- `c++ modify vector elements in loop`
+<!-- Slide 59 -->
 
 ---
 
-## Structural Patterns: Questions for Reflection
+## Assertions: Questions for Reflection
 
-- When does an index loop give you something a range-for cannot?
-- What bug does range-for eliminate by design?
+- What is the difference between a client mistake and a programmer mistake?
+- Why should assertion expressions avoid side effects?
+- What should you investigate first when an assertion fails?
 
----
-
-## Nested Loops: Good Practices
-
-- Keep nesting to two levels — deeper nesting should trigger a refactor
-- Use distinct, meaningful loop variables: `row`/`col`, `i`/`j` — never reuse the same variable name
-- Calculate expected iteration count (outer × inner) before writing — surprises here are expensive
-
----
-
-## Nested Loops: Common Mistakes
-
-- Using `i` for both the outer and inner loop variable — shadows the outer, causes wrong results
-- Forgetting that the inner loop resets on every outer iteration
-- Placing a statement that should be outside the inner loop inside it (e.g., printing a newline per cell instead of per row)
-
----
-
-## Nested Loops: More Examples
-
-- Print a right triangle of asterisks (outer = row, inner = number of stars per row)
-- Check whether any two elements in a vector are equal (all-pairs comparison)
-- Generate all pairs (i, j) where i < j from a vector
-
----
-
-## Nested Loops: Practice Problems
-
-1. Print a 5×5 grid of asterisks.
-2. Print a lower-left triangle: row 1 has 1 star, row 2 has 2 stars, etc.
-3. Given a vector, print all pairs of elements where the first is less than the second.
-
----
-
-## Nested Loops: AI Search Terms
-
-- `c++ nested for loop example`
-- `c++ nested loop 2d array`
-- `c++ nested loop multiplication table`
-
----
-
-## Nested Loops: Questions for Reflection
-
-- How do you calculate the total number of iterations in a nested loop before running it?
-- What is the cost of adding a third level of nesting? When is it justified?
+<!-- Slide 60 -->

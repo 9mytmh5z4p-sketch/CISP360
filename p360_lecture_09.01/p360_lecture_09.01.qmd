@@ -17,6 +17,7 @@ Review loop purpose and menu structure before introducing loop-control shorthand
 - Increment and Decrement Operators
 - Break
 - Continue
+- Input Validation Strategy
 - Input Validation
 
 ::: notes
@@ -28,7 +29,8 @@ Review loop purpose and menu structure before introducing loop-control shorthand
 {{< include topic_1_increment_decrement.qmd >}}
 {{< include topic_2_break.qmd >}}
 {{< include topic_3_continue.qmd >}}
-{{< include topic_4_input_validation.qmd >}}
+{{< include topic_4_input_validation_strategy.qmd >}}
+{{< include topic_5_input_validation.qmd >}}
 
 ---
 
@@ -37,9 +39,10 @@ Review loop purpose and menu structure before introducing loop-control shorthand
 - `++`, `--`, and compound assignment make loop updates easier to read.
 - `break` exits the nearest loop or switch immediately.
 - `continue` skips the rest of the current loop pass but keeps the loop running.
+- Validation strategy decides what a program must check before it trusts input.
 - Input validation protects the program boundary before client data is trusted.
 
-<!-- Slide 40 -->
+<!-- Slide 58 -->
 
 ---
 
@@ -49,13 +52,13 @@ Review loop purpose and menu structure before introducing loop-control shorthand
 - Validation helpers
 - Validation in menu-driven programs
 
-<!-- Slide 41 -->
+<!-- Slide 59 -->
 
 ---
 
 # Appendix
 
-<!-- Slide 42 -->
+<!-- Slide 60 -->
 
 ---
 
@@ -65,7 +68,7 @@ Review loop purpose and menu structure before introducing loop-control shorthand
 - Use `+=` or `-=` when the loop moves by more than one.
 - Keep increment and decrement statements easy to see.
 
-<!-- Slide 43 -->
+<!-- Slide 61 -->
 
 ---
 
@@ -75,7 +78,7 @@ Review loop purpose and menu structure before introducing loop-control shorthand
 - Incrementing the wrong variable in a nested or multi-variable loop.
 - Forgetting that `++` always changes the value by exactly one.
 
-<!-- Slide 44 -->
+<!-- Slide 62 -->
 
 ---
 
@@ -91,7 +94,7 @@ for (int i = 10; i >= 0; i--) {
 }
 ```
 
-<!-- Slide 45 -->
+<!-- Slide 63 -->
 
 ---
 
@@ -101,7 +104,7 @@ for (int i = 10; i >= 0; i--) {
 - Trace `int x = 3; cout << x++ << " " << x;`.
 - Write a loop that counts from `100` down to `0` by tens.
 
-<!-- Slide 46 -->
+<!-- Slide 64 -->
 
 ---
 
@@ -112,7 +115,7 @@ for (int i = 10; i >= 0; i--) {
 - C++ compound assignment operators
 - C++ for loop update expression
 
-<!-- Slide 47 -->
+<!-- Slide 65 -->
 
 ---
 
@@ -122,7 +125,7 @@ for (int i = 10; i >= 0; i--) {
 - Why does prefix vs postfix not matter in a standalone statement?
 - What loop steps cannot be expressed with `++` or `--`?
 
-<!-- Slide 48 -->
+<!-- Slide 66 -->
 
 ---
 
@@ -132,7 +135,7 @@ for (int i = 10; i >= 0; i--) {
 - Prefer a clear loop condition when it expresses the exit naturally.
 - Use `break` in searches when the answer is already found.
 
-<!-- Slide 49 -->
+<!-- Slide 67 -->
 
 ---
 
@@ -142,7 +145,7 @@ for (int i = 10; i >= 0; i--) {
 - Confusing `break` in a `switch` with `break` in a loop.
 - Using many scattered `break` statements when one loop condition would be clearer.
 
-<!-- Slide 50 -->
+<!-- Slide 68 -->
 
 ---
 
@@ -161,7 +164,7 @@ while (cin >> value) {
 }
 ```
 
-<!-- Slide 51 -->
+<!-- Slide 69 -->
 
 ---
 
@@ -171,7 +174,7 @@ while (cin >> value) {
 - Search a vector and stop at the first negative value.
 - Explain what happens when `break` appears inside a `switch` inside a loop.
 
-<!-- Slide 52 -->
+<!-- Slide 70 -->
 
 ---
 
@@ -182,7 +185,7 @@ while (cin >> value) {
 - C++ sentinel loop break
 - C++ stop loop when found
 
-<!-- Slide 53 -->
+<!-- Slide 71 -->
 
 ---
 
@@ -192,7 +195,7 @@ while (cin >> value) {
 - Would the loop be clearer with the stopping rule in the condition?
 - What makes a `break` statement easy or hard to trust?
 
-<!-- Slide 54 -->
+<!-- Slide 72 -->
 
 ---
 
@@ -202,7 +205,7 @@ while (cin >> value) {
 - Keep loop-control updates before `continue` in while loops.
 - Prefer a plain `if` when it reads more directly.
 
-<!-- Slide 55 -->
+<!-- Slide 73 -->
 
 ---
 
@@ -212,7 +215,7 @@ while (cin >> value) {
 - Placing `continue` before the loop-control variable changes.
 - Hiding too much logic after multiple `continue` statements.
 
-<!-- Slide 56 -->
+<!-- Slide 74 -->
 
 ---
 
@@ -228,7 +231,7 @@ for (int value : values) {
 }
 ```
 
-<!-- Slide 57 -->
+<!-- Slide 75 -->
 
 ---
 
@@ -238,7 +241,7 @@ for (int value : values) {
 - Skip blank names in a list of names.
 - Rewrite a `continue` example using an `if` statement instead.
 
-<!-- Slide 58 -->
+<!-- Slide 76 -->
 
 ---
 
@@ -249,7 +252,7 @@ for (int value : values) {
 - C++ skip iteration with continue
 - C++ continue while loop infinite loop
 
-<!-- Slide 59 -->
+<!-- Slide 77 -->
 
 ---
 
@@ -259,7 +262,75 @@ for (int value : values) {
 - Why can `continue` be risky in a while loop?
 - Would an `if` statement be clearer in this case?
 
-<!-- Slide 60 -->
+<!-- Slide 78 -->
+
+---
+
+## Input Validation Strategy: Good Practices
+
+- Validate from broadest condition to narrowest condition.
+- Give a specific error message and reprompt.
+- Keep invalid input from reaching the rest of the program.
+
+<!-- Slide 79 -->
+
+---
+
+## Input Validation Strategy: Common Mistakes
+
+- Checking range before checking whether the input is the right type.
+- Printing a generic error message when the client needs a specific correction.
+- Using a value before the program has decided it is safe.
+
+<!-- Slide 80 -->
+
+---
+
+## Input Validation Strategy: More Examples
+
+```cpp
+string name;
+cout << "Name: ";
+getline(cin, name);
+
+while (name.empty()) {
+    cout << "Name cannot be blank. Try again: ";
+    getline(cin, name);
+}
+```
+
+<!-- Slide 81 -->
+
+---
+
+## Input Validation Strategy: Practice Problems
+
+- Validate that a menu choice is between `1` and `4`.
+- Validate that a password is not blank and has at least seven characters.
+- Validate that a percent is between `0` and `100`.
+
+<!-- Slide 82 -->
+
+---
+
+## Input Validation Strategy: AI Search Terms
+
+- C++ input validation strategy
+- C++ getline empty string validation
+- C++ range validation loop
+- C++ allow by default deny by default validation
+
+<!-- Slide 83 -->
+
+---
+
+## Input Validation Strategy: Questions for Reflection
+
+- What is the first thing that could be wrong with this input?
+- What message would help the client fix the mistake?
+- Where does the program first trust the data?
+
+<!-- Slide 84 -->
 
 ---
 
@@ -269,7 +340,7 @@ for (int value : values) {
 - Write the loop condition in terms of invalid data.
 - Give an error message that names the valid range or choices.
 
-<!-- Slide 61 -->
+<!-- Slide 85 -->
 
 ---
 
@@ -279,7 +350,7 @@ for (int value : values) {
 - Forgetting to read a replacement value inside the loop.
 - Treating type failure and range failure as the same problem.
 
-<!-- Slide 62 -->
+<!-- Slide 86 -->
 
 ---
 
@@ -297,7 +368,7 @@ while (month < 1 || month > 12) {
 }
 ```
 
-<!-- Slide 63 -->
+<!-- Slide 87 -->
 
 ---
 
@@ -307,7 +378,7 @@ while (month < 1 || month > 12) {
 - Validate a menu choice of `A`, `D`, or `Q`.
 - Explain why `score < 0 && score > 100` is the wrong invalid condition.
 
-<!-- Slide 64 -->
+<!-- Slide 88 -->
 
 ---
 
@@ -318,7 +389,7 @@ while (month < 1 || month > 12) {
 - C++ cin fail clear ignore
 - C++ input validation menu choice
 
-<!-- Slide 65 -->
+<!-- Slide 89 -->
 
 ---
 
@@ -328,4 +399,4 @@ while (month < 1 || month > 12) {
 - What error message would help the client fix the input?
 - Where should validation happen in a larger program?
 
-<!-- Slide 66 -->
+<!-- Slide 90 -->

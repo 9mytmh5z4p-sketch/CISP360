@@ -235,6 +235,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Increment and Decrement Operators</li>
 <li>Break</li>
 <li>Continue</li>
+<li>Input Validation Strategy</li>
 <li>Input Validation</li>
 </ul>
 <aside class="notes">
@@ -613,19 +614,22 @@ Dr.&nbsp;Caleb Fowler
 <h2>Summary</h2>
 <p><code>continue</code> skips the rest of the current loop pass and returns to the next condition check or update step. It is useful for ignoring one case while allowing the loop to keep working.</p>
 <!-- Slide 28 -->
-<!-- Topic 4: Input Validation -->
-<!-- Slides 29-39 -->
+<!-- Topic 4: Input Validation Strategy -->
+<!-- Slides 29-43 -->
 </section></section>
 <section>
-<section id="input-validation" class="title-slide slide level1 center">
-<h1>Input Validation</h1>
+<section id="input-validation-strategy" class="title-slide slide level1 center">
+<h1>Input Validation Strategy</h1>
 <!-- Slide 29 -->
 </section>
-<section id="what-makes-input-safe-to-use" class="slide level2 smaller">
-<h2>What Makes Input Safe To Use?</h2>
-<p>Input validation checks client data before the rest of the program trusts it. The goal is to reject bad input early, explain the problem, and ask again.</p>
+<section id="what-can-we-trust" class="slide level2 smaller">
+<h2>What Can We Trust?</h2>
+<ul>
+<li>Client input begins outside the program’s control.</li>
+<li>Validation decides when that input is safe enough to use.</li>
+</ul>
 <aside class="notes">
-<p>Slides 29-39</p>
+<p>Slides 3-17</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -639,6 +643,208 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 30 -->
 </section>
+<section id="why-validate-input" class="slide level2">
+<h2>Why Validate Input?</h2>
+<ul>
+<li>Bad input can corrupt program state.</li>
+<li>It can break calculations or send the program down the wrong branch.</li>
+<li>Validation protects the boundary before the value is trusted.</li>
+</ul>
+<!-- Slide 31 -->
+</section>
+<section id="minimum-validation-behavior" class="slide level2">
+<h2>Minimum Validation Behavior</h2>
+<ul>
+<li>Identify the problem.</li>
+<li>Give a specific correction message.</li>
+<li>Reprompt so the client can fix the value.</li>
+</ul>
+<!-- Slide 32 -->
+</section>
+<section id="where-validation-belongs" class="slide level2">
+<h2>Where Validation Belongs</h2>
+<ul>
+<li>Validate right after input is read.</li>
+<li>Do it before calculations, branches, vectors, or function calls use the value.</li>
+<li>The rest of the program should receive already-checked data.</li>
+</ul>
+<!-- Slide 33 -->
+</section>
+<section id="two-general-strategies" class="slide level2">
+<h2>Two General Strategies</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Strategy</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Allow by default</td>
+<td>Accept most input and reject known bad values</td>
+</tr>
+<tr class="even">
+<td>Deny by default</td>
+<td>Reject everything except known good values</td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<p>[Graphic suggestion: two doors labeled “default open” and “default closed” with a guard checking names.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 34 -->
+</section>
+<section id="deny-by-default" class="slide level2">
+<h2>Deny By Default</h2>
+<ul>
+<li>Deny by default works well when the valid set is small.</li>
+<li>Menus, yes/no prompts, and known commands are strong fits.</li>
+<li>The program accepts only the choices it understands.</li>
+</ul>
+<!-- Slide 35 -->
+</section>
+<section id="allow-by-default" class="slide level2">
+<h2>Allow By Default</h2>
+<ul>
+<li>Allow by default can reject a short list of known bad inputs.</li>
+<li>It is better than no validation when the invalid set is small.</li>
+<li>It is weak when the program needs evidence that the data is correct.</li>
+</ul>
+<!-- Slide 36 -->
+</section>
+<section id="the-gauntlet-of-trust" class="slide level2">
+<h2>The Gauntlet Of Trust</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Check</th>
+<th>Question</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Presence</td>
+<td>Is there data?</td>
+</tr>
+<tr class="even">
+<td>Shape</td>
+<td>Is it the kind of input we need?</td>
+</tr>
+<tr class="odd">
+<td>Range or set</td>
+<td>Is it an expected value?</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/GoT.png" style="width:60.0%"></p>
+</div></div>
+<aside class="notes">
+<p>[Graphic suggestion: three gates labeled presence, shape, and range, with trust increasing after each gate.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 37 -->
+</section>
+<section id="start-with-presence" class="slide level2">
+<h2>Start With Presence</h2>
+<ul>
+<li>Empty input is different from wrong input.</li>
+<li>For full-line input, use <code>getline()</code> so the program can see the whole response.</li>
+<li>A blank string should be handled before checking more specific rules.</li>
+</ul>
+<!-- Slide 38 -->
+</section>
+<section id="check-the-shape" class="slide level2">
+<h2>Check The Shape</h2>
+<ul>
+<li>Shape means the input has the form the program expects.</li>
+<li>A whole number, a nonblank string, and a yes/no answer are different shapes.</li>
+<li>This check comes before asking whether the value is in range.</li>
+</ul>
+<!-- Slide 39 -->
+</section>
+<section id="check-the-range-or-set" class="slide level2">
+<h2>Check The Range Or Set</h2>
+<ul>
+<li>A readable value can still be unacceptable.</li>
+<li>Range checks ask whether a number is between legal bounds.</li>
+<li>Set checks ask whether a value is one of the legal choices.</li>
+</ul>
+<!-- Slide 40 -->
+</section>
+<section id="why-the-error-message-matters" class="slide level2">
+<h2>Why The Error Message Matters</h2>
+<ul>
+<li>“Invalid input” tells the client almost nothing.</li>
+<li>“Enter a whole number from 0 to 100” names the correction.</li>
+<li>Precise feedback reduces repeated mistakes.</li>
+</ul>
+<!-- Slide 41 -->
+</section>
+<section id="broad-to-narrow" class="slide level2">
+<h2>Broad To Narrow</h2>
+<ul>
+<li>First ask whether anything was entered.</li>
+<li>Then ask whether the data has the right shape.</li>
+<li>Then ask whether it meets the specific rule for this program.</li>
+</ul>
+<!-- Slide 42 -->
+</section>
+<section id="summary-3" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Validation builds trust in stages.</li>
+<li>Check broad failures first, explain clearly, and reprompt until the program has usable data.</li>
+</ul>
+<!-- Slide 43 -->
+<!-- Topic 5: Input Validation -->
+<!-- Slides 44-57 -->
+</section></section>
+<section>
+<section id="input-validation" class="title-slide slide level1 center">
+<h1>Input Validation</h1>
+<!-- Slide 44 -->
+</section>
+<section id="what-makes-input-safe-to-use" class="slide level2 smaller">
+<h2>What Makes Input Safe To Use?</h2>
+<p>Input validation checks client data before the rest of the program trusts it. The goal is to reject bad input early, explain the problem, and ask again.</p>
+<aside class="notes">
+<p>Slides 44-57</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 45 -->
+</section>
 <section id="validate-at-the-boundary" class="slide level2">
 <h2>Validate At The Boundary</h2>
 <p>The best time to validate input is immediately after reading it.</p>
@@ -648,7 +854,7 @@ Dr.&nbsp;Caleb Fowler
 <li>The rest of the program receives data that has already been checked.</li>
 </ul>
 <p>Do not let questionable data travel deeper into the program.</p>
-<!-- Slide 31 -->
+<!-- Slide 46 -->
 </section>
 <section id="the-minimum-behavior" class="slide level2">
 <h2>The Minimum Behavior</h2>
@@ -659,7 +865,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Reprompt until the input is usable.</li>
 </ul>
 <p>“Invalid input” is rarely enough. A useful message teaches the client how to recover.</p>
-<!-- Slide 32 -->
+<!-- Slide 47 -->
 </section>
 <section id="range-validation" class="slide level2">
 <h2>Range Validation</h2>
@@ -673,7 +879,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb14-8"><a href=""></a>    cin <span class="op">&gt;&gt;</span> score<span class="op">;</span></span>
 <span id="cb14-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The loop condition describes bad data. The loop stops when the value is acceptable.</p>
-<!-- Slide 33 -->
+<!-- Slide 48 -->
 </section>
 <section id="set-validation" class="slide level2">
 <h2>Set Validation</h2>
@@ -687,7 +893,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb15-8"><a href=""></a>    cin <span class="op">&gt;&gt;</span> answer<span class="op">;</span></span>
 <span id="cb15-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Use set validation when the legal values are specific choices rather than a continuous range.</p>
-<!-- Slide 34 -->
+<!-- Slide 49 -->
 </section>
 <section id="the-priming-read" class="slide level2">
 <h2>The Priming Read</h2>
@@ -699,7 +905,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb16-5"><a href=""></a>    cin <span class="op">&gt;&gt;</span> value<span class="op">;</span>             <span class="co">// replacement read</span></span>
 <span id="cb16-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Without the priming read, the first condition check has no meaningful input value.</p>
-<!-- Slide 35 -->
+<!-- Slide 50 -->
 </section>
 <section id="validate-before-processing" class="slide level2">
 <h2>Validate Before Processing</h2>
@@ -717,7 +923,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb17-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score "</span> <span class="op">&lt;&lt;</span> i <span class="op">&lt;&lt;</span> <span class="st">": "</span><span class="op">;</span></span>
 <span id="cb17-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The loop that uses <code>count</code> should not run until <code>count</code> has been validated.</p>
-<!-- Slide 36 -->
+<!-- Slide 51 -->
 </section>
 <section id="type-failure-is-different" class="slide level2">
 <h2>Type Failure Is Different</h2>
@@ -728,10 +934,10 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb18-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a whole-number age: "</span><span class="op">;</span></span>
 <span id="cb18-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Recover from type failure before applying ordinary range checks.</p>
-<!-- Slide 37 -->
+<!-- Slide 52 -->
 </section>
-<section id="put-it-together" class="slide level2">
-<h2>Put It Together</h2>
+<section id="simple-validation" class="slide level2">
+<h2>Simple Validation</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">int</span> age<span class="op">;</span></span>
 <span id="cb19-2"><a href=""></a></span>
 <span id="cb19-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter your age (1-120): "</span><span class="op">;</span></span>
@@ -742,12 +948,32 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb19-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a whole-number age from 1 to 120: "</span><span class="op">;</span></span>
 <span id="cb19-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This combines type recovery with range validation in one loop.</p>
-<!-- Slide 38 -->
+<!-- Slide 53 -->
 </section>
-<section id="summary-3" class="slide level2">
+<section id="the-gauntlet-of-trust-1" class="slide level2">
+<h2>The Gauntlet of Trust</h2>
+
+<!-- Slide 54 -->
+<img data-src="images/GoT_diagram.png" class="r-stretch"></section>
+<section id="complex-validation" class="slide level2">
+<h2>Complex Validation</h2>
+
+<!-- Slide 55 -->
+<img data-src="images/inpval.png" class="r-stretch"></section>
+<section id="complex-validation-code-and-output" class="slide level2">
+<h2>Complex Validation: Code and Output</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="images/inpval.png"></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/output.png"></p>
+</div></div>
+<!-- Slide 56 -->
+</section>
+<section id="summary-4" class="slide level2">
 <h2>Summary</h2>
 <p>Input validation protects the program boundary. Read the value, reject invalid data with a specific message, reprompt, and only process the value after it passes the check.</p>
-<!-- Slide 39 -->
+<!-- Slide 57 -->
 </section>
 <section class="slide level2">
 
@@ -759,9 +985,10 @@ Dr.&nbsp;Caleb Fowler
 <li><code>++</code>, <code>--</code>, and compound assignment make loop updates easier to read.</li>
 <li><code>break</code> exits the nearest loop or switch immediately.</li>
 <li><code>continue</code> skips the rest of the current loop pass but keeps the loop running.</li>
+<li>Validation strategy decides what a program must check before it trusts input.</li>
 <li>Input validation protects the program boundary before client data is trusted.</li>
 </ul>
-<!-- Slide 40 -->
+<!-- Slide 58 -->
 </section>
 <section class="slide level2">
 
@@ -774,7 +1001,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Validation helpers</li>
 <li>Validation in menu-driven programs</li>
 </ul>
-<!-- Slide 41 -->
+<!-- Slide 59 -->
 </section>
 <section class="slide level2">
 
@@ -782,7 +1009,7 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-<!-- Slide 42 -->
+<!-- Slide 60 -->
 </section>
 <section id="increment-and-decrement-operators-good-practices" class="slide level2">
 <h2>Increment and Decrement Operators: Good Practices</h2>
@@ -791,7 +1018,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use <code>+=</code> or <code>-=</code> when the loop moves by more than one.</li>
 <li>Keep increment and decrement statements easy to see.</li>
 </ul>
-<!-- Slide 43 -->
+<!-- Slide 61 -->
 </section>
 <section id="increment-and-decrement-operators-common-mistakes" class="slide level2">
 <h2>Increment and Decrement Operators: Common Mistakes</h2>
@@ -800,7 +1027,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Incrementing the wrong variable in a nested or multi-variable loop.</li>
 <li>Forgetting that <code>++</code> always changes the value by exactly one.</li>
 </ul>
-<!-- Slide 44 -->
+<!-- Slide 62 -->
 </section>
 <section id="increment-and-decrement-operators-more-examples" class="slide level2">
 <h2>Increment and Decrement Operators: More Examples</h2>
@@ -811,7 +1038,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb20-5"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">10</span><span class="op">;</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> i<span class="op">--)</span> <span class="op">{</span></span>
 <span id="cb20-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> i <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
 <span id="cb20-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 45 -->
+<!-- Slide 63 -->
 </section>
 <section id="increment-and-decrement-operators-practice-problems" class="slide level2">
 <h2>Increment and Decrement Operators: Practice Problems</h2>
@@ -820,7 +1047,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Trace <code>int x = 3; cout &lt;&lt; x++ &lt;&lt; " " &lt;&lt; x;</code>.</li>
 <li>Write a loop that counts from <code>100</code> down to <code>0</code> by tens.</li>
 </ul>
-<!-- Slide 46 -->
+<!-- Slide 64 -->
 </section>
 <section id="increment-and-decrement-operators-ai-search-terms" class="slide level2">
 <h2>Increment and Decrement Operators: AI Search Terms</h2>
@@ -830,7 +1057,7 @@ Dr.&nbsp;Caleb Fowler
 <li>C++ compound assignment operators</li>
 <li>C++ for loop update expression</li>
 </ul>
-<!-- Slide 47 -->
+<!-- Slide 65 -->
 </section>
 <section id="increment-and-decrement-operators-questions-for-reflection" class="slide level2">
 <h2>Increment and Decrement Operators: Questions for Reflection</h2>
@@ -839,7 +1066,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why does prefix vs postfix not matter in a standalone statement?</li>
 <li>What loop steps cannot be expressed with <code>++</code> or <code>--</code>?</li>
 </ul>
-<!-- Slide 48 -->
+<!-- Slide 66 -->
 </section>
 <section id="break-good-practices" class="slide level2">
 <h2>Break: Good Practices</h2>
@@ -848,7 +1075,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Prefer a clear loop condition when it expresses the exit naturally.</li>
 <li>Use <code>break</code> in searches when the answer is already found.</li>
 </ul>
-<!-- Slide 49 -->
+<!-- Slide 67 -->
 </section>
 <section id="break-common-mistakes" class="slide level2">
 <h2>Break: Common Mistakes</h2>
@@ -857,7 +1084,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Confusing <code>break</code> in a <code>switch</code> with <code>break</code> in a loop.</li>
 <li>Using many scattered <code>break</code> statements when one loop condition would be clearer.</li>
 </ul>
-<!-- Slide 50 -->
+<!-- Slide 68 -->
 </section>
 <section id="break-more-examples" class="slide level2">
 <h2>Break: More Examples</h2>
@@ -871,7 +1098,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb21-8"><a href=""></a></span>
 <span id="cb21-9"><a href=""></a>    count<span class="op">++;</span></span>
 <span id="cb21-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 51 -->
+<!-- Slide 69 -->
 </section>
 <section id="break-practice-problems" class="slide level2">
 <h2>Break: Practice Problems</h2>
@@ -880,7 +1107,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Search a vector and stop at the first negative value.</li>
 <li>Explain what happens when <code>break</code> appears inside a <code>switch</code> inside a loop.</li>
 </ul>
-<!-- Slide 52 -->
+<!-- Slide 70 -->
 </section>
 <section id="break-ai-search-terms" class="slide level2">
 <h2>Break: AI Search Terms</h2>
@@ -890,7 +1117,7 @@ Dr.&nbsp;Caleb Fowler
 <li>C++ sentinel loop break</li>
 <li>C++ stop loop when found</li>
 </ul>
-<!-- Slide 53 -->
+<!-- Slide 71 -->
 </section>
 <section id="break-questions-for-reflection" class="slide level2">
 <h2>Break: Questions for Reflection</h2>
@@ -899,7 +1126,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Would the loop be clearer with the stopping rule in the condition?</li>
 <li>What makes a <code>break</code> statement easy or hard to trust?</li>
 </ul>
-<!-- Slide 54 -->
+<!-- Slide 72 -->
 </section>
 <section id="continue-good-practices" class="slide level2">
 <h2>Continue: Good Practices</h2>
@@ -908,7 +1135,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Keep loop-control updates before <code>continue</code> in while loops.</li>
 <li>Prefer a plain <code>if</code> when it reads more directly.</li>
 </ul>
-<!-- Slide 55 -->
+<!-- Slide 73 -->
 </section>
 <section id="continue-common-mistakes" class="slide level2">
 <h2>Continue: Common Mistakes</h2>
@@ -917,7 +1144,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Placing <code>continue</code> before the loop-control variable changes.</li>
 <li>Hiding too much logic after multiple <code>continue</code> statements.</li>
 </ul>
-<!-- Slide 56 -->
+<!-- Slide 74 -->
 </section>
 <section id="continue-more-examples" class="slide level2">
 <h2>Continue: More Examples</h2>
@@ -928,7 +1155,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb22-5"><a href=""></a></span>
 <span id="cb22-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="dv">100</span> <span class="op">/</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
 <span id="cb22-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 57 -->
+<!-- Slide 75 -->
 </section>
 <section id="continue-practice-problems" class="slide level2">
 <h2>Continue: Practice Problems</h2>
@@ -937,7 +1164,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Skip blank names in a list of names.</li>
 <li>Rewrite a <code>continue</code> example using an <code>if</code> statement instead.</li>
 </ul>
-<!-- Slide 58 -->
+<!-- Slide 76 -->
 </section>
 <section id="continue-ai-search-terms" class="slide level2">
 <h2>Continue: AI Search Terms</h2>
@@ -947,7 +1174,7 @@ Dr.&nbsp;Caleb Fowler
 <li>C++ skip iteration with continue</li>
 <li>C++ continue while loop infinite loop</li>
 </ul>
-<!-- Slide 59 -->
+<!-- Slide 77 -->
 </section>
 <section id="continue-questions-for-reflection" class="slide level2">
 <h2>Continue: Questions for Reflection</h2>
@@ -956,7 +1183,65 @@ Dr.&nbsp;Caleb Fowler
 <li>Why can <code>continue</code> be risky in a while loop?</li>
 <li>Would an <code>if</code> statement be clearer in this case?</li>
 </ul>
-<!-- Slide 60 -->
+<!-- Slide 78 -->
+</section>
+<section id="input-validation-strategy-good-practices" class="slide level2">
+<h2>Input Validation Strategy: Good Practices</h2>
+<ul>
+<li>Validate from broadest condition to narrowest condition.</li>
+<li>Give a specific error message and reprompt.</li>
+<li>Keep invalid input from reaching the rest of the program.</li>
+</ul>
+<!-- Slide 79 -->
+</section>
+<section id="input-validation-strategy-common-mistakes" class="slide level2">
+<h2>Input Validation Strategy: Common Mistakes</h2>
+<ul>
+<li>Checking range before checking whether the input is the right type.</li>
+<li>Printing a generic error message when the client needs a specific correction.</li>
+<li>Using a value before the program has decided it is safe.</li>
+</ul>
+<!-- Slide 80 -->
+</section>
+<section id="input-validation-strategy-more-examples" class="slide level2">
+<h2>Input Validation Strategy: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a>string name<span class="op">;</span></span>
+<span id="cb23-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Name: "</span><span class="op">;</span></span>
+<span id="cb23-3"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> name<span class="op">);</span></span>
+<span id="cb23-4"><a href=""></a></span>
+<span id="cb23-5"><a href=""></a><span class="cf">while</span> <span class="op">(</span>name<span class="op">.</span>empty<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb23-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Name cannot be blank. Try again: "</span><span class="op">;</span></span>
+<span id="cb23-7"><a href=""></a>    getline<span class="op">(</span>cin<span class="op">,</span> name<span class="op">);</span></span>
+<span id="cb23-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 81 -->
+</section>
+<section id="input-validation-strategy-practice-problems" class="slide level2">
+<h2>Input Validation Strategy: Practice Problems</h2>
+<ul>
+<li>Validate that a menu choice is between <code>1</code> and <code>4</code>.</li>
+<li>Validate that a password is not blank and has at least seven characters.</li>
+<li>Validate that a percent is between <code>0</code> and <code>100</code>.</li>
+</ul>
+<!-- Slide 82 -->
+</section>
+<section id="input-validation-strategy-ai-search-terms" class="slide level2">
+<h2>Input Validation Strategy: AI Search Terms</h2>
+<ul>
+<li>C++ input validation strategy</li>
+<li>C++ getline empty string validation</li>
+<li>C++ range validation loop</li>
+<li>C++ allow by default deny by default validation</li>
+</ul>
+<!-- Slide 83 -->
+</section>
+<section id="input-validation-strategy-questions-for-reflection" class="slide level2">
+<h2>Input Validation Strategy: Questions for Reflection</h2>
+<ul>
+<li>What is the first thing that could be wrong with this input?</li>
+<li>What message would help the client fix the mistake?</li>
+<li>Where does the program first trust the data?</li>
+</ul>
+<!-- Slide 84 -->
 </section>
 <section id="input-validation-good-practices" class="slide level2">
 <h2>Input Validation: Good Practices</h2>
@@ -965,7 +1250,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Write the loop condition in terms of invalid data.</li>
 <li>Give an error message that names the valid range or choices.</li>
 </ul>
-<!-- Slide 61 -->
+<!-- Slide 85 -->
 </section>
 <section id="input-validation-common-mistakes" class="slide level2">
 <h2>Input Validation: Common Mistakes</h2>
@@ -974,20 +1259,20 @@ Dr.&nbsp;Caleb Fowler
 <li>Forgetting to read a replacement value inside the loop.</li>
 <li>Treating type failure and range failure as the same problem.</li>
 </ul>
-<!-- Slide 62 -->
+<!-- Slide 86 -->
 </section>
 <section id="input-validation-more-examples" class="slide level2">
 <h2>Input Validation: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">int</span> month<span class="op">;</span></span>
-<span id="cb23-2"><a href=""></a></span>
-<span id="cb23-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Month (1-12): "</span><span class="op">;</span></span>
-<span id="cb23-4"><a href=""></a>cin <span class="op">&gt;&gt;</span> month<span class="op">;</span></span>
-<span id="cb23-5"><a href=""></a></span>
-<span id="cb23-6"><a href=""></a><span class="cf">while</span> <span class="op">(</span>month <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">||</span> month <span class="op">&gt;</span> <span class="dv">12</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb23-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Month must be 1 through 12: "</span><span class="op">;</span></span>
-<span id="cb23-8"><a href=""></a>    cin <span class="op">&gt;&gt;</span> month<span class="op">;</span></span>
-<span id="cb23-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 63 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">int</span> month<span class="op">;</span></span>
+<span id="cb24-2"><a href=""></a></span>
+<span id="cb24-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Month (1-12): "</span><span class="op">;</span></span>
+<span id="cb24-4"><a href=""></a>cin <span class="op">&gt;&gt;</span> month<span class="op">;</span></span>
+<span id="cb24-5"><a href=""></a></span>
+<span id="cb24-6"><a href=""></a><span class="cf">while</span> <span class="op">(</span>month <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">||</span> month <span class="op">&gt;</span> <span class="dv">12</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Month must be 1 through 12: "</span><span class="op">;</span></span>
+<span id="cb24-8"><a href=""></a>    cin <span class="op">&gt;&gt;</span> month<span class="op">;</span></span>
+<span id="cb24-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 87 -->
 </section>
 <section id="input-validation-practice-problems" class="slide level2">
 <h2>Input Validation: Practice Problems</h2>
@@ -996,7 +1281,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Validate a menu choice of <code>A</code>, <code>D</code>, or <code>Q</code>.</li>
 <li>Explain why <code>score &lt; 0 &amp;&amp; score &gt; 100</code> is the wrong invalid condition.</li>
 </ul>
-<!-- Slide 64 -->
+<!-- Slide 88 -->
 </section>
 <section id="input-validation-ai-search-terms" class="slide level2">
 <h2>Input Validation: AI Search Terms</h2>
@@ -1006,7 +1291,7 @@ Dr.&nbsp;Caleb Fowler
 <li>C++ cin fail clear ignore</li>
 <li>C++ input validation menu choice</li>
 </ul>
-<!-- Slide 65 -->
+<!-- Slide 89 -->
 </section>
 <section id="input-validation-questions-for-reflection" class="slide level2">
 <h2>Input Validation: Questions for Reflection</h2>
@@ -1015,7 +1300,7 @@ Dr.&nbsp;Caleb Fowler
 <li>What error message would help the client fix the input?</li>
 <li>Where should validation happen in a larger program?</li>
 </ul>
-<!-- Slide 66 -->
+<!-- Slide 90 -->
 
 </section></section>
     </div>

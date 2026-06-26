@@ -1,18 +1,18 @@
-<!-- Topic 4: Input Validation -->
-<!-- Slides 29-39 -->
+<!-- Topic 5: Input Validation -->
+<!-- Slides 44-57 -->
 
 # Input Validation
-<!-- Slide 29 -->
+<!-- Slide 44 -->
 
 ## What Makes Input Safe To Use? {.smaller}
 
 Input validation checks client data before the rest of the program trusts it. The goal is to reject bad input early, explain the problem, and ask again.
 
 ::: notes
-Slides 29-39
+Slides 44-57
 :::
 
-<!-- Slide 30 -->
+<!-- Slide 45 -->
 
 ---
 
@@ -27,7 +27,7 @@ The best time to validate input is immediately after reading it.
 
 Do not let questionable data travel deeper into the program.
 
-<!-- Slide 31 -->
+<!-- Slide 46 -->
 
 ---
 
@@ -42,7 +42,7 @@ A validation loop should do three things.
 
 "Invalid input" is rarely enough. A useful message teaches the client how to recover.
 
-<!-- Slide 32 -->
+<!-- Slide 47 -->
 
 ---
 
@@ -63,7 +63,7 @@ while (score < 0 || score > 100) {
 
 The loop condition describes bad data. The loop stops when the value is acceptable.
 
-<!-- Slide 33 -->
+<!-- Slide 48 -->
 
 ---
 
@@ -84,7 +84,7 @@ while (answer != 'Y' && answer != 'N') {
 
 Use set validation when the legal values are specific choices rather than a continuous range.
 
-<!-- Slide 34 -->
+<!-- Slide 49 -->
 
 ---
 
@@ -104,7 +104,7 @@ while (value is invalid) {
 
 Without the priming read, the first condition check has no meaningful input value.
 
-<!-- Slide 35 -->
+<!-- Slide 50 -->
 
 ---
 
@@ -129,7 +129,7 @@ for (int i = 1; i <= count; i++) {
 
 The loop that uses `count` should not run until `count` has been validated.
 
-<!-- Slide 36 -->
+<!-- Slide 51 -->
 
 ---
 
@@ -148,12 +148,12 @@ while (!(cin >> age)) {
 
 Recover from type failure before applying ordinary range checks.
 
-<!-- Slide 37 -->
+<!-- Slide 52 -->
 
 ---
 
 
-## Put It Together
+## Simple Validation
 
 ```cpp
 int age;
@@ -169,7 +169,42 @@ while (!(cin >> age) || age < 1 || age > 120) {
 
 This combines type recovery with range validation in one loop.
 
-<!-- Slide 38 -->
+<!-- Slide 53 -->
+
+---
+
+
+## The Gauntlet of Trust
+
+![](images/GoT_diagram.png)
+
+<!-- Slide 54 -->
+
+---
+
+
+## Complex Validation
+
+![](images/inpval.png)
+
+<!-- Slide 55 -->
+
+---
+
+
+## Complex Validation: Code and Output
+
+::: {.columns}
+::: {.column width="50%"}
+![](images/inpval.png)
+:::
+
+::: {.column width="50%"}
+![](images/output.png)
+:::
+:::
+
+<!-- Slide 56 -->
 
 ---
 
@@ -178,4 +213,4 @@ This combines type recovery with range validation in one loop.
 
 Input validation protects the program boundary. Read the value, reject invalid data with a specific message, reprompt, and only process the value after it passes the check.
 
-<!-- Slide 39 -->
+<!-- Slide 57 -->
