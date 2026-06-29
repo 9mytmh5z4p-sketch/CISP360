@@ -10,7 +10,7 @@ Codex will:
 3. Check the working subfolder for any PDF files of prior slides — if found, use them to match voice, phrasing, and slide structure; if not, rely on `lessons.csv` and flag the absence
 4. Proceed with topic ordering, topic-by-topic slide proposals, and generation only after instructor approval
 
-**Scope:** Read `lessons.csv` and `inventory.csv` from the parent folder. Read and write only within the specified working subfolder. Do not touch any other folder.
+**Scope:** Read `lessons.csv` from the parent folder. Read and write `inventory.csv` in the parent folder for topic tracking. Read and write only within the specified working subfolder otherwise. Do not touch any other folder.
 
 **Rendering:** Do not attempt to render lectures or run render scripts. The instructor will handle rendering.
 
