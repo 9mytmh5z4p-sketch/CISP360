@@ -1,100 +1,149 @@
 <!-- Topic 2: Array Initialization -->
-<!-- Total slides: 6 -->
+<!-- Slides 13–24 -->
 
 # Array Initialization
+<!-- Slide 13 -->
 
----
+## Starting with Known Values {.smaller}
 
-## Declaring vs. initializing — what's the difference? {.smaller}
-
-- Declaration allocates the space; initialization sets the values
-- Arrays give you several ways to do both at once
++ What should every position contain when the array is created?
 
 ::: notes
-Total slides: 6
+Slides 13–24
 :::
 
-<!-- Slide 1 -->
+<!-- Slide 14 -->
 
 ---
 
-## Initializer list — full
+## Full Initialization
 
 ```{.cpp}
-int scores[5] = {91, 78, 84, 95, 62};  // all 5 values
+int scores[5] = {91, 84, 78, 96, 88};
 ```
 
-- Brace-enclose the values separated by commas
-- The count of values must not exceed the declared size
-- If the count matches the size, you can omit the size entirely:
++ Five positions receive five values.
++ Values are stored in the order written.
 
-```{.cpp}
-int scores[] = {91, 78, 84, 95, 62};   // size inferred as 5
-```
-
-<!-- Slide 2 -->
+<!-- Slide 15 -->
 
 ---
 
-## Initializer list — partial
+## Initialization Layout
 
 ```{.cpp}
-int scores[5] = {91, 78};   // first 2 set; rest zero-initialized
+int scores[5] = {91, 84, 78, 96, 88};
 ```
 
-- Provide fewer values than the declared size
-- Remaining elements are **zero-initialized** automatically
-- This is the idiomatic way to zero out an array:
+| position | first | second | third | fourth | fifth |
+|---|---:|---:|---:|---:|---:|
+| value | 91 | 84 | 78 | 96 | 88 |
 
-```{.cpp}
-int scores[5] = {};          // all elements zero
-int scores[5] = {0};         // same effect
-```
-
-<!-- Slide 3 -->
+<!-- Slide 16 -->
 
 ---
 
-## Size rules
+## Partial Initialization
 
 ```{.cpp}
-const int SIZE = 5;
-int scores[SIZE];             // OK — const is compile-time
-
-int n = 5;
-int scores[n];                // not standard C++ — avoid
+int scores[5] = {91, 84};
 ```
 
-- Array size must be a **compile-time constant**
-- A plain `int` variable is not a compile-time constant, even if you assign it immediately
-- Prefer `const int` or a named constant for the size
+| position | first | second | third | fourth | fifth |
+|---|---:|---:|---:|---:|---:|
+| value | 91 | 84 | 0 | 0 | 0 |
 
-::: notes
-Variable-length arrays (VLAs) are a GCC extension and exist in C99, but they are not standard C++ and should not be taught as portable practice.
-:::
++ Missing trailing values are initialized to zero.
 
-<!-- Slide 4 -->
+<!-- Slide 17 -->
 
 ---
 
-## What if you don't initialize?
+## Zero Initialization
 
 ```{.cpp}
-int scores[5];          // uninitialized — garbage values
+int scores[5] = {};
 ```
 
-- Local arrays without an initializer hold whatever was in memory at that address
-- Reading an uninitialized element is undefined behavior
-- Always initialize, or fill every element before reading it
+| value | 0 | 0 | 0 | 0 | 0 |
+|---|---:|---:|---:|---:|---:|
 
-<!-- Slide 5 -->
++ Empty braces initialize every element to zero.
+
+<!-- Slide 18 -->
+
+---
+
+## Inferred Size
+
+```{.cpp}
+int scores[] = {91, 84, 78, 96, 88};
+```
+
++ The compiler counts the initializer values.
++ The resulting capacity is five and remains fixed.
+
+<!-- Slide 19 -->
+
+---
+
+## Uninitialized Arrays
+
+```{.cpp}
+int scores[5];
+```
+
++ A local array declared this way has indeterminate element values.
++ Reading any element before assigning it a value is unsafe.
+
+<!-- Slide 20 -->
+
+---
+
+## Initializer Count
+
+```{.cpp}
+int first[5] = {4, 8};             // allowed: remaining values are zero
+int second[3] = {4, 8, 15, 16};   // error: too many initializers
+```
+
++ The initializer list may contain at most the declared capacity.
+
+<!-- Slide 21 -->
+
+---
+
+## Initialization Happens Once
+
+```{.cpp}
+int scores[3] = {70, 80, 90};
+
+// scores = {75, 85, 95};  // array assignment is not allowed
+```
+
++ Braces initialize the array as it is created.
++ Later changes target individual elements.
+
+<!-- Slide 22 -->
+
+---
+
+## Choosing an Initialization Form
+
+| Need | Form |
+|---|---|
+| Known starting values | Full initializer list |
+| Known prefix, zero remainder | Partial initializer list |
+| All zeros | Empty braces |
+| Capacity matches supplied values | Inferred size |
+
+<!-- Slide 23 -->
 
 ---
 
 ## Summary
 
-- Provide an initializer list to set values at declaration; `= {}` zeros the entire array
-- Size must be a compile-time constant — use `const int` for named sizes
-- Uninitialized local arrays hold garbage; always initialize before reading
++ Initializer lists assign values from left to right.
++ Missing trailing values become zero, excess values are rejected, and uninitialized local elements must not be read.
 
-<!-- Slide 6 -->
+<!-- Slide 24 -->

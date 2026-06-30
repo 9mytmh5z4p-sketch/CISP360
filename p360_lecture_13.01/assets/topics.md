@@ -2,14 +2,9 @@
 
 | Topic | Emphasis | Time Budget | Optional | Prerequisites | Tone Flag | Note |
 |-------|----------|-------------|----------|---------------|-----------|------|
-| Closer Look — Arrays & Memory | | 8 | | 12.01 arrays | | Visualization bridge — how an array occupies contiguous memory; what an address is |
-| The Address Operator | | 8 | | Closer Look — Arrays & Memory | | 10.1 — & to get a variable's address; printing addresses with cout |
-| Pointer Variables | high | 10 | | The Address Operator | students find this confusing — be concrete and slow | 10.2 — declaring with *, assigning an address, dereferencing |
-| Array-Pointer Relationship | | 8 | | Pointer Variables | | 10.3 — array name decays to pointer; arr == &arr[0]; traversal equivalence |
-| Pointer Arithmetic | | 8 | | Array-Pointer Relationship | | 10.4 — ptr++ advances one element; traversing an array with a pointer |
-| Initializing Pointers | | 6 | | Pointer Variables | | 10.5 — nullptr; always initialize; wild and dangling pointers |
-| Comparing Pointers | | 5 | | Pointer Arithmetic | | 10.6 — <, >, == on addresses; range-check traversal pattern |
-| VLAs & G++ | | 5 | yes | Arrays | | 8.x — runtime-sized stack arrays as GCC extension; non-standard; contrast with vector |
+| Multidimensional Arrays | high | | no | Arrays; multidimensional vectors | Continuation of prior work | Begin with multidimensional vectors, then transfer the model to fixed arrays |
+| C-Style Arrays and C-Strings | standard | | no | Arrays | Ancillary context | Clarify that previously studied built-in arrays are C-style arrays; emphasize new C-string material |
+| `std::array` | standard | | no | C-style arrays | Modern C++ alternative | Present as the preferred fixed-size container when C compatibility is unnecessary |
 
 ---
 

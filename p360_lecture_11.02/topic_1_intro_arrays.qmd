@@ -1,73 +1,120 @@
 <!-- Topic 1: Introduction to Arrays -->
-<!-- Total slides: 6 -->
+<!-- Slides 3–12 -->
 
 # Introduction to Arrays
-
----
-
-## A fixed-size collection on the stack {.smaller}
-
-- Same idea as a vector — different contract
-- Size is locked in at compile time; no growing, no shrinking
-
-::: notes
-Total slides: 6
-:::
-
-<!-- Slide 1 -->
-
----
-
-## What is an array?
-
-- A sequence of elements, all the same type, stored contiguously in memory
-- Size is fixed at compile time — you state it once in the declaration
-- Elements are accessed by index, starting at 0
-
-<!-- Slide 2 -->
-
----
-
-## Array Diagram
-
-<object type="image/svg+xml" data="images/array_diagram.svg" style="width:100%; height:auto; display:block;"></object>
-
 <!-- Slide 3 -->
 
----
+## Same Idea, Different Contract {.smaller}
 
-## Arrays vs. vectors
++ One name holds a sequence of values.
++ The capacity cannot grow or shrink.
 
-| | Array | Vector |
-|---|---|---|
-| Size | Fixed at compile time | Grows at runtime |
-| Storage | Stack | Heap |
-| Bounds check | None | None (`.at()` throws) |
-| Overhead | Zero | Pointer + size + capacity |
+::: notes
+Slides 3–12
+:::
 
 <!-- Slide 4 -->
 
 ---
 
-## Declaring an array
+## Why Arrays?
 
-```{.cpp}
-int scores[5];        // uninitialized — garbage values
-double temps[7];      // uninitialized — garbage values
-char letters[26];     // uninitialized — garbage values
-```
-
-- Type comes first, then the name, then the size in brackets
-- Size must be a compile-time constant — a literal or a `const` integer
-- Without an initializer list, elements hold whatever was in memory
++ Some collections have a natural, permanent capacity.
++ Fixed capacity makes storage requirements predictable.
++ Arrays are built into C++ and appear throughout existing code.
 
 <!-- Slide 5 -->
 
 ---
 
-## Summary
+## Array Declaration
 
-- An array is a fixed-size, contiguous block of same-type elements allocated on the stack
-- Use an array when size is known at compile time and the collection does not need to grow
+```{.cpp}
+int scores[5];
+```
+
+```text
+element type   name   capacity
+     int      scores     5
+```
 
 <!-- Slide 6 -->
+
+---
+
+## Reading a Declaration
+
+```{.cpp}
+double temperatures[7];
+char gradeLetters[5];
+bool seatsTaken[30];
+```
+
++ `temperatures` can hold seven `double` values.
++ `gradeLetters` can hold five `char` values.
++ `seatsTaken` can hold thirty `bool` values.
+
+<!-- Slide 7 -->
+
+---
+
+## The Size Must Be Known
+
+```{.cpp}
+const int DAYS = 7;
+double temperatures[DAYS];
+```
+
++ A standard C++ array requires a compile-time constant capacity.
++ A value entered while the program runs cannot set this capacity.
+
+<!-- Slide 8 -->
+
+---
+
+## One Name, Many Values
+
+| `scores` | value | value | value | value | value |
+|---|---:|---:|---:|---:|---:|
+| storage position | first | second | third | fourth | fifth |
+
++ Every position stores the same element type.
++ The positions occupy one contiguous block of memory.
+
+::: notes
+[Graphic suggestion: redraw the table as five adjacent labeled storage boxes under one array name.]
+:::
+
+<!-- Slide 9 -->
+
+---
+
+## Capacity and Data Count
+
++ **Capacity:** the total number of available positions.
++ **Data count:** the number of positions currently holding meaningful data.
++ A raw array does not track the data count for the program.
+
+<!-- Slide 10 -->
+
+---
+
+## Arrays and Vectors
+
+| Shared idea | Different contract |
+|---|---|
+| Ordered values | Array capacity is fixed |
+| One element type | No `push_back()` or `pop_back()` |
+| Contiguous storage | No built-in size member |
+| Can visit every value | Program manages logical data count |
+
+<!-- Slide 11 -->
+
+---
+
+## Summary
+
++ An array is an ordered, fixed-capacity collection of one type.
++ Its compile-time capacity and meaningful data count are separate ideas.
+
+<!-- Slide 12 -->

@@ -1,46 +1,39 @@
 # Last Time
 
 ::: {.incremental}
-+ **Introduction to Arrays** — declaration, initialization, stack allocation
-+ **Accessing Elements** — subscript operator; index-based for vs. range-for
-+ **Inputting and Displaying** — two-pass fill/display pattern
-+ **Vectors vs. Arrays** — fixed size, no bounds check, zero overhead
++ **Introduction to Arrays**
++ **Array Initialization**
++ **Indexing Array Elements**
++ **Accessing Array Elements in Loops**
++ **Inputting and Displaying Array Data**
++ **Vectors vs. Arrays**
 :::
 
 ::: notes
-Brief recall: students declared and initialized arrays, looped over them with both for styles, and saw the structural contrast with vectors.
+Recall the fixed-size array model, valid index range, initialization, and traversal patterns used in the previous lecture.
 :::
-
----
 
 # Today's Agenda
 
-- Processing Array Contents (sum, min, max)
-- Linear Search
-- Sorting — Bubble Sort
-- typedef
-- Arrays as Function Arguments
-- sizeof with Arrays
+- Arrays with Functions
+- Array Algorithms
+- Parallel Arrays
 
 ::: notes
 
 :::
 
-{{< include topic_1_array_processing.qmd >}}
-{{< include topic_2_linear_search.qmd >}}
-{{< include topic_3_bubble_sort.qmd >}}
-{{< include topic_4_typedef.qmd >}}
-{{< include topic_5_arrays_functions.qmd >}}
-{{< include topic_6_sizeof_arrays.qmd >}}
+{{< include topic_1_arrays_functions.qmd >}}
+{{< include topic_2_array_algorithms.qmd >}}
+{{< include topic_3_parallel_arrays.qmd >}}
 
 ---
 
 # Key Takeaways
 
-- Accumulator and tracker patterns from loop work apply directly to arrays — same logic, indexed access
-- Linear search returns `-1` for "not found"; bubble sort requires a `temp` variable to swap safely
-- `sizeof(array) / sizeof(array[0])` gives element count only where the array is declared — not inside functions
-- Arrays decay to pointers when passed to functions; always pass size separately and use `const` for read-only parameters
+- Built-in arrays decay at function boundaries, so functions receive an address and need a separate logical size
+- Array algorithms combine traversal with accumulators, trackers, sentinels, or coordinated swaps
+- Parallel arrays represent one record through a shared index that must remain synchronized
 
 ---
 
@@ -52,144 +45,164 @@ Brief recall: students declared and initialized arrays, looped over them with bo
 
 ---
 
-## Processing Array Contents: Good Practices
+## Arrays with Functions: Good Practices
+
+- Pass the logical size with every built-in array parameter
+- Use `const` for read-only access
+- Choose names that make mutation visible
 
 ---
 
-## Processing Array Contents: Common Mistakes
+## Arrays with Functions: Common Mistakes
+
+- Assuming the function receives a copy of the array
+- Expecting a bracketed parameter size to be enforced
+- Using `sizeof` on a decayed array parameter
 
 ---
 
-## Processing Array Contents: More Examples
+## Arrays with Functions: More Examples
+
+```{.cpp}
+int countMatches(const int values[], int size, int target) {
+    int count = 0;
+    for (int i = 0; i < size; i++) {
+        if (values[i] == target) {
+            count++;
+        }
+    }
+    return count;
+}
+```
 
 ---
 
-## Processing Array Contents: Practice Problems
+## Arrays with Functions: Practice Problems
+
+- Write `contains` to return whether a target appears in an array
+- Write `clampToZero` to replace every negative element with zero
+- State the correct parameter contract for each function
 
 ---
 
-## Processing Array Contents: AI Search Terms
+## Arrays with Functions: AI Search Terms
+
+- C++ built-in array function parameter decay
+- C++ const array parameter and size
+- C++ sizeof array inside function
 
 ---
 
-## Processing Array Contents: Questions for Reflection
+## Arrays with Functions: Questions for Reflection
+
+- What information disappears when an array crosses a function boundary?
+- How does `const` improve a function contract?
+- When should a function receive one element instead of the whole array?
 
 ---
 
-## Linear Search: Good Practices
+## Array Algorithms: Good Practices
+
+- State empty-array behavior before implementing an algorithm
+- Seed extrema from the first valid element
+- Return an index when the caller needs an element's location
 
 ---
 
-## Linear Search: Common Mistakes
+## Array Algorithms: Common Mistakes
+
+- Initializing a maximum tracker to zero
+- Reading index `size`
+- Overwriting a value before preserving it during a swap
 
 ---
 
-## Linear Search: More Examples
+## Array Algorithms: More Examples
+
+```{.cpp}
+int countAbove(const int values[], int size, int threshold) {
+    int count = 0;
+    for (int i = 0; i < size; i++) {
+        if (values[i] > threshold) {
+            count++;
+        }
+    }
+    return count;
+}
+```
 
 ---
 
-## Linear Search: Practice Problems
+## Array Algorithms: Practice Problems
+
+- Return the index of the smallest element
+- Count how many elements fall within an inclusive range
+- Trace two bubble-sort passes by hand
 
 ---
 
-## Linear Search: AI Search Terms
+## Array Algorithms: AI Search Terms
+
+- C++ array accumulator tracker sentinel patterns
+- C++ linear search return index
+- C++ bubble sort shrinking inner bound
 
 ---
 
-## Linear Search: Questions for Reflection
+## Array Algorithms: Questions for Reflection
+
+- Why does a search usually return an index instead of a Boolean?
+- Which algorithms require a nonempty array?
+- What changes when an algorithm mutates its input?
 
 ---
 
-## Sorting — Bubble Sort: Good Practices
+## Parallel Arrays: Good Practices
+
+- Use one capacity and one logical size
+- Pass and traverse all related arrays together
+- Return indexes when selecting complete records
 
 ---
 
-## Sorting — Bubble Sort: Common Mistakes
+## Parallel Arrays: Common Mistakes
+
+- Moving one field without moving the others
+- Looping to capacity instead of logical size
+- Using different indexes for related fields
 
 ---
 
-## Sorting — Bubble Sort: More Examples
+## Parallel Arrays: More Examples
+
+```{.cpp}
+void markPerfect(const int scores[], bool perfect[], int size) {
+    for (int i = 0; i < size; i++) {
+        perfect[i] = scores[i] == 100;
+    }
+}
+```
 
 ---
 
-## Sorting — Bubble Sort: Practice Problems
+## Parallel Arrays: Practice Problems
+
+- Display only records whose attendance value is true
+- Find a name and update the score at the matching index
+- Sort names and scores together by descending score
 
 ---
 
-## Sorting — Bubble Sort: AI Search Terms
+## Parallel Arrays: AI Search Terms
+
+- C++ parallel arrays shared index
+- C++ sort parallel arrays together
+- parallel arrays versus array of structs
 
 ---
 
-## Sorting — Bubble Sort: Questions for Reflection
+## Parallel Arrays: Questions for Reflection
 
----
-
-## sizeof with Arrays: Good Practices
-
----
-
-## sizeof with Arrays: Common Mistakes
-
----
-
-## sizeof with Arrays: More Examples
-
----
-
-## sizeof with Arrays: Practice Problems
-
----
-
-## sizeof with Arrays: AI Search Terms
-
----
-
-## sizeof with Arrays: Questions for Reflection
-
----
-
-## typedef: Good Practices
-
----
-
-## typedef: Common Mistakes
-
----
-
-## typedef: More Examples
-
----
-
-## typedef: Practice Problems
-
----
-
-## typedef: AI Search Terms
-
----
-
-## typedef: Questions for Reflection
-
----
-
-## Arrays as Function Arguments: Good Practices
-
----
-
-## Arrays as Function Arguments: Common Mistakes
-
----
-
-## Arrays as Function Arguments: More Examples
-
----
-
-## Arrays as Function Arguments: Practice Problems
-
----
-
-## Arrays as Function Arguments: AI Search Terms
-
----
-
-## Arrays as Function Arguments: Questions for Reflection
+- What invariant connects the arrays?
+- Why is an index more useful than a copied maximum value?
+- When does a structure become the clearer design?
