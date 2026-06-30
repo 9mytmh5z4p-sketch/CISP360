@@ -206,71 +206,15 @@ Dr.&nbsp;Caleb Fowler
 </div>
 
 </section>
-<section>
 <section id="last-time" class="title-slide slide level1 center">
 <h1>Last Time</h1>
 <ul>
 <li class="fragment"><strong>File I/O</strong></li>
-<li class="fragment"><strong>Sequential I/O</strong></li>
-<li class="fragment"><strong>Random Access</strong></li>
+<li class="fragment"><strong>Sequential Reads and Writes</strong></li>
+<li class="fragment"><strong>Stream State</strong></li>
 </ul>
 <aside class="notes">
-<p>Brief recall: students wrote a vector to a file and read it back in the lab. Random access with fixed-size records was the last concept introduced.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
-</section></section>
-<section id="todays-agenda" class="title-slide slide level1 center">
-<h1>Today’s Agenda</h1>
-<ul>
-<li>Introduction to Arrays</li>
-<li>Array Initialization</li>
-<li>Accessing Array Elements in Loops</li>
-<li>Inputting and Displaying Array Data</li>
-<li>Vectors vs.&nbsp;Arrays</li>
-<li>Performance — Vectors vs.&nbsp;Arrays <em>(optional)</em></li>
-</ul>
-<aside class="notes">
-
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Topic 1: Introduction to Arrays -->
-<!-- Total slides: 6 -->
-</section>
-
-<section>
-<section id="introduction-to-arrays" class="title-slide slide level1 center">
-<h1>Introduction to Arrays</h1>
-
-</section>
-<section id="a-fixed-size-collection-on-the-stack" class="slide level2 smaller">
-<h2>A fixed-size collection on the stack</h2>
-<ul>
-<li>Same idea as a vector — different contract</li>
-<li>Size is locked in at compile time; no growing, no shrinking</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 6</p>
+<p>Recall that file streams use the same insertion and extraction operators as cin and cout. Sequential operations automatically advance the stream position.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -284,91 +228,421 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 1 -->
 </section>
-<section id="what-is-an-array" class="slide level2">
-<h2>What is an array?</h2>
+
+<section id="todays-agenda" class="title-slide slide level1 center">
+<h1>Today’s Agenda</h1>
 <ul>
-<li>A sequence of elements, all the same type, stored contiguously in memory</li>
-<li>Size is fixed at compile time — you state it once in the declaration</li>
-<li>Elements are accessed by index, starting at 0</li>
+<li>Stringstream</li>
+<li>Random Access Files</li>
 </ul>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <!-- Slide 2 -->
+<!-- Topic 1: Stringstream -->
+<!-- Slides 3–16 -->
 </section>
-<section id="array-diagram" class="slide level2">
-<h2>Array Diagram</h2>
-<object type="image/svg+xml" data="images/array_diagram.svg" style="width:100%; height:auto; display:block;">
-</object>
+
+<section>
+<section id="stringstream" class="title-slide slide level1 center">
+<h1>Stringstream</h1>
 <!-- Slide 3 -->
 </section>
-<section id="arrays-vs.-vectors" class="slide level2">
-<h2>Arrays vs.&nbsp;vectors</h2>
+<section id="text-into-typed-values" class="slide level2 smaller">
+<h2>Text into Typed Values</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a>string input <span class="op">=</span> <span class="st">"42 3.5"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>How can we extract <code>42</code> as an <code>int</code> and <code>3.5</code> as a <code>double</code>?</li>
+</ul>
+<aside class="notes">
+<p>Slides 3–16</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="the-sstream-library" class="slide level2">
+<h2>The <code>&lt;sstream&gt;</code> Library</h2>
+<p>Include <code>&lt;sstream&gt;</code> to create streams connected to strings.</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th></th>
-<th>Array</th>
-<th>Vector</th>
+<th>Type</th>
+<th>Direction</th>
+<th>Primary use</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Size</td>
-<td>Fixed at compile time</td>
-<td>Grows at runtime</td>
+<td><code>istringstream</code></td>
+<td>Input</td>
+<td>Extract values from text</td>
 </tr>
 <tr class="even">
-<td>Storage</td>
-<td>Stack</td>
-<td>Heap</td>
+<td><code>ostringstream</code></td>
+<td>Output</td>
+<td>Build formatted text</td>
 </tr>
 <tr class="odd">
-<td>Bounds check</td>
-<td>None</td>
-<td>None (<code>.at()</code> throws)</td>
-</tr>
-<tr class="even">
-<td>Overhead</td>
-<td>Zero</td>
-<td>Pointer + size + capacity</td>
+<td><code>stringstream</code></td>
+<td>Input and output</td>
+<td>Read and write the same buffer</td>
 </tr>
 </tbody>
 </table>
-<!-- Slide 4 -->
-</section>
-<section id="declaring-an-array" class="slide level2">
-<h2>Declaring an array</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">];</span>        <span class="co">// uninitialized — garbage values</span></span>
-<span id="cb1-2"><a href=""></a><span class="dt">double</span> temps<span class="op">[</span><span class="dv">7</span><span class="op">];</span>      <span class="co">// uninitialized — garbage values</span></span>
-<span id="cb1-3"><a href=""></a><span class="dt">char</span> letters<span class="op">[</span><span class="dv">26</span><span class="op">];</span>     <span class="co">// uninitialized — garbage values</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Type comes first, then the name, then the size in brackets</li>
-<li>Size must be a compile-time constant — a literal or a <code>const</code> integer</li>
-<li>Without an initializer list, elements hold whatever was in memory</li>
-</ul>
 <!-- Slide 5 -->
+</section>
+<section id="the-stream-model" class="slide level2">
+<h2>The Stream Model</h2>
+<p>The operators stay the same; only the source or destination changes.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Stream</th>
+<th>Connected to</th>
+<th>Read with</th>
+<th>Write with</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cin</code> / <code>cout</code></td>
+<td>Console</td>
+<td><code>&gt;&gt;</code></td>
+<td><code>&lt;&lt;</code></td>
+</tr>
+<tr class="even">
+<td><code>ifstream</code> / <code>ofstream</code></td>
+<td>File</td>
+<td><code>&gt;&gt;</code></td>
+<td><code>&lt;&lt;</code></td>
+</tr>
+<tr class="odd">
+<td>String streams</td>
+<td><code>string</code> buffer</td>
+<td><code>&gt;&gt;</code></td>
+<td><code>&lt;&lt;</code></td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<p>[Graphic suggestion: three streams connected to a console, file, and string buffer while sharing the same insertion and extraction operators]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 6 -->
+</section>
+<section id="reading-tokens-from-a-string" class="slide level2">
+<h2>Reading Tokens from a String</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;sstream&gt;</span></span>
+<span id="cb2-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb2-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb2-4"><a href=""></a></span>
+<span id="cb2-5"><a href=""></a>string text <span class="op">=</span> <span class="st">"42 3.5"</span><span class="op">;</span></span>
+<span id="cb2-6"><a href=""></a>istringstream input<span class="op">(</span>text<span class="op">);</span></span>
+<span id="cb2-7"><a href=""></a></span>
+<span id="cb2-8"><a href=""></a><span class="dt">int</span> count<span class="op">;</span></span>
+<span id="cb2-9"><a href=""></a><span class="dt">double</span> price<span class="op">;</span></span>
+<span id="cb2-10"><a href=""></a></span>
+<span id="cb2-11"><a href=""></a>input <span class="op">&gt;&gt;</span> count <span class="op">&gt;&gt;</span> price<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Extraction converts each token to the type of its destination variable.</p>
+<!-- Slide 7 -->
+</section>
+<section id="parsing-a-complete-line" class="slide level2">
+<h2>Parsing a Complete Line</h2>
+<p><code>getline()</code> captures the entire line. An <code>istringstream</code> then extracts individual values from that line.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a>string line<span class="op">;</span></span>
+<span id="cb3-2"><a href=""></a>getline<span class="op">(</span>cin<span class="op">,</span> line<span class="op">);</span></span>
+<span id="cb3-3"><a href=""></a></span>
+<span id="cb3-4"><a href=""></a>istringstream input<span class="op">(</span>line<span class="op">);</span></span>
+<span id="cb3-5"><a href=""></a>string name<span class="op">;</span></span>
+<span id="cb3-6"><a href=""></a><span class="dt">int</span> attempts<span class="op">;</span></span>
+<span id="cb3-7"><a href=""></a><span class="dt">double</span> average<span class="op">;</span></span>
+<span id="cb3-8"><a href=""></a></span>
+<span id="cb3-9"><a href=""></a>input <span class="op">&gt;&gt;</span> name <span class="op">&gt;&gt;</span> attempts <span class="op">&gt;&gt;</span> average<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>This separates collecting input from interpreting it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 8 -->
+</section>
+<section id="parsing-code" class="slide level2">
+<h2>Parsing Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb4-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;sstream&gt;</span></span>
+<span id="cb4-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb4-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb4-5"><a href=""></a></span>
+<span id="cb4-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-7"><a href=""></a>    string line <span class="op">=</span> <span class="st">"Ava 4 91.5"</span><span class="op">;</span></span>
+<span id="cb4-8"><a href=""></a>    istringstream input<span class="op">(</span>line<span class="op">);</span></span>
+<span id="cb4-9"><a href=""></a></span>
+<span id="cb4-10"><a href=""></a>    string name<span class="op">;</span></span>
+<span id="cb4-11"><a href=""></a>    <span class="dt">int</span> attempts<span class="op">;</span></span>
+<span id="cb4-12"><a href=""></a>    <span class="dt">double</span> average<span class="op">;</span></span>
+<span id="cb4-13"><a href=""></a></span>
+<span id="cb4-14"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>input <span class="op">&gt;&gt;</span> name <span class="op">&gt;&gt;</span> attempts <span class="op">&gt;&gt;</span> average<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-15"><a href=""></a>        cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">" completed "</span> <span class="op">&lt;&lt;</span> attempts</span>
+<span id="cb4-16"><a href=""></a>             <span class="op">&lt;&lt;</span> <span class="st">" attempts with an average of "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb4-17"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb4-18"><a href=""></a></span>
+<span id="cb4-19"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-20"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>The condition succeeds only if all three extractions succeed. The values are converted according to the destination variable types.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 9 -->
+</section>
+<section id="checking-extraction" class="slide level2">
+<h2>Checking Extraction</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span> quantity<span class="op">;</span></span>
+<span id="cb5-2"><a href=""></a><span class="dt">double</span> price<span class="op">;</span></span>
+<span id="cb5-3"><a href=""></a></span>
+<span id="cb5-4"><a href=""></a><span class="cf">if</span> <span class="op">(</span>input <span class="op">&gt;&gt;</span> quantity <span class="op">&gt;&gt;</span> price<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Valid values</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb5-6"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb5-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Expected an integer and a decimal value</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb5-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Successful extraction leaves the stream usable. Missing or incompatible input places the stream in a failed state.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 10 -->
+</section>
+<section id="formatting-a-string" class="slide level2">
+<h2>Formatting a String</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a>ostringstream output<span class="op">;</span></span>
+<span id="cb6-2"><a href=""></a></span>
+<span id="cb6-3"><a href=""></a>output <span class="op">&lt;&lt;</span> <span class="st">"Order "</span> <span class="op">&lt;&lt;</span> orderNumber</span>
+<span id="cb6-4"><a href=""></a>       <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> quantity <span class="op">&lt;&lt;</span> <span class="st">" items"</span><span class="op">;</span></span>
+<span id="cb6-5"><a href=""></a></span>
+<span id="cb6-6"><a href=""></a>string message <span class="op">=</span> output<span class="op">.</span>str<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>An ostringstream collects output in memory instead of displaying it immediately. The str member function returns the formatted contents as a string.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 11 -->
+</section>
+<section id="formatting-code" class="slide level2">
+<h2>Formatting Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
+<span id="cb7-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb7-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;sstream&gt;</span></span>
+<span id="cb7-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb7-5"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb7-6"><a href=""></a></span>
+<span id="cb7-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-8"><a href=""></a>    <span class="dt">int</span> orderNumber <span class="op">=</span> <span class="dv">27</span><span class="op">;</span></span>
+<span id="cb7-9"><a href=""></a>    <span class="dt">double</span> total <span class="op">=</span> <span class="fl">84.5</span><span class="op">;</span></span>
+<span id="cb7-10"><a href=""></a>    ostringstream output<span class="op">;</span></span>
+<span id="cb7-11"><a href=""></a></span>
+<span id="cb7-12"><a href=""></a>    output <span class="op">&lt;&lt;</span> <span class="st">"Order "</span> <span class="op">&lt;&lt;</span> orderNumber <span class="op">&lt;&lt;</span> <span class="st">": $"</span></span>
+<span id="cb7-13"><a href=""></a>           <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">&lt;&lt;</span> total<span class="op">;</span></span>
+<span id="cb7-14"><a href=""></a></span>
+<span id="cb7-15"><a href=""></a>    string message <span class="op">=</span> output<span class="op">.</span>str<span class="op">();</span></span>
+<span id="cb7-16"><a href=""></a>    cout <span class="op">&lt;&lt;</span> message <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb7-17"><a href=""></a></span>
+<span id="cb7-18"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Formatting manipulators work because an output string stream follows the same rules as cout and an ofstream.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 12 -->
+</section>
+<section id="delimited-fields" class="slide level2">
+<h2>Delimited Fields</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a>string record <span class="op">=</span> <span class="st">"Ava,91.5,A"</span><span class="op">;</span></span>
+<span id="cb8-2"><a href=""></a>istringstream input<span class="op">(</span>record<span class="op">);</span></span>
+<span id="cb8-3"><a href=""></a></span>
+<span id="cb8-4"><a href=""></a>string name<span class="op">;</span></span>
+<span id="cb8-5"><a href=""></a>string scoreText<span class="op">;</span></span>
+<span id="cb8-6"><a href=""></a>string grade<span class="op">;</span></span>
+<span id="cb8-7"><a href=""></a></span>
+<span id="cb8-8"><a href=""></a>getline<span class="op">(</span>input<span class="op">,</span> name<span class="op">,</span> <span class="ch">','</span><span class="op">);</span></span>
+<span id="cb8-9"><a href=""></a>getline<span class="op">(</span>input<span class="op">,</span> scoreText<span class="op">,</span> <span class="ch">','</span><span class="op">);</span></span>
+<span id="cb8-10"><a href=""></a>getline<span class="op">(</span>input<span class="op">,</span> grade<span class="op">,</span> <span class="ch">','</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>The three-argument form of getline stops at a chosen delimiter. Each call consumes its delimiter before the next field is read.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 13 -->
+</section>
+<section id="delimited-parsing-code" class="slide level2">
+<h2>Delimited Parsing Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb9-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;sstream&gt;</span></span>
+<span id="cb9-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb9-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb9-5"><a href=""></a></span>
+<span id="cb9-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-7"><a href=""></a>    string record <span class="op">=</span> <span class="st">"Ava,91.5,A"</span><span class="op">;</span></span>
+<span id="cb9-8"><a href=""></a>    istringstream fields<span class="op">(</span>record<span class="op">);</span></span>
+<span id="cb9-9"><a href=""></a>    string name<span class="op">,</span> scoreText<span class="op">,</span> grade<span class="op">;</span></span>
+<span id="cb9-10"><a href=""></a></span>
+<span id="cb9-11"><a href=""></a>    getline<span class="op">(</span>fields<span class="op">,</span> name<span class="op">,</span> <span class="ch">','</span><span class="op">);</span></span>
+<span id="cb9-12"><a href=""></a>    getline<span class="op">(</span>fields<span class="op">,</span> scoreText<span class="op">,</span> <span class="ch">','</span><span class="op">);</span></span>
+<span id="cb9-13"><a href=""></a>    getline<span class="op">(</span>fields<span class="op">,</span> grade<span class="op">,</span> <span class="ch">','</span><span class="op">);</span></span>
+<span id="cb9-14"><a href=""></a></span>
+<span id="cb9-15"><a href=""></a>    istringstream scoreInput<span class="op">(</span>scoreText<span class="op">);</span></span>
+<span id="cb9-16"><a href=""></a>    <span class="dt">double</span> score<span class="op">;</span></span>
+<span id="cb9-17"><a href=""></a></span>
+<span id="cb9-18"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>scoreInput <span class="op">&gt;&gt;</span> score<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-19"><a href=""></a>        cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">" earned "</span> <span class="op">&lt;&lt;</span> grade</span>
+<span id="cb9-20"><a href=""></a>             <span class="op">&lt;&lt;</span> <span class="st">" with "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb9-21"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb9-22"><a href=""></a></span>
+<span id="cb9-23"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-24"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>This handles a simple comma-delimited record. Full CSV permits quoted commas and requires a dedicated parser.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 14 -->
+</section>
+<section id="choosing-a-string-stream" class="slide level2">
+<h2>Choosing a String Stream</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Need</th>
+<th>Choose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Convert text into typed values</td>
+<td><code>istringstream</code></td>
+</tr>
+<tr class="even">
+<td>Combine values into formatted text</td>
+<td><code>ostringstream</code></td>
+</tr>
+<tr class="odd">
+<td>Read and write one string buffer</td>
+<td><code>stringstream</code></td>
+</tr>
+</tbody>
+</table>
+<p>Choose the narrowest stream type that matches the direction of data movement.</p>
+<!-- Slide 15 -->
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>An array is a fixed-size, contiguous block of same-type elements allocated on the stack</li>
-<li>Use an array when size is known at compile time and the collection does not need to grow</li>
+<li>String streams apply familiar stream operators to an in-memory string</li>
+<li>Use extraction and stream state to parse typed values</li>
+<li>Use insertion and <code>.str()</code> to build formatted text</li>
+<li>Use delimited <code>getline()</code> when fields are separated by a known character</li>
 </ul>
-<!-- Slide 6 -->
-<!-- Topic 2: Array Initialization -->
-<!-- Total slides: 6 -->
+<!-- Slide 16 -->
+<!-- Topic 2: Random Access Files -->
+<!-- Slides 17–36 -->
 </section></section>
 <section>
-<section id="array-initialization" class="title-slide slide level1 center">
-<h1>Array Initialization</h1>
-
+<section id="random-access-files" class="title-slide slide level1 center">
+<h1>Random Access Files</h1>
+<!-- Slide 17 -->
 </section>
-<section id="declaring-vs.-initializing-whats-the-difference" class="slide level2 smaller">
-<h2>Declaring vs.&nbsp;initializing — what’s the difference?</h2>
+<section id="updating-one-stored-value" class="slide level2 smaller">
+<h2>Updating One Stored Value</h2>
 <ul>
-<li>Declaration allocates the space; initialization sets the values</li>
-<li>Arrays give you several ways to do both at once</li>
+<li>A file contains 10,000 scores</li>
+<li>One score changes</li>
+<li>Must the program read and rewrite all 10,000 values?</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 6</p>
+<p>Slides 17–36</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -380,45 +654,49 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 18 -->
 </section>
-<section id="initializer-list-full" class="slide level2">
-<h2>Initializer list — full</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span>  <span class="co">// all 5 values</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Brace-enclose the values separated by commas</li>
-<li>The count of values must not exceed the declared size</li>
-<li>If the count matches the size, you can omit the size entirely:</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span>   <span class="co">// size inferred as 5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 2 -->
+<section id="sequential-and-random-access" class="slide level2">
+<h2>Sequential and Random Access</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sequential access</th>
+<th>Random access</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Processes values in order</td>
+<td>Jumps to a calculated position</td>
+</tr>
+<tr class="even">
+<td>Position advances automatically</td>
+<td>Program moves the position explicitly</td>
+</tr>
+<tr class="odd">
+<td>Natural for text and variable-length data</td>
+<td>Natural for fixed-size binary data</td>
+</tr>
+</tbody>
+</table>
+<p>Random access avoids processing unrelated values before reaching the target.</p>
+<!-- Slide 19 -->
 </section>
-<section id="initializer-list-partial" class="slide level2">
-<h2>Initializer list — partial</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">};</span>   <span class="co">// first 2 set; rest zero-initialized</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="file-position-markers" class="slide level2">
+<h2>File Position Markers</h2>
+<p>A file stream tracks where its next operation will occur.</p>
 <ul>
-<li>Provide fewer values than the declared size</li>
-<li>Remaining elements are <strong>zero-initialized</strong> automatically</li>
-<li>This is the idiomatic way to zero out an array:</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{};</span>          <span class="co">// all elements zero</span></span>
-<span id="cb5-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span>         <span class="co">// same effect</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 3 -->
-</section>
-<section id="size-rules" class="slide level2">
-<h2>Size rules</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb6-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">];</span>             <span class="co">// OK — const is compile-time</span></span>
-<span id="cb6-3"><a href=""></a></span>
-<span id="cb6-4"><a href=""></a><span class="dt">int</span> n <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb6-5"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>n<span class="op">];</span>                <span class="co">// not standard C++ — avoid</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Array size must be a <strong>compile-time constant</strong></li>
-<li>A plain <code>int</code> variable is not a compile-time constant, even if you assign it immediately</li>
-<li>Prefer <code>const int</code> or a named constant for the size</li>
+<li>The <strong>get position</strong> identifies where the next read begins</li>
+<li>The <strong>put position</strong> identifies where the next write begins</li>
+<li>Each successful operation advances its position by the number of bytes processed</li>
 </ul>
 <aside class="notes">
-<p>Variable-length arrays (VLAs) are a GCC extension and exist in C99, but they are not standard C++ and should not be taught as portable practice.</p>
+<p>[Graphic suggestion: a row of equal-width file blocks with separate get and put arrows positioned above two different blocks]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -430,453 +708,432 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 4 -->
+<!-- Slide 20 -->
 </section>
-<section id="what-if-you-dont-initialize" class="slide level2">
-<h2>What if you don’t initialize?</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">];</span>          <span class="co">// uninitialized — garbage values</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="opening-a-binary-file" class="slide level2">
+<h2>Opening a Binary File</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a>ifstream input<span class="op">(</span><span class="st">"scores.bin"</span><span class="op">,</span> ios<span class="op">::</span>binary<span class="op">);</span></span>
+<span id="cb10-2"><a href=""></a></span>
+<span id="cb10-3"><a href=""></a>ofstream output<span class="op">(</span><span class="st">"scores.bin"</span><span class="op">,</span> ios<span class="op">::</span>binary<span class="op">);</span></span>
+<span id="cb10-4"><a href=""></a></span>
+<span id="cb10-5"><a href=""></a>fstream file<span class="op">(</span><span class="st">"scores.bin"</span><span class="op">,</span></span>
+<span id="cb10-6"><a href=""></a>    ios<span class="op">::</span>in <span class="op">|</span> ios<span class="op">::</span>out <span class="op">|</span> ios<span class="op">::</span>binary<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Local arrays without an initializer hold whatever was in memory at that address</li>
-<li>Reading an uninitialized element is undefined behavior</li>
-<li>Always initialize, or fill every element before reading it</li>
+<li><code>ios::binary</code> preserves bytes exactly as written</li>
+<li><code>ios::in | ios::out</code> permits an existing file to be read and updated</li>
+<li>Always verify that the stream opened successfully</li>
 </ul>
-<!-- Slide 5 -->
+<!-- Slide 21 -->
+</section>
+<section id="seek-origins" class="slide level2">
+<h2>Seek Origins</h2>
+<p>Every seek uses an offset and an origin.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Origin</th>
+<th>Offset begins at</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ios::beg</code></td>
+<td>Beginning of the file</td>
+</tr>
+<tr class="even">
+<td><code>ios::cur</code></td>
+<td>Current position</td>
+</tr>
+<tr class="odd">
+<td><code>ios::end</code></td>
+<td>End of the file</td>
+</tr>
+</tbody>
+</table>
+<p>Positive offsets move forward. Negative offsets move backward when the origin permits it.</p>
+<!-- Slide 22 -->
+</section>
+<section id="moving-the-read-position" class="slide level2">
+<h2>Moving the Read Position</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a>ifstream input<span class="op">(</span><span class="st">"scores.bin"</span><span class="op">,</span> ios<span class="op">::</span>binary<span class="op">);</span></span>
+<span id="cb11-2"><a href=""></a></span>
+<span id="cb11-3"><a href=""></a>input<span class="op">.</span>seekg<span class="op">(</span><span class="dv">0</span><span class="op">,</span> ios<span class="op">::</span>beg<span class="op">);</span>   <span class="co">// beginning</span></span>
+<span id="cb11-4"><a href=""></a>input<span class="op">.</span>seekg<span class="op">(</span><span class="dv">16</span><span class="op">,</span> ios<span class="op">::</span>beg<span class="op">);</span>  <span class="co">// byte 16</span></span>
+<span id="cb11-5"><a href=""></a>input<span class="op">.</span>seekg<span class="op">(-</span><span class="dv">8</span><span class="op">,</span> ios<span class="op">::</span>end<span class="op">);</span>  <span class="co">// eight bytes before the end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>seekg moves the get position used by the next read. The offset is measured in bytes, not values or lines.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 23 -->
+</section>
+<section id="finding-the-read-position" class="slide level2">
+<h2>Finding the Read Position</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a>ifstream input<span class="op">(</span><span class="st">"scores.bin"</span><span class="op">,</span> ios<span class="op">::</span>binary<span class="op">);</span></span>
+<span id="cb12-2"><a href=""></a></span>
+<span id="cb12-3"><a href=""></a>input<span class="op">.</span>seekg<span class="op">(</span><span class="dv">0</span><span class="op">,</span> ios<span class="op">::</span>end<span class="op">);</span></span>
+<span id="cb12-4"><a href=""></a>streamoff fileSize <span class="op">=</span> input<span class="op">.</span>tellg<span class="op">();</span></span>
+<span id="cb12-5"><a href=""></a></span>
+<span id="cb12-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"File size: "</span> <span class="op">&lt;&lt;</span> fileSize <span class="op">&lt;&lt;</span> <span class="st">" bytes</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb12-7"><a href=""></a></span>
+<span id="cb12-8"><a href=""></a>input<span class="op">.</span>seekg<span class="op">(</span><span class="dv">0</span><span class="op">,</span> ios<span class="op">::</span>beg<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>tellg reports the current get position. Seeking to the end before calling tellg determines the file size.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 24 -->
+</section>
+<section id="read-and-write-positions" class="slide level2">
+<h2>Read and Write Positions</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Position</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>seekg(offset, origin)</code></td>
+<td>Get</td>
+<td>Move the next read</td>
+</tr>
+<tr class="even">
+<td><code>tellg()</code></td>
+<td>Get</td>
+<td>Report the read position</td>
+</tr>
+<tr class="odd">
+<td><code>seekp(offset, origin)</code></td>
+<td>Put</td>
+<td>Move the next write</td>
+</tr>
+<tr class="even">
+<td><code>tellp()</code></td>
+<td>Put</td>
+<td>Report the write position</td>
+</tr>
+</tbody>
+</table>
+<p>The letters suggest the direction: <strong>g</strong>et data and <strong>p</strong>ut data.</p>
+<!-- Slide 25 -->
+</section>
+<section id="why-text-records-vary" class="slide level2">
+<h2>Why Text Records Vary</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href=""></a>8</span>
+<span id="cb13-2"><a href=""></a>125</span>
+<span id="cb13-3"><a href=""></a>42</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The values occupy different numbers of characters</li>
+<li>Line endings also consume bytes</li>
+<li>The location of one value depends on the lengths of all earlier values</li>
+</ul>
+<p>Text is easy to inspect, but its variable widths prevent a simple index-to-offset formula.</p>
+<!-- Slide 26 -->
+</section>
+<section id="fixed-size-binary-values" class="slide level2">
+<h2>Fixed-Size Binary Values</h2>
+<p>Suppose every stored score is a <code>double</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a href=""></a>score 0     score 1     score 2     score 3</span>
+<span id="cb14-2"><a href=""></a>8 bytes     8 bytes     8 bytes     8 bytes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Every value occupies <code>sizeof(double)</code> bytes, so the location of any index is predictable.</p>
+<aside class="notes">
+<p>[Graphic suggestion: four equal-width blocks labeled by index, with byte offsets 0, 8, 16, and 24 beneath them]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 27 -->
+</section>
+<section id="writing-binary-values" class="slide level2">
+<h2>Writing Binary Values</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">double</span> score <span class="op">=</span> <span class="fl">91.5</span><span class="op">;</span></span>
+<span id="cb15-2"><a href=""></a></span>
+<span id="cb15-3"><a href=""></a>output<span class="op">.</span>write<span class="op">(</span></span>
+<span id="cb15-4"><a href=""></a>    <span class="kw">reinterpret_cast</span><span class="op">&lt;</span><span class="at">const</span> <span class="dt">char</span><span class="op">*&gt;(&amp;</span>score<span class="op">),</span></span>
+<span id="cb15-5"><a href=""></a>    <span class="kw">sizeof</span><span class="op">(</span>score<span class="op">)</span></span>
+<span id="cb15-6"><a href=""></a><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>write()</code> copies a specified number of bytes</li>
+<li><code>&amp;score</code> supplies the address of the value</li>
+<li>The cast exposes those bytes through the pointer type required by <code>write()</code></li>
+</ul>
+<aside class="notes">
+<p>Treat reinterpret_cast here as the standard adapter required by the binary stream interface. Pointer mechanics are covered later in the course.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 28 -->
+</section>
+<section id="the-offset-formula" class="slide level2">
+<h2>The Offset Formula</h2>
+<p>For equal-size values:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb16-1"><a href=""></a>byte offset = index × sizeof(value type)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For <code>double</code> values:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Index</th>
+<th style="text-align: right;">Calculation</th>
+<th style="text-align: right;">Byte offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;"><code>0 × 8</code></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"><code>1 × 8</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;"><code>4 × 8</code></td>
+<td style="text-align: right;">32</td>
+</tr>
+</tbody>
+</table>
+<p>Always use <code>sizeof</code>; do not hardcode the byte count.</p>
+<!-- Slide 29 -->
+</section>
+<section id="reading-one-value" class="slide level2">
+<h2>Reading One Value</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">int</span> index <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb17-2"><a href=""></a><span class="dt">double</span> score<span class="op">;</span></span>
+<span id="cb17-3"><a href=""></a></span>
+<span id="cb17-4"><a href=""></a>input<span class="op">.</span>seekg<span class="op">(</span>index <span class="op">*</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">double</span><span class="op">),</span> ios<span class="op">::</span>beg<span class="op">);</span></span>
+<span id="cb17-5"><a href=""></a>input<span class="op">.</span>read<span class="op">(</span></span>
+<span id="cb17-6"><a href=""></a>    <span class="kw">reinterpret_cast</span><span class="op">&lt;</span><span class="dt">char</span><span class="op">*&gt;(&amp;</span>score<span class="op">),</span></span>
+<span id="cb17-7"><a href=""></a>    <span class="kw">sizeof</span><span class="op">(</span>score<span class="op">)</span></span>
+<span id="cb17-8"><a href=""></a><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Move the get position, then read the bytes into a variable. Index 4 selects the fifth stored value because indexing begins at zero.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 30 -->
+</section>
+<section id="reading-one-value-complete-code" class="slide level2">
+<h2>Reading One Value: Complete Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
+<span id="cb18-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb18-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb18-4"><a href=""></a></span>
+<span id="cb18-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb18-6"><a href=""></a>    ifstream input<span class="op">(</span><span class="st">"scores.bin"</span><span class="op">,</span> ios<span class="op">::</span>binary<span class="op">);</span></span>
+<span id="cb18-7"><a href=""></a>    <span class="cf">if</span> <span class="op">(!</span>input<span class="op">.</span>is_open<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb18-8"><a href=""></a>        cerr <span class="op">&lt;&lt;</span> <span class="st">"Could not open scores.bin</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb18-9"><a href=""></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb18-10"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb18-11"><a href=""></a></span>
+<span id="cb18-12"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb18-13"><a href=""></a>    <span class="dt">double</span> score<span class="op">;</span></span>
+<span id="cb18-14"><a href=""></a>    input<span class="op">.</span>seekg<span class="op">(</span>index <span class="op">*</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">double</span><span class="op">),</span> ios<span class="op">::</span>beg<span class="op">);</span></span>
+<span id="cb18-15"><a href=""></a>    input<span class="op">.</span>read<span class="op">(</span><span class="kw">reinterpret_cast</span><span class="op">&lt;</span><span class="dt">char</span><span class="op">*&gt;(&amp;</span>score<span class="op">),</span> <span class="kw">sizeof</span><span class="op">(</span>score<span class="op">));</span></span>
+<span id="cb18-16"><a href=""></a></span>
+<span id="cb18-17"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>input<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-18"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Score: "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb18-19"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb18-20"><a href=""></a></span>
+<span id="cb18-21"><a href=""></a>    input<span class="op">.</span>close<span class="op">();</span></span>
+<span id="cb18-22"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb18-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>The stream check after read detects an invalid offset, a shortened file, or another read failure.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 31 -->
+</section>
+<section id="replacing-one-value" class="slide level2">
+<h2>Replacing One Value</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">int</span> index <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb19-2"><a href=""></a><span class="dt">double</span> replacement <span class="op">=</span> <span class="fl">96.0</span><span class="op">;</span></span>
+<span id="cb19-3"><a href=""></a></span>
+<span id="cb19-4"><a href=""></a>file<span class="op">.</span>seekp<span class="op">(</span>index <span class="op">*</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">double</span><span class="op">),</span> ios<span class="op">::</span>beg<span class="op">);</span></span>
+<span id="cb19-5"><a href=""></a>file<span class="op">.</span>write<span class="op">(</span></span>
+<span id="cb19-6"><a href=""></a>    <span class="kw">reinterpret_cast</span><span class="op">&lt;</span><span class="at">const</span> <span class="dt">char</span><span class="op">*&gt;(&amp;</span>replacement<span class="op">),</span></span>
+<span id="cb19-7"><a href=""></a>    <span class="kw">sizeof</span><span class="op">(</span>replacement<span class="op">)</span></span>
+<span id="cb19-8"><a href=""></a><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Move the put position, then overwrite exactly one value. The bytes before and after that value remain unchanged.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 32 -->
+</section>
+<section id="replacing-one-value-complete-code" class="slide level2">
+<h2>Replacing One Value: Complete Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
+<span id="cb20-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb20-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb20-4"><a href=""></a></span>
+<span id="cb20-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb20-6"><a href=""></a>    fstream file<span class="op">(</span><span class="st">"scores.bin"</span><span class="op">,</span></span>
+<span id="cb20-7"><a href=""></a>        ios<span class="op">::</span>in <span class="op">|</span> ios<span class="op">::</span>out <span class="op">|</span> ios<span class="op">::</span>binary<span class="op">);</span></span>
+<span id="cb20-8"><a href=""></a></span>
+<span id="cb20-9"><a href=""></a>    <span class="cf">if</span> <span class="op">(!</span>file<span class="op">.</span>is_open<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb20-10"><a href=""></a>        cerr <span class="op">&lt;&lt;</span> <span class="st">"Could not open scores.bin</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb20-11"><a href=""></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb20-12"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb20-13"><a href=""></a></span>
+<span id="cb20-14"><a href=""></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb20-15"><a href=""></a>    <span class="dt">double</span> replacement <span class="op">=</span> <span class="fl">96.0</span><span class="op">;</span></span>
+<span id="cb20-16"><a href=""></a>    file<span class="op">.</span>seekp<span class="op">(</span>index <span class="op">*</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">double</span><span class="op">),</span> ios<span class="op">::</span>beg<span class="op">);</span></span>
+<span id="cb20-17"><a href=""></a>    file<span class="op">.</span>write<span class="op">(</span><span class="kw">reinterpret_cast</span><span class="op">&lt;</span><span class="at">const</span> <span class="dt">char</span><span class="op">*&gt;(&amp;</span>replacement<span class="op">),</span></span>
+<span id="cb20-18"><a href=""></a>               <span class="kw">sizeof</span><span class="op">(</span>replacement<span class="op">));</span></span>
+<span id="cb20-19"><a href=""></a></span>
+<span id="cb20-20"><a href=""></a>    <span class="cf">if</span> <span class="op">(!</span>file<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-21"><a href=""></a>        cerr <span class="op">&lt;&lt;</span> <span class="st">"The update failed</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb20-22"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb20-23"><a href=""></a></span>
+<span id="cb20-24"><a href=""></a>    file<span class="op">.</span>close<span class="op">();</span></span>
+<span id="cb20-25"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb20-26"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Opening with both ios::in and ios::out permits an existing file to be updated without truncating it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 33 -->
+</section>
+<section id="validating-the-position" class="slide level2">
+<h2>Validating the Position</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a>input<span class="op">.</span>seekg<span class="op">(</span><span class="dv">0</span><span class="op">,</span> ios<span class="op">::</span>end<span class="op">);</span></span>
+<span id="cb21-2"><a href=""></a>streamoff fileSize <span class="op">=</span> input<span class="op">.</span>tellg<span class="op">();</span></span>
+<span id="cb21-3"><a href=""></a><span class="dt">int</span> valueCount <span class="op">=</span> fileSize <span class="op">/</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">double</span><span class="op">);</span></span>
+<span id="cb21-4"><a href=""></a></span>
+<span id="cb21-5"><a href=""></a><span class="cf">if</span> <span class="op">(</span>index <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> index <span class="op">&gt;=</span> valueCount<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-6"><a href=""></a>    cerr <span class="op">&lt;&lt;</span> <span class="st">"Index is outside the file</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb21-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb21-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Derive the number of values from the file size and reject invalid indices before seeking. Check the stream again after every binary read or write.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 34 -->
+</section>
+<section id="choosing-an-access-pattern" class="slide level2">
+<h2>Choosing an Access Pattern</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Need</th>
+<th>Access pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Human-readable records</td>
+<td>Sequential text</td>
+</tr>
+<tr class="even">
+<td>Variable-length records</td>
+<td>Sequential text</td>
+</tr>
+<tr class="odd">
+<td>Process every stored value</td>
+<td>Sequential access</td>
+</tr>
+<tr class="even">
+<td>Jump directly to a fixed-size value</td>
+<td>Random-access binary</td>
+</tr>
+<tr class="odd">
+<td>Replace one fixed-size value in place</td>
+<td>Random-access binary</td>
+</tr>
+</tbody>
+</table>
+<p>Choose the file format and access pattern together; each constrains the other.</p>
+<!-- Slide 35 -->
 </section>
 <section id="summary-1" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>Provide an initializer list to set values at declaration; <code>= {}</code> zeros the entire array</li>
-<li>Size must be a compile-time constant — use <code>const int</code> for named sizes</li>
-<li>Uninitialized local arrays hold garbage; always initialize before reading</li>
+<li><code>seekg()</code> and <code>seekp()</code> move the next read or write position</li>
+<li><code>tellg()</code> and <code>tellp()</code> report the current positions</li>
+<li>Fixed-size binary values make <code>index × sizeof(type)</code> predictable</li>
+<li>Validate the index and stream state before using file data</li>
 </ul>
-<!-- Slide 6 -->
-<!-- Topic 3: Accessing Array Elements in Loops -->
-<!-- Total slides: 7 -->
-</section></section>
-<section>
-<section id="accessing-array-elements-in-loops" class="title-slide slide level1 center">
-<h1>Accessing Array Elements in Loops</h1>
-
-</section>
-<section id="getting-to-each-element-index-or-range" class="slide level2 smaller">
-<h2>Getting to each element — index or range?</h2>
-<ul>
-<li>Two loop styles work with arrays, each with different tradeoffs</li>
-<li>Choosing wrong loses the index or risks going out of bounds</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 7</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="the-subscript-operator" class="slide level2">
-<h2>The subscript operator</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb8-2"><a href=""></a></span>
-<span id="cb8-3"><a href=""></a>scores<span class="op">[</span><span class="dv">0</span><span class="op">];</span>   <span class="co">// 91 — first element</span></span>
-<span id="cb8-4"><a href=""></a>scores<span class="op">[</span><span class="dv">4</span><span class="op">];</span>   <span class="co">// 62 — last element</span></span>
-<span id="cb8-5"><a href=""></a>scores<span class="op">[</span><span class="dv">5</span><span class="op">];</span>   <span class="co">// out of bounds — undefined behavior</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>array[i]</code> reads or writes element at index <code>i</code></li>
-<li>Valid indices: <code>0</code> through <code>size - 1</code></li>
-<li>C++ does not check bounds — going past the end is undefined behavior</li>
-</ul>
-<!-- Slide 2 -->
-</section>
-<section id="index-based-for-loop" class="slide level2">
-<h2>Index-based for loop</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb9-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb9-3"><a href=""></a></span>
-<span id="cb9-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb9-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>  <span class="co">// access by index</span></span>
-<span id="cb9-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Use SIZE (a named constant) as the loop bound — not a magic number. The loop variable i is available inside the body, which allows computing positions, comparing neighbors, or writing back to the array.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 3 -->
-</section>
-<section id="section" class="slide level2" data-background-iframe="images/array_loop.html">
-<h2></h2>
-<!-- Slide 4 -->
-</section>
-<section id="range-for-loop" class="slide level2">
-<h2>Range-for loop</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb10-2"><a href=""></a></span>
-<span id="cb10-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb10-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// no index needed</span></span>
-<span id="cb10-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Range-for reads the array size from the declaration automatically — no SIZE constant needed. The element variable (score) is a copy by default; use int&amp; score to modify elements in place.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 5 -->
-</section>
-<section id="which-loop-to-use" class="slide level2">
-<h2>Which loop to use?</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 64%">
-<col style="width: 35%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Situation</th>
-<th>Loop</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Need the index (position, neighbor, write back)</td>
-<td><code>for (int i = 0; i &lt; SIZE; i++)</code></td>
-</tr>
-<tr class="even">
-<td>Read every element, no index needed</td>
-<td><code>for (int x : arr)</code></td>
-</tr>
-<tr class="odd">
-<td>Modify elements in place</td>
-<td><code>for (int&amp; x : arr)</code></td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>When the index is irrelevant, range-for is cleaner and less error-prone</li>
-<li>When you need the position or must write back by index, use the index-based form</li>
-</ul>
-<!-- Slide 6 -->
-</section>
-<section id="summary-2" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>Use <code>array[i]</code> to read or write a single element; valid indices run from <code>0</code> to <code>size - 1</code></li>
-<li>Index-based <code>for</code> gives you the position; range-for hides it — choose based on whether the index matters</li>
-</ul>
-<!-- Slide 7 -->
-<!-- Topic 4: Inputting and Displaying Array Data -->
-<!-- Total slides: 5 -->
-</section></section>
-<section>
-<section id="inputting-and-displaying-array-data" class="title-slide slide level1 center">
-<h1>Inputting and Displaying Array Data</h1>
-
-</section>
-<section id="reading-values-from-the-user-into-an-array" class="slide level2 smaller">
-<h2>Reading values from the user into an array</h2>
-<ul>
-<li>The pattern is a loop — same index mechanics, now with <code>cin</code></li>
-<li>Fill first, display second: two separate passes</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 5</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="input-loop-filling-the-array" class="slide level2">
-<h2>Input loop — filling the array</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb11-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">];</span></span>
-<span id="cb11-3"><a href=""></a></span>
-<span id="cb11-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb11-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter score "</span> <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span><span class="op">;</span></span>
-<span id="cb11-6"><a href=""></a>    cin  <span class="op">&gt;&gt;</span> scores<span class="op">[</span>i<span class="op">];</span>              <span class="co">// fill each element</span></span>
-<span id="cb11-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>i + 1 in the prompt gives users a 1-based label (“Enter score 1”) while the array remains 0-indexed. This is a common display convention worth pointing out.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 2 -->
-</section>
-<section id="display-loop-printing-the-array" class="slide level2">
-<h2>Display loop — printing the array</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb12-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score "</span> <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb12-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>This is deliberately separate from the input loop. Mixing input and output in a single loop works but makes programs harder to read and test. Teach the two-pass pattern early.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 3 -->
-</section>
-<section id="combined-example" class="slide level2">
-<h2>Combined example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb13-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb13-3"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb13-4"><a href=""></a></span>
-<span id="cb13-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb13-6"><a href=""></a>    <span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">];</span></span>
-<span id="cb13-7"><a href=""></a></span>
-<span id="cb13-8"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span>       <span class="co">// fill</span></span>
-<span id="cb13-9"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Enter score "</span> <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span><span class="op">;</span></span>
-<span id="cb13-10"><a href=""></a>        cin  <span class="op">&gt;&gt;</span> scores<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb13-11"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb13-12"><a href=""></a></span>
-<span id="cb13-13"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span>       <span class="co">// display</span></span>
-<span id="cb13-14"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Score "</span> <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb13-15"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb13-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 4 -->
-</section>
-<section id="summary-3" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>Fill the array in one loop, display it in a second loop — keep the two passes separate</li>
-<li>The same index-based <code>for</code> pattern applies to both; <code>i + 1</code> in the prompt gives users a 1-based label</li>
-</ul>
-<!-- Slide 5 -->
-<!-- Topic 5: Vectors vs. Arrays -->
-<!-- Total slides: 5 -->
-</section></section>
-<section>
-<section id="vectors-vs.-arrays" class="title-slide slide level1 center">
-<h1>Vectors vs.&nbsp;Arrays</h1>
-
-</section>
-<section id="same-idea-different-contract" class="slide level2 smaller">
-<h2>Same idea — different contract</h2>
-<ul>
-<li>You already know vectors; arrays trade flexibility for simplicity</li>
-<li>Knowing both means choosing the right tool for the job</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 5</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="side-by-side-comparison" class="slide level2">
-<h2>Side-by-side comparison</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Array</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb14-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span>
-<span id="cb14-3"><a href=""></a></span>
-<span id="cb14-4"><a href=""></a>scores<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="dv">84</span><span class="op">;</span></span>
-<span id="cb14-5"><a href=""></a><span class="co">// can't grow</span></span>
-<span id="cb14-6"><a href=""></a><span class="co">// no .size()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:50%;">
-<p><strong>Vector</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">(</span><span class="dv">5</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
-<span id="cb15-2"><a href=""></a></span>
-<span id="cb15-3"><a href=""></a>scores<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="dv">84</span><span class="op">;</span></span>
-<span id="cb15-4"><a href=""></a>scores<span class="op">.</span>push_back<span class="op">(</span><span class="dv">100</span><span class="op">);</span>  <span class="co">// grows</span></span>
-<span id="cb15-5"><a href=""></a>scores<span class="op">.</span>size<span class="op">();</span>          <span class="co">// available</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
-<!-- Slide 2 -->
-</section>
-<section id="bounds-safety" class="slide level2">
-<h2>Bounds safety</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb16-2"><a href=""></a>scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>          <span class="co">// out of bounds — undefined behavior</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb17-2"><a href=""></a>scores<span class="op">.</span>at<span class="op">(</span><span class="dv">5</span><span class="op">)</span> <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>       <span class="co">// throws out_of_range</span></span>
-<span id="cb17-3"><a href=""></a>scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>          <span class="co">// still undefined behavior</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Neither <code>[]</code> on arrays nor <code>[]</code> on vectors checks bounds</li>
-<li>Vectors expose <code>.at()</code> as a checked alternative; arrays have no equivalent</li>
-</ul>
-<!-- Slide 3 -->
-</section>
-<section id="when-to-use-each" class="slide level2">
-<h2>When to use each</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 51%">
-<col style="width: 48%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Use an array when…</th>
-<th>Use a vector when…</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Size is fixed and known at compile time</td>
-<td>Size is unknown or changes at runtime</td>
-</tr>
-<tr class="even">
-<td>You need zero overhead</td>
-<td>You need <code>push_back</code>, <code>size</code>, or algorithms</td>
-</tr>
-<tr class="odd">
-<td>Interfacing with C APIs or hardware</td>
-<td>General-purpose collection work</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Default to vector — it is safer and more flexible</li>
-<li>Reach for arrays only when overhead or API constraints require it</li>
-</ul>
-<!-- Slide 4 -->
-</section>
-<section id="summary-4" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>Arrays are fixed-size and stack-allocated; vectors are dynamic and heap-allocated</li>
-<li>Neither <code>[]</code> operator checks bounds — use <code>.at()</code> on vectors when safety matters, and be deliberate with array indices</li>
-</ul>
-<!-- Slide 5 -->
-<!-- Topic 6: Performance — Vectors vs. Arrays -->
-<!-- Total slides: 5 -->
-</section></section>
-<section>
-<section id="performance-vectors-vs.-arrays" class="title-slide slide level1 center">
-<h1>Performance — Vectors vs.&nbsp;Arrays</h1>
-
-</section>
-<section id="stack-vs.-heap-does-the-difference-matter" class="slide level2 smaller">
-<h2>Stack vs.&nbsp;heap — does the difference matter?</h2>
-<ul>
-<li>Arrays live on the stack; vectors allocate on the heap</li>
-<li>The difference is measurable — but rarely the deciding factor</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 5</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="why-arrays-are-faster-in-theory" class="slide level2">
-<h2>Why arrays are faster — in theory</h2>
-<ul>
-<li><strong>Stack allocation</strong>: the compiler reserves space at function entry; no system call, no bookkeeping</li>
-<li><strong>Heap allocation</strong>: <code>new</code> (what <code>vector</code> uses internally) requests memory from the OS; involves overhead and possible cache misses</li>
-<li>Arrays also avoid storing a pointer, size, and capacity — three extra words that vectors carry</li>
-</ul>
-<aside class="notes">
-<p>[Graphic suggestion: two side-by-side memory diagrams — left shows the call stack with an array block sitting directly inside the frame; right shows the call stack with a vector object (pointer + size + capacity) pointing out to a heap block]</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 2 -->
-</section>
-<section id="what-the-numbers-look-like" class="slide level2">
-<h2>What the numbers look like</h2>
-<ul>
-<li>For small arrays (&lt; a few hundred elements), the practical difference is nanoseconds</li>
-<li>The bottleneck in most programs is I/O, algorithm complexity, or cache misses — not stack vs.&nbsp;heap</li>
-<li>Modern allocators are fast; vector’s heap overhead is often negligible</li>
-</ul>
-<aside class="notes">
-<p>If you have a timing demo ready, show it here. A tight loop summing 1,000 ints as an array vs.&nbsp;vector will show a small but real difference. The point is not that arrays are always faster — it’s that the difference matters only in constrained contexts.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 3 -->
-</section>
-<section id="when-the-difference-actually-matters" class="slide level2">
-<h2>When the difference actually matters</h2>
-<ul>
-<li>Embedded systems and microcontrollers with no heap (or a tiny one)</li>
-<li>Real-time systems where allocation latency must be bounded</li>
-<li>Hot inner loops called millions of times in numerical or signal-processing code</li>
-<li>Interfacing with C libraries that expect raw arrays</li>
-</ul>
-<!-- Slide 4 -->
-</section>
-<section id="summary-5" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>Arrays are faster than vectors because stack allocation has no overhead and no indirection</li>
-<li>The gap matters in constrained or performance-critical contexts; for general programming, choose based on safety and flexibility, not speed</li>
-</ul>
-<!-- Slide 5 -->
+<!-- Slide 36 -->
 </section>
 <section class="slide level2">
 
@@ -885,11 +1142,12 @@ Dr.&nbsp;Caleb Fowler
 <section id="key-takeaways" class="title-slide slide level1 center">
 <h1>Key Takeaways</h1>
 <ul>
-<li>An array is a fixed-size, contiguous block of same-type elements on the stack — declare size with a <code>const int</code>, initialize with <code>= {}</code></li>
-<li>Access elements with <code>array[i]</code>; valid indices run <code>0</code> through <code>size - 1</code> — C++ does not check bounds</li>
-<li>Use index-based <code>for</code> when you need the position; use range-for when you don’t</li>
-<li>Default to <code>vector</code>; reach for an array when size is fixed at compile time or overhead must be zero</li>
+<li>String streams parse and format text using familiar stream operators</li>
+<li>Stream state reports whether typed extraction succeeded</li>
+<li>Random access moves directly to a calculated byte position</li>
+<li>Fixed-size binary values make index-based offsets predictable</li>
 </ul>
+<!-- Slide 37 -->
 </section>
 <section class="slide level2">
 
@@ -897,7 +1155,7 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next Time</h1>
-
+<!-- Slide 38 -->
 </section>
 <section class="slide level2">
 
@@ -905,115 +1163,121 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-
+<!-- Slide 39 -->
 </section>
-<section id="introduction-to-arrays-good-practices" class="slide level2">
-<h2>Introduction to Arrays: Good Practices</h2>
+<section id="stringstream-good-practices" class="slide level2">
+<h2>Stringstream: Good Practices</h2>
+<ul>
+<li>Use <code>istringstream</code> for parsing and <code>ostringstream</code> for formatting</li>
+<li>Check stream state before using extracted values</li>
+<li>Keep input collection separate from interpretation</li>
+</ul>
+<!-- Slide 40 -->
 </section>
-<section id="introduction-to-arrays-common-mistakes" class="slide level2">
-<h2>Introduction to Arrays: Common Mistakes</h2>
+<section id="stringstream-common-mistakes" class="slide level2">
+<h2>Stringstream: Common Mistakes</h2>
+<ul>
+<li>Assuming extraction succeeded without checking the stream</li>
+<li>Expecting <code>&gt;&gt;</code> to preserve spaces inside a field</li>
+<li>Treating a simple delimiter split as a complete CSV parser</li>
+</ul>
+<!-- Slide 41 -->
 </section>
-<section id="introduction-to-arrays-more-examples" class="slide level2">
-<h2>Introduction to Arrays: More Examples</h2>
+<section id="stringstream-more-examples" class="slide level2">
+<h2>Stringstream: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a>string text <span class="op">=</span> <span class="st">"18 72.5 true"</span><span class="op">;</span></span>
+<span id="cb22-2"><a href=""></a>istringstream input<span class="op">(</span>text<span class="op">);</span></span>
+<span id="cb22-3"><a href=""></a></span>
+<span id="cb22-4"><a href=""></a><span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb22-5"><a href=""></a><span class="dt">double</span> weight<span class="op">;</span></span>
+<span id="cb22-6"><a href=""></a><span class="dt">bool</span> active<span class="op">;</span></span>
+<span id="cb22-7"><a href=""></a></span>
+<span id="cb22-8"><a href=""></a>input <span class="op">&gt;&gt;</span> age <span class="op">&gt;&gt;</span> weight <span class="op">&gt;&gt;</span> boolalpha <span class="op">&gt;&gt;</span> active<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 42 -->
 </section>
-<section id="introduction-to-arrays-practice-problems" class="slide level2">
-<h2>Introduction to Arrays: Practice Problems</h2>
+<section id="stringstream-practice-problems" class="slide level2">
+<h2>Stringstream: Practice Problems</h2>
+<ol type="1">
+<li>Parse a line containing a product name, quantity, and price.</li>
+<li>Build a receipt line with a fixed two-decimal total.</li>
+<li>Split a pipe-delimited record into three fields.</li>
+</ol>
+<!-- Slide 43 -->
 </section>
-<section id="introduction-to-arrays-ai-search-terms" class="slide level2">
-<h2>Introduction to Arrays: AI Search Terms</h2>
+<section id="stringstream-ai-search-terms" class="slide level2">
+<h2>Stringstream: AI Search Terms</h2>
+<ul>
+<li>C++ <code>istringstream</code> parse typed values</li>
+<li>C++ <code>ostringstream</code> build formatted string</li>
+<li>C++ <code>getline</code> custom delimiter stringstream</li>
+<li>C++ check string stream extraction failure</li>
+</ul>
+<!-- Slide 44 -->
 </section>
-<section id="introduction-to-arrays-questions-for-reflection" class="slide level2">
-<h2>Introduction to Arrays: Questions for Reflection</h2>
+<section id="stringstream-questions-for-reflection" class="slide level2">
+<h2>Stringstream: Questions for Reflection</h2>
+<ul>
+<li>Why separate reading a complete line from parsing its values?</li>
+<li>When is <code>getline()</code> more appropriate than <code>&gt;&gt;</code>?</li>
+<li>What information does stream state provide?</li>
+</ul>
+<!-- Slide 45 -->
 </section>
-<section id="array-initialization-good-practices" class="slide level2">
-<h2>Array Initialization: Good Practices</h2>
+<section id="random-access-files-good-practices" class="slide level2">
+<h2>Random Access Files: Good Practices</h2>
+<ul>
+<li>Open random-access data with <code>ios::binary</code></li>
+<li>Calculate offsets with <code>sizeof</code> rather than a hardcoded width</li>
+<li>Validate the requested index and check every file operation</li>
+</ul>
+<!-- Slide 46 -->
 </section>
-<section id="array-initialization-common-mistakes" class="slide level2">
-<h2>Array Initialization: Common Mistakes</h2>
+<section id="random-access-files-common-mistakes" class="slide level2">
+<h2>Random Access Files: Common Mistakes</h2>
+<ul>
+<li>Using <code>seekg()</code> before a write or <code>seekp()</code> before a read</li>
+<li>Calculating offsets for variable-length text records</li>
+<li>Opening an update stream in a mode that truncates the file</li>
+</ul>
+<!-- Slide 47 -->
 </section>
-<section id="array-initialization-more-examples" class="slide level2">
-<h2>Array Initialization: More Examples</h2>
+<section id="random-access-files-more-examples" class="slide level2">
+<h2>Random Access Files: More Examples</h2>
+<p>Read the final stored <code>double</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a>input<span class="op">.</span>seekg<span class="op">(-</span><span class="kw">static_cast</span><span class="op">&lt;</span>streamoff<span class="op">&gt;(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">double</span><span class="op">)),</span> ios<span class="op">::</span>end<span class="op">);</span></span>
+<span id="cb23-2"><a href=""></a></span>
+<span id="cb23-3"><a href=""></a><span class="dt">double</span> lastScore<span class="op">;</span></span>
+<span id="cb23-4"><a href=""></a>input<span class="op">.</span>read<span class="op">(</span><span class="kw">reinterpret_cast</span><span class="op">&lt;</span><span class="dt">char</span><span class="op">*&gt;(&amp;</span>lastScore<span class="op">),</span></span>
+<span id="cb23-5"><a href=""></a>           <span class="kw">sizeof</span><span class="op">(</span>lastScore<span class="op">));</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 48 -->
 </section>
-<section id="array-initialization-practice-problems" class="slide level2">
-<h2>Array Initialization: Practice Problems</h2>
+<section id="random-access-files-practice-problems" class="slide level2">
+<h2>Random Access Files: Practice Problems</h2>
+<ol type="1">
+<li>Determine how many <code>int</code> values are stored in a binary file.</li>
+<li>Read the value at an index supplied by the user.</li>
+<li>Replace the final <code>double</code> without changing earlier values.</li>
+</ol>
+<!-- Slide 49 -->
 </section>
-<section id="array-initialization-ai-search-terms" class="slide level2">
-<h2>Array Initialization: AI Search Terms</h2>
+<section id="random-access-files-ai-search-terms" class="slide level2">
+<h2>Random Access Files: AI Search Terms</h2>
+<ul>
+<li>C++ binary file <code>seekg</code> and <code>seekp</code></li>
+<li>C++ <code>tellg</code> determine binary file size</li>
+<li>C++ random access fixed-size values</li>
+<li>C++ <code>fstream</code> update binary file without truncating</li>
+</ul>
+<!-- Slide 50 -->
 </section>
-<section id="array-initialization-questions-for-reflection" class="slide level2">
-<h2>Array Initialization: Questions for Reflection</h2>
-</section>
-<section id="accessing-array-elements-in-loops-good-practices" class="slide level2">
-<h2>Accessing Array Elements in Loops: Good Practices</h2>
-</section>
-<section id="accessing-array-elements-in-loops-common-mistakes" class="slide level2">
-<h2>Accessing Array Elements in Loops: Common Mistakes</h2>
-</section>
-<section id="accessing-array-elements-in-loops-more-examples" class="slide level2">
-<h2>Accessing Array Elements in Loops: More Examples</h2>
-</section>
-<section id="accessing-array-elements-in-loops-practice-problems" class="slide level2">
-<h2>Accessing Array Elements in Loops: Practice Problems</h2>
-</section>
-<section id="accessing-array-elements-in-loops-ai-search-terms" class="slide level2">
-<h2>Accessing Array Elements in Loops: AI Search Terms</h2>
-</section>
-<section id="accessing-array-elements-in-loops-questions-for-reflection" class="slide level2">
-<h2>Accessing Array Elements in Loops: Questions for Reflection</h2>
-</section>
-<section id="inputting-and-displaying-array-data-good-practices" class="slide level2">
-<h2>Inputting and Displaying Array Data: Good Practices</h2>
-</section>
-<section id="inputting-and-displaying-array-data-common-mistakes" class="slide level2">
-<h2>Inputting and Displaying Array Data: Common Mistakes</h2>
-</section>
-<section id="inputting-and-displaying-array-data-more-examples" class="slide level2">
-<h2>Inputting and Displaying Array Data: More Examples</h2>
-</section>
-<section id="inputting-and-displaying-array-data-practice-problems" class="slide level2">
-<h2>Inputting and Displaying Array Data: Practice Problems</h2>
-</section>
-<section id="inputting-and-displaying-array-data-ai-search-terms" class="slide level2">
-<h2>Inputting and Displaying Array Data: AI Search Terms</h2>
-</section>
-<section id="inputting-and-displaying-array-data-questions-for-reflection" class="slide level2">
-<h2>Inputting and Displaying Array Data: Questions for Reflection</h2>
-</section>
-<section id="vectors-vs.-arrays-good-practices" class="slide level2">
-<h2>Vectors vs.&nbsp;Arrays: Good Practices</h2>
-</section>
-<section id="vectors-vs.-arrays-common-mistakes" class="slide level2">
-<h2>Vectors vs.&nbsp;Arrays: Common Mistakes</h2>
-</section>
-<section id="vectors-vs.-arrays-more-examples" class="slide level2">
-<h2>Vectors vs.&nbsp;Arrays: More Examples</h2>
-</section>
-<section id="vectors-vs.-arrays-practice-problems" class="slide level2">
-<h2>Vectors vs.&nbsp;Arrays: Practice Problems</h2>
-</section>
-<section id="vectors-vs.-arrays-ai-search-terms" class="slide level2">
-<h2>Vectors vs.&nbsp;Arrays: AI Search Terms</h2>
-</section>
-<section id="vectors-vs.-arrays-questions-for-reflection" class="slide level2">
-<h2>Vectors vs.&nbsp;Arrays: Questions for Reflection</h2>
-</section>
-<section id="performance-vectors-vs.-arrays-good-practices" class="slide level2">
-<h2>Performance — Vectors vs.&nbsp;Arrays: Good Practices</h2>
-</section>
-<section id="performance-vectors-vs.-arrays-common-mistakes" class="slide level2">
-<h2>Performance — Vectors vs.&nbsp;Arrays: Common Mistakes</h2>
-</section>
-<section id="performance-vectors-vs.-arrays-more-examples" class="slide level2">
-<h2>Performance — Vectors vs.&nbsp;Arrays: More Examples</h2>
-</section>
-<section id="performance-vectors-vs.-arrays-practice-problems" class="slide level2">
-<h2>Performance — Vectors vs.&nbsp;Arrays: Practice Problems</h2>
-</section>
-<section id="performance-vectors-vs.-arrays-ai-search-terms" class="slide level2">
-<h2>Performance — Vectors vs.&nbsp;Arrays: AI Search Terms</h2>
-</section>
-<section id="performance-vectors-vs.-arrays-questions-for-reflection" class="slide level2">
-<h2>Performance — Vectors vs.&nbsp;Arrays: Questions for Reflection</h2>
+<section id="random-access-files-questions-for-reflection" class="slide level2">
+<h2>Random Access Files: Questions for Reflection</h2>
+<ul>
+<li>Why must values have a fixed width for index-based offsets?</li>
+<li>What is the difference between the get and put positions?</li>
+<li>When is sequential text preferable to random-access binary data?</li>
+</ul>
+<!-- Slide 51 -->
 
 </section></section>
     </div>
@@ -1072,7 +1336,7 @@ Dr.&nbsp;Caleb Fowler
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'h.v',
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -1113,7 +1377,7 @@ Dr.&nbsp;Caleb Fowler
         rtl: false,
 
         // see https://revealjs.com/vertical-slides/#navigation-mode
-        navigationMode: 'default',
+        navigationMode: 'linear',
 
         // Randomizes the order of slides each time the presentation loads
         shuffle: false,
@@ -1399,37 +1663,6 @@ Dr.&nbsp;Caleb Fowler
         }
       });
       </script>
-    <script>
-    window.Reveal.on('ready', event => {
-      function atSectionBoundary() {
-        var routes = Reveal.availableRoutes();
-        return !routes.up || !routes.down;
-      }
-      function goRight() {
-        if (atSectionBoundary()) {
-          var h = Reveal.getIndices().h;
-          Reveal.slide(h + 1, 0);
-        }
-      }
-      function goLeft() {
-        if (atSectionBoundary()) {
-          var h = Reveal.getIndices().h;
-          Reveal.slide(h - 1, 0);
-        }
-      }
-      Reveal.configure({
-        keyboard: {
-          34: 'down',
-          33: 'up',
-          116: goRight,
-          190: goLeft,
-          37: goLeft,
-          39: goRight,
-          79: null
-        }
-      });
-    });
-    </script>
     
 
 </body></html>

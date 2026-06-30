@@ -206,16 +206,17 @@ Dr.&nbsp;Caleb Fowler
 </div>
 
 </section>
-<section>
 <section id="last-time" class="title-slide slide level1 center">
 <h1>Last Time</h1>
 <ul>
-<li class="fragment"><strong>Core Loop Patterns</strong></li>
-<li class="fragment"><strong>Nested Loops</strong></li>
-<li class="fragment"><strong>Coding Exercise</strong></li>
+<li class="fragment"><strong>Increment and Decrement Operators</strong></li>
+<li class="fragment"><strong>Break</strong></li>
+<li class="fragment"><strong>Continue</strong></li>
+<li class="fragment"><strong>Input Validation Strategy</strong></li>
+<li class="fragment"><strong>Input Validation</strong></li>
 </ul>
 <aside class="notes">
-<p>Week 9 second lecture. Students have seen all three loop types and nested loops. This lecture pivots to a new topic area: file I/O.</p>
+<p>Review validation as a boundary check before introducing files, then contrast validation with assertions later in the lecture.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -227,15 +228,14 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 1 -->
 </section>
-<section class="slide level2">
 
-</section></section>
 <section id="todays-agenda" class="title-slide slide level1 center">
 <h1>Today’s Agenda</h1>
 <ul>
 <li>File I/O</li>
-<li>Random Access</li>
+<li>Assertions</li>
 </ul>
 <aside class="notes">
 
@@ -250,31 +250,24 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 2 -->
 <!-- Topic 1: File I/O -->
-<!-- Total slides: 13 -->
+<!-- Slides 3-29 -->
 </section>
 
 <section>
 <section id="file-io" class="title-slide slide level1 center">
 <h1>File I/O</h1>
-
+<!-- Slide 3 -->
 </section>
-<section id="writing-data-that-outlasts-the-program" class="slide level2 smaller">
-<h2>Writing data that outlasts the program?</h2>
+<section id="data-that-outlasts-the-program" class="slide level2 smaller">
+<h2>Data That Outlasts The Program</h2>
 <ul>
-<li>Every variable disappears when the program ends.</li>
-<li>Files let you persist data between runs and share it with other programs.</li>
-</ul>
-</section>
-<section id="kinds-of-files" class="slide level2">
-<h2>Kinds of Files</h2>
-<p>Two access patterns:</p>
-<ul>
-<li><strong>Sequential</strong> — read or write from start to finish, in order</li>
-<li><strong>Random</strong> — jump directly to any byte offset in the file</li>
+<li>Variables disappear when the program ends.</li>
+<li>Files let a program save data, load it later, and share it with other programs.</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 13</p>
+<p>Slides 3-29</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -286,235 +279,193 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 4 -->
+</section>
+<section id="files-as-streams" class="slide level2">
+<h2>Files As Streams</h2>
+<ul>
+<li><code>cin</code> reads from the keyboard.</li>
+<li><code>cout</code> writes to the terminal.</li>
+<li>File streams use the same idea, but the stream is connected to a file.</li>
+</ul>
+<p>The operators are familiar: <code>&gt;&gt;</code> extracts data, and <code>&lt;&lt;</code> inserts data.</p>
+<!-- Slide 5 -->
 </section>
 <section id="the-file-io-process" class="slide level2">
 <h2>The File I/O Process</h2>
 <ol type="1">
-<li>Include <code>&lt;fstream&gt;</code></li>
-<li>Declare a file stream object</li>
-<li>Open the file</li>
-<li>Read or write data</li>
-<li>Close the file</li>
+<li>Include <code>&lt;fstream&gt;</code>.</li>
+<li>Declare a file stream object.</li>
+<li>Open the file.</li>
+<li>Check that the open worked.</li>
+<li>Read or write data.</li>
+<li>Close the file.</li>
 </ol>
-<p>Every file program follows this sequence. Steps 3–5 repeat for each file.</p>
-<!-- Slide 2 -->
+<p>Every file program follows this pattern.</p>
+<!-- Slide 6 -->
 </section>
 <section id="the-fstream-library" class="slide level2">
-<h2>The fstream library</h2>
-<p>Include <code>&lt;fstream&gt;</code> to get three stream types:</p>
-<ul>
-<li><code>ofstream</code> — output (write) stream</li>
-<li><code>ifstream</code> — input (read) stream</li>
-<li><code>fstream</code> — bidirectional (read and write)</li>
-</ul>
-<p>These work like <code>cin</code> and <code>cout</code> but are connected to a file instead of the console.</p>
-<!-- Slide 3 -->
+<h2>The fstream Library</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Direction</th>
+<th>Common Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ifstream</code></td>
+<td>input</td>
+<td>read from a file</td>
+</tr>
+<tr class="even">
+<td><code>ofstream</code></td>
+<td>output</td>
+<td>write to a file</td>
+</tr>
+<tr class="odd">
+<td><code>fstream</code></td>
+<td>input and output</td>
+<td>read and write with one stream</td>
+</tr>
+</tbody>
+</table>
+<p>Use the narrowest stream type that matches the job.</p>
+<!-- Slide 7 -->
 </section>
-<section id="opening-and-closing-a-file" class="slide level2">
-<h2>Opening and closing a file</h2>
+<section id="writing-to-a-file" class="slide level2">
+<h2>Writing To A File</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
 <span id="cb1-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb1-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
 <span id="cb1-4"><a href=""></a></span>
 <span id="cb1-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb1-6"><a href=""></a>    ofstream outFile<span class="op">;</span></span>
-<span id="cb1-7"><a href=""></a>    outFile<span class="op">.</span>open<span class="op">(</span><span class="st">"scores.txt"</span><span class="op">);</span>     <span class="co">// opens (creates if missing)</span></span>
-<span id="cb1-8"><a href=""></a></span>
-<span id="cb1-9"><a href=""></a>    outFile <span class="op">&lt;&lt;</span> <span class="st">"Alice"</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> <span class="dv">95</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb1-10"><a href=""></a>    outFile <span class="op">&lt;&lt;</span> <span class="st">"Bob"</span>   <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> <span class="dv">87</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb1-11"><a href=""></a></span>
-<span id="cb1-12"><a href=""></a>    outFile<span class="op">.</span>close<span class="op">();</span></span>
-<span id="cb1-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If the file does not exist, <code>ofstream</code> creates it. If it exists, the default mode <strong>overwrites</strong> it from the beginning.</p>
-<!-- Slide 4 -->
+<span id="cb1-6"><a href=""></a>    ofstream outFile<span class="op">(</span><span class="st">"scores.txt"</span><span class="op">);</span></span>
+<span id="cb1-7"><a href=""></a></span>
+<span id="cb1-8"><a href=""></a>    outFile <span class="op">&lt;&lt;</span> <span class="st">"Alice "</span> <span class="op">&lt;&lt;</span> <span class="dv">95</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-9"><a href=""></a>    outFile <span class="op">&lt;&lt;</span> <span class="st">"Bob "</span> <span class="op">&lt;&lt;</span> <span class="dv">87</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-10"><a href=""></a></span>
+<span id="cb1-11"><a href=""></a>    outFile<span class="op">.</span>close<span class="op">();</span></span>
+<span id="cb1-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>By default, <code>ofstream</code> creates the file if it does not exist and overwrites it if it already exists.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 8 -->
 </section>
-<section id="always-check-if-the-file-opened" class="slide level2">
-<h2>Always check if the file opened</h2>
+<section id="checking-that-a-file-opened" class="slide level2">
+<h2>Checking That A File Opened</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a>ifstream inFile<span class="op">(</span><span class="st">"scores.txt"</span><span class="op">);</span></span>
 <span id="cb2-2"><a href=""></a></span>
 <span id="cb2-3"><a href=""></a><span class="cf">if</span> <span class="op">(!</span>inFile<span class="op">.</span>is_open<span class="op">())</span> <span class="op">{</span></span>
-<span id="cb2-4"><a href=""></a>    cerr <span class="op">&lt;&lt;</span> <span class="st">"Error: could not open scores.txt</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb2-4"><a href=""></a>    cerr <span class="op">&lt;&lt;</span> <span class="st">"Error: could not open scores.txt"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
 <span id="cb2-5"><a href=""></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
 <span id="cb2-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>File code should check the stream before trusting it.</p>
+<!-- Slide 9 -->
+</section>
+<section id="where-is-the-file" class="slide level2">
+<h2>Where Is The File?</h2>
 <ul>
-<li><code>is_open()</code> returns false if the file does not exist, the path is wrong, or permissions block access</li>
-<li>Reading from a failed stream silently produces garbage values</li>
-<li>Always check — never assume the file is there</li>
+<li><code>"scores.txt"</code> is a relative path.</li>
+<li>It is resolved from the program’s working directory.</li>
+<li>That may not be the same folder as the <code>.cpp</code> file.</li>
 </ul>
-<!-- Slide 5 -->
+<p>When a file does not open, check both the file name and where the program is running.</p>
+<!-- Slide 10 -->
 </section>
-<section id="overwrite-vs.-append-mode" class="slide level2">
-<h2>Overwrite vs.&nbsp;Append mode</h2>
-<p>By default, <code>ofstream</code> truncates the file every time it opens it:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a>ofstream out<span class="op">(</span><span class="st">"log.txt"</span><span class="op">);</span>              <span class="co">// default: overwrite</span></span>
-<span id="cb3-2"><a href=""></a>out <span class="op">&lt;&lt;</span> <span class="st">"Run at 09:00</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb3-3"><a href=""></a>out<span class="op">.</span>close<span class="op">();</span></span>
+<section id="overwrite-and-append" class="slide level2">
+<h2>Overwrite And Append</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a>ofstream fresh<span class="op">(</span><span class="st">"log.txt"</span><span class="op">);</span></span>
+<span id="cb3-2"><a href=""></a>fresh <span class="op">&lt;&lt;</span> <span class="st">"Program started"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb3-3"><a href=""></a>fresh<span class="op">.</span>close<span class="op">();</span></span>
 <span id="cb3-4"><a href=""></a></span>
-<span id="cb3-5"><a href=""></a>ofstream out2<span class="op">(</span><span class="st">"log.txt"</span><span class="op">);</span>             <span class="co">// overwrites — previous content gone</span></span>
-<span id="cb3-6"><a href=""></a>out2 <span class="op">&lt;&lt;</span> <span class="st">"Run at 10:00</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb3-7"><a href=""></a>out2<span class="op">.</span>close<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>To <strong>append</strong> instead, pass <code>ios::app</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a>ofstream out<span class="op">(</span><span class="st">"log.txt"</span><span class="op">,</span> ios<span class="op">::</span>app<span class="op">);</span>    <span class="co">// append mode</span></span>
-<span id="cb4-2"><a href=""></a>out <span class="op">&lt;&lt;</span> <span class="st">"Run at 10:00</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>              <span class="co">// adds to existing content</span></span>
-<span id="cb4-3"><a href=""></a>out<span class="op">.</span>close<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 6 -->
-</section>
-<section id="when-to-use-each-mode" class="slide level2">
-<h2>When to use each mode</h2>
+<span id="cb3-5"><a href=""></a>ofstream later<span class="op">(</span><span class="st">"log.txt"</span><span class="op">,</span> ios<span class="op">::</span>app<span class="op">);</span></span>
+<span id="cb3-6"><a href=""></a>later <span class="op">&lt;&lt;</span> <span class="st">"Program ended"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb3-7"><a href=""></a>later<span class="op">.</span>close<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <table class="caption-top">
 <thead>
 <tr class="header">
 <th>Mode</th>
-<th>Flag</th>
 <th>Behavior</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Overwrite</td>
-<td><em>(default)</em></td>
-<td>Truncates file to zero bytes, writes fresh</td>
+<td>default output</td>
+<td>overwrite the file</td>
 </tr>
 <tr class="even">
-<td>Append</td>
 <td><code>ios::app</code></td>
-<td>Preserves existing content, adds at end</td>
+<td>add new data at the end</td>
 </tr>
 </tbody>
 </table>
-<p>Use overwrite when regenerating data from scratch each run. Use append when building a log or accumulating data across multiple program runs.</p>
-<!-- Slide 7 -->
-</section>
-<section id="sequential-write" class="slide level2">
-<h2>Sequential write</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
-<span id="cb5-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb5-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb5-4"><a href=""></a></span>
-<span id="cb5-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb5-6"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb5-7"><a href=""></a></span>
-<span id="cb5-8"><a href=""></a>    ofstream outFile<span class="op">(</span><span class="st">"scores.txt"</span><span class="op">);</span></span>
-<span id="cb5-9"><a href=""></a></span>
-<span id="cb5-10"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-11"><a href=""></a>        outFile <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>     <span class="co">// one value per line</span></span>
-<span id="cb5-12"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb5-13"><a href=""></a></span>
-<span id="cb5-14"><a href=""></a>    outFile<span class="op">.</span>close<span class="op">();</span></span>
-<span id="cb5-15"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb5-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The stream position advances automatically with each write — no manual tracking needed.</p>
-<!-- Slide 8 -->
-</section>
-<section id="sequential-read" class="slide level2">
-<h2>Sequential read</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a>ifstream inFile<span class="op">(</span><span class="st">"scores.txt"</span><span class="op">);</span></span>
-<span id="cb6-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">;</span></span>
-<span id="cb6-3"><a href=""></a><span class="dt">int</span> value<span class="op">;</span></span>
-<span id="cb6-4"><a href=""></a></span>
-<span id="cb6-5"><a href=""></a><span class="cf">while</span> <span class="op">(</span>inFile <span class="op">&gt;&gt;</span> value<span class="op">)</span> <span class="op">{</span>             <span class="co">// reads until EOF</span></span>
-<span id="cb6-6"><a href=""></a>    scores<span class="op">.</span>push_back<span class="op">(</span>value<span class="op">);</span></span>
-<span id="cb6-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb6-8"><a href=""></a></span>
-<span id="cb6-9"><a href=""></a>inFile<span class="op">.</span>close<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>inFile &gt;&gt; value</code> returns a false stream state when extraction fails — including at end of file. That makes it a natural loop condition.</p>
-<!-- Slide 9 -->
-</section>
-<section id="writing-a-csv-file" class="slide level2">
-<h2>Writing a CSV file</h2>
-<p>A CSV file uses commas to separate fields. Writing one is just writing plain text:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
-<span id="cb7-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb7-3"><a href=""></a></span>
-<span id="cb7-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb7-5"><a href=""></a>    ofstream out<span class="op">(</span><span class="st">"students.csv"</span><span class="op">);</span></span>
-<span id="cb7-6"><a href=""></a></span>
-<span id="cb7-7"><a href=""></a>    out <span class="op">&lt;&lt;</span> <span class="st">"name,score,grade</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>      <span class="co">// header row</span></span>
-<span id="cb7-8"><a href=""></a>    out <span class="op">&lt;&lt;</span> <span class="st">"Alice,95,A</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb7-9"><a href=""></a>    out <span class="op">&lt;&lt;</span> <span class="st">"Bob,78,C</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb7-10"><a href=""></a>    out <span class="op">&lt;&lt;</span> <span class="st">"Carol,84,B</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb7-11"><a href=""></a></span>
-<span id="cb7-12"><a href=""></a>    out<span class="op">.</span>close<span class="op">();</span></span>
-<span id="cb7-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb7-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Any program that reads CSV — spreadsheets, Python, databases — can open this file.</p>
-<!-- Slide 10 -->
-</section>
-<section id="reading-a-csv-file" class="slide level2">
-<h2>Reading a CSV file</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
-<span id="cb8-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;sstream&gt;</span></span>
-<span id="cb8-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb8-4"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb8-5"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb8-6"><a href=""></a></span>
-<span id="cb8-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb8-8"><a href=""></a>    ifstream in<span class="op">(</span><span class="st">"students.csv"</span><span class="op">);</span></span>
-<span id="cb8-9"><a href=""></a>    string line<span class="op">;</span></span>
-<span id="cb8-10"><a href=""></a></span>
-<span id="cb8-11"><a href=""></a>    getline<span class="op">(</span>in<span class="op">,</span> line<span class="op">);</span>                <span class="co">// skip header row</span></span>
-<span id="cb8-12"><a href=""></a></span>
-<span id="cb8-13"><a href=""></a>    <span class="cf">while</span> <span class="op">(</span>getline<span class="op">(</span>in<span class="op">,</span> line<span class="op">))</span> <span class="op">{</span>       <span class="co">// one line per iteration</span></span>
-<span id="cb8-14"><a href=""></a>        stringstream ss<span class="op">(</span>line<span class="op">);</span></span>
-<span id="cb8-15"><a href=""></a>        string name<span class="op">,</span> scoreStr<span class="op">,</span> grade<span class="op">;</span></span>
-<span id="cb8-16"><a href=""></a></span>
-<span id="cb8-17"><a href=""></a>        getline<span class="op">(</span>ss<span class="op">,</span> name<span class="op">,</span>     <span class="ch">','</span><span class="op">);</span>   <span class="co">// read up to first comma</span></span>
-<span id="cb8-18"><a href=""></a>        getline<span class="op">(</span>ss<span class="op">,</span> scoreStr<span class="op">,</span> <span class="ch">','</span><span class="op">);</span>   <span class="co">// read up to second comma</span></span>
-<span id="cb8-19"><a href=""></a>        getline<span class="op">(</span>ss<span class="op">,</span> grade<span class="op">,</span>    <span class="ch">','</span><span class="op">);</span>   <span class="co">// read remainder</span></span>
-<span id="cb8-20"><a href=""></a></span>
-<span id="cb8-21"><a href=""></a>        cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">" scored "</span> <span class="op">&lt;&lt;</span> scoreStr <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb8-22"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb8-23"><a href=""></a></span>
-<span id="cb8-24"><a href=""></a>    in<span class="op">.</span>close<span class="op">();</span></span>
-<span id="cb8-25"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb8-26"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>getline(stream, string, delimiter)</code> reads up to the delimiter instead of newline.</p>
 <!-- Slide 11 -->
 </section>
-<section id="end-of-file-detection" class="slide level2">
-<h2>End-of-file detection</h2>
-<p>Two patterns you will see in the wild:</p>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Preferred</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="cf">while</span> <span class="op">(</span>inFile <span class="op">&gt;&gt;</span> value<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-2"><a href=""></a>    <span class="co">// process value</span></span>
-<span id="cb9-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Extraction fails cleanly at EOF. No off-by-one reads.</p>
-</div><div class="column" style="width:50%;">
-<p><strong>Avoid</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="cf">while</span> <span class="op">(!</span>inFile<span class="op">.</span>eof<span class="op">())</span> <span class="op">{</span></span>
-<span id="cb10-2"><a href=""></a>    inFile <span class="op">&gt;&gt;</span> value<span class="op">;</span></span>
-<span id="cb10-3"><a href=""></a>    <span class="co">// may process stale value</span></span>
-<span id="cb10-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>eof()</code> is set <em>after</em> a failed read — loop body runs once too many.</p>
-</div></div>
+<section id="reading-from-a-file" class="slide level2">
+<h2>Reading From A File</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
+<span id="cb4-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb4-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb4-4"><a href=""></a></span>
+<span id="cb4-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-6"><a href=""></a>    ifstream inFile<span class="op">(</span><span class="st">"scores.txt"</span><span class="op">);</span></span>
+<span id="cb4-7"><a href=""></a>    string name<span class="op">;</span></span>
+<span id="cb4-8"><a href=""></a>    <span class="dt">int</span> score<span class="op">;</span></span>
+<span id="cb4-9"><a href=""></a></span>
+<span id="cb4-10"><a href=""></a>    <span class="cf">while</span> <span class="op">(</span>inFile <span class="op">&gt;&gt;</span> name <span class="op">&gt;&gt;</span> score<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-11"><a href=""></a>        cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb4-12"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb4-13"><a href=""></a></span>
+<span id="cb4-14"><a href=""></a>    inFile<span class="op">.</span>close<span class="op">();</span></span>
+<span id="cb4-15"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The stream advances automatically as each value is read.</p>
 <!-- Slide 12 -->
 </section>
-<section id="summary" class="slide level2">
-<h2>Summary</h2>
-<p>Files persist data beyond the program’s lifetime. Use <code>ofstream</code> to write and <code>ifstream</code> to read. Default mode overwrites; <code>ios::app</code> appends to existing content.</p>
-<p>CSV files are plain text — write commas between fields, use <code>getline</code> with a delimiter to parse them back.</p>
+<section id="design-the-file-before-the-loop" class="slide level2">
+<h2>Design The File Before The Loop</h2>
+<p>Before writing the read loop, write down a small example file.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href=""></a>Alice 95</span>
+<span id="cb5-2"><a href=""></a>Bob 87</span>
+<span id="cb5-3"><a href=""></a>Carol 91</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The example answers two questions: what does one record look like, and how does the reader know when to stop?</p>
 <!-- Slide 13 -->
-<!-- Topic 2: Sequential File I/O Lab -->
-<!-- Total slides: 10 -->
-</section></section>
-<section>
-<section id="sequential-file-io" class="title-slide slide level1 center">
-<h1>Sequential File I/O</h1>
-
 </section>
-<section id="build-it-from-the-ground-up" class="slide level2 smaller">
-<h2>Build it from the ground up</h2>
-<p>Three tasks, each building on the last. Get the mechanism right on a single value before adding a container.</p>
+<section id="the-file-format-is-a-contract" class="slide level2">
+<h2>The File Format Is A Contract</h2>
 <ul>
-<li><strong>Task 1:</strong> Write one integer to a file, then read it back</li>
-<li><strong>Task 2:</strong> Write multiple values to a file, then read them all back into a vector</li>
+<li>The writer and reader must agree on the record shape.</li>
+<li>They must also agree on the stopping rule.</li>
+<li>A correct read loop matches the file’s contract.</li>
 </ul>
+<p>Changing the file format means changing the code that reads it.</p>
+<!-- Slide 14 -->
+</section>
+<section id="pattern-1-read-until-extraction-fails" class="slide level2">
+<h2>Pattern 1: Read Until Extraction Fails</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="dt">int</span> score<span class="op">;</span></span>
+<span id="cb6-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">;</span></span>
+<span id="cb6-3"><a href=""></a></span>
+<span id="cb6-4"><a href=""></a><span class="cf">while</span> <span class="op">(</span>inFile <span class="op">&gt;&gt;</span> score<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-5"><a href=""></a>    scores<span class="op">.</span>push_back<span class="op">(</span>score<span class="op">);</span></span>
+<span id="cb6-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use this when every remaining token in the file is data.</p>
 <aside class="notes">
-<p>Total slides: 10</p>
+<p>This is usually better than <code>while (!inFile.eof())</code> because it tests the read itself.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -526,271 +477,213 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 15 -->
 </section>
-<section id="task-1-write-one-value" class="slide level2">
-<h2>Task 1 — write one value</h2>
-<p>Write the integer <code>42</code> to a file called <code>data.txt</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
-<span id="cb11-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<section id="why-not-eof-first" class="slide level2">
+<h2>Why Not <code>eof()</code> First?</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="cf">while</span> <span class="op">(!</span>inFile<span class="op">.</span>eof<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href=""></a>    inFile <span class="op">&gt;&gt;</span> score<span class="op">;</span></span>
+<span id="cb7-3"><a href=""></a>    scores<span class="op">.</span>push_back<span class="op">(</span>score<span class="op">);</span></span>
+<span id="cb7-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>eof()</code> becomes true only after a read attempts to pass the end. Test the extraction instead of predicting it.</p>
+<!-- Slide 16 -->
+</section>
+<section id="pattern-2-first-value-is-a-count" class="slide level2">
+<h2>Pattern 2: First Value Is A Count</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href=""></a>3</span>
+<span id="cb8-2"><a href=""></a>Alice 95</span>
+<span id="cb8-3"><a href=""></a>Bob 87</span>
+<span id="cb8-4"><a href=""></a>Carol 91</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="dt">int</span> count<span class="op">;</span></span>
+<span id="cb9-2"><a href=""></a>inFile <span class="op">&gt;&gt;</span> count<span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a></span>
+<span id="cb9-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> count<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb9-5"><a href=""></a>    inFile <span class="op">&gt;&gt;</span> name <span class="op">&gt;&gt;</span> score<span class="op">;</span></span>
+<span id="cb9-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb9-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use this when the file declares how many records follow.</p>
+<!-- Slide 17 -->
+</section>
+<section id="pattern-3-sentinel-value-ends-the-data" class="slide level2">
+<h2>Pattern 3: Sentinel Value Ends The Data</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a href=""></a>91</span>
+<span id="cb10-2"><a href=""></a>78</span>
+<span id="cb10-3"><a href=""></a>84</span>
+<span id="cb10-4"><a href=""></a>-1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">int</span> score<span class="op">;</span></span>
+<span id="cb11-2"><a href=""></a>inFile <span class="op">&gt;&gt;</span> score<span class="op">;</span></span>
 <span id="cb11-3"><a href=""></a></span>
-<span id="cb11-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb11-5"><a href=""></a>    <span class="co">// your code here</span></span>
-<span id="cb11-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-4"><a href=""></a><span class="cf">while</span> <span class="op">(</span>score <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-5"><a href=""></a>    scores<span class="op">.</span>push_back<span class="op">(</span>score<span class="op">);</span></span>
+<span id="cb11-6"><a href=""></a>    inFile <span class="op">&gt;&gt;</span> score<span class="op">;</span></span>
 <span id="cb11-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Work with your partner. Three minutes.</p>
-<!-- Slide 2 -->
+<p>The sentinel must be a value that cannot be valid data.</p>
+<!-- Slide 18 -->
 </section>
-<section id="solution-write-one-value" class="slide level2">
-<h2>Solution — write one value</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
-<span id="cb12-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb12-3"><a href=""></a></span>
-<span id="cb12-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb12-5"><a href=""></a>    ofstream outFile<span class="op">(</span><span class="st">"data.txt"</span><span class="op">);</span></span>
-<span id="cb12-6"><a href=""></a>    <span class="cf">if</span> <span class="op">(!</span>outFile<span class="op">.</span>is_open<span class="op">())</span> <span class="op">{</span></span>
-<span id="cb12-7"><a href=""></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb12-8"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb12-9"><a href=""></a></span>
-<span id="cb12-10"><a href=""></a>    outFile <span class="op">&lt;&lt;</span> <span class="dv">42</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb12-11"><a href=""></a>    outFile<span class="op">.</span>close<span class="op">();</span></span>
-<span id="cb12-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb12-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 3 -->
+<section id="pattern-4-one-record-per-line" class="slide level2">
+<h2>Pattern 4: One Record Per Line</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a>string line<span class="op">;</span></span>
+<span id="cb12-2"><a href=""></a></span>
+<span id="cb12-3"><a href=""></a><span class="cf">while</span> <span class="op">(</span>getline<span class="op">(</span>inFile<span class="op">,</span> line<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb12-4"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>line <span class="op">!=</span> <span class="st">""</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> line <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb12-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb12-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Line-controlled files work well when each record may contain spaces or optional fields.</p>
+<!-- Slide 19 -->
 </section>
-<section id="task-1-continued-read-it-back" class="slide level2">
-<h2>Task 1 continued — read it back</h2>
-<p>Open <code>data.txt</code> and read the integer back into a variable. Print it.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
-<span id="cb13-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb13-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb13-4"><a href=""></a></span>
-<span id="cb13-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb13-6"><a href=""></a>    <span class="co">// your code here</span></span>
-<span id="cb13-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb13-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Expected output: <code>42</code></p>
-<!-- Slide 4 -->
-</section>
-<section id="solution-read-one-value" class="slide level2">
-<h2>Solution — read one value</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
-<span id="cb14-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb14-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb14-4"><a href=""></a></span>
-<span id="cb14-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb14-6"><a href=""></a>    ifstream inFile<span class="op">(</span><span class="st">"data.txt"</span><span class="op">);</span></span>
-<span id="cb14-7"><a href=""></a>    <span class="cf">if</span> <span class="op">(!</span>inFile<span class="op">.</span>is_open<span class="op">())</span> <span class="op">{</span></span>
-<span id="cb14-8"><a href=""></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb14-9"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb14-10"><a href=""></a></span>
-<span id="cb14-11"><a href=""></a>    <span class="dt">int</span> value<span class="op">;</span></span>
-<span id="cb14-12"><a href=""></a>    inFile <span class="op">&gt;&gt;</span> value<span class="op">;</span></span>
-<span id="cb14-13"><a href=""></a>    inFile<span class="op">.</span>close<span class="op">();</span></span>
-<span id="cb14-14"><a href=""></a></span>
-<span id="cb14-15"><a href=""></a>    cout <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb14-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb14-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 5 -->
-</section>
-<section id="task-2-write-a-vector-to-a-file" class="slide level2">
-<h2>Task 2 — write a vector to a file</h2>
-<p>Now with a vector. Write each score to <code>scores.txt</code>, one per line.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Expected file contents:</p>
-<pre><code>91
-78
-84
-95
-62</code></pre>
-<p>Work with your partner. Five minutes.</p>
-<!-- Slide 6 -->
-</section>
-<section id="task-2-continued-read-the-vector-back" class="slide level2">
-<h2>Task 2 continued — read the vector back</h2>
-<p>Open <code>scores.txt</code> and read every integer into a new vector. Print each value.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> loaded<span class="op">;</span></span>
-<span id="cb17-2"><a href=""></a><span class="co">// ... your code here</span></span>
-<span id="cb17-3"><a href=""></a></span>
-<span id="cb17-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> s <span class="op">:</span> loaded<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb17-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> s <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb17-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Expected output: the same five values, same order.</p>
-<!-- Slide 7 -->
-</section>
-<section id="solution-write-the-vector" class="slide level2">
-<h2>Solution — write the vector</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
-<span id="cb18-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb18-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb18-4"><a href=""></a></span>
-<span id="cb18-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb18-6"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb18-7"><a href=""></a></span>
-<span id="cb18-8"><a href=""></a>    ofstream outFile<span class="op">(</span><span class="st">"scores.txt"</span><span class="op">);</span></span>
-<span id="cb18-9"><a href=""></a>    <span class="cf">if</span> <span class="op">(!</span>outFile<span class="op">.</span>is_open<span class="op">())</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb18-10"><a href=""></a></span>
-<span id="cb18-11"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-12"><a href=""></a>        outFile <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// one per line</span></span>
-<span id="cb18-13"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb18-14"><a href=""></a></span>
-<span id="cb18-15"><a href=""></a>    outFile<span class="op">.</span>close<span class="op">();</span></span>
-<span id="cb18-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb18-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 8 -->
-</section>
-<section id="solution-read-the-vector-back" class="slide level2">
-<h2>Solution — read the vector back</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
-<span id="cb19-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb19-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb19-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb19-5"><a href=""></a></span>
-<span id="cb19-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb19-7"><a href=""></a>    ifstream inFile<span class="op">(</span><span class="st">"scores.txt"</span><span class="op">);</span></span>
-<span id="cb19-8"><a href=""></a>    <span class="cf">if</span> <span class="op">(!</span>inFile<span class="op">.</span>is_open<span class="op">())</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb19-9"><a href=""></a></span>
-<span id="cb19-10"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> loaded<span class="op">;</span></span>
-<span id="cb19-11"><a href=""></a>    <span class="dt">int</span> value<span class="op">;</span></span>
-<span id="cb19-12"><a href=""></a></span>
-<span id="cb19-13"><a href=""></a>    <span class="cf">while</span> <span class="op">(</span>inFile <span class="op">&gt;&gt;</span> value<span class="op">)</span> <span class="op">{</span>       <span class="co">// stops at EOF</span></span>
-<span id="cb19-14"><a href=""></a>        loaded<span class="op">.</span>push_back<span class="op">(</span>value<span class="op">);</span></span>
-<span id="cb19-15"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb19-16"><a href=""></a></span>
-<span id="cb19-17"><a href=""></a>    inFile<span class="op">.</span>close<span class="op">();</span></span>
-<span id="cb19-18"><a href=""></a></span>
-<span id="cb19-19"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> s <span class="op">:</span> loaded<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb19-20"><a href=""></a>        cout <span class="op">&lt;&lt;</span> s <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb19-21"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb19-22"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb19-23"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 9 -->
-</section>
-<section id="summary-1" class="slide level2">
-<h2>Summary</h2>
-<p>The pattern is the same whether you are writing one value or a hundred: open a stream, transfer data, close. Starting with a single value isolates the mechanism before adding container complexity.</p>
-<p>The read loop condition — <code>while (inFile &gt;&gt; value)</code> — handles any file length without a separate counter or size variable.</p>
-<!-- Slide 10 -->
-<!-- Topic 3: Random Access -->
-<!-- Total slides: 10 -->
-</section></section>
-<section>
-<section id="random-access" class="title-slide slide level1 center">
-<h1>Random Access</h1>
-
-</section>
-<section id="reading-the-100th-record-without-reading-the-first-99" class="slide level2 smaller">
-<h2>Reading the 100th record without reading the first 99?</h2>
-<p>Sequential access reads from the start — every record in order. Random access jumps directly to any byte offset in the file using a position marker.</p>
-<aside class="notes">
-<p>Total slides: 10</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="binary-mode" class="slide level2">
-<h2>Binary mode</h2>
-<p>Text mode interprets certain byte sequences as control characters. Binary mode disables that — bytes are read and written as-is.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
-<span id="cb20-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb20-3"><a href=""></a></span>
-<span id="cb20-4"><a href=""></a>ifstream inFile<span class="op">(</span><span class="st">"data.bin"</span><span class="op">,</span> ios<span class="op">::</span>binary<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Random access on structured data almost always uses binary mode. Text files work for sequential I/O; binary files are needed for reliable byte-offset arithmetic.</p>
-<!-- Slide 2 -->
-</section>
-<section id="seekg-moving-the-read-position" class="slide level2">
-<h2>seekg() — moving the read position</h2>
-<p><code>seekg</code> moves the internal read position to any byte in the file.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a>inFile<span class="op">.</span>seekg<span class="op">(</span>byte_count<span class="op">,</span> origin<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="choosing-a-reading-pattern" class="slide level2">
+<h2>Choosing A Reading Pattern</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Origin</th>
-<th>Meaning</th>
+<th>File Design</th>
+<th>Loop Shape</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>ios::beg</code></td>
-<td>Count from the beginning</td>
+<td>all tokens are data</td>
+<td>read until extraction fails</td>
 </tr>
 <tr class="even">
-<td><code>ios::end</code></td>
-<td>Count from the end</td>
+<td>first value is record count</td>
+<td>counted <code>for</code> loop</td>
 </tr>
 <tr class="odd">
-<td><code>ios::cur</code></td>
-<td>Count from the current position</td>
+<td>special value marks the end</td>
+<td>sentinel loop</td>
+</tr>
+<tr class="even">
+<td>one logical record per line</td>
+<td><code>getline</code> loop</td>
 </tr>
 </tbody>
 </table>
-<!-- Slide 3 -->
+<p>Choose the loop after you know how the file is constructed.</p>
+<!-- Slide 20 -->
 </section>
-<section id="seekg-examples" class="slide level2">
-<h2>seekg() examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a>ifstream inFile<span class="op">(</span><span class="st">"data.bin"</span><span class="op">,</span> ios<span class="op">::</span>binary<span class="op">);</span></span>
-<span id="cb22-2"><a href=""></a></span>
-<span id="cb22-3"><a href=""></a>inFile<span class="op">.</span>seekg<span class="op">(</span><span class="dv">0</span><span class="op">,</span>   ios<span class="op">::</span>beg<span class="op">);</span>   <span class="co">// go to byte 0 (start)</span></span>
-<span id="cb22-4"><a href=""></a>inFile<span class="op">.</span>seekg<span class="op">(</span><span class="dv">0</span><span class="op">,</span>   ios<span class="op">::</span>end<span class="op">);</span>   <span class="co">// go to last byte (end)</span></span>
-<span id="cb22-5"><a href=""></a>inFile<span class="op">.</span>seekg<span class="op">(</span><span class="dv">40</span><span class="op">,</span>  ios<span class="op">::</span>beg<span class="op">);</span>   <span class="co">// go to byte 40</span></span>
-<span id="cb22-6"><a href=""></a>inFile<span class="op">.</span>seekg<span class="op">(-</span><span class="dv">8</span><span class="op">,</span>  ios<span class="op">::</span>cur<span class="op">);</span>   <span class="co">// back 8 bytes from current</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Negative offsets move backward. <code>ios::end</code> with a negative offset is a common way to step back from the end of a file.</p>
-<!-- Slide 4 -->
-</section>
-<section id="tellg-where-is-the-read-position" class="slide level2">
-<h2>tellg() — where is the read position?</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a>ifstream inFile<span class="op">(</span><span class="st">"data.bin"</span><span class="op">,</span> ios<span class="op">::</span>binary<span class="op">);</span></span>
-<span id="cb23-2"><a href=""></a></span>
-<span id="cb23-3"><a href=""></a>inFile<span class="op">.</span>seekg<span class="op">(</span><span class="dv">0</span><span class="op">,</span> ios<span class="op">::</span>end<span class="op">);</span></span>
-<span id="cb23-4"><a href=""></a>streampos fileSize <span class="op">=</span> inFile<span class="op">.</span>tellg<span class="op">();</span>      <span class="co">// size in bytes</span></span>
-<span id="cb23-5"><a href=""></a></span>
-<span id="cb23-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"File is "</span> <span class="op">&lt;&lt;</span> fileSize <span class="op">&lt;&lt;</span> <span class="st">" bytes</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb23-7"><a href=""></a></span>
-<span id="cb23-8"><a href=""></a>inFile<span class="op">.</span>seekg<span class="op">(</span><span class="dv">0</span><span class="op">,</span> ios<span class="op">::</span>beg<span class="op">);</span>               <span class="co">// rewind before reading</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>tellg()</code> returns the current read position as a <code>streampos</code> value. Common use: seek to end, call <code>tellg()</code> to get file size, then seek back to the beginning.</p>
-<!-- Slide 5 -->
-</section>
-<section id="seekp-and-tellp-the-write-position" class="slide level2">
-<h2>seekp() and tellp() — the write position</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a>fstream file<span class="op">(</span><span class="st">"data.bin"</span><span class="op">,</span></span>
-<span id="cb24-2"><a href=""></a>    ios<span class="op">::</span>in <span class="op">|</span> ios<span class="op">::</span>out <span class="op">|</span> ios<span class="op">::</span>binary<span class="op">);</span></span>
-<span id="cb24-3"><a href=""></a></span>
-<span id="cb24-4"><a href=""></a>file<span class="op">.</span>seekp<span class="op">(</span><span class="dv">40</span><span class="op">,</span> ios<span class="op">::</span>beg<span class="op">);</span>                 <span class="co">// move write position to byte 40</span></span>
-<span id="cb24-5"><a href=""></a>file<span class="op">.</span>write<span class="op">(</span><span class="kw">reinterpret_cast</span><span class="op">&lt;</span><span class="dt">char</span><span class="op">*&gt;(&amp;</span>value<span class="op">),</span> <span class="kw">sizeof</span><span class="op">(</span>value<span class="op">));</span></span>
-<span id="cb24-6"><a href=""></a></span>
-<span id="cb24-7"><a href=""></a>streampos writePos <span class="op">=</span> file<span class="op">.</span>tellp<span class="op">();</span>        <span class="co">// where did we land?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="when-reading-stops-early" class="slide level2">
+<h2>When Reading Stops Early</h2>
 <ul>
-<li><code>seekp</code> / <code>tellp</code> operate on the <strong>write</strong> position</li>
-<li><code>seekg</code> / <code>tellg</code> operate on the <strong>read</strong> position</li>
-<li>On a bidirectional <code>fstream</code>, both positions exist independently</li>
+<li>End of file is normal.</li>
+<li>A wrong data type is a format error.</li>
+<li>Both can make extraction fail.</li>
 </ul>
-<!-- Slide 6 -->
+<p>If the loop stops before all expected records are read, inspect the file format before changing the loop.</p>
+<!-- Slide 21 -->
 </section>
-<section id="fixed-size-records" class="slide level2">
-<h2>Fixed-size records</h2>
-<p>Random access only works predictably when every record occupies the same number of bytes.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="kw">struct</span> Record <span class="op">{</span></span>
-<span id="cb25-2"><a href=""></a>    <span class="dt">int</span>   id<span class="op">;</span>       <span class="co">// 4 bytes</span></span>
-<span id="cb25-3"><a href=""></a>    <span class="dt">float</span> score<span class="op">;</span>    <span class="co">// 4 bytes</span></span>
-<span id="cb25-4"><a href=""></a>    <span class="dt">char</span>  grade<span class="op">;</span>    <span class="co">// 1 byte</span></span>
-<span id="cb25-5"><a href=""></a>    <span class="dt">char</span>  pad<span class="op">[</span><span class="dv">3</span><span class="op">];</span>   <span class="co">// 3 bytes padding</span></span>
-<span id="cb25-6"><a href=""></a><span class="op">};</span>                  <span class="co">// total: 12 bytes per record</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="writing-a-vector" class="slide level2">
+<h2>Writing A Vector</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">};</span></span>
+<span id="cb13-2"><a href=""></a>ofstream outFile<span class="op">(</span><span class="st">"scores.txt"</span><span class="op">);</span></span>
+<span id="cb13-3"><a href=""></a></span>
+<span id="cb13-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-5"><a href=""></a>    outFile <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb13-6"><a href=""></a><span class="op">}</span></span>
+<span id="cb13-7"><a href=""></a></span>
+<span id="cb13-8"><a href=""></a>outFile<span class="op">.</span>close<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>One value per line is easy to write, easy to read, and easy to inspect.</p>
+<!-- Slide 22 -->
+</section>
+<section id="reading-a-vector" class="slide level2">
+<h2>Reading A Vector</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">;</span></span>
+<span id="cb14-2"><a href=""></a>ifstream inFile<span class="op">(</span><span class="st">"scores.txt"</span><span class="op">);</span></span>
+<span id="cb14-3"><a href=""></a><span class="dt">int</span> score<span class="op">;</span></span>
+<span id="cb14-4"><a href=""></a></span>
+<span id="cb14-5"><a href=""></a><span class="cf">while</span> <span class="op">(</span>inFile <span class="op">&gt;&gt;</span> score<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-6"><a href=""></a>    scores<span class="op">.</span>push_back<span class="op">(</span>score<span class="op">);</span></span>
+<span id="cb14-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb14-8"><a href=""></a></span>
+<span id="cb14-9"><a href=""></a>inFile<span class="op">.</span>close<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The vector grows as the file provides values.</p>
+<!-- Slide 23 -->
+</section>
+<section id="round-trip-pattern" class="slide level2">
+<h2>Round Trip Pattern</h2>
+<ol type="1">
+<li>Build data in memory.</li>
+<li>Write the data to a file.</li>
+<li>Close the output stream.</li>
+<li>Open an input stream.</li>
+<li>Read the data back into memory.</li>
+</ol>
+<p>Round trips are a useful way to test whether the write format and read loop agree.</p>
+<!-- Slide 24 -->
+</section>
+<section id="writing-records-as-text" class="slide level2">
+<h2>Writing Records As Text</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a>ofstream outFile<span class="op">(</span><span class="st">"students.txt"</span><span class="op">);</span></span>
+<span id="cb15-2"><a href=""></a></span>
+<span id="cb15-3"><a href=""></a>outFile <span class="op">&lt;&lt;</span> <span class="st">"Alice "</span> <span class="op">&lt;&lt;</span> <span class="dv">95</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb15-4"><a href=""></a>outFile <span class="op">&lt;&lt;</span> <span class="st">"Bob "</span> <span class="op">&lt;&lt;</span> <span class="dv">87</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb15-5"><a href=""></a>outFile <span class="op">&lt;&lt;</span> <span class="st">"Carol "</span> <span class="op">&lt;&lt;</span> <span class="dv">91</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb15-6"><a href=""></a></span>
+<span id="cb15-7"><a href=""></a>outFile<span class="op">.</span>close<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A record is one grouped unit of data. Here, each record has a name and a score.</p>
+<!-- Slide 25 -->
+</section>
+<section id="reading-records-as-text" class="slide level2">
+<h2>Reading Records As Text</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a>ifstream inFile<span class="op">(</span><span class="st">"students.txt"</span><span class="op">);</span></span>
+<span id="cb16-2"><a href=""></a>string name<span class="op">;</span></span>
+<span id="cb16-3"><a href=""></a><span class="dt">int</span> score<span class="op">;</span></span>
+<span id="cb16-4"><a href=""></a></span>
+<span id="cb16-5"><a href=""></a><span class="cf">while</span> <span class="op">(</span>inFile <span class="op">&gt;&gt;</span> name <span class="op">&gt;&gt;</span> score<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="st">" earned "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb16-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb16-8"><a href=""></a></span>
+<span id="cb16-9"><a href=""></a>inFile<span class="op">.</span>close<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The extraction order must match the file’s field order.</p>
+<!-- Slide 26 -->
+</section>
+<section id="csv-files" class="slide level2">
+<h2>CSV Files</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a>ofstream outFile<span class="op">(</span><span class="st">"students.csv"</span><span class="op">);</span></span>
+<span id="cb17-2"><a href=""></a></span>
+<span id="cb17-3"><a href=""></a>outFile <span class="op">&lt;&lt;</span> <span class="st">"name,score"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb17-4"><a href=""></a>outFile <span class="op">&lt;&lt;</span> <span class="st">"Alice,95"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb17-5"><a href=""></a>outFile <span class="op">&lt;&lt;</span> <span class="st">"Bob,87"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb17-6"><a href=""></a></span>
+<span id="cb17-7"><a href=""></a>outFile<span class="op">.</span>close<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>CSV files are plain text files with comma-separated fields. Spreadsheet programs can read them.</p>
+<!-- Slide 27 -->
+</section>
+<section id="common-practices" class="slide level2">
+<h2>Common Practices</h2>
 <ul>
-<li>Text files have variable-length lines — byte offsets are not predictable</li>
-<li>Binary files with fixed-size structs make offset arithmetic exact</li>
-<li>Always use <code>sizeof(Record)</code> — never hardcode the byte count</li>
+<li>Check that every file opened before reading or writing.</li>
+<li>Design the file format before designing the loop.</li>
+<li>Match the loop pattern to the file’s stopping rule.</li>
+<li>Keep text formats simple enough to inspect by eye.</li>
+</ul>
+<!-- Slide 28 -->
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>File I/O is stream I/O connected to persistent storage.</li>
+<li>The read loop must match the file’s format contract.</li>
+<li>Clear file formats make programs easier to test and debug.</li>
+</ul>
+<!-- Slide 29 -->
+<!-- Topic 2: Assertions -->
+<!-- Slides 30-45 -->
+</section></section>
+<section>
+<section id="assertions" class="title-slide slide level1 center">
+<h1>Assertions</h1>
+<!-- Slide 30 -->
+</section>
+<section id="what-should-never-be-false" class="slide level2 smaller">
+<h2>What Should Never Be False?</h2>
+<ul>
+<li>Some checks are not about normal client mistakes.</li>
+<li>They mean the program reached a state the programmer did not intend.</li>
 </ul>
 <aside class="notes">
-<p>[Graphic suggestion: diagram showing a binary file as a row of equal-width blocks, each labeled “Record 0”, “Record 1”, “Record 2”, with byte offsets marked below]</p>
+<p>Slides 30-45</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -802,48 +695,188 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 7 -->
+<!-- Slide 31 -->
 </section>
-<section id="reading-the-nth-record" class="slide level2">
-<h2>Reading the Nth record</h2>
-<p>To reach record N in a file of fixed-size records:</p>
-<pre><code>byte offset = N × sizeof(Record)</code></pre>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="kw">struct</span> Record <span class="op">{</span> <span class="dt">int</span> id<span class="op">;</span> <span class="dt">float</span> score<span class="op">;</span> <span class="dt">char</span> grade<span class="op">;</span> <span class="dt">char</span> pad<span class="op">[</span><span class="dv">3</span><span class="op">];</span> <span class="op">};</span></span>
-<span id="cb27-2"><a href=""></a></span>
-<span id="cb27-3"><a href=""></a>ifstream inFile<span class="op">(</span><span class="st">"records.bin"</span><span class="op">,</span> ios<span class="op">::</span>binary<span class="op">);</span></span>
-<span id="cb27-4"><a href=""></a></span>
-<span id="cb27-5"><a href=""></a><span class="dt">int</span> n <span class="op">=</span> <span class="dv">4</span><span class="op">;</span>                                         <span class="co">// 0-indexed: 5th record</span></span>
-<span id="cb27-6"><a href=""></a>inFile<span class="op">.</span>seekg<span class="op">(</span>n <span class="op">*</span> <span class="kw">sizeof</span><span class="op">(</span>Record<span class="op">),</span> ios<span class="op">::</span>beg<span class="op">);</span></span>
-<span id="cb27-7"><a href=""></a></span>
-<span id="cb27-8"><a href=""></a>Record r<span class="op">;</span></span>
-<span id="cb27-9"><a href=""></a>inFile<span class="op">.</span>read<span class="op">(</span><span class="kw">reinterpret_cast</span><span class="op">&lt;</span><span class="dt">char</span><span class="op">*&gt;(&amp;</span>r<span class="op">),</span> <span class="kw">sizeof</span><span class="op">(</span>Record<span class="op">));</span></span>
-<span id="cb27-10"><a href=""></a></span>
-<span id="cb27-11"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"id: "</span>    <span class="op">&lt;&lt;</span> r<span class="op">.</span>id</span>
-<span id="cb27-12"><a href=""></a>     <span class="op">&lt;&lt;</span> <span class="st">"  score: "</span> <span class="op">&lt;&lt;</span> r<span class="op">.</span>score</span>
-<span id="cb27-13"><a href=""></a>     <span class="op">&lt;&lt;</span> <span class="st">"  grade: "</span> <span class="op">&lt;&lt;</span> r<span class="op">.</span>grade <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 8 -->
+<section id="validation-vs-assertion" class="slide level2">
+<h2>Validation vs Assertion</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Validation</th>
+<th>Assertion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Handles client mistakes</td>
+<td>Catches programmer mistakes</td>
+</tr>
+<tr class="even">
+<td>Gives a message and reprompts</td>
+<td>Stops the program during development</td>
+</tr>
+<tr class="odd">
+<td>Part of normal behavior</td>
+<td>Documents an assumption</td>
+</tr>
+</tbody>
+</table>
+<p>Use validation for data coming from outside the program.</p>
+<!-- Slide 32 -->
 </section>
-<section id="writing-the-nth-record" class="slide level2">
-<h2>Writing the Nth record</h2>
-<p>The same formula applies to writing. Seek to the offset, then write.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a>fstream file<span class="op">(</span><span class="st">"records.bin"</span><span class="op">,</span></span>
-<span id="cb28-2"><a href=""></a>    ios<span class="op">::</span>in <span class="op">|</span> ios<span class="op">::</span>out <span class="op">|</span> ios<span class="op">::</span>binary<span class="op">);</span></span>
-<span id="cb28-3"><a href=""></a></span>
-<span id="cb28-4"><a href=""></a>Record updated <span class="op">=</span> <span class="op">{</span><span class="dv">42</span><span class="op">,</span> <span class="fl">99.5</span><span class="bu">f</span><span class="op">,</span> <span class="ch">'A'</span><span class="op">,</span> <span class="op">{</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">}};</span></span>
-<span id="cb28-5"><a href=""></a></span>
-<span id="cb28-6"><a href=""></a><span class="dt">int</span> n <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
-<span id="cb28-7"><a href=""></a>file<span class="op">.</span>seekp<span class="op">(</span>n <span class="op">*</span> <span class="kw">sizeof</span><span class="op">(</span>Record<span class="op">),</span> ios<span class="op">::</span>beg<span class="op">);</span></span>
-<span id="cb28-8"><a href=""></a>file<span class="op">.</span>write<span class="op">(</span><span class="kw">reinterpret_cast</span><span class="op">&lt;</span><span class="dt">char</span><span class="op">*&gt;(&amp;</span>updated<span class="op">),</span> <span class="kw">sizeof</span><span class="op">(</span>Record<span class="op">));</span></span>
-<span id="cb28-9"><a href=""></a></span>
-<span id="cb28-10"><a href=""></a>file<span class="op">.</span>close<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>reinterpret_cast&lt;char*&gt;</code> tells <code>write</code> to treat the struct as raw bytes. The existing record at that offset is overwritten in place.</p>
-<!-- Slide 9 -->
+<section id="what-assert-does" class="slide level2">
+<h2>What <code>assert</code> Does</h2>
+<ul>
+<li><code>assert</code> checks a condition the programmer believes must be true.</li>
+<li>If the condition is false, the program stops.</li>
+<li>The failed condition points to a broken assumption.</li>
+</ul>
+<p>Assertions turn assumptions into executable checks.</p>
+<!-- Slide 33 -->
 </section>
-<section id="summary-2" class="slide level2">
+<section id="basic-assert-syntax" class="slide level2">
+<h2>Basic <code>assert</code> Syntax</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cassert&gt;</span></span>
+<span id="cb18-2"><a href=""></a></span>
+<span id="cb18-3"><a href=""></a><span class="dt">int</span> index <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb18-4"><a href=""></a><span class="dt">int</span> size <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb18-5"><a href=""></a></span>
+<span id="cb18-6"><a href=""></a><span class="ot">assert</span><span class="op">(</span>index <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> index <span class="op">&lt;</span> size<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The condition should describe a state that must already be true.</p>
+<!-- Slide 34 -->
+</section>
+<section id="assertions-express-preconditions" class="slide level2">
+<h2>Assertions Express Preconditions</h2>
+<ul>
+<li>A precondition must be true before code runs safely.</li>
+<li>A divisor should not be zero.</li>
+<li>An index should be inside the valid range.</li>
+</ul>
+<p>The assertion documents what the caller or earlier code must guarantee.</p>
+<!-- Slide 35 -->
+</section>
+<section id="asserting-inside-a-function" class="slide level2">
+<h2>Asserting Inside A Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cassert&gt;</span></span>
+<span id="cb19-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb19-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb19-4"><a href=""></a></span>
+<span id="cb19-5"><a href=""></a><span class="dt">double</span> divide<span class="op">(</span><span class="dt">int</span> numerator<span class="op">,</span> <span class="dt">int</span> denominator<span class="op">);</span></span>
+<span id="cb19-6"><a href=""></a></span>
+<span id="cb19-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb19-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> divide<span class="op">(</span><span class="dv">10</span><span class="op">,</span> <span class="dv">2</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb19-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb19-10"><a href=""></a><span class="op">}</span></span>
+<span id="cb19-11"><a href=""></a></span>
+<span id="cb19-12"><a href=""></a><span class="dt">double</span> divide<span class="op">(</span><span class="dt">int</span> numerator<span class="op">,</span> <span class="dt">int</span> denominator<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-13"><a href=""></a>    <span class="ot">assert</span><span class="op">(</span>denominator <span class="op">!=</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb19-14"><a href=""></a>    <span class="cf">return</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>numerator<span class="op">)</span> <span class="op">/</span> denominator<span class="op">;</span></span>
+<span id="cb19-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>This example intentionally omits input. User-entered denominators should be validated before the function call.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 36 -->
+</section>
+<section id="assertions-express-invariants" class="slide level2">
+<h2>Assertions Express Invariants</h2>
+<p>An invariant is a condition that should stay true while the program runs.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> names<span class="op">;</span></span>
+<span id="cb20-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">;</span></span>
+<span id="cb20-3"><a href=""></a></span>
+<span id="cb20-4"><a href=""></a><span class="ot">assert</span><span class="op">(</span>names<span class="op">.</span>size<span class="op">()</span> <span class="op">==</span> scores<span class="op">.</span>size<span class="op">());</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If parallel vectors represent the same records, their sizes should match.</p>
+<!-- Slide 37 -->
+</section>
+<section id="reading-an-assertion-failure" class="slide level2">
+<h2>Reading An Assertion Failure</h2>
+<ul>
+<li>Do not patch around the failure immediately.</li>
+<li>Ask which assumption failed.</li>
+<li>Trace where the bad state entered the program.</li>
+</ul>
+<p>An assertion failure is evidence. Use it to find the earlier cause.</p>
+<!-- Slide 38 -->
+</section>
+<section id="do-not-use-assert-for-client-input" class="slide level2">
+<h2>Do Not Use <code>assert</code> For Client Input</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a>cin <span class="op">&gt;&gt;</span> score<span class="op">;</span></span>
+<span id="cb21-2"><a href=""></a><span class="ot">assert</span><span class="op">(</span>score <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> score <span class="op">&lt;=</span> <span class="dv">100</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Bad client input is expected. Expected mistakes need validation and recovery.</p>
+<!-- Slide 39 -->
+</section>
+<section id="validation-handles-client-input" class="slide level2">
+<h2>Validation Handles Client Input</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a score from 0 to 100: "</span><span class="op">;</span></span>
+<span id="cb22-2"><a href=""></a>cin <span class="op">&gt;&gt;</span> score<span class="op">;</span></span>
+<span id="cb22-3"><a href=""></a></span>
+<span id="cb22-4"><a href=""></a><span class="cf">while</span> <span class="op">(</span>score <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> score <span class="op">&gt;</span> <span class="dv">100</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score must be 0 to 100. Try again: "</span><span class="op">;</span></span>
+<span id="cb22-6"><a href=""></a>    cin <span class="op">&gt;&gt;</span> score<span class="op">;</span></span>
+<span id="cb22-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Validation keeps the program running and tells the client how to recover.</p>
+<!-- Slide 40 -->
+</section>
+<section id="avoid-side-effects-in-assertions" class="slide level2">
+<h2>Avoid Side Effects In Assertions</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="ot">assert</span><span class="op">(</span>count<span class="op">++</span> <span class="op">&lt;</span> limit<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Do not put assignments inside assertion conditions.</li>
+<li>Do not rely on increments inside an assertion.</li>
+<li>Do not place required function calls inside an assertion.</li>
+</ul>
+<p>The program should behave correctly even if assertions are disabled.</p>
+<!-- Slide 41 -->
+</section>
+<section id="assertions-can-be-disabled" class="slide level2">
+<h2>Assertions Can Be Disabled</h2>
+<ul>
+<li>Some builds compile assertions out.</li>
+<li>Required behavior cannot depend on <code>assert</code>.</li>
+<li>Use <code>assert</code> to catch problems, not to implement normal logic.</li>
+</ul>
+<p>Assertions are development checks, not a substitute for program behavior.</p>
+<!-- Slide 42 -->
+</section>
+<section id="assertions-and-file-io" class="slide level2">
+<h2>Assertions And File I/O</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a>inFile <span class="op">&gt;&gt;</span> expectedCount<span class="op">;</span></span>
+<span id="cb24-2"><a href=""></a></span>
+<span id="cb24-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> expectedCount<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb24-4"><a href=""></a>    inFile <span class="op">&gt;&gt;</span> score<span class="op">;</span></span>
+<span id="cb24-5"><a href=""></a>    scores<span class="op">.</span>push_back<span class="op">(</span>score<span class="op">);</span></span>
+<span id="cb24-6"><a href=""></a><span class="op">}</span></span>
+<span id="cb24-7"><a href=""></a></span>
+<span id="cb24-8"><a href=""></a><span class="ot">assert</span><span class="op">(</span>scores<span class="op">.</span>size<span class="op">()</span> <span class="op">==</span> expectedCount<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Validate the file operation first. Assert internal assumptions after the program has built its state.</p>
+<!-- Slide 43 -->
+</section>
+<section id="common-practices-1" class="slide level2">
+<h2>Common Practices</h2>
+<ul>
+<li>Assert programmer assumptions.</li>
+<li>Assert preconditions before unsafe operations.</li>
+<li>Assert invariants after state changes.</li>
+<li>Validate client input and file data before trusting it.</li>
+</ul>
+<!-- Slide 44 -->
+</section>
+<section id="summary-1" class="slide level2">
 <h2>Summary</h2>
-<p>Random access jumps the position marker with <code>seekg</code>/<code>seekp</code> instead of reading every record in sequence. Fixed-size records make the byte offset predictable: <code>N × sizeof(Record)</code>.</p>
-<p>Use <code>tellg</code>/<code>tellp</code> to query the current position — useful for computing file size and for debugging offset arithmetic.</p>
-<!-- Slide 10 -->
+<ul>
+<li>Validate what can reasonably happen.</li>
+<li>Assert what should never happen if the code is correct.</li>
+</ul>
+<!-- Slide 45 -->
 </section>
 <section class="slide level2">
 
@@ -852,11 +885,11 @@ Dr.&nbsp;Caleb Fowler
 <section id="key-takeaways" class="title-slide slide level1 center">
 <h1>Key Takeaways</h1>
 <ul>
-<li>Files persist data beyond the program’s lifetime — use <code>ofstream</code> to write, <code>ifstream</code> to read</li>
-<li>Always check <code>is_open()</code> before reading or writing</li>
-<li>Sequential access reads from start to finish; random access jumps directly to any byte offset</li>
-<li>Fixed-size records make random access predictable: offset = <code>N × sizeof(Record)</code></li>
+<li>File I/O uses familiar stream operations, but the data persists beyond the program run.</li>
+<li>A file’s format is a contract: record shape and stopping rule determine the read loop.</li>
+<li>Use validation for expected bad input and assertions for programmer assumptions that should never be false.</li>
 </ul>
+<!-- Slide 46 -->
 </section>
 <section class="slide level2">
 
@@ -864,7 +897,12 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next Time</h1>
-
+<ul>
+<li>Arrays</li>
+<li>Fixed-size collections</li>
+<li>Array traversal</li>
+</ul>
+<!-- Slide 47 -->
 </section>
 <section class="slide level2">
 
@@ -872,61 +910,117 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-
+<!-- Slide 48 -->
 </section>
 <section id="file-io-good-practices" class="slide level2">
 <h2>File I/O: Good Practices</h2>
+<ul>
+<li>Check that a file opened before reading from it or writing to it.</li>
+<li>Write down a sample file before writing the read loop.</li>
+<li>Keep text file formats simple enough to inspect by eye.</li>
+</ul>
+<!-- Slide 49 -->
 </section>
 <section id="file-io-common-mistakes" class="slide level2">
 <h2>File I/O: Common Mistakes</h2>
+<ul>
+<li>Assuming the file is in the same folder as the source code.</li>
+<li>Using <code>while (!inFile.eof())</code> instead of testing extraction.</li>
+<li>Changing the write format without updating the read loop.</li>
+</ul>
+<!-- Slide 50 -->
 </section>
 <section id="file-io-more-examples" class="slide level2">
 <h2>File I/O: More Examples</h2>
+<ul>
+<li>A score file with one integer per line.</li>
+<li>A roster file whose first value is the number of students.</li>
+<li>A log file opened with <code>ios::app</code> to preserve earlier entries.</li>
+</ul>
+<!-- Slide 51 -->
 </section>
 <section id="file-io-practice-problems" class="slide level2">
 <h2>File I/O: Practice Problems</h2>
+<ol type="1">
+<li>Write a vector of integers to a file, one value per line.</li>
+<li>Read the file back into a new vector and print the values.</li>
+<li>Create a file where the first value is a count, then read exactly that many records.</li>
+</ol>
+<!-- Slide 52 -->
 </section>
 <section id="file-io-ai-search-terms" class="slide level2">
 <h2>File I/O: AI Search Terms</h2>
+<ul>
+<li><code>c++ ifstream ofstream example</code></li>
+<li><code>c++ read file while extraction succeeds</code></li>
+<li><code>c++ write vector to text file</code></li>
+<li><code>c++ ios app append file</code></li>
+</ul>
+<!-- Slide 53 -->
 </section>
 <section id="file-io-questions-for-reflection" class="slide level2">
 <h2>File I/O: Questions for Reflection</h2>
+<ul>
+<li>How does the file tell the program when to stop reading?</li>
+<li>What makes a file format easy to debug by eye?</li>
+<li>Why is a failed extraction different from a normal end of file?</li>
+</ul>
+<!-- Slide 54 -->
 </section>
-<section id="sequential-file-io-good-practices" class="slide level2">
-<h2>Sequential File I/O: Good Practices</h2>
+<section id="assertions-good-practices" class="slide level2">
+<h2>Assertions: Good Practices</h2>
+<ul>
+<li>Assert assumptions that should already be true.</li>
+<li>Keep assertion expressions simple and free of side effects.</li>
+<li>Use assertions near the code that depends on the assumption.</li>
+</ul>
+<!-- Slide 55 -->
 </section>
-<section id="sequential-file-io-common-mistakes" class="slide level2">
-<h2>Sequential File I/O: Common Mistakes</h2>
+<section id="assertions-common-mistakes" class="slide level2">
+<h2>Assertions: Common Mistakes</h2>
+<ul>
+<li>Using <code>assert</code> to handle normal user input errors.</li>
+<li>Depending on an assertion to perform required work.</li>
+<li>Fixing the assertion failure instead of finding the bad state that caused it.</li>
+</ul>
+<!-- Slide 56 -->
 </section>
-<section id="sequential-file-io-more-examples" class="slide level2">
-<h2>Sequential File I/O: More Examples</h2>
+<section id="assertions-more-examples" class="slide level2">
+<h2>Assertions: More Examples</h2>
+<ul>
+<li>Assert that a denominator is not zero before division.</li>
+<li>Assert that an index is inside vector bounds before using it.</li>
+<li>Assert that two parallel vectors have the same size after loading data.</li>
+</ul>
+<!-- Slide 57 -->
 </section>
-<section id="sequential-file-io-practice-problems" class="slide level2">
-<h2>Sequential File I/O: Practice Problems</h2>
+<section id="assertions-practice-problems" class="slide level2">
+<h2>Assertions: Practice Problems</h2>
+<ol type="1">
+<li>Add an assertion to a function that receives an index and a vector size.</li>
+<li>Convert an invalid <code>assert</code> on user input into a validation loop.</li>
+<li>Add an invariant check after reading names and scores into parallel vectors.</li>
+</ol>
+<!-- Slide 58 -->
 </section>
-<section id="sequential-file-io-ai-search-terms" class="slide level2">
-<h2>Sequential File I/O: AI Search Terms</h2>
+<section id="assertions-ai-search-terms" class="slide level2">
+<h2>Assertions: AI Search Terms</h2>
+<ul>
+<li><code>c++ assert cassert</code></li>
+<li><code>c++ assertion vs input validation</code></li>
+<li><code>c++ precondition invariant assert</code></li>
+<li><code>c++ NDEBUG disable assert</code></li>
+</ul>
+<!-- Slide 59 -->
 </section>
-<section id="sequential-file-io-questions-for-reflection" class="slide level2">
-<h2>Sequential File I/O: Questions for Reflection</h2>
-</section>
-<section id="random-access-good-practices" class="slide level2">
-<h2>Random Access: Good Practices</h2>
-</section>
-<section id="random-access-common-mistakes" class="slide level2">
-<h2>Random Access: Common Mistakes</h2>
-</section>
-<section id="random-access-more-examples" class="slide level2">
-<h2>Random Access: More Examples</h2>
-</section>
-<section id="random-access-practice-problems" class="slide level2">
-<h2>Random Access: Practice Problems</h2>
-</section>
-<section id="random-access-ai-search-terms" class="slide level2">
-<h2>Random Access: AI Search Terms</h2>
-</section>
-<section id="random-access-questions-for-reflection" class="slide level2">
-<h2>Random Access: Questions for Reflection</h2>
+<section id="assertions-questions-for-reflection" class="slide level2">
+<h2>Assertions: Questions for Reflection</h2>
+<ul>
+<li>What is the difference between a client mistake and a programmer mistake?</li>
+<li>Why should assertion expressions avoid side effects?</li>
+<li>What should you investigate first when an assertion fails?</li>
+</ul>
+<!-- Slide 60 -->
 
 </section></section>
     </div>
@@ -985,7 +1079,7 @@ Dr.&nbsp;Caleb Fowler
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'h.v',
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -1026,7 +1120,7 @@ Dr.&nbsp;Caleb Fowler
         rtl: false,
 
         // see https://revealjs.com/vertical-slides/#navigation-mode
-        navigationMode: 'default',
+        navigationMode: 'linear',
 
         // Randomizes the order of slides each time the presentation loads
         shuffle: false,
@@ -1312,37 +1406,6 @@ Dr.&nbsp;Caleb Fowler
         }
       });
       </script>
-    <script>
-    window.Reveal.on('ready', event => {
-      function atSectionBoundary() {
-        var routes = Reveal.availableRoutes();
-        return !routes.up || !routes.down;
-      }
-      function goRight() {
-        if (atSectionBoundary()) {
-          var h = Reveal.getIndices().h;
-          Reveal.slide(h + 1, 0);
-        }
-      }
-      function goLeft() {
-        if (atSectionBoundary()) {
-          var h = Reveal.getIndices().h;
-          Reveal.slide(h - 1, 0);
-        }
-      }
-      Reveal.configure({
-        keyboard: {
-          34: 'down',
-          33: 'up',
-          116: goRight,
-          190: goLeft,
-          37: goLeft,
-          39: goRight,
-          79: null
-        }
-      });
-    });
-    </script>
     
 
 </body></html>

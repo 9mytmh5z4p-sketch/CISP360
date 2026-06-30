@@ -206,72 +206,15 @@ Dr.&nbsp;Caleb Fowler
 </div>
 
 </section>
-<section>
 <section id="last-time" class="title-slide slide level1 center">
 <h1>Last Time</h1>
 <ul>
-<li class="fragment"><strong>Introduction to Arrays</strong> — declaration, initialization, stack allocation</li>
-<li class="fragment"><strong>Accessing Elements</strong> — subscript operator; index-based for vs.&nbsp;range-for</li>
-<li class="fragment"><strong>Inputting and Displaying</strong> — two-pass fill/display pattern</li>
-<li class="fragment"><strong>Vectors vs.&nbsp;Arrays</strong> — fixed size, no bounds check, zero overhead</li>
+<li class="fragment"><strong>File I/O</strong></li>
+<li class="fragment"><strong>Sequential I/O</strong></li>
+<li class="fragment"><strong>Random Access</strong></li>
 </ul>
 <aside class="notes">
-<p>Brief recall: students declared and initialized arrays, looped over them with both for styles, and saw the structural contrast with vectors.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
-</section></section>
-<section id="todays-agenda" class="title-slide slide level1 center">
-<h1>Today’s Agenda</h1>
-<ul>
-<li>Processing Array Contents (sum, min, max)</li>
-<li>Linear Search</li>
-<li>Sorting — Bubble Sort</li>
-<li>typedef</li>
-<li>Arrays as Function Arguments</li>
-<li>sizeof with Arrays</li>
-</ul>
-<aside class="notes">
-
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Topic 1: Processing Array Contents -->
-<!-- Total slides: 8 -->
-</section>
-
-<section>
-<section id="processing-array-contents" class="title-slide slide level1 center">
-<h1>Processing Array Contents</h1>
-
-</section>
-<section id="same-loop-patterns-now-with-arrays" class="slide level2 smaller">
-<h2>Same loop patterns — now with arrays</h2>
-<ul>
-<li>Sum, min, and max are accumulator and tracker patterns you already know</li>
-<li>The only change is the data source: an array instead of a vector</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 8</p>
+<p>Recall how stored data survives beyond one run of a program. Arrays shift the focus from external storage to a fixed collection held during one run.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -285,20 +228,20 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 1 -->
 </section>
-<section id="sum-the-accumulator-pattern" class="slide level2">
-<h2>Sum — the accumulator pattern</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb1-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb1-3"><a href=""></a></span>
-<span id="cb1-4"><a href=""></a><span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>                           <span class="co">//.......... initialize to zero</span></span>
-<span id="cb1-5"><a href=""></a></span>
-<span id="cb1-6"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb1-7"><a href=""></a>    total <span class="op">+=</span> scores<span class="op">[</span>i<span class="op">];</span>                  <span class="co">//.......... add each element</span></span>
-<span id="cb1-8"><a href=""></a><span class="op">}</span></span>
-<span id="cb1-9"><a href=""></a></span>
-<span id="cb1-10"><a href=""></a><span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">"Total: "</span> <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="co">//.......... 410</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+<section id="todays-agenda" class="title-slide slide level1 center">
+<h1>Today’s Agenda</h1>
+<ul>
+<li>Introduction to Arrays</li>
+<li>Array Initialization</li>
+<li>Indexing Array Elements</li>
+<li>Traversing Arrays</li>
+<li>Inputting and Displaying Array Data</li>
+<li>Arrays vs.&nbsp;Vectors</li>
+<li>Performance — Arrays vs.&nbsp;Vectors</li>
+</ul>
 <aside class="notes">
-<p>The accumulator pattern is identical to what students used with vectors. Emphasize that the data structure changes but the reasoning does not.</p>
+
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -311,88 +254,104 @@ Dr.&nbsp;Caleb Fowler
           display:block!important;
       }</style></aside>
 <!-- Slide 2 -->
+<!-- Topic 1: Introduction to Arrays -->
+<!-- Slides 3–12 -->
 </section>
-<section id="max" class="slide level2">
-<h2>Max</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span> max <span class="op">=</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">];</span>                     <span class="co">//.......... seed with first element</span></span>
-<span id="cb2-2"><a href=""></a></span>
-<span id="cb2-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span>         <span class="co">//.......... start at 1, already have 0</span></span>
-<span id="cb2-4"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> max<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-5"><a href=""></a>        max <span class="op">=</span> scores<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb2-6"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb2-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb2-8"><a href=""></a></span>
-<span id="cb2-9"><a href=""></a><span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">"Max: "</span> <span class="op">&lt;&lt;</span> max <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>     <span class="co">//.......... 95</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Seeding with the first element (not zero or INT_MIN) is correct for any value range, including all-negative inputs. Students saw this pattern in 09.02 state tracking patterns.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+
+<section>
+<section id="introduction-to-arrays" class="title-slide slide level1 center">
+<h1>Introduction to Arrays</h1>
 <!-- Slide 3 -->
 </section>
-<section id="section" class="slide level2" data-background-iframe="images/max_visualization.html" data-background-interactive="true">
-<h2></h2>
+<section id="same-idea-different-contract" class="slide level2 smaller">
+<h2>Same Idea, Different Contract</h2>
+<ul>
+<li>One name holds a sequence of values.</li>
+<li>The capacity cannot grow or shrink.</li>
+</ul>
+<aside class="notes">
+<p>Slides 3–12</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <!-- Slide 4 -->
 </section>
-<section id="min-same-structure-flipped-comparison" class="slide level2">
-<h2>Min — same structure, flipped comparison</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">int</span> min <span class="op">=</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">];</span>                     <span class="co">//.......... seed with first element</span></span>
-<span id="cb3-2"><a href=""></a></span>
-<span id="cb3-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb3-4"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;</span> min<span class="op">)</span> <span class="op">{</span>               <span class="co">//.......... flipped: &lt; instead of &gt;</span></span>
-<span id="cb3-5"><a href=""></a>        min <span class="op">=</span> scores<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb3-6"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb3-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb3-8"><a href=""></a></span>
-<span id="cb3-9"><a href=""></a><span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">"Min: "</span> <span class="op">&lt;&lt;</span> min <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>     <span class="co">//.......... 62</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="why-arrays" class="slide level2">
+<h2>Why Arrays?</h2>
+<ul>
+<li>Some collections have a natural, permanent capacity.</li>
+<li>Fixed capacity makes storage requirements predictable.</li>
+<li>Arrays are built into C++ and appear throughout existing code.</li>
+</ul>
 <!-- Slide 5 -->
 </section>
-<section id="average-sum-divided-by-count" class="slide level2">
-<h2>Average — sum divided by count</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb4-2"><a href=""></a></span>
-<span id="cb4-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb4-4"><a href=""></a>    total <span class="op">+=</span> scores<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb4-5"><a href=""></a><span class="op">}</span></span>
-<span id="cb4-6"><a href=""></a></span>
-<span id="cb4-7"><a href=""></a><span class="dt">double</span> average <span class="op">=</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> SIZE<span class="op">;</span>  <span class="co">//.......... avoid int division</span></span>
-<span id="cb4-8"><a href=""></a><span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">"Average: "</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>         <span class="co">//.......... 82.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>static_cast here is essential — without it, total / SIZE is integer division and truncates. Students covered type casting in 09.01.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<section id="array-declaration" class="slide level2">
+<h2>Array Declaration</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href=""></a>element type   name   capacity</span>
+<span id="cb2-2"><a href=""></a>     int      scores     5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <!-- Slide 6 -->
 </section>
-<section id="combining-into-one-pass" class="slide level2">
-<h2>Combining into one pass</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb5-2"><a href=""></a><span class="dt">int</span> max   <span class="op">=</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
-<span id="cb5-3"><a href=""></a><span class="dt">int</span> min   <span class="op">=</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
-<span id="cb5-4"><a href=""></a></span>
-<span id="cb5-5"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb5-6"><a href=""></a>    total <span class="op">+=</span> scores<span class="op">[</span>i<span class="op">];</span>                  <span class="co">//.......... accumulate</span></span>
-<span id="cb5-7"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> max<span class="op">)</span> max <span class="op">=</span> scores<span class="op">[</span>i<span class="op">];</span> <span class="co">//.......... track max</span></span>
-<span id="cb5-8"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;</span> min<span class="op">)</span> min <span class="op">=</span> scores<span class="op">[</span>i<span class="op">];</span> <span class="co">//.......... track min</span></span>
-<span id="cb5-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="reading-a-declaration" class="slide level2">
+<h2>Reading a Declaration</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">double</span> temperatures<span class="op">[</span><span class="dv">7</span><span class="op">];</span></span>
+<span id="cb3-2"><a href=""></a><span class="dt">char</span> gradeLetters<span class="op">[</span><span class="dv">5</span><span class="op">];</span></span>
+<span id="cb3-3"><a href=""></a><span class="dt">bool</span> seatsTaken<span class="op">[</span><span class="dv">30</span><span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>temperatures</code> can hold seven <code>double</code> values.</li>
+<li><code>gradeLetters</code> can hold five <code>char</code> values.</li>
+<li><code>seatsTaken</code> can hold thirty <code>bool</code> values.</li>
+</ul>
+<!-- Slide 7 -->
+</section>
+<section id="the-size-must-be-known" class="slide level2">
+<h2>The Size Must Be Known</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> DAYS <span class="op">=</span> <span class="dv">7</span><span class="op">;</span></span>
+<span id="cb4-2"><a href=""></a><span class="dt">double</span> temperatures<span class="op">[</span>DAYS<span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A standard C++ array requires a compile-time constant capacity.</li>
+<li>A value entered while the program runs cannot set this capacity.</li>
+</ul>
+<!-- Slide 8 -->
+</section>
+<section id="one-name-many-values" class="slide level2">
+<h2>One Name, Many Values</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><code>scores</code></th>
+<th style="text-align: right;">value</th>
+<th style="text-align: right;">value</th>
+<th style="text-align: right;">value</th>
+<th style="text-align: right;">value</th>
+<th style="text-align: right;">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>storage position</td>
+<td style="text-align: right;">first</td>
+<td style="text-align: right;">second</td>
+<td style="text-align: right;">third</td>
+<td style="text-align: right;">fourth</td>
+<td style="text-align: right;">fifth</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Every position stores the same element type.</li>
+<li>The positions occupy one contiguous block of memory.</li>
+</ul>
 <aside class="notes">
-<p>One pass is more efficient and is the natural form when you need multiple statistics at once. Worth showing after students have seen each pattern separately so they understand what’s being combined.</p>
+<p>[Graphic suggestion: redraw the table as five adjacent labeled storage boxes under one array name.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -404,31 +363,69 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 7 -->
+<!-- Slide 9 -->
+</section>
+<section id="capacity-and-data-count" class="slide level2">
+<h2>Capacity and Data Count</h2>
+<ul>
+<li><strong>Capacity:</strong> the total number of available positions.</li>
+<li><strong>Data count:</strong> the number of positions currently holding meaningful data.</li>
+<li>A raw array does not track the data count for the program.</li>
+</ul>
+<!-- Slide 10 -->
+</section>
+<section id="arrays-and-vectors" class="slide level2">
+<h2>Arrays and Vectors</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Shared idea</th>
+<th>Different contract</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ordered values</td>
+<td>Array capacity is fixed</td>
+</tr>
+<tr class="even">
+<td>One element type</td>
+<td>No <code>push_back()</code> or <code>pop_back()</code></td>
+</tr>
+<tr class="odd">
+<td>Contiguous storage</td>
+<td>No built-in size member</td>
+</tr>
+<tr class="even">
+<td>Can visit every value</td>
+<td>Program manages logical data count</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 11 -->
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>Sum uses an accumulator initialized to zero; min and max use a tracker seeded with the first element</li>
-<li>These are the same patterns from loop work — the array index just replaces the range-for variable</li>
+<li>An array is an ordered, fixed-capacity collection of one type.</li>
+<li>Its compile-time capacity and meaningful data count are separate ideas.</li>
 </ul>
-<!-- Slide 8 -->
-<!-- Topic 2: Linear Search -->
-<!-- Total slides: 6 -->
+<!-- Slide 12 -->
+<!-- Topic 2: Array Initialization -->
+<!-- Slides 13–24 -->
 </section></section>
 <section>
-<section id="linear-search" class="title-slide slide level1 center">
-<h1>Linear Search</h1>
-
+<section id="array-initialization" class="title-slide slide level1 center">
+<h1>Array Initialization</h1>
+<!-- Slide 13 -->
 </section>
-<section id="finding-a-value-without-any-shortcuts" class="slide level2 smaller">
-<h2>Finding a value — without any shortcuts</h2>
+<section id="starting-with-known-values" class="slide level2 smaller">
+<h2>Starting with Known Values</h2>
 <ul>
-<li>Linear search checks each element in order until it finds a match or runs out of elements</li>
-<li>No sorting required; works on any array</li>
+<li>What should every position contain when the array is created?</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 6</p>
+<p>Slides 13–24</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -440,125 +437,186 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 14 -->
 </section>
-<section id="the-basic-search-loop" class="slide level2">
-<h2>The basic search loop</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb6-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb6-3"><a href=""></a><span class="dt">int</span> target <span class="op">=</span> <span class="dv">84</span><span class="op">;</span></span>
-<span id="cb6-4"><a href=""></a></span>
-<span id="cb6-5"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb6-6"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> target<span class="op">)</span> <span class="op">{</span>           <span class="co">//.......... found it</span></span>
-<span id="cb6-7"><a href=""></a>        <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">"Found at index "</span> <span class="op">&lt;&lt;</span> i <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb6-8"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb6-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>This naive version keeps looping after a match — it will report every occurrence. The next slide shows how to stop early once a match is found.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 2 -->
-</section>
-<section id="stopping-early-with-a-flag" class="slide level2">
-<h2>Stopping early with a flag</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">bool</span> found <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb7-2"><a href=""></a><span class="dt">int</span>  foundAt <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span>                       <span class="co">//.......... -1 signals "not found"</span></span>
-<span id="cb7-3"><a href=""></a></span>
-<span id="cb7-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb7-5"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> target<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-6"><a href=""></a>        found   <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb7-7"><a href=""></a>        foundAt <span class="op">=</span> i<span class="op">;</span></span>
-<span id="cb7-8"><a href=""></a>        <span class="cf">break</span><span class="op">;</span>                           <span class="co">//.......... stop at first match</span></span>
-<span id="cb7-9"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb7-10"><a href=""></a><span class="op">}</span></span>
-<span id="cb7-11"><a href=""></a></span>
-<span id="cb7-12"><a href=""></a><span class="cf">if</span> <span class="op">(</span>found<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-13"><a href=""></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">"Found at index "</span> <span class="op">&lt;&lt;</span> foundAt <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb7-14"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb7-15"><a href=""></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="st">"Not found</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb7-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 3 -->
-</section>
-<section id="returning-the-index-from-a-function" class="slide level2">
-<h2>Returning the index from a function</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">int</span> linearSearch<span class="op">(</span><span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> target<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb8-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb8-3"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>arr<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> target<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb8-4"><a href=""></a>            <span class="cf">return</span> i<span class="op">;</span>                    <span class="co">//.......... return index on match</span></span>
-<span id="cb8-5"><a href=""></a>        <span class="op">}</span></span>
-<span id="cb8-6"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb8-7"><a href=""></a>    <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span>                           <span class="co">//.......... -1 means not found</span></span>
-<span id="cb8-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>-1 as a sentinel return value is a C++ convention for “not found” with index-returning functions. Students will see this pattern again with string’s find() method later in the course.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 4 -->
-</section>
-<section id="performance-how-slow-is-slow" class="slide level2">
-<h2>Performance — how slow is slow?</h2>
+<section id="full-initialization" class="slide level2">
+<h2>Full Initialization</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">96</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Linear search inspects at most <strong>N</strong> elements for an array of size N</li>
-<li>Best case: target is at index 0 — one comparison</li>
-<li>Worst case: target is at the last index or not present — N comparisons</li>
-<li>For small arrays this is fine; for large sorted data, binary search is faster</li>
+<li>Five positions receive five values.</li>
+<li>Values are stored in the order written.</li>
 </ul>
-<aside class="notes">
-<p>Keep this brief — the point is that students understand the tradeoff exists, not that they implement binary search today.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 5 -->
+<!-- Slide 15 -->
+</section>
+<section id="initialization-layout" class="slide level2">
+<h2>Initialization Layout</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">96</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>position</th>
+<th style="text-align: right;">first</th>
+<th style="text-align: right;">second</th>
+<th style="text-align: right;">third</th>
+<th style="text-align: right;">fourth</th>
+<th style="text-align: right;">fifth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>value</td>
+<td style="text-align: right;">91</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: right;">78</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">88</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 16 -->
+</section>
+<section id="partial-initialization" class="slide level2">
+<h2>Partial Initialization</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">84</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>position</th>
+<th style="text-align: right;">first</th>
+<th style="text-align: right;">second</th>
+<th style="text-align: right;">third</th>
+<th style="text-align: right;">fourth</th>
+<th style="text-align: right;">fifth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>value</td>
+<td style="text-align: right;">91</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Missing trailing values are initialized to zero.</li>
+</ul>
+<!-- Slide 17 -->
+</section>
+<section id="zero-initialization" class="slide level2">
+<h2>Zero Initialization</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>value</th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">0</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<ul>
+<li>Empty braces initialize every element to zero.</li>
+</ul>
+<!-- Slide 18 -->
+</section>
+<section id="inferred-size" class="slide level2">
+<h2>Inferred Size</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">96</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The compiler counts the initializer values.</li>
+<li>The resulting capacity is five and remains fixed.</li>
+</ul>
+<!-- Slide 19 -->
+</section>
+<section id="uninitialized-arrays" class="slide level2">
+<h2>Uninitialized Arrays</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A local array declared this way has indeterminate element values.</li>
+<li>Reading any element before assigning it a value is unsafe.</li>
+</ul>
+<!-- Slide 20 -->
+</section>
+<section id="initializer-count" class="slide level2">
+<h2>Initializer Count</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">int</span> first<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">4</span><span class="op">,</span> <span class="dv">8</span><span class="op">};</span>             <span class="co">// allowed: remaining values are zero</span></span>
+<span id="cb11-2"><a href=""></a><span class="dt">int</span> second<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">4</span><span class="op">,</span> <span class="dv">8</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">16</span><span class="op">};</span>   <span class="co">// error: too many initializers</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The initializer list may contain at most the declared capacity.</li>
+</ul>
+<!-- Slide 21 -->
+</section>
+<section id="initialization-happens-once" class="slide level2">
+<h2>Initialization Happens Once</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">70</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">90</span><span class="op">};</span></span>
+<span id="cb12-2"><a href=""></a></span>
+<span id="cb12-3"><a href=""></a><span class="co">// scores = {75, 85, 95};  // array assignment is not allowed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Braces initialize the array as it is created.</li>
+<li>Later changes target individual elements.</li>
+</ul>
+<!-- Slide 22 -->
+</section>
+<section id="choosing-an-initialization-form" class="slide level2">
+<h2>Choosing an Initialization Form</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Need</th>
+<th>Form</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Known starting values</td>
+<td>Full initializer list</td>
+</tr>
+<tr class="even">
+<td>Known prefix, zero remainder</td>
+<td>Partial initializer list</td>
+</tr>
+<tr class="odd">
+<td>All zeros</td>
+<td>Empty braces</td>
+</tr>
+<tr class="even">
+<td>Capacity matches supplied values</td>
+<td>Inferred size</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 23 -->
 </section>
 <section id="summary-1" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>Linear search walks the array from index 0, checking each element; <code>-1</code> as the return value signals “not found”</li>
-<li>Use <code>break</code> or <code>return</code> to stop at the first match rather than scanning the rest of the array</li>
+<li>Initializer lists assign values from left to right.</li>
+<li>Missing trailing values become zero, excess values are rejected, and uninitialized local elements must not be read.</li>
 </ul>
-<!-- Slide 6 -->
-<!-- Topic 3: Sorting — Bubble Sort -->
-<!-- Total slides: 8 -->
+<!-- Slide 24 -->
+<!-- Topic 3: Indexing Array Elements -->
+<!-- Slides 25–39 -->
 </section></section>
 <section>
-<section id="sorting-bubble-sort" class="title-slide slide level1 center">
-<h1>Sorting — Bubble Sort</h1>
-
+<section id="indexing-array-elements" class="title-slide slide level1 center">
+<h1>Indexing Array Elements</h1>
+<!-- Slide 25 -->
 </section>
-<section id="putting-an-array-in-order" class="slide level2 smaller">
-<h2>Putting an array in order</h2>
+<section id="selecting-one-element" class="slide level2 smaller">
+<h2>Selecting One Element</h2>
 <ul>
-<li>Sorting rearranges elements so each one is in the right position relative to its neighbors</li>
-<li>Bubble sort is the simplest algorithm to read and trace</li>
+<li>How does the program identify one position inside an array?</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 8</p>
+<p>Slides 25–39</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -570,202 +628,234 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 26 -->
 </section>
-<section id="the-core-idea" class="slide level2">
-<h2>The core idea</h2>
-<aside class="notes">
-<p>[Graphic suggestion: a row of five boxes with values {5, 3, 8, 1, 4}. Draw arrows between adjacent pairs being compared, then show the larger value “bubbling” one step to the right after each swap.]</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<ul>
-<li>Compare two adjacent elements; if they are out of order, swap them</li>
-<li>Repeat across the whole array — the largest unsorted value “bubbles” to its correct position each pass</li>
-<li>After N−1 passes, the array is sorted</li>
-</ul>
-<!-- Slide 2 -->
-</section>
-<section id="swapping-two-elements" class="slide level2">
-<h2>Swapping two elements</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="dt">int</span> a <span class="op">=</span> scores<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb9-2"><a href=""></a><span class="dt">int</span> b <span class="op">=</span> scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">];</span></span>
-<span id="cb9-3"><a href=""></a></span>
-<span id="cb9-4"><a href=""></a><span class="cf">if</span> <span class="op">(</span>a <span class="op">&gt;</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-5"><a href=""></a>    <span class="dt">int</span> temp   <span class="op">=</span> scores<span class="op">[</span>i<span class="op">];</span>      <span class="co">//.......... hold a's value</span></span>
-<span id="cb9-6"><a href=""></a>    scores<span class="op">[</span>i<span class="op">]</span>  <span class="op">=</span> scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">];</span>  <span class="co">//.......... overwrite a with b</span></span>
-<span id="cb9-7"><a href=""></a>    scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">]</span> <span class="op">=</span> temp<span class="op">;</span>        <span class="co">//.......... put a's original value into b's slot</span></span>
-<span id="cb9-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>The temp variable is essential. Without it, overwriting scores[i] destroys a’s value before it can be moved. Students commonly try to skip temp — worth demonstrating the failure.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 3 -->
-</section>
-<section id="one-pass-through-the-array" class="slide level2">
-<h2>One pass through the array</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span>        <span class="co">//.......... SIZE-1 pairs</span></span>
-<span id="cb10-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">])</span> <span class="op">{</span></span>
-<span id="cb10-3"><a href=""></a>        <span class="dt">int</span> temp       <span class="op">=</span> scores<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb10-4"><a href=""></a>        scores<span class="op">[</span>i<span class="op">]</span>      <span class="op">=</span> scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">];</span></span>
-<span id="cb10-5"><a href=""></a>        scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">]</span>  <span class="op">=</span> temp<span class="op">;</span></span>
-<span id="cb10-6"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb10-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>After one pass, the largest element is guaranteed to be at the last index. This is the “one bubble rises” mental model.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 4 -->
-</section>
-<section id="full-bubble-sort-nested-loops" class="slide level2">
-<h2>Full bubble sort — nested loops</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> pass <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> pass <span class="op">&lt;</span> SIZE <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> pass<span class="op">++)</span> <span class="op">{</span>       <span class="co">//.......... N-1 passes</span></span>
-<span id="cb11-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE <span class="op">-</span> <span class="dv">1</span> <span class="op">-</span> pass<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span>     <span class="co">//.......... shrink inner bound</span></span>
-<span id="cb11-3"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">])</span> <span class="op">{</span></span>
-<span id="cb11-4"><a href=""></a>            <span class="dt">int</span> temp       <span class="op">=</span> scores<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb11-5"><a href=""></a>            scores<span class="op">[</span>i<span class="op">]</span>      <span class="op">=</span> scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">];</span></span>
-<span id="cb11-6"><a href=""></a>            scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">]</span>  <span class="op">=</span> temp<span class="op">;</span></span>
-<span id="cb11-7"><a href=""></a>        <span class="op">}</span></span>
-<span id="cb11-8"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb11-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>SIZE - 1 - pass: after each pass, the last <code>pass</code> elements are already in their final position, so the inner loop doesn’t need to visit them. This is the standard optimization that avoids re-comparing sorted elements.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 5 -->
-</section>
-<section id="tracing-a-sort-before-and-after" class="slide level2">
-<h2>Tracing a sort — before and after</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Before</strong></p>
+<section id="zero-based-positions" class="slide level2">
+<h2>Zero-Based Positions</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Index</th>
-<th>Value</th>
+<th>human position</th>
+<th style="text-align: right;">first</th>
+<th style="text-align: right;">second</th>
+<th style="text-align: right;">third</th>
+<th style="text-align: right;">fourth</th>
+<th style="text-align: right;">fifth</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>0</td>
-<td>62</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>95</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>78</td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td>84</td>
+<td>C++ index</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
 </tr>
 </tbody>
 </table>
-</div><div class="column" style="width:50%;">
-<p><strong>After</strong></p>
+<ul>
+<li>The first element uses index <code>0</code>.</li>
+<li>The index is always one less than its human position number.</li>
+</ul>
+<!-- Slide 27 -->
+</section>
+<section id="index-and-value" class="slide level2">
+<h2>Index and Value</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">96</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Index</th>
-<th>Value</th>
+<th>index</th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">2</th>
+<th style="text-align: right;">3</th>
+<th style="text-align: right;">4</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>0</td>
-<td>62</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>78</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>84</td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td>95</td>
+<td>value</td>
+<td style="text-align: right;">91</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: right;">78</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">88</td>
 </tr>
 </tbody>
 </table>
-</div></div>
-<!-- Slide 6 -->
+<ul>
+<li>The index identifies a position; the value is stored at that position.</li>
+</ul>
+<!-- Slide 28 -->
 </section>
-<section id="section-1" class="slide level2" data-background-iframe="images/bubble_sort_v2.html" data-background-interactive="true">
-<h2></h2>
-<!-- Slide 7 -->
+<section id="the-subscript-operator" class="slide level2">
+<h2>The Subscript Operator</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a>scores<span class="op">[</span><span class="dv">2</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb15-1"><a href=""></a>array name   index expression</span>
+<span id="cb15-2"><a href=""></a>  scores          2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Brackets select one element from the array.</li>
+</ul>
+<!-- Slide 29 -->
+</section>
+<section id="reading-an-element" class="slide level2">
+<h2>Reading an Element</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb16-2"><a href=""></a></span>
+<span id="cb16-3"><a href=""></a><span class="dt">double</span> average <span class="op">=</span> <span class="op">(</span>scores<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">+</span> scores<span class="op">[</span><span class="dv">1</span><span class="op">])</span> <span class="op">/</span> <span class="fl">2.0</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A subscripted element behaves like a value of the array’s element type.</li>
+</ul>
+<!-- Slide 30 -->
+</section>
+<section id="changing-an-element" class="slide level2">
+<h2>Changing an Element</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a>scores<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="dv">82</span><span class="op">;</span></span>
+<span id="cb17-2"><a href=""></a>scores<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>index</th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">2</th>
+<th style="text-align: right;">3</th>
+<th style="text-align: right;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>value</td>
+<td style="text-align: right;">91</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">93</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 31 -->
+</section>
+<section id="indexes-are-expressions" class="slide level2">
+<h2>Indexes Are Expressions</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">int</span> i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb18-2"><a href=""></a></span>
+<span id="cb18-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb18-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb18-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">4</span> <span class="op">-</span> i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>An index can be any whole-number expression that produces a valid position.</li>
+</ul>
+<!-- Slide 32 -->
+</section>
+<section id="valid-index-range" class="slide level2">
+<h2>Valid Index Range</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb19-1"><a href=""></a>capacity:      SIZE</span>
+<span id="cb19-2"><a href=""></a>first index:   0</span>
+<span id="cb19-3"><a href=""></a>last index:    SIZE - 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>For capacity five, valid indexes are <code>0</code> through <code>4</code>.</li>
+<li>Negative indexes and index <code>SIZE</code> are outside the array.</li>
+</ul>
+<!-- Slide 33 -->
+</section>
+<section id="out-of-bounds-access" class="slide level2">
+<h2>Out-of-Bounds Access</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb20-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span>
+<span id="cb20-3"><a href=""></a></span>
+<span id="cb20-4"><a href=""></a>scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="dv">100</span><span class="op">;</span>   <span class="co">// outside the array</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Raw arrays do not perform automatic bounds checks.</li>
+<li>Out-of-bounds access causes undefined behavior.</li>
+</ul>
+<!-- Slide 34 -->
+</section>
+<section id="named-capacity" class="slide level2">
+<h2>Named Capacity</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb21-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span>
+<span id="cb21-3"><a href=""></a></span>
+<span id="cb21-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Last index: "</span> <span class="op">&lt;&lt;</span> SIZE <span class="op">-</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>One name keeps the declaration and bounds reasoning aligned.</li>
+</ul>
+<!-- Slide 35 -->
+</section>
+<section id="counting-elements-with-sizeof" class="slide level2">
+<h2>Counting Elements with <code>sizeof</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">96</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
+<span id="cb22-2"><a href=""></a></span>
+<span id="cb22-3"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="kw">sizeof</span><span class="op">(</span>scores<span class="op">)</span> <span class="op">/</span> <span class="kw">sizeof</span><span class="op">(</span>scores<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Total array bytes divided by one element’s bytes gives the element count.</li>
+</ul>
+<!-- Slide 36 -->
+</section>
+<section id="where-the-sizeof-count-works" class="slide level2">
+<h2>Where the <code>sizeof</code> Count Works</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">96</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
+<span id="cb23-2"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="kw">sizeof</span><span class="op">(</span>scores<span class="op">)</span> <span class="op">/</span> <span class="kw">sizeof</span><span class="op">(</span>scores<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>This works where <code>scores</code> is still an actual array variable.</li>
+<li>An array parameter does not preserve this size information; functions come next lecture.</li>
+</ul>
+<!-- Slide 37 -->
+</section>
+<section id="tracing-index-access" class="slide level2">
+<h2>Tracing Index Access</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">40</span><span class="op">};</span></span>
+<span id="cb24-2"><a href=""></a><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb24-3"><a href=""></a></span>
+<span id="cb24-4"><a href=""></a>values<span class="op">[</span>i<span class="op">]</span> <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb24-5"><a href=""></a>i<span class="op">++;</span></span>
+<span id="cb24-6"><a href=""></a>values<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>index</th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">2</th>
+<th style="text-align: right;">3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>final value</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">40</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 38 -->
 </section>
 <section id="summary-2" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>Bubble sort repeatedly compares adjacent pairs and swaps them if out of order; after N−1 passes the array is sorted</li>
-<li>Always use a <code>temp</code> variable when swapping — overwriting an element without saving its value first destroys data</li>
+<li>Index <code>0</code> selects the first element; <code>SIZE - 1</code> selects the last.</li>
+<li>The subscript operator reads or changes one element, and its index must remain inside the valid range.</li>
 </ul>
-<!-- Slide 8 -->
-<!-- Topic 4: typedef -->
-<!-- Total slides: 8 -->
+<!-- Slide 39 -->
+<!-- Topic 4: Traversing Arrays -->
+<!-- Slides 40–53 -->
 </section></section>
 <section>
-<section id="typedef" class="title-slide slide level1 center">
-<h1>typedef</h1>
-
+<section id="traversing-arrays" class="title-slide slide level1 center">
+<h1>Traversing Arrays</h1>
+<!-- Slide 40 -->
 </section>
-<section id="giving-a-type-a-shorter-name" class="slide level2 smaller">
-<h2>Giving a type a shorter name</h2>
+<section id="moving-through-every-element" class="slide level2 smaller">
+<h2>Moving Through Every Element</h2>
 <ul>
-<li><code>typedef</code> creates an alias — a new name for an existing type</li>
-<li>Same type, different label</li>
+<li>How can one operation reach each position exactly once?</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 8</p>
+<p>Slides 40–53</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -777,149 +867,264 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 41 -->
 </section>
-<section id="basic-syntax" class="slide level2">
-<h2>Basic syntax</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="kw">typedef</span> <span class="dt">existing_type</span> alias_name<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="kw">typedef</span> <span class="dt">unsigned</span> <span class="dt">int</span> <span class="ex">uint</span><span class="op">;</span>     <span class="co">//.......... uint now means unsigned int</span></span>
-<span id="cb13-2"><a href=""></a><span class="kw">typedef</span> <span class="dt">double</span>       Dollars<span class="op">;</span>  <span class="co">//.......... Dollars now means double</span></span>
-<span id="cb13-3"><a href=""></a></span>
-<span id="cb13-4"><a href=""></a><span class="ex">uint</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb13-5"><a href=""></a>Dollars price <span class="op">=</span> <span class="fl">9.99</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>The alias is just a name — it does not create a new type. The compiler treats uint and unsigned int as identical.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 2 -->
+<section id="index-loop-structure" class="slide level2">
+<h2>Index Loop Structure</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>loop part</th>
+<th>array meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>i = 0</code></td>
+<td>start at the first index</td>
+</tr>
+<tr class="even">
+<td><code>i &lt; SIZE</code></td>
+<td>remain inside the valid range</td>
+</tr>
+<tr class="odd">
+<td><code>i++</code></td>
+<td>advance to the next index</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 42 -->
 </section>
-<section id="typedef-with-arrays" class="slide level2">
-<h2>typedef with arrays</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="kw">typedef</span> <span class="dt">int</span> ScoreArray<span class="op">[</span><span class="dv">5</span><span class="op">];</span>     <span class="co">//.......... ScoreArray is an array of 5 ints</span></span>
-<span id="cb14-2"><a href=""></a></span>
-<span id="cb14-3"><a href=""></a>ScoreArray scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="index-loop-code" class="slide level2">
+<h2>Index Loop Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb26-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb26-3"><a href=""></a></span>
+<span id="cb26-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb26-5"><a href=""></a><span class="op">{</span></span>
+<span id="cb26-6"><a href=""></a>    <span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb26-7"><a href=""></a>    <span class="dt">int</span> scores<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">96</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
+<span id="cb26-8"><a href=""></a></span>
+<span id="cb26-9"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb26-10"><a href=""></a>    <span class="op">{</span></span>
+<span id="cb26-11"><a href=""></a>        cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb26-12"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb26-13"><a href=""></a></span>
+<span id="cb26-14"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb26-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 43 -->
+</section>
+<section id="following-the-index" class="slide level2">
+<h2>Following the Index</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">iteration</th>
+<th style="text-align: right;"><code>i</code></th>
+<th style="text-align: right;"><code>scores[i]</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">91</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">84</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">78</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">96</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">88</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>The alias captures both the element type and the size</li>
-<li>Useful when the same array shape appears repeatedly in a program</li>
+<li>When <code>i</code> becomes <code>5</code>, <code>i &lt; SIZE</code> is false.</li>
 </ul>
-<!-- Slide 3 -->
+<!-- Slide 44 -->
 </section>
-<section id="typedef-with-vectors" class="slide level2">
-<h2>typedef with vectors</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb15-2"><a href=""></a><span class="kw">typedef</span> <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> IntVec<span class="op">;</span>   <span class="co">//.......... IntVec is a vector of ints</span></span>
-<span id="cb15-3"><a href=""></a></span>
-<span id="cb15-4"><a href=""></a>IntVec scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb15-5"><a href=""></a>scores<span class="op">.</span>push_back<span class="op">(</span><span class="dv">73</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="processing-with-an-index" class="slide level2">
+<h2>Processing with an Index</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb27-2"><a href=""></a></span>
+<span id="cb27-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb27-4"><a href=""></a><span class="op">{</span></span>
+<span id="cb27-5"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;=</span> <span class="dv">70</span><span class="op">)</span></span>
+<span id="cb27-6"><a href=""></a>    <span class="op">{</span></span>
+<span id="cb27-7"><a href=""></a>        total <span class="op">+=</span> scores<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb27-8"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb27-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 45 -->
+</section>
+<section id="changing-elements-by-index" class="slide level2">
+<h2>Changing Elements by Index</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb28-2"><a href=""></a><span class="op">{</span></span>
+<span id="cb28-3"><a href=""></a>    scores<span class="op">[</span>i<span class="op">]</span> <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb28-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Particularly useful for long template types that appear many times</li>
-<li>The alias does not change the type’s behavior — all vector methods still work</li>
+<li>Each subscript selects the element to modify during that iteration.</li>
 </ul>
-<!-- Slide 4 -->
+<!-- Slide 46 -->
 </section>
-<section id="using-the-modern-alternative" class="slide level2">
-<h2>using — the modern alternative</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="kw">using</span> <span class="ex">uint</span>     <span class="op">=</span> <span class="dt">unsigned</span> <span class="dt">int</span><span class="op">;</span></span>
-<span id="cb16-2"><a href=""></a><span class="kw">using</span> Dollars  <span class="op">=</span> <span class="dt">double</span><span class="op">;</span></span>
-<span id="cb16-3"><a href=""></a><span class="kw">using</span> IntVec   <span class="op">=</span> <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="range-based-traversal" class="slide level2">
+<h2>Range-Based Traversal</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span></span>
+<span id="cb29-2"><a href=""></a><span class="op">{</span></span>
+<span id="cb29-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb29-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><code>using</code> does the same job as <code>typedef</code> and is preferred in modern C++</li>
-<li>Easier to read: alias on the left, type on the right</li>
-<li>You will see both in existing code — know how to read them</li>
+<li>The loop visits every declared element in order.</li>
+<li>No index variable is exposed.</li>
 </ul>
-<!-- Slide 5 -->
+<!-- Slide 47 -->
 </section>
-<section id="whats-the-output" class="slide level2 smaller">
-<h2>What’s the Output?</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb17-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb17-3"><a href=""></a></span>
-<span id="cb17-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb17-5"><a href=""></a>    <span class="kw">typedef</span> <span class="dt">double</span> Dollars<span class="op">;</span></span>
-<span id="cb17-6"><a href=""></a>    Dollars price <span class="op">=</span> <span class="fl">24.99</span><span class="op">;</span></span>
-<span id="cb17-7"><a href=""></a>    Dollars discount <span class="op">=</span> price <span class="op">*</span> <span class="fl">0.20</span><span class="op">;</span></span>
-<span id="cb17-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> price <span class="op">-</span> discount <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb17-9"><a href=""></a></span>
-<span id="cb17-10"><a href=""></a>    <span class="kw">using</span> Celsius    <span class="op">=</span> <span class="dt">double</span><span class="op">;</span></span>
-<span id="cb17-11"><a href=""></a>    <span class="kw">using</span> Fahrenheit <span class="op">=</span> <span class="dt">double</span><span class="op">;</span></span>
-<span id="cb17-12"><a href=""></a>    Celsius boiling <span class="op">=</span> <span class="fl">100.0</span><span class="op">;</span></span>
-<span id="cb17-13"><a href=""></a>    Fahrenheit f <span class="op">=</span> boiling <span class="op">*</span> <span class="fl">9.0</span> <span class="op">/</span> <span class="fl">5.0</span> <span class="op">+</span> <span class="fl">32.0</span><span class="op">;</span></span>
-<span id="cb17-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> f <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb17-15"><a href=""></a></span>
-<span id="cb17-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb17-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 6 -->
+<section id="copies-and-references" class="slide level2">
+<h2>Copies and References</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> score <span class="op">:</span> scores<span class="op">)</span>       <span class="co">// score is a copy</span></span>
+<span id="cb30-2"><a href=""></a><span class="op">{</span></span>
+<span id="cb30-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb30-4"><a href=""></a><span class="op">}</span></span>
+<span id="cb30-5"><a href=""></a></span>
+<span id="cb30-6"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> score <span class="op">:</span> scores<span class="op">)</span>      <span class="co">// score refers to the element</span></span>
+<span id="cb30-7"><a href=""></a><span class="op">{</span></span>
+<span id="cb30-8"><a href=""></a>    score <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb30-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 48 -->
 </section>
-<section id="whats-the-output-1" class="slide level2 smaller">
-<h2>What’s the Output?</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb18-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb18-3"><a href=""></a></span>
-<span id="cb18-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb18-5"><a href=""></a>    <span class="kw">typedef</span> <span class="dt">double</span> Dollars<span class="op">;</span></span>
-<span id="cb18-6"><a href=""></a>    Dollars price <span class="op">=</span> <span class="fl">24.99</span><span class="op">;</span></span>
-<span id="cb18-7"><a href=""></a>    Dollars discount <span class="op">=</span> price <span class="op">*</span> <span class="fl">0.20</span><span class="op">;</span></span>
-<span id="cb18-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> price <span class="op">-</span> discount <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb18-9"><a href=""></a></span>
-<span id="cb18-10"><a href=""></a>    <span class="kw">using</span> Celsius    <span class="op">=</span> <span class="dt">double</span><span class="op">;</span></span>
-<span id="cb18-11"><a href=""></a>    <span class="kw">using</span> Fahrenheit <span class="op">=</span> <span class="dt">double</span><span class="op">;</span></span>
-<span id="cb18-12"><a href=""></a>    Celsius boiling <span class="op">=</span> <span class="fl">100.0</span><span class="op">;</span></span>
-<span id="cb18-13"><a href=""></a>    Fahrenheit f <span class="op">=</span> boiling <span class="op">*</span> <span class="fl">9.0</span> <span class="op">/</span> <span class="fl">5.0</span> <span class="op">+</span> <span class="fl">32.0</span><span class="op">;</span></span>
-<span id="cb18-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> f <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb18-15"><a href=""></a></span>
-<span id="cb18-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb18-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>19.992
-212</code></pre>
-<p><code>typedef</code> and <code>using</code> are aliases only — the underlying <code>double</code> arithmetic is unchanged.</p>
-<aside class="notes">
-<p>Line 1: 19.992 — Dollars is just double; subtraction works identically. Line 2: 212 — using is the modern typedef; Celsius and Fahrenheit are both double, arithmetic is unchanged.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 7 -->
+<section id="range-based-loop-code" class="slide level2">
+<h2>Range-Based Loop Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb31-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb31-3"><a href=""></a></span>
+<span id="cb31-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb31-5"><a href=""></a><span class="op">{</span></span>
+<span id="cb31-6"><a href=""></a>    <span class="dt">int</span> scores<span class="op">[]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">96</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
+<span id="cb31-7"><a href=""></a></span>
+<span id="cb31-8"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> score <span class="op">:</span> scores<span class="op">)</span></span>
+<span id="cb31-9"><a href=""></a>    <span class="op">{</span></span>
+<span id="cb31-10"><a href=""></a>        score <span class="op">+=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb31-11"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb31-12"><a href=""></a></span>
+<span id="cb31-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb31-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 49 -->
+</section>
+<section id="capacity-or-data-count" class="slide level2">
+<h2>Capacity or Data Count?</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> CAPACITY <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb32-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>CAPACITY<span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span>
+<span id="cb32-3"><a href=""></a><span class="dt">int</span> dataCount <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb32-4"><a href=""></a></span>
+<span id="cb32-5"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> dataCount<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb32-6"><a href=""></a><span class="op">{</span></span>
+<span id="cb32-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb32-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A range-based loop would visit all ten declared positions.</li>
+<li>The index loop can stop after the four meaningful values.</li>
+</ul>
+<!-- Slide 50 -->
+</section>
+<section id="loop-bound-reasoning" class="slide level2">
+<h2>Loop Bound Reasoning</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>condition</th>
+<th style="text-align: right;">final attempted index</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>i &lt; SIZE</code></td>
+<td style="text-align: right;"><code>SIZE - 1</code></td>
+<td>inside the array</td>
+</tr>
+<tr class="even">
+<td><code>i &lt;= SIZE</code></td>
+<td style="text-align: right;"><code>SIZE</code></td>
+<td>outside the array</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The condition describes when another iteration is allowed.</li>
+</ul>
+<!-- Slide 51 -->
+</section>
+<section id="choosing-the-loop" class="slide level2">
+<h2>Choosing the Loop</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Need</th>
+<th>Loop choice</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Read every declared value</td>
+<td>Range-based loop</td>
+</tr>
+<tr class="even">
+<td>Change every declared value</td>
+<td>Range-based loop with reference</td>
+</tr>
+<tr class="odd">
+<td>Use the position</td>
+<td>Index loop</td>
+</tr>
+<tr class="even">
+<td>Stop at a logical data count</td>
+<td>Index loop</td>
+</tr>
+<tr class="odd">
+<td>Compare neighboring elements</td>
+<td>Index loop</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 52 -->
 </section>
 <section id="summary-3" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li><code>typedef</code> creates an alias for a type; <code>using</code> is the modern equivalent with the same effect</li>
-<li>Use aliases to shorten verbose types and to give domain meaning to generic types like <code>double</code> or <code>vector&lt;int&gt;</code></li>
+<li>Index loops connect repetition directly to valid positions.</li>
+<li>Range-based loops visit full capacity; index loops can stop at the logical data count.</li>
 </ul>
-<!-- Slide 8 -->
-<!-- Topic 5: Arrays as Function Arguments -->
-<!-- Total slides: 9 -->
+<!-- Slide 53 -->
+<!-- Topic 5: Inputting and Displaying Array Data -->
+<!-- Slides 54–67 -->
 </section></section>
 <section>
-<section id="arrays-as-function-arguments" class="title-slide slide level1 center">
-<h1>Arrays as Function Arguments</h1>
-
+<section id="inputting-and-displaying-array-data" class="title-slide slide level1 center">
+<h1>Inputting and Displaying Array Data</h1>
+<!-- Slide 54 -->
 </section>
-<section id="passing-an-array-to-a-function-not-what-you-expect" class="slide level2 smaller">
-<h2>Passing an array to a function — not what you expect</h2>
+<section id="from-user-input-to-stored-data" class="slide level2 smaller">
+<h2>From User Input to Stored Data</h2>
 <ul>
-<li>Arrays do not behave like <code>int</code> or <code>double</code> when passed to a function</li>
-<li>Understanding why changes how you write every array function</li>
+<li>How can several inputs remain available after they are entered?</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 7</p>
+<p>Slides 54–67</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -931,169 +1136,218 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 55 -->
 </section>
-<section id="array-decay" class="slide level2">
-<h2>Array decay</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb20-2"><a href=""></a></span>
-<span id="cb20-3"><a href=""></a><span class="dt">void</span> printFirst<span class="op">(</span><span class="dt">int</span> arr<span class="op">[])</span> <span class="op">{</span></span>
-<span id="cb20-4"><a href=""></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> arr<span class="op">[</span><span class="dv">0</span><span class="op">];</span>         <span class="co">//.......... works fine</span></span>
-<span id="cb20-5"><a href=""></a><span class="op">}</span></span>
-<span id="cb20-6"><a href=""></a></span>
-<span id="cb20-7"><a href=""></a>printFirst<span class="op">(</span>scores<span class="op">);</span>              <span class="co">//.......... passes a pointer, not a copy</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="inputting-one-element" class="slide level2">
+<h2>Inputting One Element</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a>cin <span class="op">&gt;&gt;</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>When you pass an array, C++ converts it to a <strong>pointer to the first element</strong></li>
-<li>The function receives an address, not a copy of the data</li>
-<li>This is called <strong>array decay</strong></li>
+<li>The subscripted element is the destination for the input value.</li>
+<li>Later input can target a different index without replacing this value.</li>
 </ul>
-<aside class="notes">
-<p>[Graphic suggestion: two boxes — left shows scores[5] on the stack with five elements; right shows arr inside the function as a single pointer arrow pointing to scores[0]. Emphasize that no copy is made.]</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 2 -->
+<!-- Slide 56 -->
 </section>
-<section id="you-must-pass-the-size-separately" class="slide level2">
-<h2>You must pass the size separately</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="dt">void</span> printArray<span class="op">(</span><span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span>    <span class="co">//.......... size is a required parameter</span></span>
-<span id="cb21-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb21-3"><a href=""></a>        <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> arr<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb21-4"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb21-5"><a href=""></a><span class="op">}</span></span>
-<span id="cb21-6"><a href=""></a></span>
-<span id="cb21-7"><a href=""></a>printArray<span class="op">(</span>scores<span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="the-fill-loop" class="slide level2">
+<h2>The Fill Loop</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">step</th>
+<th>selected destination</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td><code>scores[0]</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td><code>scores[1]</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td><code>scores[2]</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">…</td>
+<td>…</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">final</td>
+<td><code>scores[SIZE - 1]</code></td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>Once the array decays to a pointer, <code>sizeof</code> no longer knows the original size</li>
-<li>Always pass size as a second parameter — there is no other way to know it</li>
+<li>The loop index chooses where each new value is stored.</li>
 </ul>
-<!-- Slide 3 -->
+<!-- Slide 57 -->
 </section>
-<section id="functions-can-modify-the-original-array" class="slide level2">
-<h2>Functions can modify the original array</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="dt">void</span> doubleAll<span class="op">(</span><span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb22-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb22-3"><a href=""></a>        arr<span class="op">[</span>i<span class="op">]</span> <span class="op">*=</span> <span class="dv">2</span><span class="op">;</span>                      <span class="co">//.......... modifies the caller's array</span></span>
-<span id="cb22-4"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb22-5"><a href=""></a><span class="op">}</span></span>
-<span id="cb22-6"><a href=""></a></span>
-<span id="cb22-7"><a href=""></a>doubleAll<span class="op">(</span>scores<span class="op">,</span> <span class="dv">5</span><span class="op">);</span>                     <span class="co">//.......... scores is changed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="fill-loop-code" class="slide level2">
+<h2>Fill Loop Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb34-2"><a href=""></a><span class="op">{</span></span>
+<span id="cb34-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter score "</span> <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span><span class="op">;</span></span>
+<span id="cb34-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> scores<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb34-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 58 -->
+</section>
+<section id="indexes-and-user-labels" class="slide level2">
+<h2>Indexes and User Labels</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>meaning</th>
+<th>expression</th>
+<th style="text-align: right;">first value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>array index</td>
+<td><code>i</code></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td>displayed item number</td>
+<td><code>i + 1</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>Because the function receives a pointer, any write to <code>arr[i]</code> changes the original</li>
-<li>There is no copy to protect you — modifications are permanent</li>
+<li>Keep zero-based indexing inside the program.</li>
+<li>Present one-based numbering when it is clearer for the user.</li>
 </ul>
-<!-- Slide 4 -->
+<!-- Slide 59 -->
 </section>
-<section id="use-const-to-prevent-modification" class="slide level2">
-<h2>Use const to prevent modification</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">void</span> printArray<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span>   <span class="co">//.......... read-only</span></span>
-<span id="cb23-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb23-3"><a href=""></a>        <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> arr<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb23-4"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb23-5"><a href=""></a>    <span class="co">// arr[0] = 0;  // compile error — const prevents writes</span></span>
-<span id="cb23-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="the-display-loop" class="slide level2">
+<h2>The Display Loop</h2>
 <ul>
-<li><code>const</code> signals intent: this function will not modify the array</li>
-<li>The compiler enforces it — any write attempt is a compile error</li>
-<li>Use <code>const</code> on any parameter that should not change</li>
+<li>Input stores values during one traversal.</li>
+<li>A later traversal reads the stored values.</li>
+<li>The second pass can use different formatting or calculations.</li>
 </ul>
-<!-- Slide 5 -->
+<!-- Slide 60 -->
 </section>
-<section id="putting-it-together" class="slide level2">
-<h2>Putting it together</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">int</span>  sumArray   <span class="op">(</span><span class="at">const</span> <span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">);</span>   <span class="co">//.......... read-only</span></span>
-<span id="cb24-2"><a href=""></a><span class="dt">void</span> sortArray  <span class="op">(</span>      <span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">);</span>   <span class="co">//.......... modifies in place</span></span>
-<span id="cb24-3"><a href=""></a><span class="dt">int</span>  searchArray<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> target<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="display-loop-code" class="slide level2">
+<h2>Display Loop Code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb35-2"><a href=""></a><span class="op">{</span></span>
+<span id="cb35-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score "</span> <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb35-4"><a href=""></a>         <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb35-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 61 -->
+</section>
+<section id="the-two-pass-pattern" class="slide level2">
+<h2>The Two-Pass Pattern</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb36-1"><a href=""></a>input pass                       display pass</span>
+<span id="cb36-2"><a href=""></a></span>
+<span id="cb36-3"><a href=""></a>user -&gt; scores[0]                scores[0] -&gt; output</span>
+<span id="cb36-4"><a href=""></a>user -&gt; scores[1]                scores[1] -&gt; output</span>
+<span id="cb36-5"><a href=""></a>user -&gt; scores[2]       then     scores[2] -&gt; output</span>
+<span id="cb36-6"><a href=""></a>user -&gt; ...                      ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><code>const</code> for read-only operations; no <code>const</code> when the function must write</li>
-<li>The pattern is the same for all three: array pointer + size</li>
+<li>Storage separates when data is collected from when it is used.</li>
 </ul>
-<!-- Slide 6 -->
+<!-- Slide 62 -->
 </section>
-<section id="whats-the-output-2" class="slide level2 smaller">
-<h2>What’s the Output?</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb25-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb25-3"><a href=""></a></span>
-<span id="cb25-4"><a href=""></a><span class="dt">void</span> setFirst<span class="op">(</span><span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb25-5"><a href=""></a>    arr<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99</span><span class="op">;</span></span>
-<span id="cb25-6"><a href=""></a><span class="op">}</span></span>
-<span id="cb25-7"><a href=""></a></span>
-<span id="cb25-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb25-9"><a href=""></a>    <span class="dt">int</span> vals<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">};</span></span>
-<span id="cb25-10"><a href=""></a>    setFirst<span class="op">(</span>vals<span class="op">,</span> <span class="dv">4</span><span class="op">);</span></span>
-<span id="cb25-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> vals<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb25-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> vals<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb25-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb25-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Give students 60 seconds. Key insight: setFirst receives a pointer to vals, so arr[0] = 99 modifies the original. vals[3] is never touched — it stays 4.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 7 -->
+<section id="partially-filled-arrays" class="slide level2">
+<h2>Partially Filled Arrays</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> CAPACITY <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb37-2"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>CAPACITY<span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span>
+<span id="cb37-3"><a href=""></a><span class="dt">int</span> dataCount <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Capacity remains ten.</li>
+<li>Only indexes <code>0</code> through <code>dataCount - 1</code> contain user data.</li>
+</ul>
+<!-- Slide 63 -->
 </section>
-<section id="whats-the-output-3" class="slide level2 smaller">
-<h2>What’s the Output?</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb26-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb26-3"><a href=""></a></span>
-<span id="cb26-4"><a href=""></a><span class="dt">void</span> setFirst<span class="op">(</span><span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb26-5"><a href=""></a>    arr<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99</span><span class="op">;</span></span>
-<span id="cb26-6"><a href=""></a><span class="op">}</span></span>
-<span id="cb26-7"><a href=""></a></span>
-<span id="cb26-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb26-9"><a href=""></a>    <span class="dt">int</span> vals<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">};</span></span>
-<span id="cb26-10"><a href=""></a>    setFirst<span class="op">(</span>vals<span class="op">,</span> <span class="dv">4</span><span class="op">);</span></span>
-<span id="cb26-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> vals<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb26-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> vals<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb26-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb26-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Output:</strong></p>
-<pre><code>99
-4</code></pre>
-<p><code>setFirst</code> receives a pointer — writing to <code>arr[0]</code> changes <code>vals[0]</code> in the caller. <code>vals[3]</code> is never touched.</p>
-<!-- Slide 8 -->
+<section id="choosing-the-data-count" class="slide level2">
+<h2>Choosing the Data Count</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a><span class="cf">do</span></span>
+<span id="cb38-2"><a href=""></a><span class="op">{</span></span>
+<span id="cb38-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"How many scores (0-"</span> <span class="op">&lt;&lt;</span> CAPACITY <span class="op">&lt;&lt;</span> <span class="st">")? "</span><span class="op">;</span></span>
+<span id="cb38-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> dataCount<span class="op">;</span></span>
+<span id="cb38-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb38-6"><a href=""></a><span class="cf">while</span> <span class="op">(</span>dataCount <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> dataCount <span class="op">&gt;</span> CAPACITY<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Validation makes the requested count safe to use as a loop bound.</li>
+</ul>
+<!-- Slide 64 -->
+</section>
+<section id="stopping-at-capacity" class="slide level2">
+<h2>Stopping at Capacity</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> dataCount<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb39-2"><a href=""></a><span class="op">{</span></span>
+<span id="cb39-3"><a href=""></a>    cin <span class="op">&gt;&gt;</span> scores<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb39-4"><a href=""></a><span class="op">}</span></span>
+<span id="cb39-5"><a href=""></a></span>
+<span id="cb39-6"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> dataCount<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb39-7"><a href=""></a><span class="op">{</span></span>
+<span id="cb39-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb39-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Both loops use the same validated logical count.</li>
+</ul>
+<!-- Slide 65 -->
+</section>
+<section id="complete-program" class="slide level2 smaller">
+<h2>Complete Program</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb40-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb40-3"><a href=""></a></span>
+<span id="cb40-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb40-5"><a href=""></a><span class="op">{</span></span>
+<span id="cb40-6"><a href=""></a>    <span class="at">const</span> <span class="dt">int</span> CAPACITY <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb40-7"><a href=""></a>    <span class="dt">int</span> scores<span class="op">[</span>CAPACITY<span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span>
+<span id="cb40-8"><a href=""></a>    <span class="dt">int</span> dataCount<span class="op">;</span></span>
+<span id="cb40-9"><a href=""></a></span>
+<span id="cb40-10"><a href=""></a>    <span class="cf">do</span></span>
+<span id="cb40-11"><a href=""></a>    <span class="op">{</span></span>
+<span id="cb40-12"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"How many scores (0-10)? "</span><span class="op">;</span></span>
+<span id="cb40-13"><a href=""></a>        cin <span class="op">&gt;&gt;</span> dataCount<span class="op">;</span></span>
+<span id="cb40-14"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb40-15"><a href=""></a>    <span class="cf">while</span> <span class="op">(</span>dataCount <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> dataCount <span class="op">&gt;</span> CAPACITY<span class="op">);</span></span>
+<span id="cb40-16"><a href=""></a></span>
+<span id="cb40-17"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> dataCount<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb40-18"><a href=""></a>    <span class="op">{</span></span>
+<span id="cb40-19"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Enter score "</span> <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span><span class="op">;</span></span>
+<span id="cb40-20"><a href=""></a>        cin <span class="op">&gt;&gt;</span> scores<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb40-21"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb40-22"><a href=""></a></span>
+<span id="cb40-23"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> dataCount<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb40-24"><a href=""></a>    <span class="op">{</span></span>
+<span id="cb40-25"><a href=""></a>        cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb40-26"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb40-27"><a href=""></a></span>
+<span id="cb40-28"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb40-29"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 66 -->
 </section>
 <section id="summary-4" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>Arrays passed to functions decay to a pointer — the function receives an address, not a copy</li>
-<li>Always pass size as a separate parameter; use <code>const</code> to prevent accidental modification</li>
+<li>A fill loop writes each input to a selected element.</li>
+<li>A later display loop uses the same validated count to read only meaningful data.</li>
 </ul>
-<!-- Slide 9 -->
-<!-- Topic 6: sizeof with Arrays -->
-<!-- Total slides: 5 -->
+<!-- Slide 67 -->
+<!-- Topic 6: Arrays vs. Vectors -->
+<!-- Slides 68–82 -->
 </section></section>
 <section>
-<section id="sizeof-with-arrays" class="title-slide slide level1 center">
-<h1>sizeof with Arrays</h1>
-
+<section id="arrays-vs.-vectors" class="title-slide slide level1 center">
+<h1>Arrays vs.&nbsp;Vectors</h1>
+<!-- Slide 68 -->
 </section>
-<section id="how-many-elements-are-in-this-array" class="slide level2 smaller">
-<h2>How many elements are in this array?</h2>
+<section id="same-collection-different-contract" class="slide level2 smaller">
+<h2>Same Collection, Different Contract</h2>
 <ul>
-<li><code>sizeof</code> tells you the total bytes — not the element count</li>
-<li>One formula bridges the gap</li>
+<li>Which container matches what the program needs to do?</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 5</p>
+<p>Slides 68–82</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1105,76 +1359,397 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 69 -->
 </section>
-<section id="sizeof-on-a-single-element-vs.-the-whole-array" class="slide level2">
-<h2>sizeof on a single element vs.&nbsp;the whole array</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb28-2"><a href=""></a></span>
-<span id="cb28-3"><a href=""></a><span class="kw">sizeof</span><span class="op">(</span>scores<span class="op">[</span><span class="dv">0</span><span class="op">]);</span>   <span class="co">//.......... 4 — bytes in one int</span></span>
-<span id="cb28-4"><a href=""></a><span class="kw">sizeof</span><span class="op">(</span>scores<span class="op">);</span>      <span class="co">//.......... 20 — bytes in the whole array (5 × 4)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>sizeof(array)</code> returns the total byte count of all elements combined</li>
-<li><code>sizeof(element)</code> returns the byte count of one element</li>
-</ul>
-<aside class="notes">
-<p>sizeof is evaluated at compile time — it is not a function call. The parentheses are required but it is an operator.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 2 -->
+<section id="declarations-side-by-side" class="slide level2">
+<h2>Declarations Side by Side</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb41-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb41-3"><a href=""></a></span>
+<span id="cb41-4"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb41-5"><a href=""></a></span>
+<span id="cb41-6"><a href=""></a><span class="dt">int</span> scoresArray<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">96</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
+<span id="cb41-7"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scoresVector <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">96</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 70 -->
 </section>
-<section id="computing-element-count" class="slide level2">
-<h2>Computing element count</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">];</span></span>
-<span id="cb29-2"><a href=""></a></span>
-<span id="cb29-3"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="kw">sizeof</span><span class="op">(</span>scores<span class="op">)</span> <span class="op">/</span> <span class="kw">sizeof</span><span class="op">(</span>scores<span class="op">[</span><span class="dv">0</span><span class="op">]);</span>  <span class="co">//.......... 20 / 4 = 5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Total bytes divided by bytes per element gives the number of elements</li>
-<li>This works for any element type — no magic numbers needed</li>
-</ul>
-<!-- Slide 3 -->
+<section id="fixed-and-dynamic-capacity" class="slide level2">
+<h2>Fixed and Dynamic Capacity</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Array</th>
+<th>Vector</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Capacity is part of the declaration</td>
+<td>Size can change while running</td>
+</tr>
+<tr class="even">
+<td>Cannot grow or shrink</td>
+<td>Can grow or shrink</td>
+</tr>
+<tr class="odd">
+<td>Capacity must be known at compile time</td>
+<td>Initial size may come from runtime data</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 71 -->
 </section>
-<section id="the-catch-arrays-passed-to-functions" class="slide level2">
-<h2>The catch — arrays passed to functions</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="dt">void</span> printSize<span class="op">(</span><span class="dt">int</span> arr<span class="op">[])</span> <span class="op">{</span></span>
-<span id="cb30-2"><a href=""></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="kw">sizeof</span><span class="op">(</span>arr<span class="op">)</span> <span class="op">/</span> <span class="kw">sizeof</span><span class="op">(</span>arr<span class="op">[</span><span class="dv">0</span><span class="op">]);</span>  <span class="co">//.......... WRONG — sizeof(arr) is 8</span></span>
-<span id="cb30-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="adding-and-removing-values" class="slide level2">
+<h2>Adding and Removing Values</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores<span class="op">;</span></span>
+<span id="cb42-2"><a href=""></a>scores<span class="op">.</span>push_back<span class="op">(</span><span class="dv">91</span><span class="op">);</span></span>
+<span id="cb42-3"><a href=""></a>scores<span class="op">.</span>pop_back<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>When an array is passed to a function it decays to a pointer</li>
-<li><code>sizeof</code> on a pointer gives the pointer size (8 bytes on 64-bit), not the array size</li>
-<li><strong>Always pass the size as a separate parameter</strong> — do not rely on <code>sizeof</code> inside a function</li>
+<li>A raw array has no <code>push_back()</code> or <code>pop_back()</code>.</li>
+<li>The program must manage which fixed positions contain meaningful values.</li>
 </ul>
-<aside class="notes">
-<p>This is a preview of the next topic (arrays as function arguments). Plant the issue here so students are primed when the full explanation arrives.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 4 -->
+<!-- Slide 72 -->
+</section>
+<section id="knowing-the-size" class="slide level2">
+<h2>Knowing the Size</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb43-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> scoresVector<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb43-2"><a href=""></a></span>
+<span id="cb43-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> SIZE <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb43-4"><a href=""></a></span>
+<span id="cb43-5"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="kw">sizeof</span><span class="op">(</span>scoresArray<span class="op">)</span> <span class="op">/</span> <span class="kw">sizeof</span><span class="op">(</span>scoresArray<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A vector reports its current size.</li>
+<li>An array usually relies on a named capacity; the <code>sizeof</code> formula is local to the actual array.</li>
+</ul>
+<!-- Slide 73 -->
+</section>
+<section id="element-access" class="slide level2">
+<h2>Element Access</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb44-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> scoresArray<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb44-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> scoresVector<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Both containers use zero-based bracket indexing.</li>
+<li>Both bracket operators assume the index is valid.</li>
+</ul>
+<!-- Slide 74 -->
+</section>
+<section id="bounds-safety" class="slide level2">
+<h2>Bounds Safety</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb45-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> scoresVector<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Access</th>
+<th>Bounds checked?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>raw array <code>[]</code></td>
+<td>no</td>
+</tr>
+<tr class="even">
+<td>vector <code>[]</code></td>
+<td>no</td>
+</tr>
+<tr class="odd">
+<td>vector <code>.at()</code></td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>A raw array has no <code>.at()</code> member function.</li>
+</ul>
+<!-- Slide 75 -->
+</section>
+<section id="whole-collection-operations" class="slide level2">
+<h2>Whole-Collection Operations</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb46-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> first <span class="op">=</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">};</span></span>
+<span id="cb46-2"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> second<span class="op">;</span></span>
+<span id="cb46-3"><a href=""></a></span>
+<span id="cb46-4"><a href=""></a>second <span class="op">=</span> first<span class="op">;</span></span>
+<span id="cb46-5"><a href=""></a><span class="dt">bool</span> same <span class="op">=</span> <span class="op">(</span>second <span class="op">==</span> first<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Vectors support whole-collection assignment and comparison.</li>
+<li>Raw arrays require element-by-element copying and comparison.</li>
+</ul>
+<!-- Slide 76 -->
+</section>
+<section id="passing-collections-to-functions" class="slide level2">
+<h2>Passing Collections to Functions</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Vector parameter</th>
+<th>Raw-array parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Retains vector operations</td>
+<td>Does not carry its capacity</td>
+</tr>
+<tr class="even">
+<td>Can report <code>.size()</code></td>
+<td>Usually needs a separate size argument</td>
+</tr>
+<tr class="odd">
+<td>Commonly passed by reference</td>
+<td>Has special parameter behavior</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Array parameter syntax and decay are next lecture’s topic.</li>
+</ul>
+<!-- Slide 77 -->
+</section>
+<section id="partially-filled-storage" class="slide level2">
+<h2>Partially Filled Storage</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb47-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> CAPACITY <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb47-2"><a href=""></a><span class="dt">int</span> arrayValues<span class="op">[</span>CAPACITY<span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span>
+<span id="cb47-3"><a href=""></a><span class="dt">int</span> dataCount <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb47-4"><a href=""></a></span>
+<span id="cb47-5"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> vectorValues <span class="op">=</span> <span class="op">{</span><span class="dv">8</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">16</span><span class="op">,</span> <span class="dv">23</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The array needs a separate logical count.</li>
+<li>The vector’s size already equals its current element count.</li>
+</ul>
+<!-- Slide 78 -->
+</section>
+<section id="choose-an-array" class="slide level2">
+<h2>Choose an Array</h2>
+<ul>
+<li>Capacity is small, fixed, and known at compile time.</li>
+<li>Predictable storage is a real design requirement.</li>
+<li>The code must interact with an interface that expects a raw array.</li>
+</ul>
+<!-- Slide 79 -->
+</section>
+<section id="choose-a-vector" class="slide level2">
+<h2>Choose a Vector</h2>
+<ul>
+<li>The number of values can change.</li>
+<li>The size comes from input or another runtime source.</li>
+<li>Built-in size tracking, checked access, copying, or comparison improves the design.</li>
+</ul>
+<!-- Slide 80 -->
+</section>
+<section id="decision-framework" class="slide level2">
+<h2>Decision Framework</h2>
+<ol type="1">
+<li>Can the number of values change? Use a vector.</li>
+<li>Is the size known only while running? Use a vector.</li>
+<li>Do collection operations or size tracking matter? Use a vector.</li>
+<li>Is fixed capacity an intentional requirement? Consider an array.</li>
+</ol>
+<!-- Slide 81 -->
 </section>
 <section id="summary-5" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li><code>sizeof(array) / sizeof(array[0])</code> gives the element count — but only where the array is declared</li>
-<li>Inside a function, the array decays to a pointer and <code>sizeof</code> no longer reflects the original size</li>
+<li>Fixed capacity is the defining array contract.</li>
+<li>Vectors provide dynamic size and a richer interface, so choose from program requirements rather than habit.</li>
 </ul>
-<!-- Slide 5 -->
+<!-- Slide 82 -->
+<!-- Topic 7: Performance — Arrays vs. Vectors -->
+<!-- Slides 83–96 -->
+</section></section>
+<section>
+<section id="performance-arrays-vs.-vectors" class="title-slide slide level1 center">
+<h1>Performance — Arrays vs.&nbsp;Vectors</h1>
+<!-- Slide 83 -->
+</section>
+<section id="are-arrays-faster" class="slide level2 smaller">
+<h2>Are Arrays Faster?</h2>
+<ul>
+<li>The honest answer depends on which work is being measured.</li>
+</ul>
+<aside class="notes">
+<p>Slides 83–96</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 84 -->
+</section>
+<section id="contiguous-storage" class="slide level2">
+<h2>Contiguous Storage</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Array elements</th>
+<th>Vector elements</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Adjacent in memory</td>
+<td>Adjacent in memory</td>
+</tr>
+<tr class="even">
+<td>Efficient sequential traversal</td>
+<td>Efficient sequential traversal</td>
+</tr>
+<tr class="odd">
+<td>Good cache locality</td>
+<td>Good cache locality</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Both containers provide contiguous element storage.</li>
+</ul>
+<!-- Slide 85 -->
+</section>
+<section id="element-access-cost" class="slide level2">
+<h2>Element Access Cost</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb48-1"><a href=""></a>arrayValues<span class="op">[</span>i<span class="op">]</span></span>
+<span id="cb48-2"><a href=""></a>vectorValues<span class="op">[</span>i<span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>With valid indexes, both bracket expressions locate an element directly.</li>
+<li>Equivalent optimized loops commonly produce equivalent machine work.</li>
+</ul>
+<!-- Slide 86 -->
+</section>
+<section id="where-the-difference-begins" class="slide level2">
+<h2>Where the Difference Begins</h2>
+<ul>
+<li>A typical local raw array stores its elements with the function’s automatic data.</li>
+<li>A vector object tracks its element storage, size, and capacity.</li>
+<li>The vector normally obtains its element storage through dynamic allocation.</li>
+</ul>
+<aside class="notes">
+<p>“Stack” and “heap” are common implementation terms, not storage guarantees imposed by the C++ language standard.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 87 -->
+</section>
+<section id="allocation-and-growth" class="slide level2">
+<h2>Allocation and Growth</h2>
+<ul>
+<li>Creating vector storage may require a dynamic allocation.</li>
+<li>Growing beyond capacity may allocate a larger block and move existing elements.</li>
+<li>A fixed raw array never reallocates because its capacity never changes.</li>
+</ul>
+<!-- Slide 88 -->
+</section>
+<section id="fixed-size-vectors" class="slide level2">
+<h2>Fixed-Size Vectors</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb49-1"><a href=""></a><span class="dt">int</span> dataCount<span class="op">;</span></span>
+<span id="cb49-2"><a href=""></a>cin <span class="op">&gt;&gt;</span> dataCount<span class="op">;</span></span>
+<span id="cb49-3"><a href=""></a></span>
+<span id="cb49-4"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> values<span class="op">(</span>dataCount<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Constructing the vector at its final size performs one initial allocation.</li>
+<li>It avoids repeated growth while retaining runtime sizing.</li>
+</ul>
+<!-- Slide 89 -->
+</section>
+<section id="large-collections" class="slide level2">
+<h2>Large Collections</h2>
+<ul>
+<li>Automatic storage is usually limited.</li>
+<li>A very large local raw array can exhaust that space.</li>
+<li>A vector’s dynamically allocated element storage is often the safer design for large collections.</li>
+</ul>
+<!-- Slide 90 -->
+</section>
+<section id="what-optimizers-remove" class="slide level2">
+<h2>What Optimizers Remove</h2>
+<ul>
+<li>Release builds remove much loop and abstraction overhead.</li>
+<li>Simple array and vector traversals may compile to nearly identical instructions.</li>
+<li>Debug-build timing does not predict optimized performance.</li>
+</ul>
+<!-- Slide 91 -->
+</section>
+<section id="benchmarking-the-right-work" class="slide level2">
+<h2>Benchmarking the Right Work</h2>
+<ul>
+<li>Time construction separately from traversal.</li>
+<li>Repeat enough work to reduce timer noise.</li>
+<li>Use optimized builds and realistic data sizes.</li>
+<li>Prevent unused results from being optimized away.</li>
+</ul>
+<!-- Slide 92 -->
+</section>
+<section id="equivalent-work" class="slide level2">
+<h2>Equivalent Work</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Unfair comparison</th>
+<th>Equivalent comparison</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>uninitialized array vs.&nbsp;zero-initialized vector</td>
+<td>initialize both the same way</td>
+</tr>
+<tr class="even">
+<td>array <code>[]</code> vs.&nbsp;vector <code>.at()</code></td>
+<td>compare <code>[]</code> with <code>[]</code></td>
+</tr>
+<tr class="odd">
+<td>fixed array vs.&nbsp;repeatedly growing vector</td>
+<td>give both final storage once</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 93 -->
+</section>
+<section id="when-performance-matters" class="slide level2">
+<h2>When Performance Matters</h2>
+<ul>
+<li>Embedded systems with strict memory limits.</li>
+<li>Real-time systems with allocation restrictions.</li>
+<li>Measured hot paths that dominate total runtime.</li>
+<li>Interfaces that require fixed raw storage.</li>
+</ul>
+<!-- Slide 94 -->
+</section>
+<section id="choose-for-design-first" class="slide level2">
+<h2>Choose for Design First</h2>
+<ul>
+<li>Begin with the container whose size and safety contract fits the problem.</li>
+<li>Measure the real program before trading clarity or flexibility for assumed speed.</li>
+<li>Optimize only the cost that measurements identify.</li>
+</ul>
+<!-- Slide 95 -->
+</section>
+<section id="summary-6" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Arrays are not universally faster than vectors.</li>
+<li>Allocation and growth create the main difference; equivalent access and traversal often cost the same after optimization.</li>
+</ul>
+<!-- Slide 96 -->
 </section>
 <section class="slide level2">
 
@@ -1183,11 +1758,13 @@ Dr.&nbsp;Caleb Fowler
 <section id="key-takeaways" class="title-slide slide level1 center">
 <h1>Key Takeaways</h1>
 <ul>
-<li>Accumulator and tracker patterns from loop work apply directly to arrays — same logic, indexed access</li>
-<li>Linear search returns <code>-1</code> for “not found”; bubble sort requires a <code>temp</code> variable to swap safely</li>
-<li><code>sizeof(array) / sizeof(array[0])</code> gives element count only where the array is declared — not inside functions</li>
-<li>Arrays decay to pointers when passed to functions; always pass size separately and use <code>const</code> for read-only parameters</li>
+<li>Raw arrays store a fixed number of same-type elements.</li>
+<li>Indexes begin at zero and must remain between <code>0</code> and <code>SIZE - 1</code>.</li>
+<li>Index loops expose positions; range-based loops visit every declared element.</li>
+<li>A separate count tracks meaningful data in a partially filled array.</li>
+<li>Vectors remain the default when size changes or collection operations matter.</li>
 </ul>
+<!-- Slide 97 -->
 </section>
 <section class="slide level2">
 
@@ -1195,7 +1772,12 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next Time</h1>
-
+<ul>
+<li>Processing array contents</li>
+<li>Searching arrays</li>
+<li>Passing arrays to functions</li>
+</ul>
+<!-- Slide 98 -->
 </section>
 <section class="slide level2">
 
@@ -1203,115 +1785,440 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-
+<!-- Slide 99 -->
 </section>
-<section id="processing-array-contents-good-practices" class="slide level2">
-<h2>Processing Array Contents: Good Practices</h2>
+<section id="introduction-to-arrays-good-practices" class="slide level2">
+<h2>Introduction to Arrays: Good Practices</h2>
+<ul>
+<li>Give fixed capacities descriptive constant names.</li>
+<li>Keep capacity separate from the logical data count.</li>
+<li>Prefer a vector when fixed capacity is not a real requirement.</li>
+</ul>
+<!-- Slide 100 -->
 </section>
-<section id="processing-array-contents-common-mistakes" class="slide level2">
-<h2>Processing Array Contents: Common Mistakes</h2>
+<section id="introduction-to-arrays-common-mistakes" class="slide level2">
+<h2>Introduction to Arrays: Common Mistakes</h2>
+<ul>
+<li>Expecting an array to grow when more data arrives.</li>
+<li>Treating capacity as proof that every position contains meaningful data.</li>
+<li>Using a runtime variable as a raw-array capacity in standard C++.</li>
+</ul>
+<!-- Slide 101 -->
 </section>
-<section id="processing-array-contents-more-examples" class="slide level2">
-<h2>Processing Array Contents: More Examples</h2>
+<section id="introduction-to-arrays-more-examples" class="slide level2">
+<h2>Introduction to Arrays: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb50-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> DAYS <span class="op">=</span> <span class="dv">7</span><span class="op">;</span></span>
+<span id="cb50-2"><a href=""></a><span class="dt">double</span> rainfall<span class="op">[</span>DAYS<span class="op">];</span></span>
+<span id="cb50-3"><a href=""></a></span>
+<span id="cb50-4"><a href=""></a><span class="at">const</span> <span class="dt">int</span> PLAYERS <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb50-5"><a href=""></a><span class="dt">int</span> jerseyNumbers<span class="op">[</span>PLAYERS<span class="op">];</span></span>
+<span id="cb50-6"><a href=""></a></span>
+<span id="cb50-7"><a href=""></a><span class="at">const</span> <span class="dt">int</span> QUESTIONS <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb50-8"><a href=""></a><span class="dt">bool</span> answers<span class="op">[</span>QUESTIONS<span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 102 -->
 </section>
-<section id="processing-array-contents-practice-problems" class="slide level2">
-<h2>Processing Array Contents: Practice Problems</h2>
+<section id="introduction-to-arrays-practice-problems" class="slide level2">
+<h2>Introduction to Arrays: Practice Problems</h2>
+<ol type="1">
+<li>Declare an array that stores twelve monthly rainfall totals.</li>
+<li>Identify the element type, name, and capacity in <code>char codes[8];</code>.</li>
+<li>Explain when an array’s capacity and data count might differ.</li>
+</ol>
+<!-- Slide 103 -->
 </section>
-<section id="processing-array-contents-ai-search-terms" class="slide level2">
-<h2>Processing Array Contents: AI Search Terms</h2>
+<section id="introduction-to-arrays-ai-search-terms" class="slide level2">
+<h2>Introduction to Arrays: AI Search Terms</h2>
+<ul>
+<li>C++ raw array declaration</li>
+<li>C++ compile-time array size</li>
+<li>C++ contiguous array storage</li>
+<li>array capacity versus logical size</li>
+</ul>
+<!-- Slide 104 -->
 </section>
-<section id="processing-array-contents-questions-for-reflection" class="slide level2">
-<h2>Processing Array Contents: Questions for Reflection</h2>
+<section id="introduction-to-arrays-questions-for-reflection" class="slide level2">
+<h2>Introduction to Arrays: Questions for Reflection</h2>
+<ul>
+<li>What promise does fixed capacity make to the program?</li>
+<li>What information does a raw array not track for you?</li>
+<li>When would dynamic growth be more valuable than fixed storage?</li>
+</ul>
+<!-- Slide 105 -->
 </section>
-<section id="linear-search-good-practices" class="slide level2">
-<h2>Linear Search: Good Practices</h2>
+<section id="array-initialization-good-practices" class="slide level2">
+<h2>Array Initialization: Good Practices</h2>
+<ul>
+<li>Initialize local arrays before reading them.</li>
+<li>Use <code>{}</code> when every element should begin at zero.</li>
+<li>Let the compiler infer capacity when the initializer list defines the complete data set.</li>
+</ul>
+<!-- Slide 106 -->
 </section>
-<section id="linear-search-common-mistakes" class="slide level2">
-<h2>Linear Search: Common Mistakes</h2>
+<section id="array-initialization-common-mistakes" class="slide level2">
+<h2>Array Initialization: Common Mistakes</h2>
+<ul>
+<li>Reading elements from an uninitialized local array.</li>
+<li>Supplying more initializer values than the declared capacity.</li>
+<li>Trying to assign a new initializer list after declaration.</li>
+</ul>
+<!-- Slide 107 -->
 </section>
-<section id="linear-search-more-examples" class="slide level2">
-<h2>Linear Search: More Examples</h2>
+<section id="array-initialization-more-examples" class="slide level2">
+<h2>Array Initialization: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb51-1"><a href=""></a><span class="dt">int</span> first<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">2</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="dv">8</span><span class="op">};</span></span>
+<span id="cb51-2"><a href=""></a><span class="dt">int</span> second<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">2</span><span class="op">,</span> <span class="dv">4</span><span class="op">};</span></span>
+<span id="cb51-3"><a href=""></a><span class="dt">int</span> third<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span>
+<span id="cb51-4"><a href=""></a><span class="dt">int</span> fourth<span class="op">[]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">2</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="dv">8</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 108 -->
 </section>
-<section id="linear-search-practice-problems" class="slide level2">
-<h2>Linear Search: Practice Problems</h2>
+<section id="array-initialization-practice-problems" class="slide level2">
+<h2>Array Initialization: Practice Problems</h2>
+<ol type="1">
+<li>Declare six prices initialized to zero.</li>
+<li>Predict every value in <code>int values[5] = {7, 9};</code>.</li>
+<li>Infer the capacity of <code>char grades[] = {'A', 'B', 'C'};</code>.</li>
+</ol>
+<!-- Slide 109 -->
 </section>
-<section id="linear-search-ai-search-terms" class="slide level2">
-<h2>Linear Search: AI Search Terms</h2>
+<section id="array-initialization-ai-search-terms" class="slide level2">
+<h2>Array Initialization: AI Search Terms</h2>
+<ul>
+<li>C++ array initializer list</li>
+<li>C++ partial array initialization</li>
+<li>C++ zero initialize raw array</li>
+<li>C++ infer raw array size</li>
+</ul>
+<!-- Slide 110 -->
 </section>
-<section id="linear-search-questions-for-reflection" class="slide level2">
-<h2>Linear Search: Questions for Reflection</h2>
+<section id="array-initialization-questions-for-reflection" class="slide level2">
+<h2>Array Initialization: Questions for Reflection</h2>
+<ul>
+<li>Why does partial initialization safely produce zeros?</li>
+<li>When is inferred capacity clearer than a named constant?</li>
+<li>Why can initialization syntax be used only when the array is created?</li>
+</ul>
+<!-- Slide 111 -->
 </section>
-<section id="sorting-bubble-sort-good-practices" class="slide level2">
-<h2>Sorting — Bubble Sort: Good Practices</h2>
+<section id="indexing-array-elements-good-practices" class="slide level2">
+<h2>Indexing Array Elements: Good Practices</h2>
+<ul>
+<li>Derive the final valid index from the capacity.</li>
+<li>Use one named constant anywhere the capacity controls access.</li>
+<li>Keep user-facing item numbers separate from zero-based indexes.</li>
+</ul>
+<!-- Slide 112 -->
 </section>
-<section id="sorting-bubble-sort-common-mistakes" class="slide level2">
-<h2>Sorting — Bubble Sort: Common Mistakes</h2>
+<section id="indexing-array-elements-common-mistakes" class="slide level2">
+<h2>Indexing Array Elements: Common Mistakes</h2>
+<ul>
+<li>Using index <code>1</code> for the first element.</li>
+<li>Treating <code>SIZE</code> as the final valid index.</li>
+<li>Confusing an index with the value stored at that index.</li>
+</ul>
+<!-- Slide 113 -->
 </section>
-<section id="sorting-bubble-sort-more-examples" class="slide level2">
-<h2>Sorting — Bubble Sort: More Examples</h2>
+<section id="indexing-array-elements-more-examples" class="slide level2">
+<h2>Indexing Array Elements: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb52-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">40</span><span class="op">};</span></span>
+<span id="cb52-2"><a href=""></a></span>
+<span id="cb52-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> values<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb52-4"><a href=""></a>values<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="dv">35</span><span class="op">;</span></span>
+<span id="cb52-5"><a href=""></a>values<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">+=</span> values<span class="op">[</span><span class="dv">1</span><span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 114 -->
 </section>
-<section id="sorting-bubble-sort-practice-problems" class="slide level2">
-<h2>Sorting — Bubble Sort: Practice Problems</h2>
+<section id="indexing-array-elements-practice-problems" class="slide level2">
+<h2>Indexing Array Elements: Practice Problems</h2>
+<ol type="1">
+<li>Write the index of the sixth element.</li>
+<li>For capacity nine, identify the complete valid index range.</li>
+<li>Trace the array after <code>values[1] = values[3];</code>.</li>
+</ol>
+<!-- Slide 115 -->
 </section>
-<section id="sorting-bubble-sort-ai-search-terms" class="slide level2">
-<h2>Sorting — Bubble Sort: AI Search Terms</h2>
+<section id="indexing-array-elements-ai-search-terms" class="slide level2">
+<h2>Indexing Array Elements: AI Search Terms</h2>
+<ul>
+<li>C++ zero-based array indexing</li>
+<li>C++ subscript operator raw array</li>
+<li>C++ array valid index range</li>
+<li>C++ out-of-bounds undefined behavior</li>
+</ul>
+<!-- Slide 116 -->
 </section>
-<section id="sorting-bubble-sort-questions-for-reflection" class="slide level2">
-<h2>Sorting — Bubble Sort: Questions for Reflection</h2>
+<section id="indexing-array-elements-questions-for-reflection" class="slide level2">
+<h2>Indexing Array Elements: Questions for Reflection</h2>
+<ul>
+<li>Why is <code>SIZE - 1</code> the final valid index?</li>
+<li>What makes an index expression valid?</li>
+<li>Why can an out-of-bounds program appear to work temporarily?</li>
+</ul>
+<!-- Slide 117 -->
 </section>
-<section id="sizeof-with-arrays-good-practices" class="slide level2">
-<h2>sizeof with Arrays: Good Practices</h2>
+<section id="traversing-arrays-good-practices" class="slide level2">
+<h2>Traversing Arrays: Good Practices</h2>
+<ul>
+<li>Make the loop bound express the valid data range.</li>
+<li>Use a range-based loop when every declared element should be visited.</li>
+<li>Use an index loop when position or logical count matters.</li>
+</ul>
+<!-- Slide 118 -->
 </section>
-<section id="sizeof-with-arrays-common-mistakes" class="slide level2">
-<h2>sizeof with Arrays: Common Mistakes</h2>
+<section id="traversing-arrays-common-mistakes" class="slide level2">
+<h2>Traversing Arrays: Common Mistakes</h2>
+<ul>
+<li>Writing <code>i &lt;= SIZE</code> instead of <code>i &lt; SIZE</code>.</li>
+<li>Using a copied range-loop variable when elements must change.</li>
+<li>Traversing full capacity when only part of the array contains data.</li>
+</ul>
+<!-- Slide 119 -->
 </section>
-<section id="sizeof-with-arrays-more-examples" class="slide level2">
-<h2>sizeof with Arrays: More Examples</h2>
+<section id="traversing-arrays-more-examples" class="slide level2">
+<h2>Traversing Arrays: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb53-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> dataCount<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb53-2"><a href=""></a><span class="op">{</span></span>
+<span id="cb53-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb53-4"><a href=""></a><span class="op">}</span></span>
+<span id="cb53-5"><a href=""></a></span>
+<span id="cb53-6"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> value <span class="op">:</span> values<span class="op">)</span></span>
+<span id="cb53-7"><a href=""></a><span class="op">{</span></span>
+<span id="cb53-8"><a href=""></a>    value <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb53-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 120 -->
 </section>
-<section id="sizeof-with-arrays-practice-problems" class="slide level2">
-<h2>sizeof with Arrays: Practice Problems</h2>
+<section id="traversing-arrays-practice-problems" class="slide level2">
+<h2>Traversing Arrays: Practice Problems</h2>
+<ol type="1">
+<li>Display every value with an index loop.</li>
+<li>Double every declared element with a range-based loop.</li>
+<li>Display only the first <code>dataCount</code> positions.</li>
+</ol>
+<!-- Slide 121 -->
 </section>
-<section id="sizeof-with-arrays-ai-search-terms" class="slide level2">
-<h2>sizeof with Arrays: AI Search Terms</h2>
+<section id="traversing-arrays-ai-search-terms" class="slide level2">
+<h2>Traversing Arrays: AI Search Terms</h2>
+<ul>
+<li>C++ loop through raw array</li>
+<li>C++ range-based for raw array</li>
+<li>C++ range for reference element</li>
+<li>C++ array off-by-one loop</li>
+</ul>
+<!-- Slide 122 -->
 </section>
-<section id="sizeof-with-arrays-questions-for-reflection" class="slide level2">
-<h2>sizeof with Arrays: Questions for Reflection</h2>
+<section id="traversing-arrays-questions-for-reflection" class="slide level2">
+<h2>Traversing Arrays: Questions for Reflection</h2>
+<ul>
+<li>What information does an index loop expose that a range loop hides?</li>
+<li>Why does a reference allow a range loop to modify an element?</li>
+<li>Which bound represents partially filled data?</li>
+</ul>
+<!-- Slide 123 -->
 </section>
-<section id="typedef-good-practices" class="slide level2">
-<h2>typedef: Good Practices</h2>
+<section id="inputting-and-displaying-array-data-good-practices" class="slide level2">
+<h2>Inputting and Displaying Array Data: Good Practices</h2>
+<ul>
+<li>Validate the requested data count before filling the array.</li>
+<li>Use the same logical count for later processing and display.</li>
+<li>Keep collection, processing, and output passes distinct.</li>
+</ul>
+<!-- Slide 124 -->
 </section>
-<section id="typedef-common-mistakes" class="slide level2">
-<h2>typedef: Common Mistakes</h2>
+<section id="inputting-and-displaying-array-data-common-mistakes" class="slide level2">
+<h2>Inputting and Displaying Array Data: Common Mistakes</h2>
+<ul>
+<li>Accepting a data count greater than capacity.</li>
+<li>Displaying every capacity position after entering fewer values.</li>
+<li>Showing zero-based indexes as user-facing item numbers without explanation.</li>
+</ul>
+<!-- Slide 125 -->
 </section>
-<section id="typedef-more-examples" class="slide level2">
-<h2>typedef: More Examples</h2>
+<section id="inputting-and-displaying-array-data-more-examples" class="slide level2">
+<h2>Inputting and Displaying Array Data: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb54-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> dataCount<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb54-2"><a href=""></a><span class="op">{</span></span>
+<span id="cb54-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Temperature "</span> <span class="op">&lt;&lt;</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span><span class="op">;</span></span>
+<span id="cb54-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> temperatures<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb54-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 126 -->
 </section>
-<section id="typedef-practice-problems" class="slide level2">
-<h2>typedef: Practice Problems</h2>
+<section id="inputting-and-displaying-array-data-practice-problems" class="slide level2">
+<h2>Inputting and Displaying Array Data: Practice Problems</h2>
+<ol type="1">
+<li>Fill five quiz scores and display them in reverse order.</li>
+<li>Ask for a valid count from zero through eight.</li>
+<li>Display only the meaningful values in a capacity-twenty array.</li>
+</ol>
+<!-- Slide 127 -->
 </section>
-<section id="typedef-ai-search-terms" class="slide level2">
-<h2>typedef: AI Search Terms</h2>
+<section id="inputting-and-displaying-array-data-ai-search-terms" class="slide level2">
+<h2>Inputting and Displaying Array Data: AI Search Terms</h2>
+<ul>
+<li>C++ input values into raw array loop</li>
+<li>C++ partially filled array data count</li>
+<li>C++ validate array element count</li>
+<li>C++ two-pass array processing</li>
+</ul>
+<!-- Slide 128 -->
 </section>
-<section id="typedef-questions-for-reflection" class="slide level2">
-<h2>typedef: Questions for Reflection</h2>
+<section id="inputting-and-displaying-array-data-questions-for-reflection" class="slide level2">
+<h2>Inputting and Displaying Array Data: Questions for Reflection</h2>
+<ul>
+<li>Why store inputs before displaying them?</li>
+<li>Which variable protects a partially filled array from invalid access?</li>
+<li>When could processing occur between the input and display passes?</li>
+</ul>
+<!-- Slide 129 -->
 </section>
-<section id="arrays-as-function-arguments-good-practices" class="slide level2">
-<h2>Arrays as Function Arguments: Good Practices</h2>
+<section id="arrays-vs.-vectors-good-practices" class="slide level2">
+<h2>Arrays vs.&nbsp;Vectors: Good Practices</h2>
+<ul>
+<li>Default to a vector when collection size is a runtime concern.</li>
+<li>Choose an array only when fixed capacity is part of the design.</li>
+<li>Compare equivalent access operations when discussing safety or speed.</li>
+</ul>
+<!-- Slide 130 -->
 </section>
-<section id="arrays-as-function-arguments-common-mistakes" class="slide level2">
-<h2>Arrays as Function Arguments: Common Mistakes</h2>
+<section id="arrays-vs.-vectors-common-mistakes" class="slide level2">
+<h2>Arrays vs.&nbsp;Vectors: Common Mistakes</h2>
+<ul>
+<li>Choosing an array only because it appears simpler to declare.</li>
+<li>Expecting raw arrays to support assignment, comparison, or <code>.size()</code>.</li>
+<li>Claiming vector bracket access performs automatic bounds checking.</li>
+</ul>
+<!-- Slide 131 -->
 </section>
-<section id="arrays-as-function-arguments-more-examples" class="slide level2">
-<h2>Arrays as Function Arguments: More Examples</h2>
+<section id="arrays-vs.-vectors-more-examples" class="slide level2">
+<h2>Arrays vs.&nbsp;Vectors: More Examples</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Requirement</th>
+<th>Better starting choice</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Five fixed sensor channels</td>
+<td>Array</td>
+</tr>
+<tr class="even">
+<td>Unknown number of survey responses</td>
+<td>Vector</td>
+</tr>
+<tr class="odd">
+<td>User can add or remove tasks</td>
+<td>Vector</td>
+</tr>
+<tr class="even">
+<td>Interface requires a raw buffer</td>
+<td>Array</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 132 -->
 </section>
-<section id="arrays-as-function-arguments-practice-problems" class="slide level2">
-<h2>Arrays as Function Arguments: Practice Problems</h2>
+<section id="arrays-vs.-vectors-practice-problems" class="slide level2">
+<h2>Arrays vs.&nbsp;Vectors: Practice Problems</h2>
+<ol type="1">
+<li>Choose a container for seven fixed weekday totals.</li>
+<li>Choose a container for names read until end-of-file.</li>
+<li>Explain why vector assignment differs from raw-array assignment.</li>
+</ol>
+<!-- Slide 133 -->
 </section>
-<section id="arrays-as-function-arguments-ai-search-terms" class="slide level2">
-<h2>Arrays as Function Arguments: AI Search Terms</h2>
+<section id="arrays-vs.-vectors-ai-search-terms" class="slide level2">
+<h2>Arrays vs.&nbsp;Vectors: AI Search Terms</h2>
+<ul>
+<li>C++ raw array versus vector</li>
+<li>C++ vector size capacity difference</li>
+<li>C++ vector at versus brackets</li>
+<li>C++ copy raw array element by element</li>
+</ul>
+<!-- Slide 134 -->
 </section>
-<section id="arrays-as-function-arguments-questions-for-reflection" class="slide level2">
-<h2>Arrays as Function Arguments: Questions for Reflection</h2>
+<section id="arrays-vs.-vectors-questions-for-reflection" class="slide level2">
+<h2>Arrays vs.&nbsp;Vectors: Questions for Reflection</h2>
+<ul>
+<li>Is fixed capacity a benefit or a limitation in this program?</li>
+<li>Which vector operations would the design lose by choosing an array?</li>
+<li>What extra state must a partially filled array maintain?</li>
+</ul>
+<!-- Slide 135 -->
+</section>
+<section id="performance-arrays-vs.-vectors-good-practices" class="slide level2">
+<h2>Performance — Arrays vs.&nbsp;Vectors: Good Practices</h2>
+<ul>
+<li>Choose the correct data model before optimizing.</li>
+<li>Measure optimized builds with realistic workloads.</li>
+<li>Compare equivalent initialization and access behavior.</li>
+</ul>
+<!-- Slide 136 -->
+</section>
+<section id="performance-arrays-vs.-vectors-common-mistakes" class="slide level2">
+<h2>Performance — Arrays vs.&nbsp;Vectors: Common Mistakes</h2>
+<ul>
+<li>Assuming every array operation is faster than its vector equivalent.</li>
+<li>Timing allocation and traversal together without identifying which cost matters.</li>
+<li>Drawing performance conclusions from a debug build.</li>
+</ul>
+<!-- Slide 137 -->
+</section>
+<section id="performance-arrays-vs.-vectors-more-examples" class="slide level2">
+<h2>Performance — Arrays vs.&nbsp;Vectors: More Examples</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Measured cost</th>
+<th>Relevant question</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Construction</td>
+<td>How often is storage allocated?</td>
+</tr>
+<tr class="even">
+<td>Growth</td>
+<td>How often does capacity change?</td>
+</tr>
+<tr class="odd">
+<td>Traversal</td>
+<td>Are equivalent access methods used?</td>
+</tr>
+<tr class="even">
+<td>Total runtime</td>
+<td>Does this code dominate the program?</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 138 -->
+</section>
+<section id="performance-arrays-vs.-vectors-practice-problems" class="slide level2">
+<h2>Performance — Arrays vs.&nbsp;Vectors: Practice Problems</h2>
+<ol type="1">
+<li>Identify the unfair work in comparing an uninitialized array with a zero-initialized vector.</li>
+<li>Design separate timing tests for construction and traversal.</li>
+<li>Explain why one timing result should not determine every container choice.</li>
+</ol>
+<!-- Slide 139 -->
+</section>
+<section id="performance-arrays-vs.-vectors-ai-search-terms" class="slide level2">
+<h2>Performance — Arrays vs.&nbsp;Vectors: AI Search Terms</h2>
+<ul>
+<li>C++ vector allocation performance</li>
+<li>C++ raw array vector contiguous memory</li>
+<li>C++ benchmark release versus debug</li>
+<li>C++ vector reallocation cost</li>
+</ul>
+<!-- Slide 140 -->
+</section>
+<section id="performance-arrays-vs.-vectors-questions-for-reflection" class="slide level2">
+<h2>Performance — Arrays vs.&nbsp;Vectors: Questions for Reflection</h2>
+<ul>
+<li>Which costs come from dynamic sizing rather than element access?</li>
+<li>What evidence would justify replacing a vector with an array?</li>
+<li>When is predictable allocation more important than flexibility?</li>
+</ul>
+<!-- Slide 141 -->
 
 </section></section>
     </div>
@@ -1370,7 +2277,7 @@ Dr.&nbsp;Caleb Fowler
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'h.v',
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -1411,7 +2318,7 @@ Dr.&nbsp;Caleb Fowler
         rtl: false,
 
         // see https://revealjs.com/vertical-slides/#navigation-mode
-        navigationMode: 'default',
+        navigationMode: 'linear',
 
         // Randomizes the order of slides each time the presentation loads
         shuffle: false,
@@ -1697,37 +2604,6 @@ Dr.&nbsp;Caleb Fowler
         }
       });
       </script>
-    <script>
-    window.Reveal.on('ready', event => {
-      function atSectionBoundary() {
-        var routes = Reveal.availableRoutes();
-        return !routes.up || !routes.down;
-      }
-      function goRight() {
-        if (atSectionBoundary()) {
-          var h = Reveal.getIndices().h;
-          Reveal.slide(h + 1, 0);
-        }
-      }
-      function goLeft() {
-        if (atSectionBoundary()) {
-          var h = Reveal.getIndices().h;
-          Reveal.slide(h - 1, 0);
-        }
-      }
-      Reveal.configure({
-        keyboard: {
-          34: 'down',
-          33: 'up',
-          116: goRight,
-          190: goLeft,
-          37: goLeft,
-          39: goRight,
-          79: null
-        }
-      });
-    });
-    </script>
     
 
 </body></html>
