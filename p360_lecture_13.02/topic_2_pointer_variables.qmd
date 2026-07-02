@@ -1,0 +1,213 @@
+<!-- Topic 2: Addresses and Pointer Variables -->
+<!-- Slides 14–27 -->
+
+# Addresses and Pointer Variables
+<!-- Slide 14 -->
+
+## How Do We Store an Address? {.smaller}
+
+- Obtain an address
+- Store it in a pointer with the matching type
+
+::: notes
+Slides 14–27
+:::
+
+<!-- Slide 15 -->
+
+---
+
+## The Address Operator
+
+```{.cpp}
+int score = 88;
+
+cout << score << "\n";
+cout << &score << "\n";
+```
+
+- `&score` produces the address of `score`
+- Address output normally appears in hexadecimal
+
+<!-- Slide 16 -->
+
+---
+
+## Printing an Address
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    double temperature = 72.5;
+    cout << "value:   " << temperature << "\n";
+    cout << "address: " << &temperature << "\n";
+    return 0;
+}
+```
+
+<!-- Slide 17 -->
+
+---
+
+## Declaring a Pointer Variable
+
+```{.cpp}
+int score = 88;
+int* scorePtr = &score;
+
+cout << scorePtr << "\n";
+```
+
+- `int*` means pointer to `int`
+- `scorePtr` stores an address as its value
+
+<!-- Slide 18 -->
+
+---
+
+## Initializing a Pointer
+
+```{.cpp}
+int score = 88;
+int* scorePtr = &score;
+```
+
+| Expression | Meaning |
+|---|---|
+| `score` | the stored integer |
+| `&score` | the address of the integer |
+| `scorePtr` | a variable storing that address |
+
+<!-- Slide 19 -->
+
+---
+
+## Reading a Pointer Declaration
+
+```{.cpp}
+int count = 4;
+int* countPtr = &count;
+
+double rate = 2.5;
+double* ratePtr = &rate;
+
+char grade = 'A';
+char* gradePtr = &grade;
+```
+
+<!-- Slide 20 -->
+
+---
+
+## One Symbol, Two Jobs
+
+```{.cpp}
+int value = 42;
+
+int& alias = value; // & declares a reference
+int* ptr = &value;  // & obtains an address
+```
+
+- Declaration context creates a reference type
+- Expression context asks for an object's address
+
+<!-- Slide 21 -->
+
+---
+
+## Pointers Can Be Reseated
+
+```{.cpp}
+int first = 10;
+int second = 20;
+int* selected = &first;
+
+cout << *selected << "\n"; // 10
+selected = &second;
+cout << *selected << "\n"; // 20
+```
+
+<!-- Slide 22 -->
+
+---
+
+## The Pointer Has Its Own Address
+
+```{.cpp}
+int score = 88;
+int* ptr = &score;
+
+cout << &score << "\n"; // score's address
+cout << ptr << "\n";    // same stored address
+cout << &ptr << "\n";   // pointer's address
+```
+
+<!-- Slide 23 -->
+
+---
+
+## Pointer Types Must Match
+
+```{.cpp}
+int count = 4;
+double rate = 2.5;
+
+int* countPtr = &count;
+double* ratePtr = &rate;
+
+// int* wrong = &rate; // compiler error
+```
+
+- The pointed-to type determines how the address may be used
+
+<!-- Slide 24 -->
+
+---
+
+## Start With a Valid Address or `nullptr`
+
+```{.cpp}
+int score = 88;
+int* ready = &score;
+int* waiting = nullptr;
+
+if (waiting == nullptr) {
+    cout << "No score selected\n";
+}
+```
+
+<!-- Slide 25 -->
+
+---
+
+## Putting the Syntax Together
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int first = 10;
+    int second = 20;
+    int* ptr = &first;
+
+    cout << ptr << " " << *ptr << "\n";
+    ptr = &second;
+    cout << ptr << " " << *ptr << "\n";
+    return 0;
+}
+```
+
+<!-- Slide 26 -->
+
+---
+
+## Pointers Store Typed Addresses
+
+- `&object` obtains an address
+- `Type* ptr` declares a pointer for that object type
+- A pointer may store a valid address, be reseated, or deliberately hold `nullptr`
+
+<!-- Slide 27 -->

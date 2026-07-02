@@ -206,80 +206,14 @@ Dr.&nbsp;Caleb Fowler
 </div>
 
 </section>
-<section>
 <section id="last-time" class="title-slide slide level1 center">
 <h1>Last Time</h1>
 <ul>
-<li class="fragment"><strong>new and delete — Single Variables</strong></li>
-<li class="fragment"><strong>Heap vs.&nbsp;Stack</strong></li>
-<li class="fragment"><strong>Pointers and Dynamic Memory</strong></li>
+<li class="fragment"><strong>Array Decay</strong></li>
+<li class="fragment"><strong>Null Pointers</strong></li>
 </ul>
 <aside class="notes">
-<p>Previous lecture covered new/delete for single variables, heap vs.&nbsp;stack memory, and pointers as the mechanism for reaching heap memory.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
-</section></section>
-<section id="todays-agenda" class="title-slide slide level1 center">
-<h1>Today’s Agenda</h1>
-<ul>
-<li>Review: new and delete</li>
-<li>Pseudo Dynamic Arrays</li>
-<li>Dynamic Arrays</li>
-<li>Programming Activity</li>
-</ul>
-<aside class="notes">
-
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Topic 1: Review — new and delete -->
-<!-- Total slides: 6 -->
-</section>
-
-<section>
-<section id="review-new-and-delete" class="title-slide slide level1 center">
-<h1>Review: new and delete</h1>
-
-</section>
-<section id="allocating-a-single-variable-on-the-heap" class="slide level2 smaller">
-<h2>Allocating a single variable on the heap</h2>
-<ul>
-<li><code>new</code> requests memory from the <strong>heap</strong> at runtime and returns its <strong>address</strong></li>
-<li>Assign that address to a pointer — that pointer is your only way to reach the memory</li>
-<li><code>delete</code> releases the heap block and must be called <strong>exactly once</strong> per <code>new</code></li>
-<li>Always set the pointer to <code>nullptr</code> after <code>delete</code> to avoid a dangling pointer</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> pNum <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span>     <span class="co">// declare a pointer — no allocation yet</span></span>
-<span id="cb1-2"><a href=""></a></span>
-<span id="cb1-3"><a href=""></a>pNum <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">;</span>          <span class="co">// request 1 int from the heap</span></span>
-<span id="cb1-4"><a href=""></a><span class="op">*</span>pNum <span class="op">=</span> <span class="dv">42</span><span class="op">;</span>              <span class="co">// dereference to store a value</span></span>
-<span id="cb1-5"><a href=""></a></span>
-<span id="cb1-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>pNum <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// output: 42</span></span>
-<span id="cb1-7"><a href=""></a></span>
-<span id="cb1-8"><a href=""></a><span class="kw">delete</span> pNum<span class="op">;</span>             <span class="co">// release the heap memory</span></span>
-<span id="cb1-9"><a href=""></a>pNum <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span>          <span class="co">// pointer is now safe — not dangling</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Emphasize: new returns an address, not a value. The pointer holds that address. delete frees the block but does NOT zero the pointer variable — only the assignment to nullptr does that.</p>
+<p>Recall that array parameters lose size information and that nullptr represents a deliberate no-object state. This lecture adds explicit lifetime and ownership.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -293,29 +227,16 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 1 -->
 </section>
-<section id="allocating-an-array-on-the-heap" class="slide level2 smaller">
-<h2>Allocating an array on the heap</h2>
+
+<section id="todays-agenda" class="title-slide slide level1 center">
+<h1>Today’s Agenda</h1>
 <ul>
-<li>Use <code>new[]</code> to allocate an <strong>array</strong> on the heap — the size can be a <strong>variable</strong></li>
-<li>Use <code>delete[]</code> (with square brackets) to release it — mismatching <code>delete</code> and <code>delete[]</code> is undefined behavior</li>
-<li>The pointer can be used exactly like a regular array name with <code>[ ]</code> subscript notation</li>
+<li><code>new</code> and <code>delete</code></li>
+<li>Pointer Errors, Memory Leaks, and Dangling Pointers</li>
+<li>Smart Pointers</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> pArr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb2-2"><a href=""></a><span class="dt">int</span>  size  <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb2-3"><a href=""></a></span>
-<span id="cb2-4"><a href=""></a>pArr <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size<span class="op">];</span>          <span class="co">// allocate — size known at runtime, not compile time</span></span>
-<span id="cb2-5"><a href=""></a></span>
-<span id="cb2-6"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb2-7"><a href=""></a>    pArr<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">*</span> <span class="dv">10</span><span class="op">;</span>   <span class="co">// use just like a regular array: 10 20 30 40 50</span></span>
-<span id="cb2-8"><a href=""></a></span>
-<span id="cb2-9"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb2-10"><a href=""></a>    cout <span class="op">&lt;&lt;</span> pArr<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb2-11"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb2-12"><a href=""></a></span>
-<span id="cb2-13"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> pArr<span class="op">;</span>                 <span class="co">// brackets required for arrays!</span></span>
-<span id="cb2-14"><a href=""></a>pArr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
-<p>Drive home the delete[] rule — this is one of the most common mistakes. Also note: pArr lives on the stack; only the array block it points to is on the heap.</p>
+
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -328,38 +249,238 @@ Dr.&nbsp;Caleb Fowler
           display:block!important;
       }</style></aside>
 <!-- Slide 2 -->
+<!-- Topic 1: new and delete -->
+<!-- Slides 3–18 -->
 </section>
-<section id="key-rules-dont-skip-these" class="slide level2 smaller">
-<h2>Key rules — don’t skip these</h2>
+
+<section>
+<section id="new-and-delete" class="title-slide slide level1 center">
+<h1>new and delete</h1>
+<!-- Slide 3 -->
+</section>
+<section id="how-can-a-program-request-memory-while-it-is-running" class="slide level2 smaller">
+<h2>How Can a Program Request Memory While It Is Running?</h2>
+<ul>
+<li>What if the amount of data is known only after the program starts?</li>
+<li>What if the data must remain alive beyond the block that creates it?</li>
+</ul>
+<aside class="notes">
+<p>Slides 3–18 [Graphic suggestion: a program requesting a new labeled block from a pool of available memory.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 4 -->
+</section>
+<section id="why-this-matters" class="slide level2">
+<h2>Why This Matters</h2>
+<ul>
+<li>Runtime decisions can determine whether and when an object is needed.</li>
+<li>Some data must remain alive after the creating function returns.</li>
+<li>Automatic storage alone cannot express every required lifetime.</li>
+</ul>
+<!-- Slide 5 -->
+</section>
+<section id="automatic-storage-has-a-boundary" class="slide level2">
+<h2>Automatic Storage Has a Boundary</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb1-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb1-3"><a href=""></a></span>
+<span id="cb1-4"><a href=""></a><span class="dt">void</span> showScore<span class="op">();</span></span>
+<span id="cb1-5"><a href=""></a></span>
+<span id="cb1-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-7"><a href=""></a>    showScore<span class="op">();</span></span>
+<span id="cb1-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-9"><a href=""></a><span class="op">}</span></span>
+<span id="cb1-10"><a href=""></a></span>
+<span id="cb1-11"><a href=""></a><span class="dt">void</span> showScore<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-12"><a href=""></a>    <span class="dt">int</span> score <span class="op">=</span> <span class="dv">92</span><span class="op">;</span></span>
+<span id="cb1-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb1-14"><a href=""></a><span class="op">}</span> <span class="co">// score's lifetime ends here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>[Graphic suggestion: a stack frame appearing for showScore and disappearing at the closing brace.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 6 -->
+</section>
+<section id="dynamic-storage-has-a-different-lifetime" class="slide level2">
+<h2>Dynamic Storage Has a Different Lifetime</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> score <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">92</span><span class="op">};</span></span>
+<span id="cb2-2"><a href=""></a></span>
+<span id="cb2-3"><a href=""></a><span class="co">// The allocation remains alive until delete.</span></span>
+<span id="cb2-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb2-5"><a href=""></a></span>
+<span id="cb2-6"><a href=""></a><span class="kw">delete</span> score<span class="op">;</span></span>
+<span id="cb2-7"><a href=""></a>score <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The pointer has scope; the allocation has a separately controlled lifetime.</li>
+</ul>
+<!-- Slide 7 -->
+</section>
+<section id="allocating-one-value" class="slide level2">
+<h2>Allocating One Value</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> score <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>new int</code> reserves enough dynamic storage for one <code>int</code>.</li>
+<li><code>new</code> returns the address of that storage.</li>
+<li><code>score</code> stores the returned address.</li>
+</ul>
+<aside class="notes">
+<p>[Graphic suggestion: stack variable score containing an arrow to one int-sized heap block.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 8 -->
+</section>
+<section id="initializing-during-allocation" class="slide level2">
+<h2>Initializing During Allocation</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> a <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">;</span>      <span class="co">// indeterminate value</span></span>
+<span id="cb4-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> b <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">();</span>    <span class="co">// value-initialized to 0</span></span>
+<span id="cb4-3"><a href=""></a><span class="dt">int</span><span class="op">*</span> c <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">42</span><span class="op">};</span>  <span class="co">// initialized to 42</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Braced initialization makes the intended starting value explicit.</li>
+</ul>
+<!-- Slide 9 -->
+</section>
+<section id="using-the-allocation" class="slide level2">
+<h2>Using the Allocation</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> score <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">92</span><span class="op">};</span></span>
+<span id="cb5-2"><a href=""></a></span>
+<span id="cb5-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb5-4"><a href=""></a><span class="op">*</span>score <span class="op">=</span> <span class="dv">97</span><span class="op">;</span></span>
+<span id="cb5-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Dereferencing accesses the dynamically stored object.</li>
+</ul>
+<!-- Slide 10 -->
+</section>
+<section id="a-complete-scalar-example" class="slide level2 smaller">
+<h2>A Complete Scalar Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb6-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb6-3"><a href=""></a></span>
+<span id="cb6-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-5"><a href=""></a>    <span class="dt">double</span><span class="op">*</span> temperature <span class="op">=</span> <span class="kw">new</span> <span class="dt">double</span><span class="op">{</span><span class="fl">98.6</span><span class="op">};</span></span>
+<span id="cb6-6"><a href=""></a></span>
+<span id="cb6-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Temperature: "</span> <span class="op">&lt;&lt;</span> <span class="op">*</span>temperature <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb6-8"><a href=""></a>    <span class="op">*</span>temperature <span class="op">=</span> <span class="fl">101.3</span><span class="op">;</span></span>
+<span id="cb6-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Updated: "</span> <span class="op">&lt;&lt;</span> <span class="op">*</span>temperature <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb6-10"><a href=""></a></span>
+<span id="cb6-11"><a href=""></a>    <span class="kw">delete</span> temperature<span class="op">;</span></span>
+<span id="cb6-12"><a href=""></a>    temperature <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb6-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 11 -->
+</section>
+<section id="what-does-delete-do" class="slide level2">
+<h2>What Does delete Do?</h2>
+<ul>
+<li><code>delete</code> ends the dynamically allocated object’s lifetime.</li>
+<li>The storage becomes available for reuse.</li>
+<li>The pointer variable still exists and still contains the old address.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="kw">delete</span> temperature<span class="op">;</span></span>
+<span id="cb7-2"><a href=""></a>temperature <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 12 -->
+</section>
+<section id="following-the-addresses" class="slide level2">
+<h2>Following the Addresses</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Situation</th>
-<th>Allocate</th>
-<th>Deallocate</th>
+<th>Moment</th>
+<th>Pointer</th>
+<th>Dynamic object</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Single variable</td>
-<td><code>new int</code></td>
-<td><code>delete p</code></td>
+<td>After <code>new</code></td>
+<td>Holds allocated address</td>
+<td>Alive</td>
 </tr>
 <tr class="even">
-<td>Array</td>
-<td><code>new int[n]</code></td>
-<td><code>delete[] p</code></td>
+<td>After <code>delete</code></td>
+<td>Still holds old address</td>
+<td>Dead</td>
+</tr>
+<tr class="odd">
+<td>After <code>nullptr</code> assignment</td>
+<td>Holds no address</td>
+<td>Dead</td>
 </tr>
 </tbody>
 </table>
+<aside class="notes">
+<p>[Graphic suggestion: three memory-state panels corresponding to the table rows.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 13 -->
+</section>
+<section id="allocation-inside-a-function" class="slide level2 smaller">
+<h2>Allocation Inside a Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb8-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb8-3"><a href=""></a></span>
+<span id="cb8-4"><a href=""></a><span class="dt">double</span><span class="op">*</span> readTemperature<span class="op">();</span></span>
+<span id="cb8-5"><a href=""></a></span>
+<span id="cb8-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-7"><a href=""></a>    <span class="dt">double</span><span class="op">*</span> value <span class="op">=</span> readTemperature<span class="op">();</span></span>
+<span id="cb8-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>value <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb8-9"><a href=""></a>    <span class="kw">delete</span> value<span class="op">;</span></span>
+<span id="cb8-10"><a href=""></a>    value <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb8-11"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-12"><a href=""></a><span class="op">}</span></span>
+<span id="cb8-13"><a href=""></a></span>
+<span id="cb8-14"><a href=""></a><span class="dt">double</span><span class="op">*</span> readTemperature<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-15"><a href=""></a>    <span class="dt">double</span><span class="op">*</span> result <span class="op">=</span> <span class="kw">new</span> <span class="dt">double</span><span class="op">;</span></span>
+<span id="cb8-16"><a href=""></a>    cin <span class="op">&gt;&gt;</span> <span class="op">*</span>result<span class="op">;</span></span>
+<span id="cb8-17"><a href=""></a>    <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb8-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 14 -->
+</section>
+<section id="who-owns-the-allocation" class="slide level2">
+<h2>Who Owns the Allocation?</h2>
 <ul>
-<li><strong>Never</strong> mix <code>delete</code> and <code>delete[]</code> — mismatching is <strong>undefined behavior</strong></li>
-<li>Every <code>new</code> needs <strong>exactly one</strong> <code>delete</code> — more is a double-free, fewer is a leak</li>
-<li>A pointer does <strong>not</strong> become <code>nullptr</code> after <code>delete</code> — you must set it yourself</li>
-<li>Always initialize pointers to <code>nullptr</code> on declaration</li>
+<li><code>readTemperature</code> creates the allocation.</li>
+<li>Returning the pointer transfers cleanup responsibility to <code>main</code>.</li>
+<li>The owner must eventually call the matching deallocation operation.</li>
 </ul>
 <aside class="notes">
-<p>The table is the key reference. Quiz students on which delete form to use.</p>
+<p>[Graphic suggestion: ownership label moving from readTemperature’s result pointer to main’s value pointer.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -371,117 +492,72 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 3 -->
+<!-- Slide 15 -->
 </section>
-<section id="algorithm-using-new-and-delete-correctly" class="slide level2">
-<h2>Algorithm: using new and delete correctly</h2>
-<ol type="1">
-<li>Declare a <strong>pointer</strong> variable and initialize to <code>nullptr</code>.</li>
-<li>Use <strong><code>new</code></strong> (or <code>new[]</code>) to allocate memory — store the returned address in the pointer.</li>
-<li>Use the pointer to read/write the heap memory as needed.</li>
-<li>When finished, call <strong><code>delete</code></strong> (or <code>delete[]</code>) to free the memory.</li>
-<li>Set the pointer to <strong><code>nullptr</code></strong> immediately after <code>delete</code>.</li>
-</ol>
-<aside class="notes">
-<p>The five steps are identical whether it’s a single variable or an array — only the keyword changes (new vs new[], delete vs delete[]).</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 4 -->
+<section id="the-scalar-lifetime-pattern" class="slide level2">
+<h2>The Scalar Lifetime Pattern</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>C++ operation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Allocate and initialize</td>
+<td><code>int* value = new int{5};</code></td>
+</tr>
+<tr class="even">
+<td>Access the object</td>
+<td><code>cout &lt;&lt; *value;</code></td>
+</tr>
+<tr class="odd">
+<td>Release the object</td>
+<td><code>delete value;</code></td>
+</tr>
+<tr class="even">
+<td>Mark the pointer empty</td>
+<td><code>value = nullptr;</code></td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 16 -->
 </section>
-<section id="a.cpp-putting-it-together" class="slide level2 smaller">
-<h2>14-02a.cpp — putting it together</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="co">// 14-02a.cpp  --  new and delete review</span></span>
-<span id="cb3-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb3-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb3-4"><a href=""></a></span>
-<span id="cb3-5"><a href=""></a><span class="dt">int</span> main<span class="op">(){</span></span>
-<span id="cb3-6"><a href=""></a>    <span class="co">// --- Single variable on the heap ---</span></span>
-<span id="cb3-7"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> pNum <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span>           <span class="co">// pointer to int     (#6)</span></span>
-<span id="cb3-8"><a href=""></a>    pNum <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">;</span>                <span class="co">// allocate on heap   (#7)</span></span>
-<span id="cb3-9"><a href=""></a>    <span class="op">*</span>pNum <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
-<span id="cb3-10"><a href=""></a></span>
-<span id="cb3-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Value:   "</span> <span class="op">&lt;&lt;</span> <span class="op">*</span>pNum <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb3-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Address: "</span> <span class="op">&lt;&lt;</span> pNum   <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb3-13"><a href=""></a></span>
-<span id="cb3-14"><a href=""></a>    <span class="kw">delete</span> pNum<span class="op">;</span>                   <span class="co">// free heap memory   (#13)</span></span>
-<span id="cb3-15"><a href=""></a>    pNum <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span>                <span class="co">// remove dangling pointer</span></span>
-<span id="cb3-16"><a href=""></a></span>
-<span id="cb3-17"><a href=""></a>    <span class="co">// --- Array on the heap ---</span></span>
-<span id="cb3-18"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> pArr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb3-19"><a href=""></a>    <span class="dt">int</span>  size  <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb3-20"><a href=""></a>    pArr <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size<span class="op">];</span>          <span class="co">// allocate array     (#19)</span></span>
-<span id="cb3-21"><a href=""></a></span>
-<span id="cb3-22"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb3-23"><a href=""></a>        pArr<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">*</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb3-24"><a href=""></a></span>
-<span id="cb3-25"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb3-26"><a href=""></a>        cout <span class="op">&lt;&lt;</span> pArr<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb3-27"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb3-28"><a href=""></a></span>
-<span id="cb3-29"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> pArr<span class="op">;</span>                 <span class="co">// free heap array    (#27)</span></span>
-<span id="cb3-30"><a href=""></a>    pArr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb3-31"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-32"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Walk through both sections: single int and then the array. Note the difference in delete vs delete[]. Ask students: what would happen if we wrote delete pArr instead of delete[] pArr?</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 5 -->
+<section id="the-ownership-contract" class="slide level2">
+<h2>The Ownership Contract</h2>
+<p>For every dynamic allocation, identify:</p>
+<ul>
+<li>The pointer that owns the allocation</li>
+<li>Any pointers that merely borrow access</li>
+<li>The exact point where the owner releases it</li>
+</ul>
+<!-- Slide 17 -->
 </section>
-<section id="quick-check" class="slide level2 smaller">
-<h2>Quick check</h2>
-<p>What is wrong with this code?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> p <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="dv">10</span><span class="op">];</span></span>
-<span id="cb4-2"><a href=""></a>p<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb4-3"><a href=""></a></span>
-<span id="cb4-4"><a href=""></a><span class="kw">delete</span> p<span class="op">;</span> </span>
-<span id="cb4-5"><a href=""></a>p <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="fragment">
-<p><strong>Answer:</strong> Should be <code>delete[] p</code> — using <code>delete</code> instead of <code>delete[]</code> on a heap array is <strong>undefined behavior</strong>. The compiler will not warn you. Always match <code>new[]</code> with <code>delete[]</code>.</p>
-</div>
-<!-- Slide 6 -->
-<!-- Topic 2: Pseudo Dynamic Arrays -->
-<!-- Total slides: 6 -->
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li><code>new</code> creates dynamic storage whose lifetime is controlled explicitly.</li>
+<li><code>delete</code> releases one scalar allocation.</li>
+<li>Runtime flexibility comes with an ownership and cleanup obligation.</li>
+</ul>
+<!-- Slide 18 -->
+<!-- Topic 2: Pointer Errors, Memory Leaks, and Dangling Pointers -->
+<!-- Slides 19–42 -->
 </section></section>
 <section>
-<section id="pseudo-dynamic-arrays" class="title-slide slide level1 center">
-<h1>Pseudo Dynamic Arrays</h1>
-
+<section id="pointer-errors-memory-leaks-and-dangling-pointers" class="title-slide slide level1 center">
+<h1>Pointer Errors, Memory Leaks, and Dangling Pointers</h1>
+<!-- Slide 19 -->
 </section>
-<section id="arrays-on-the-heap-the-key-insight" class="slide level2 smaller">
-<h2>Arrays on the heap — the key insight</h2>
+<section id="what-happens-when-the-pointer-outlives-its-target" class="slide level2 smaller">
+<h2>What Happens When the Pointer Outlives Its Target?</h2>
 <ul>
-<li>Arrays are created on the <strong>stack</strong> by default — size must be a <strong>compile-time constant</strong></li>
-<li>We can also create them on the <strong>heap</strong> using <code>new</code></li>
-<li>This allows the size to be determined at <strong>runtime</strong> — e.g., by asking the user</li>
+<li>A pointer can retain an address after the object at that address is gone.</li>
+<li>The address looks ordinary, but dereferencing it is no longer valid.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="co">// Stack array — size must be a literal or compile-time constant</span></span>
-<span id="cb5-2"><a href=""></a><span class="dt">int</span> stackArr<span class="op">[</span><span class="dv">10</span><span class="op">];</span>          <span class="co">// fine</span></span>
-<span id="cb5-3"><a href=""></a><span class="dt">int</span> n <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb5-4"><a href=""></a><span class="dt">int</span> stackArr2<span class="op">[</span>n<span class="op">];</span>          <span class="co">// ❌ not legal in standard C++</span></span>
-<span id="cb5-5"><a href=""></a></span>
-<span id="cb5-6"><a href=""></a><span class="co">// Heap array — size can be any integer expression at runtime</span></span>
-<span id="cb5-7"><a href=""></a><span class="dt">int</span><span class="op">*</span> heapArr <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>n<span class="op">];</span> <span class="co">// ✅ perfectly fine</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
-<p>Total slides: 6 The word “pseudo” is intentional — the size is chosen at runtime, which is an improvement, but once allocated it is still fixed. If we need to grow or shrink, we need to do real dynamic resizing (next topic).</p>
+<p>Slides 19–42 [Graphic suggestion: a pointer arrow ending at a faded, crossed-out object.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -493,47 +569,46 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 20 -->
 </section>
-<section id="b.cpp-pseudo-dynamic-sales-array" class="slide level2 smaller">
-<h2>14-02b.cpp — pseudo-dynamic sales array</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="co">// 14-02b.cpp  Pseudo Dynamic Memory</span></span>
-<span id="cb6-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb6-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
-<span id="cb6-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb6-5"><a href=""></a></span>
-<span id="cb6-6"><a href=""></a><span class="dt">int</span> main<span class="op">(){</span></span>
-<span id="cb6-7"><a href=""></a>    <span class="dt">double</span><span class="op">*</span> sales <span class="op">=</span> <span class="kw">nullptr</span><span class="op">,</span>     <span class="co">// set to no address     (#7)</span></span>
-<span id="cb6-8"><a href=""></a>            total <span class="op">=</span> <span class="fl">0.0</span><span class="op">,</span></span>
-<span id="cb6-9"><a href=""></a>            average<span class="op">;</span></span>
-<span id="cb6-10"><a href=""></a>    <span class="dt">int</span> numDays<span class="op">;</span>                 <span class="co">// number of sales days  (#10)</span></span>
-<span id="cb6-11"><a href=""></a></span>
-<span id="cb6-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"How many days of sales figures do you wish "</span><span class="op">;</span></span>
-<span id="cb6-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"to process? "</span><span class="op">;</span></span>
-<span id="cb6-14"><a href=""></a>    cin <span class="op">&gt;&gt;</span> numDays<span class="op">;</span>                                     <span class="co">// (#15)</span></span>
-<span id="cb6-15"><a href=""></a></span>
-<span id="cb6-16"><a href=""></a>    sales <span class="op">=</span> <span class="kw">new</span> <span class="dt">double</span><span class="op">[</span>numDays<span class="op">];</span> <span class="co">// allocate memory       (#18)</span></span>
-<span id="cb6-17"><a href=""></a></span>
-<span id="cb6-18"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Enter the sales figures below.</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb6-19"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> count <span class="op">&lt;</span> numDays<span class="op">;</span> count<span class="op">++){</span></span>
-<span id="cb6-20"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Day "</span> <span class="op">&lt;&lt;</span> <span class="op">(</span>count <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">": "</span><span class="op">;</span></span>
-<span id="cb6-21"><a href=""></a>        cin <span class="op">&gt;&gt;</span> sales<span class="op">[</span>count<span class="op">];</span></span>
-<span id="cb6-22"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb6-23"><a href=""></a></span>
-<span id="cb6-24"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> count <span class="op">&lt;</span> numDays<span class="op">;</span> count<span class="op">++)</span></span>
-<span id="cb6-25"><a href=""></a>        total <span class="op">+=</span> sales<span class="op">[</span>count<span class="op">];</span></span>
-<span id="cb6-26"><a href=""></a>    average <span class="op">=</span> total <span class="op">/</span> numDays<span class="op">;</span></span>
-<span id="cb6-27"><a href=""></a></span>
-<span id="cb6-28"><a href=""></a>    cout <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> showpoint<span class="op">;</span></span>
-<span id="cb6-29"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n\n</span><span class="st">Total Sales: $"</span>  <span class="op">&lt;&lt;</span> total   <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb6-30"><a href=""></a>    cout <span class="op">&lt;&lt;</span>   <span class="st">"Average Sales: $"</span> <span class="op">&lt;&lt;</span> average <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb6-31"><a href=""></a></span>
-<span id="cb6-32"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> sales<span class="op">;</span>              <span class="co">// Free Memory!           (#38)</span></span>
-<span id="cb6-33"><a href=""></a>    sales <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb6-34"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb6-35"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="a-map-of-pointer-failures" class="slide level2">
+<h2>A Map of Pointer Failures</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Failure area</th>
+<th>Question</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Initialization</td>
+<td>Does the pointer hold a known address?</td>
+</tr>
+<tr class="even">
+<td>Lifetime</td>
+<td>Is the target still alive?</td>
+</tr>
+<tr class="odd">
+<td>Ownership</td>
+<td>Who must release the allocation?</td>
+</tr>
+<tr class="even">
+<td>Deallocation</td>
+<td>Is the release operation valid and correctly matched?</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 21 -->
+</section>
+<section id="leaks-and-dangling-pointers-are-opposites" class="slide level2">
+<h2>Leaks and Dangling Pointers Are Opposites</h2>
+<ul>
+<li><strong>Memory leak:</strong> live allocation, but no usable pointer can reach it.</li>
+<li><strong>Dangling pointer:</strong> pointer remains, but its target is no longer alive.</li>
+</ul>
 <aside class="notes">
-<p>Walk through key line numbers. Pointer declared at #7. User provides size at #15. Memory allocated at #18 using the user-provided size — this is the key line. Freed at #38.</p>
+<p>[Graphic suggestion: side-by-side panels—an unreachable live block and an arrow aimed at a dead block.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -545,46 +620,508 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 2 -->
+<!-- Slide 22 -->
 </section>
-<section id="b.cpp-sample-run" class="slide level2 smaller">
-<h2>14-02b.cpp — sample run</h2>
+<section id="why-results-seem-unpredictable" class="slide level2">
+<h2>Why Results Seem Unpredictable</h2>
+<ul>
+<li>Undefined behavior removes the language’s guarantees.</li>
+<li>A broken program may crash, print plausible output, or appear to work.</li>
+<li>Successful output does not prove that the access was valid.</li>
+</ul>
+<!-- Slide 23 -->
+</section>
+<section id="three-questions-before-dereferencing" class="slide level2">
+<h2>Three Questions Before Dereferencing</h2>
+<ol type="1">
+<li>Was the pointer initialized to a known address?</li>
+<li>Is the pointed-to object still alive?</li>
+<li>Does the pointer refer to the object the program intends to access?</li>
+</ol>
+<!-- Slide 24 -->
+</section>
+<section id="wild-pointers" class="slide level2">
+<h2>Wild Pointers</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb9-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a></span>
+<span id="cb9-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-5"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> score<span class="op">;</span></span>
+<span id="cb9-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="co">// undefined behavior</span></span>
+<span id="cb9-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Pause before revealing the final comment. Ask which of the three dereference checks fails. [Graphic suggestion: score containing question marks instead of a known address.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 25 -->
+</section>
+<section id="null-pointer-dereference" class="slide level2">
+<h2>Null Pointer Dereference</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> score <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb10-2"><a href=""></a></span>
+<span id="cb10-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>score <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb10-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>nullptr</code> represents a deliberate no-object state.</li>
+<li>It must be checked before dereferencing.</li>
+</ul>
+<!-- Slide 26 -->
+</section>
+<section id="returning-a-local-address" class="slide level2 smaller">
+<h2>Returning a Local Address</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb11-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb11-3"><a href=""></a></span>
+<span id="cb11-4"><a href=""></a><span class="dt">int</span><span class="op">*</span> makeScore<span class="op">();</span></span>
+<span id="cb11-5"><a href=""></a></span>
+<span id="cb11-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb11-7"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> score <span class="op">=</span> makeScore<span class="op">();</span></span>
+<span id="cb11-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="co">// dangling pointer</span></span>
+<span id="cb11-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-10"><a href=""></a><span class="op">}</span></span>
+<span id="cb11-11"><a href=""></a></span>
+<span id="cb11-12"><a href=""></a><span class="dt">int</span><span class="op">*</span> makeScore<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb11-13"><a href=""></a>    <span class="dt">int</span> localScore <span class="op">=</span> <span class="dv">95</span><span class="op">;</span></span>
+<span id="cb11-14"><a href=""></a>    <span class="cf">return</span> <span class="op">&amp;</span>localScore<span class="op">;</span></span>
+<span id="cb11-15"><a href=""></a><span class="op">}</span> <span class="co">// localScore dies here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 27 -->
+</section>
+<section id="use-after-scope" class="slide level2">
+<h2>Use After Scope</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> selected <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb12-2"><a href=""></a></span>
+<span id="cb12-3"><a href=""></a><span class="op">{</span></span>
+<span id="cb12-4"><a href=""></a>    <span class="dt">int</span> score <span class="op">=</span> <span class="dv">88</span><span class="op">;</span></span>
+<span id="cb12-5"><a href=""></a>    selected <span class="op">=</span> <span class="op">&amp;</span>score<span class="op">;</span></span>
+<span id="cb12-6"><a href=""></a><span class="op">}</span> <span class="co">// score's lifetime ends</span></span>
+<span id="cb12-7"><a href=""></a></span>
+<span id="cb12-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>selected <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="co">// undefined behavior</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>[Graphic suggestion: nested scope box disappearing while selected retains its address.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 28 -->
+</section>
+<section id="use-after-delete" class="slide level2">
+<h2>Use After delete</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> score <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">95</span><span class="op">};</span></span>
+<span id="cb13-2"><a href=""></a><span class="kw">delete</span> score<span class="op">;</span></span>
+<span id="cb13-3"><a href=""></a></span>
+<span id="cb13-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="co">// target is dead</span></span>
+<span id="cb13-5"><a href=""></a></span>
+<span id="cb13-6"><a href=""></a>score <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>delete</code> invalidates access through every pointer to that allocation.</li>
+</ul>
+<!-- Slide 29 -->
+</section>
+<section id="aliasing-spreads-dangling-pointers" class="slide level2">
+<h2>Aliasing Spreads Dangling Pointers</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> owner <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">95</span><span class="op">};</span></span>
+<span id="cb14-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> alias <span class="op">=</span> owner<span class="op">;</span></span>
+<span id="cb14-3"><a href=""></a></span>
+<span id="cb14-4"><a href=""></a><span class="kw">delete</span> owner<span class="op">;</span></span>
+<span id="cb14-5"><a href=""></a>owner <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb14-6"><a href=""></a></span>
+<span id="cb14-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>alias <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="co">// alias still dangles</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>[Graphic suggestion: owner and alias both point to one allocation; delete crosses out the allocation, then owner becomes null while alias remains.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 30 -->
+</section>
+<section id="why-nullptr-does-not-solve-everything" class="slide level2">
+<h2>Why nullptr Does Not Solve Everything</h2>
+<ul>
+<li>Setting the deleting pointer to <code>nullptr</code> prevents reuse through that variable.</li>
+<li>Other aliases are not changed automatically.</li>
+<li>The real requirement is that no pointer access an object after its lifetime ends.</li>
+</ul>
+<!-- Slide 31 -->
+</section>
+<section id="double-deletion" class="slide level2">
+<h2>Double Deletion</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> score <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">95</span><span class="op">};</span></span>
+<span id="cb15-2"><a href=""></a></span>
+<span id="cb15-3"><a href=""></a><span class="kw">delete</span> score<span class="op">;</span></span>
+<span id="cb15-4"><a href=""></a><span class="kw">delete</span> score<span class="op">;</span> <span class="co">// undefined behavior</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>One allocation must be released exactly once.</li>
+</ul>
+<!-- Slide 32 -->
+</section>
+<section id="deleting-non-dynamic-memory" class="slide level2">
+<h2>Deleting Non-Dynamic Memory</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">95</span><span class="op">;</span></span>
+<span id="cb16-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> pointer <span class="op">=</span> <span class="op">&amp;</span>score<span class="op">;</span></span>
+<span id="cb16-3"><a href=""></a></span>
+<span id="cb16-4"><a href=""></a><span class="kw">delete</span> pointer<span class="op">;</span> <span class="co">// score was not created by new</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>delete</code> requires an address produced by a matching <code>new</code> expression.</li>
+</ul>
+<aside class="notes">
+<p>[Graphic suggestion: stack object labeled automatic contrasted with heap object labeled dynamic.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 33 -->
+</section>
+<section id="what-is-a-memory-leak" class="slide level2">
+<h2>What Is a Memory Leak?</h2>
+<ul>
+<li>A dynamic allocation remains alive.</li>
+<li>The program has lost every pointer that could release it.</li>
+<li>Repeating the loss consumes more memory over time.</li>
+</ul>
+<aside class="notes">
+<p>[Graphic suggestion: a live heap block with no incoming arrows.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 34 -->
+</section>
+<section id="overwriting-the-only-pointer" class="slide level2">
+<h2>Overwriting the Only Pointer</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> score <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">80</span><span class="op">};</span></span>
+<span id="cb17-2"><a href=""></a></span>
+<span id="cb17-3"><a href=""></a>score <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">95</span><span class="op">};</span> <span class="co">// first allocation is leaked</span></span>
+<span id="cb17-4"><a href=""></a></span>
+<span id="cb17-5"><a href=""></a><span class="kw">delete</span> score<span class="op">;</span></span>
+<span id="cb17-6"><a href=""></a>score <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Pause before revealing the comment. Ask which allocation remains reachable.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 35 -->
+</section>
+<section id="leaks-across-repeated-calls" class="slide level2">
+<h2>Leaks Across Repeated Calls</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">1000</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> sample <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span>i<span class="op">};</span></span>
+<span id="cb18-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>sample <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb18-4"><a href=""></a>    <span class="co">// No delete: one leaked int per iteration.</span></span>
+<span id="cb18-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Small leaks become large when placed on repeated paths.</li>
+</ul>
+<!-- Slide 36 -->
+</section>
+<section id="leaks-through-early-returns" class="slide level2">
+<h2>Leaks Through Early Returns</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> score <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">95</span><span class="op">};</span></span>
+<span id="cb19-2"><a href=""></a></span>
+<span id="cb19-3"><a href=""></a><span class="cf">if</span> <span class="op">(!(</span>cin <span class="op">&gt;&gt;</span> <span class="op">*</span>score<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb19-4"><a href=""></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// cleanup is skipped</span></span>
+<span id="cb19-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb19-6"><a href=""></a></span>
+<span id="cb19-7"><a href=""></a><span class="kw">delete</span> score<span class="op">;</span></span>
+<span id="cb19-8"><a href=""></a>score <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Every exit path must preserve the cleanup contract.</li>
+</ul>
+<!-- Slide 37 -->
+</section>
+<section id="conditional-cleanup-is-fragile" class="slide level2">
+<h2>Conditional Cleanup Is Fragile</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> score <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">95</span><span class="op">};</span></span>
+<span id="cb20-2"><a href=""></a></span>
+<span id="cb20-3"><a href=""></a><span class="cf">if</span> <span class="op">(!(</span>cin <span class="op">&gt;&gt;</span> <span class="op">*</span>score<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb20-4"><a href=""></a>    <span class="kw">delete</span> score<span class="op">;</span></span>
+<span id="cb20-5"><a href=""></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb20-6"><a href=""></a><span class="op">}</span></span>
+<span id="cb20-7"><a href=""></a></span>
+<span id="cb20-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb20-9"><a href=""></a><span class="kw">delete</span> score<span class="op">;</span></span>
+<span id="cb20-10"><a href=""></a>score <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Manual ownership duplicates cleanup across control paths.</li>
+</ul>
+<!-- Slide 38 -->
+</section>
+<section id="ownership-must-be-singular-and-visible" class="slide level2">
+<h2>Ownership Must Be Singular and Visible</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Role</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Owner</td>
+<td>Releases the allocation exactly once</td>
+</tr>
+<tr class="even">
+<td>Borrower</td>
+<td>Uses the object only while it remains alive</td>
+</tr>
+<tr class="odd">
+<td>Alias</td>
+<td>Never assumes ownership merely because it has the address</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 39 -->
+</section>
+<section id="repairing-a-broken-program" class="slide level2 smaller">
+<h2>Repairing a Broken Program</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb21-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb21-3"><a href=""></a></span>
+<span id="cb21-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb21-5"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> score <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">95</span><span class="op">};</span></span>
+<span id="cb21-6"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> observer <span class="op">=</span> score<span class="op">;</span></span>
+<span id="cb21-7"><a href=""></a></span>
+<span id="cb21-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>observer <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb21-9"><a href=""></a></span>
+<span id="cb21-10"><a href=""></a>    <span class="kw">delete</span> score<span class="op">;</span></span>
+<span id="cb21-11"><a href=""></a>    score <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb21-12"><a href=""></a>    observer <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb21-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 40 -->
+</section>
+<section id="safety-checklist" class="slide level2">
+<h2>Safety Checklist</h2>
+<ul>
+<li>Initialize every pointer to a known address or <code>nullptr</code>.</li>
+<li>Dereference only while the intended target is alive.</li>
+<li>Keep ownership unambiguous and distinguish owners from observers.</li>
+<li>Match each allocation with exactly one correct release.</li>
+</ul>
+<!-- Slide 41 -->
+</section>
+<section id="summary-1" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Pointer validity depends on initialization, lifetime, and bounds.</li>
+<li>Leaks lose access to live storage; dangling pointers retain access to dead storage.</li>
+<li>Manual ownership makes every control path responsible for correct cleanup.</li>
+</ul>
+<!-- Slide 42 -->
+<!-- Topic 3: Smart Pointers -->
+<!-- Slides 43–75 -->
+</section></section>
+<section>
+<section id="smart-pointers" class="title-slide slide level1 center">
+<h1>Smart Pointers</h1>
+<!-- Slide 43 -->
+</section>
+<section id="can-ownership-clean-up-after-itself" class="slide level2 smaller">
+<h2>Can Ownership Clean Up After Itself?</h2>
+<ul>
+<li>Manual cleanup fails when an exit path forgets <code>delete</code>.</li>
+<li>Smart pointers make ownership part of an object’s automatic lifetime.</li>
+</ul>
+<aside class="notes">
+<p>Slides 43–75 [Graphic suggestion: a scope closing and a managed allocation being released automatically.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 44 -->
+</section>
+<section id="smart-pointers-are-objects" class="slide level2">
+<h2>Smart Pointers Are Objects</h2>
+<ul>
+<li>A smart pointer stores an address and manages an ownership policy.</li>
+<li>Dereference syntax still provides access to the pointed-to object.</li>
+<li>The smart-pointer object’s lifetime controls its cleanup behavior.</li>
+</ul>
+<!-- Slide 45 -->
+</section>
+<section id="the-smart-pointer-map" class="slide level2">
+<h2>The Smart-Pointer Map</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Ownership model</th>
+<th>Default use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>unique_ptr</code></td>
+<td>One owner</td>
+<td>Preferred dynamic ownership</td>
+</tr>
+<tr class="even">
+<td><code>shared_ptr</code></td>
+<td>Multiple owners</td>
+<td>Genuine shared lifetime</td>
+</tr>
+<tr class="odd">
+<td><code>weak_ptr</code></td>
+<td>Non-owning observer</td>
+<td>Observe shared storage safely</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 46 -->
+</section>
+<section id="required-header" class="slide level2">
+<h2>Required Header</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb22-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;memory&gt;</span></span>
+<span id="cb22-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;utility&gt;</span></span>
+<span id="cb22-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Smart pointers and their creation helpers are declared in <code>&lt;memory&gt;</code>; <code>move</code> is declared in <code>&lt;utility&gt;</code>.</li>
+</ul>
+<!-- Slide 47 -->
+</section>
+<section id="what-is-raii" class="slide level2">
+<h2>What Is RAII?</h2>
+<ul>
+<li>Resource Acquisition Is Initialization ties a resource to an object’s lifetime.</li>
+<li>Construction acquires or receives the resource.</li>
+<li>Destruction releases it automatically when the object leaves scope.</li>
+</ul>
+<aside class="notes">
+<p>[Graphic suggestion: timeline labeled construction, use, scope exit, automatic release.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 48 -->
+</section>
+<section id="raw-ownership-vs.-managed-ownership" class="slide level2">
+<h2>Raw Ownership vs.&nbsp;Managed Ownership</h2>
 <div class="columns">
-<div class="column" style="width:55%;">
-<p>Line <code>#18</code> is where the magic happens:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a>sales <span class="op">=</span> <span class="kw">new</span> <span class="dt">double</span><span class="op">[</span>numDays<span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The array size is whatever the user typed — decided at runtime, not at compile time.</p>
-<p>The pointer <code>sales</code> is then used exactly like a regular array: <code>sales[0]</code>, <code>sales[1]</code>, etc.</p>
-</div><div class="column" style="width:45%;">
-<pre><code>$ ./main
-How many days of sales figures
-do you wish to process? 3
-Enter the sales figures below.
-Day 1: 60
-Day 2: 80
-Day 3: 12
-
-
-Total Sales: $152.00
-Average Sales: $50.67</code></pre>
+<div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> raw <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">42</span><span class="op">};</span></span>
+<span id="cb23-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>raw <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb23-3"><a href=""></a><span class="kw">delete</span> raw<span class="op">;</span></span>
+<span id="cb23-4"><a href=""></a>raw <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> managed <span class="op">=</span></span>
+<span id="cb24-2"><a href=""></a>    make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">42</span><span class="op">);</span></span>
+<span id="cb24-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>managed <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<!-- Slide 3 -->
+<!-- Slide 49 -->
 </section>
-<section id="algorithm-creating-a-pseudo-dynamic-array" class="slide level2 smaller">
-<h2>Algorithm: creating a pseudo-dynamic array</h2>
-<ol type="1">
-<li>Declare a <strong>pointer</strong> variable and initialize to <code>nullptr</code> (<code>#7</code>).</li>
-<li>Prompt the user for the <strong>array size</strong>.</li>
-<li>Allocate memory using <strong><code>new[]</code></strong> with the user-provided size (<code>#18</code>).
+<section id="empty-smart-pointers" class="slide level2">
+<h2>Empty Smart Pointers</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> score<span class="op">;</span></span>
+<span id="cb25-2"><a href=""></a></span>
+<span id="cb25-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>score<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb25-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb25-6"><a href=""></a></span>
+<span id="cb25-7"><a href=""></a><span class="cf">if</span> <span class="op">(</span>score <span class="op">==</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"No score</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb25-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 50 -->
+</section>
+<section id="introducing-unique_ptr" class="slide level2">
+<h2>Introducing unique_ptr</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> score<span class="op">(</span><span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">95</span><span class="op">});</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>The pointer can now be used just like a regular array variable.</li>
-</ul></li>
-<li>Use the array as needed — read, write, loop over it.</li>
-<li>When done, call <strong><code>delete[]</code></strong> and set the pointer to <strong><code>nullptr</code></strong> (<code>#38</code>).</li>
-</ol>
-<p><code>14-02b.cpp</code></p>
+<li><code>score</code> is the sole owner of the dynamic <code>int</code>.</li>
+<li>Destruction of <code>score</code> releases the allocation.</li>
+<li>Direct use of <code>new</code> is valid here, but a helper is preferred.</li>
+</ul>
+<!-- Slide 51 -->
+</section>
+<section id="creating-with-make_unique" class="slide level2">
+<h2>Creating with make_unique</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> score <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">95</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>make_unique</code> creates the object and returns its owner.</li>
+<li>The allocation is never exposed as an unowned raw pointer.</li>
+</ul>
+<!-- Slide 52 -->
+</section>
+<section id="using-a-unique_ptr" class="slide level2">
+<h2>Using a unique_ptr</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> score <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">95</span><span class="op">);</span></span>
+<span id="cb28-2"><a href=""></a></span>
+<span id="cb28-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb28-4"><a href=""></a><span class="op">*</span>score <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb28-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Dereferencing accesses the managed object, not the smart pointer itself.</li>
+</ul>
+<!-- Slide 53 -->
+</section>
+<section id="automatic-cleanup-at-scope-exit" class="slide level2">
+<h2>Automatic Cleanup at Scope Exit</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="dt">void</span> showScore<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb29-2"><a href=""></a>    unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> score <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">95</span><span class="op">);</span></span>
+<span id="cb29-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb29-4"><a href=""></a><span class="op">}</span> <span class="co">// score is destroyed; the int is released</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
-<p>This is essentially the same as the new/delete algorithm from Topic 1 — the only new idea is that the size comes from the user at runtime.</p>
+<p>[Graphic suggestion: owner and allocation both disappear at the closing brace.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -596,41 +1133,35 @@ Average Sales: $50.67</code></pre>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 4 -->
+<!-- Slide 54 -->
 </section>
-<section id="this-is-a-step-closer-but-not-there-yet." class="slide level2">
-<h2>This is a step closer, but not there yet.</h2>
-<aside class="notes">
-<p>Transition: we can set the size at runtime — good. But once new double[numDays] runs, the size is locked in. What if we need to add another day’s sales? We’d have to allocate a bigger array from scratch. That’s what a real dynamic array does — and it’s the next topic.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 5 -->
+<section id="a-complete-unique_ptr-example" class="slide level2 smaller">
+<h2>A Complete unique_ptr Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb30-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;memory&gt;</span></span>
+<span id="cb30-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb30-4"><a href=""></a></span>
+<span id="cb30-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb30-6"><a href=""></a>    unique_ptr<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> temperature <span class="op">=</span></span>
+<span id="cb30-7"><a href=""></a>        make_unique<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span><span class="fl">98.6</span><span class="op">);</span></span>
+<span id="cb30-8"><a href=""></a></span>
+<span id="cb30-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>temperature <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb30-10"><a href=""></a>    <span class="op">*</span>temperature <span class="op">=</span> <span class="fl">101.3</span><span class="op">;</span></span>
+<span id="cb30-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>temperature <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb30-12"><a href=""></a></span>
+<span id="cb30-13"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb30-14"><a href=""></a><span class="op">}</span> <span class="co">// automatic cleanup</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 55 -->
 </section>
-<section id="why-is-this-only-pseudo-dynamic" class="slide level2 smaller">
-<h2>Why is this only “pseudo” dynamic?</h2>
+<section id="move-means-ownership-transfer" class="slide level2">
+<h2>move Means Ownership Transfer</h2>
 <ul>
-<li>The size is chosen at runtime — that’s a real improvement over a stack array</li>
-<li>But once <code>new double[numDays]</code> executes, <strong>the size is fixed</strong></li>
-<li>If we need to add a new element, we must:
-<ol type="1">
-<li>Allocate a whole new, larger array</li>
-<li>Copy all existing data into it</li>
-<li>Free the original array</li>
-<li>Point our pointer at the new array</li>
-</ol></li>
-<li>That process — done correctly — is what a <strong>real dynamic array</strong> does</li>
+<li>A move transfers a resource instead of duplicating it.</li>
+<li>The destination becomes the owner.</li>
+<li>The source becomes empty but remains a valid smart-pointer object.</li>
 </ul>
 <aside class="notes">
-<p>This is a good place to mention that std::vector does exactly this internally, automatically, every time it needs to grow.</p>
+<p>[Graphic suggestion: ownership badge moving from source to destination while one allocation remains.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -642,24 +1173,200 @@ Average Sales: $50.67</code></pre>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 6 -->
-<!-- Topic 3: Dynamic Arrays -->
-<!-- Total slides: 12 -->
-</section></section>
-<section>
-<section id="how-do-we-create-a-real-dynamic-array" class="title-slide slide level1 center">
-<h1>How do we create a real dynamic array?</h1>
-
+<!-- Slide 56 -->
 </section>
-<section id="the-trick" class="slide level2 smaller">
-<h2>The trick</h2>
+<section id="why-copying-is-disabled" class="slide level2">
+<h2>Why Copying Is Disabled</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> first <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">42</span><span class="op">);</span></span>
+<span id="cb31-2"><a href=""></a></span>
+<span id="cb31-3"><a href=""></a><span class="co">// unique_ptr&lt;int&gt; second = first;</span></span>
+<span id="cb31-4"><a href=""></a><span class="co">// Error: copying would create two unique owners.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Create <strong>new</strong> memory space, either larger or smaller, than what we are already using</li>
-<li><strong>Copy</strong> our existing data into that new space</li>
-<li><strong>Replace</strong> the address of our existing array with the address of the new array</li>
+<li>The compiler prevents a double-ownership state.</li>
+</ul>
+<!-- Slide 57 -->
+</section>
+<section id="transferring-ownership-with-move" class="slide level2">
+<h2>Transferring Ownership with move</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> first <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">42</span><span class="op">);</span></span>
+<span id="cb32-2"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> second <span class="op">=</span> move<span class="op">(</span>first<span class="op">);</span></span>
+<span id="cb32-3"><a href=""></a></span>
+<span id="cb32-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>second <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>Pause before the move. Ask which variable should own the allocation afterward.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 58 -->
+</section>
+<section id="state-after-a-move" class="slide level2">
+<h2>State After a Move</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> first <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">42</span><span class="op">);</span></span>
+<span id="cb33-2"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> second <span class="op">=</span> move<span class="op">(</span>first<span class="op">);</span></span>
+<span id="cb33-3"><a href=""></a></span>
+<span id="cb33-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> boolalpha<span class="op">;</span></span>
+<span id="cb33-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"first owns: "</span> <span class="op">&lt;&lt;</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">bool</span><span class="op">&gt;(</span>first<span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb33-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"second owns: "</span> <span class="op">&lt;&lt;</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">bool</span><span class="op">&gt;(</span>second<span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 59 -->
+</section>
+<section id="passing-unique_ptr-to-functions" class="slide level2 smaller">
+<h2>Passing unique_ptr to Functions</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a><span class="dt">void</span> printValue<span class="op">(</span><span class="at">const</span> unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;&amp;</span> value<span class="op">);</span></span>
+<span id="cb34-2"><a href=""></a><span class="dt">void</span> consume<span class="op">(</span>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> value<span class="op">);</span></span>
+<span id="cb34-3"><a href=""></a></span>
+<span id="cb34-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb34-5"><a href=""></a>    unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> score <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">95</span><span class="op">);</span></span>
+<span id="cb34-6"><a href=""></a>    printValue<span class="op">(</span>score<span class="op">);</span>       <span class="co">// borrow the owner</span></span>
+<span id="cb34-7"><a href=""></a>    consume<span class="op">(</span>move<span class="op">(</span>score<span class="op">));</span>   <span class="co">// transfer ownership</span></span>
+<span id="cb34-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The parameter style reveals whether ownership stays or moves.</li>
+</ul>
+<!-- Slide 60 -->
+</section>
+<section id="returning-a-unique_ptr" class="slide level2 smaller">
+<h2>Returning a unique_ptr</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb35-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;memory&gt;</span></span>
+<span id="cb35-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb35-4"><a href=""></a></span>
+<span id="cb35-5"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> makeScore<span class="op">(</span><span class="dt">int</span> value<span class="op">);</span></span>
+<span id="cb35-6"><a href=""></a></span>
+<span id="cb35-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb35-8"><a href=""></a>    unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> score <span class="op">=</span> makeScore<span class="op">(</span><span class="dv">95</span><span class="op">);</span></span>
+<span id="cb35-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb35-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb35-11"><a href=""></a><span class="op">}</span></span>
+<span id="cb35-12"><a href=""></a></span>
+<span id="cb35-13"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> makeScore<span class="op">(</span><span class="dt">int</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb35-14"><a href=""></a>    <span class="cf">return</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span>value<span class="op">);</span></span>
+<span id="cb35-15"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 61 -->
+</section>
+<section id="replacing-a-managed-object" class="slide level2">
+<h2>Replacing a Managed Object</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> score <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">80</span><span class="op">);</span></span>
+<span id="cb36-2"><a href=""></a></span>
+<span id="cb36-3"><a href=""></a>score<span class="op">.</span>reset<span class="op">(</span><span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">95</span><span class="op">});</span></span>
+<span id="cb36-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb36-5"><a href=""></a></span>
+<span id="cb36-6"><a href=""></a>score<span class="op">.</span>reset<span class="op">();</span> <span class="co">// release and become empty</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>reset</code> releases the previous managed object before taking a new one.</li>
+</ul>
+<!-- Slide 62 -->
+</section>
+<section id="borrowing-the-raw-address" class="slide level2">
+<h2>Borrowing the Raw Address</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> owner <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">95</span><span class="op">);</span></span>
+<span id="cb37-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> observer <span class="op">=</span> owner<span class="op">.</span>get<span class="op">();</span></span>
+<span id="cb37-3"><a href=""></a></span>
+<span id="cb37-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>observer <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>get()</code> does not transfer ownership.</li>
+<li>The observer is valid only while the owner keeps the object alive.</li>
+</ul>
+<!-- Slide 63 -->
+</section>
+<section id="releasing-ownership-manually" class="slide level2">
+<h2>Releasing Ownership Manually</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> owner <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">95</span><span class="op">);</span></span>
+<span id="cb38-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> raw <span class="op">=</span> owner<span class="op">.</span>release<span class="op">();</span></span>
+<span id="cb38-3"><a href=""></a></span>
+<span id="cb38-4"><a href=""></a><span class="kw">delete</span> raw<span class="op">;</span></span>
+<span id="cb38-5"><a href=""></a>raw <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>release()</code> returns the address without deleting the object.</li>
+<li>Manual cleanup responsibility immediately returns.</li>
+</ul>
+<!-- Slide 64 -->
+</section>
+<section id="introducing-shared_ptr" class="slide level2">
+<h2>Introducing shared_ptr</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a>shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> first <span class="op">=</span> make_shared<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">95</span><span class="op">);</span></span>
+<span id="cb39-2"><a href=""></a>shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> second <span class="op">=</span> first<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Both smart pointers own the same object.</li>
+<li>A reference count records how many shared owners remain.</li>
+</ul>
+<!-- Slide 65 -->
+</section>
+<section id="creating-with-make_shared" class="slide level2">
+<h2>Creating with make_shared</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a>shared_ptr<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> temperature <span class="op">=</span></span>
+<span id="cb40-2"><a href=""></a>    make_shared<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span><span class="fl">98.6</span><span class="op">);</span></span>
+<span id="cb40-3"><a href=""></a></span>
+<span id="cb40-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>temperature <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb40-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> temperature<span class="op">.</span>use_count<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Prefer <code>make_shared</code> when shared ownership is required.</li>
+</ul>
+<!-- Slide 66 -->
+</section>
+<section id="copying-shared-ownership" class="slide level2">
+<h2>Copying Shared Ownership</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a>shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> first <span class="op">=</span> make_shared<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">95</span><span class="op">);</span></span>
+<span id="cb41-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> first<span class="op">.</span>use_count<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="co">// 1</span></span>
+<span id="cb41-3"><a href=""></a></span>
+<span id="cb41-4"><a href=""></a>shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> second <span class="op">=</span> first<span class="op">;</span></span>
+<span id="cb41-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> first<span class="op">.</span>use_count<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="co">// 2</span></span>
+<span id="cb41-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> second<span class="op">.</span>use_count<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="co">// 2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>[Graphic suggestion: two owners pointing to one allocation and one control block labeled count 2.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 67 -->
+</section>
+<section id="when-shared-storage-is-released" class="slide level2">
+<h2>When Shared Storage Is Released</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a>shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> first <span class="op">=</span> make_shared<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">95</span><span class="op">);</span></span>
+<span id="cb42-2"><a href=""></a></span>
+<span id="cb42-3"><a href=""></a><span class="op">{</span></span>
+<span id="cb42-4"><a href=""></a>    shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> second <span class="op">=</span> first<span class="op">;</span></span>
+<span id="cb42-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> first<span class="op">.</span>use_count<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="co">// 2</span></span>
+<span id="cb42-6"><a href=""></a><span class="op">}</span></span>
+<span id="cb42-7"><a href=""></a></span>
+<span id="cb42-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> first<span class="op">.</span>use_count<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span> <span class="co">// 1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The allocation is released when the final shared owner is destroyed.</li>
+</ul>
+<!-- Slide 68 -->
+</section>
+<section id="the-cost-of-shared-ownership" class="slide level2">
+<h2>The Cost of Shared Ownership</h2>
+<ul>
+<li>A control block stores ownership information and the reference count.</li>
+<li>Copies must update that count.</li>
+<li>Use <code>shared_ptr</code> only when the design truly requires multiple owners.</li>
+</ul>
+<!-- Slide 69 -->
+</section>
+<section id="shared-ownership-cycles" class="slide level2">
+<h2>Shared-Ownership Cycles</h2>
+<ul>
+<li>Owner A can keep Owner B alive while Owner B keeps Owner A alive.</li>
+<li>Neither reference count reaches zero.</li>
+<li>The cycle leaks even though every link uses <code>shared_ptr</code>.</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 12 The three-step trick is the heart of all dynamic resizing — including what std::vector does internally every time it grows. Once students grasp this, they understand how every resizable container works under the hood.</p>
+<p>Keep this conceptual because classes have not yet been developed in depth. [Graphic suggestion: two objects joined by circular owning arrows, each count held above zero.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -671,38 +1378,17 @@ Average Sales: $50.67</code></pre>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 70 -->
 </section>
-<section id="c.cpp-initial-array-and-increase" class="slide level2 smaller">
-<h2>14-02c.cpp — initial array and increase</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="co">// 14-02c.cpp  --  real dynamically allocated array</span></span>
-<span id="cb9-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb9-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb9-4"><a href=""></a></span>
-<span id="cb9-5"><a href=""></a><span class="dt">int</span> main<span class="op">(){</span>                    <span class="co">// build the initial array</span></span>
-<span id="cb9-6"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> pInt <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span>                            <span class="co">// (#6)</span></span>
-<span id="cb9-7"><a href=""></a>    <span class="dt">int</span>  size  <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>                                 <span class="co">// (#7)</span></span>
-<span id="cb9-8"><a href=""></a></span>
-<span id="cb9-9"><a href=""></a>    pInt <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size<span class="op">];</span>                           <span class="co">// (#9)</span></span>
-<span id="cb9-10"><a href=""></a>    pInt<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>                                   <span class="co">// (#10)</span></span>
-<span id="cb9-11"><a href=""></a></span>
-<span id="cb9-12"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb9-13"><a href=""></a>        cout <span class="op">&lt;&lt;</span> pInt<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"  "</span><span class="op">;</span></span>
-<span id="cb9-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb9-15"><a href=""></a></span>
-<span id="cb9-16"><a href=""></a>    <span class="co">// increase by 1</span></span>
-<span id="cb9-17"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> pTemp <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span>                           <span class="co">// (#17)</span></span>
-<span id="cb9-18"><a href=""></a>    size<span class="op">++;</span>                                         <span class="co">// (#18)</span></span>
-<span id="cb9-19"><a href=""></a>    pTemp <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size<span class="op">];</span>                          <span class="co">// (#19)</span></span>
-<span id="cb9-20"><a href=""></a></span>
-<span id="cb9-21"><a href=""></a>    pTemp<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> pInt<span class="op">[</span><span class="dv">0</span><span class="op">];</span>   <span class="co">// copy old data          (#21)</span></span>
-<span id="cb9-22"><a href=""></a>    pTemp<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">20</span><span class="op">;</span>        <span class="co">// add new element        (#22)</span></span>
-<span id="cb9-23"><a href=""></a></span>
-<span id="cb9-24"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> pInt<span class="op">;</span>        <span class="co">// free original          (#24)</span></span>
-<span id="cb9-25"><a href=""></a>    pInt  <span class="op">=</span> pTemp<span class="op">;</span>        <span class="co">// swing pointer          (#25)</span></span>
-<span id="cb9-26"><a href=""></a>    pTemp <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span>                                <span class="co">// (#26)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="why-weak_ptr-exists" class="slide level2">
+<h2>Why weak_ptr Exists</h2>
+<ul>
+<li><code>weak_ptr</code> observes an object managed by <code>shared_ptr</code>.</li>
+<li>Observation does not increase the shared reference count.</li>
+<li>A weak link can break an ownership cycle.</li>
+</ul>
 <aside class="notes">
-<p>Walk through the initial array creation: pInt points to a 1-element heap array holding 10. Then walk the increase: size goes from 1→2, temp array created, data copied, old array freed, pointer swung.</p>
+<p>[Graphic suggestion: replace one owning arrow in the cycle with a dashed observer arrow.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -714,233 +1400,88 @@ Average Sales: $50.67</code></pre>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 2 -->
+<!-- Slide 71 -->
 </section>
-<section id="c.cpp-decrease-and-output" class="slide level2 smaller">
-<h2>14-02c.cpp — decrease and output</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb10-2"><a href=""></a>        cout <span class="op">&lt;&lt;</span> pInt<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"  "</span><span class="op">;</span></span>
-<span id="cb10-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb10-4"><a href=""></a></span>
-<span id="cb10-5"><a href=""></a>    <span class="co">// decrease by 1 from the right</span></span>
-<span id="cb10-6"><a href=""></a>    size<span class="op">--;</span>                                         <span class="co">// (#34)</span></span>
-<span id="cb10-7"><a href=""></a>    pTemp <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size<span class="op">];</span>                          <span class="co">// (#35)</span></span>
-<span id="cb10-8"><a href=""></a>    pTemp<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> pInt<span class="op">[</span><span class="dv">0</span><span class="op">];</span>   <span class="co">// copy what we keep     // (#36)</span></span>
-<span id="cb10-9"><a href=""></a></span>
-<span id="cb10-10"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> pInt<span class="op">;</span>        <span class="co">// free original          // (#38)</span></span>
-<span id="cb10-11"><a href=""></a>    pInt  <span class="op">=</span> pTemp<span class="op">;</span>        <span class="co">// swing pointer          // (#39)</span></span>
-<span id="cb10-12"><a href=""></a>    pTemp <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span>                                <span class="co">// (#40)</span></span>
-<span id="cb10-13"><a href=""></a></span>
-<span id="cb10-14"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb10-15"><a href=""></a>        cout <span class="op">&lt;&lt;</span> pInt<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"  "</span><span class="op">;</span></span>
-<span id="cb10-16"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb10-17"><a href=""></a></span>
-<span id="cb10-18"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb10-19"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>The decrease mirrors the increase exactly — same 6-step pattern, just size– instead of size++, and we copy only the elements we want to keep.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 3 -->
+<section id="locking-a-weak_ptr" class="slide level2">
+<h2>Locking a weak_ptr</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb43-1"><a href=""></a>shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> owner <span class="op">=</span> make_shared<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">95</span><span class="op">);</span></span>
+<span id="cb43-2"><a href=""></a>weak_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> observer <span class="op">=</span> owner<span class="op">;</span></span>
+<span id="cb43-3"><a href=""></a></span>
+<span id="cb43-4"><a href=""></a><span class="cf">if</span> <span class="op">(</span>shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> access <span class="op">=</span> observer<span class="op">.</span>lock<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb43-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>access <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb43-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>lock()</code> returns temporary shared ownership if the object still exists.</li>
+</ul>
+<!-- Slide 72 -->
 </section>
-<section id="section" class="slide level2" data-background-iframe="images/dynamic_array_increase_viz.html" data-background-interactive="true">
-<h2></h2>
-<!-- Slide 4 -->
+<section id="choosing-a-pointer-type" class="slide level2">
+<h2>Choosing a Pointer Type</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Need</th>
+<th>Prefer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No dynamic lifetime</td>
+<td>Direct object</td>
+</tr>
+<tr class="even">
+<td>Temporary guaranteed access</td>
+<td>Reference</td>
+</tr>
+<tr class="odd">
+<td>Nullable non-owning access</td>
+<td>Raw pointer</td>
+</tr>
+<tr class="even">
+<td>One dynamic owner</td>
+<td><code>unique_ptr</code></td>
+</tr>
+<tr class="odd">
+<td>Genuine shared ownership</td>
+<td><code>shared_ptr</code></td>
+</tr>
+<tr class="even">
+<td>Observe shared storage</td>
+<td><code>weak_ptr</code></td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 73 -->
 </section>
-<section id="c.cpp-sample-run" class="slide level2 smaller">
-<h2>14-02c.cpp — sample run</h2>
+<section id="modern-ownership-rewrite" class="slide level2 smaller">
+<h2>Modern Ownership Rewrite</h2>
 <div class="columns">
-<div class="column" style="width:55%;">
-<p>Starting state: <code>pInt → [10]</code> (size = 1)</p>
-<p>After <strong>increase</strong>: <code>pInt → [10, 20]</code> (size = 2)</p>
-<p>After <strong>decrease</strong>: <code>pInt → [10]</code> (size = 1)</p>
-<p>The data survives each resize intact. The pointer always refers to valid heap memory.</p>
-</div><div class="column" style="width:45%;">
-<pre><code>$ ./main
-10
-10  20
-10</code></pre>
+<div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb44-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> score <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">95</span><span class="op">};</span></span>
+<span id="cb44-2"><a href=""></a><span class="cf">if</span> <span class="op">(!(</span>cin <span class="op">&gt;&gt;</span> <span class="op">*</span>score<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb44-3"><a href=""></a>    <span class="kw">delete</span> score<span class="op">;</span></span>
+<span id="cb44-4"><a href=""></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb44-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb44-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb44-7"><a href=""></a><span class="kw">delete</span> score<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb45-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> score <span class="op">=</span></span>
+<span id="cb45-2"><a href=""></a>    make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">95</span><span class="op">);</span></span>
+<span id="cb45-3"><a href=""></a><span class="cf">if</span> <span class="op">(!(</span>cin <span class="op">&gt;&gt;</span> <span class="op">*</span>score<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb45-4"><a href=""></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb45-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb45-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<!-- Slide 5 -->
+<!-- Slide 74 -->
 </section>
-<section id="algorithm-building-the-initial-array" class="slide level2 smaller">
-<h2>Algorithm: building the initial array</h2>
-<ol type="1">
-<li>Create the <strong>main array pointer</strong> variable (<code>#6</code>).</li>
-<li>Set the <strong>array size</strong> variable (<code>#7</code>).</li>
-<li>Allocate <strong><code>new</code></strong> memory on the heap (<code>#9</code>).</li>
-<li>Put initial values in it.</li>
-</ol>
-<p>Just like a pseudo-dynamic array so far …</p>
-<p><code>14-02c.cpp</code></p>
-<aside class="notes">
-<p>The first four steps are identical to pseudo-dynamic. The difference comes when we need to grow or shrink — that’s the new material.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 6 -->
-</section>
-<section id="algorithm-increasing-a-dynamic-array" class="slide level2 smaller">
-<h2>Algorithm: increasing a dynamic array</h2>
-<ol type="1">
-<li><strong>Increment</strong> the <code>size</code> variable (<code>#18</code>).</li>
-<li>Declare a temp pointer and allocate a <strong>new array</strong> with the updated size (<code>#17</code>, <code>#19</code>).</li>
-<li><strong>Copy</strong> the old array values into the temp array (<code>#21</code>).</li>
-<li><strong>Add</strong> the new value(s) to the temp array (<code>#22</code>).</li>
-<li><strong>Free</strong> the memory for the original array (<code>#24</code>).</li>
-<li>Swing the original pointer to point at the temp array (<code>#25</code>).</li>
-<li>Set <code>pTemp</code> to <strong><code>nullptr</code></strong> (<code>#26</code>).</li>
-</ol>
-<p><code>14-02c.cpp</code></p>
-<!-- Slide 7 -->
-</section>
-<section id="algorithm-decreasing-a-dynamic-array" class="slide level2 smaller">
-<h2>Algorithm: decreasing a dynamic array</h2>
-<ol type="1">
-<li><strong>Decrement</strong> the <code>size</code> variable (<code>#34</code>).</li>
-<li>Create a temp array with the <strong>new (smaller) size</strong> (<code>#35</code>).</li>
-<li><strong>Copy</strong> the values you want to keep — skip the ones you are removing (<code>#36</code>).</li>
-<li><strong>Free</strong> the memory for the original array (<code>#38</code>).</li>
-<li>Swing the original pointer to point at the temp array (<code>#39</code>).</li>
-<li>Set <code>pTemp</code> to <strong><code>nullptr</code></strong> (<code>#40</code>).</li>
-</ol>
-<p><code>14-02c.cpp</code></p>
-<!-- Slide 8 -->
-</section>
-<section id="section-1" class="slide level2" data-background-iframe="images/dynamic_array_decrease_viz.html" data-background-interactive="true">
-<h2></h2>
-<!-- Slide 9 -->
-</section>
-<section id="the-pattern-always-the-same" class="slide level2 smaller">
-<h2>The pattern — always the same</h2>
-<p>Whether increasing or decreasing, the resize steps are always:</p>
-<ol type="1">
-<li class="fragment">Adjust <code>size</code></li>
-<li class="fragment">Create <code>pTemp</code> with the new size</li>
-<li class="fragment">Copy what you want to keep into <code>pTemp</code></li>
-<li class="fragment"><code>delete[]</code> the old array</li>
-<li class="fragment">Swing: <code>pInt = pTemp</code></li>
-<li class="fragment"><code>pTemp = nullptr</code></li>
-</ol>
-<aside class="notes">
-<p>Once students internalize this 6-step pattern, resizing is mechanical. Stress that the ORDER matters — you must copy before you delete.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 10 -->
-</section>
-<section id="why-not-just-reallocate-the-original-pointer" class="slide level2 smaller">
-<h2>Why not just reallocate the original pointer?</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="co">// ❌ This destroys your data before you can save it:</span></span>
-<span id="cb12-2"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> pInt<span class="op">;</span></span>
-<span id="cb12-3"><a href=""></a>pInt <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size <span class="op">+</span> <span class="dv">1</span><span class="op">];</span>   <span class="co">// old data is gone — you can't copy it anymore</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="co">// ✅ Correct: the temp array preserves data during the transition:</span></span>
-<span id="cb13-2"><a href=""></a>pTemp <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size <span class="op">+</span> <span class="dv">1</span><span class="op">];</span></span>
-<span id="cb13-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb13-4"><a href=""></a>    pTemp<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> pInt<span class="op">[</span>i<span class="op">];</span>     <span class="co">// copy first ...</span></span>
-<span id="cb13-5"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> pInt<span class="op">;</span>              <span class="co">// ... then free</span></span>
-<span id="cb13-6"><a href=""></a>pInt  <span class="op">=</span> pTemp<span class="op">;</span></span>
-<span id="cb13-7"><a href=""></a>pTemp <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>This is the most common mistake students make when first attempting dynamic resizing. The temp array is not optional — it is the mechanism that makes the copy possible.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 11 -->
-</section>
-<section id="lets-put-what-we-just-learned-to-use." class="slide level2">
-<h2>Let’s put what we just learned to use.</h2>
-<aside class="notes">
-<p>Transition to the programming activity.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 12 -->
-<!-- Topic 4: Programming Activity -->
-<!-- Total slides: 2 -->
-</section></section>
-<section>
-<section id="code-together" class="title-slide slide level1 center">
-<h1>Code Together</h1>
-
-</section>
-<section id="programming-exercise" class="slide level2 smaller">
-<h2>Programming Exercise</h2>
-<p>Create a <strong>dynamic array</strong> for pet ages using the <code>short</code> type. Start with 1 element and populate it.</p>
+<section id="summary-2" class="slide level2">
+<h2>Summary</h2>
 <ul>
-<li>Ask the user how many new ages to <strong>add</strong>. Grow the dynamic array and populate the new elements.</li>
-<li>Ask the user how many ages to <strong>delete</strong>. Shrink the dynamic array by that count.</li>
-<li>Adding appends to the <strong>right end</strong> of the array; deleting removes from the <strong>right end</strong> — for this exercise only. In reality you can add or delete anywhere.</li>
-<li><strong>Print</strong> the full array after each activity: after initial population, after adding, after deleting.</li>
+<li>Prefer <code>unique_ptr</code> for dynamic ownership and explicit ownership transfer.</li>
+<li>Use <code>shared_ptr</code> only for genuine shared lifetime.</li>
+<li>Use <code>weak_ptr</code> to observe shared storage without extending its lifetime.</li>
 </ul>
-<aside class="notes">
-<p>Total slides: 2 Give students ~12–15 minutes. They have all the pieces: new[], delete[], the 6-step resize algorithm. The challenge is applying it cleanly twice in a row (grow, then shrink) while managing the size variable consistently throughout.</p>
-<p>Remind: use short, not int. Remind: the resize algorithm is exactly the same each time — only the direction (++ vs –) and copy logic changes.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="requirements-checklist" class="slide level2 smaller">
-<h2>Requirements checklist</h2>
-<ul class="task-list">
-<li><label><input type="checkbox">Declare <code>short* ages = nullptr</code> and <code>int size = 1</code></label></li>
-<li><label><input type="checkbox">Allocate initial array with <code>new short[size]</code>, populate, and print</label></li>
-<li><label><input type="checkbox">Ask user how many to add → apply the 6-step increase algorithm → populate new slots → print</label></li>
-<li><label><input type="checkbox">Ask user how many to delete → apply the 6-step decrease algorithm → print</label></li>
-<li><label><input type="checkbox">Each resize uses the same pattern: create temp → copy → <code>delete[]</code> old → swing pointer → null temp</label></li>
-<li><label><input type="checkbox">Call <code>delete[] ages</code> and set to <code>nullptr</code> before <code>return 0</code></label></li>
-</ul>
-<!-- Slide 2 -->
+<!-- Slide 75 -->
 </section>
 <section class="slide level2">
 
@@ -949,12 +1490,11 @@ Average Sales: $50.67</code></pre>
 <section id="key-takeaways" class="title-slide slide level1 center">
 <h1>Key Takeaways</h1>
 <ul>
-<li>Stack arrays have a size fixed at <strong>compile time</strong> — heap arrays can have a size set at <strong>runtime</strong></li>
-<li>A <strong>pseudo-dynamic array</strong> is allocated with <code>new[]</code> once — its size is then fixed until you explicitly resize it</li>
-<li>To truly resize, use the 6-step pattern: create temp → copy → <code>delete[]</code> old → swing pointer → null temp</li>
-<li>Always match <code>new</code> with <code>delete</code> and <code>new[]</code> with <code>delete[]</code> — mismatching is undefined behavior</li>
-<li>Always set a pointer to <code>nullptr</code> immediately after <code>delete</code> or <code>delete[]</code></li>
+<li>Dynamic allocation separates an object’s lifetime from the scope that creates it.</li>
+<li>Raw ownership requires valid access, correct bounds, and exactly one matching release.</li>
+<li><code>unique_ptr</code> makes single ownership automatic; shared ownership requires deliberate use of <code>shared_ptr</code> and <code>weak_ptr</code>.</li>
 </ul>
+<!-- Slide 76 -->
 </section>
 <section class="slide level2">
 
@@ -962,7 +1502,11 @@ Average Sales: $50.67</code></pre>
 <section>
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next Time</h1>
-
+<ul>
+<li>Dynamic Arrays with <code>new[]</code> and <code>delete[]</code></li>
+<li>Resizing Dynamic Arrays Safely</li>
+</ul>
+<!-- Slide 77 -->
 </section>
 <section class="slide level2">
 
@@ -970,79 +1514,177 @@ Average Sales: $50.67</code></pre>
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-
+<!-- Slide 78 -->
 </section>
-<section id="review-new-and-delete-good-practices" class="slide level2">
-<h2>Review — new and delete: Good Practices</h2>
+<section id="new-and-delete-good-practices" class="slide level2">
+<h2>new and delete: Good Practices</h2>
+<ul>
+<li>Initialize allocations immediately when possible.</li>
+<li>Preserve one clear owning pointer for each scalar allocation.</li>
+<li>Place the matching release near the end of the owner’s responsibility.</li>
+</ul>
+<!-- Slide 79 -->
 </section>
-<section id="review-new-and-delete-common-mistakes" class="slide level2">
-<h2>Review — new and delete: Common Mistakes</h2>
+<section id="new-and-delete-common-mistakes" class="slide level2">
+<h2>new and delete: Common Mistakes</h2>
+<ul>
+<li>Calling <code>delete</code> more than once for the same allocation</li>
+<li>Forgetting cleanup on an early return</li>
+<li>Treating the pointer’s scope as the allocation’s lifetime</li>
+</ul>
+<!-- Slide 80 -->
 </section>
-<section id="review-new-and-delete-more-examples" class="slide level2">
-<h2>Review — new and delete: More Examples</h2>
+<section id="new-and-delete-more-examples" class="slide level2">
+<h2>new and delete: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb46-1"><a href=""></a><span class="dt">char</span><span class="op">*</span> makeGrade<span class="op">(</span><span class="dt">char</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb46-2"><a href=""></a>    <span class="cf">return</span> <span class="kw">new</span> <span class="dt">char</span><span class="op">{</span>value<span class="op">};</span></span>
+<span id="cb46-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb46-4"><a href=""></a></span>
+<span id="cb46-5"><a href=""></a><span class="dt">char</span><span class="op">*</span> grade <span class="op">=</span> makeGrade<span class="op">(</span><span class="ch">'A'</span><span class="op">);</span></span>
+<span id="cb46-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>grade <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb46-7"><a href=""></a><span class="kw">delete</span> grade<span class="op">;</span></span>
+<span id="cb46-8"><a href=""></a>grade <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 81 -->
 </section>
-<section id="review-new-and-delete-practice-problems" class="slide level2">
-<h2>Review — new and delete: Practice Problems</h2>
+<section id="new-and-delete-practice-problems" class="slide level2">
+<h2>new and delete: Practice Problems</h2>
+<ol type="1">
+<li>Allocate one <code>double</code>, assign a value, print it, and release it.</li>
+<li>Allocate one <code>double</code>, modify it through its pointer, and release it.</li>
+<li>Label the owner and cleanup point in a function-return example.</li>
+</ol>
+<!-- Slide 82 -->
 </section>
-<section id="review-new-and-delete-ai-search-terms" class="slide level2">
-<h2>Review — new and delete: AI Search Terms</h2>
+<section id="new-and-delete-ai-search-terms" class="slide level2">
+<h2>new and delete: AI Search Terms</h2>
+<ul>
+<li>C++ dynamic allocation lifetime</li>
+<li>C++ scalar new and delete examples</li>
+<li>C++ ownership raw pointer examples</li>
+</ul>
+<!-- Slide 83 -->
 </section>
-<section id="review-new-and-delete-questions-for-reflection" class="slide level2">
-<h2>Review — new and delete: Questions for Reflection</h2>
+<section id="new-and-delete-questions-for-reflection" class="slide level2">
+<h2>new and delete: Questions for Reflection</h2>
+<ul>
+<li>Why does the pointer’s lifetime differ from the allocation’s lifetime?</li>
+<li>Why must one owner be responsible for releasing a scalar allocation?</li>
+</ul>
+<!-- Slide 84 -->
 </section>
-<section id="pseudo-dynamic-arrays-good-practices" class="slide level2">
-<h2>Pseudo Dynamic Arrays: Good Practices</h2>
+<section id="pointer-errors-good-practices" class="slide level2">
+<h2>Pointer Errors: Good Practices</h2>
+<ul>
+<li>Check initialization, lifetime, and bounds before dereferencing.</li>
+<li>Keep owners distinct from borrowers.</li>
+<li>Test failure and early-return paths, not only the successful path.</li>
+</ul>
+<!-- Slide 85 -->
 </section>
-<section id="pseudo-dynamic-arrays-common-mistakes" class="slide level2">
-<h2>Pseudo Dynamic Arrays: Common Mistakes</h2>
+<section id="pointer-errors-common-mistakes" class="slide level2">
+<h2>Pointer Errors: Common Mistakes</h2>
+<ul>
+<li>Assuming a non-null address must still be valid</li>
+<li>Nulling one alias and assuming every alias changed</li>
+<li>Confusing an observing alias with a second owner</li>
+</ul>
+<!-- Slide 86 -->
 </section>
-<section id="pseudo-dynamic-arrays-more-examples" class="slide level2">
-<h2>Pseudo Dynamic Arrays: More Examples</h2>
+<section id="pointer-errors-more-examples" class="slide level2">
+<h2>Pointer Errors: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb47-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> owner <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">{</span><span class="dv">42</span><span class="op">};</span></span>
+<span id="cb47-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> observer <span class="op">=</span> owner<span class="op">;</span></span>
+<span id="cb47-3"><a href=""></a></span>
+<span id="cb47-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>observer <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb47-5"><a href=""></a><span class="kw">delete</span> owner<span class="op">;</span></span>
+<span id="cb47-6"><a href=""></a>owner <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb47-7"><a href=""></a>observer <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 87 -->
 </section>
-<section id="pseudo-dynamic-arrays-practice-problems" class="slide level2">
-<h2>Pseudo Dynamic Arrays: Practice Problems</h2>
+<section id="pointer-errors-practice-problems" class="slide level2">
+<h2>Pointer Errors: Practice Problems</h2>
+<ol type="1">
+<li>Identify the first invalid operation in a use-after-scope trace.</li>
+<li>Repair a loop that leaks one allocation per iteration.</li>
+<li>Rewrite an example so one pointer remains the clear owner.</li>
+</ol>
+<!-- Slide 88 -->
 </section>
-<section id="pseudo-dynamic-arrays-ai-search-terms" class="slide level2">
-<h2>Pseudo Dynamic Arrays: AI Search Terms</h2>
+<section id="pointer-errors-ai-search-terms" class="slide level2">
+<h2>Pointer Errors: AI Search Terms</h2>
+<ul>
+<li>C++ dangling pointer use after free</li>
+<li>C++ memory leak early return</li>
+<li>AddressSanitizer C++ heap use after free</li>
+<li>LeakSanitizer C++ memory leaks</li>
+</ul>
+<!-- Slide 89 -->
 </section>
-<section id="pseudo-dynamic-arrays-questions-for-reflection" class="slide level2">
-<h2>Pseudo Dynamic Arrays: Questions for Reflection</h2>
+<section id="pointer-errors-questions-for-reflection" class="slide level2">
+<h2>Pointer Errors: Questions for Reflection</h2>
+<ul>
+<li>Why can undefined behavior appear to produce correct output?</li>
+<li>How are a leak and a dangling pointer opposites?</li>
+<li>Why does aliasing complicate cleanup?</li>
+</ul>
+<!-- Slide 90 -->
 </section>
-<section id="dynamic-arrays-good-practices" class="slide level2">
-<h2>Dynamic Arrays: Good Practices</h2>
+<section id="smart-pointers-good-practices" class="slide level2">
+<h2>Smart Pointers: Good Practices</h2>
+<ul>
+<li>Prefer <code>make_unique</code> and single ownership by default.</li>
+<li>Transfer <code>unique_ptr</code> ownership explicitly with <code>move</code>.</li>
+<li>Use <code>shared_ptr</code> only when multiple owners are part of the design.</li>
+</ul>
+<!-- Slide 91 -->
 </section>
-<section id="dynamic-arrays-common-mistakes" class="slide level2">
-<h2>Dynamic Arrays: Common Mistakes</h2>
+<section id="smart-pointers-common-mistakes" class="slide level2">
+<h2>Smart Pointers: Common Mistakes</h2>
+<ul>
+<li>Dereferencing an empty or moved-from smart pointer</li>
+<li>Copying a <code>unique_ptr</code> instead of transferring it with <code>move</code></li>
+<li>Using <code>release()</code> without immediately establishing a new owner</li>
+</ul>
+<!-- Slide 92 -->
 </section>
-<section id="dynamic-arrays-more-examples" class="slide level2">
-<h2>Dynamic Arrays: More Examples</h2>
+<section id="smart-pointers-more-examples" class="slide level2">
+<h2>Smart Pointers: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb48-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> first <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">10</span><span class="op">);</span></span>
+<span id="cb48-2"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> second <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="dv">20</span><span class="op">);</span></span>
+<span id="cb48-3"><a href=""></a></span>
+<span id="cb48-4"><a href=""></a>second <span class="op">=</span> move<span class="op">(</span>first<span class="op">);</span></span>
+<span id="cb48-5"><a href=""></a></span>
+<span id="cb48-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>second <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb48-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> boolalpha <span class="op">&lt;&lt;</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">bool</span><span class="op">&gt;(</span>first<span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 93 -->
 </section>
-<section id="dynamic-arrays-practice-problems" class="slide level2">
-<h2>Dynamic Arrays: Practice Problems</h2>
+<section id="smart-pointers-practice-problems" class="slide level2">
+<h2>Smart Pointers: Practice Problems</h2>
+<ol type="1">
+<li>Rewrite a raw scalar allocation using <code>make_unique</code>.</li>
+<li>Trace two <code>shared_ptr</code> copies and record the count after each scope ends.</li>
+<li>Choose an ownership type for three short program designs.</li>
+</ol>
+<!-- Slide 94 -->
 </section>
-<section id="dynamic-arrays-ai-search-terms" class="slide level2">
-<h2>Dynamic Arrays: AI Search Terms</h2>
+<section id="smart-pointers-ai-search-terms" class="slide level2">
+<h2>Smart Pointers: AI Search Terms</h2>
+<ul>
+<li>C++ RAII unique_ptr ownership</li>
+<li>C++ move unique_ptr function parameter</li>
+<li>C++ shared_ptr reference count weak_ptr cycle</li>
+<li>C++ smart pointer custom deleter</li>
+</ul>
+<!-- Slide 95 -->
 </section>
-<section id="dynamic-arrays-questions-for-reflection" class="slide level2">
-<h2>Dynamic Arrays: Questions for Reflection</h2>
-</section>
-<section id="programming-activity-good-practices" class="slide level2">
-<h2>Programming Activity: Good Practices</h2>
-</section>
-<section id="programming-activity-common-mistakes" class="slide level2">
-<h2>Programming Activity: Common Mistakes</h2>
-</section>
-<section id="programming-activity-more-examples" class="slide level2">
-<h2>Programming Activity: More Examples</h2>
-</section>
-<section id="programming-activity-practice-problems" class="slide level2">
-<h2>Programming Activity: Practice Problems</h2>
-</section>
-<section id="programming-activity-ai-search-terms" class="slide level2">
-<h2>Programming Activity: AI Search Terms</h2>
-</section>
-<section id="programming-activity-questions-for-reflection" class="slide level2">
-<h2>Programming Activity: Questions for Reflection</h2>
+<section id="smart-pointers-questions-for-reflection" class="slide level2">
+<h2>Smart Pointers: Questions for Reflection</h2>
+<ul>
+<li>What guarantee does <code>unique_ptr</code> add that a raw pointer lacks?</li>
+<li>When is shared ownership genuinely necessary?</li>
+<li>Why must <code>weak_ptr</code> be locked before access?</li>
+</ul>
+<!-- Slide 96 -->
 
 </section></section>
     </div>
@@ -1101,7 +1743,7 @@ Average Sales: $50.67</code></pre>
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'h.v',
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -1142,7 +1784,7 @@ Average Sales: $50.67</code></pre>
         rtl: false,
 
         // see https://revealjs.com/vertical-slides/#navigation-mode
-        navigationMode: 'default',
+        navigationMode: 'linear',
 
         // Randomizes the order of slides each time the presentation loads
         shuffle: false,
@@ -1428,38 +2070,6 @@ Average Sales: $50.67</code></pre>
         }
       });
       </script>
-    <script>
-    window.Reveal.on('ready', event => {
-      function atSectionBoundary() {
-        var routes = Reveal.availableRoutes();
-        return !routes.up || !routes.down;
-      }
-      function goRight() {
-        if (atSectionBoundary()) {
-          var h = Reveal.getIndices().h;
-          Reveal.slide(h + 1, 0);
-        }
-      }
-      function goLeft() {
-        if (atSectionBoundary()) {
-          var h = Reveal.getIndices().h;
-          Reveal.slide(h - 1, 0);
-        }
-      }
-      Reveal.configure({
-        overview: false,
-        keyboard: {
-          34: 'down',
-          33: 'up',
-          116: goRight,
-          190: goLeft,
-          37: goLeft,
-          39: goRight,
-          79: null
-        }
-      });
-    });
-    </script>
     
 
 </body></html>

@@ -1,143 +1,188 @@
 # Last Time
 
 ::: {.incremental}
-+ **new and delete — Single Variables**
-+ **Heap vs. Stack**
-+ **Pointers and Dynamic Memory**
++ **Scalar Dynamic Allocation**
++ **Heap and Stack Memory**
++ **Pointer Ownership**
 :::
 
 ::: notes
-Previous lecture covered new/delete for single variables, heap vs. stack memory, and pointers as the mechanism for reaching heap memory.
+Recall the allocate–use–release model for one dynamically allocated value.
 :::
 
----
+<!-- Slide 1 -->
 
 # Today's Agenda
 
-- Review: new and delete
-- Pseudo Dynamic Arrays
-- Dynamic Arrays
-- Programming Activity
+- Pseudodynamic Memory
+- Dynamic Memory and Dynamic Arrays
 
 ::: notes
 
 :::
 
-{{< include topic_1_new_delete_review.qmd >}}
-{{< include topic_2_pseudodynamic_arrays.qmd >}}
-{{< include topic_3_dynamic_arrays.qmd >}}
-{{< include topic_4_programming_activity.qmd >}}
+<!-- Slide 2 -->
+
+{{< include topic_1_pseudodynamic_memory.qmd >}}
+{{< include topic_2_dynamic_memory.qmd >}}
 
 ---
 
 # Key Takeaways
 
-- Stack arrays have a size fixed at **compile time** — heap arrays can have a size set at **runtime**
-- A **pseudo-dynamic array** is allocated with `new[]` once — its size is then fixed until you explicitly resize it
-- To truly resize, use the 6-step pattern: create temp → copy → `delete[]` old → swing pointer → null temp
-- Always match `new` with `delete` and `new[]` with `delete[]` — mismatching is undefined behavior
-- Always set a pointer to `nullptr` immediately after `delete` or `delete[]`
+- Pseudodynamic storage separates fixed capacity from runtime logical length.
+- Dynamic arrays use `new[]` and the matching `delete[]` form.
+- Raw arrays do not track their length or check their bounds.
+- Resizing means allocate, copy, release, transfer ownership, and update length.
+- `unique_ptr<Type[]>` manages lifetime; `vector` is normally the safer resizable sequence.
 
----
+<!-- Slide 62 -->
 
 # Next Time
 
----
+Structures and composite data.
+
+<!-- Slide 63 -->
 
 # Appendix
 
----
+<!-- Slide 64 -->
 
-## Review — new and delete: Good Practices
+## Pseudodynamic Memory: Good Practices
 
----
+- Give capacity and logical length different names.
+- Validate requested length before using it.
+- Pass logical length with the array and capacity to operations that may append.
 
-## Review — new and delete: Common Mistakes
-
----
-
-## Review — new and delete: More Examples
+<!-- Slide 65 -->
 
 ---
 
-## Review — new and delete: Practice Problems
+## Pseudodynamic Memory: Common Mistakes
+
+- Treating every capacity slot as valid data
+- Allowing logical length to exceed capacity
+- Growing logical length without initializing newly active elements
+
+<!-- Slide 66 -->
 
 ---
 
-## Review — new and delete: AI Search Terms
+## Pseudodynamic Memory: More Examples
+
+```{.cpp}
+bool contains(const int values[], int length, int target)
+{
+    for (int i = 0; i < length; i++)
+        if (values[i] == target)
+            return true;
+    return false;
+}
+```
+
+<!-- Slide 67 -->
 
 ---
 
-## Review — new and delete: Questions for Reflection
+## Pseudodynamic Memory: Practice Problems
+
+1. Write `insertAtEnd` for a fixed array with logical length.
+2. Write `removeAt` and shift later elements left.
+3. Trace capacity and logical length after five operations.
+
+<!-- Slide 68 -->
 
 ---
 
-## Pseudo Dynamic Arrays: Good Practices
+## Pseudodynamic Memory: AI Search Terms
+
+- C++ fixed capacity array logical size
+- C++ partially filled array
+- C++ array capacity versus length
+- C++ array append with size variable
+
+<!-- Slide 69 -->
 
 ---
 
-## Pseudo Dynamic Arrays: Common Mistakes
+## Pseudodynamic Memory: Questions for Reflection
+
+- Which operations need capacity as a parameter?
+- Why can shrinking logical length occur without moving data?
+- When is a fixed maximum an acceptable design constraint?
+
+<!-- Slide 70 -->
 
 ---
 
-## Pseudo Dynamic Arrays: More Examples
+## Dynamic Memory and Dynamic Arrays: Good Practices
+
+- Match `new[]` with `delete[]`.
+- Preserve an owning pointer to the allocation's base address.
+- Keep length beside the pointer and release ownership on every exit path.
+- Prefer automatic ownership and standard containers in application code.
+
+<!-- Slide 71 -->
 
 ---
 
-## Pseudo Dynamic Arrays: Practice Problems
+## Dynamic Memory and Dynamic Arrays: Common Mistakes
+
+- Mixing scalar and array release forms
+- Losing the only owning pointer
+- Accessing outside `0` through `length - 1`
+- Updating length before ownership transfer is complete
+
+<!-- Slide 72 -->
 
 ---
 
-## Pseudo Dynamic Arrays: AI Search Terms
+## Dynamic Memory and Dynamic Arrays: More Examples
+
+```{.cpp}
+int* clone(const int source[], int length)
+{
+    if (length == 0)
+        return nullptr;
+
+    int* copy = new int[length];
+    for (int i = 0; i < length; i++)
+        copy[i] = source[i];
+    return copy;
+}
+```
+
+The caller receives ownership of the returned allocation.
+
+<!-- Slide 73 -->
 
 ---
 
-## Pseudo Dynamic Arrays: Questions for Reflection
+## Dynamic Memory and Dynamic Arrays: Practice Problems
+
+1. Write a function that grows an array by five elements.
+2. Resize an array to a user-selected length while preserving values that fit.
+3. Rewrite a raw dynamic-array program with `unique_ptr<int[]>`.
+
+<!-- Slide 74 -->
 
 ---
 
-## Dynamic Arrays: Good Practices
+## Dynamic Memory and Dynamic Arrays: AI Search Terms
+
+- C++ dynamic array new delete array
+- C++ preserve base pointer delete array
+- C++ resize raw dynamic array copy
+- C++ unique_ptr array make_unique bounds
+
+<!-- Slide 75 -->
 
 ---
 
-## Dynamic Arrays: Common Mistakes
+## Dynamic Memory and Dynamic Arrays: Questions for Reflection
 
----
+- Which object owns each allocation at every point in a resize?
+- Why must old and new arrays coexist during copying?
+- Which responsibilities disappear when raw storage becomes a `vector`?
 
-## Dynamic Arrays: More Examples
-
----
-
-## Dynamic Arrays: Practice Problems
-
----
-
-## Dynamic Arrays: AI Search Terms
-
----
-
-## Dynamic Arrays: Questions for Reflection
-
----
-
-## Programming Activity: Good Practices
-
----
-
-## Programming Activity: Common Mistakes
-
----
-
-## Programming Activity: More Examples
-
----
-
-## Programming Activity: Practice Problems
-
----
-
-## Programming Activity: AI Search Terms
-
----
-
-## Programming Activity: Questions for Reflection
+<!-- Slide 76 -->

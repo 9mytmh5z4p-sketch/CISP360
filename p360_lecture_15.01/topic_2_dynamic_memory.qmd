@@ -1,0 +1,751 @@
+<!-- Topic 2: Dynamic Memory and Dynamic Arrays -->
+<!-- Slides 20–61 -->
+
+# Dynamic Memory and Dynamic Arrays
+<!-- Slide 20 -->
+
+## When Fixed Capacity Is Not Enough {.smaller}
+
+- What if the program cannot predict a safe capacity?
+- Runtime allocation trades a fixed limit for explicit ownership responsibility.
+
+::: notes
+Slides 20–61
+:::
+
+<!-- Slide 21 -->
+
+---
+
+## Scalar Ownership Review
+
+1. Allocate with `new`.
+2. Use the object through its pointer.
+3. Release it with `delete`.
+4. Set the pointer to `nullptr` when it remains in scope.
+
+**Invariant:** one owner, one matching release.
+
+<!-- Slide 22 -->
+
+---
+
+## One Dynamically Allocated Value
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int* score = new int;
+    *score = 92;
+    cout << *score << '\n';
+
+    delete score;
+    score = nullptr;
+    return 0;
+}
+```
+
+<!-- Slide 23 -->
+
+---
+
+## From One Value to Many
+
+```{.cpp}
+int* oneScore = new int;
+int* manyScores = new int[count];
+```
+
+The second allocation reserves `count` contiguous `int` elements on the heap.
+
+::: notes
+[Graphic suggestion: two stack pointer variables, one pointing to a scalar heap cell and one to an array block.]
+:::
+
+<!-- Slide 24 -->
+
+---
+
+## Scalar Versus Array Allocation
+
+| Allocation | Access | Matching release |
+|---|---|---|
+| `new int` | `*pointer` | `delete pointer` |
+| `new int[count]` | `pointer[index]` | `delete[] pointer` |
+
+The bracket form is part of the allocation contract.
+
+<!-- Slide 25 -->
+
+---
+
+## Why the Brackets Matter
+
+```{.cpp}
+int* value = new int;
+int* values = new int[10];
+
+delete value;
+delete[] values;
+```
+
+Mixing scalar and array release forms causes undefined behavior.
+
+<!-- Slide 26 -->
+
+---
+
+## Pointer on the Stack, Array on the Heap
+
+- The pointer variable has its own storage and scope.
+- The heap array remains allocated until its owner releases it.
+- Losing the pointer does not release the array.
+
+::: notes
+[Graphic suggestion: stack frame containing `values` and `length`, with an arrow to a heap block. Label the pointer and allocation lifetimes separately.]
+:::
+
+<!-- Slide 27 -->
+
+---
+
+## Validate Before Allocating
+
+```{.cpp}
+cout << "How many scores? ";
+cin >> length;
+
+while (length < 0)
+{
+    cout << "Enter zero or more: ";
+    cin >> length;
+}
+```
+
+No allocation should occur until the requested length satisfies the program contract.
+
+<!-- Slide 28 -->
+
+---
+
+## Zero Elements Means No Allocation
+
+```{.cpp}
+int* scores = nullptr;
+
+if (length > 0)
+    scores = new int[length];
+```
+
+`nullptr` clearly represents “no array.” Both `delete[] nullptr` and guarded traversal are safe.
+
+<!-- Slide 29 -->
+
+---
+
+## Allocate the Requested Length
+
+```{.cpp}
+int* scores = new int[length];
+
+for (int index = 0; index < length; index++)
+    scores[index] = 0;
+```
+
+The allocated length is fixed for the lifetime of this allocation.
+
+<!-- Slide 30 -->
+
+---
+
+## Read and Display Values
+
+```{.cpp}
+for (int i = 0; i < length; i++)
+{
+    cout << "Score " << i + 1 << ": ";
+    cin >> scores[i];
+}
+
+for (int i = 0; i < length; i++)
+    cout << scores[i] << ' ';
+cout << '\n';
+```
+
+**Boundary:** every subscript must remain below `length`.
+
+<!-- Slide 31 -->
+
+---
+
+## Complete Dynamic Array Program {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int length;
+    cout << "How many temperatures? ";
+    cin >> length;
+
+    if (length <= 0)
+        return 0;
+
+    double* temperatures = new double[length];
+    for (int i = 0; i < length; i++)
+    {
+        cout << "Temperature " << i + 1 << ": ";
+        cin >> temperatures[i];
+    }
+
+    for (int i = 0; i < length; i++)
+        cout << temperatures[i] << '\n';
+
+    delete[] temperatures;
+    temperatures = nullptr;
+    return 0;
+}
+```
+
+<!-- Slide 32 -->
+
+---
+
+## Three Meanings of Size
+
+- **Requested length:** input proposed by the user.
+- **Allocated length:** elements reserved by the successful `new[]` expression.
+- **Logical length:** elements the program currently treats as valid.
+
+These values may match, but the program must track them explicitly.
+
+<!-- Slide 33 -->
+
+---
+
+## Pass Pointer and Length Together
+
+```{.cpp}
+void display(const int values[], int length);
+double average(const int values[], int length);
+```
+
+The pointer carries an address. The length carries the boundary contract.
+
+<!-- Slide 34 -->
+
+---
+
+## Compute Through a Pointer {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+double average(const int values[], int length);
+
+int main()
+{
+    int length = 4;
+    int* values = new int[length]{10, 20, 30, 40};
+    cout << average(values, length) << '\n';
+    delete[] values;
+    values = nullptr;
+    return 0;
+}
+
+double average(const int values[], int length)
+{
+    if (length == 0)
+        return 0.0;
+
+    int total = 0;
+    for (int i = 0; i < length; i++)
+        total += values[i];
+    return static_cast<double>(total) / length;
+}
+```
+
+<!-- Slide 35 -->
+
+---
+
+## Where Are the Bounds?
+
+- A raw pointer does not know the array length.
+- `values[length]` is already one element beyond the allocation.
+- An out-of-bounds read or write causes undefined behavior.
+
+<!-- Slide 36 -->
+
+---
+
+## One Element Too Far
+
+```{.cpp}
+int* values = new int[3]{4, 8, 12};
+
+cout << values[2] << '\n';  // Last valid element
+cout << values[3] << '\n';  // Outside the allocation
+
+delete[] values;
+```
+
+**Predict:** is any particular output guaranteed for the second statement?
+
+<!-- Slide 37 -->
+
+---
+
+## Preserve the Base Address
+
+```{.cpp}
+int* values = new int[4]{3, 6, 9, 12};
+int* cursor = values;
+
+cursor++;
+cout << *cursor << '\n';
+
+delete[] values;
+values = nullptr;
+```
+
+The owning pointer retains the address returned by `new[]`.
+
+<!-- Slide 38 -->
+
+---
+
+## Traverse Without Losing Ownership
+
+```{.cpp}
+int* cursor = values;
+int* end = values + length;
+
+while (cursor != end)
+{
+    cout << *cursor << '\n';
+    cursor++;
+}
+```
+
+`cursor` moves; `values` continues to own the base address.
+
+<!-- Slide 39 -->
+
+---
+
+## Losing the Only Pointer
+
+```{.cpp}
+int* values = new int[10];
+values = new int[20];
+```
+
+The first allocation still exists, but its address is gone. It can no longer be released.
+
+::: notes
+[Graphic suggestion: first heap block with its ownership arrow removed, then a second block receiving the pointer.]
+:::
+
+<!-- Slide 40 -->
+
+---
+
+## Replace an Allocation Safely
+
+```{.cpp}
+delete[] values;
+values = nullptr;
+
+values = new int[newLength];
+length = newLength;
+```
+
+Release the old allocation before replacing its only owning pointer when no data must be preserved.
+
+<!-- Slide 41 -->
+
+---
+
+## Cleanup Before Every Return
+
+```{.cpp}
+int* values = new int[length];
+
+if (!readValues(values, length))
+{
+    delete[] values;
+    values = nullptr;
+    return 1;
+}
+
+delete[] values;
+values = nullptr;
+return 0;
+```
+
+Each exit path must honor the ownership invariant.
+
+<!-- Slide 42 -->
+
+---
+
+## One Cleanup Path
+
+```{.cpp}
+int result = 0;
+int* values = new int[length];
+
+if (!readValues(values, length))
+    result = 1;
+else
+    display(values, length);
+
+delete[] values;
+values = nullptr;
+return result;
+```
+
+One release point makes manual ownership easier to audit.
+
+<!-- Slide 43 -->
+
+---
+
+## Automatic Array Ownership
+
+```{.cpp}
+#include <memory>
+using namespace std;
+
+unique_ptr<int[]> values = make_unique<int[]>(length);
+values[0] = 42;
+```
+
+The smart pointer releases its array automatically when its lifetime ends.
+
+<!-- Slide 44 -->
+
+---
+
+## Managed Dynamic Array {.smaller}
+
+```{.cpp}
+#include <iostream>
+#include <memory>
+using namespace std;
+
+int main()
+{
+    int length;
+    cout << "How many values? ";
+    cin >> length;
+
+    if (length <= 0)
+        return 0;
+
+    unique_ptr<int[]> values = make_unique<int[]>(length);
+    for (int i = 0; i < length; i++)
+        cin >> values[i];
+
+    for (int i = 0; i < length; i++)
+        cout << values[i] << '\n';
+    return 0;
+}
+```
+
+<!-- Slide 45 -->
+
+---
+
+## Lifetime Versus Bounds Safety
+
+`unique_ptr<Type[]>` provides:
+
+- Automatic release with the correct array form
+- Exclusive ownership
+- Subscript access
+
+It does not store length or check whether an index is valid.
+
+<!-- Slide 46 -->
+
+---
+
+## Why Resizing Needs a New Array
+
+- An existing allocation cannot grow or shrink in place through C++ syntax.
+- Resizing means allocating a different block and preserving the desired values.
+- Ownership transfers only after the copy succeeds.
+
+<!-- Slide 47 -->
+
+---
+
+## The Resize Algorithm
+
+1. Validate the new length.
+2. Allocate a temporary array.
+3. Copy the elements that fit.
+4. Release the old array.
+5. Point the owner to the new array.
+6. Update the tracked length.
+
+<!-- Slide 48 -->
+
+---
+
+## How Many Elements Should Be Copied?
+
+```{.cpp}
+int copyCount = oldLength;
+if (newLength < oldLength)
+    copyCount = newLength;
+```
+
+The general rule is `min(oldLength, newLength)`.
+
+<!-- Slide 49 -->
+
+---
+
+## Grow an Array
+
+```{.cpp}
+int newLength = length + 3;
+int* temporary = new int[newLength]{};
+
+for (int i = 0; i < length; i++)
+    temporary[i] = values[i];
+
+delete[] values;
+values = temporary;
+temporary = nullptr;
+length = newLength;
+```
+
+<!-- Slide 50 -->
+
+---
+
+## Trace a Growth Operation
+
+1. `values` owns the old block.
+2. `temporary` owns the new block.
+3. Both blocks exist during the copy.
+4. The old block is released.
+5. `values` becomes the owner of the new block.
+
+::: notes
+[Graphic suggestion: five before/after frames with ownership arrows and copied cells highlighted.]
+:::
+
+<!-- Slide 51 -->
+
+---
+
+## Add One Element {.smaller}
+
+```{.cpp}
+void append(int*& values, int& length, int value)
+{
+    int* temporary = new int[length + 1];
+
+    for (int i = 0; i < length; i++)
+        temporary[i] = values[i];
+
+    temporary[length] = value;
+    delete[] values;
+    values = temporary;
+    temporary = nullptr;
+    length++;
+}
+```
+
+Both pointer and length use reference parameters because the function changes the caller’s state.
+
+<!-- Slide 52 -->
+
+---
+
+## Use the Append Function {.smaller}
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+void append(int*& values, int& length, int value);
+
+int main()
+{
+    int length = 3;
+    int* values = new int[length]{2, 4, 6};
+
+    append(values, length, 8);
+    for (int i = 0; i < length; i++)
+        cout << values[i] << ' ';
+
+    delete[] values;
+    values = nullptr;
+    return 0;
+}
+
+void append(int*& values, int& length, int value)
+{
+    int* temporary = new int[length + 1];
+    for (int i = 0; i < length; i++)
+        temporary[i] = values[i];
+    temporary[length] = value;
+    delete[] values;
+    values = temporary;
+    length++;
+}
+```
+
+<!-- Slide 53 -->
+
+---
+
+## Shrink an Array
+
+```{.cpp}
+int newLength = length - 1;
+int* temporary = new int[newLength];
+
+for (int i = 0; i < newLength; i++)
+    temporary[i] = values[i];
+
+delete[] values;
+values = temporary;
+temporary = nullptr;
+length = newLength;
+```
+
+Only retained elements are copied.
+
+<!-- Slide 54 -->
+
+---
+
+## Remove the Last Element
+
+```{.cpp}
+bool removeLast(int*& values, int& length)
+{
+    if (length == 0)
+        return false;
+
+    int* temporary = nullptr;
+    if (length > 1)
+        temporary = new int[length - 1];
+
+    for (int i = 0; i < length - 1; i++)
+        temporary[i] = values[i];
+
+    delete[] values;
+    values = temporary;
+    length--;
+    return true;
+}
+```
+
+<!-- Slide 55 -->
+
+---
+
+## Resize to Any Length {.smaller}
+
+```{.cpp}
+void resize(int*& values, int& length, int newLength)
+{
+    if (newLength < 0 || newLength == length)
+        return;
+
+    int* temporary = nullptr;
+    if (newLength > 0)
+        temporary = new int[newLength]{};
+
+    int copyCount = length;
+    if (newLength < length)
+        copyCount = newLength;
+
+    for (int i = 0; i < copyCount; i++)
+        temporary[i] = values[i];
+
+    delete[] values;
+    values = temporary;
+    length = newLength;
+}
+```
+
+<!-- Slide 56 -->
+
+---
+
+## Resize with `unique_ptr<Type[]>`
+
+```{.cpp}
+unique_ptr<int[]> next = make_unique<int[]>(newLength);
+
+for (int i = 0; i < copyCount; i++)
+    next[i] = values[i];
+
+values = move(next);
+length = newLength;
+```
+
+Assignment transfers ownership and automatically releases the old array.
+
+<!-- Slide 57 -->
+
+---
+
+## The Cost of Resizing
+
+- Allocating a new block requires work proportional to the requested storage.
+- Copying retained elements takes O(N) time.
+- Growing by one element repeatedly can perform many unnecessary copies.
+
+<!-- Slide 58 -->
+
+---
+
+## Why We Usually Choose `vector`
+
+```{.cpp}
+vector<int> values = {2, 4, 6};
+values.push_back(8);
+values.pop_back();
+```
+
+Manual dynamic arrays expose allocation mechanics. `vector` normally provides the safer application-level abstraction.
+
+<!-- Slide 59 -->
+
+---
+
+## Choose the Storage Model
+
+| Need | Suitable model |
+|---|---|
+| Small known maximum | Fixed array plus logical length |
+| Study manual ownership | Raw dynamic array |
+| Exclusive automatic ownership | `unique_ptr<Type[]>` |
+| General resizable sequence | `vector<Type>` |
+
+<!-- Slide 60 -->
+
+---
+
+## Summary
+
+- Dynamic arrays pair `new[]` with `delete[]`, preserve the base address, and track bounds separately.
+- Resizing allocates, copies, releases, transfers ownership, and updates length; higher-level code usually uses `vector`.
+
+<!-- Slide 61 -->

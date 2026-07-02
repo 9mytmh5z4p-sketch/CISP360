@@ -1,0 +1,357 @@
+<!-- Topic 2: Null Pointers -->
+<!-- Slides 26–47 -->
+
+# Null Pointers
+<!-- Slide 26 -->
+
+## What If There Is No Object? {.smaller}
+
+- A search can finish without finding a matching element
+- A pointer needs a deliberate state for “no result”
+
+::: notes
+Slides 26–47
+:::
+
+<!-- Slide 27 -->
+
+---
+
+## A Pointer Needs a Defined State
+
+```{.cpp}
+int value = 42;
+
+int* valid = &value;
+int* empty = nullptr;
+int* unknown;
+```
+
+| Pointer | State |
+|---|---|
+| `valid` | selects a live `int` |
+| `empty` | deliberately selects nothing |
+| `unknown` | indeterminate and unusable |
+
+<!-- Slide 28 -->
+
+---
+
+## `nullptr` Means No Target
+
+```{.cpp}
+int* selected = nullptr;
+
+cout << selected << "\n";
+```
+
+- `nullptr` is the C++ null pointer literal
+- It represents the absence of an object address
+- It is a state to test, not an object to access
+
+<!-- Slide 29 -->
+
+---
+
+## Initialize Optional Pointers
+
+```{.cpp}
+int score = 88;
+bool scoreIsReady = false;
+
+int* selected = nullptr;
+if (scoreIsReady) {
+    selected = &score;
+}
+```
+
+<!-- Slide 30 -->
+
+---
+
+## Test Before Dereferencing
+
+```{.cpp}
+if (selected != nullptr) {
+    cout << *selected << "\n";
+} else {
+    cout << "No score selected\n";
+}
+```
+
+- The test separates the object-present and object-absent paths
+
+<!-- Slide 31 -->
+
+---
+
+## Short-Circuit Evaluation Protects Access
+
+```{.cpp}
+int* ptr = nullptr;
+
+if (ptr != nullptr && *ptr > 0) {
+    cout << "positive\n";
+}
+```
+
+- `&&` stops when its left operand is false
+- `*ptr` is evaluated only when an address is present
+
+<!-- Slide 32 -->
+
+---
+
+## Null Pointers Cannot Be Dereferenced
+
+```{.cpp}
+int* ptr = nullptr;
+
+// No int object exists at the selected location.
+cout << *ptr << "\n";
+```
+
+- Dereferencing a null pointer is undefined behavior
+- A null check must occur before the access
+
+<!-- Slide 33 -->
+
+---
+
+## Returning `nullptr` From Search
+
+```{.cpp}
+int* findValue(int* values, int size, int target) {
+    for (int i = 0; i < size; i++) {
+        if (values[i] == target) {
+            return &values[i];
+        }
+    }
+    return nullptr;
+}
+```
+
+<!-- Slide 34 -->
+
+---
+
+## The Caller Handles Both Outcomes
+
+```{.cpp}
+int values[5] = {12, 18, 25, 31, 44};
+int* found = findValue(values, 5, 25);
+
+if (found != nullptr) {
+    cout << "value: " << *found << "\n";
+    cout << "index: " << found - values << "\n";
+} else {
+    cout << "not found\n";
+}
+```
+
+<!-- Slide 35 -->
+
+---
+
+## Nullable Function Parameters
+
+```{.cpp}
+void recordScore(int score, int* latest) {
+    cout << "score: " << score << "\n";
+    if (latest != nullptr) {
+        *latest = score;
+    }
+}
+```
+
+- A pointer parameter can state that an object is optional
+
+<!-- Slide 36 -->
+
+---
+
+## Required Parameters Should Not Be Nullable
+
+```{.cpp}
+void addBonus(int& score) {
+    score += 5;
+}
+
+void addBonusIfPresent(int* score) {
+    if (score != nullptr) {
+        *score += 5;
+    }
+}
+```
+
+- Use a reference when the function requires an object
+- Use a pointer when absence is part of the contract
+
+<!-- Slide 37 -->
+
+---
+
+## Optional Output Parameters
+
+```{.cpp}
+void analyze(const int* values, int size,
+             int* minimum, int* maximum) {
+    if (minimum != nullptr) *minimum = values[0];
+    if (maximum != nullptr) *maximum = values[0];
+
+    for (int i = 1; i < size; i++) {
+        if (minimum != nullptr && values[i] < *minimum)
+            *minimum = values[i];
+        if (maximum != nullptr && values[i] > *maximum)
+            *maximum = values[i];
+    }
+}
+```
+
+<!-- Slide 38 -->
+
+---
+
+## `nullptr` Is Type-Safe
+
+```{.cpp}
+int* first = nullptr;
+double* second = nullptr;
+
+int* legacyA = 0;
+int* legacyB = NULL;
+```
+
+- Prefer `nullptr` in modern C++
+- It represents a null pointer without also acting as an integer literal
+
+<!-- Slide 39 -->
+
+---
+
+## Overloads Reveal the Difference
+
+```{.cpp}
+void inspect(int value);
+void inspect(int* ptr);
+
+inspect(0);       // calls inspect(int)
+inspect(nullptr); // calls inspect(int*)
+```
+
+- `nullptr` communicates pointer intent to the compiler
+
+<!-- Slide 40 -->
+
+---
+
+## Resetting Records No Target
+
+```{.cpp}
+int score = 88;
+int* selected = &score;
+
+cout << *selected << "\n";
+selected = nullptr;
+```
+
+- Resetting the pointer records that it no longer selects an object
+- It does not destroy `score`
+
+<!-- Slide 41 -->
+
+---
+
+## One Null Assignment Does Not Fix Aliases
+
+```{.cpp}
+int value = 42;
+int* first = &value;
+int* second = first;
+
+first = nullptr;
+
+cout << *second << "\n";
+```
+
+- Each pointer stores its own copy of the address
+- Changing one pointer does not change another
+
+<!-- Slide 42 -->
+
+---
+
+## Null Is Only One Safety Check
+
+| Question | What it establishes |
+|---|---|
+| `ptr != nullptr` | an address is present |
+| Is the target alive? | its lifetime has not ended |
+| Is the position in range? | dereferencing selects an element |
+
+- A non-null pointer is not automatically valid
+
+<!-- Slide 43 -->
+
+---
+
+## Pointers Convert to Boolean Conditions
+
+```{.cpp}
+if (ptr) {
+    cout << *ptr << "\n";
+}
+
+if (!ptr) {
+    cout << "No object\n";
+}
+```
+
+- `if (ptr)` means `if (ptr != nullptr)`
+- Use the style consistently within a program
+
+<!-- Slide 44 -->
+
+---
+
+## Guard the Arrow Operator Too
+
+```{.cpp}
+struct Student {
+    string name;
+    int score;
+};
+
+Student* selected = nullptr;
+if (selected != nullptr) {
+    cout << selected->name << " " << selected->score;
+}
+```
+
+- `selected->score` accesses a member through the pointer
+
+<!-- Slide 45 -->
+
+---
+
+## Deleting `nullptr` Does Nothing
+
+```{.cpp}
+int* ptr = nullptr;
+
+delete ptr;
+```
+
+- C++ permits deleting a null pointer
+- Dynamic allocation and ownership arrive next lecture
+
+<!-- Slide 46 -->
+
+---
+
+## Null Pointer Summary
+
+- Initialize optional pointers with `nullptr` and test before every indirect access
+- Use nullable pointers only when “no object” is a meaningful part of the interface
+
+<!-- Slide 47 -->

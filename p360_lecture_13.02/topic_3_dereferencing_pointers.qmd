@@ -1,0 +1,233 @@
+<!-- Topic 3: Dereferencing Pointers -->
+<!-- Slides 28–42 -->
+
+# Dereferencing Pointers
+<!-- Slide 28 -->
+
+## How Do We Follow an Address? {.smaller}
+
+- A pointer stores where an object lives
+- Dereferencing accesses the object at that location
+
+::: notes
+Slides 28–42
+:::
+
+<!-- Slide 29 -->
+
+---
+
+## The Dereference Operator
+
+```{.cpp}
+int score = 88;
+int* ptr = &score;
+
+cout << *ptr << "\n";
+```
+
+- `*ptr` means the object located at the address in `ptr`
+
+<!-- Slide 30 -->
+
+---
+
+## Reading Through a Pointer
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int score = 88;
+    int* ptr = &score;
+    cout << score << "\n";
+    cout << *ptr << "\n";
+    return 0;
+}
+```
+
+<!-- Slide 31 -->
+
+---
+
+## Indirect Access Is Not a Copy
+
+```{.cpp}
+int score = 88;
+int* ptr = &score;
+
+*ptr = 95;
+
+cout << score << "\n"; // 95
+cout << *ptr << "\n";  // 95
+```
+
+<!-- Slide 32 -->
+
+---
+
+## Writing Through a Pointer
+
+```{.cpp}
+int balance = 100;
+int* balancePtr = &balance;
+
+*balancePtr += 25;
+cout << balance << "\n"; // 125
+
+balance -= 10;
+cout << *balancePtr << "\n"; // 115
+```
+
+<!-- Slide 33 -->
+
+---
+
+## One Object, Multiple Access Paths
+
+```{.cpp}
+int value = 10;
+int& alias = value;
+int* ptr = &value;
+
+alias = 20;
+*ptr += 5;
+
+cout << value << " " << alias
+     << " " << *ptr << "\n";
+```
+
+<!-- Slide 34 -->
+
+---
+
+## Operators Depend on Context
+
+```{.cpp}
+int product = 6 * 7; // multiplication
+int value = 42;
+int* ptr = &value;   // pointer declaration
+cout << *ptr;        // dereference
+```
+
+- Read the surrounding expression before interpreting `*`
+
+<!-- Slide 35 -->
+
+---
+
+## Dereferenced Values Behave Normally
+
+```{.cpp}
+int value = 8;
+int* ptr = &value;
+
+*ptr += 2;
+(*ptr)++;
+
+if (*ptr > 10) {
+    cout << *ptr << "\n";
+}
+```
+
+<!-- Slide 36 -->
+
+---
+
+## Input Through a Pointer
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int age = 0;
+    int* destination = &age;
+    cout << "Age: ";
+    cin >> *destination;
+    cout << age << "\n";
+    return 0;
+}
+```
+
+<!-- Slide 37 -->
+
+---
+
+## Selecting Data at Runtime
+
+```{.cpp}
+int regularPrice = 40;
+int salePrice = 28;
+bool saleIsActive = true;
+
+int* price = &regularPrice;
+if (saleIsActive) {
+    price = &salePrice;
+}
+
+cout << "Price: $" << *price << "\n";
+```
+
+<!-- Slide 38 -->
+
+---
+
+## A Pointer Can Change the Selected Object
+
+```{.cpp}
+int first = 5;
+int second = 10;
+int* target = &first;
+
+*target *= 2;
+target = &second;
+*target *= 2;
+
+cout << first << " " << second << "\n";
+```
+
+<!-- Slide 39 -->
+
+---
+
+## Tracing Indirect Assignment
+
+```{.cpp}
+int points = 12;
+int* ptr = &points;
+*ptr += 5;
+```
+
+1. Read the address stored in `ptr`
+2. Follow it to `points`
+3. Read `12`, add `5`, and store `17`
+
+<!-- Slide 40 -->
+
+---
+
+## Dereference Only a Valid Pointer
+
+```{.cpp}
+int* ptr = nullptr;
+
+if (ptr != nullptr) {
+    cout << *ptr << "\n";
+} else {
+    cout << "No object selected\n";
+}
+```
+
+<!-- Slide 41 -->
+
+---
+
+## Dereferencing Unlocks Indirect Access
+
+- Reading `*ptr` reads the selected object
+- Assigning to `*ptr` changes that same object
+- Reseating the pointer changes which object the code selects
+
+<!-- Slide 42 -->

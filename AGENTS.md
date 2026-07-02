@@ -6,9 +6,12 @@ Tell Codex: **"Build lecture p360_lecture_XX.YY"**
 
 Codex will:
 1. Read `lessons.csv` and `inventory.csv` from this folder (`p360 Lectures/`)
-2. Read `assets/topics.md` from the working lecture subfolder
-3. Check the working subfolder for any PDF files of prior slides — if found, use them to match voice, phrasing, and slide structure; if not, rely on `lessons.csv` and flag the absence
-4. Proceed with topic ordering, topic-by-topic slide proposals, and generation only after instructor approval
+2. Use the topics supplied by the instructor in the build request
+3. Read `planning_notes.md` from the working lecture subfolder if it exists
+4. Check the working subfolder for any PDF files of prior slides — if found, use them to match voice, phrasing, and slide structure; if not, rely on `lessons.csv` and flag the absence
+5. Proceed with topic ordering, topic-by-topic slide proposals, and generation only after instructor approval
+
+**Deprecated planning files:** All `topics.md` files are deprecated and are no longer used. Do not read, create, update, or rely on them during lecture planning or generation.
 
 **Scope:** Read `lessons.csv` from the parent folder. Read and write `inventory.csv` in the parent folder for topic tracking. Read and write only within the specified working subfolder otherwise. Do not touch any other folder.
 
@@ -28,8 +31,6 @@ p360_lecture_XX.YY/
   topic_1_keyword.qmd       ← one file per topic, flat alongside main
   topic_2_keyword.qmd
   ...
-  assets/
-    topics.md               ← topic planning table (input, provided by instructor)
   images/                   ← images referenced in slides
   cpp/                      ← standalone .cpp example files
   render_only.sh / .command
@@ -55,7 +56,7 @@ Shared project files at `p360 Lectures/` root — do not copy or modify per-lect
 
 ## Topic Ordering
 
-1. Read `assets/topics.md`. Suggest an ordering and briefly explain the rationale.
+1. Use the topics supplied by the instructor. Suggest an ordering and briefly explain the rationale.
 2. Flag any topics that are missing, should be split, or overlap with prior lectures (check `inventory.csv`).
 3. Wait for instructor approval before generating anything.
 
@@ -110,7 +111,7 @@ All running code examples use the following style:
 - In a two-column slide with code only in the left column, reduce the code font size by 50% from the normal code size.
 - Do **not** put programming exercises or common mistakes in the main slide content
 - If you have a best practices slide, title it **"Common Practices"**
-- Let content dictate slide count — don't pad, don't compress. Use `emphasis` and `time_budget` from `topics.md` to calibrate depth.
+- Let content dictate slide count — don't pad and don't compress. Use any emphasis or time guidance supplied directly by the instructor to calibrate depth.
 
 **Last Time slide (stitched file):**
 - List only the bold topic names — no explanatory text after the em-dash.
@@ -155,36 +156,6 @@ The appendix lives in the **stitched lecture file**, not in individual topic fil
 - Practice Problems
 - AI Search Terms
 - Questions for Reflection
-
----
-
-## topics.md Template
-
-Place in `assets/topics.md` within the working subfolder. The instructor fills this in before starting a build session.
-
-```markdown
----
-# Topics — p360_lecture_XX.YY
----
-
-| Topic | Emphasis | Time Budget | Optional | Prerequisites | Tone Flag | Note |
-|-------|----------|-------------|----------|---------------|-----------|------|
-| Topic Name | high | 10 | no | | | |
-
----
-
-## Field Guide
-
-| Field | Notes |
-|-------|-------|
-| **Topic** | Name of the topic to cover |
-| **Emphasis** | Leave blank for standard depth. Note extra depth if needed, e.g. "students struggle with this" |
-| **Time Budget** | Rough target in minutes, e.g. "10 min". Leave blank to let content dictate |
-| **Optional** | yes = cut if running short. Leave blank = required |
-| **Prerequisites** | Topic or lecture number students need first. Leave blank if none |
-| **Tone Flag** | Framing notes, e.g. "students find this intimidating — be encouraging" |
-| **Note** | Notes to myself regarding this topic |
-```
 
 ---
 

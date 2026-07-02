@@ -1,170 +1,195 @@
 # Last Time
 
 ::: {.incremental}
-+ **The Address Operator**
-+ **Pointer Variables**
-+ **Array-Pointer Relationship**
-+ **Pointer Arithmetic**
++ **Why Pointers?**
++ **Addresses and Pointer Variables**
++ **Dereferencing Pointers**
++ **Arrays and Pointers**
++ **Pointer Arithmetic and Comparison**
++ **Pointer Safety**
++ **Choosing Direct Access, References, or Pointers**
 :::
 
 ::: notes
-13.01 recap. Address operator: & returns address, cout prints hex, &arr[0] == arr. Pointer variables: int* declaration, & to assign, * to dereference, modifying through pointer. Array-pointer relationship: array name decays to pointer, arr[i] == *(arr+i). Pointer arithmetic: ptr+1 steps one element forward, traversal with sentinel.
+Recall that a pointer stores a typed address, dereferencing accesses its target, and array expressions often produce a pointer to the first element. This lecture concentrates on what decay discards and how programs represent an absent target safely.
 :::
 
----
+<!-- Slide 1 -->
 
 # Today's Agenda
 
-- Pointers as Function Parameters
-- Pointers to Constants and Constant Pointers
-- Returning Pointers from Functions
-- Smart Pointers
-- Memory Inspection with C++
+- Array Decay
+- Null Pointers
 
 ::: notes
-
+The lecture moves from the array-to-pointer conversion and its lost extent to deliberate no-object states and nullable interfaces.
 :::
 
-{{< include topic_1_pointer_parameters.qmd >}}
-{{< include topic_2_const_pointers.qmd >}}
-{{< include topic_3_returning_pointers.qmd >}}
-{{< include topic_5_smart_pointers.qmd >}}
-{{< include topic_6_memory_inspection.qmd >}}
+<!-- Slide 2 -->
+
+{{< include topic_1_array_decay.qmd >}}
+{{< include topic_2_null_pointers.qmd >}}
 
 ---
 
 # Key Takeaways
 
-- A pointer parameter gives a function access to the caller's variable — dereference to read or write
-- `const int*` protects data; `int* const` locks the address — position of `const` relative to `*` determines which
-- Never return the address of a local variable — it is destroyed when the function exits
-- Smart pointers (`unique_ptr`, `shared_ptr`) release memory automatically — prefer them over raw `new`/`delete`
-- `reinterpret_cast<const unsigned char*>` lets you walk any variable's raw bytes — endianness and type sizes become visible
+- Array decay produces a pointer to the first element and discards the array extent
+- Raw array interfaces must carry bounds through a size, an end pointer, or a stronger type
+- `nullptr` represents a deliberate no-object state and must be tested before indirect access
+- A non-null pointer may still be invalid when its target is out of range or no longer alive
+
+<!-- Slide 48 -->
 
 ---
 
 # Next Time
 
+- Heap and stack storage
+- Dynamic allocation with `new` and `delete`
+- Pointer errors, memory leaks, and dangling pointers
+- Smart pointers and ownership
+
+<!-- Slide 49 -->
+
 ---
 
 # Appendix
 
----
-
-## Pointers as Function Parameters: Good Practices
+<!-- Slide 50 -->
 
 ---
 
-## Pointers as Function Parameters: Common Mistakes
+## Array Decay: Good Practices
+
+- Pair every raw array pointer with an explicit size or end pointer
+- Use `const` for read-only access and prefer containers when their interfaces fit
+- Keep pointer and bounds arguments adjacent in function declarations
+
+<!-- Slide 51 -->
 
 ---
 
-## Pointers as Function Parameters: More Examples
+## Array Decay: Common Mistakes
+
+- Expecting brackets in a function parameter to preserve the array size
+- Using `sizeof` on an array parameter to count caller elements
+- Passing a pointer with a size that exceeds the actual range
+
+<!-- Slide 52 -->
 
 ---
 
-## Pointers as Function Parameters: Practice Problems
+## Array Decay: More Examples
+
+```{.cpp}
+double average(const int* begin, const int* end) {
+    int total = 0;
+    int count = 0;
+    for (const int* ptr = begin; ptr != end; ptr++) {
+        total += *ptr;
+        count++;
+    }
+    return count == 0 ? 0.0 : static_cast<double>(total) / count;
+}
+```
+
+<!-- Slide 53 -->
 
 ---
 
-## Pointers as Function Parameters: AI Search Terms
+## Array Decay: Practice Problems
+
+1. Write a function that receives a C-style array and its logical size, then returns its largest value.
+2. Rewrite that function to receive begin and end pointers.
+3. Explain why the function cannot recover the caller's array extent from the pointer alone.
+
+<!-- Slide 54 -->
 
 ---
 
-## Pointers as Function Parameters: Questions for Reflection
+## Array Decay: AI Search Terms
+
+- C++ array-to-pointer conversion
+- C++ array parameter decay
+- C++ pointer and size interface
+- C++ reference to array preserve size
+- C++ multidimensional array decay
+
+<!-- Slide 55 -->
 
 ---
 
-## Pointers to Constants and Constant Pointers: Good Practices
+## Array Decay: Questions for Reflection
+
+- Which parts of an array's type survive decay?
+- When is pointer-plus-size clearer than begin-and-end pointers?
+- What guarantee does a container reference preserve that a raw pointer cannot?
+
+<!-- Slide 56 -->
 
 ---
 
-## Pointers to Constants and Constant Pointers: Common Mistakes
+## Null Pointers: Good Practices
+
+- Initialize every optional pointer with a valid address or `nullptr`
+- Test nullable pointers before `*ptr` and `ptr->member`
+- Prefer references when a function requires an object
+
+<!-- Slide 57 -->
 
 ---
 
-## Pointers to Constants and Constant Pointers: More Examples
+## Null Pointers: Common Mistakes
+
+- Treating an uninitialized pointer as though it were null
+- Assuming non-null automatically means live and in bounds
+- Resetting one alias and assuming every copied pointer also changed
+
+<!-- Slide 58 -->
 
 ---
 
-## Pointers to Constants and Constant Pointers: Practice Problems
+## Null Pointers: More Examples
+
+```{.cpp}
+const int* chooseLarger(const int* first, const int* second) {
+    if (first == nullptr) return second;
+    if (second == nullptr) return first;
+    return *first >= *second ? first : second;
+}
+```
+
+<!-- Slide 59 -->
 
 ---
 
-## Pointers to Constants and Constant Pointers: AI Search Terms
+## Null Pointers: Practice Problems
+
+1. Write a search function that returns `nullptr` when a value is absent.
+2. Call the function and print either the matching index or `not found`.
+3. Redesign a required pointer parameter as a reference parameter.
+
+<!-- Slide 60 -->
 
 ---
 
-## Pointers to Constants and Constant Pointers: Questions for Reflection
+## Null Pointers: AI Search Terms
+
+- C++ nullptr type-safe null pointer
+- C++ nullable pointer parameter
+- C++ pointer Boolean conversion
+- C++ nullptr overload resolution
+- C++ null pointer versus dangling pointer
+
+<!-- Slide 61 -->
 
 ---
 
-## Returning Pointers from Functions: Good Practices
+## Null Pointers: Questions for Reflection
 
----
+- When should absence be represented by `nullptr`?
+- Why does a null check establish less than full pointer validity?
+- How does a nullable pointer change a function's contract for its caller?
 
-## Returning Pointers from Functions: Common Mistakes
-
----
-
-## Returning Pointers from Functions: More Examples
-
----
-
-## Returning Pointers from Functions: Practice Problems
-
----
-
-## Returning Pointers from Functions: AI Search Terms
-
----
-
-## Returning Pointers from Functions: Questions for Reflection
-
----
-
-## Smart Pointers: Good Practices
-
----
-
-## Smart Pointers: Common Mistakes
-
----
-
-## Smart Pointers: More Examples
-
----
-
-## Smart Pointers: Practice Problems
-
----
-
-## Smart Pointers: AI Search Terms
-
----
-
-## Smart Pointers: Questions for Reflection
-
----
-
-## Memory Inspection with C++: Good Practices
-
----
-
-## Memory Inspection with C++: Common Mistakes
-
----
-
-## Memory Inspection with C++: More Examples
-
----
-
-## Memory Inspection with C++: Practice Problems
-
----
-
-## Memory Inspection with C++: AI Search Terms
-
----
-
-## Memory Inspection with C++: Questions for Reflection
+<!-- Slide 62 -->

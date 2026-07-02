@@ -1,246 +1,490 @@
 # Last Time
 
 ::: {.incremental}
-+ **Two-Dimensional Arrays**
-+ **Lab — Array-Backed Stack**
-+ **C-Strings**
++ **Multidimensional Arrays**
++ **C-Style Arrays and C-Strings**
++ **`std::array`**
 :::
 
 ::: notes
-12.02 recap. 2D arrays: type name[rows][cols], nested-loop traversal (outer on rows), row-major storage. Stack lab: five-function API (push/pop/peek/isFull/isEmpty), top index sentinel (-1). C-strings: char array + null terminator, strlen/strcpy/strcmp/strcat, contrast with std::string.
+Recall contiguous array storage, fixed-size C-style arrays, C-strings, and the modern std::array interface. Pointers explain the address-level behavior already observed in those structures.
 :::
 
----
+<!-- Slide 1 -->
 
 # Today's Agenda
 
-- Closer Look — Arrays & Memory
-- The Address Operator
-- Pointer Variables
-- Array-Pointer Relationship
-- Pointer Arithmetic
-- Initializing Pointers
-- Comparing Pointers
-- VLAs & G++
+- Why Pointers?
+- Addresses and Pointer Variables
+- Dereferencing Pointers
+- Arrays and Pointers
+- Pointer Arithmetic and Comparison
+- Pointer Safety
+- Choosing Direct Access, References, or Pointers
 
 ::: notes
-
+The lecture moves from motivation and the symbol table to syntax, array traversal, safety, and a practical choice framework.
 :::
 
-{{< include topic_1_arrays_memory.qmd >}}
-{{< include topic_2_address_operator.qmd >}}
-{{< include topic_3_pointer_variables.qmd >}}
-{{< include topic_4_array_pointer.qmd >}}
+<!-- Slide 2 -->
+
+{{< include topic_1_why_pointers.qmd >}}
+{{< include topic_2_pointer_variables.qmd >}}
+{{< include topic_3_dereferencing_pointers.qmd >}}
+{{< include topic_4_arrays_pointers.qmd >}}
 {{< include topic_5_pointer_arithmetic.qmd >}}
-{{< include topic_6_initializing_pointers.qmd >}}
-{{< include topic_7_comparing_pointers.qmd >}}
-{{< include topic_8_vlas_gpp.qmd >}}
+{{< include topic_6_pointer_safety.qmd >}}
+{{< include topic_7_choosing_access.qmd >}}
 
 ---
 
 # Key Takeaways
 
-- Every variable has an address; `&` gets it; a pointer variable stores it; `*` follows it
-- An array name decays to a pointer to its first element — `arr[i]` and `*(arr + i)` are identical
-- Pointer arithmetic scales by element size — `ptr + 1` steps one element forward, not one byte
-- Always initialize pointers to `nullptr` or a valid address; never dereference an uninitialized pointer
+- A pointer stores a typed address and dereferencing accesses the object there
+- Pointers add runtime selection, indirect modification, and traversal of contiguous data
+- C-style array indexing is built on pointer arithmetic
+- Valid use requires an initialized pointer, a live target, and a position inside its permitted range
+- Prefer direct access, references, and containers when address-level capability is unnecessary
+
+<!-- Slide 121 -->
 
 ---
 
 # Next Time
 
+- Pointers as function parameters
+- Returning pointers safely
+- Pointer constness and smart pointers
+
+<!-- Slide 122 -->
+
 ---
 
 # Appendix
 
----
-
-## Closer Look — Arrays & Memory: Good Practices
+<!-- Slide 123 -->
 
 ---
 
-## Closer Look — Arrays & Memory: Common Mistakes
+## Why Pointers?: Good Practices
+
+- Begin with the object and state why its address must become data
+- Use meaningful pointer names such as `selected`, `begin`, and `current`
+
+<!-- Slide 124 -->
 
 ---
 
-## Closer Look — Arrays & Memory: More Examples
+## Why Pointers?: Common Mistakes
+
+- Treating an address as though it were the stored object
+- Adding indirection when direct access already expresses the intent
+
+<!-- Slide 125 -->
 
 ---
 
-## Closer Look — Arrays & Memory: Practice Problems
+## Why Pointers?: More Examples
+
+- Select one of several counters at runtime
+- Retain the beginning of a chosen array subrange
+
+<!-- Slide 126 -->
 
 ---
 
-## Closer Look — Arrays & Memory: AI Search Terms
+## Why Pointers?: Practice Problems
+
+1. Draw the chain from a variable name to its stored value.
+2. Identify a case where runtime selection avoids duplicated code.
+
+<!-- Slide 127 -->
 
 ---
 
-## Closer Look — Arrays & Memory: Questions for Reflection
+## Why Pointers?: AI Search Terms
+
+- C++ pointer indirection memory model
+- C++ symbol table variable address
+- C++ runtime object selection pointer
+
+<!-- Slide 128 -->
 
 ---
 
-## The Address Operator: Good Practices
+## Why Pointers?: Questions for Reflection
+
+- What capability does an address provide beyond a name?
+- When would that capability not justify its added complexity?
+
+<!-- Slide 129 -->
 
 ---
 
-## The Address Operator: Common Mistakes
+## Addresses and Pointer Variables: Good Practices
+
+- Initialize pointers immediately with a valid address or `nullptr`
+- Declare one pointer per statement
+
+<!-- Slide 130 -->
 
 ---
 
-## The Address Operator: More Examples
+## Addresses and Pointer Variables: Common Mistakes
+
+```{.cpp}
+int* first, second;
+```
+
+- Only `first` is a pointer; `second` is an `int`
+- Prefer separate declarations that make each type obvious
+
+<!-- Slide 131 -->
 
 ---
 
-## The Address Operator: Practice Problems
+## Addresses and Pointer Variables: More Examples
+
+```{.cpp}
+string name = "Ada";
+string* namePtr = &name;
+
+bool ready = true;
+bool* readyPtr = &ready;
+```
+
+<!-- Slide 132 -->
 
 ---
 
-## The Address Operator: AI Search Terms
+## Addresses and Pointer Variables: Practice Problems
+
+1. Declare a pointer for a `double` named `rate`.
+2. Print the address of a `char` named `grade`.
+
+<!-- Slide 133 -->
 
 ---
 
-## The Address Operator: Questions for Reflection
+## Addresses and Pointer Variables: AI Search Terms
+
+- C++ address operator
+- C++ pointer declaration type matching
+- C++ nullptr initialization
+
+<!-- Slide 134 -->
 
 ---
 
-## Pointer Variables: Good Practices
+## Addresses and Pointer Variables: Questions for Reflection
+
+- Why is the pointed-to type part of a pointer's type?
+- How is `&` different in a reference declaration and an expression?
+
+<!-- Slide 135 -->
 
 ---
 
-## Pointer Variables: Common Mistakes
+## Dereferencing Pointers: Good Practices
+
+- Read `*ptr` as “the object selected by ptr”
+- Parenthesize `(*ptr)++` when incrementing the selected value
+
+<!-- Slide 136 -->
 
 ---
 
-## Pointer Variables: More Examples
+## Dereferencing Pointers: Common Mistakes
+
+```{.cpp}
+*ptr++;   // advances ptr after dereferencing
+(*ptr)++; // increments the selected value
+```
+
+- Operator precedence changes the meaning
+
+<!-- Slide 137 -->
 
 ---
 
-## Pointer Variables: Practice Problems
+## Dereferencing Pointers: More Examples
+
+```{.cpp}
+double amount = 50.0;
+double* selected = &amount;
+
+*selected *= 1.10;
+cout << amount << "\n";
+```
+
+<!-- Slide 138 -->
 
 ---
 
-## Pointer Variables: AI Search Terms
+## Dereferencing Pointers: Practice Problems
+
+1. Predict the final value after two assignments through a pointer.
+2. Rewrite a direct increment as an indirect increment.
+
+<!-- Slide 139 -->
 
 ---
 
-## Pointer Variables: Questions for Reflection
+## Dereferencing Pointers: AI Search Terms
+
+- C++ dereference operator lvalue
+- C++ pointer aliasing same object
+- C++ pointer operator precedence
+
+<!-- Slide 140 -->
 
 ---
 
-## Array-Pointer Relationship: Good Practices
+## Dereferencing Pointers: Questions for Reflection
+
+- Why does writing through a pointer change the original variable?
+- What must be true before `*ptr` is evaluated?
+
+<!-- Slide 141 -->
 
 ---
 
-## Array-Pointer Relationship: Common Mistakes
+## Arrays and Pointers: Good Practices
+
+- Keep an explicit size or end position with a raw array pointer
+- Prefer subscript syntax when it states the algorithm more clearly
+
+<!-- Slide 142 -->
 
 ---
 
-## Array-Pointer Relationship: More Examples
+## Arrays and Pointers: Common Mistakes
+
+- Saying an array is a pointer instead of saying it usually converts to one
+- Using `sizeof(ptr)` to calculate the number of array elements
+
+<!-- Slide 143 -->
 
 ---
 
-## Array-Pointer Relationship: Practice Problems
+## Arrays and Pointers: More Examples
+
+```{.cpp}
+char word[] = "array";
+char* ptr = word;
+
+while (*ptr != '\0') {
+    cout << *ptr;
+    ptr++;
+}
+```
+
+<!-- Slide 144 -->
 
 ---
 
-## Array-Pointer Relationship: AI Search Terms
+## Arrays and Pointers: Practice Problems
+
+1. Print an array using `*(values + index)`.
+2. Double only the final three elements through a subrange pointer.
+
+<!-- Slide 145 -->
 
 ---
 
-## Array-Pointer Relationship: Questions for Reflection
+## Arrays and Pointers: AI Search Terms
+
+- C++ array to pointer conversion
+- C++ pointer subscript equivalence
+- C++ array pointer sizeof difference
+
+<!-- Slide 146 -->
 
 ---
 
-## Pointer Arithmetic: Good Practices
+## Arrays and Pointers: Questions for Reflection
+
+- Which operations prove that an array and pointer are not identical?
+- How does an address plus a length describe a subrange?
+
+<!-- Slide 147 -->
 
 ---
 
-## Pointer Arithmetic: Common Mistakes
+## Pointer Arithmetic and Comparison: Good Practices
+
+- Use half-open ranges with an included beginning and excluded end
+- Compare or subtract positions only within one array
+
+<!-- Slide 148 -->
 
 ---
 
-## Pointer Arithmetic: More Examples
+## Pointer Arithmetic and Comparison: Common Mistakes
+
+- Dereferencing the one-past-the-end sentinel
+- Assuming `ptr + 1` always adds one byte
+
+<!-- Slide 149 -->
 
 ---
 
-## Pointer Arithmetic: Practice Problems
+## Pointer Arithmetic and Comparison: More Examples
+
+```{.cpp}
+int values[5] = {4, 8, 12, 16, 20};
+int* begin = &values[1];
+int* end = &values[4];
+
+cout << end - begin << "\n"; // 3
+```
+
+<!-- Slide 150 -->
 
 ---
 
-## Pointer Arithmetic: AI Search Terms
+## Pointer Arithmetic and Comparison: Practice Problems
+
+1. Traverse an array backward with a pointer.
+2. Find the index represented by a pointer into an array.
+
+<!-- Slide 151 -->
 
 ---
 
-## Pointer Arithmetic: Questions for Reflection
+## Pointer Arithmetic and Comparison: AI Search Terms
+
+- C++ pointer arithmetic element size
+- C++ one past end pointer
+- C++ half open pointer range
+
+<!-- Slide 152 -->
 
 ---
 
-## Initializing Pointers: Good Practices
+## Pointer Arithmetic and Comparison: Questions for Reflection
+
+- Why does pointer subtraction report elements instead of bytes?
+- What makes comparisons meaningful within one array?
+
+<!-- Slide 153 -->
 
 ---
 
-## Initializing Pointers: Common Mistakes
+## Pointer Safety: Good Practices
+
+- Track initialization, nullability, lifetime, and bounds together
+- Reacquire element addresses after a container may reallocate
+
+<!-- Slide 154 -->
 
 ---
 
-## Initializing Pointers: More Examples
+## Pointer Safety: Common Mistakes
+
+- Assuming non-null means valid
+- Assuming a dangling pointer automatically becomes `nullptr`
+
+<!-- Slide 155 -->
 
 ---
 
-## Initializing Pointers: Practice Problems
+## Pointer Safety: More Examples
+
+```{.cpp}
+int value = 42;
+int* ptr = &value;
+
+if (ptr != nullptr) {
+    cout << *ptr << "\n";
+}
+```
+
+<!-- Slide 156 -->
 
 ---
 
-## Initializing Pointers: AI Search Terms
+## Pointer Safety: Practice Problems
+
+1. Classify pointers as valid, null, end-sentinel, or dangling.
+2. Add bounds to a pointer traversal loop.
+
+<!-- Slide 157 -->
 
 ---
 
-## Initializing Pointers: Questions for Reflection
+## Pointer Safety: AI Search Terms
+
+- C++ dangling pointer lifetime
+- C++ vector pointer invalidation
+- C++ null pointer versus invalid pointer
+
+<!-- Slide 158 -->
 
 ---
 
-## Comparing Pointers: Good Practices
+## Pointer Safety: Questions for Reflection
+
+- Why can an address remain visible after its object is gone?
+- Which part of the program owns the lifetime contract?
+
+<!-- Slide 159 -->
 
 ---
 
-## Comparing Pointers: Common Mistakes
+## Choosing Access: Good Practices
+
+- Begin with direct access and move to references or pointers only when their contract helps
+- Prefer containers and range-based loops for ordinary collection work
+
+<!-- Slide 160 -->
 
 ---
 
-## Comparing Pointers: More Examples
+## Choosing Access: Common Mistakes
+
+- Treating pointers as automatically faster or more advanced
+- Using a pointer where absence and reseating are forbidden by the design
+
+<!-- Slide 161 -->
 
 ---
 
-## Comparing Pointers: Practice Problems
+## Choosing Access: More Examples
+
+| Need | Preferred form |
+|---|---|
+| Known local object | direct access |
+| Required alias | reference |
+| Optional or changing target | pointer |
+| Numeric collection position | index |
+
+<!-- Slide 162 -->
 
 ---
 
-## Comparing Pointers: AI Search Terms
+## Choosing Access: Practice Problems
+
+1. Choose an access form for three short design scenarios.
+2. Rewrite unnecessary pointer code with direct access.
+
+<!-- Slide 163 -->
 
 ---
 
-## Comparing Pointers: Questions for Reflection
+## Choosing Access: AI Search Terms
+
+- C++ pointer versus reference
+- C++ raw pointer non owning view
+- C++ index versus pointer traversal
+
+<!-- Slide 164 -->
 
 ---
 
-## VLAs & G++: Good Practices
+## Choosing Access: Questions for Reflection
 
----
+- What value does a pointer add in this specific design?
+- Which higher-level tool could express the same intent more safely?
 
-## VLAs & G++: Common Mistakes
-
----
-
-## VLAs & G++: More Examples
-
----
-
-## VLAs & G++: Practice Problems
-
----
-
-## VLAs & G++: AI Search Terms
-
----
-
-## VLAs & G++: Questions for Reflection
+<!-- Slide 165 -->

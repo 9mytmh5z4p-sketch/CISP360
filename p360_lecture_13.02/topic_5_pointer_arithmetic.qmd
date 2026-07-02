@@ -1,61 +1,275 @@
-<!-- Topic 5: Pointer Arithmetic -->
-<!-- Total slides: 4 -->
+<!-- Topic 5: Pointer Arithmetic and Comparison -->
+<!-- Slides 61–78 -->
 
-# Pointer Arithmetic
+# Pointer Arithmetic and Comparison
+<!-- Slide 61 -->
 
----
+## How Does a Pointer Walk Through Data? {.smaller}
 
-## What happens when you add 1 to a pointer? {.smaller}
-
-- Adding 1 to a pointer advances it by one element — not one byte
-- The step size is `sizeof` the pointed-to type
+- Pointer arithmetic moves between elements of one array
+- The pointed-to type determines each step
 
 ::: notes
-Total slides: 4
+Slides 61–78
 :::
 
-<!-- Slide 1 -->
+<!-- Slide 62 -->
 
 ---
 
-## Arithmetic scales by element size
+## One Step Means One Element
 
 ```{.cpp}
-int scores[5] = {91, 78, 84, 95, 62};
-int* ptr = scores;           // points to scores[0]
+int values[3] = {10, 20, 30};
+int* ptr = values;
 
-cout << *ptr       << "\n";  // 91
-cout << *(ptr + 1) << "\n";  // 78
-cout << *(ptr + 2) << "\n";  // 84
+cout << ptr << "\n";
+cout << ptr + 1 << "\n";
+cout << sizeof(*ptr) << "\n";
 ```
 
-- `ptr + 1` adds `sizeof(int)` bytes (4) to the address — it points to the next int
-- `ptr + n` points to the element `n` positions forward
+- `ptr + 1` advances by one `int`, not one byte
 
-<!-- Slide 2 -->
+<!-- Slide 63 -->
 
 ---
 
-## Traversal with a pointer
+## Different Types Take Different Steps
 
 ```{.cpp}
-int scores[5] = {91, 78, 84, 95, 62};
+char letters[2] = {'A', 'B'};
+int counts[2] = {10, 20};
+double rates[2] = {1.5, 2.5};
 
-for (int* ptr = scores; ptr < scores + 5; ptr++) {
+cout << static_cast<void*>(letters) << " "
+     << static_cast<void*>(letters + 1) << "\n";
+cout << counts << " " << counts + 1 << "\n";
+cout << rates << " " << rates + 1 << "\n";
+```
+
+<!-- Slide 64 -->
+
+---
+
+## Adding an Offset
+
+```{.cpp}
+int values[5] = {10, 20, 30, 40, 50};
+int* ptr = values;
+
+cout << *(ptr + 0) << "\n";
+cout << *(ptr + 2) << "\n";
+cout << *(ptr + 4) << "\n";
+```
+
+<!-- Slide 65 -->
+
+---
+
+## Moving Several Elements
+
+```{.cpp}
+int values[5] = {10, 20, 30, 40, 50};
+int* ptr = values;
+
+ptr += 3;
+cout << *ptr << "\n"; // 40
+
+ptr -= 2;
+cout << *ptr << "\n"; // 20
+```
+
+<!-- Slide 66 -->
+
+---
+
+## Incrementing a Pointer
+
+```{.cpp}
+int values[4] = {12, 18, 25, 31};
+
+for (int* ptr = values; ptr != values + 4; ptr++) {
     cout << *ptr << "\n";
 }
 ```
 
-- `ptr++` moves to the next element each iteration
-- `scores + 5` points one past the end — a valid sentinel address but never dereferenced
-
-<!-- Slide 3 -->
+<!-- Slide 67 -->
 
 ---
 
-## Summary
+## Moving Backward
 
-- Pointer arithmetic scales by element size — `ptr + 1` steps forward one element, not one byte
-- A pointer can traverse an array the same way an index does; `ptr++` is equivalent to `i++` in an index loop
+```{.cpp}
+int values[4] = {12, 18, 25, 31};
+int* ptr = &values[3];
 
-<!-- Slide 4 -->
+for (int count = 0; count < 4; count++) {
+    cout << *ptr << "\n";
+    ptr--;
+}
+```
+
+<!-- Slide 68 -->
+
+---
+
+## The One-Past-the-End Address
+
+```{.cpp}
+int values[4] = {12, 18, 25, 31};
+int* begin = values;
+int* end = values + 4;
+
+cout << begin << "\n";
+cout << end << "\n";
+```
+
+- `end` is valid for comparison
+- No array element exists at `end`
+
+<!-- Slide 69 -->
+
+---
+
+## Begin and End Define a Range
+
+`[begin, end)`
+
+- `begin` identifies the first included element
+- `end` identifies the first excluded position
+- An empty range has `begin == end`
+
+<!-- Slide 70 -->
+
+---
+
+## Traverse With Pointer Sentinels
+
+```{.cpp}
+int values[4] = {12, 18, 25, 31};
+int* begin = values;
+int* end = values + 4;
+
+for (int* current = begin; current != end; current++) {
+    cout << *current << "\n";
+}
+```
+
+<!-- Slide 71 -->
+
+---
+
+## Compare Positions Within One Array
+
+```{.cpp}
+int values[5] = {};
+int* first = &values[1];
+int* second = &values[3];
+
+cout << (first == second) << "\n";
+cout << (first < second) << "\n";
+cout << (second > first) << "\n";
+```
+
+<!-- Slide 72 -->
+
+---
+
+## Subtract Pointers to Measure Distance
+
+```{.cpp}
+int values[8] = {};
+int* first = &values[2];
+int* last = &values[7];
+
+cout << last - first << "\n"; // 5 elements
+```
+
+- The result counts elements, not bytes
+
+<!-- Slide 73 -->
+
+---
+
+## Search With Pointers
+
+```{.cpp}
+int values[5] = {12, 18, 25, 31, 44};
+int target = 25;
+int* found = nullptr;
+
+for (int* ptr = values; ptr != values + 5; ptr++) {
+    if (*ptr == target) {
+        found = ptr;
+        break;
+    }
+}
+```
+
+<!-- Slide 74 -->
+
+---
+
+## Search Results Preserve Position
+
+```{.cpp}
+if (found != nullptr) {
+    cout << "value: " << *found << "\n";
+    cout << "index: " << found - values << "\n";
+} else {
+    cout << "not found\n";
+}
+```
+
+<!-- Slide 75 -->
+
+---
+
+## Process a Subrange
+
+```{.cpp}
+int values[6] = {5, 10, 15, 20, 25, 30};
+int* begin = &values[1];
+int* end = &values[5];
+int total = 0;
+
+for (int* ptr = begin; ptr != end; ptr++) {
+    total += *ptr;
+}
+cout << total << "\n"; // 70
+```
+
+<!-- Slide 76 -->
+
+---
+
+## Index Loops and Pointer Loops Express the Same Walk
+
+::: {.columns}
+::: {.column width="50%"}
+```{.cpp}
+for (int i = 0; i < 5; i++) {
+    cout << values[i] << "\n";
+}
+```
+:::
+::: {.column width="50%"}
+```{.cpp}
+for (int* p = values; p != values + 5; p++) {
+    cout << *p << "\n";
+}
+```
+:::
+:::
+
+<!-- Slide 77 -->
+
+---
+
+## Pointer Arithmetic Builds Ranges
+
+- Arithmetic scales by the pointed-to type
+- Begin and end pointers describe a half-open range
+- Arithmetic, ordering, and subtraction belong within one array
+
+<!-- Slide 78 -->

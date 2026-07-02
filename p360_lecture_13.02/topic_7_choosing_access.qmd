@@ -1,0 +1,346 @@
+<!-- Topic 7: Choosing Direct Access, References, or Pointers -->
+<!-- Slides 98–120 -->
+
+# Choosing Direct Access, References, or Pointers
+<!-- Slide 98 -->
+
+## Do We Need a Pointer Here? {.smaller}
+
+- Use the simplest access model that expresses the program's contract
+- Choose a pointer only when address-level capability adds value
+
+::: notes
+Slides 98–120
+:::
+
+<!-- Slide 99 -->
+
+---
+
+## Direct Access Is the Simplest Choice
+
+```{.cpp}
+double price = 40.0;
+price *= 0.80;
+cout << price << "\n";
+```
+
+- Use the variable name when the code already knows the object
+
+<!-- Slide 100 -->
+
+---
+
+## References Express a Required Alias
+
+```{.cpp}
+double price = 40.0;
+double& selected = price;
+
+selected *= 0.80;
+cout << price << "\n";
+```
+
+- A reference must bind to an object and cannot be reseated
+
+<!-- Slide 101 -->
+
+---
+
+## Pointers Express Optional or Changeable Access
+
+```{.cpp}
+double price = 40.0;
+double* selected = nullptr;
+
+selected = &price;
+if (selected != nullptr) {
+    *selected *= 0.80;
+}
+```
+
+<!-- Slide 102 -->
+
+---
+
+## The Same Problem With Direct Access
+
+```{.cpp}
+double regularPrice = 40.0;
+double salePrice = 28.0;
+bool discountSalePrice = true;
+
+if (discountSalePrice) {
+    salePrice *= 0.80;
+} else {
+    regularPrice *= 0.80;
+}
+```
+
+<!-- Slide 103 -->
+
+---
+
+## The Same Problem With a Reference
+
+```{.cpp}
+double regularPrice = 40.0;
+double salePrice = 28.0;
+bool discountSalePrice = true;
+
+double& selected = discountSalePrice
+    ? salePrice
+    : regularPrice;
+
+selected *= 0.80;
+```
+
+- The target is required and selected once
+
+<!-- Slide 104 -->
+
+---
+
+## The Same Problem With a Pointer
+
+```{.cpp}
+double regularPrice = 40.0;
+double salePrice = 28.0;
+bool discountSalePrice = true;
+
+double* selected = &regularPrice;
+if (discountSalePrice) selected = &salePrice;
+
+*selected *= 0.80;
+```
+
+- The target can be changed later or represented as absent
+
+<!-- Slide 105 -->
+
+---
+
+## Choose at Runtime
+
+```{.cpp}
+int morningTotal = 120;
+int eveningTotal = 95;
+char shift = 'E';
+
+int* activeTotal = &morningTotal;
+if (shift == 'E') activeTotal = &eveningTotal;
+
+*activeTotal += 10;
+```
+
+<!-- Slide 106 -->
+
+---
+
+## Represent No Selection
+
+```{.cpp}
+int first = 10;
+int second = 20;
+int* selected = nullptr;
+
+int choice = 2;
+if (choice == 1) selected = &first;
+if (choice == 2) selected = &second;
+
+if (selected != nullptr) cout << *selected;
+```
+
+<!-- Slide 107 -->
+
+---
+
+## Walk Through Contiguous Data
+
+```{.cpp}
+int values[4] = {5, 10, 15, 20};
+
+for (int* ptr = values; ptr != values + 4; ptr++) {
+    *ptr += 1;
+}
+```
+
+- References do not support this reseatable traversal model
+
+<!-- Slide 108 -->
+
+---
+
+## Describe a Subrange Without Copying
+
+```{.cpp}
+int values[6] = {5, 10, 15, 20, 25, 30};
+int* begin = &values[2];
+int* end = &values[5];
+
+for (int* ptr = begin; ptr != end; ptr++) {
+    cout << *ptr << "\n";
+}
+```
+
+<!-- Slide 109 -->
+
+---
+
+## Choose an Index When Position Matters
+
+```{.cpp}
+int values[5] = {8, 3, 9, 4, 7};
+int largestIndex = 0;
+
+for (int i = 1; i < 5; i++) {
+    if (values[i] > values[largestIndex]) {
+        largestIndex = i;
+    }
+}
+```
+
+- An index directly communicates a numeric position
+
+<!-- Slide 110 -->
+
+---
+
+## Pointers Do Not Automatically Mean Ownership
+
+```{.cpp}
+int score = 88;
+int* observer = &score;
+```
+
+- `score` owns its storage
+- `observer` provides another access path
+- Dynamic-memory ownership arrives in a later lecture
+
+<!-- Slide 111 -->
+
+---
+
+## Capability Has a Cost
+
+| Pointer capability | Required reasoning |
+|---|---|
+| May be absent | null state |
+| May be reseated | current target |
+| May traverse | valid bounds |
+| May outlive a target | lifetime |
+
+<!-- Slide 112 -->
+
+---
+
+## Pointers Are Not Automatically Faster
+
+::: {.columns}
+::: {.column width="50%"}
+```{.cpp}
+for (int i = 0; i < 5; i++) {
+    total += values[i];
+}
+```
+:::
+::: {.column width="50%"}
+```{.cpp}
+for (int* p = values; p != values + 5; p++) {
+    total += *p;
+}
+```
+:::
+:::
+
+- Choose the form that communicates the algorithm clearly
+
+<!-- Slide 113 -->
+
+---
+
+## Prefer the Highest-Level Tool That Fits
+
+- Use `vector` when the size changes at runtime
+- Use `std::array` for modern fixed-size storage
+- Use range-based loops when every element receives the same treatment
+- Use raw pointers when the address itself is part of the problem
+
+<!-- Slide 114 -->
+
+---
+
+## Pointers Connect to Lower-Level Interfaces
+
+```{.cpp}
+array<int, 4> fixed = {1, 2, 3, 4};
+vector<int> growing = {5, 6, 7, 8};
+char word[] = "pointer";
+
+int* fixedData = fixed.data();
+int* vectorData = growing.data();
+char* textData = word;
+```
+
+<!-- Slide 115 -->
+
+---
+
+## One Object, Three Access Forms
+
+```{.cpp}
+int value = 10;
+int& alias = value;
+int* pointer = &value;
+
+value++;
+alias++;
+(*pointer)++;
+
+cout << value << "\n"; // 13
+```
+
+<!-- Slide 116 -->
+
+---
+
+## The Interface Should Reveal the Contract
+
+| Access form | Target required? | Reseatable? | Arithmetic? |
+|---|---:|---:|---:|
+| Direct variable | Yes | No | No |
+| Reference | Yes | No | No |
+| Pointer | No | Yes | For array positions |
+
+<!-- Slide 117 -->
+
+---
+
+## A Practical Decision Framework
+
+1. Already know the object? Use direct access.
+2. Need a required alias? Use a reference.
+3. Need absence, reseating, or array-position movement? Consider a pointer.
+4. Prefer a container or range-based loop when it states the intent more clearly.
+
+<!-- Slide 118 -->
+
+---
+
+## What Pointers Add
+
+- Runtime selection of an object
+- Indirect reading and modification
+- Traversal and subranges over contiguous data
+- A bridge to lower-level interfaces and future dynamic memory
+
+<!-- Slide 119 -->
+
+---
+
+## Pointers Make Addresses Programmable
+
+- The value is not the pointer; its location is
+- Use that extra level only when the program benefits from it
+
+<!-- Slide 120 -->

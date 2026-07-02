@@ -1,0 +1,158 @@
+<!-- Topic 1: Why Pointers? -->
+<!-- Slides 3–13 -->
+
+# Why Pointers?
+<!-- Slide 3 -->
+
+## What Can an Address Do? {.smaller}
+
+- A variable gives a value a name
+- A pointer makes the value's location usable data
+
+::: notes
+Slides 3–13
+:::
+
+<!-- Slide 4 -->
+
+---
+
+## The Symbol Table Remembers Addresses
+
+| Name | Type | Scope | Address |
+|---|---|---|---|
+| `score` | `int` | `main` | `0x16F...A4` |
+| `average` | `double` | `main` | `0x16F...98` |
+
+- The symbol table connects a source-code name to information about its storage
+- The displayed addresses are conceptual; compilation and execution determine the actual locations
+
+<!-- Slide 5 -->
+
+---
+
+## Names Lead to Memory
+
+```{.cpp}
+int score = 88;
+```
+
+`score` → symbol-table entry → address → `88`
+
+::: notes
+[Graphic suggestion: draw the four-stage chain with an arrow from the symbol-table address to a memory cell containing 88.]
+:::
+
+<!-- Slide 6 -->
+
+---
+
+## Ordinary Access Starts With a Name
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int score = 88;
+    cout << score << "\n";
+    score = 95;
+    cout << score << "\n";
+    return 0;
+}
+```
+
+<!-- Slide 7 -->
+
+---
+
+## Pointers Preserve the Address
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int main() {
+    int score = 88;
+    int* ptr = &score;
+
+    cout << ptr << "\n";
+    cout << *ptr << "\n";
+    return 0;
+}
+```
+
+<!-- Slide 8 -->
+
+---
+
+## Two Paths to the Same Variable
+
+```{.cpp}
+int score = 88;
+int* ptr = &score;
+
+score = 90;
+cout << *ptr << "\n";  // 90
+
+*ptr = 95;
+cout << score << "\n"; // 95
+```
+
+<!-- Slide 9 -->
+
+---
+
+## Names Are Fixed; Pointers Can Choose
+
+```{.cpp}
+int regularPrice = 40;
+int salePrice = 28;
+bool saleIsActive = true;
+
+int* selected = &regularPrice;
+if (saleIsActive) {
+    selected = &salePrice;
+}
+
+cout << *selected << "\n";
+```
+
+<!-- Slide 10 -->
+
+---
+
+## Addresses Can Cross Boundaries
+
+```{.cpp}
+int values[4] = {12, 18, 25, 31};
+int* beginning = &values[0];
+int* third = &values[2];
+```
+
+- An address can be stored for later access
+- The same address can describe an array position or cross a function boundary
+
+<!-- Slide 11 -->
+
+---
+
+## Why Add Indirection?
+
+- Select an object while the program runs
+- Modify an existing object through another access path
+- Traverse contiguous data without copying it
+- Prepare for interfaces and memory whose location is known only at runtime
+
+<!-- Slide 12 -->
+
+---
+
+## Pointers Extend the Memory Model
+
+`name` → `address` → `pointer` → `object`
+
+- A pointer does not replace the object
+- It makes the object's location programmable
+
+<!-- Slide 13 -->

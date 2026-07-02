@@ -1,0 +1,274 @@
+<!-- Topic 4: Arrays and Pointers -->
+<!-- Slides 43–60 -->
+
+# Arrays and Pointers
+<!-- Slide 43 -->
+
+## Have We Already Used Pointers? {.smaller}
+
+- C-style arrays already expose address-based behavior
+- Pointers explain why familiar array syntax works
+
+::: notes
+Slides 43–60
+:::
+
+<!-- Slide 44 -->
+
+---
+
+## Array Elements Occupy Contiguous Memory
+
+```{.cpp}
+int values[4] = {12, 18, 25, 31};
+```
+
+| Element | `values[0]` | `values[1]` | `values[2]` | `values[3]` |
+|---|---:|---:|---:|---:|
+| Value | 12 | 18 | 25 | 31 |
+| Offset | 0 | 1 | 2 | 3 |
+
+<!-- Slide 45 -->
+
+---
+
+## Every Element Has an Address
+
+```{.cpp}
+int values[4] = {12, 18, 25, 31};
+
+for (int index = 0; index < 4; index++) {
+    cout << values[index] << " at "
+         << &values[index] << "\n";
+}
+```
+
+<!-- Slide 46 -->
+
+---
+
+## An Array Name Identifies Its First Element
+
+```{.cpp}
+int values[4] = {12, 18, 25, 31};
+
+cout << values << "\n";
+cout << &values[0] << "\n";
+```
+
+- In most expressions, the array name converts to a pointer to its first element
+
+<!-- Slide 47 -->
+
+---
+
+## Store the First Element's Address
+
+```{.cpp}
+int values[4] = {12, 18, 25, 31};
+int* ptr = values;
+
+cout << ptr << "\n";
+cout << *ptr << "\n"; // 12
+```
+
+<!-- Slide 48 -->
+
+---
+
+## Indexing Is Indirect Access
+
+```{.cpp}
+cout << values[0] << "\n";
+cout << *values << "\n";
+```
+
+`values[0] == *(values + 0)`
+
+<!-- Slide 49 -->
+
+---
+
+## Indexes Translate Into Address Offsets
+
+```{.cpp}
+for (int index = 0; index < 4; index++) {
+    cout << values[index] << " "
+         << *(values + index) << "\n";
+}
+```
+
+`values[index] == *(values + index)`
+
+<!-- Slide 50 -->
+
+---
+
+## Pointers Can Use Subscripts
+
+```{.cpp}
+int* ptr = values;
+
+cout << values[2] << "\n";
+cout << ptr[2] << "\n";
+cout << *(ptr + 2) << "\n";
+```
+
+<!-- Slide 51 -->
+
+---
+
+## Two Ways to Read an Array
+
+::: {.columns}
+::: {.column width="50%"}
+```{.cpp}
+for (int i = 0; i < 4; i++) {
+    cout << values[i] << "\n";
+}
+```
+:::
+::: {.column width="50%"}
+```{.cpp}
+for (int i = 0; i < 4; i++) {
+    cout << *(values + i) << "\n";
+}
+```
+:::
+:::
+
+<!-- Slide 52 -->
+
+---
+
+## Two Ways to Modify an Array
+
+```{.cpp}
+int values[4] = {12, 18, 25, 31};
+
+for (int index = 0; index < 4; index++) {
+    *(values + index) *= 2;
+}
+
+for (int value : values) {
+    cout << value << " ";
+}
+```
+
+<!-- Slide 53 -->
+
+---
+
+## Start in the Middle
+
+```{.cpp}
+int values[5] = {10, 20, 30, 40, 50};
+int* ptr = &values[2];
+
+for (int offset = 0; offset < 3; offset++) {
+    cout << ptr[offset] << "\n";
+}
+```
+
+<!-- Slide 54 -->
+
+---
+
+## The Pointer Can Walk; the Array Name Cannot
+
+```{.cpp}
+int values[3] = {7, 8, 9};
+int* ptr = values;
+
+ptr++;
+cout << *ptr << "\n"; // 8
+
+// values++; // compiler error
+```
+
+<!-- Slide 55 -->
+
+---
+
+## Arrays Become Pointers at Function Boundaries
+
+```{.cpp}
+void display(const int values[], int size);
+void display(const int* values, int size);
+```
+
+- For a parameter, these declarations describe the same interface
+- The function receives the first-element address, not the whole array object
+
+<!-- Slide 56 -->
+
+---
+
+## The Function Still Needs the Size
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int sum(const int values[], int size);
+
+int main() {
+    int values[4] = {2, 4, 6, 8};
+    cout << sum(values, 4) << "\n";
+    return 0;
+}
+
+int sum(const int values[], int size) {
+    int total = 0;
+    for (int i = 0; i < size; i++) total += values[i];
+    return total;
+}
+```
+
+<!-- Slide 57 -->
+
+---
+
+## No Copy Required
+
+```{.cpp}
+int values[6] = {5, 10, 15, 20, 25, 30};
+int* beginning = &values[2];
+int length = 3;
+int total = 0;
+
+for (int i = 0; i < length; i++) {
+    total += beginning[i];
+}
+
+cout << total << "\n"; // 60
+```
+
+<!-- Slide 58 -->
+
+---
+
+## An Array and a Pointer Are Related, Not Identical
+
+```{.cpp}
+int values[5] = {};
+int* ptr = values;
+
+cout << sizeof(values) << "\n";
+cout << sizeof(ptr) << "\n";
+```
+
+- The array owns storage for five integers
+- The pointer stores one address and can be reseated
+
+<!-- Slide 59 -->
+
+---
+
+## Pointers Explain Familiar Array Behavior
+
+- Array names usually convert to first-element pointers
+- Subscripting performs indirect access with an offset
+- An address plus a length can describe any contiguous subrange
+
+<!-- Slide 60 -->

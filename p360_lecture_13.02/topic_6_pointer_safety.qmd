@@ -1,0 +1,271 @@
+<!-- Topic 6: Pointer Safety -->
+<!-- Slides 79–97 -->
+
+# Pointer Safety
+<!-- Slide 79 -->
+
+## When Is a Pointer Safe to Use? {.smaller}
+
+- The pointer is initialized
+- Its target is alive and its position is in range
+
+::: notes
+Slides 79–97
+:::
+
+<!-- Slide 80 -->
+
+---
+
+## A Pointer Has Three Useful States
+
+```{.cpp}
+int value = 42;
+int values[3] = {1, 2, 3};
+
+int* valid = &value;
+int* empty = nullptr;
+int* end = values + 3;
+```
+
+- Valid addresses may be dereferenced
+- Null and end-sentinel states must not be dereferenced
+
+<!-- Slide 81 -->
+
+---
+
+## Initialize Every Pointer
+
+```{.cpp}
+int score = 88;
+
+int* selected = &score;
+int* waiting = nullptr;
+```
+
+- Initialization gives the pointer a state that the program can reason about
+
+<!-- Slide 82 -->
+
+---
+
+## Uninitialized Is Not Empty
+
+```{.cpp}
+int* unknown;           // indeterminate value
+int* empty = nullptr;   // deliberate no-object state
+```
+
+- Do not read or dereference an uninitialized pointer
+- Use `nullptr` when no valid target exists yet
+
+<!-- Slide 83 -->
+
+---
+
+## Check Before Dereferencing
+
+```{.cpp}
+int score = 88;
+int* ptr = &score;
+
+if (ptr != nullptr) {
+    cout << *ptr << "\n";
+} else {
+    cout << "No score selected\n";
+}
+```
+
+<!-- Slide 84 -->
+
+---
+
+## `nullptr` Means No Object
+
+- `nullptr` is an intentional absence of an address
+- It can be assigned, compared, and returned by later interfaces
+- It cannot be dereferenced
+
+<!-- Slide 85 -->
+
+---
+
+## Validity Depends on Lifetime
+
+```{.cpp}
+int* ptr = nullptr;
+
+{
+    int temporary = 42;
+    ptr = &temporary;
+    cout << *ptr << "\n";
+}
+
+// temporary no longer exists here
+```
+
+<!-- Slide 86 -->
+
+---
+
+## Addresses Can Outlive Their Objects
+
+```{.cpp}
+int* ptr = nullptr;
+
+{
+    int temporary = 42;
+    ptr = &temporary;
+    cout << ptr << "\n";
+}
+
+cout << ptr << "\n"; // old address remains
+```
+
+- The address value may remain even though the object is gone
+
+<!-- Slide 87 -->
+
+---
+
+## Dangling Pointers Do Not Reset Themselves
+
+```{.cpp}
+int* ptr = nullptr;
+{
+    int temporary = 42;
+    ptr = &temporary;
+}
+
+ptr = nullptr; // explicitly record no valid target
+```
+
+<!-- Slide 88 -->
+
+---
+
+## Non-Null Does Not Mean Valid
+
+| Check | What it establishes |
+|---|---|
+| `ptr != nullptr` | an address is present |
+| target is alive | the object still exists |
+| `begin <= ptr && ptr < end` | the position is dereferenceable |
+
+- Pointer validity is a contract, not one Boolean test
+
+<!-- Slide 89 -->
+
+---
+
+## A Dangling Pointer Still Looks Like an Address
+
+```{.cpp}
+cout << ptr << "\n";
+```
+
+- Printing an address cannot prove that its target exists
+- Only the program's ownership, scope, and lifetime logic can establish validity
+
+<!-- Slide 90 -->
+
+---
+
+## Array Pointers Need Bounds
+
+```{.cpp}
+int values[4] = {2, 4, 6, 8};
+int* begin = values;
+int* end = values + 4;
+
+for (int* ptr = begin; ptr != end; ptr++) {
+    cout << *ptr << "\n";
+}
+```
+
+<!-- Slide 91 -->
+
+---
+
+## One Past the End Is for Comparison Only
+
+```{.cpp}
+int values[4] = {2, 4, 6, 8};
+int* end = values + 4;
+
+if (end == values + 4) {
+    cout << "range boundary\n";
+}
+
+// cout << *end; // no element exists here
+```
+
+<!-- Slide 92 -->
+
+---
+
+## Container Changes Can Invalidate Addresses
+
+```{.cpp}
+vector<int> values = {10, 20, 30};
+int* before = values.data();
+
+values.push_back(40);
+int* after = values.data();
+
+cout << before << "\n";
+cout << after << "\n";
+```
+
+- Growth may relocate a vector's elements
+
+<!-- Slide 93 -->
+
+---
+
+## Reacquire Addresses After Vector Growth
+
+```{.cpp}
+vector<int> values = {10, 20, 30};
+
+values.push_back(40);
+int* begin = values.data();
+int* end = begin + values.size();
+
+for (int* ptr = begin; ptr != end; ptr++) {
+    cout << *ptr << "\n";
+}
+```
+
+<!-- Slide 94 -->
+
+---
+
+## Keep the Owner Alive
+
+- A pointer provides access; it does not extend an object's lifetime
+- Local variables live until their scope ends
+- Array and container elements live only while their owner and storage remain valid
+
+<!-- Slide 95 -->
+
+---
+
+## Use a Pointer Only When Its Contract Holds
+
+1. The pointer was initialized
+2. The pointer is not `nullptr`
+3. The target still exists
+4. The address identifies an element inside the permitted range
+
+<!-- Slide 96 -->
+
+---
+
+## Pointer Safety Is a Reasoning Discipline
+
+- Track state, lifetime, and bounds together
+- A visible address is not evidence of a valid target
+
+<!-- Slide 97 -->
