@@ -71,10 +71,45 @@ After the instructor approves the topic order, propose slides **one topic at a t
 For each topic:
 1. Provide a sentence description of the topic's purpose and teaching angle.
 2. List the proposed slides for that topic in order, using short slide titles and one sentence describing what each slide will cover.
-3. Wait for instructor feedback or approval before moving to the next topic.
-4. Revise the proposal if requested and wait again.
+3. Identify pedagogical-marker slides directly in the proposal by adding `[Marker: Name]` after the slide title. If one slide serves multiple marker functions, list each one. Do not label ordinary content slides.
+4. Include the topic's planning markers in the proposal and explain whether each one becomes a slide, is incorporated into another slide, or does not warrant slide space.
+5. Wait for instructor feedback or approval before moving to the next topic.
+6. Revise the proposal if requested and wait again.
 
 Do not generate topic files, stitched lecture files, appendix slides, inventory updates, or rendered output until the instructor has approved the slide proposal for every topic.
+
+## Pedagogical Markers
+
+Pedagogical markers are instructional functions that help students organize, understand, apply, and retain a topic. They are planning labels, not text that must appear visibly on the rendered slide. Use only the markers that genuinely serve the topic; do not force every topic into the same sequence or create a separate slide for every marker.
+
+1. **Value Added** — Explain how the topic improves the student's ability to design or write programs.
+2. **Connect** — Link the topic to knowledge students already possess.
+3. **Define** — State the topic's essential meaning and vocabulary.
+4. **Enumerate** — List the topic's major components, forms, or operations without commentary so students can see the complete territory before examining its parts.
+5. **Anatomy** — Label the parts of representative syntax, a diagram, or a process.
+6. **Model** — Provide a mental or visual representation of how the topic works.
+7. **Predict** — Ask students to anticipate an effect, state change, or output before revealing it.
+8. **Trace** — Follow program state or execution through a sequence.
+9. **Invariant** — Identify a condition that must remain true throughout an operation.
+10. **Boundary** — Establish valid limits and examine behavior at their edges.
+11. **Before/After** — Compare program state immediately before and after an operation.
+12. **Contrast** — Distinguish the topic from a similar or easily confused concept.
+13. **Demonstrate** — Show the concept operating in a focused example.
+14. **Compose** — Combine individual components into a complete program or algorithm.
+15. **Decision Point** — Explain when to use the topic and when another approach is preferable.
+16. **Transfer** — Apply the same idea in a meaningfully different programming situation.
+17. **Summarize** — Close the topic with its two or three essential ideas in no more than two or three sentences.
+
+Use **Summarize** sparingly. The required final summary slide normally satisfies this marker. Do not add interim recap or summary slides unless the instructor requests them or the topic has an unusually long sequence whose complexity clearly justifies one. Repeated summaries slow the lecture and should not become a default rhythm.
+
+### Planning Markers
+
+Planning markers shape the proposal but do not automatically require their own slides.
+
+18. **Prerequisite Check** — Identify the knowledge students need before the topic and determine whether it needs a brief review, can be assumed, or reveals a prerequisite gap that must be raised with the instructor.
+19. **Progression Map** — Show where the topic sits in the larger learning sequence and how it prepares students for what follows.
+
+For every initial topic slide proposal, explicitly report the **Prerequisite Check** and **Progression Map** decisions. Also identify every proposed slide that serves one or more of markers 1–17. Marker labels may be removed when generating the `.qmd`; their purpose is to make the instructional design visible during proposal and approval.
 
 ---
 
