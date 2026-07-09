@@ -206,72 +206,19 @@ Dr.&nbsp;Caleb Fowler
 </div>
 
 </section>
-<section>
 <section id="last-time" class="title-slide slide level1 center">
 <h1>Last Time</h1>
 <ul>
-<li class="fragment"><strong>Arrays as Function Arguments</strong></li>
-<li class="fragment"><strong>Bubble Sort</strong></li>
-<li class="fragment"><strong>Processing Array Contents</strong></li>
+<li class="fragment"><strong>Introduction to Arrays</strong></li>
+<li class="fragment"><strong>Array Initialization</strong></li>
+<li class="fragment"><strong>Indexing Array Elements</strong></li>
+<li class="fragment"><strong>Traversing Arrays</strong></li>
+<li class="fragment"><strong>Inputting and Displaying Array Data</strong></li>
+<li class="fragment"><strong>Arrays vs.&nbsp;Vectors</strong></li>
+<li class="fragment"><strong>Performance — Arrays vs.&nbsp;Vectors</strong></li>
 </ul>
 <aside class="notes">
-<p>Week 11 second lecture. Students passed arrays to functions (decay, size parameter), sorted with bubble sort, and computed sums/min/max. This lecture introduces std::array, the three-type comparison, multi-dimensional arrays, and the stack lab.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
-</section></section>
-<section id="todays-agenda" class="title-slide slide level1 center">
-<h1>Today’s Agenda</h1>
-<ul>
-<li><code>std::array</code></li>
-<li>Comparing all three types</li>
-<li>Passing to functions</li>
-<li>Parallel arrays</li>
-<li>Two-dimensional arrays</li>
-<li>Three or more dimensions <em>(optional)</em></li>
-<li>Lab — array-backed stack</li>
-</ul>
-<aside class="notes">
-
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Topic 1: std::array -->
-<!-- Total slides: 5 -->
-</section>
-
-<section>
-<section id="stdarray" class="title-slide slide level1 center">
-<h1>std::array</h1>
-
-</section>
-<section id="a-fixed-size-array-that-knows-its-own-size" class="slide level2 smaller">
-<h2>A fixed-size array that knows its own size?</h2>
-<ul>
-<li><code>std::array&lt;T, N&gt;</code> wraps a C array with STL features</li>
-<li>Same compile-time fixed size — but <code>.size()</code>, <code>.at()</code>, and no pointer decay</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 5</p>
+<p>Recall fixed-size arrays, valid index ranges, traversal patterns, input and display loops, and the practical tradeoffs between arrays and vectors.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -285,84 +232,320 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 1 -->
 </section>
-<section id="declaration-and-initialization" class="slide level2">
-<h2>Declaration and initialization</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;array&gt;</span></span>
-<span id="cb1-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb1-3"><a href=""></a></span>
-<span id="cb1-4"><a href=""></a>array<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dv">5</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span>  <span class="co">// all 5 values</span></span>
-<span id="cb1-5"><a href=""></a>array<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dv">5</span><span class="op">&gt;</span> zeros  <span class="op">=</span> <span class="op">{};</span>                     <span class="co">// all zeros</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+<section id="todays-agenda" class="title-slide slide level1 center">
+<h1>Today’s Agenda</h1>
 <ul>
-<li>Template parameters: element type first, then size</li>
-<li>Partial initializer list zero-fills the remaining elements, same as C arrays</li>
-<li><code>array&lt;int, 5&gt;</code> and <code>array&lt;int, 10&gt;</code> are different types — size is part of the type</li>
+<li>Arrays with Functions</li>
+<li>Array Algorithms</li>
+<li>Parallel Arrays</li>
 </ul>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <!-- Slide 2 -->
+<!-- Topic 1: Arrays with Functions -->
+<!-- Slides 3–17 -->
 </section>
-<section id="member-functions" class="slide level2">
-<h2>Member functions</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a>array<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dv">5</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb2-2"><a href=""></a></span>
-<span id="cb2-3"><a href=""></a>scores<span class="op">.</span>size<span class="op">();</span>      <span class="co">// 5 — no pointer decay</span></span>
-<span id="cb2-4"><a href=""></a>scores<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">);</span>       <span class="co">// 84 — bounds-checked, throws if out of range</span></span>
-<span id="cb2-5"><a href=""></a>scores<span class="op">[</span><span class="dv">2</span><span class="op">];</span>          <span class="co">// 84 — no bounds check</span></span>
-<span id="cb2-6"><a href=""></a>scores<span class="op">.</span>front<span class="op">();</span>     <span class="co">// 91 — first element</span></span>
-<span id="cb2-7"><a href=""></a>scores<span class="op">.</span>back<span class="op">();</span>      <span class="co">// 62 — last element</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Works with range-for: <code>for (int s : scores)</code></li>
-<li>Compatible with all STL algorithms (<code>sort</code>, <code>find</code>, etc.)</li>
-</ul>
+
+<section>
+<section id="arrays-with-functions" class="title-slide slide level1 center">
+<h1>Arrays with Functions</h1>
 <!-- Slide 3 -->
 </section>
-<section id="passing-to-a-function" class="slide level2">
-<h2>Passing to a function</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;array&gt;</span></span>
-<span id="cb3-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb3-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb3-4"><a href=""></a></span>
-<span id="cb3-5"><a href=""></a><span class="dt">void</span> print<span class="op">(</span><span class="at">const</span> array<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dv">5</span><span class="op">&gt;&amp;</span> arr<span class="op">);</span></span>
-<span id="cb3-6"><a href=""></a></span>
-<span id="cb3-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb3-8"><a href=""></a>    array<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dv">5</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb3-9"><a href=""></a>    print<span class="op">(</span>scores<span class="op">);</span></span>
-<span id="cb3-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-11"><a href=""></a><span class="op">}</span></span>
-<span id="cb3-12"><a href=""></a></span>
-<span id="cb3-13"><a href=""></a><span class="dt">void</span> print<span class="op">(</span><span class="at">const</span> array<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dv">5</span><span class="op">&gt;&amp;</span> arr<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb3-14"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> s <span class="op">:</span> arr<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb3-15"><a href=""></a>        cout <span class="op">&lt;&lt;</span> s <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb3-16"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb3-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="what-crosses-the-function-boundary" class="slide level2 smaller">
+<h2>What Crosses the Function Boundary?</h2>
 <ul>
-<li>No size parameter needed — size is part of the type</li>
-<li><code>const &amp;</code> avoids copying the array</li>
+<li>Pass one element when a function needs one value</li>
+<li>Pass the array when a function needs the collection</li>
 </ul>
+<aside class="notes">
+<p>Slides 3–17</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <!-- Slide 4 -->
+</section>
+<section id="array-parameter-syntax" class="slide level2">
+<h2>Array Parameter Syntax</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="dt">void</span> displayScores<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> scores<span class="op">[],</span> <span class="dt">int</span> size<span class="op">);</span></span>
+<span id="cb1-2"><a href=""></a><span class="dt">void</span> addBonus<span class="op">(</span><span class="dt">int</span> scores<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> bonus<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The brackets mark an array parameter</li>
+<li>The separate <code>size</code> parameter controls traversal</li>
+<li><code>const</code> marks a read-only array contract</li>
+</ul>
+<!-- Slide 5 -->
+</section>
+<section id="the-array-is-not-copied" class="slide level2">
+<h2>The Array Is Not Copied</h2>
+<ul>
+<li>A scalar argument gives the function its own value</li>
+<li>An array argument gives the function access to the caller’s elements</li>
+<li>Writing through the parameter changes the original array</li>
+</ul>
+<aside class="notes">
+<p>[Graphic suggestion: show a caller array with one arrow from the function parameter to the first element. Contrast it with a separate copied scalar value.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 6 -->
+</section>
+<section id="array-decay" class="slide level2">
+<h2>Array Decay</h2>
+<p>When a built-in array crosses a function boundary, it <strong>decays</strong> into a pointer to its first element.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>At the call site</th>
+<th>Inside the function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Complete array</td>
+<td>Address of element <code>0</code></td>
+</tr>
+<tr class="even">
+<td>Element count known from declaration</td>
+<td>Element count unavailable</td>
+</tr>
+<tr class="odd">
+<td><code>sizeof</code> reports all element bytes</td>
+<td><code>sizeof</code> reports pointer bytes</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 7 -->
+</section>
+<section id="where-did-the-size-go" class="slide level2">
+<h2>Where Did the Size Go?</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">void</span> displayScores<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> scores<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb2-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb2-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb2-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>The function can access elements through the address, but the address carries no element count. The caller must provide the logical size.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 8 -->
+</section>
+<section id="sizeof-inside-and-outside-a-function" class="slide level2">
+<h2><code>sizeof</code> Inside and Outside a Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
+<span id="cb3-2"><a href=""></a></span>
+<span id="cb3-3"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="kw">sizeof</span><span class="op">(</span>scores<span class="op">)</span> <span class="op">/</span> <span class="kw">sizeof</span><span class="op">(</span>scores<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb3-4"><a href=""></a>displayScores<span class="op">(</span>scores<span class="op">,</span> count<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The count expression works where <code>scores</code> is declared</li>
+<li>After decay, the parameter is no longer a complete array</li>
+</ul>
+<!-- Slide 9 -->
+</section>
+<section id="does-the-declared-size-matter" class="slide level2">
+<h2>Does the Declared Size Matter?</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">void</span> process<span class="op">(</span><span class="dt">int</span> values<span class="op">[]);</span></span>
+<span id="cb4-2"><a href=""></a><span class="dt">void</span> process<span class="op">(</span><span class="dt">int</span> values<span class="op">[</span><span class="dv">5</span><span class="op">]);</span></span>
+<span id="cb4-3"><a href=""></a><span class="dt">void</span> process<span class="op">(</span><span class="dt">int</span><span class="op">*</span> values<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>5</code> does not enforce the argument’s size. Pass the logical size separately.</p>
+<!-- Slide 10 -->
+</section>
+<section id="read-only-array-parameters" class="slide level2">
+<h2>Read-Only Array Parameters</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span> findMaximum<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> size<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>const</code> prevents assignments to array elements inside the function</li>
+<li>It communicates that the function observes rather than modifies</li>
+<li>Use it for display, aggregation, and search functions</li>
+</ul>
+<!-- Slide 11 -->
+</section>
+<section id="displaying-an-array" class="slide level2">
+<h2>Displaying an Array</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb6-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb6-3"><a href=""></a></span>
+<span id="cb6-4"><a href=""></a><span class="dt">void</span> displayScores<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> scores<span class="op">[],</span> <span class="dt">int</span> size<span class="op">);</span></span>
+<span id="cb6-5"><a href=""></a></span>
+<span id="cb6-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-7"><a href=""></a>    <span class="dt">int</span> scores<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">};</span></span>
+<span id="cb6-8"><a href=""></a>    displayScores<span class="op">(</span>scores<span class="op">,</span> <span class="dv">4</span><span class="op">);</span></span>
+<span id="cb6-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-10"><a href=""></a><span class="op">}</span></span>
+<span id="cb6-11"><a href=""></a></span>
+<span id="cb6-12"><a href=""></a><span class="dt">void</span> displayScores<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> scores<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-13"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb6-14"><a href=""></a>        cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb6-15"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb6-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 12 -->
+</section>
+<section id="modifying-an-array" class="slide level2">
+<h2>Modifying an Array</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">void</span> addBonus<span class="op">(</span><span class="dt">int</span> scores<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> bonus<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>No <code>const</code> means the function may write to elements</li>
+<li>The caller sees every change because the elements were not copied</li>
+<li>The function name should make the mutation clear</li>
+</ul>
+<!-- Slide 13 -->
+</section>
+<section id="updating-every-element" class="slide level2">
+<h2>Updating Every Element</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb8-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb8-3"><a href=""></a></span>
+<span id="cb8-4"><a href=""></a><span class="dt">void</span> addBonus<span class="op">(</span><span class="dt">int</span> scores<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> bonus<span class="op">);</span></span>
+<span id="cb8-5"><a href=""></a></span>
+<span id="cb8-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-7"><a href=""></a>    <span class="dt">int</span> scores<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">70</span><span class="op">,</span> <span class="dv">75</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">85</span><span class="op">};</span></span>
+<span id="cb8-8"><a href=""></a>    addBonus<span class="op">(</span>scores<span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span>
+<span id="cb8-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> scores<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb8-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-11"><a href=""></a><span class="op">}</span></span>
+<span id="cb8-12"><a href=""></a></span>
+<span id="cb8-13"><a href=""></a><span class="dt">void</span> addBonus<span class="op">(</span><span class="dt">int</span> scores<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> bonus<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-14"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb8-15"><a href=""></a>        scores<span class="op">[</span>i<span class="op">]</span> <span class="op">+=</span> bonus<span class="op">;</span></span>
+<span id="cb8-16"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb8-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside class="notes">
+<p>The output is 75 90. Trace one assignment back to the same indexed element in the caller’s array.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 14 -->
+</section>
+<section id="one-element-or-the-whole-array" class="slide level2">
+<h2>One Element or the Whole Array?</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Call</th>
+<th>Function receives</th>
+<th>Typical purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>classify(scores[i])</code></td>
+<td>One copied <code>int</code></td>
+<td>Analyze one score</td>
+</tr>
+<tr class="even">
+<td><code>displayScores(scores, size)</code></td>
+<td>Access to all elements</td>
+<td>Read the collection</td>
+</tr>
+<tr class="odd">
+<td><code>addBonus(scores, size, 5)</code></td>
+<td>Access to all elements</td>
+<td>Modify the collection</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 15 -->
+</section>
+<section id="choosing-the-parameter-contract" class="slide level2">
+<h2>Choosing the Parameter Contract</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Function needs to…</th>
+<th>Parameter style</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Use one value</td>
+<td><code>int value</code></td>
+</tr>
+<tr class="even">
+<td>Read an array</td>
+<td><code>const int values[], int size</code></td>
+</tr>
+<tr class="odd">
+<td>Modify an array</td>
+<td><code>int values[], int size</code></td>
+</tr>
+</tbody>
+</table>
+<p>The prototype should reveal the function’s data movement before anyone reads its body.</p>
+<!-- Slide 16 -->
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li><code>std::array&lt;T, N&gt;</code> gives a fixed-size array <code>.size()</code>, <code>.at()</code>, and range-for support</li>
-<li>Unlike <code>int[]</code>, it does not decay to a pointer when passed to a function</li>
+<li>Built-in arrays decay at the function boundary, so pass the size separately</li>
+<li>Use <code>const</code> for read-only access; omit it only when caller-visible mutation is intentional</li>
 </ul>
-<!-- Slide 5 -->
-<!-- Topic 2: Comparing All Three Types -->
-<!-- Total slides: 4 -->
+<!-- Slide 17 -->
+<!-- Topic 2: Array Algorithms -->
+<!-- Slides 18–37 -->
 </section></section>
 <section>
-<section id="comparing-all-three-types" class="title-slide slide level1 center">
-<h1>Comparing All Three Types</h1>
-
+<section id="array-algorithms" class="title-slide slide level1 center">
+<h1>Array Algorithms</h1>
+<!-- Slide 18 -->
 </section>
-<section id="three-array-types-which-one" class="slide level2 smaller">
-<h2>Three array types — which one?</h2>
+<section id="what-can-one-traversal-discover" class="slide level2 smaller">
+<h2>What Can One Traversal Discover?</h2>
 <ul>
-<li><code>int[]</code> — low-level C array</li>
-<li><code>std::array&lt;T,N&gt;</code> — fixed-size with STL features</li>
-<li><code>vector&lt;T&gt;</code> — dynamic with safety</li>
+<li>A total or average</li>
+<li>A minimum, maximum, or matching position</li>
+<li>A new arrangement of the elements</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 4</p>
+<p>Slides 18–37</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -374,280 +557,356 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 19 -->
 </section>
-<section id="side-by-side-comparison" class="slide level2">
-<h2>Side-by-side comparison</h2>
+<section id="from-loop-pattern-to-algorithm" class="slide level2">
+<h2>From Loop Pattern to Algorithm</h2>
+<p>An <strong>algorithm</strong> is a repeatable sequence of steps that solves a category of problems.</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th></th>
-<th><code>int[]</code></th>
-<th><code>array&lt;T,N&gt;</code></th>
-<th><code>vector&lt;T&gt;</code></th>
+<th>Pattern</th>
+<th>State carried through the loop</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Size</td>
-<td>Fixed, compile-time</td>
-<td>Fixed, compile-time</td>
-<td>Dynamic, runtime</td>
+<td>Aggregate</td>
+<td>Accumulator</td>
 </tr>
 <tr class="even">
-<td>Storage</td>
-<td>Stack</td>
-<td>Stack</td>
-<td>Heap</td>
+<td>Track</td>
+<td>Best value or index so far</td>
 </tr>
 <tr class="odd">
-<td>STL features</td>
-<td>None</td>
-<td>Yes</td>
-<td>Yes</td>
+<td>Search</td>
+<td>Match position or sentinel</td>
 </tr>
 <tr class="even">
-<td>Pointer decay</td>
-<td>Yes</td>
-<td>No</td>
-<td>No</td>
-</tr>
-<tr class="odd">
-<td><code>.size()</code></td>
-<td>No</td>
-<td>Yes</td>
-<td>Yes</td>
+<td>Sort</td>
+<td>Boundary between sorted and unsorted data</td>
 </tr>
 </tbody>
 </table>
-<!-- Slide 2 -->
+<!-- Slide 20 -->
 </section>
-<section id="when-to-use-each" class="slide level2">
-<h2>When to use each</h2>
+<section id="the-traversal-shape" class="slide level2">
+<h2>The Traversal Shape</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href=""></a>    <span class="co">// Process values[i]</span></span>
+<span id="cb9-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Start at index <code>0</code></li>
+<li>Stop before the logical size</li>
+<li>Update algorithm state once per visited element</li>
+</ul>
+<!-- Slide 21 -->
+</section>
+<section id="computing-a-sum" class="slide level2">
+<h2>Computing a Sum</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">int</span> sumArray<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-3"><a href=""></a></span>
+<span id="cb10-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb10-5"><a href=""></a>        total <span class="op">+=</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb10-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb10-7"><a href=""></a></span>
+<span id="cb10-8"><a href=""></a>    <span class="cf">return</span> total<span class="op">;</span></span>
+<span id="cb10-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 22 -->
+</section>
+<section id="computing-an-average" class="slide level2">
+<h2>Computing an Average</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">double</span> averageArray<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> sumArray<span class="op">(</span>values<span class="op">,</span> size<span class="op">);</span></span>
+<span id="cb11-3"><a href=""></a>    <span class="cf">return</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> size<span class="op">;</span></span>
+<span id="cb11-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Reuse the sum algorithm instead of duplicating its loop</li>
+<li>Convert before division to preserve the fractional result</li>
+<li>Require <code>size &gt; 0</code> as part of the function contract</li>
+</ul>
+<!-- Slide 23 -->
+</section>
+<section id="what-if-the-array-is-empty" class="slide level2">
+<h2>What If the Array Is Empty?</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Algorithm</th>
+<th>Empty-array behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sum</td>
+<td>Return <code>0</code></td>
+</tr>
+<tr class="even">
+<td>Search</td>
+<td>Return <code>-1</code></td>
+</tr>
+<tr class="odd">
+<td>Sort</td>
+<td>Do nothing</td>
+</tr>
+<tr class="even">
+<td>Average</td>
+<td>Requires at least one element</td>
+</tr>
+<tr class="odd">
+<td>Minimum or maximum</td>
+<td>Requires at least one element</td>
+</tr>
+</tbody>
+</table>
+<p>Preconditions belong in the function contract.</p>
+<!-- Slide 24 -->
+</section>
+<section id="finding-a-minimum-or-maximum" class="slide level2">
+<h2>Finding a Minimum or Maximum</h2>
+<ul>
+<li>Seed the tracker with <code>values[0]</code></li>
+<li>Begin comparisons at index <code>1</code></li>
+<li>Replace the tracker whenever a better value appears</li>
+</ul>
+<p>Avoid arbitrary seeds such as <code>0</code>; an all-negative array would break a maximum tracker initialized that way.</p>
+<!-- Slide 25 -->
+</section>
+<section id="maximum-function" class="slide level2">
+<h2>Maximum Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">int</span> findMaximum<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-2"><a href=""></a>    <span class="dt">int</span> maximum <span class="op">=</span> values<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb12-3"><a href=""></a></span>
+<span id="cb12-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb12-5"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>values<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> maximum<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-6"><a href=""></a>            maximum <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb12-7"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb12-8"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb12-9"><a href=""></a></span>
+<span id="cb12-10"><a href=""></a>    <span class="cf">return</span> maximum<span class="op">;</span></span>
+<span id="cb12-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 26 -->
+</section>
+<section id="searching-for-a-value" class="slide level2">
+<h2>Searching for a Value</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a>values<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> target</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A match ends the search</li>
+<li>Reaching <code>size</code> means no match exists</li>
+<li>The matching index preserves the value’s location</li>
+</ul>
+<!-- Slide 27 -->
+</section>
+<section id="representing-not-found" class="slide level2">
+<h2>Representing “Not Found”</h2>
+<p>Valid indexes begin at <code>0</code>, so <code>-1</code> can represent no matching position.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span> position <span class="op">=</span> linearSearch<span class="op">(</span>scores<span class="op">,</span> size<span class="op">,</span> target<span class="op">);</span></span>
+<span id="cb14-2"><a href=""></a></span>
+<span id="cb14-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>position <span class="op">==</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Not found</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb14-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 28 -->
+</section>
+<section id="linear-search-function" class="slide level2">
+<h2>Linear Search Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">int</span> linearSearch<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> target<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb15-3"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>values<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> target<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-4"><a href=""></a>            <span class="cf">return</span> i<span class="op">;</span></span>
+<span id="cb15-5"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb15-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb15-7"><a href=""></a></span>
+<span id="cb15-8"><a href=""></a>    <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb15-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 29 -->
+</section>
+<section id="how-much-work-does-search-do" class="slide level2">
+<h2>How Much Work Does Search Do?</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
 <th>Situation</th>
-<th>Choose</th>
+<th style="text-align: right;">Comparisons for <code>N</code> elements</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Size changes at runtime</td>
-<td><code>vector&lt;T&gt;</code></td>
+<td>Target is first</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td>Size fixed, need STL or clean function passing</td>
-<td><code>array&lt;T,N&gt;</code></td>
+<td>Target is near the middle</td>
+<td style="text-align: right;">About <code>N / 2</code></td>
 </tr>
 <tr class="odd">
-<td>C library interop, no overhead, legacy code</td>
-<td><code>int[]</code></td>
+<td>Target is last or absent</td>
+<td style="text-align: right;"><code>N</code></td>
 </tr>
 </tbody>
 </table>
+<p>Linear search grows in direct proportion to the array size: <strong>O(N)</strong>.</p>
+<!-- Slide 30 -->
+</section>
+<section id="sorting-by-neighbor-comparisons" class="slide level2">
+<h2>Sorting by Neighbor Comparisons</h2>
+<p>Bubble sort repeats two actions:</p>
 <ul>
-<li>Default to <code>vector</code> for general work</li>
-<li>Reach for <code>std::array</code> when size is compile-time fixed and you need <code>.size()</code> or no-decay passing</li>
-<li>Use <code>int[]</code> only when interfacing with C APIs or when the environment forbids heap allocation</li>
+<li>Compare adjacent elements</li>
+<li>Swap them when the left value is larger</li>
 </ul>
-<!-- Slide 3 -->
+<p>After one complete pass, the largest unsorted value has moved to the end of the unsorted region.</p>
+<!-- Slide 31 -->
+</section>
+<section id="why-swapping-needs-temporary-storage" class="slide level2">
+<h2>Why Swapping Needs Temporary Storage</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span> temp <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb16-2"><a href=""></a>values<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">];</span></span>
+<span id="cb16-3"><a href=""></a>values<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">]</span> <span class="op">=</span> temp<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The temporary variable preserves the first value before its array position is overwritten.</p>
+<!-- Slide 32 -->
+</section>
+<section id="one-bubble-sort-pass" class="slide level2">
+<h2>One Bubble Sort Pass</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Comparison</th>
+<th>Array state</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Start</td>
+<td><code>5  3  8  1</code></td>
+</tr>
+<tr class="even">
+<td>Compare 5 and 3</td>
+<td><code>3  5  8  1</code></td>
+</tr>
+<tr class="odd">
+<td>Compare 5 and 8</td>
+<td><code>3  5  8  1</code></td>
+</tr>
+<tr class="even">
+<td>Compare 8 and 1</td>
+<td><code>3  5  1  8</code></td>
+</tr>
+</tbody>
+</table>
+<p>The value <code>8</code> is now in its final position.</p>
+<aside class="notes">
+<p>[Graphic suggestion: animate the active adjacent pair and move the larger value one cell to the right after each comparison.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 33 -->
+</section>
+<section id="repeating-the-pass" class="slide level2">
+<h2>Repeating the Pass</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> pass <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> pass <span class="op">&lt;</span> size <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> pass<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size <span class="op">-</span> <span class="dv">1</span> <span class="op">-</span> pass<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb17-3"><a href=""></a>        <span class="co">// Compare values[i] and values[i + 1]</span></span>
+<span id="cb17-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb17-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The outer loop counts completed passes</li>
+<li>The inner bound shrinks because the largest remaining values are already placed</li>
+</ul>
+<!-- Slide 34 -->
+</section>
+<section id="bubble-sort-function" class="slide level2">
+<h2>Bubble Sort Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">void</span> bubbleSort<span class="op">(</span><span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> pass <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> pass <span class="op">&lt;</span> size <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> pass<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb18-3"><a href=""></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size <span class="op">-</span> <span class="dv">1</span> <span class="op">-</span> pass<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb18-4"><a href=""></a>            <span class="cf">if</span> <span class="op">(</span>values<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> values<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">])</span> <span class="op">{</span></span>
+<span id="cb18-5"><a href=""></a>                <span class="dt">int</span> temp <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb18-6"><a href=""></a>                values<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">];</span></span>
+<span id="cb18-7"><a href=""></a>                values<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">]</span> <span class="op">=</span> temp<span class="op">;</span></span>
+<span id="cb18-8"><a href=""></a>            <span class="op">}</span></span>
+<span id="cb18-9"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb18-10"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb18-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 35 -->
+</section>
+<section id="what-does-each-algorithm-promise" class="slide level2">
+<h2>What Does Each Algorithm Promise?</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Algorithm</th>
+<th>Result</th>
+<th style="text-align: right;">Mutates array?</th>
+<th>Precondition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sum</td>
+<td>Total</td>
+<td style="text-align: right;">No</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td>Average</td>
+<td>Mean</td>
+<td style="text-align: right;">No</td>
+<td>Nonempty</td>
+</tr>
+<tr class="odd">
+<td>Maximum</td>
+<td>Largest value</td>
+<td style="text-align: right;">No</td>
+<td>Nonempty</td>
+</tr>
+<tr class="even">
+<td>Linear search</td>
+<td>Index or <code>-1</code></td>
+<td style="text-align: right;">No</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td>Bubble sort</td>
+<td>Sorted elements</td>
+<td style="text-align: right;">Yes</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 36 -->
 </section>
 <section id="summary-1" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>All three are contiguous, same-type sequences — they differ in size flexibility, STL support, and passing behavior</li>
-<li>Default to <code>vector</code>; use <code>std::array</code> for fixed-size collections; use <code>int[]</code> only when the context demands it</li>
+<li>Accumulators, trackers, and sentinels turn traversal into reusable algorithms</li>
+<li>Search reports a position; in-place sorting changes the caller’s array</li>
 </ul>
-<!-- Slide 4 -->
-<!-- Topic 3: Passing to Functions -->
-<!-- Total slides: 6 -->
-</section></section>
-<section>
-<section id="passing-to-functions" class="title-slide slide level1 center">
-<h1>Passing to Functions</h1>
-
-</section>
-<section id="how-does-each-type-behave-as-a-function-argument" class="slide level2 smaller">
-<h2>How does each type behave as a function argument?</h2>
-<ul>
-<li><code>int[]</code> decays to a pointer — size information is lost</li>
-<li><code>std::array</code> and <code>vector</code> carry their size with them</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 6</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="passing-int" class="slide level2">
-<h2>Passing int[]</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb4-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb4-3"><a href=""></a></span>
-<span id="cb4-4"><a href=""></a><span class="dt">void</span> print<span class="op">(</span><span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">);</span></span>
-<span id="cb4-5"><a href=""></a></span>
-<span id="cb4-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb4-7"><a href=""></a>    <span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb4-8"><a href=""></a>    print<span class="op">(</span>scores<span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span>
-<span id="cb4-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb4-10"><a href=""></a><span class="op">}</span></span>
-<span id="cb4-11"><a href=""></a></span>
-<span id="cb4-12"><a href=""></a><span class="dt">void</span> print<span class="op">(</span><span class="dt">int</span> arr<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-13"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb4-14"><a href=""></a>        cout <span class="op">&lt;&lt;</span> arr<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb4-15"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb4-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>int arr[] in a parameter list is identical to int* arr — the array has already decayed. Changes inside the function affect the caller’s array. Size must be passed separately every time.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 2 -->
-</section>
-<section id="passing-stdarray" class="slide level2">
-<h2>Passing std::array</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;array&gt;</span></span>
-<span id="cb5-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb5-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb5-4"><a href=""></a></span>
-<span id="cb5-5"><a href=""></a><span class="dt">void</span> print<span class="op">(</span><span class="at">const</span> array<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dv">5</span><span class="op">&gt;&amp;</span> arr<span class="op">);</span></span>
-<span id="cb5-6"><a href=""></a></span>
-<span id="cb5-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb5-8"><a href=""></a>    array<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dv">5</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb5-9"><a href=""></a>    print<span class="op">(</span>scores<span class="op">);</span></span>
-<span id="cb5-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb5-11"><a href=""></a><span class="op">}</span></span>
-<span id="cb5-12"><a href=""></a></span>
-<span id="cb5-13"><a href=""></a><span class="dt">void</span> print<span class="op">(</span><span class="at">const</span> array<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dv">5</span><span class="op">&gt;&amp;</span> arr<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-14"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> s <span class="op">:</span> arr<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-15"><a href=""></a>        cout <span class="op">&lt;&lt;</span> s <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb5-16"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb5-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>No size parameter. const &amp; avoids copying the array and prevents modification. The size is baked into the type, so the compiler enforces it.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 3 -->
-</section>
-<section id="passing-vector" class="slide level2">
-<h2>Passing vector</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb6-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb6-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb6-4"><a href=""></a></span>
-<span id="cb6-5"><a href=""></a><span class="dt">void</span> print<span class="op">(</span><span class="at">const</span> vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;&amp;</span> v<span class="op">);</span></span>
-<span id="cb6-6"><a href=""></a></span>
-<span id="cb6-7"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb6-8"><a href=""></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> scores <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">62</span><span class="op">};</span></span>
-<span id="cb6-9"><a href=""></a>    print<span class="op">(</span>scores<span class="op">);</span></span>
-<span id="cb6-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb6-11"><a href=""></a><span class="op">}</span></span>
-<span id="cb6-12"><a href=""></a></span>
-<span id="cb6-13"><a href=""></a><span class="dt">void</span> print<span class="op">(</span><span class="at">const</span> vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;&amp;</span> v<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb6-14"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> s <span class="op">:</span> v<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb6-15"><a href=""></a>        cout <span class="op">&lt;&lt;</span> s <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb6-16"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb6-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>const vector<int>&amp; avoids copying and prevents modification. v.size() is available inside the function. Works for any vector size — not locked to a fixed N.</int></p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 4 -->
-</section>
-<section id="comparison" class="slide level2">
-<h2>Comparison</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Type</th>
-<th>Parameter syntax</th>
-<th>Size inside function</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>int[]</code></td>
-<td><code>int arr[], int size</code></td>
-<td>Via <code>size</code> parameter</td>
-</tr>
-<tr class="even">
-<td><code>array&lt;T,N&gt;</code></td>
-<td><code>const array&lt;T,N&gt;&amp; arr</code></td>
-<td>Via <code>.size()</code></td>
-</tr>
-<tr class="odd">
-<td><code>vector&lt;T&gt;</code></td>
-<td><code>const vector&lt;T&gt;&amp; v</code></td>
-<td>Via <code>.size()</code></td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><code>int[]</code> requires a separate size parameter every call</li>
-<li><code>std::array</code> locks the size in the type — only one size works</li>
-<li><code>vector</code> is the most flexible — any size, safe, STL-ready</li>
-</ul>
-<!-- Slide 5 -->
-</section>
-<section id="summary-2" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li><code>int[]</code> decays to a pointer when passed — always pair it with a size parameter</li>
-<li>Pass <code>std::array</code> and <code>vector</code> by <code>const &amp;</code>; both carry their size and protect the caller’s data</li>
-</ul>
-<!-- Slide 6 -->
-<!-- Topic 4: Parallel Arrays -->
-<!-- Total slides: 6 -->
+<!-- Slide 37 -->
+<!-- Topic 3: Parallel Arrays -->
+<!-- Slides 38–56 -->
 </section></section>
 <section>
 <section id="parallel-arrays" class="title-slide slide level1 center">
 <h1>Parallel Arrays</h1>
-
+<!-- Slide 38 -->
 </section>
-<section id="multiple-arrays-one-index" class="slide level2 smaller">
-<h2>Multiple arrays, one index?</h2>
+<section id="can-one-index-describe-a-whole-record" class="slide level2 smaller">
+<h2>Can One Index Describe a Whole Record?</h2>
 <ul>
-<li>You’ve seen parallel vectors — parallel arrays are the same pattern</li>
-<li>One shared index ties corresponding elements across multiple arrays</li>
+<li>Separate arrays can store separate attributes</li>
+<li>A shared index connects the attributes for one entity</li>
 </ul>
 <aside class="notes">
-<p>Total slides: 6</p>
+<p>Slides 38–56</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -659,21 +918,43 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 39 -->
 </section>
-<section id="what-are-parallel-arrays" class="slide level2">
-<h2>What are parallel arrays?</h2>
-<p>Three separate arrays, one student per index:</p>
-<pre><code>index:    0        1        2        3
-names:  "Alice"  "Bob"   "Carol"  "Dave"
-scores:   91       78       84       95
-grades:  'A'      'C'      'B'      'A'</code></pre>
-<ul>
-<li><code>names[2]</code>, <code>scores[2]</code>, and <code>grades[2]</code> all describe Carol</li>
-<li>The index is the only link between the arrays</li>
-</ul>
+<section id="a-parallel-array-dataset" class="slide level2">
+<h2>A Parallel-Array Dataset</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Index</th>
+<th><code>names</code></th>
+<th style="text-align: right;"><code>scores</code></th>
+<th><code>present</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td>Ada</td>
+<td style="text-align: right;">91</td>
+<td>true</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td>Linus</td>
+<td style="text-align: right;">78</td>
+<td>false</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td>Grace</td>
+<td style="text-align: right;">95</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+<p>At index <code>2</code>, every value describes Grace.</p>
 <aside class="notes">
-<p>[Graphic suggestion: three horizontal arrays stacked vertically, each cell aligned by column, with vertical lines connecting index 2 across all three arrays to highlight the shared index relationship]</p>
+<p>[Graphic suggestion: draw three horizontal arrays with vertical alignment bands connecting elements that share each index.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -685,396 +966,199 @@ grades:  'A'      'C'      'B'      'A'</code></pre>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 2 -->
+<!-- Slide 40 -->
 </section>
-<section id="declaration" class="slide level2">
-<h2>Declaration</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> SIZE <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
-<span id="cb8-2"><a href=""></a></span>
-<span id="cb8-3"><a href=""></a>string names<span class="op">[</span>SIZE<span class="op">]</span>  <span class="op">=</span> <span class="op">{</span><span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span><span class="op">,</span> <span class="st">"Carol"</span><span class="op">,</span> <span class="st">"Dave"</span><span class="op">};</span></span>
-<span id="cb8-4"><a href=""></a><span class="dt">int</span>    scores<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">91</span><span class="op">,</span> <span class="dv">78</span><span class="op">,</span> <span class="dv">84</span><span class="op">,</span> <span class="dv">95</span><span class="op">};</span></span>
-<span id="cb8-5"><a href=""></a><span class="dt">char</span>   grades<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="ch">'A'</span><span class="op">,</span> <span class="ch">'C'</span><span class="op">,</span> <span class="ch">'B'</span><span class="op">,</span> <span class="ch">'A'</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="declaring-parallel-arrays" class="slide level2">
+<h2>Declaring Parallel Arrays</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> CAPACITY <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb19-2"><a href=""></a></span>
+<span id="cb19-3"><a href=""></a>string names<span class="op">[</span>CAPACITY<span class="op">];</span></span>
+<span id="cb19-4"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span>CAPACITY<span class="op">];</span></span>
+<span id="cb19-5"><a href=""></a><span class="dt">bool</span> present<span class="op">[</span>CAPACITY<span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>All arrays share the same <code>SIZE</code> constant — use one named constant for all of them</li>
-<li>Adding or removing a student requires updating every array</li>
+<li>Every array uses the same capacity</li>
+<li>Each position has the same meaning across all arrays</li>
 </ul>
-<!-- Slide 3 -->
+<!-- Slide 41 -->
 </section>
-<section id="access-and-display" class="slide level2">
-<h2>Access and display</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb9-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> names<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"  "</span></span>
-<span id="cb9-3"><a href=""></a>         <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"  "</span></span>
-<span id="cb9-4"><a href=""></a>         <span class="op">&lt;&lt;</span> grades<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb9-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Output:</p>
-<pre><code>Alice  91  A
-Bob    78  C
-Carol  84  B
-Dave   95  A</code></pre>
-<!-- Slide 4 -->
+<section id="capacity-and-logical-size" class="slide level2">
+<h2>Capacity and Logical Size</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>CAPACITY</code></td>
+<td>Maximum number of records the arrays can hold</td>
+</tr>
+<tr class="even">
+<td><code>size</code></td>
+<td>Number of records currently stored</td>
+</tr>
+</tbody>
+</table>
+<p>All loops use the same logical <code>size</code>, not the full capacity.</p>
+<!-- Slide 42 -->
 </section>
-<section id="parallel-arrays-vs.-structs" class="slide level2">
-<h2>Parallel arrays vs.&nbsp;structs</h2>
+<section id="the-shared-index-contract" class="slide level2">
+<h2>The Shared-Index Contract</h2>
+<p>For every active index <code>i</code>:</p>
 <ul>
-<li>Parallel arrays keep related data apart — updating one record means touching every array</li>
-<li>A struct keeps all fields for one record together in one place</li>
-<li>Use parallel arrays for simple, short-lived data; prefer structs when records need to be inserted, deleted, or passed around</li>
+<li><code>names[i]</code> identifies the entity</li>
+<li><code>scores[i]</code> stores that entity’s score</li>
+<li><code>present[i]</code> stores that entity’s attendance</li>
 </ul>
-<!-- Slide 5 -->
+<p>If one array moves without the others, the dataset becomes incorrect.</p>
+<!-- Slide 43 -->
 </section>
-<section id="summary-3" class="slide level2">
+<section id="filling-the-arrays-together" class="slide level2">
+<h2>Filling the Arrays Together</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb20-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Name: "</span><span class="op">;</span></span>
+<span id="cb20-3"><a href=""></a>    cin <span class="op">&gt;&gt;</span> names<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb20-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Score: "</span><span class="op">;</span></span>
+<span id="cb20-5"><a href=""></a>    cin <span class="op">&gt;&gt;</span> scores<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb20-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Present (1 or 0): "</span><span class="op">;</span></span>
+<span id="cb20-7"><a href=""></a>    cin <span class="op">&gt;&gt;</span> present<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb20-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 44 -->
+</section>
+<section id="traversing-related-data" class="slide level2">
+<h2>Traversing Related Data</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb21-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> names<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span></span>
+<span id="cb21-3"><a href=""></a>         <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span></span>
+<span id="cb21-4"><a href=""></a>         <span class="op">&lt;&lt;</span> present<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb21-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>One loop controls every array</li>
+<li>The index selects one complete logical record</li>
+</ul>
+<!-- Slide 45 -->
+</section>
+<section id="passing-parallel-arrays-to-a-function" class="slide level2">
+<h2>Passing Parallel Arrays to a Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="dt">void</span> displayRecords<span class="op">(</span><span class="at">const</span> string names<span class="op">[],</span></span>
+<span id="cb22-2"><a href=""></a>                    <span class="at">const</span> <span class="dt">int</span> scores<span class="op">[],</span></span>
+<span id="cb22-3"><a href=""></a>                    <span class="at">const</span> <span class="dt">bool</span> present<span class="op">[],</span></span>
+<span id="cb22-4"><a href=""></a>                    <span class="dt">int</span> size<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Pass every required field array</li>
+<li>Pass one shared logical size</li>
+<li>Use <code>const</code> when the function only reads records</li>
+</ul>
+<!-- Slide 46 -->
+</section>
+<section id="displaying-records" class="slide level2">
+<h2>Displaying Records</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">void</span> displayRecords<span class="op">(</span><span class="at">const</span> string names<span class="op">[],</span></span>
+<span id="cb23-2"><a href=""></a>                    <span class="at">const</span> <span class="dt">int</span> scores<span class="op">[],</span></span>
+<span id="cb23-3"><a href=""></a>                    <span class="at">const</span> <span class="dt">bool</span> present<span class="op">[],</span></span>
+<span id="cb23-4"><a href=""></a>                    <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-5"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb23-6"><a href=""></a>        cout <span class="op">&lt;&lt;</span> names<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span></span>
+<span id="cb23-7"><a href=""></a>             <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span></span>
+<span id="cb23-8"><a href=""></a>             <span class="op">&lt;&lt;</span> present<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb23-9"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb23-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 47 -->
+</section>
+<section id="searching-one-array" class="slide level2">
+<h2>Searching One Array</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">int</span> index <span class="op">=</span> findName<span class="op">(</span>names<span class="op">,</span> size<span class="op">,</span> targetName<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Search <code>names</code> for the requested student</li>
+<li>Keep the returned index</li>
+<li>Use that index only when it is not <code>-1</code></li>
+</ul>
+<!-- Slide 48 -->
+</section>
+<section id="using-the-matching-index" class="slide level2">
+<h2>Using the Matching Index</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>index <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> names<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb25-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb25-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> present<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb25-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The search result locates the entire logical record, not only the matched name.</p>
+<!-- Slide 49 -->
+</section>
+<section id="finding-the-best-record" class="slide level2">
+<h2>Finding the Best Record</h2>
+<ul>
+<li>Initialize <code>bestIndex</code> to <code>0</code></li>
+<li>Compare each <code>scores[i]</code> with <code>scores[bestIndex]</code></li>
+<li>Return the index of the highest score</li>
+</ul>
+<p>An index preserves access to every related field.</p>
+<!-- Slide 50 -->
+</section>
+<section id="best-record-function" class="slide level2">
+<h2>Best-Record Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="dt">int</span> findHighestIndex<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> scores<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-2"><a href=""></a>    <span class="dt">int</span> bestIndex <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb26-3"><a href=""></a></span>
+<span id="cb26-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb26-5"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> scores<span class="op">[</span>bestIndex<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb26-6"><a href=""></a>            bestIndex <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb26-7"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb26-8"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb26-9"><a href=""></a></span>
+<span id="cb26-10"><a href=""></a>    <span class="cf">return</span> bestIndex<span class="op">;</span></span>
+<span id="cb26-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 51 -->
+</section>
+<section id="moving-one-record" class="slide level2">
+<h2>Moving One Record</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a>swap<span class="op">(</span>scores<span class="op">[</span>i<span class="op">],</span> scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb27-2"><a href=""></a>swap<span class="op">(</span>names<span class="op">[</span>i<span class="op">],</span> names<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb27-3"><a href=""></a>swap<span class="op">(</span>present<span class="op">[</span>i<span class="op">],</span> present<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">]);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Moving only the scores would attach them to the wrong names.</p>
+<!-- Slide 52 -->
+</section>
+<section id="sorting-parallel-arrays" class="slide level2">
+<h2>Sorting Parallel Arrays</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> pass <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> pass <span class="op">&lt;</span> size <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> pass<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb28-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size <span class="op">-</span> <span class="dv">1</span> <span class="op">-</span> pass<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb28-3"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">])</span> <span class="op">{</span></span>
+<span id="cb28-4"><a href=""></a>            swap<span class="op">(</span>scores<span class="op">[</span>i<span class="op">],</span> scores<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb28-5"><a href=""></a>            swap<span class="op">(</span>names<span class="op">[</span>i<span class="op">],</span> names<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb28-6"><a href=""></a>            swap<span class="op">(</span>present<span class="op">[</span>i<span class="op">],</span> present<span class="op">[</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb28-7"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb28-8"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb28-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 53 -->
+</section>
+<section id="when-parallel-arrays-work-well" class="slide level2">
+<h2>When Parallel Arrays Work Well</h2>
+<ul>
+<li>The dataset is small and fixed-capacity</li>
+<li>Every operation uses the same logical size</li>
+<li>Only a few attributes must stay aligned</li>
+<li>The shared-index contract remains easy to inspect</li>
+</ul>
+<!-- Slide 54 -->
+</section>
+<section id="where-the-design-strains" class="slide level2">
+<h2>Where the Design Strains</h2>
+<ul>
+<li>Every new field adds another parameter and coordinated operation</li>
+<li>Sorting or moving records requires updating every array</li>
+<li>A structure can package all fields for one entity into a single value</li>
+</ul>
+<!-- Slide 55 -->
+</section>
+<section id="summary-2" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>Parallel arrays share a common index — <code>arr1[i]</code>, <code>arr2[i]</code>, <code>arr3[i]</code> all describe the same entity</li>
-<li>All arrays must use the same size constant; every structural change must be applied consistently across all of them</li>
+<li>Parallel arrays use one shared index to connect related values</li>
+<li>Capacity, logical size, traversal, and movement must remain synchronized</li>
 </ul>
-<!-- Slide 6 -->
-<!-- Topic 5: Two-Dimensional Arrays -->
-<!-- Total slides: 6 -->
-</section></section>
-<section>
-<section id="two-dimensional-arrays" class="title-slide slide level1 center">
-<h1>Two-Dimensional Arrays</h1>
-
-</section>
-<section id="an-array-of-arrays" class="slide level2 smaller">
-<h2>An array of arrays?</h2>
-<ul>
-<li>A 2D array organizes data into rows and columns</li>
-<li>Two indices: row first, column second</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 6</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="declaration-and-indexing" class="slide level2">
-<h2>Declaration and indexing</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">int</span> grid<span class="op">[</span><span class="dv">3</span><span class="op">][</span><span class="dv">4</span><span class="op">];</span>       <span class="co">// 3 rows, 4 columns</span></span>
-<span id="cb11-2"><a href=""></a></span>
-<span id="cb11-3"><a href=""></a>grid<span class="op">[</span><span class="dv">0</span><span class="op">][</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>       <span class="co">// row 0, column 0</span></span>
-<span id="cb11-4"><a href=""></a>grid<span class="op">[</span><span class="dv">2</span><span class="op">][</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>      <span class="co">// row 2, column 3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>First bracket is the row count; second is the column count</li>
-<li>Valid row indices: <code>0</code> to <code>rows - 1</code>; valid column indices: <code>0</code> to <code>cols - 1</code></li>
-</ul>
-<aside class="notes">
-<p>[Graphic suggestion: a 3×4 grid with row indices (0–2) labeled on the left and column indices (0–3) labeled across the top; cell [2][3] highlighted]</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 2 -->
-</section>
-<section id="initialization" class="slide level2">
-<h2>Initialization</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">int</span> grid<span class="op">[</span><span class="dv">3</span><span class="op">][</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span></span>
-<span id="cb12-2"><a href=""></a>    <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">},</span>    <span class="co">// row 0</span></span>
-<span id="cb12-3"><a href=""></a>    <span class="op">{</span><span class="dv">4</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">6</span><span class="op">},</span>    <span class="co">// row 1</span></span>
-<span id="cb12-4"><a href=""></a>    <span class="op">{</span><span class="dv">7</span><span class="op">,</span> <span class="dv">8</span><span class="op">,</span> <span class="dv">9</span><span class="op">}</span>     <span class="co">// row 2</span></span>
-<span id="cb12-5"><a href=""></a><span class="op">};</span></span>
-<span id="cb12-6"><a href=""></a></span>
-<span id="cb12-7"><a href=""></a><span class="dt">int</span> zeros<span class="op">[</span><span class="dv">3</span><span class="op">][</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="op">{};</span>   <span class="co">// all elements zero</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Each inner brace initializes one row</li>
-<li>Partial initialization zero-fills remaining elements, same as 1D arrays</li>
-</ul>
-<!-- Slide 3 -->
-</section>
-<section id="traversal-with-nested-loops" class="slide level2">
-<h2>Traversal with nested loops</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> ROWS <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb13-2"><a href=""></a><span class="at">const</span> <span class="dt">int</span> COLS <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb13-3"><a href=""></a><span class="dt">int</span> grid<span class="op">[</span>ROWS<span class="op">][</span>COLS<span class="op">]</span> <span class="op">=</span> <span class="op">{{</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="op">},{</span><span class="dv">4</span><span class="op">,</span><span class="dv">5</span><span class="op">,</span><span class="dv">6</span><span class="op">},{</span><span class="dv">7</span><span class="op">,</span><span class="dv">8</span><span class="op">,</span><span class="dv">9</span><span class="op">}};</span></span>
-<span id="cb13-4"><a href=""></a></span>
-<span id="cb13-5"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> row <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> row <span class="op">&lt;</span> ROWS<span class="op">;</span> row<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb13-6"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> col <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> col <span class="op">&lt;</span> COLS<span class="op">;</span> col<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb13-7"><a href=""></a>        cout <span class="op">&lt;&lt;</span> grid<span class="op">[</span>row<span class="op">][</span>col<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb13-8"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb13-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb13-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Outer loop steps through rows; inner loop steps through columns</li>
-<li>Name your loop variables <code>row</code> and <code>col</code> — <code>i</code> and <code>j</code> obscure the intent</li>
-</ul>
-<!-- Slide 4 -->
-</section>
-<section id="row-major-storage" class="slide level2">
-<h2>Row-major storage</h2>
-<p>Elements are stored row by row in memory:</p>
-<pre><code>grid[0][0]  grid[0][1]  grid[0][2]  grid[1][0]  grid[1][1]  ...</code></pre>
-<ul>
-<li><code>grid[r][c]</code> is at memory offset <code>r * COLS + c</code> from the start</li>
-<li>Always traverse row-by-row (outer loop on rows) — column-major traversal skips around in memory and is slower</li>
-</ul>
-<aside class="notes">
-<p>[Graphic suggestion: a 3×3 grid on the left with cells labeled by [row][col], and a flattened horizontal sequence on the right showing the same cells laid out in row-major order, with a bracket showing row 0, row 1, row 2 sections]</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 5 -->
-</section>
-<section id="summary-4" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>Declare a 2D array as <code>type name[rows][cols]</code>; access elements with <code>[row][col]</code></li>
-<li>Traverse with nested loops, outer on rows and inner on columns; row-major traversal is faster than column-major</li>
-</ul>
-<!-- Slide 6 -->
-<!-- Topic 6: Arrays with Three or More Dimensions -->
-<!-- Total slides: 3 -->
-</section></section>
-<section>
-<section id="arrays-with-three-or-more-dimensions" class="title-slide slide level1 center">
-<h1>Arrays with Three or More Dimensions</h1>
-
-</section>
-<section id="does-the-pattern-extend" class="slide level2 smaller">
-<h2>Does the pattern extend?</h2>
-<ul>
-<li>Yes — each additional bracket adds one more level of nesting</li>
-<li>Three indices: layer, row, column</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 3</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="declaration-access-and-traversal" class="slide level2">
-<h2>Declaration, access, and traversal</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">int</span> cube<span class="op">[</span><span class="dv">2</span><span class="op">][</span><span class="dv">3</span><span class="op">][</span><span class="dv">4</span><span class="op">];</span>          <span class="co">// 2 layers, 3 rows, 4 columns</span></span>
-<span id="cb15-2"><a href=""></a></span>
-<span id="cb15-3"><a href=""></a>cube<span class="op">[</span><span class="dv">0</span><span class="op">][</span><span class="dv">1</span><span class="op">][</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>         <span class="co">// layer 0, row 1, column 2</span></span>
-<span id="cb15-4"><a href=""></a></span>
-<span id="cb15-5"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> l <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> l <span class="op">&lt;</span> <span class="dv">2</span><span class="op">;</span> l<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb15-6"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> r <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> r <span class="op">&lt;</span> <span class="dv">3</span><span class="op">;</span> r<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb15-7"><a href=""></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> c <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> c <span class="op">&lt;</span> <span class="dv">4</span><span class="op">;</span> c<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb15-8"><a href=""></a>            cube<span class="op">[</span>l<span class="op">][</span>r<span class="op">][</span>c<span class="op">]</span> <span class="op">=</span> l <span class="op">*</span> <span class="dv">12</span> <span class="op">+</span> r <span class="op">*</span> <span class="dv">4</span> <span class="op">+</span> c<span class="op">;</span></span>
-<span id="cb15-9"><a href=""></a>        <span class="op">}</span></span>
-<span id="cb15-10"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb15-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Each additional dimension requires one more nested loop</li>
-<li>The pattern is mechanical — the mental model is the hard part</li>
-</ul>
-<!-- Slide 2 -->
-</section>
-<section id="summary-5" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>Higher-dimensional arrays follow the same declaration and access pattern — add brackets, add loops</li>
-<li>In practice, 3D arrays are rare; most multi-dimensional needs are handled with 2D arrays or vectors of vectors</li>
-</ul>
-<!-- Slide 3 -->
-<!-- Topic 7: Lab — Array-Backed Stack -->
-<!-- Total slides: 10 -->
-</section></section>
-<section>
-<section id="lab-array-backed-stack" class="title-slide slide level1 center">
-<h1>Lab — Array-Backed Stack</h1>
-
-</section>
-<section id="can-we-build-a-stack-from-an-array" class="slide level2 smaller">
-<h2>Can we build a stack from an array?</h2>
-<ul>
-<li>A stack is a LIFO collection: the last item pushed is the first item popped</li>
-<li>An array provides the storage; functions provide the interface</li>
-</ul>
-<aside class="notes">
-<p>Total slides: 10</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 1 -->
-</section>
-<section id="what-is-a-stack" class="slide level2">
-<h2>What is a stack?</h2>
-<p>Five operations define a stack:</p>
-<ul>
-<li><code>push</code> — add a value to the top</li>
-<li><code>pop</code> — remove and return the top value</li>
-<li><code>peek</code> — read the top value without removing it</li>
-<li><code>isFull</code> — is there room for another push?</li>
-<li><code>isEmpty</code> — is there anything to pop?</li>
-</ul>
-<aside class="notes">
-<p>[Graphic suggestion: vertical stack diagram with labeled arrows — push pointing down onto the top, pop pointing up off the top, peek pointing right at the top element without disturbing it]</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 2 -->
-</section>
-<section id="the-data" class="slide level2">
-<h2>The data</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> MAX <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb16-2"><a href=""></a></span>
-<span id="cb16-3"><a href=""></a><span class="dt">int</span> stack<span class="op">[</span>MAX<span class="op">];</span></span>
-<span id="cb16-4"><a href=""></a><span class="dt">int</span> top <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span>       <span class="co">// -1 means the stack is empty</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>top</code> tracks the index of the current top element</li>
-<li>When <code>top == -1</code> the stack is empty; when <code>top == MAX - 1</code> it is full</li>
-<li>Every function receives <code>stack</code> and <code>top</code> as parameters — there are no globals</li>
-</ul>
-<!-- Slide 3 -->
-</section>
-<section id="function-signatures" class="slide level2">
-<h2>Function signatures</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">bool</span> isFull<span class="op">(</span><span class="dt">int</span> top<span class="op">);</span></span>
-<span id="cb17-2"><a href=""></a><span class="dt">bool</span> isEmpty<span class="op">(</span><span class="dt">int</span> top<span class="op">);</span></span>
-<span id="cb17-3"><a href=""></a><span class="dt">void</span> push<span class="op">(</span><span class="dt">int</span> stack<span class="op">[],</span> <span class="dt">int</span><span class="op">&amp;</span> top<span class="op">,</span> <span class="dt">int</span> value<span class="op">);</span></span>
-<span id="cb17-4"><a href=""></a><span class="dt">int</span>  pop<span class="op">(</span><span class="dt">int</span> stack<span class="op">[],</span> <span class="dt">int</span><span class="op">&amp;</span> top<span class="op">);</span></span>
-<span id="cb17-5"><a href=""></a><span class="dt">int</span>  peek<span class="op">(</span><span class="dt">int</span> stack<span class="op">[],</span> <span class="dt">int</span> top<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>top</code> is passed by reference to <code>push</code> and <code>pop</code> — they change it</li>
-<li><code>top</code> is passed by value to <code>peek</code>, <code>isFull</code>, and <code>isEmpty</code> — read-only</li>
-</ul>
-<!-- Slide 4 -->
-</section>
-<section id="task-implement-push-and-isfull" class="slide level2">
-<h2>Task — implement push and isFull</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">bool</span> isFull<span class="op">(</span><span class="dt">int</span> top<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-2"><a href=""></a>    <span class="co">// your code here</span></span>
-<span id="cb18-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb18-4"><a href=""></a></span>
-<span id="cb18-5"><a href=""></a><span class="dt">void</span> push<span class="op">(</span><span class="dt">int</span> stack<span class="op">[],</span> <span class="dt">int</span><span class="op">&amp;</span> top<span class="op">,</span> <span class="dt">int</span> value<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-6"><a href=""></a>    <span class="co">// your code here</span></span>
-<span id="cb18-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Work with your partner. Five minutes.</p>
-<!-- Slide 5 -->
-</section>
-<section id="solution-push-and-isfull" class="slide level2">
-<h2>Solution — push and isFull</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">bool</span> isFull<span class="op">(</span><span class="dt">int</span> top<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb19-2"><a href=""></a>    <span class="cf">return</span> top <span class="op">==</span> MAX <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb19-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb19-4"><a href=""></a></span>
-<span id="cb19-5"><a href=""></a><span class="dt">void</span> push<span class="op">(</span><span class="dt">int</span> stack<span class="op">[],</span> <span class="dt">int</span><span class="op">&amp;</span> top<span class="op">,</span> <span class="dt">int</span> value<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb19-6"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>isFull<span class="op">(</span>top<span class="op">))</span> <span class="cf">return</span><span class="op">;</span></span>
-<span id="cb19-7"><a href=""></a>    stack<span class="op">[++</span>top<span class="op">]</span> <span class="op">=</span> value<span class="op">;</span>   <span class="co">// increment top, then store</span></span>
-<span id="cb19-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 6 -->
-</section>
-<section id="task-pop-peek-and-isempty" class="slide level2">
-<h2>Task — pop, peek, and isEmpty</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">bool</span> isEmpty<span class="op">(</span><span class="dt">int</span> top<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb20-2"><a href=""></a>    <span class="co">// your code here</span></span>
-<span id="cb20-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb20-4"><a href=""></a></span>
-<span id="cb20-5"><a href=""></a><span class="dt">int</span> pop<span class="op">(</span><span class="dt">int</span> stack<span class="op">[],</span> <span class="dt">int</span><span class="op">&amp;</span> top<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb20-6"><a href=""></a>    <span class="co">// your code here</span></span>
-<span id="cb20-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb20-8"><a href=""></a></span>
-<span id="cb20-9"><a href=""></a><span class="dt">int</span> peek<span class="op">(</span><span class="dt">int</span> stack<span class="op">[],</span> <span class="dt">int</span> top<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb20-10"><a href=""></a>    <span class="co">// your code here</span></span>
-<span id="cb20-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Five minutes.</p>
-<!-- Slide 7 -->
-</section>
-<section id="solution-pop-peek-and-isempty" class="slide level2">
-<h2>Solution — pop, peek, and isEmpty</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="dt">bool</span> isEmpty<span class="op">(</span><span class="dt">int</span> top<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb21-2"><a href=""></a>    <span class="cf">return</span> top <span class="op">==</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
-<span id="cb21-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb21-4"><a href=""></a></span>
-<span id="cb21-5"><a href=""></a><span class="dt">int</span> pop<span class="op">(</span><span class="dt">int</span> stack<span class="op">[],</span> <span class="dt">int</span><span class="op">&amp;</span> top<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb21-6"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>isEmpty<span class="op">(</span>top<span class="op">))</span> <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
-<span id="cb21-7"><a href=""></a>    <span class="cf">return</span> stack<span class="op">[</span>top<span class="op">--];</span>    <span class="co">// return value, then decrement</span></span>
-<span id="cb21-8"><a href=""></a><span class="op">}</span></span>
-<span id="cb21-9"><a href=""></a></span>
-<span id="cb21-10"><a href=""></a><span class="dt">int</span> peek<span class="op">(</span><span class="dt">int</span> stack<span class="op">[],</span> <span class="dt">int</span> top<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb21-11"><a href=""></a>    <span class="cf">return</span> stack<span class="op">[</span>top<span class="op">];</span></span>
-<span id="cb21-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 8 -->
-</section>
-<section id="putting-it-together" class="slide level2">
-<h2>Putting it together</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb22-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb22-3"><a href=""></a></span>
-<span id="cb22-4"><a href=""></a><span class="at">const</span> <span class="dt">int</span> MAX <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb22-5"><a href=""></a></span>
-<span id="cb22-6"><a href=""></a><span class="dt">bool</span> isFull<span class="op">(</span><span class="dt">int</span> top<span class="op">);</span></span>
-<span id="cb22-7"><a href=""></a><span class="dt">bool</span> isEmpty<span class="op">(</span><span class="dt">int</span> top<span class="op">);</span></span>
-<span id="cb22-8"><a href=""></a><span class="dt">void</span> push<span class="op">(</span><span class="dt">int</span> stack<span class="op">[],</span> <span class="dt">int</span><span class="op">&amp;</span> top<span class="op">,</span> <span class="dt">int</span> value<span class="op">);</span></span>
-<span id="cb22-9"><a href=""></a><span class="dt">int</span>  pop<span class="op">(</span><span class="dt">int</span> stack<span class="op">[],</span> <span class="dt">int</span><span class="op">&amp;</span> top<span class="op">);</span></span>
-<span id="cb22-10"><a href=""></a><span class="dt">int</span>  peek<span class="op">(</span><span class="dt">int</span> stack<span class="op">[],</span> <span class="dt">int</span> top<span class="op">);</span></span>
-<span id="cb22-11"><a href=""></a></span>
-<span id="cb22-12"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb22-13"><a href=""></a>    <span class="dt">int</span> stack<span class="op">[</span>MAX<span class="op">];</span></span>
-<span id="cb22-14"><a href=""></a>    <span class="dt">int</span> top <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
-<span id="cb22-15"><a href=""></a></span>
-<span id="cb22-16"><a href=""></a>    push<span class="op">(</span>stack<span class="op">,</span> top<span class="op">,</span> <span class="dv">10</span><span class="op">);</span></span>
-<span id="cb22-17"><a href=""></a>    push<span class="op">(</span>stack<span class="op">,</span> top<span class="op">,</span> <span class="dv">20</span><span class="op">);</span></span>
-<span id="cb22-18"><a href=""></a>    push<span class="op">(</span>stack<span class="op">,</span> top<span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span>
-<span id="cb22-19"><a href=""></a></span>
-<span id="cb22-20"><a href=""></a>    cout <span class="op">&lt;&lt;</span> peek<span class="op">(</span>stack<span class="op">,</span> top<span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 30</span></span>
-<span id="cb22-21"><a href=""></a>    cout <span class="op">&lt;&lt;</span> pop<span class="op">(</span>stack<span class="op">,</span> top<span class="op">)</span>  <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 30</span></span>
-<span id="cb22-22"><a href=""></a>    cout <span class="op">&lt;&lt;</span> pop<span class="op">(</span>stack<span class="op">,</span> top<span class="op">)</span>  <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span>   <span class="co">// 20</span></span>
-<span id="cb22-23"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb22-24"><a href=""></a><span class="op">}</span></span>
-<span id="cb22-25"><a href=""></a></span>
-<span id="cb22-26"><a href=""></a><span class="co">// ... function definitions from slides above</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 9 -->
-</section>
-<section id="summary-6" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>A stack uses an array for storage and a <code>top</code> index to track the current top element</li>
-<li>The five-function API (push, pop, peek, isFull, isEmpty) is a first example of separating behavior from data</li>
-</ul>
-<!-- Slide 10 -->
+<!-- Slide 56 -->
 </section>
 <section class="slide level2">
 
@@ -1083,10 +1167,9 @@ Dave   95  A</code></pre>
 <section id="key-takeaways" class="title-slide slide level1 center">
 <h1>Key Takeaways</h1>
 <ul>
-<li><code>std::array&lt;T,N&gt;</code> is a fixed-size array with <code>.size()</code>, <code>.at()</code>, and no pointer decay on function calls</li>
-<li>Default to <code>vector</code>; use <code>std::array</code> for fixed-size collections; use <code>int[]</code> only for C interop</li>
-<li>2D arrays are declared <code>type name[rows][cols]</code> and traversed with nested loops — outer on rows, inner on columns</li>
-<li>A stack wraps an array with a <code>top</code> index and a five-function API; push/pop modify <code>top</code> by reference</li>
+<li>Built-in arrays decay at function boundaries, so functions receive an address and need a separate logical size</li>
+<li>Array algorithms combine traversal with accumulators, trackers, sentinels, or coordinated swaps</li>
+<li>Parallel arrays represent one record through a shared index that must remain synchronized</li>
 </ul>
 </section>
 <section class="slide level2">
@@ -1105,131 +1188,157 @@ Dave   95  A</code></pre>
 <h1>Appendix</h1>
 
 </section>
-<section id="stdarray-good-practices" class="slide level2">
-<h2>std::array: Good Practices</h2>
+<section id="arrays-with-functions-good-practices" class="slide level2">
+<h2>Arrays with Functions: Good Practices</h2>
+<ul>
+<li>Pass the logical size with every built-in array parameter</li>
+<li>Use <code>const</code> for read-only access</li>
+<li>Choose names that make mutation visible</li>
+</ul>
 </section>
-<section id="stdarray-common-mistakes" class="slide level2">
-<h2>std::array: Common Mistakes</h2>
+<section id="arrays-with-functions-common-mistakes" class="slide level2">
+<h2>Arrays with Functions: Common Mistakes</h2>
+<ul>
+<li>Assuming the function receives a copy of the array</li>
+<li>Expecting a bracketed parameter size to be enforced</li>
+<li>Using <code>sizeof</code> on a decayed array parameter</li>
+</ul>
 </section>
-<section id="stdarray-more-examples" class="slide level2">
-<h2>std::array: More Examples</h2>
+<section id="arrays-with-functions-more-examples" class="slide level2">
+<h2>Arrays with Functions: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="dt">int</span> countMatches<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> target<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-2"><a href=""></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb29-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb29-4"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>values<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> target<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-5"><a href=""></a>            count<span class="op">++;</span></span>
+<span id="cb29-6"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb29-7"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb29-8"><a href=""></a>    <span class="cf">return</span> count<span class="op">;</span></span>
+<span id="cb29-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="stdarray-practice-problems" class="slide level2">
-<h2>std::array: Practice Problems</h2>
+<section id="arrays-with-functions-practice-problems" class="slide level2">
+<h2>Arrays with Functions: Practice Problems</h2>
+<ul>
+<li>Write <code>contains</code> to return whether a target appears in an array</li>
+<li>Write <code>clampToZero</code> to replace every negative element with zero</li>
+<li>State the correct parameter contract for each function</li>
+</ul>
 </section>
-<section id="stdarray-ai-search-terms" class="slide level2">
-<h2>std::array: AI Search Terms</h2>
+<section id="arrays-with-functions-ai-search-terms" class="slide level2">
+<h2>Arrays with Functions: AI Search Terms</h2>
+<ul>
+<li>C++ built-in array function parameter decay</li>
+<li>C++ const array parameter and size</li>
+<li>C++ sizeof array inside function</li>
+</ul>
 </section>
-<section id="stdarray-questions-for-reflection" class="slide level2">
-<h2>std::array: Questions for Reflection</h2>
+<section id="arrays-with-functions-questions-for-reflection" class="slide level2">
+<h2>Arrays with Functions: Questions for Reflection</h2>
+<ul>
+<li>What information disappears when an array crosses a function boundary?</li>
+<li>How does <code>const</code> improve a function contract?</li>
+<li>When should a function receive one element instead of the whole array?</li>
+</ul>
 </section>
-<section id="comparing-all-three-types-good-practices" class="slide level2">
-<h2>Comparing All Three Types: Good Practices</h2>
+<section id="array-algorithms-good-practices" class="slide level2">
+<h2>Array Algorithms: Good Practices</h2>
+<ul>
+<li>State empty-array behavior before implementing an algorithm</li>
+<li>Seed extrema from the first valid element</li>
+<li>Return an index when the caller needs an element’s location</li>
+</ul>
 </section>
-<section id="comparing-all-three-types-common-mistakes" class="slide level2">
-<h2>Comparing All Three Types: Common Mistakes</h2>
+<section id="array-algorithms-common-mistakes" class="slide level2">
+<h2>Array Algorithms: Common Mistakes</h2>
+<ul>
+<li>Initializing a maximum tracker to zero</li>
+<li>Reading index <code>size</code></li>
+<li>Overwriting a value before preserving it during a swap</li>
+</ul>
 </section>
-<section id="comparing-all-three-types-more-examples" class="slide level2">
-<h2>Comparing All Three Types: More Examples</h2>
+<section id="array-algorithms-more-examples" class="slide level2">
+<h2>Array Algorithms: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="dt">int</span> countAbove<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> threshold<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-2"><a href=""></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb30-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb30-4"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>values<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> threshold<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-5"><a href=""></a>            count<span class="op">++;</span></span>
+<span id="cb30-6"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb30-7"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb30-8"><a href=""></a>    <span class="cf">return</span> count<span class="op">;</span></span>
+<span id="cb30-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="comparing-all-three-types-practice-problems" class="slide level2">
-<h2>Comparing All Three Types: Practice Problems</h2>
+<section id="array-algorithms-practice-problems" class="slide level2">
+<h2>Array Algorithms: Practice Problems</h2>
+<ul>
+<li>Return the index of the smallest element</li>
+<li>Count how many elements fall within an inclusive range</li>
+<li>Trace two bubble-sort passes by hand</li>
+</ul>
 </section>
-<section id="comparing-all-three-types-ai-search-terms" class="slide level2">
-<h2>Comparing All Three Types: AI Search Terms</h2>
+<section id="array-algorithms-ai-search-terms" class="slide level2">
+<h2>Array Algorithms: AI Search Terms</h2>
+<ul>
+<li>C++ array accumulator tracker sentinel patterns</li>
+<li>C++ linear search return index</li>
+<li>C++ bubble sort shrinking inner bound</li>
+</ul>
 </section>
-<section id="comparing-all-three-types-questions-for-reflection" class="slide level2">
-<h2>Comparing All Three Types: Questions for Reflection</h2>
-</section>
-<section id="passing-to-functions-good-practices" class="slide level2">
-<h2>Passing to Functions: Good Practices</h2>
-</section>
-<section id="passing-to-functions-common-mistakes" class="slide level2">
-<h2>Passing to Functions: Common Mistakes</h2>
-</section>
-<section id="passing-to-functions-more-examples" class="slide level2">
-<h2>Passing to Functions: More Examples</h2>
-</section>
-<section id="passing-to-functions-practice-problems" class="slide level2">
-<h2>Passing to Functions: Practice Problems</h2>
-</section>
-<section id="passing-to-functions-ai-search-terms" class="slide level2">
-<h2>Passing to Functions: AI Search Terms</h2>
-</section>
-<section id="passing-to-functions-questions-for-reflection" class="slide level2">
-<h2>Passing to Functions: Questions for Reflection</h2>
+<section id="array-algorithms-questions-for-reflection" class="slide level2">
+<h2>Array Algorithms: Questions for Reflection</h2>
+<ul>
+<li>Why does a search usually return an index instead of a Boolean?</li>
+<li>Which algorithms require a nonempty array?</li>
+<li>What changes when an algorithm mutates its input?</li>
+</ul>
 </section>
 <section id="parallel-arrays-good-practices" class="slide level2">
 <h2>Parallel Arrays: Good Practices</h2>
+<ul>
+<li>Use one capacity and one logical size</li>
+<li>Pass and traverse all related arrays together</li>
+<li>Return indexes when selecting complete records</li>
+</ul>
 </section>
 <section id="parallel-arrays-common-mistakes" class="slide level2">
 <h2>Parallel Arrays: Common Mistakes</h2>
+<ul>
+<li>Moving one field without moving the others</li>
+<li>Looping to capacity instead of logical size</li>
+<li>Using different indexes for related fields</li>
+</ul>
 </section>
 <section id="parallel-arrays-more-examples" class="slide level2">
 <h2>Parallel Arrays: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="dt">void</span> markPerfect<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> scores<span class="op">[],</span> <span class="dt">bool</span> perfect<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb31-3"><a href=""></a>        perfect<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> <span class="dv">100</span><span class="op">;</span></span>
+<span id="cb31-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb31-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="parallel-arrays-practice-problems" class="slide level2">
 <h2>Parallel Arrays: Practice Problems</h2>
+<ul>
+<li>Display only records whose attendance value is true</li>
+<li>Find a name and update the score at the matching index</li>
+<li>Sort names and scores together by descending score</li>
+</ul>
 </section>
 <section id="parallel-arrays-ai-search-terms" class="slide level2">
 <h2>Parallel Arrays: AI Search Terms</h2>
+<ul>
+<li>C++ parallel arrays shared index</li>
+<li>C++ sort parallel arrays together</li>
+<li>parallel arrays versus array of structs</li>
+</ul>
 </section>
 <section id="parallel-arrays-questions-for-reflection" class="slide level2">
 <h2>Parallel Arrays: Questions for Reflection</h2>
-</section>
-<section id="two-dimensional-arrays-good-practices" class="slide level2">
-<h2>Two-Dimensional Arrays: Good Practices</h2>
-</section>
-<section id="two-dimensional-arrays-common-mistakes" class="slide level2">
-<h2>Two-Dimensional Arrays: Common Mistakes</h2>
-</section>
-<section id="two-dimensional-arrays-more-examples" class="slide level2">
-<h2>Two-Dimensional Arrays: More Examples</h2>
-</section>
-<section id="two-dimensional-arrays-practice-problems" class="slide level2">
-<h2>Two-Dimensional Arrays: Practice Problems</h2>
-</section>
-<section id="two-dimensional-arrays-ai-search-terms" class="slide level2">
-<h2>Two-Dimensional Arrays: AI Search Terms</h2>
-</section>
-<section id="two-dimensional-arrays-questions-for-reflection" class="slide level2">
-<h2>Two-Dimensional Arrays: Questions for Reflection</h2>
-</section>
-<section id="three-or-more-dimensions-good-practices" class="slide level2">
-<h2>Three or More Dimensions: Good Practices</h2>
-</section>
-<section id="three-or-more-dimensions-common-mistakes" class="slide level2">
-<h2>Three or More Dimensions: Common Mistakes</h2>
-</section>
-<section id="three-or-more-dimensions-more-examples" class="slide level2">
-<h2>Three or More Dimensions: More Examples</h2>
-</section>
-<section id="three-or-more-dimensions-practice-problems" class="slide level2">
-<h2>Three or More Dimensions: Practice Problems</h2>
-</section>
-<section id="three-or-more-dimensions-ai-search-terms" class="slide level2">
-<h2>Three or More Dimensions: AI Search Terms</h2>
-</section>
-<section id="three-or-more-dimensions-questions-for-reflection" class="slide level2">
-<h2>Three or More Dimensions: Questions for Reflection</h2>
-</section>
-<section id="lab-array-backed-stack-good-practices" class="slide level2">
-<h2>Lab — Array-Backed Stack: Good Practices</h2>
-</section>
-<section id="lab-array-backed-stack-common-mistakes" class="slide level2">
-<h2>Lab — Array-Backed Stack: Common Mistakes</h2>
-</section>
-<section id="lab-array-backed-stack-more-examples" class="slide level2">
-<h2>Lab — Array-Backed Stack: More Examples</h2>
-</section>
-<section id="lab-array-backed-stack-practice-problems" class="slide level2">
-<h2>Lab — Array-Backed Stack: Practice Problems</h2>
-</section>
-<section id="lab-array-backed-stack-ai-search-terms" class="slide level2">
-<h2>Lab — Array-Backed Stack: AI Search Terms</h2>
-</section>
-<section id="lab-array-backed-stack-questions-for-reflection" class="slide level2">
-<h2>Lab — Array-Backed Stack: Questions for Reflection</h2>
+<ul>
+<li>What invariant connects the arrays?</li>
+<li>Why is an index more useful than a copied maximum value?</li>
+<li>When does a structure become the clearer design?</li>
+</ul>
 
 </section></section>
     </div>
@@ -1288,7 +1397,7 @@ Dave   95  A</code></pre>
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'h.v',
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -1329,7 +1438,7 @@ Dave   95  A</code></pre>
         rtl: false,
 
         // see https://revealjs.com/vertical-slides/#navigation-mode
-        navigationMode: 'default',
+        navigationMode: 'linear',
 
         // Randomizes the order of slides each time the presentation loads
         shuffle: false,
@@ -1615,37 +1724,6 @@ Dave   95  A</code></pre>
         }
       });
       </script>
-    <script>
-    window.Reveal.on('ready', event => {
-      function atSectionBoundary() {
-        var routes = Reveal.availableRoutes();
-        return !routes.up || !routes.down;
-      }
-      function goRight() {
-        if (atSectionBoundary()) {
-          var h = Reveal.getIndices().h;
-          Reveal.slide(h + 1, 0);
-        }
-      }
-      function goLeft() {
-        if (atSectionBoundary()) {
-          var h = Reveal.getIndices().h;
-          Reveal.slide(h - 1, 0);
-        }
-      }
-      Reveal.configure({
-        keyboard: {
-          34: 'down',
-          33: 'up',
-          116: goRight,
-          190: goLeft,
-          37: goLeft,
-          39: goRight,
-          79: null
-        }
-      });
-    });
-    </script>
     
 
 </body></html>
