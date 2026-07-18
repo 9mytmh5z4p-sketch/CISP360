@@ -1,154 +1,118 @@
 <!-- Topic 1: Array Decay -->
-<!-- Slides 3–25 -->
+<!-- Slides 3–24 -->
 
 # Array Decay
 <!-- Slide 3 -->
 
-## What Survives the Conversion? {.smaller}
+## When an Array Stops Looking Like an Array {.smaller}
 
-- An array stores elements and knows its fixed extent
-- Most expressions convert that array to a pointer to its first element
+- Why does an array seem to change when we pass it to a function?
+- The short answer: most array expressions automatically become pointers.
 
 ::: notes
-Slides 3–25
+Slides 3–24
 :::
 
 <!-- Slide 4 -->
 
 ---
 
-## An Array Is More Than an Address
+## The Conversion
+
+- Array decay is the automatic conversion from an array expression to a pointer to the first element.
+- You do not call decay. C++ applies it in many expression contexts.
 
 ```{.cpp}
-int values[5] = {10, 20, 30, 40, 50};
-```
+int values[4] = {10, 20, 30, 40};
+int* first = values;
 
-- The type is “array of five `int` values”
-- The object contains all five elements in contiguous storage
-- Its extent is part of the array type
+cout << *first << "\n";
+```
 
 <!-- Slide 5 -->
 
 ---
 
-## Decay Produces the First Element's Address
+## Why This Matters
 
-```{.cpp}
-int values[5] = {10, 20, 30, 40, 50};
-
-int* first = values;
-
-cout << values << "\n";
-cout << &values[0] << "\n";
-cout << first << "\n";
-```
+- Decay is why C-style array functions need an explicit boundary.
+- The function can reach the elements, but it cannot know the size by looking at the pointer alone.
 
 <!-- Slide 6 -->
 
 ---
 
-## Decay in an Assignment
+## What Survives Decay
 
-```{.cpp}
-#include <iostream>
-using namespace std;
+| Before decay | After decay |
+|---|---|
+| Array element type | Element type |
+| First element address | First element address |
+| Number of elements | Lost |
 
-int main() {
-    int scores[4] = {82, 91, 76, 88};
-    int* ptr = scores;
-
-    cout << *ptr << "\n";
-    return 0;
-}
-```
+- The pointer is not the array.
 
 <!-- Slide 7 -->
 
 ---
 
-## Indexing Still Works Through the Pointer
+## Before Decay
 
 ```{.cpp}
-int values[4] = {5, 10, 15, 20};
-int* ptr = values;
-
-for (int i = 0; i < 4; i++) {
-    cout << values[i] << " " << ptr[i] << "\n";
-}
+int scores[5] = {82, 91, 76, 88, 94};
 ```
 
-- Both expressions access the same elements
+- `scores` is an array object
+- Its type is “array of five `int` values”
+- Its extent is part of the array type
+
+::: notes
+[Graphic suggestion: show a five-cell array labeled scores, with indexes 0 through 4 and a bracket showing the whole array object.]
+:::
 
 <!-- Slide 8 -->
 
 ---
 
-## Pointer Arithmetic After Decay
+## The Pointer Is Not the Array
 
 ```{.cpp}
-int values[4] = {5, 10, 15, 20};
-int* ptr = values;
+int scores[5] = {82, 91, 76, 88, 94};
+int* ptr = scores;
 
-for (int i = 0; i < 4; i++) {
-    cout << *(ptr + i) << "\n";
-}
+cout << scores << "\n";
+cout << &scores[0] << "\n";
+cout << ptr << "\n";
 ```
+
+- The printed addresses may match
+- The types and the information carried do not match
 
 <!-- Slide 9 -->
 
 ---
 
-## Decay Does Not Copy the Array
+## Predict the Output
 
 ```{.cpp}
-int values[3] = {2, 4, 6};
-int* ptr = values;
+void inspect(int values[]);
 
-ptr[1] = 40;
-*(ptr + 2) = 60;
+int main() {
+    int values[6] = {4, 8, 12, 16, 20, 24};
 
-cout << values[1] << " " << values[2] << "\n";
+    cout << sizeof(values) << "\n";
+    inspect(values);
+    return 0;
+}
 ```
+
+- Will both lines report the same size?
 
 <!-- Slide 10 -->
 
 ---
 
-## Function Parameters Trigger Decay
-
-```{.cpp}
-void printValues(const int values[], int size);
-void printValues(const int* values, int size);
-```
-
-- These declarations describe the same parameter type
-- The function receives a pointer, not a complete array object
-
-<!-- Slide 11 -->
-
----
-
-## The Brackets Do Not Preserve the Size
-
-```{.cpp}
-void change(int values[100]);
-
-int main() {
-    int small[3] = {1, 2, 3};
-    change(small);
-    return 0;
-}
-
-void change(int values[100]) {
-    values[0] = 99;
-}
-```
-
-<!-- Slide 12 -->
-
----
-
-## `sizeof` Before the Function Call
+## `sizeof` in main
 
 ```{.cpp}
 int values[6] = {4, 8, 12, 16, 20, 24};
@@ -160,11 +124,13 @@ int count = sizeof(values) / sizeof(values[0]);
 cout << count << "\n";
 ```
 
-<!-- Slide 13 -->
+- In the caller, `values` is still the whole array object.
+
+<!-- Slide 11 -->
 
 ---
 
-## `sizeof` Inside the Function
+## `sizeof` in a Function
 
 ```{.cpp}
 void inspect(int values[]) {
@@ -172,14 +138,28 @@ void inspect(int values[]) {
 }
 ```
 
-- `values` is a pointer parameter inside the function
-- `sizeof(values)` reports the pointer size, not the caller's array size
+- Inside the function, `values` is a pointer parameter.
+- `sizeof(values)` reports the pointer size, not the caller's array size.
 
-<!-- Slide 14 -->
+<!-- Slide 12 -->
 
 ---
 
-## The Missing Size Must Be Restored
+## Parameter Brackets Do Not Save the Size
+
+```{.cpp}
+void printValues(const int values[], int size);
+void printValues(const int* values, int size);
+```
+
+- These declarations describe the same parameter type.
+- The brackets may look array-like, but the function receives a pointer.
+
+<!-- Slide 13 -->
+
+---
+
+## The Boundary Must Travel Separately
 
 ```{.cpp}
 void printValues(const int* values, int size) {
@@ -189,48 +169,52 @@ void printValues(const int* values, int size) {
 }
 ```
 
-- The pointer identifies the first element
-- The separate size states how many elements belong to the range
+- The pointer identifies where the range starts.
+- The size states how many elements belong to the range.
+
+<!-- Slide 14 -->
+
+---
+
+## Passing Array and Size
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+void printValues(const int values[], int size);
+
+int main() {
+    int values[4] = {7, 14, 21, 28};
+    printValues(values, 4);
+    return 0;
+}
+
+void printValues(const int values[], int size) {
+    for (int i = 0; i < size; i++) {
+        cout << values[i] << "\n";
+    }
+}
+```
 
 <!-- Slide 15 -->
 
 ---
 
-## Pointer and Size Form One Contract
+## Mutation Through a Decayed Array
 
 ```{.cpp}
-int values[3] = {10, 20, 30};
-
-printValues(values, 3); // correct range
-printValues(values, 5); // function trusts an incorrect size
-```
-
-- A raw pointer carries no bounds information
-- The caller and function must agree on the range
-
-<!-- Slide 16 -->
-
----
-
-## Begin and End Form a Range
-
-```{.cpp}
-void printRange(const int* begin, const int* end) {
-    for (const int* current = begin; current != end; current++) {
-        cout << *current << "\n";
+void curveScores(int scores[], int size) {
+    for (int i = 0; i < size; i++) {
+        scores[i] += 5;
     }
 }
-
-int values[5] = {3, 6, 9, 12, 15};
-printRange(values, values + 5);
-printRange(values + 1, values + 4);
 ```
 
-::: notes
-The second call describes the subrange containing 6, 9, and 12. The end pointer is a boundary and is never dereferenced.
-:::
+- The function receives a pointer.
+- Writing through that pointer changes the caller's array elements.
 
-<!-- Slide 17 -->
+<!-- Slide 16 -->
 
 ---
 
@@ -246,114 +230,118 @@ int sum(const int* values, int size) {
 }
 ```
 
-- `const` prevents the function from changing caller elements
+- Use `const` when the function should read elements without changing them.
+
+<!-- Slide 17 -->
+
+---
+
+## Begin and End Pointers
+
+```{.cpp}
+int values[5] = {3, 6, 9, 12, 15};
+
+const int* begin = values;
+const int* end = values + 5;
+```
+
+- `begin` points to the first element.
+- `end` points one past the last element and is a boundary, not a value to read.
+
+::: notes
+[Graphic suggestion: show begin pointing to index 0 and end pointing just beyond index 4.]
+:::
 
 <!-- Slide 18 -->
 
 ---
 
-## Returning a Position
+## Walking a Pointer Range
 
 ```{.cpp}
-int* findValue(int* values, int size, int target) {
-    for (int i = 0; i < size; i++) {
-        if (values[i] == target) {
-            return &values[i];
-        }
+void printRange(const int* begin, const int* end) {
+    for (const int* current = begin; current != end; current++) {
+        cout << *current << "\n";
     }
-    return nullptr;
 }
 ```
+
+- The loop stops at the boundary.
+- It never dereferences `end`.
 
 <!-- Slide 19 -->
 
 ---
 
-## Decay Is Context-Dependent
+## Subarrays Without Copying
 
 ```{.cpp}
-int values[5] = {};
+int values[6] = {10, 20, 30, 40, 50, 60};
 
-int* elementPtr = values;
-int (*arrayPtr)[5] = &values;
-
-cout << sizeof(values) << "\n";
-cout << sizeof(elementPtr) << "\n";
+printValues(values, 6);
+printValues(values + 2, 3);
+printRange(values + 1, values + 5);
 ```
 
-- `sizeof(values)` examines the array without decay
-- `&values` produces a pointer to the whole array
+- A pointer can describe a smaller range inside a larger array.
 
 <!-- Slide 20 -->
 
 ---
 
-## C-Style Arrays Versus `array`
+## Two-Dimensional Array Decay
 
 ```{.cpp}
-#include <array>
-using namespace std;
-
-void inspect(const array<int, 5>& values) {
-    cout << values.size() << "\n";
-    cout << values.at(2) << "\n";
+void printGrid(const int grid[][3], int rows) {
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < 3; c++) {
+            cout << grid[r][c] << " ";
+        }
+        cout << "\n";
+    }
 }
 ```
 
-- Passing by reference preserves the complete container type
+- The row count can travel separately.
+- The column count must still be known by the function type.
 
 <!-- Slide 21 -->
 
 ---
 
-## A Two-Dimensional Array Decays by Rows
+## Preserving the Full Array Type
 
 ```{.cpp}
-int grid[3][4] = {};
-
-int (*rowPtr)[4] = grid;
-cout << rowPtr[1][2] << "\n";
+void printFour(const int (&values)[4]) {
+    for (int value : values) {
+        cout << value << "\n";
+    }
+}
 ```
 
-- `grid` decays to a pointer to its first four-element row
-- The column extent must remain known for row arithmetic
+- A reference-to-array parameter preserves the array extent.
+- This is useful to recognize, but pointer-plus-size is the main pattern today.
 
 <!-- Slide 22 -->
 
 ---
 
-## An Array Reference Preserves Its Extent
+## Choosing an Array Interface
 
-```{.cpp}
-void inspect(int (&values)[5]) {
-    int count = sizeof(values) / sizeof(values[0]);
-    cout << count << "\n";
-}
-```
-
-- Only an array of exactly five `int` values can bind to this parameter
-- No array-to-pointer conversion occurs
+| Interface | Best fit |
+|---|---|
+| `const int* values, int size` | Simple read-only raw array |
+| `int* values, int size` | Caller-visible element changes |
+| `begin, end` | Subranges and pointer traversal |
+| `vector<int>&` | Resizable collection with size attached |
 
 <!-- Slide 23 -->
 
 ---
 
-## Choose an Interface That Preserves the Contract
+## What to Remember About Decay
 
-| Interface | Size preserved | Typical use |
-|---|---:|---|
-| `int*` and size | Separately | Legacy or low-level interface |
-| begin and end pointers | As a range | Subranges and algorithms |
-| array reference | In the type | Exact C-style array extent |
-| `array&` or `vector&` | In the object | Modern container code |
+- Array decay gives a function access to elements, not the array's extent.
+- The pointer is not the array; the boundary must travel separately.
 
 <!-- Slide 24 -->
-
----
-
-## Array Decay Summary
-
-- Decay preserves access to the first element but discards the array extent
-- Raw-pointer interfaces must restore bounds through a size, an end pointer, or a stronger type
-
-<!-- Slide 25 -->

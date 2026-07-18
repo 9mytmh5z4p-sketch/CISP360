@@ -218,7 +218,7 @@ Dr.&nbsp;Caleb Fowler
 <li class="fragment"><strong>Choosing Direct Access, References, or Pointers</strong></li>
 </ul>
 <aside class="notes">
-<p>Recall that a pointer stores a typed address, dereferencing accesses its target, and array expressions often produce a pointer to the first element. This lecture concentrates on what decay discards and how programs represent an absent target safely.</p>
+<p>Recall that a pointer stores a typed address, dereferencing accesses its target, and array expressions often produce a pointer to the first element. This lecture concentrates on what decay discards, how programs represent absence, and how pointer parameters express function-boundary contracts.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -238,9 +238,10 @@ Dr.&nbsp;Caleb Fowler
 <ul>
 <li>Array Decay</li>
 <li>Null Pointers</li>
+<li>Passing Pointers</li>
 </ul>
 <aside class="notes">
-<p>The lecture moves from the array-to-pointer conversion and its lost extent to deliberate no-object states and nullable interfaces.</p>
+<p>The lecture moves from array-to-pointer conversion, to deliberate no-object states, to pointer parameters as interface design.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -254,7 +255,7 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 2 -->
 <!-- Topic 1: Array Decay -->
-<!-- Slides 3–25 -->
+<!-- Slides 3–24 -->
 </section>
 
 <section>
@@ -262,14 +263,14 @@ Dr.&nbsp;Caleb Fowler
 <h1>Array Decay</h1>
 <!-- Slide 3 -->
 </section>
-<section id="what-survives-the-conversion" class="slide level2 smaller">
-<h2>What Survives the Conversion?</h2>
+<section id="when-an-array-stops-looking-like-an-array" class="slide level2 smaller">
+<h2>When an Array Stops Looking Like an Array</h2>
 <ul>
-<li>An array stores elements and knows its fixed extent</li>
-<li>Most expressions convert that array to a pointer to its first element</li>
+<li>Why does an array seem to change when we pass it to a function?</li>
+<li>The short answer: most array expressions automatically become pointers.</li>
 </ul>
 <aside class="notes">
-<p>Slides 3–25</p>
+<p>Slides 3–24</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -283,310 +284,65 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 4 -->
 </section>
-<section id="an-array-is-more-than-an-address" class="slide level2">
-<h2>An Array Is More Than an Address</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">50</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="the-conversion" class="slide level2">
+<h2>The Conversion</h2>
 <ul>
-<li>The type is “array of five <code>int</code> values”</li>
-<li>The object contains all five elements in contiguous storage</li>
-<li>Its extent is part of the array type</li>
+<li>Array decay is the automatic conversion from an array expression to a pointer to the first element.</li>
+<li>You do not call decay. C++ applies it in many expression contexts.</li>
 </ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">40</span><span class="op">};</span></span>
+<span id="cb1-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> first <span class="op">=</span> values<span class="op">;</span></span>
+<span id="cb1-3"><a href=""></a></span>
+<span id="cb1-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>first <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <!-- Slide 5 -->
 </section>
-<section id="decay-produces-the-first-elements-address" class="slide level2">
-<h2>Decay Produces the First Element’s Address</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">50</span><span class="op">};</span></span>
-<span id="cb2-2"><a href=""></a></span>
-<span id="cb2-3"><a href=""></a><span class="dt">int</span><span class="op">*</span> first <span class="op">=</span> values<span class="op">;</span></span>
-<span id="cb2-4"><a href=""></a></span>
-<span id="cb2-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> values <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb2-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">&amp;</span>values<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb2-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> first <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="why-this-matters" class="slide level2">
+<h2>Why This Matters</h2>
+<ul>
+<li>Decay is why C-style array functions need an explicit boundary.</li>
+<li>The function can reach the elements, but it cannot know the size by looking at the pointer alone.</li>
+</ul>
 <!-- Slide 6 -->
 </section>
-<section id="decay-in-an-assignment" class="slide level2">
-<h2>Decay in an Assignment</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb3-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb3-3"><a href=""></a></span>
-<span id="cb3-4"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb3-5"><a href=""></a>    <span class="dt">int</span> scores<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">82</span><span class="op">,</span> <span class="dv">91</span><span class="op">,</span> <span class="dv">76</span><span class="op">,</span> <span class="dv">88</span><span class="op">};</span></span>
-<span id="cb3-6"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> scores<span class="op">;</span></span>
-<span id="cb3-7"><a href=""></a></span>
-<span id="cb3-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>ptr <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb3-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 7 -->
-</section>
-<section id="indexing-still-works-through-the-pointer" class="slide level2">
-<h2>Indexing Still Works Through the Pointer</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">20</span><span class="op">};</span></span>
-<span id="cb4-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> values<span class="op">;</span></span>
-<span id="cb4-3"><a href=""></a></span>
-<span id="cb4-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">4</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb4-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> ptr<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb4-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Both expressions access the same elements</li>
-</ul>
-<!-- Slide 8 -->
-</section>
-<section id="pointer-arithmetic-after-decay" class="slide level2">
-<h2>Pointer Arithmetic After Decay</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">20</span><span class="op">};</span></span>
-<span id="cb5-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> values<span class="op">;</span></span>
-<span id="cb5-3"><a href=""></a></span>
-<span id="cb5-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">4</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb5-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*(</span>ptr <span class="op">+</span> i<span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb5-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 9 -->
-</section>
-<section id="decay-does-not-copy-the-array" class="slide level2">
-<h2>Decay Does Not Copy the Array</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">2</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">6</span><span class="op">};</span></span>
-<span id="cb6-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> values<span class="op">;</span></span>
-<span id="cb6-3"><a href=""></a></span>
-<span id="cb6-4"><a href=""></a>ptr<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">40</span><span class="op">;</span></span>
-<span id="cb6-5"><a href=""></a><span class="op">*(</span>ptr <span class="op">+</span> <span class="dv">2</span><span class="op">)</span> <span class="op">=</span> <span class="dv">60</span><span class="op">;</span></span>
-<span id="cb6-6"><a href=""></a></span>
-<span id="cb6-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> values<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> values<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 10 -->
-</section>
-<section id="function-parameters-trigger-decay" class="slide level2">
-<h2>Function Parameters Trigger Decay</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">void</span> printValues<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> size<span class="op">);</span></span>
-<span id="cb7-2"><a href=""></a><span class="dt">void</span> printValues<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>These declarations describe the same parameter type</li>
-<li>The function receives a pointer, not a complete array object</li>
-</ul>
-<!-- Slide 11 -->
-</section>
-<section id="the-brackets-do-not-preserve-the-size" class="slide level2">
-<h2>The Brackets Do Not Preserve the Size</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">void</span> change<span class="op">(</span><span class="dt">int</span> values<span class="op">[</span><span class="dv">100</span><span class="op">]);</span></span>
-<span id="cb8-2"><a href=""></a></span>
-<span id="cb8-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb8-4"><a href=""></a>    <span class="dt">int</span> small<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">};</span></span>
-<span id="cb8-5"><a href=""></a>    change<span class="op">(</span>small<span class="op">);</span></span>
-<span id="cb8-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb8-7"><a href=""></a><span class="op">}</span></span>
-<span id="cb8-8"><a href=""></a></span>
-<span id="cb8-9"><a href=""></a><span class="dt">void</span> change<span class="op">(</span><span class="dt">int</span> values<span class="op">[</span><span class="dv">100</span><span class="op">])</span> <span class="op">{</span></span>
-<span id="cb8-10"><a href=""></a>    values<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99</span><span class="op">;</span></span>
-<span id="cb8-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 12 -->
-</section>
-<section id="sizeof-before-the-function-call" class="slide level2">
-<h2><code>sizeof</code> Before the Function Call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">6</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">4</span><span class="op">,</span> <span class="dv">8</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">16</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">24</span><span class="op">};</span></span>
-<span id="cb9-2"><a href=""></a></span>
-<span id="cb9-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb9-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">[</span><span class="dv">0</span><span class="op">])</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb9-5"><a href=""></a></span>
-<span id="cb9-6"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">)</span> <span class="op">/</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
-<span id="cb9-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 13 -->
-</section>
-<section id="sizeof-inside-the-function" class="slide level2">
-<h2><code>sizeof</code> Inside the Function</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">void</span> inspect<span class="op">(</span><span class="dt">int</span> values<span class="op">[])</span> <span class="op">{</span></span>
-<span id="cb10-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb10-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>values</code> is a pointer parameter inside the function</li>
-<li><code>sizeof(values)</code> reports the pointer size, not the caller’s array size</li>
-</ul>
-<!-- Slide 14 -->
-</section>
-<section id="the-missing-size-must-be-restored" class="slide level2">
-<h2>The Missing Size Must Be Restored</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">void</span> printValues<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb11-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb11-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb11-4"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb11-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>The pointer identifies the first element</li>
-<li>The separate size states how many elements belong to the range</li>
-</ul>
-<!-- Slide 15 -->
-</section>
-<section id="pointer-and-size-form-one-contract" class="slide level2">
-<h2>Pointer and Size Form One Contract</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">};</span></span>
-<span id="cb12-2"><a href=""></a></span>
-<span id="cb12-3"><a href=""></a>printValues<span class="op">(</span>values<span class="op">,</span> <span class="dv">3</span><span class="op">);</span> <span class="co">// correct range</span></span>
-<span id="cb12-4"><a href=""></a>printValues<span class="op">(</span>values<span class="op">,</span> <span class="dv">5</span><span class="op">);</span> <span class="co">// function trusts an incorrect size</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>A raw pointer carries no bounds information</li>
-<li>The caller and function must agree on the range</li>
-</ul>
-<!-- Slide 16 -->
-</section>
-<section id="begin-and-end-form-a-range" class="slide level2">
-<h2>Begin and End Form a Range</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">void</span> printRange<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> begin<span class="op">,</span> <span class="at">const</span> <span class="dt">int</span><span class="op">*</span> end<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb13-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> current <span class="op">=</span> begin<span class="op">;</span> current <span class="op">!=</span> end<span class="op">;</span> current<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb13-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="op">*</span>current <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb13-4"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb13-5"><a href=""></a><span class="op">}</span></span>
-<span id="cb13-6"><a href=""></a></span>
-<span id="cb13-7"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">3</span><span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">15</span><span class="op">};</span></span>
-<span id="cb13-8"><a href=""></a>printRange<span class="op">(</span>values<span class="op">,</span> values <span class="op">+</span> <span class="dv">5</span><span class="op">);</span></span>
-<span id="cb13-9"><a href=""></a>printRange<span class="op">(</span>values <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> values <span class="op">+</span> <span class="dv">4</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>The second call describes the subrange containing 6, 9, and 12. The end pointer is a boundary and is never dereferenced.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 17 -->
-</section>
-<section id="read-only-array-parameters" class="slide level2">
-<h2>Read-Only Array Parameters</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span> sum<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb14-2"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb14-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb14-4"><a href=""></a>        total <span class="op">+=</span> values<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb14-5"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb14-6"><a href=""></a>    <span class="cf">return</span> total<span class="op">;</span></span>
-<span id="cb14-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>const</code> prevents the function from changing caller elements</li>
-</ul>
-<!-- Slide 18 -->
-</section>
-<section id="returning-a-position" class="slide level2">
-<h2>Returning a Position</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> findValue<span class="op">(</span><span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> target<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb15-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb15-3"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>values<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> target<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb15-4"><a href=""></a>            <span class="cf">return</span> <span class="op">&amp;</span>values<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb15-5"><a href=""></a>        <span class="op">}</span></span>
-<span id="cb15-6"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb15-7"><a href=""></a>    <span class="cf">return</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb15-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 19 -->
-</section>
-<section id="decay-is-context-dependent" class="slide level2">
-<h2>Decay Is Context-Dependent</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span>
-<span id="cb16-2"><a href=""></a></span>
-<span id="cb16-3"><a href=""></a><span class="dt">int</span><span class="op">*</span> elementPtr <span class="op">=</span> values<span class="op">;</span></span>
-<span id="cb16-4"><a href=""></a><span class="dt">int</span> <span class="op">(*</span>arrayPtr<span class="op">)[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">&amp;</span>values<span class="op">;</span></span>
-<span id="cb16-5"><a href=""></a></span>
-<span id="cb16-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb16-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="kw">sizeof</span><span class="op">(</span>elementPtr<span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>sizeof(values)</code> examines the array without decay</li>
-<li><code>&amp;values</code> produces a pointer to the whole array</li>
-</ul>
-<!-- Slide 20 -->
-</section>
-<section id="c-style-arrays-versus-array" class="slide level2">
-<h2>C-Style Arrays Versus <code>array</code></h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;array&gt;</span></span>
-<span id="cb17-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb17-3"><a href=""></a></span>
-<span id="cb17-4"><a href=""></a><span class="dt">void</span> inspect<span class="op">(</span><span class="at">const</span> array<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dv">5</span><span class="op">&gt;&amp;</span> values<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb17-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> values<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb17-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> values<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb17-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Passing by reference preserves the complete container type</li>
-</ul>
-<!-- Slide 21 -->
-</section>
-<section id="a-two-dimensional-array-decays-by-rows" class="slide level2">
-<h2>A Two-Dimensional Array Decays by Rows</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">int</span> grid<span class="op">[</span><span class="dv">3</span><span class="op">][</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span>
-<span id="cb18-2"><a href=""></a></span>
-<span id="cb18-3"><a href=""></a><span class="dt">int</span> <span class="op">(*</span>rowPtr<span class="op">)[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> grid<span class="op">;</span></span>
-<span id="cb18-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> rowPtr<span class="op">[</span><span class="dv">1</span><span class="op">][</span><span class="dv">2</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>grid</code> decays to a pointer to its first four-element row</li>
-<li>The column extent must remain known for row arithmetic</li>
-</ul>
-<!-- Slide 22 -->
-</section>
-<section id="an-array-reference-preserves-its-extent" class="slide level2">
-<h2>An Array Reference Preserves Its Extent</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">void</span> inspect<span class="op">(</span><span class="dt">int</span> <span class="op">(&amp;</span>values<span class="op">)[</span><span class="dv">5</span><span class="op">])</span> <span class="op">{</span></span>
-<span id="cb19-2"><a href=""></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">)</span> <span class="op">/</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
-<span id="cb19-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb19-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Only an array of exactly five <code>int</code> values can bind to this parameter</li>
-<li>No array-to-pointer conversion occurs</li>
-</ul>
-<!-- Slide 23 -->
-</section>
-<section id="choose-an-interface-that-preserves-the-contract" class="slide level2">
-<h2>Choose an Interface That Preserves the Contract</h2>
+<section id="what-survives-decay" class="slide level2">
+<h2>What Survives Decay</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Interface</th>
-<th style="text-align: right;">Size preserved</th>
-<th>Typical use</th>
+<th>Before decay</th>
+<th>After decay</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>int*</code> and size</td>
-<td style="text-align: right;">Separately</td>
-<td>Legacy or low-level interface</td>
+<td>Array element type</td>
+<td>Element type</td>
 </tr>
 <tr class="even">
-<td>begin and end pointers</td>
-<td style="text-align: right;">As a range</td>
-<td>Subranges and algorithms</td>
+<td>First element address</td>
+<td>First element address</td>
 </tr>
 <tr class="odd">
-<td>array reference</td>
-<td style="text-align: right;">In the type</td>
-<td>Exact C-style array extent</td>
-</tr>
-<tr class="even">
-<td><code>array&amp;</code> or <code>vector&amp;</code></td>
-<td style="text-align: right;">In the object</td>
-<td>Modern container code</td>
+<td>Number of elements</td>
+<td>Lost</td>
 </tr>
 </tbody>
 </table>
-<!-- Slide 24 -->
-</section>
-<section id="array-decay-summary" class="slide level2">
-<h2>Array Decay Summary</h2>
 <ul>
-<li>Decay preserves access to the first element but discards the array extent</li>
-<li>Raw-pointer interfaces must restore bounds through a size, an end pointer, or a stronger type</li>
+<li>The pointer is not the array.</li>
 </ul>
-<!-- Slide 25 -->
-<!-- Topic 2: Null Pointers -->
-<!-- Slides 26–47 -->
-</section></section>
-<section>
-<section id="null-pointers" class="title-slide slide level1 center">
-<h1>Null Pointers</h1>
-<!-- Slide 26 -->
+<!-- Slide 7 -->
 </section>
-<section id="what-if-there-is-no-object" class="slide level2 smaller">
-<h2>What If There Is No Object?</h2>
+<section id="before-decay" class="slide level2">
+<h2>Before Decay</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">82</span><span class="op">,</span> <span class="dv">91</span><span class="op">,</span> <span class="dv">76</span><span class="op">,</span> <span class="dv">88</span><span class="op">,</span> <span class="dv">94</span><span class="op">};</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>A search can finish without finding a matching element</li>
-<li>A pointer needs a deliberate state for “no result”</li>
+<li><code>scores</code> is an array object</li>
+<li>Its type is “array of five <code>int</code> values”</li>
+<li>Its extent is part of the array type</li>
 </ul>
 <aside class="notes">
-<p>Slides 26–47</p>
+<p>[Graphic suggestion: show a five-cell array labeled scores, with indexes 0 through 4 and a bracket showing the whole array object.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -598,101 +354,444 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 8 -->
+</section>
+<section id="the-pointer-is-not-the-array" class="slide level2">
+<h2>The Pointer Is Not the Array</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">82</span><span class="op">,</span> <span class="dv">91</span><span class="op">,</span> <span class="dv">76</span><span class="op">,</span> <span class="dv">88</span><span class="op">,</span> <span class="dv">94</span><span class="op">};</span></span>
+<span id="cb3-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> scores<span class="op">;</span></span>
+<span id="cb3-3"><a href=""></a></span>
+<span id="cb3-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> scores <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb3-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">&amp;</span>scores<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb3-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> ptr <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The printed addresses may match</li>
+<li>The types and the information carried do not match</li>
+</ul>
+<!-- Slide 9 -->
+</section>
+<section id="predict-the-output" class="slide level2">
+<h2>Predict the Output</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">void</span> inspect<span class="op">(</span><span class="dt">int</span> values<span class="op">[]);</span></span>
+<span id="cb4-2"><a href=""></a></span>
+<span id="cb4-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-4"><a href=""></a>    <span class="dt">int</span> values<span class="op">[</span><span class="dv">6</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">4</span><span class="op">,</span> <span class="dv">8</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">16</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">24</span><span class="op">};</span></span>
+<span id="cb4-5"><a href=""></a></span>
+<span id="cb4-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb4-7"><a href=""></a>    inspect<span class="op">(</span>values<span class="op">);</span></span>
+<span id="cb4-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Will both lines report the same size?</li>
+</ul>
+<!-- Slide 10 -->
+</section>
+<section id="sizeof-in-main" class="slide level2">
+<h2><code>sizeof</code> in main</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">6</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">4</span><span class="op">,</span> <span class="dv">8</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">16</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">24</span><span class="op">};</span></span>
+<span id="cb5-2"><a href=""></a></span>
+<span id="cb5-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb5-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">[</span><span class="dv">0</span><span class="op">])</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb5-5"><a href=""></a></span>
+<span id="cb5-6"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">)</span> <span class="op">/</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb5-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>In the caller, <code>values</code> is still the whole array object.</li>
+</ul>
+<!-- Slide 11 -->
+</section>
+<section id="sizeof-in-a-function" class="slide level2">
+<h2><code>sizeof</code> in a Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="dt">void</span> inspect<span class="op">(</span><span class="dt">int</span> values<span class="op">[])</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="kw">sizeof</span><span class="op">(</span>values<span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb6-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Inside the function, <code>values</code> is a pointer parameter.</li>
+<li><code>sizeof(values)</code> reports the pointer size, not the caller’s array size.</li>
+</ul>
+<!-- Slide 12 -->
+</section>
+<section id="parameter-brackets-do-not-save-the-size" class="slide level2">
+<h2>Parameter Brackets Do Not Save the Size</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">void</span> printValues<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> size<span class="op">);</span></span>
+<span id="cb7-2"><a href=""></a><span class="dt">void</span> printValues<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>These declarations describe the same parameter type.</li>
+<li>The brackets may look array-like, but the function receives a pointer.</li>
+</ul>
+<!-- Slide 13 -->
+</section>
+<section id="the-boundary-must-travel-separately" class="slide level2">
+<h2>The Boundary Must Travel Separately</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">void</span> printValues<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb8-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb8-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb8-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The pointer identifies where the range starts.</li>
+<li>The size states how many elements belong to the range.</li>
+</ul>
+<!-- Slide 14 -->
+</section>
+<section id="passing-array-and-size" class="slide level2">
+<h2>Passing Array and Size</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb9-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a></span>
+<span id="cb9-4"><a href=""></a><span class="dt">void</span> printValues<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> size<span class="op">);</span></span>
+<span id="cb9-5"><a href=""></a></span>
+<span id="cb9-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-7"><a href=""></a>    <span class="dt">int</span> values<span class="op">[</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">7</span><span class="op">,</span> <span class="dv">14</span><span class="op">,</span> <span class="dv">21</span><span class="op">,</span> <span class="dv">28</span><span class="op">};</span></span>
+<span id="cb9-8"><a href=""></a>    printValues<span class="op">(</span>values<span class="op">,</span> <span class="dv">4</span><span class="op">);</span></span>
+<span id="cb9-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-10"><a href=""></a><span class="op">}</span></span>
+<span id="cb9-11"><a href=""></a></span>
+<span id="cb9-12"><a href=""></a><span class="dt">void</span> printValues<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-13"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb9-14"><a href=""></a>        cout <span class="op">&lt;&lt;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb9-15"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb9-16"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 15 -->
+</section>
+<section id="mutation-through-a-decayed-array" class="slide level2">
+<h2>Mutation Through a Decayed Array</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">void</span> curveScores<span class="op">(</span><span class="dt">int</span> scores<span class="op">[],</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb10-3"><a href=""></a>        scores<span class="op">[</span>i<span class="op">]</span> <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb10-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb10-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The function receives a pointer.</li>
+<li>Writing through that pointer changes the caller’s array elements.</li>
+</ul>
+<!-- Slide 16 -->
+</section>
+<section id="read-only-array-parameters" class="slide level2">
+<h2>Read-Only Array Parameters</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">int</span> sum<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-3"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb11-4"><a href=""></a>        total <span class="op">+=</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb11-5"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb11-6"><a href=""></a>    <span class="cf">return</span> total<span class="op">;</span></span>
+<span id="cb11-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Use <code>const</code> when the function should read elements without changing them.</li>
+</ul>
+<!-- Slide 17 -->
+</section>
+<section id="begin-and-end-pointers" class="slide level2">
+<h2>Begin and End Pointers</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">3</span><span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">15</span><span class="op">};</span></span>
+<span id="cb12-2"><a href=""></a></span>
+<span id="cb12-3"><a href=""></a><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> begin <span class="op">=</span> values<span class="op">;</span></span>
+<span id="cb12-4"><a href=""></a><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> end <span class="op">=</span> values <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>begin</code> points to the first element.</li>
+<li><code>end</code> points one past the last element and is a boundary, not a value to read.</li>
+</ul>
+<aside class="notes">
+<p>[Graphic suggestion: show begin pointing to index 0 and end pointing just beyond index 4.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 18 -->
+</section>
+<section id="walking-a-pointer-range" class="slide level2">
+<h2>Walking a Pointer Range</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">void</span> printRange<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> begin<span class="op">,</span> <span class="at">const</span> <span class="dt">int</span><span class="op">*</span> end<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> current <span class="op">=</span> begin<span class="op">;</span> current <span class="op">!=</span> end<span class="op">;</span> current<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb13-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="op">*</span>current <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb13-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb13-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The loop stops at the boundary.</li>
+<li>It never dereferences <code>end</code>.</li>
+</ul>
+<!-- Slide 19 -->
+</section>
+<section id="subarrays-without-copying" class="slide level2">
+<h2>Subarrays Without Copying</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">6</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">60</span><span class="op">};</span></span>
+<span id="cb14-2"><a href=""></a></span>
+<span id="cb14-3"><a href=""></a>printValues<span class="op">(</span>values<span class="op">,</span> <span class="dv">6</span><span class="op">);</span></span>
+<span id="cb14-4"><a href=""></a>printValues<span class="op">(</span>values <span class="op">+</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">);</span></span>
+<span id="cb14-5"><a href=""></a>printRange<span class="op">(</span>values <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> values <span class="op">+</span> <span class="dv">5</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A pointer can describe a smaller range inside a larger array.</li>
+</ul>
+<!-- Slide 20 -->
+</section>
+<section id="two-dimensional-array-decay" class="slide level2">
+<h2>Two-Dimensional Array Decay</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">void</span> printGrid<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> grid<span class="op">[][</span><span class="dv">3</span><span class="op">],</span> <span class="dt">int</span> rows<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> r <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> r <span class="op">&lt;</span> rows<span class="op">;</span> r<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb15-3"><a href=""></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> c <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> c <span class="op">&lt;</span> <span class="dv">3</span><span class="op">;</span> c<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb15-4"><a href=""></a>            cout <span class="op">&lt;&lt;</span> grid<span class="op">[</span>r<span class="op">][</span>c<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
+<span id="cb15-5"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb15-6"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb15-7"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb15-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The row count can travel separately.</li>
+<li>The column count must still be known by the function type.</li>
+</ul>
+<!-- Slide 21 -->
+</section>
+<section id="preserving-the-full-array-type" class="slide level2">
+<h2>Preserving the Full Array Type</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">void</span> printFour<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> <span class="op">(&amp;</span>values<span class="op">)[</span><span class="dv">4</span><span class="op">])</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> value <span class="op">:</span> values<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb16-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb16-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A reference-to-array parameter preserves the array extent.</li>
+<li>This is useful to recognize, but pointer-plus-size is the main pattern today.</li>
+</ul>
+<!-- Slide 22 -->
+</section>
+<section id="choosing-an-array-interface" class="slide level2">
+<h2>Choosing an Array Interface</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Interface</th>
+<th>Best fit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>const int* values, int size</code></td>
+<td>Simple read-only raw array</td>
+</tr>
+<tr class="even">
+<td><code>int* values, int size</code></td>
+<td>Caller-visible element changes</td>
+</tr>
+<tr class="odd">
+<td><code>begin, end</code></td>
+<td>Subranges and pointer traversal</td>
+</tr>
+<tr class="even">
+<td><code>vector&lt;int&gt;&amp;</code></td>
+<td>Resizable collection with size attached</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 23 -->
+</section>
+<section id="what-to-remember-about-decay" class="slide level2">
+<h2>What to Remember About Decay</h2>
+<ul>
+<li>Array decay gives a function access to elements, not the array’s extent.</li>
+<li>The pointer is not the array; the boundary must travel separately.</li>
+</ul>
+<!-- Slide 24 -->
+<!-- Topic 2: Null Pointers -->
+<!-- Slides 25–47 -->
+</section></section>
+<section>
+<section id="null-pointers" class="title-slide slide level1 center">
+<h1>Null Pointers</h1>
+<!-- Slide 25 -->
+</section>
+<section id="when-a-pointer-has-no-target" class="slide level2 smaller">
+<h2>When a Pointer Has No Target</h2>
+<ul>
+<li>What should a pointer store when there is no object to point at?</li>
+<li>C++ gives us a deliberate no-object value: <code>nullptr</code>.</li>
+</ul>
+<aside class="notes">
+<p>Slides 25–47</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 26 -->
+</section>
+<section id="null-is-a-value-not-a-mistake" class="slide level2">
+<h2>Null Is a Value, Not a Mistake</h2>
+<ul>
+<li><code>nullptr</code> is the modern C++ value meaning “points to no object.”</li>
+<li>A null pointer is safe when its meaning is intentional and checked before access.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> selected <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <!-- Slide 27 -->
 </section>
-<section id="a-pointer-needs-a-defined-state" class="slide level2">
-<h2>A Pointer Needs a Defined State</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">int</span> value <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
-<span id="cb20-2"><a href=""></a></span>
-<span id="cb20-3"><a href=""></a><span class="dt">int</span><span class="op">*</span> valid <span class="op">=</span> <span class="op">&amp;</span>value<span class="op">;</span></span>
-<span id="cb20-4"><a href=""></a><span class="dt">int</span><span class="op">*</span> empty <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb20-5"><a href=""></a><span class="dt">int</span><span class="op">*</span> unknown<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="why-this-matters-1" class="slide level2">
+<h2>Why This Matters</h2>
+<ul>
+<li>Pointers sometimes need to represent absence: not found, no current selection, or optional information.</li>
+<li><code>nullptr</code> lets us represent absence without using an unknown address.</li>
+</ul>
+<!-- Slide 28 -->
+</section>
+<section id="nullptr-is-not-an-address-you-can-use" class="slide level2">
+<h2><code>nullptr</code> Is Not an Address You Can Use</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">int</span> value <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb18-2"><a href=""></a></span>
+<span id="cb18-3"><a href=""></a><span class="dt">int</span><span class="op">*</span> valid <span class="op">=</span> <span class="op">&amp;</span>value<span class="op">;</span></span>
+<span id="cb18-4"><a href=""></a><span class="dt">int</span><span class="op">*</span> empty <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb18-5"><a href=""></a><span class="dt">int</span><span class="op">*</span> unknown<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <table class="caption-top">
 <thead>
 <tr class="header">
 <th>Pointer</th>
-<th>State</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><code>valid</code></td>
-<td>selects a live <code>int</code></td>
+<td>points to a live <code>int</code></td>
 </tr>
 <tr class="even">
 <td><code>empty</code></td>
-<td>deliberately selects nothing</td>
+<td>deliberately points to nothing</td>
 </tr>
 <tr class="odd">
 <td><code>unknown</code></td>
-<td>indeterminate and unusable</td>
+<td>uninitialized and unusable</td>
 </tr>
 </tbody>
 </table>
-<!-- Slide 28 -->
-</section>
-<section id="nullptr-means-no-target" class="slide level2">
-<h2><code>nullptr</code> Means No Target</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> selected <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb21-2"><a href=""></a></span>
-<span id="cb21-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> selected <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>nullptr</code> is the C++ null pointer literal</li>
-<li>It represents the absence of an object address</li>
-<li>It is a state to test, not an object to access</li>
-</ul>
 <!-- Slide 29 -->
 </section>
-<section id="initialize-optional-pointers" class="slide level2">
-<h2>Initialize Optional Pointers</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">88</span><span class="op">;</span></span>
-<span id="cb22-2"><a href=""></a><span class="dt">bool</span> scoreIsReady <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb22-3"><a href=""></a></span>
-<span id="cb22-4"><a href=""></a><span class="dt">int</span><span class="op">*</span> selected <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb22-5"><a href=""></a><span class="cf">if</span> <span class="op">(</span>scoreIsReady<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb22-6"><a href=""></a>    selected <span class="op">=</span> <span class="op">&amp;</span>score<span class="op">;</span></span>
-<span id="cb22-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="initialize-to-something-known" class="slide level2">
+<h2>Initialize to Something Known</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">88</span><span class="op">;</span></span>
+<span id="cb19-2"><a href=""></a><span class="dt">bool</span> ready <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb19-3"><a href=""></a></span>
+<span id="cb19-4"><a href=""></a><span class="dt">int</span><span class="op">*</span> selected <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb19-5"><a href=""></a><span class="cf">if</span> <span class="op">(</span>ready<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-6"><a href=""></a>    selected <span class="op">=</span> <span class="op">&amp;</span>score<span class="op">;</span></span>
+<span id="cb19-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A pointer should begin as either a valid address or <code>nullptr</code>.</li>
+</ul>
 <!-- Slide 30 -->
 </section>
-<section id="test-before-dereferencing" class="slide level2">
-<h2>Test Before Dereferencing</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>selected <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb23-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>selected <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb23-3"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb23-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"No score selected</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb23-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="predict-the-branch" class="slide level2">
+<h2>Predict the Branch</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> current <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb20-2"><a href=""></a></span>
+<span id="cb20-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>current <span class="op">==</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"nothing selected</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb20-5"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb20-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>current <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb20-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>The test separates the object-present and object-absent paths</li>
+<li>Which branch runs?</li>
 </ul>
 <!-- Slide 31 -->
 </section>
-<section id="short-circuit-evaluation-protects-access" class="slide level2">
-<h2>Short-Circuit Evaluation Protects Access</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb24-2"><a href=""></a></span>
-<span id="cb24-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>ptr <span class="op">!=</span> <span class="kw">nullptr</span> <span class="op">&amp;&amp;</span> <span class="op">*</span>ptr <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb24-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"positive</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb24-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="testing-for-nullptr" class="slide level2">
+<h2>Testing for <code>nullptr</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>current <span class="op">==</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"nothing selected</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb21-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb21-4"><a href=""></a></span>
+<span id="cb21-5"><a href=""></a><span class="cf">if</span> <span class="op">(</span>current <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>current <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb21-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><code>&amp;&amp;</code> stops when its left operand is false</li>
-<li><code>*ptr</code> is evaluated only when an address is present</li>
+<li>The test separates the object-absent path from the object-present path.</li>
 </ul>
 <!-- Slide 32 -->
 </section>
-<section id="null-pointers-cannot-be-dereferenced" class="slide level2">
-<h2>Null Pointers Cannot Be Dereferenced</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb25-2"><a href=""></a></span>
-<span id="cb25-3"><a href=""></a><span class="co">// No int object exists at the selected location.</span></span>
-<span id="cb25-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>ptr <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="pointer-truth-tests" class="slide level2">
+<h2>Pointer Truth Tests</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>current<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>current <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb22-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb22-4"><a href=""></a></span>
+<span id="cb22-5"><a href=""></a><span class="cf">if</span> <span class="op">(!</span>current<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"nothing selected</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb22-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Dereferencing a null pointer is undefined behavior</li>
-<li>A null check must occur before the access</li>
+<li>This shorthand is common.</li>
+<li>Explicit <code>nullptr</code> comparisons are clearer while the habit is new.</li>
 </ul>
 <!-- Slide 33 -->
 </section>
-<section id="returning-nullptr-from-search" class="slide level2">
-<h2>Returning <code>nullptr</code> From Search</h2>
+<section id="guard-before-dereference" class="slide level2">
+<h2>Guard Before Dereference</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> current <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb23-2"><a href=""></a></span>
+<span id="cb23-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>current <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>current <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb23-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The null check is the gate before <code>*current</code>.</li>
+<li>Do not dereference a pointer that points to no object.</li>
+</ul>
+<!-- Slide 34 -->
+</section>
+<section id="safe-dereference-example" class="slide level2">
+<h2>Safe Dereference Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">void</span> printIfPresent<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>value <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"value: "</span> <span class="op">&lt;&lt;</span> <span class="op">*</span>value <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb24-4"><a href=""></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb24-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"no value</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb24-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb24-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 35 -->
+</section>
+<section id="null-is-safer-than-wild" class="slide level2">
+<h2>Null Is Safer Than Wild</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> safeEmpty <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb25-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> wild<span class="op">;</span></span>
+<span id="cb25-3"><a href=""></a></span>
+<span id="cb25-4"><a href=""></a><span class="cf">if</span> <span class="op">(</span>safeEmpty <span class="op">==</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"known empty state</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb25-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>nullptr</code> can be tested.</li>
+<li>An uninitialized pointer contains an indeterminate value.</li>
+</ul>
+<!-- Slide 36 -->
+</section>
+<section id="null-does-not-mean-valid-later" class="slide level2">
+<h2>Null Does Not Mean Valid Later</h2>
+<ul>
+<li>A pointer can be non-null and still be invalid.</li>
+<li>Null checks answer “does this pointer equal <code>nullptr</code>?” not “is this target alive and in range?”</li>
+</ul>
+<aside class="notes">
+<p>Keep this as a signpost. Heap lifetime, leaks, and use-after-free are intentionally deferred until after dynamic allocation.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 37 -->
+</section>
+<section id="nullable-return-values" class="slide level2">
+<h2>Nullable Return Values</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> findValue<span class="op">(</span><span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span> target<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb26-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
 <span id="cb26-3"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>values<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> target<span class="op">)</span> <span class="op">{</span></span>
@@ -701,10 +800,10 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb26-6"><a href=""></a>    <span class="op">}</span></span>
 <span id="cb26-7"><a href=""></a>    <span class="cf">return</span> <span class="kw">nullptr</span><span class="op">;</span></span>
 <span id="cb26-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 34 -->
+<!-- Slide 38 -->
 </section>
-<section id="the-caller-handles-both-outcomes" class="slide level2">
-<h2>The Caller Handles Both Outcomes</h2>
+<section id="calling-a-nullable-return-function" class="slide level2">
+<h2>Calling a Nullable Return Function</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">5</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">12</span><span class="op">,</span> <span class="dv">18</span><span class="op">,</span> <span class="dv">25</span><span class="op">,</span> <span class="dv">31</span><span class="op">,</span> <span class="dv">44</span><span class="op">};</span></span>
 <span id="cb27-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> found <span class="op">=</span> findValue<span class="op">(</span>values<span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">25</span><span class="op">);</span></span>
 <span id="cb27-3"><a href=""></a></span>
@@ -714,23 +813,32 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb27-7"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
 <span id="cb27-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"not found</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
 <span id="cb27-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 35 -->
+<!-- Slide 39 -->
 </section>
-<section id="nullable-function-parameters" class="slide level2">
-<h2>Nullable Function Parameters</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="dt">void</span> recordScore<span class="op">(</span><span class="dt">int</span> score<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> latest<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb28-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"score: "</span> <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb28-3"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>latest <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb28-4"><a href=""></a>        <span class="op">*</span>latest <span class="op">=</span> score<span class="op">;</span></span>
-<span id="cb28-5"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb28-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="what-does-nullptr-mean-here" class="slide level2">
+<h2>What Does <code>nullptr</code> Mean Here?</h2>
 <ul>
-<li>A pointer parameter can state that an object is optional</li>
+<li>Every nullable pointer needs a documented meaning.</li>
+<li><code>nullptr</code> might mean “not found,” “optional input omitted,” or “no current selection.”</li>
 </ul>
-<!-- Slide 36 -->
+<!-- Slide 40 -->
 </section>
-<section id="required-parameters-should-not-be-nullable" class="slide level2">
-<h2>Required Parameters Should Not Be Nullable</h2>
+<section id="nullable-parameters" class="slide level2">
+<h2>Nullable Parameters</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="dt">void</span> printScore<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> score<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>score <span class="op">==</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"score not available</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb28-4"><a href=""></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb28-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"score: "</span> <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb28-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb28-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The function contract must say whether <code>nullptr</code> is allowed.</li>
+</ul>
+<!-- Slide 41 -->
+</section>
+<section id="required-object-use-a-reference" class="slide level2">
+<h2>Required Object? Use a Reference</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="dt">void</span> addBonus<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> score<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb29-2"><a href=""></a>    score <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
 <span id="cb29-3"><a href=""></a><span class="op">}</span></span>
@@ -741,158 +849,473 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb29-8"><a href=""></a>    <span class="op">}</span></span>
 <span id="cb29-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Use a reference when the function requires an object</li>
-<li>Use a pointer when absence is part of the contract</li>
-</ul>
-<!-- Slide 37 -->
-</section>
-<section id="optional-output-parameters" class="slide level2">
-<h2>Optional Output Parameters</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="dt">void</span> analyze<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">,</span></span>
-<span id="cb30-2"><a href=""></a>             <span class="dt">int</span><span class="op">*</span> minimum<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> maximum<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb30-3"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>minimum <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">*</span>minimum <span class="op">=</span> values<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
-<span id="cb30-4"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>maximum <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">*</span>maximum <span class="op">=</span> values<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
-<span id="cb30-5"><a href=""></a></span>
-<span id="cb30-6"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb30-7"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>minimum <span class="op">!=</span> <span class="kw">nullptr</span> <span class="op">&amp;&amp;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;</span> <span class="op">*</span>minimum<span class="op">)</span></span>
-<span id="cb30-8"><a href=""></a>            <span class="op">*</span>minimum <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb30-9"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>maximum <span class="op">!=</span> <span class="kw">nullptr</span> <span class="op">&amp;&amp;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> <span class="op">*</span>maximum<span class="op">)</span></span>
-<span id="cb30-10"><a href=""></a>            <span class="op">*</span>maximum <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb30-11"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb30-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 38 -->
-</section>
-<section id="nullptr-is-type-safe" class="slide level2">
-<h2><code>nullptr</code> Is Type-Safe</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> first <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb31-2"><a href=""></a><span class="dt">double</span><span class="op">*</span> second <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb31-3"><a href=""></a></span>
-<span id="cb31-4"><a href=""></a><span class="dt">int</span><span class="op">*</span> legacyA <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb31-5"><a href=""></a><span class="dt">int</span><span class="op">*</span> legacyB <span class="op">=</span> NULL<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Prefer <code>nullptr</code> in modern C++</li>
-<li>It represents a null pointer without also acting as an integer literal</li>
-</ul>
-<!-- Slide 39 -->
-</section>
-<section id="overloads-reveal-the-difference" class="slide level2">
-<h2>Overloads Reveal the Difference</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a><span class="dt">void</span> inspect<span class="op">(</span><span class="dt">int</span> value<span class="op">);</span></span>
-<span id="cb32-2"><a href=""></a><span class="dt">void</span> inspect<span class="op">(</span><span class="dt">int</span><span class="op">*</span> ptr<span class="op">);</span></span>
-<span id="cb32-3"><a href=""></a></span>
-<span id="cb32-4"><a href=""></a>inspect<span class="op">(</span><span class="dv">0</span><span class="op">);</span>       <span class="co">// calls inspect(int)</span></span>
-<span id="cb32-5"><a href=""></a>inspect<span class="op">(</span><span class="kw">nullptr</span><span class="op">);</span> <span class="co">// calls inspect(int*)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>nullptr</code> communicates pointer intent to the compiler</li>
-</ul>
-<!-- Slide 40 -->
-</section>
-<section id="resetting-records-no-target" class="slide level2">
-<h2>Resetting Records No Target</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">88</span><span class="op">;</span></span>
-<span id="cb33-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> selected <span class="op">=</span> <span class="op">&amp;</span>score<span class="op">;</span></span>
-<span id="cb33-3"><a href=""></a></span>
-<span id="cb33-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>selected <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb33-5"><a href=""></a>selected <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Resetting the pointer records that it no longer selects an object</li>
-<li>It does not destroy <code>score</code></li>
-</ul>
-<!-- Slide 41 -->
-</section>
-<section id="one-null-assignment-does-not-fix-aliases" class="slide level2">
-<h2>One Null Assignment Does Not Fix Aliases</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a><span class="dt">int</span> value <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
-<span id="cb34-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> first <span class="op">=</span> <span class="op">&amp;</span>value<span class="op">;</span></span>
-<span id="cb34-3"><a href=""></a><span class="dt">int</span><span class="op">*</span> second <span class="op">=</span> first<span class="op">;</span></span>
-<span id="cb34-4"><a href=""></a></span>
-<span id="cb34-5"><a href=""></a>first <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb34-6"><a href=""></a></span>
-<span id="cb34-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>second <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Each pointer stores its own copy of the address</li>
-<li>Changing one pointer does not change another</li>
+<li>Use a reference when the object is required.</li>
+<li>Use a pointer when absence is meaningful.</li>
 </ul>
 <!-- Slide 42 -->
 </section>
-<section id="null-is-only-one-safety-check" class="slide level2">
-<h2>Null Is Only One Safety Check</h2>
+<section id="the-arrow-operator-with-nullable-pointers" class="slide level2">
+<h2>The Arrow Operator With Nullable Pointers</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="kw">struct</span> Player <span class="op">{</span></span>
+<span id="cb30-2"><a href=""></a>    string name<span class="op">;</span></span>
+<span id="cb30-3"><a href=""></a>    <span class="dt">int</span> score<span class="op">;</span></span>
+<span id="cb30-4"><a href=""></a><span class="op">};</span></span>
+<span id="cb30-5"><a href=""></a></span>
+<span id="cb30-6"><a href=""></a><span class="dt">void</span> printPlayer<span class="op">(</span><span class="at">const</span> Player<span class="op">*</span> player<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-7"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>player <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-8"><a href=""></a>        cout <span class="op">&lt;&lt;</span> player<span class="op">-&gt;</span>name <span class="op">&lt;&lt;</span> <span class="st">": "</span> <span class="op">&lt;&lt;</span> player<span class="op">-&gt;</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb30-9"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb30-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>player-&gt;name</code> means <code>(*player).name</code>.</li>
+</ul>
+<!-- Slide 43 -->
+</section>
+<section id="deleting-nullptr-is-safe-but-not-the-point" class="slide level2">
+<h2>Deleting <code>nullptr</code> Is Safe, But Not the Point</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb31-2"><a href=""></a><span class="kw">delete</span> ptr<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>C++ allows deleting <code>nullptr</code>.</li>
+<li>Dynamic allocation and ownership belong in the next lecture.</li>
+</ul>
+<!-- Slide 44 -->
+</section>
+<section id="a-null-check-is-not-a-lifetime-check" class="slide level2">
+<h2>A Null Check Is Not a Lifetime Check</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>ptr <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>ptr <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb32-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>This check protects the immediate dereference from a null pointer.</li>
+<li>It does not prove the pointer is in bounds or still points to a live object.</li>
+</ul>
+<!-- Slide 45 -->
+</section>
+<section id="choosing-a-null-contract" class="slide level2">
+<h2>Choosing a Null Contract</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Question</th>
-<th>What it establishes</th>
+<th>Situation</th>
+<th>Prefer</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>ptr != nullptr</code></td>
-<td>an address is present</td>
+<td>Object is required</td>
+<td>Reference</td>
 </tr>
 <tr class="even">
-<td>Is the target alive?</td>
-<td>its lifetime has not ended</td>
+<td>Object is optional</td>
+<td>Nullable pointer</td>
 </tr>
 <tr class="odd">
-<td>Is the position in range?</td>
-<td>dereferencing selects an element</td>
+<td>Search may fail</td>
+<td>Pointer return or index sentinel</td>
+</tr>
+<tr class="even">
+<td>Array range may be empty</td>
+<td>Pointer plus size or begin/end</td>
 </tr>
 </tbody>
 </table>
-<ul>
-<li>A non-null pointer is not automatically valid</li>
-</ul>
-<!-- Slide 43 -->
-</section>
-<section id="pointers-convert-to-boolean-conditions" class="slide level2">
-<h2>Pointers Convert to Boolean Conditions</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>ptr<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb35-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>ptr <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb35-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb35-4"><a href=""></a></span>
-<span id="cb35-5"><a href=""></a><span class="cf">if</span> <span class="op">(!</span>ptr<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb35-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"No object</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb35-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>if (ptr)</code> means <code>if (ptr != nullptr)</code></li>
-<li>Use the style consistently within a program</li>
-</ul>
-<!-- Slide 44 -->
-</section>
-<section id="guard-the-arrow-operator-too" class="slide level2">
-<h2>Guard the Arrow Operator Too</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="kw">struct</span> Student <span class="op">{</span></span>
-<span id="cb36-2"><a href=""></a>    string name<span class="op">;</span></span>
-<span id="cb36-3"><a href=""></a>    <span class="dt">int</span> score<span class="op">;</span></span>
-<span id="cb36-4"><a href=""></a><span class="op">};</span></span>
-<span id="cb36-5"><a href=""></a></span>
-<span id="cb36-6"><a href=""></a>Student<span class="op">*</span> selected <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb36-7"><a href=""></a><span class="cf">if</span> <span class="op">(</span>selected <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb36-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> selected<span class="op">-&gt;</span>name <span class="op">&lt;&lt;</span> <span class="st">" "</span> <span class="op">&lt;&lt;</span> selected<span class="op">-&gt;</span>score<span class="op">;</span></span>
-<span id="cb36-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>selected-&gt;score</code> accesses a member through the pointer</li>
-</ul>
-<!-- Slide 45 -->
-</section>
-<section id="deleting-nullptr-does-nothing" class="slide level2">
-<h2>Deleting <code>nullptr</code> Does Nothing</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb37-2"><a href=""></a></span>
-<span id="cb37-3"><a href=""></a><span class="kw">delete</span> ptr<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>C++ permits deleting a null pointer</li>
-<li>Dynamic allocation and ownership arrive next lecture</li>
-</ul>
 <!-- Slide 46 -->
 </section>
 <section id="null-pointer-summary" class="slide level2">
 <h2>Null Pointer Summary</h2>
 <ul>
-<li>Initialize optional pointers with <code>nullptr</code> and test before every indirect access</li>
-<li>Use nullable pointers only when “no object” is a meaningful part of the interface</li>
+<li><code>nullptr</code> represents intentional absence.</li>
+<li>Dereferencing requires more than “not null”: the target must also be valid for the operation.</li>
 </ul>
 <!-- Slide 47 -->
+<!-- Topic 3: Passing Pointers -->
+<!-- Slides 48–72 -->
+</section></section>
+<section>
+<section id="passing-pointers" class="title-slide slide level1 center">
+<h1>Passing Pointers</h1>
+<!-- Slide 48 -->
+</section>
+<section id="what-crosses-the-function-boundary" class="slide level2 smaller">
+<h2>What Crosses the Function Boundary?</h2>
+<ul>
+<li>When a pointer is passed to a function, the address crosses the boundary.</li>
+<li>The function gets its own pointer variable, but it may share access to the caller’s object.</li>
+</ul>
+<aside class="notes">
+<p>Slides 48–72</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 49 -->
+</section>
+<section id="passing-an-address" class="slide level2">
+<h2>Passing an Address</h2>
+<ul>
+<li>Passing a pointer means passing an address value into a pointer parameter.</li>
+<li>The parameter can use that address to read or write the pointed-to object.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a><span class="dt">void</span> printValue<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> value<span class="op">);</span></span>
+<span id="cb33-2"><a href=""></a></span>
+<span id="cb33-3"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">91</span><span class="op">;</span></span>
+<span id="cb33-4"><a href=""></a>printValue<span class="op">(&amp;</span>score<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 50 -->
+</section>
+<section id="the-two-things-to-track" class="slide level2">
+<h2>The Two Things to Track</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Thing</th>
+<th>Where it lives</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pointer parameter</td>
+<td>Local to the called function</td>
+</tr>
+<tr class="even">
+<td>Pointed-to object</td>
+<td>Wherever the address came from</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The pointer is passed by value.</li>
+<li>The target may still be shared.</li>
+</ul>
+<!-- Slide 51 -->
+</section>
+<section id="anatomy-of-a-pointer-parameter" class="slide level2">
+<h2>Anatomy of a Pointer Parameter</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a><span class="dt">void</span> addBonus<span class="op">(</span><span class="dt">int</span><span class="op">*</span> score<span class="op">);</span></span>
+<span id="cb34-2"><a href=""></a></span>
+<span id="cb34-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb34-4"><a href=""></a>    <span class="dt">int</span> exam <span class="op">=</span> <span class="dv">85</span><span class="op">;</span></span>
+<span id="cb34-5"><a href=""></a>    addBonus<span class="op">(&amp;</span>exam<span class="op">);</span></span>
+<span id="cb34-6"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb34-7"><a href=""></a><span class="op">}</span></span>
+<span id="cb34-8"><a href=""></a></span>
+<span id="cb34-9"><a href=""></a><span class="dt">void</span> addBonus<span class="op">(</span><span class="dt">int</span><span class="op">*</span> score<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb34-10"><a href=""></a>    <span class="op">*</span>score <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb34-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>&amp;exam</code> supplies the address.</li>
+<li><code>*score</code> accesses the caller’s <code>exam</code>.</li>
+</ul>
+<!-- Slide 52 -->
+</section>
+<section id="pointer-parameter-trace" class="slide level2">
+<h2>Pointer Parameter Trace</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="dt">int</span> exam <span class="op">=</span> <span class="dv">85</span><span class="op">;</span></span>
+<span id="cb35-2"><a href=""></a>addBonus<span class="op">(&amp;</span>exam<span class="op">);</span></span>
+<span id="cb35-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> exam <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Moment</th>
+<th style="text-align: right;"><code>exam</code></th>
+<th><code>score</code> inside function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>before call</td>
+<td style="text-align: right;">85</td>
+<td>does not exist</td>
+</tr>
+<tr class="even">
+<td>during call</td>
+<td style="text-align: right;">85</td>
+<td>address of <code>exam</code></td>
+</tr>
+<tr class="odd">
+<td>after <code>*score += 5</code></td>
+<td style="text-align: right;">90</td>
+<td>address of <code>exam</code></td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 53 -->
+</section>
+<section id="read-through-a-pointer" class="slide level2">
+<h2>Read Through a Pointer</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="dt">void</span> printValue<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb36-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>value <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb36-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"value: "</span> <span class="op">&lt;&lt;</span> <span class="op">*</span>value <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb36-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb36-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>const int*</code> means the function may read the target but not change the <code>int</code>.</li>
+</ul>
+<!-- Slide 54 -->
+</section>
+<section id="write-through-a-pointer" class="slide level2">
+<h2>Write Through a Pointer</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a><span class="dt">void</span> resetScore<span class="op">(</span><span class="dt">int</span><span class="op">*</span> score<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb37-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>score <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb37-3"><a href=""></a>        <span class="op">*</span>score <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb37-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb37-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Writing through <code>*score</code> changes the caller-owned object.</li>
+</ul>
+<!-- Slide 55 -->
+</section>
+<section id="predict-the-output-1" class="slide level2">
+<h2>Predict the Output</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a><span class="dt">void</span> doubleValue<span class="op">(</span><span class="dt">int</span><span class="op">*</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb38-2"><a href=""></a>    <span class="op">*</span>value <span class="op">*=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb38-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb38-4"><a href=""></a></span>
+<span id="cb38-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb38-6"><a href=""></a>    <span class="dt">int</span> number <span class="op">=</span> <span class="dv">12</span><span class="op">;</span></span>
+<span id="cb38-7"><a href=""></a>    doubleValue<span class="op">(&amp;</span>number<span class="op">);</span></span>
+<span id="cb38-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> number <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb38-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb38-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>What prints after the function returns?</li>
+</ul>
+<!-- Slide 56 -->
+</section>
+<section id="changing-ptr-versus-changing-ptr" class="slide level2">
+<h2>Changing <code>ptr</code> Versus Changing <code>*ptr</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a><span class="dt">void</span> changeBoth<span class="op">(</span><span class="dt">int</span><span class="op">*</span> ptr<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb39-2"><a href=""></a>    <span class="op">*</span>ptr <span class="op">=</span> <span class="dv">99</span><span class="op">;</span></span>
+<span id="cb39-3"><a href=""></a>    ptr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb39-4"><a href=""></a><span class="op">}</span></span>
+<span id="cb39-5"><a href=""></a></span>
+<span id="cb39-6"><a href=""></a><span class="dt">int</span> value <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb39-7"><a href=""></a><span class="dt">int</span><span class="op">*</span> original <span class="op">=</span> <span class="op">&amp;</span>value<span class="op">;</span></span>
+<span id="cb39-8"><a href=""></a>changeBoth<span class="op">(</span>original<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>*ptr = 99</code> changes <code>value</code>.</li>
+<li><code>ptr = nullptr</code> changes only the local pointer copy.</li>
+</ul>
+<!-- Slide 57 -->
+</section>
+<section id="pointer-parameter-versus-reference-parameter" class="slide level2">
+<h2>Pointer Parameter Versus Reference Parameter</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a><span class="dt">void</span> addOnePointer<span class="op">(</span><span class="dt">int</span><span class="op">*</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb40-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>value <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb40-3"><a href=""></a>        <span class="op">*</span>value <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb40-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb40-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb40-6"><a href=""></a></span>
+<span id="cb40-7"><a href=""></a><span class="dt">void</span> addOneReference<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb40-8"><a href=""></a>    value <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb40-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Both can modify the caller’s object.</li>
+<li>The pointer version can also represent absence.</li>
+</ul>
+<!-- Slide 58 -->
+</section>
+<section id="required-target-prefer-a-reference" class="slide level2">
+<h2>Required Target? Prefer a Reference</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a><span class="dt">void</span> curveRequired<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> score<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb41-2"><a href=""></a>    score <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb41-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A reference says the function requires a real object.</li>
+<li>There is no null branch to explain or defend.</li>
+</ul>
+<!-- Slide 59 -->
+</section>
+<section id="optional-target-use-a-nullable-pointer" class="slide level2">
+<h2>Optional Target? Use a Nullable Pointer</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a><span class="dt">void</span> curveIfPresent<span class="op">(</span><span class="dt">int</span><span class="op">*</span> score<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb42-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>score <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb42-3"><a href=""></a>        <span class="op">*</span>score <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb42-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb42-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A pointer is appropriate when <code>nullptr</code> is part of the contract.</li>
+</ul>
+<!-- Slide 60 -->
+</section>
+<section id="guard-nullable-parameters" class="slide level2">
+<h2>Guard Nullable Parameters</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb43-1"><a href=""></a><span class="dt">void</span> printLabel<span class="op">(</span><span class="at">const</span> string<span class="op">*</span> label<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb43-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>label <span class="op">==</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb43-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"(unlabeled)</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb43-4"><a href=""></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb43-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="op">*</span>label <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb43-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb43-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>If the parameter can be null, the function must check before dereferencing.</li>
+</ul>
+<!-- Slide 61 -->
+</section>
+<section id="what-does-nullptr-mean-here-1" class="slide level2">
+<h2>What Does <code>nullptr</code> Mean Here?</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb44-1"><a href=""></a><span class="dt">void</span> showScore<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> score<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb44-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>score <span class="op">==</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb44-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"score omitted</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb44-4"><a href=""></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb44-5"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb44-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb44-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The function’s contract gives <code>nullptr</code> a specific meaning.</li>
+</ul>
+<!-- Slide 62 -->
+</section>
+<section id="pointer-output-parameters" class="slide level2">
+<h2>Pointer Output Parameters</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb45-1"><a href=""></a><span class="dt">bool</span> divide<span class="op">(</span><span class="dt">int</span> numerator<span class="op">,</span> <span class="dt">int</span> denominator<span class="op">,</span> <span class="dt">double</span><span class="op">*</span> result<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb45-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>denominator <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb45-3"><a href=""></a>        <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb45-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb45-5"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>result <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb45-6"><a href=""></a>        <span class="op">*</span>result <span class="op">=</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>numerator<span class="op">)</span> <span class="op">/</span> denominator<span class="op">;</span></span>
+<span id="cb45-7"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb45-8"><a href=""></a>    <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb45-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 63 -->
+</section>
+<section id="multiple-outputs-with-pointers" class="slide level2">
+<h2>Multiple Outputs With Pointers</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb46-1"><a href=""></a><span class="dt">void</span> findMinMax<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">,</span></span>
+<span id="cb46-2"><a href=""></a>                <span class="dt">int</span><span class="op">*</span> minimum<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> maximum<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb46-3"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>size <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb46-4"><a href=""></a></span>
+<span id="cb46-5"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>minimum <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">*</span>minimum <span class="op">=</span> values<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb46-6"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>maximum <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">*</span>maximum <span class="op">=</span> values<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb46-7"><a href=""></a></span>
+<span id="cb46-8"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb46-9"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>minimum <span class="op">!=</span> <span class="kw">nullptr</span> <span class="op">&amp;&amp;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;</span> <span class="op">*</span>minimum<span class="op">)</span></span>
+<span id="cb46-10"><a href=""></a>            <span class="op">*</span>minimum <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb46-11"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>maximum <span class="op">!=</span> <span class="kw">nullptr</span> <span class="op">&amp;&amp;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> <span class="op">*</span>maximum<span class="op">)</span></span>
+<span id="cb46-12"><a href=""></a>            <span class="op">*</span>maximum <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb46-13"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb46-14"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 64 -->
+</section>
+<section id="pointer-parameters-and-arrays" class="slide level2">
+<h2>Pointer Parameters and Arrays</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb47-1"><a href=""></a><span class="dt">void</span> printValues<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb47-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb47-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb47-4"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb47-5"><a href=""></a><span class="op">}</span></span>
+<span id="cb47-6"><a href=""></a></span>
+<span id="cb47-7"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">88</span><span class="op">,</span> <span class="dv">91</span><span class="op">,</span> <span class="dv">76</span><span class="op">};</span></span>
+<span id="cb47-8"><a href=""></a>printValues<span class="op">(</span>scores<span class="op">,</span> <span class="dv">3</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>An array argument decays to a pointer at the function boundary.</li>
+</ul>
+<!-- Slide 65 -->
+</section>
+<section id="pointer-plus-size-contract" class="slide level2">
+<h2>Pointer Plus Size Contract</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb48-1"><a href=""></a><span class="dt">int</span> scores<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">88</span><span class="op">,</span> <span class="dv">91</span><span class="op">,</span> <span class="dv">76</span><span class="op">};</span></span>
+<span id="cb48-2"><a href=""></a></span>
+<span id="cb48-3"><a href=""></a>printValues<span class="op">(</span>scores<span class="op">,</span> <span class="dv">3</span><span class="op">);</span> <span class="co">// correct</span></span>
+<span id="cb48-4"><a href=""></a>printValues<span class="op">(</span>scores<span class="op">,</span> <span class="dv">5</span><span class="op">);</span> <span class="co">// broken contract</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The pointer says where the range begins.</li>
+<li>The size says where the valid range ends.</li>
+</ul>
+<!-- Slide 66 -->
+</section>
+<section id="passing-a-subrange" class="slide level2">
+<h2>Passing a Subrange</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb49-1"><a href=""></a><span class="dt">int</span> values<span class="op">[</span><span class="dv">6</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">60</span><span class="op">};</span></span>
+<span id="cb49-2"><a href=""></a></span>
+<span id="cb49-3"><a href=""></a>printValues<span class="op">(</span>values<span class="op">,</span> <span class="dv">6</span><span class="op">);</span></span>
+<span id="cb49-4"><a href=""></a>printValues<span class="op">(</span>values <span class="op">+</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The second call starts at <code>30</code> and processes three elements.</li>
+</ul>
+<!-- Slide 67 -->
+</section>
+<section id="do-not-return-pointers-to-locals" class="slide level2">
+<h2>Do Not Return Pointers to Locals</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb50-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> badPointer<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb50-2"><a href=""></a>    <span class="dt">int</span> local <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb50-3"><a href=""></a>    <span class="cf">return</span> <span class="op">&amp;</span>local<span class="op">;</span></span>
+<span id="cb50-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>local</code> disappears when the function returns.</li>
+<li>The returned pointer would refer to an object that no longer exists.</li>
+</ul>
+<!-- Slide 68 -->
+</section>
+<section id="pointer-parameters-in-a-prototype" class="slide level2">
+<h2>Pointer Parameters in a Prototype</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb51-1"><a href=""></a><span class="dt">void</span> printValues<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">);</span></span>
+<span id="cb51-2"><a href=""></a><span class="dt">void</span> resetScore<span class="op">(</span><span class="dt">int</span><span class="op">*</span> score<span class="op">);</span></span>
+<span id="cb51-3"><a href=""></a><span class="dt">bool</span> divide<span class="op">(</span><span class="dt">int</span> numerator<span class="op">,</span> <span class="dt">int</span> denominator<span class="op">,</span> <span class="dt">double</span><span class="op">*</span> result<span class="op">);</span></span>
+<span id="cb51-4"><a href=""></a><span class="dt">void</span> printLabel<span class="op">(</span><span class="at">const</span> string<span class="op">*</span> label<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>const</code> suggests read-only access.</li>
+<li>A pointer suggests the target may be shared, optional, or range-like.</li>
+</ul>
+<!-- Slide 69 -->
+</section>
+<section id="caller-responsibilities" class="slide level2">
+<h2>Caller Responsibilities</h2>
+<ul>
+<li>Pass a valid address when the function requires one.</li>
+<li>Pass <code>nullptr</code> only when the function contract allows it.</li>
+<li>Keep pointer ranges paired with the correct boundary.</li>
+</ul>
+<!-- Slide 70 -->
+</section>
+<section id="use-the-least-powerful-parameter" class="slide level2">
+<h2>Use the Least Powerful Parameter</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Need</th>
+<th>Prefer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Small input copied safely</td>
+<td>Value</td>
+</tr>
+<tr class="even">
+<td>Required read-only large object</td>
+<td><code>const</code> reference</td>
+</tr>
+<tr class="odd">
+<td>Required caller-visible change</td>
+<td>Reference</td>
+</tr>
+<tr class="even">
+<td>Optional object</td>
+<td>Pointer</td>
+</tr>
+<tr class="odd">
+<td>Raw array range</td>
+<td>Pointer plus size or begin/end</td>
+</tr>
+</tbody>
+</table>
+<!-- Slide 71 -->
+</section>
+<section id="passing-pointers-summary" class="slide level2">
+<h2>Passing Pointers Summary</h2>
+<ul>
+<li>Passing a pointer copies an address into a local parameter.</li>
+<li>Changing <code>*ptr</code> can change the caller’s object; changing <code>ptr</code> changes only the local pointer copy.</li>
+</ul>
+<!-- Slide 72 -->
 </section>
 <section class="slide level2">
 
@@ -901,12 +1324,12 @@ Dr.&nbsp;Caleb Fowler
 <section id="key-takeaways" class="title-slide slide level1 center">
 <h1>Key Takeaways</h1>
 <ul>
-<li>Array decay produces a pointer to the first element and discards the array extent</li>
-<li>Raw array interfaces must carry bounds through a size, an end pointer, or a stronger type</li>
-<li><code>nullptr</code> represents a deliberate no-object state and must be tested before indirect access</li>
-<li>A non-null pointer may still be invalid when its target is out of range or no longer alive</li>
+<li>Array decay gives functions access to elements but not the array’s extent</li>
+<li><code>nullptr</code> represents intentional absence and must have a documented meaning</li>
+<li>Passing a pointer copies an address, while dereferencing it may share access to caller-owned data</li>
+<li>Use the least powerful parameter style that expresses the function’s contract</li>
 </ul>
-<!-- Slide 48 -->
+<!-- Slide 73 -->
 </section>
 <section class="slide level2">
 
@@ -920,7 +1343,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Pointer errors, memory leaks, and dangling pointers</li>
 <li>Smart pointers and ownership</li>
 </ul>
-<!-- Slide 49 -->
+<!-- Slide 74 -->
 </section>
 <section class="slide level2">
 
@@ -928,16 +1351,16 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-<!-- Slide 50 -->
+<!-- Slide 75 -->
 </section>
 <section id="array-decay-good-practices" class="slide level2">
 <h2>Array Decay: Good Practices</h2>
 <ul>
 <li>Pair every raw array pointer with an explicit size or end pointer</li>
-<li>Use <code>const</code> for read-only access and prefer containers when their interfaces fit</li>
-<li>Keep pointer and bounds arguments adjacent in function declarations</li>
+<li>Use <code>const</code> for read-only access</li>
+<li>Prefer containers when the size should travel with the data</li>
 </ul>
-<!-- Slide 51 -->
+<!-- Slide 76 -->
 </section>
 <section id="array-decay-common-mistakes" class="slide level2">
 <h2>Array Decay: Common Mistakes</h2>
@@ -946,20 +1369,20 @@ Dr.&nbsp;Caleb Fowler
 <li>Using <code>sizeof</code> on an array parameter to count caller elements</li>
 <li>Passing a pointer with a size that exceeds the actual range</li>
 </ul>
-<!-- Slide 52 -->
+<!-- Slide 77 -->
 </section>
 <section id="array-decay-more-examples" class="slide level2">
 <h2>Array Decay: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a><span class="dt">double</span> average<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> begin<span class="op">,</span> <span class="at">const</span> <span class="dt">int</span><span class="op">*</span> end<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb38-2"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb38-3"><a href=""></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb38-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> begin<span class="op">;</span> ptr <span class="op">!=</span> end<span class="op">;</span> ptr<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb38-5"><a href=""></a>        total <span class="op">+=</span> <span class="op">*</span>ptr<span class="op">;</span></span>
-<span id="cb38-6"><a href=""></a>        count<span class="op">++;</span></span>
-<span id="cb38-7"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb38-8"><a href=""></a>    <span class="cf">return</span> count <span class="op">==</span> <span class="dv">0</span> <span class="op">?</span> <span class="fl">0.0</span> <span class="op">:</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> count<span class="op">;</span></span>
-<span id="cb38-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 53 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb52-1"><a href=""></a><span class="dt">double</span> average<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> begin<span class="op">,</span> <span class="at">const</span> <span class="dt">int</span><span class="op">*</span> end<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb52-2"><a href=""></a>    <span class="dt">int</span> total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb52-3"><a href=""></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb52-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> begin<span class="op">;</span> ptr <span class="op">!=</span> end<span class="op">;</span> ptr<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb52-5"><a href=""></a>        total <span class="op">+=</span> <span class="op">*</span>ptr<span class="op">;</span></span>
+<span id="cb52-6"><a href=""></a>        count<span class="op">++;</span></span>
+<span id="cb52-7"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb52-8"><a href=""></a>    <span class="cf">return</span> count <span class="op">==</span> <span class="dv">0</span> <span class="op">?</span> <span class="fl">0.0</span> <span class="op">:</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> count<span class="op">;</span></span>
+<span id="cb52-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 78 -->
 </section>
 <section id="array-decay-practice-problems" class="slide level2">
 <h2>Array Decay: Practice Problems</h2>
@@ -968,7 +1391,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Rewrite that function to receive begin and end pointers.</li>
 <li>Explain why the function cannot recover the caller’s array extent from the pointer alone.</li>
 </ol>
-<!-- Slide 54 -->
+<!-- Slide 79 -->
 </section>
 <section id="array-decay-ai-search-terms" class="slide level2">
 <h2>Array Decay: AI Search Terms</h2>
@@ -979,7 +1402,7 @@ Dr.&nbsp;Caleb Fowler
 <li>C++ reference to array preserve size</li>
 <li>C++ multidimensional array decay</li>
 </ul>
-<!-- Slide 55 -->
+<!-- Slide 80 -->
 </section>
 <section id="array-decay-questions-for-reflection" class="slide level2">
 <h2>Array Decay: Questions for Reflection</h2>
@@ -988,7 +1411,7 @@ Dr.&nbsp;Caleb Fowler
 <li>When is pointer-plus-size clearer than begin-and-end pointers?</li>
 <li>What guarantee does a container reference preserve that a raw pointer cannot?</li>
 </ul>
-<!-- Slide 56 -->
+<!-- Slide 81 -->
 </section>
 <section id="null-pointers-good-practices" class="slide level2">
 <h2>Null Pointers: Good Practices</h2>
@@ -997,25 +1420,25 @@ Dr.&nbsp;Caleb Fowler
 <li>Test nullable pointers before <code>*ptr</code> and <code>ptr-&gt;member</code></li>
 <li>Prefer references when a function requires an object</li>
 </ul>
-<!-- Slide 57 -->
+<!-- Slide 82 -->
 </section>
 <section id="null-pointers-common-mistakes" class="slide level2">
 <h2>Null Pointers: Common Mistakes</h2>
 <ul>
 <li>Treating an uninitialized pointer as though it were null</li>
 <li>Assuming non-null automatically means live and in bounds</li>
-<li>Resetting one alias and assuming every copied pointer also changed</li>
+<li>Using <code>nullptr</code> without documenting what absence means</li>
 </ul>
-<!-- Slide 58 -->
+<!-- Slide 83 -->
 </section>
 <section id="null-pointers-more-examples" class="slide level2">
 <h2>Null Pointers: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> chooseLarger<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> first<span class="op">,</span> <span class="at">const</span> <span class="dt">int</span><span class="op">*</span> second<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb39-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>first <span class="op">==</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="cf">return</span> second<span class="op">;</span></span>
-<span id="cb39-3"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>second <span class="op">==</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="cf">return</span> first<span class="op">;</span></span>
-<span id="cb39-4"><a href=""></a>    <span class="cf">return</span> <span class="op">*</span>first <span class="op">&gt;=</span> <span class="op">*</span>second <span class="op">?</span> first <span class="op">:</span> second<span class="op">;</span></span>
-<span id="cb39-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 59 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb53-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> chooseLarger<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> first<span class="op">,</span> <span class="at">const</span> <span class="dt">int</span><span class="op">*</span> second<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb53-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>first <span class="op">==</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="cf">return</span> second<span class="op">;</span></span>
+<span id="cb53-3"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>second <span class="op">==</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="cf">return</span> first<span class="op">;</span></span>
+<span id="cb53-4"><a href=""></a>    <span class="cf">return</span> <span class="op">*</span>first <span class="op">&gt;=</span> <span class="op">*</span>second <span class="op">?</span> first <span class="op">:</span> second<span class="op">;</span></span>
+<span id="cb53-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 84 -->
 </section>
 <section id="null-pointers-practice-problems" class="slide level2">
 <h2>Null Pointers: Practice Problems</h2>
@@ -1024,7 +1447,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Call the function and print either the matching index or <code>not found</code>.</li>
 <li>Redesign a required pointer parameter as a reference parameter.</li>
 </ol>
-<!-- Slide 60 -->
+<!-- Slide 85 -->
 </section>
 <section id="null-pointers-ai-search-terms" class="slide level2">
 <h2>Null Pointers: AI Search Terms</h2>
@@ -1035,7 +1458,7 @@ Dr.&nbsp;Caleb Fowler
 <li>C++ nullptr overload resolution</li>
 <li>C++ null pointer versus dangling pointer</li>
 </ul>
-<!-- Slide 61 -->
+<!-- Slide 86 -->
 </section>
 <section id="null-pointers-questions-for-reflection" class="slide level2">
 <h2>Null Pointers: Questions for Reflection</h2>
@@ -1044,7 +1467,69 @@ Dr.&nbsp;Caleb Fowler
 <li>Why does a null check establish less than full pointer validity?</li>
 <li>How does a nullable pointer change a function’s contract for its caller?</li>
 </ul>
-<!-- Slide 62 -->
+<!-- Slide 87 -->
+</section>
+<section id="passing-pointers-good-practices" class="slide level2">
+<h2>Passing Pointers: Good Practices</h2>
+<ul>
+<li>Use <code>const</code> when the function should not modify the pointed-to object</li>
+<li>Check nullable parameters before dereferencing</li>
+<li>Prefer references when the target is required</li>
+</ul>
+<!-- Slide 88 -->
+</section>
+<section id="passing-pointers-common-mistakes" class="slide level2">
+<h2>Passing Pointers: Common Mistakes</h2>
+<ul>
+<li>Forgetting that the pointer parameter itself is a local copy</li>
+<li>Changing <code>ptr</code> when the intended change was <code>*ptr</code></li>
+<li>Returning the address of a local variable</li>
+</ul>
+<!-- Slide 89 -->
+</section>
+<section id="passing-pointers-more-examples" class="slide level2">
+<h2>Passing Pointers: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb54-1"><a href=""></a><span class="dt">bool</span> getFirstPositive<span class="op">(</span><span class="at">const</span> <span class="dt">int</span><span class="op">*</span> values<span class="op">,</span> <span class="dt">int</span> size<span class="op">,</span> <span class="dt">int</span><span class="op">*</span> result<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb54-2"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb54-3"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>values<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb54-4"><a href=""></a>            <span class="cf">if</span> <span class="op">(</span>result <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb54-5"><a href=""></a>                <span class="op">*</span>result <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb54-6"><a href=""></a>            <span class="op">}</span></span>
+<span id="cb54-7"><a href=""></a>            <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb54-8"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb54-9"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb54-10"><a href=""></a>    <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb54-11"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 90 -->
+</section>
+<section id="passing-pointers-practice-problems" class="slide level2">
+<h2>Passing Pointers: Practice Problems</h2>
+<ol type="1">
+<li>Write a function that receives <code>const int* value</code> and prints it only when non-null.</li>
+<li>Write a function that receives <code>int* value</code> and sets the target to zero when non-null.</li>
+<li>Explain when the same function would be clearer with an <code>int&amp;</code> parameter.</li>
+</ol>
+<!-- Slide 91 -->
+</section>
+<section id="passing-pointers-ai-search-terms" class="slide level2">
+<h2>Passing Pointers: AI Search Terms</h2>
+<ul>
+<li>C++ pointer parameters</li>
+<li>C++ pointer passed by value</li>
+<li>C++ const pointer parameter</li>
+<li>C++ nullable pointer parameter</li>
+<li>C++ output parameter pointer</li>
+</ul>
+<!-- Slide 92 -->
+</section>
+<section id="passing-pointers-questions-for-reflection" class="slide level2">
+<h2>Passing Pointers: Questions for Reflection</h2>
+<ul>
+<li>What changes when a function assigns to <code>ptr</code> instead of <code>*ptr</code>?</li>
+<li>What responsibilities does a caller accept when passing a pointer?</li>
+<li>How does the function signature reveal whether a parameter is required, optional, read-only, or writable?</li>
+</ul>
+<!-- Slide 93 -->
 
 </section></section>
     </div>
