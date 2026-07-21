@@ -233,7 +233,8 @@ Dr.&nbsp;Caleb Fowler
 <h1>Today’s Agenda</h1>
 <ul>
 <li>Pseudodynamic Memory</li>
-<li>Dynamic Memory and Dynamic Arrays</li>
+<li>Pseudodynamic Memory - Heap</li>
+<li>Dynamic Memory</li>
 </ul>
 <aside class="notes">
 
@@ -250,7 +251,7 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 2 -->
 <!-- Topic 1: Pseudodynamic Memory -->
-<!-- Slides 3–19 -->
+<!-- Slides 3–21 -->
 </section>
 
 <section>
@@ -265,7 +266,7 @@ Dr.&nbsp;Caleb Fowler
 <li>What remains fixed, and what is allowed to change?</li>
 </ul>
 <aside class="notes">
-<p>Slides 3–19 Pseudodynamic memory is course terminology, not a standard C++ term.</p>
+<p>Slides 3–21 Pseudodynamic memory is course terminology, not a standard C++ term.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -278,6 +279,15 @@ Dr.&nbsp;Caleb Fowler
           display:block!important;
       }</style></aside>
 <!-- Slide 4 -->
+</section>
+<section id="two-flavors" class="slide level2">
+<h2>Two Flavors</h2>
+<ul>
+<li><strong>Stack flavor:</strong> a fixed-capacity array is declared as a local variable.</li>
+<li>Heap flavor: an array is allocated on the heap after the program knows the requested length.</li>
+</ul>
+<p>Both patterns separate physical storage from the logical length the program is currently using.</p>
+<!-- Slide 5 -->
 </section>
 <section id="capacity-versus-logical-length" class="slide level2">
 <h2>Capacity Versus Logical Length</h2>
@@ -299,7 +309,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 5 -->
+<!-- Slide 6 -->
 </section>
 <section id="three-meanings-of-size" class="slide level2">
 <h2>Three Meanings of Size</h2>
@@ -330,10 +340,10 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>The requested length becomes the logical length only when it fits the capacity.</p>
-<!-- Slide 6 -->
+<!-- Slide 7 -->
 </section>
-<section id="the-pseudodynamic-pattern" class="slide level2">
-<h2>The Pseudodynamic Pattern</h2>
+<section id="the-stack-pattern" class="slide level2">
+<h2>The Stack Pattern</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href=""></a><span class="at">const</span> <span class="dt">int</span> CAPACITY <span class="op">=</span> <span class="dv">100</span><span class="op">;</span></span>
 <span id="cb1-2"><a href=""></a><span class="dt">double</span> sales<span class="op">[</span>CAPACITY<span class="op">]</span> <span class="op">=</span> <span class="op">{};</span></span>
 <span id="cb1-3"><a href=""></a><span class="dt">int</span> length<span class="op">;</span></span>
@@ -341,7 +351,16 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb1-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Number of sales values: "</span><span class="op">;</span></span>
 <span id="cb1-6"><a href=""></a>cin <span class="op">&gt;&gt;</span> length<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The allocation is fixed at compile time. The program chooses how much of it to use at runtime.</p>
-<!-- Slide 7 -->
+<!-- Slide 8 -->
+</section>
+<section id="steps-for-the-stack-pattern" class="slide level2">
+<h2>Steps for the Stack Pattern</h2>
+<ol type="1">
+<li>Validate the requested length.</li>
+<li>Initialize only active elements.</li>
+</ol>
+<p>The next two slides show the two required steps before the array is safe to process.</p>
+<!-- Slide 9 -->
 </section>
 <section id="validate-the-requested-length" class="slide level2">
 <h2>Validate the Requested Length</h2>
@@ -351,7 +370,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb2-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> length<span class="op">;</span></span>
 <span id="cb2-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Boundary:</strong> valid indexes will be <code>0</code> through <code>length - 1</code>.</p>
-<!-- Slide 8 -->
+<!-- Slide 10 -->
 </section>
 <section id="initialize-only-active-elements" class="slide level2">
 <h2>Initialize Only Active Elements</h2>
@@ -361,7 +380,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb3-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> sales<span class="op">[</span>index<span class="op">];</span></span>
 <span id="cb3-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The loop follows logical length, not physical capacity.</p>
-<!-- Slide 9 -->
+<!-- Slide 11 -->
 </section>
 <section id="display-only-active-elements" class="slide level2">
 <h2>Display Only Active Elements</h2>
@@ -370,7 +389,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb4-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> sales<span class="op">[</span>index<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
 <span id="cb4-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Predict:</strong> if <code>length</code> is 4, how many values appear when capacity is 100?</p>
-<!-- Slide 10 -->
+<!-- Slide 12 -->
 </section>
 <section id="complete-fixed-capacity-program" class="slide level2 smaller">
 <h2>Complete Fixed-Capacity Program</h2>
@@ -402,7 +421,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb5-26"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
 <span id="cb5-27"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb5-28"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 11 -->
+<!-- Slide 13 -->
 </section>
 <section id="make-the-contract-visible" class="slide level2">
 <h2>Make the Contract Visible</h2>
@@ -413,7 +432,7 @@ Dr.&nbsp;Caleb Fowler
 <li><code>length</code> identifies the valid range.</li>
 <li>Capacity is needed only by operations that may add elements.</li>
 </ul>
-<!-- Slide 12 -->
+<!-- Slide 14 -->
 </section>
 <section id="compute-with-active-elements" class="slide level2 smaller">
 <h2>Compute with Active Elements</h2>
@@ -442,14 +461,14 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb7-23"><a href=""></a>        total <span class="op">+=</span> values<span class="op">[</span>i<span class="op">];</span></span>
 <span id="cb7-24"><a href=""></a>    <span class="cf">return</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> length<span class="op">;</span></span>
 <span id="cb7-25"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 13 -->
+<!-- Slide 15 -->
 </section>
 <section id="change-use-not-allocation" class="slide level2">
 <h2>Change Use, Not Allocation</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a>length <span class="op">=</span> <span class="dv">3</span><span class="op">;</span>  <span class="co">// Three elements are logically active</span></span>
 <span id="cb8-2"><a href=""></a>length <span class="op">=</span> <span class="dv">6</span><span class="op">;</span>  <span class="co">// Six elements are logically active</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Changing <code>length</code> does not create or destroy array cells. Newly activated cells must receive valid values before use.</p>
-<!-- Slide 14 -->
+<!-- Slide 16 -->
 </section>
 <section id="add-at-the-logical-end" class="slide level2">
 <h2>Add at the Logical End</h2>
@@ -463,7 +482,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb9-8"><a href=""></a>    <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
 <span id="cb9-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Invariant:</strong> <code>0 &lt;= length &amp;&amp; length &lt;= capacity</code>.</p>
-<!-- Slide 15 -->
+<!-- Slide 17 -->
 </section>
 <section id="remove-the-last-element" class="slide level2">
 <h2>Remove the Last Element</h2>
@@ -476,7 +495,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb10-7"><a href=""></a>    <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
 <span id="cb10-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The stored bits may remain, but that cell is no longer logically valid.</p>
-<!-- Slide 16 -->
+<!-- Slide 18 -->
 </section>
 <section id="trace-the-boundary" class="slide level2">
 <h2>Trace the Boundary</h2>
@@ -500,7 +519,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 17 -->
+<!-- Slide 19 -->
 </section>
 <section id="the-capacity-wall" class="slide level2">
 <h2>The Capacity Wall</h2>
@@ -509,7 +528,7 @@ Dr.&nbsp;Caleb Fowler
 <li>A request beyond capacity cannot be satisfied by changing logical length.</li>
 <li>Runtime allocation removes the predetermined capacity, but adds ownership duties.</li>
 </ul>
-<!-- Slide 18 -->
+<!-- Slide 20 -->
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
@@ -517,23 +536,23 @@ Dr.&nbsp;Caleb Fowler
 <li>Pseudodynamic memory uses fixed capacity with a runtime logical length.</li>
 <li>Every operation preserves <code>0 &lt;= length &lt;= capacity</code> and accesses only valid indexes.</li>
 </ul>
-<!-- Slide 19 -->
-<!-- Topic 2: Dynamic Memory and Dynamic Arrays -->
-<!-- Slides 20–61 -->
+<!-- Slide 21 -->
+<!-- Topic 2: Pseudodynamic Memory - Heap -->
+<!-- Slides 22–50 -->
 </section></section>
 <section>
-<section id="dynamic-memory-and-dynamic-arrays" class="title-slide slide level1 center">
-<h1>Dynamic Memory and Dynamic Arrays</h1>
-<!-- Slide 20 -->
+<section id="pseudodynamic-memory---heap" class="title-slide slide level1 center">
+<h1>Pseudodynamic Memory - Heap</h1>
+<!-- Slide 22 -->
 </section>
 <section id="when-fixed-capacity-is-not-enough" class="slide level2 smaller">
 <h2>When Fixed Capacity Is Not Enough</h2>
 <ul>
-<li>What if the program cannot predict a safe capacity?</li>
-<li>Runtime allocation trades a fixed limit for explicit ownership responsibility.</li>
+<li>What if the program should ask for the array length when it runs?</li>
+<li>Heap allocation removes the compile-time capacity wall, but the allocation still has a fixed length once created.</li>
 </ul>
 <aside class="notes">
-<p>Slides 20–61</p>
+<p>Slides 22–50</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -545,7 +564,16 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 21 -->
+<!-- Slide 23 -->
+</section>
+<section id="two-flavors-1" class="slide level2">
+<h2>Two Flavors</h2>
+<ul>
+<li>Stack flavor: a fixed-capacity array is declared as a local variable.</li>
+<li><strong>Heap flavor:</strong> an array is allocated on the heap after the program knows the requested length.</li>
+</ul>
+<p>The heap flavor is more flexible at program start, but it introduces ownership and cleanup responsibilities.</p>
+<!-- Slide 24 -->
 </section>
 <section id="scalar-ownership-review" class="slide level2">
 <h2>Scalar Ownership Review</h2>
@@ -556,7 +584,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Set the pointer to <code>nullptr</code> when it remains in scope.</li>
 </ol>
 <p><strong>Invariant:</strong> one owner, one matching release.</p>
-<!-- Slide 22 -->
+<!-- Slide 25 -->
 </section>
 <section id="one-dynamically-allocated-value" class="slide level2">
 <h2>One Dynamically Allocated Value</h2>
@@ -573,7 +601,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb12-11"><a href=""></a>    score <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
 <span id="cb12-12"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb12-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 23 -->
+<!-- Slide 26 -->
 </section>
 <section id="from-one-value-to-many" class="slide level2">
 <h2>From One Value to Many</h2>
@@ -593,7 +621,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 24 -->
+<!-- Slide 27 -->
 </section>
 <section id="scalar-versus-array-allocation" class="slide level2">
 <h2>Scalar Versus Array Allocation</h2>
@@ -619,7 +647,7 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>The bracket form is part of the allocation contract.</p>
-<!-- Slide 25 -->
+<!-- Slide 28 -->
 </section>
 <section id="why-the-brackets-matter" class="slide level2">
 <h2>Why the Brackets Matter</h2>
@@ -629,7 +657,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb14-4"><a href=""></a><span class="kw">delete</span> value<span class="op">;</span></span>
 <span id="cb14-5"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Mixing scalar and array release forms causes undefined behavior.</p>
-<!-- Slide 26 -->
+<!-- Slide 29 -->
 </section>
 <section id="pointer-on-the-stack-array-on-the-heap" class="slide level2">
 <h2>Pointer on the Stack, Array on the Heap</h2>
@@ -651,7 +679,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 27 -->
+<!-- Slide 30 -->
 </section>
 <section id="validate-before-allocating" class="slide level2">
 <h2>Validate Before Allocating</h2>
@@ -664,7 +692,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb15-7"><a href=""></a>    cin <span class="op">&gt;&gt;</span> length<span class="op">;</span></span>
 <span id="cb15-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>No allocation should occur until the requested length satisfies the program contract.</p>
-<!-- Slide 28 -->
+<!-- Slide 31 -->
 </section>
 <section id="zero-elements-means-no-allocation" class="slide level2">
 <h2>Zero Elements Means No Allocation</h2>
@@ -673,7 +701,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb16-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>length <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span></span>
 <span id="cb16-4"><a href=""></a>    scores <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>length<span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>nullptr</code> clearly represents “no array.” Both <code>delete[] nullptr</code> and guarded traversal are safe.</p>
-<!-- Slide 29 -->
+<!-- Slide 32 -->
 </section>
 <section id="allocate-the-requested-length" class="slide level2">
 <h2>Allocate the Requested Length</h2>
@@ -682,7 +710,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb17-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> index <span class="op">&lt;</span> length<span class="op">;</span> index<span class="op">++)</span></span>
 <span id="cb17-4"><a href=""></a>    scores<span class="op">[</span>index<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The allocated length is fixed for the lifetime of this allocation.</p>
-<!-- Slide 30 -->
+<!-- Slide 33 -->
 </section>
 <section id="read-and-display-values" class="slide level2">
 <h2>Read and Display Values</h2>
@@ -696,10 +724,10 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb18-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> scores<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">' '</span><span class="op">;</span></span>
 <span id="cb18-9"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Boundary:</strong> every subscript must remain below <code>length</code>.</p>
-<!-- Slide 31 -->
+<!-- Slide 34 -->
 </section>
-<section id="complete-dynamic-array-program" class="slide level2 smaller">
-<h2>Complete Dynamic Array Program</h2>
+<section id="complete-heap-allocated-array-program" class="slide level2 smaller">
+<h2>Complete Heap-Allocated Array Program</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb19-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
 <span id="cb19-3"><a href=""></a></span>
@@ -726,7 +754,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb19-24"><a href=""></a>    temperatures <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
 <span id="cb19-25"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb19-26"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 32 -->
+<!-- Slide 35 -->
 </section>
 <section id="three-meanings-of-size-1" class="slide level2">
 <h2>Three Meanings of Size</h2>
@@ -735,15 +763,15 @@ Dr.&nbsp;Caleb Fowler
 <li><strong>Allocated length:</strong> elements reserved by the successful <code>new[]</code> expression.</li>
 <li><strong>Logical length:</strong> elements the program currently treats as valid.</li>
 </ul>
-<p>These values may match, but the program must track them explicitly.</p>
-<!-- Slide 33 -->
+<p>In the heap pseudodynamic pattern, these values usually become the same after validation.</p>
+<!-- Slide 36 -->
 </section>
 <section id="pass-pointer-and-length-together" class="slide level2">
 <h2>Pass Pointer and Length Together</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">void</span> display<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> length<span class="op">);</span></span>
 <span id="cb20-2"><a href=""></a><span class="dt">double</span> average<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> values<span class="op">[],</span> <span class="dt">int</span> length<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The pointer carries an address. The length carries the boundary contract.</p>
-<!-- Slide 34 -->
+<!-- Slide 37 -->
 </section>
 <section id="compute-through-a-pointer" class="slide level2 smaller">
 <h2>Compute Through a Pointer</h2>
@@ -772,7 +800,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb21-23"><a href=""></a>        total <span class="op">+=</span> values<span class="op">[</span>i<span class="op">];</span></span>
 <span id="cb21-24"><a href=""></a>    <span class="cf">return</span> <span class="kw">static_cast</span><span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>total<span class="op">)</span> <span class="op">/</span> length<span class="op">;</span></span>
 <span id="cb21-25"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 35 -->
+<!-- Slide 38 -->
 </section>
 <section id="where-are-the-bounds" class="slide level2">
 <h2>Where Are the Bounds?</h2>
@@ -781,7 +809,7 @@ Dr.&nbsp;Caleb Fowler
 <li><code>values[length]</code> is already one element beyond the allocation.</li>
 <li>An out-of-bounds read or write causes undefined behavior.</li>
 </ul>
-<!-- Slide 36 -->
+<!-- Slide 39 -->
 </section>
 <section id="one-element-too-far" class="slide level2">
 <h2>One Element Too Far</h2>
@@ -792,7 +820,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb22-5"><a href=""></a></span>
 <span id="cb22-6"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Predict:</strong> is any particular output guaranteed for the second statement?</p>
-<!-- Slide 37 -->
+<!-- Slide 40 -->
 </section>
 <section id="preserve-the-base-address" class="slide level2">
 <h2>Preserve the Base Address</h2>
@@ -805,7 +833,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb23-7"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
 <span id="cb23-8"><a href=""></a>values <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The owning pointer retains the address returned by <code>new[]</code>.</p>
-<!-- Slide 38 -->
+<!-- Slide 41 -->
 </section>
 <section id="traverse-without-losing-ownership" class="slide level2">
 <h2>Traverse Without Losing Ownership</h2>
@@ -818,15 +846,15 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb24-7"><a href=""></a>    cursor<span class="op">++;</span></span>
 <span id="cb24-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>cursor</code> moves; <code>values</code> continues to own the base address.</p>
-<!-- Slide 39 -->
+<!-- Slide 42 -->
 </section>
 <section id="losing-the-only-pointer" class="slide level2">
 <h2>Losing the Only Pointer</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> values <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="dv">10</span><span class="op">];</span></span>
-<span id="cb25-2"><a href=""></a>values <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="dv">20</span><span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The first allocation still exists, but its address is gone. It can no longer be released.</p>
+<span id="cb25-2"><a href=""></a>values <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The allocation still exists, but its address is gone. It can no longer be released.</p>
 <aside class="notes">
-<p>[Graphic suggestion: first heap block with its ownership arrow removed, then a second block receiving the pointer.]</p>
+<p>[Graphic suggestion: heap block with its ownership arrow removed while the pointer now holds <code>nullptr</code>.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -838,85 +866,75 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 40 -->
-</section>
-<section id="replace-an-allocation-safely" class="slide level2">
-<h2>Replace an Allocation Safely</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
-<span id="cb26-2"><a href=""></a>values <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb26-3"><a href=""></a></span>
-<span id="cb26-4"><a href=""></a>values <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>newLength<span class="op">];</span></span>
-<span id="cb26-5"><a href=""></a>length <span class="op">=</span> newLength<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Release the old allocation before replacing its only owning pointer when no data must be preserved.</p>
-<!-- Slide 41 -->
+<!-- Slide 43 -->
 </section>
 <section id="cleanup-before-every-return" class="slide level2">
 <h2>Cleanup Before Every Return</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> values <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>length<span class="op">];</span></span>
-<span id="cb27-2"><a href=""></a></span>
-<span id="cb27-3"><a href=""></a><span class="cf">if</span> <span class="op">(!</span>readValues<span class="op">(</span>values<span class="op">,</span> length<span class="op">))</span></span>
-<span id="cb27-4"><a href=""></a><span class="op">{</span></span>
-<span id="cb27-5"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
-<span id="cb27-6"><a href=""></a>    values <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb27-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb27-8"><a href=""></a><span class="op">}</span></span>
-<span id="cb27-9"><a href=""></a></span>
-<span id="cb27-10"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
-<span id="cb27-11"><a href=""></a>values <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb27-12"><a href=""></a><span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> values <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>length<span class="op">];</span></span>
+<span id="cb26-2"><a href=""></a></span>
+<span id="cb26-3"><a href=""></a><span class="cf">if</span> <span class="op">(!</span>readValues<span class="op">(</span>values<span class="op">,</span> length<span class="op">))</span></span>
+<span id="cb26-4"><a href=""></a><span class="op">{</span></span>
+<span id="cb26-5"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
+<span id="cb26-6"><a href=""></a>    values <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb26-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb26-8"><a href=""></a><span class="op">}</span></span>
+<span id="cb26-9"><a href=""></a></span>
+<span id="cb26-10"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
+<span id="cb26-11"><a href=""></a>values <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb26-12"><a href=""></a><span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each exit path must honor the ownership invariant.</p>
-<!-- Slide 42 -->
+<!-- Slide 44 -->
 </section>
 <section id="one-cleanup-path" class="slide level2">
 <h2>One Cleanup Path</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="dt">int</span> result <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb28-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> values <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>length<span class="op">];</span></span>
-<span id="cb28-3"><a href=""></a></span>
-<span id="cb28-4"><a href=""></a><span class="cf">if</span> <span class="op">(!</span>readValues<span class="op">(</span>values<span class="op">,</span> length<span class="op">))</span></span>
-<span id="cb28-5"><a href=""></a>    result <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb28-6"><a href=""></a><span class="cf">else</span></span>
-<span id="cb28-7"><a href=""></a>    display<span class="op">(</span>values<span class="op">,</span> length<span class="op">);</span></span>
-<span id="cb28-8"><a href=""></a></span>
-<span id="cb28-9"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
-<span id="cb28-10"><a href=""></a>values <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb28-11"><a href=""></a><span class="cf">return</span> result<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">int</span> result <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb27-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> values <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>length<span class="op">];</span></span>
+<span id="cb27-3"><a href=""></a></span>
+<span id="cb27-4"><a href=""></a><span class="cf">if</span> <span class="op">(!</span>readValues<span class="op">(</span>values<span class="op">,</span> length<span class="op">))</span></span>
+<span id="cb27-5"><a href=""></a>    result <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb27-6"><a href=""></a><span class="cf">else</span></span>
+<span id="cb27-7"><a href=""></a>    display<span class="op">(</span>values<span class="op">,</span> length<span class="op">);</span></span>
+<span id="cb27-8"><a href=""></a></span>
+<span id="cb27-9"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
+<span id="cb27-10"><a href=""></a>values <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb27-11"><a href=""></a><span class="cf">return</span> result<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>One release point makes manual ownership easier to audit.</p>
-<!-- Slide 43 -->
+<!-- Slide 45 -->
 </section>
 <section id="automatic-array-ownership" class="slide level2">
 <h2>Automatic Array Ownership</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;memory&gt;</span></span>
-<span id="cb29-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb29-3"><a href=""></a></span>
-<span id="cb29-4"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">[]&gt;</span> values <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">[]&gt;(</span>length<span class="op">);</span></span>
-<span id="cb29-5"><a href=""></a>values<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;memory&gt;</span></span>
+<span id="cb28-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb28-3"><a href=""></a></span>
+<span id="cb28-4"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">[]&gt;</span> values <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">[]&gt;(</span>length<span class="op">);</span></span>
+<span id="cb28-5"><a href=""></a>values<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The smart pointer releases its array automatically when its lifetime ends.</p>
-<!-- Slide 44 -->
+<!-- Slide 46 -->
 </section>
-<section id="managed-dynamic-array" class="slide level2 smaller">
-<h2>Managed Dynamic Array</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb30-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;memory&gt;</span></span>
-<span id="cb30-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb30-4"><a href=""></a></span>
-<span id="cb30-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb30-6"><a href=""></a><span class="op">{</span></span>
-<span id="cb30-7"><a href=""></a>    <span class="dt">int</span> length<span class="op">;</span></span>
-<span id="cb30-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"How many values? "</span><span class="op">;</span></span>
-<span id="cb30-9"><a href=""></a>    cin <span class="op">&gt;&gt;</span> length<span class="op">;</span></span>
-<span id="cb30-10"><a href=""></a></span>
-<span id="cb30-11"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>length <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb30-12"><a href=""></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb30-13"><a href=""></a></span>
-<span id="cb30-14"><a href=""></a>    unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">[]&gt;</span> values <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">[]&gt;(</span>length<span class="op">);</span></span>
-<span id="cb30-15"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb30-16"><a href=""></a>        cin <span class="op">&gt;&gt;</span> values<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb30-17"><a href=""></a></span>
-<span id="cb30-18"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb30-19"><a href=""></a>        cout <span class="op">&lt;&lt;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
-<span id="cb30-20"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb30-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 45 -->
+<section id="managed-heap-array" class="slide level2 smaller">
+<h2>Managed Heap Array</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb29-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;memory&gt;</span></span>
+<span id="cb29-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb29-4"><a href=""></a></span>
+<span id="cb29-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb29-6"><a href=""></a><span class="op">{</span></span>
+<span id="cb29-7"><a href=""></a>    <span class="dt">int</span> length<span class="op">;</span></span>
+<span id="cb29-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"How many values? "</span><span class="op">;</span></span>
+<span id="cb29-9"><a href=""></a>    cin <span class="op">&gt;&gt;</span> length<span class="op">;</span></span>
+<span id="cb29-10"><a href=""></a></span>
+<span id="cb29-11"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>length <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb29-12"><a href=""></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb29-13"><a href=""></a></span>
+<span id="cb29-14"><a href=""></a>    unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">[]&gt;</span> values <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">[]&gt;(</span>length<span class="op">);</span></span>
+<span id="cb29-15"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb29-16"><a href=""></a>        cin <span class="op">&gt;&gt;</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb29-17"><a href=""></a></span>
+<span id="cb29-18"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb29-19"><a href=""></a>        cout <span class="op">&lt;&lt;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb29-20"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb29-21"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 47 -->
 </section>
 <section id="lifetime-versus-bounds-safety" class="slide level2">
 <h2>Lifetime Versus Bounds Safety</h2>
@@ -927,62 +945,41 @@ Dr.&nbsp;Caleb Fowler
 <li>Subscript access</li>
 </ul>
 <p>It does not store length or check whether an index is valid.</p>
-<!-- Slide 46 -->
-</section>
-<section id="why-resizing-needs-a-new-array" class="slide level2">
-<h2>Why Resizing Needs a New Array</h2>
-<ul>
-<li>An existing allocation cannot grow or shrink in place through C++ syntax.</li>
-<li>Resizing means allocating a different block and preserving the desired values.</li>
-<li>Ownership transfers only after the copy succeeds.</li>
-</ul>
-<!-- Slide 47 -->
-</section>
-<section id="the-resize-algorithm" class="slide level2">
-<h2>The Resize Algorithm</h2>
-<ol type="1">
-<li>Validate the new length.</li>
-<li>Allocate a temporary array.</li>
-<li>Copy the elements that fit.</li>
-<li>Release the old array.</li>
-<li>Point the owner to the new array.</li>
-<li>Update the tracked length.</li>
-</ol>
 <!-- Slide 48 -->
 </section>
-<section id="how-many-elements-should-be-copied" class="slide level2">
-<h2>How Many Elements Should Be Copied?</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="dt">int</span> copyCount <span class="op">=</span> oldLength<span class="op">;</span></span>
-<span id="cb31-2"><a href=""></a><span class="cf">if</span> <span class="op">(</span>newLength <span class="op">&lt;</span> oldLength<span class="op">)</span></span>
-<span id="cb31-3"><a href=""></a>    copyCount <span class="op">=</span> newLength<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The general rule is <code>min(oldLength, newLength)</code>.</p>
+<section id="still-pseudodynamic" class="slide level2">
+<h2>Still Pseudodynamic</h2>
+<ul>
+<li>The array length can be chosen at runtime.</li>
+<li>Once the heap block is allocated, that block does not change size.</li>
+<li>To change the size, the program must allocate a different block and move the data it wants to keep.</li>
+</ul>
 <!-- Slide 49 -->
 </section>
-<section id="grow-an-array" class="slide level2">
-<h2>Grow an Array</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a><span class="dt">int</span> newLength <span class="op">=</span> length <span class="op">+</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb32-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> temporary <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>newLength<span class="op">]{};</span></span>
-<span id="cb32-3"><a href=""></a></span>
-<span id="cb32-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb32-5"><a href=""></a>    temporary<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb32-6"><a href=""></a></span>
-<span id="cb32-7"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
-<span id="cb32-8"><a href=""></a>values <span class="op">=</span> temporary<span class="op">;</span></span>
-<span id="cb32-9"><a href=""></a>temporary <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb32-10"><a href=""></a>length <span class="op">=</span> newLength<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="summary-1" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Heap pseudodynamic memory uses <code>new[]</code> to choose array length at runtime.</li>
+<li>The allocation has a fixed size until it is released, so ownership and bounds must be tracked explicitly.</li>
+</ul>
 <!-- Slide 50 -->
+<!-- Topic 3: Dynamic Memory -->
+<!-- Slides 51–68 -->
+</section></section>
+<section>
+<section id="dynamic-memory" class="title-slide slide level1 center">
+<h1>Dynamic Memory</h1>
+<!-- Slide 51 -->
 </section>
-<section id="trace-a-growth-operation" class="slide level2">
-<h2>Trace a Growth Operation</h2>
-<ol type="1">
-<li><code>values</code> owns the old block.</li>
-<li><code>temporary</code> owns the new block.</li>
-<li>Both blocks exist during the copy.</li>
-<li>The old block is released.</li>
-<li><code>values</code> becomes the owner of the new block.</li>
-</ol>
+<section id="when-the-data-changes-the-size" class="slide level2 smaller">
+<h2>When the Data Changes the Size</h2>
+<ul>
+<li>Heap pseudodynamic memory chooses a size when the allocation is created.</li>
+<li>Truly dynamic memory changes allocation size as the program’s data changes.</li>
+</ul>
+<p>The program does not ask the user for a new length each time. The data operation itself creates the need for a different array size.</p>
 <aside class="notes">
-<p>[Graphic suggestion: five before/after frames with ownership arrows and copied cells highlighted.]</p>
+<p>Slides 51–68 This topic is organized around <code>rdaa.cpp</code>, the real dynamically allocated array example.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -994,130 +991,245 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 51 -->
+<!-- Slide 52 -->
+</section>
+<section id="rdaa.cpp" class="slide level2 smaller">
+<h2>rdaa.cpp</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="co">// rdaa.cpp  -- real dynamically allocated array</span></span>
+<span id="cb30-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb30-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb30-4"><a href=""></a></span>
+<span id="cb30-5"><a href=""></a><span class="dt">int</span> main<span class="op">(){</span>     <span class="co">// build the initial array</span></span>
+<span id="cb30-6"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> pInt <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb30-7"><a href=""></a>    <span class="dt">int</span> size <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb30-8"><a href=""></a></span>
+<span id="cb30-9"><a href=""></a>    pInt <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size<span class="op">];</span></span>
+<span id="cb30-10"><a href=""></a>    pInt<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb30-11"><a href=""></a></span>
+<span id="cb30-12"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb30-13"><a href=""></a>    cout <span class="op">&lt;&lt;</span> pInt<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"  "</span><span class="op">;</span></span>
+<span id="cb30-14"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb30-15"><a href=""></a></span>
+<span id="cb30-16"><a href=""></a><span class="co">// increase by 1</span></span>
+<span id="cb30-17"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> pTemp <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb30-18"><a href=""></a>    size<span class="op">++;</span></span>
+<span id="cb30-19"><a href=""></a>    pTemp <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size<span class="op">];</span></span>
+<span id="cb30-20"><a href=""></a></span>
+<span id="cb30-21"><a href=""></a>    pTemp<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> pInt<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb30-22"><a href=""></a>    pTemp<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb30-23"><a href=""></a></span>
+<span id="cb30-24"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> pInt<span class="op">;</span></span>
+<span id="cb30-25"><a href=""></a>    pInt <span class="op">=</span> pTemp<span class="op">;</span></span>
+<span id="cb30-26"><a href=""></a>    pTemp <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb30-27"><a href=""></a></span>
+<span id="cb30-28"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb30-29"><a href=""></a>    cout <span class="op">&lt;&lt;</span> pInt<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"  "</span><span class="op">;</span></span>
+<span id="cb30-30"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb30-31"><a href=""></a></span>
+<span id="cb30-32"><a href=""></a>    <span class="co">// decrease by 1 from the right</span></span>
+<span id="cb30-33"><a href=""></a><span class="co">//    int* pTemp = nullptr;</span></span>
+<span id="cb30-34"><a href=""></a>    size<span class="op">--;</span></span>
+<span id="cb30-35"><a href=""></a>    pTemp <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size<span class="op">];</span></span>
+<span id="cb30-36"><a href=""></a>    pTemp<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> pInt<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb30-37"><a href=""></a></span>
+<span id="cb30-38"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> pInt<span class="op">;</span></span>
+<span id="cb30-39"><a href=""></a>    pInt <span class="op">=</span> pTemp<span class="op">;</span></span>
+<span id="cb30-40"><a href=""></a>    pTemp <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb30-41"><a href=""></a></span>
+<span id="cb30-42"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb30-43"><a href=""></a>    cout <span class="op">&lt;&lt;</span> pInt<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">"  "</span><span class="op">;</span></span>
+<span id="cb30-44"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb30-45"><a href=""></a></span>
+<span id="cb30-46"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb30-47"><a href=""></a><span class="op">}</span></span>
+<span id="cb30-48"><a href=""></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This file is the complete example that the next slides dissect.</p>
+<!-- Slide 53 -->
+</section>
+<section id="the-rdaa.cpp-story" class="slide level2">
+<h2>The rdaa.cpp Story</h2>
+<ol type="1">
+<li>Build an array with one value.</li>
+<li>Add a second value by creating a larger array.</li>
+<li>Remove a value by creating a smaller array.</li>
+</ol>
+<p>Each size change is really a new allocation plus a transfer of the values that still matter.</p>
+<!-- Slide 54 -->
+</section>
+<section id="start-with-one-element" class="slide level2">
+<h2>Start With One Element</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> pInt <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb31-2"><a href=""></a><span class="dt">int</span> size <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb31-3"><a href=""></a></span>
+<span id="cb31-4"><a href=""></a>pInt <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size<span class="op">];</span></span>
+<span id="cb31-5"><a href=""></a>pInt<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>At this moment, <code>pInt</code> owns a heap array with exactly one element.</p>
+<!-- Slide 55 -->
+</section>
+<section id="grow-in-response-to-new-data" class="slide level2">
+<h2>Grow in Response to New Data</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> pTemp <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb32-2"><a href=""></a>size<span class="op">++;</span></span>
+<span id="cb32-3"><a href=""></a>pTemp <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size<span class="op">];</span></span>
+<span id="cb32-4"><a href=""></a></span>
+<span id="cb32-5"><a href=""></a>pTemp<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> pInt<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb32-6"><a href=""></a>pTemp<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The new value <code>20</code> requires a larger array. The old value is copied before ownership changes.</p>
+<!-- Slide 56 -->
+</section>
+<section id="transfer-ownership-after-copy" class="slide level2">
+<h2>Transfer Ownership After Copy</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> pInt<span class="op">;</span></span>
+<span id="cb33-2"><a href=""></a>pInt <span class="op">=</span> pTemp<span class="op">;</span></span>
+<span id="cb33-3"><a href=""></a>pTemp <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>pInt</code> becomes the owner of the larger array only after the old array has been released.</p>
+<!-- Slide 57 -->
+</section>
+<section id="shrink-when-data-is-removed" class="slide level2">
+<h2>Shrink When Data Is Removed</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a>size<span class="op">--;</span></span>
+<span id="cb34-2"><a href=""></a>pTemp <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size<span class="op">];</span></span>
+<span id="cb34-3"><a href=""></a>pTemp<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> pInt<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb34-4"><a href=""></a></span>
+<span id="cb34-5"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> pInt<span class="op">;</span></span>
+<span id="cb34-6"><a href=""></a>pInt <span class="op">=</span> pTemp<span class="op">;</span></span>
+<span id="cb34-7"><a href=""></a>pTemp <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Removing data from the right means the retained values fit in a smaller allocation.</p>
+<!-- Slide 58 -->
+</section>
+<section id="finish-the-ownership-contract" class="slide level2">
+<h2>Finish the Ownership Contract</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> pInt<span class="op">;</span></span>
+<span id="cb35-2"><a href=""></a>pInt <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>After the final print, <code>pInt</code> still owns a heap allocation. The program should release that last array before it ends.</p>
+<!-- Slide 59 -->
+</section>
+<section id="trace-the-size-changes" class="slide level2">
+<h2>Trace the Size Changes</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Moment</th>
+<th>Owner</th>
+<th style="text-align: right;">Size</th>
+<th>Stored values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Start</td>
+<td><code>pInt</code></td>
+<td style="text-align: right;">1</td>
+<td><code>10</code></td>
+</tr>
+<tr class="even">
+<td>After grow</td>
+<td><code>pInt</code></td>
+<td style="text-align: right;">2</td>
+<td><code>10 20</code></td>
+</tr>
+<tr class="odd">
+<td>After shrink</td>
+<td><code>pInt</code></td>
+<td style="text-align: right;">1</td>
+<td><code>10</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Predict:</strong> what would print after each stage?</p>
+<!-- Slide 60 -->
+</section>
+<section id="why-resizing-needs-a-new-array" class="slide level2">
+<h2>Why Resizing Needs a New Array</h2>
+<ul>
+<li>An existing allocation cannot grow or shrink in place through C++ syntax.</li>
+<li>Resizing means allocating a different block and preserving the desired values.</li>
+<li>Ownership transfers only after the copy succeeds.</li>
+</ul>
+<!-- Slide 61 -->
+</section>
+<section id="the-resize-algorithm" class="slide level2">
+<h2>The Resize Algorithm</h2>
+<ol type="1">
+<li>Decide the new length from the data operation.</li>
+<li>Allocate a temporary array.</li>
+<li>Copy the elements that still belong.</li>
+<li>Release the old array.</li>
+<li>Point the owner to the new array.</li>
+<li>Update the tracked length.</li>
+</ol>
+<!-- Slide 62 -->
+</section>
+<section id="how-many-elements-should-be-copied" class="slide level2">
+<h2>How Many Elements Should Be Copied?</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="dt">int</span> copyCount <span class="op">=</span> oldLength<span class="op">;</span></span>
+<span id="cb36-2"><a href=""></a><span class="cf">if</span> <span class="op">(</span>newLength <span class="op">&lt;</span> oldLength<span class="op">)</span></span>
+<span id="cb36-3"><a href=""></a>    copyCount <span class="op">=</span> newLength<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The general rule is <code>min(oldLength, newLength)</code>.</p>
+<!-- Slide 63 -->
 </section>
 <section id="add-one-element" class="slide level2 smaller">
 <h2>Add One Element</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a><span class="dt">void</span> append<span class="op">(</span><span class="dt">int</span><span class="op">*&amp;</span> values<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> length<span class="op">,</span> <span class="dt">int</span> value<span class="op">)</span></span>
-<span id="cb33-2"><a href=""></a><span class="op">{</span></span>
-<span id="cb33-3"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> temporary <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>length <span class="op">+</span> <span class="dv">1</span><span class="op">];</span></span>
-<span id="cb33-4"><a href=""></a></span>
-<span id="cb33-5"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb33-6"><a href=""></a>        temporary<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb33-7"><a href=""></a></span>
-<span id="cb33-8"><a href=""></a>    temporary<span class="op">[</span>length<span class="op">]</span> <span class="op">=</span> value<span class="op">;</span></span>
-<span id="cb33-9"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
-<span id="cb33-10"><a href=""></a>    values <span class="op">=</span> temporary<span class="op">;</span></span>
-<span id="cb33-11"><a href=""></a>    temporary <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb33-12"><a href=""></a>    length<span class="op">++;</span></span>
-<span id="cb33-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a><span class="dt">void</span> append<span class="op">(</span><span class="dt">int</span><span class="op">*&amp;</span> values<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> length<span class="op">,</span> <span class="dt">int</span> value<span class="op">)</span></span>
+<span id="cb37-2"><a href=""></a><span class="op">{</span></span>
+<span id="cb37-3"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> temporary <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>length <span class="op">+</span> <span class="dv">1</span><span class="op">];</span></span>
+<span id="cb37-4"><a href=""></a></span>
+<span id="cb37-5"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb37-6"><a href=""></a>        temporary<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb37-7"><a href=""></a></span>
+<span id="cb37-8"><a href=""></a>    temporary<span class="op">[</span>length<span class="op">]</span> <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb37-9"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
+<span id="cb37-10"><a href=""></a>    values <span class="op">=</span> temporary<span class="op">;</span></span>
+<span id="cb37-11"><a href=""></a>    temporary <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb37-12"><a href=""></a>    length<span class="op">++;</span></span>
+<span id="cb37-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Both pointer and length use reference parameters because the function changes the caller’s state.</p>
-<!-- Slide 52 -->
-</section>
-<section id="use-the-append-function" class="slide level2 smaller">
-<h2>Use the Append Function</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb34-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb34-3"><a href=""></a></span>
-<span id="cb34-4"><a href=""></a><span class="dt">void</span> append<span class="op">(</span><span class="dt">int</span><span class="op">*&amp;</span> values<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> length<span class="op">,</span> <span class="dt">int</span> value<span class="op">);</span></span>
-<span id="cb34-5"><a href=""></a></span>
-<span id="cb34-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb34-7"><a href=""></a><span class="op">{</span></span>
-<span id="cb34-8"><a href=""></a>    <span class="dt">int</span> length <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
-<span id="cb34-9"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> values <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>length<span class="op">]{</span><span class="dv">2</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">6</span><span class="op">};</span></span>
-<span id="cb34-10"><a href=""></a></span>
-<span id="cb34-11"><a href=""></a>    append<span class="op">(</span>values<span class="op">,</span> length<span class="op">,</span> <span class="dv">8</span><span class="op">);</span></span>
-<span id="cb34-12"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb34-13"><a href=""></a>        cout <span class="op">&lt;&lt;</span> values<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">' '</span><span class="op">;</span></span>
-<span id="cb34-14"><a href=""></a></span>
-<span id="cb34-15"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
-<span id="cb34-16"><a href=""></a>    values <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb34-17"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb34-18"><a href=""></a><span class="op">}</span></span>
-<span id="cb34-19"><a href=""></a></span>
-<span id="cb34-20"><a href=""></a><span class="dt">void</span> append<span class="op">(</span><span class="dt">int</span><span class="op">*&amp;</span> values<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> length<span class="op">,</span> <span class="dt">int</span> value<span class="op">)</span></span>
-<span id="cb34-21"><a href=""></a><span class="op">{</span></span>
-<span id="cb34-22"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> temporary <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>length <span class="op">+</span> <span class="dv">1</span><span class="op">];</span></span>
-<span id="cb34-23"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb34-24"><a href=""></a>        temporary<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb34-25"><a href=""></a>    temporary<span class="op">[</span>length<span class="op">]</span> <span class="op">=</span> value<span class="op">;</span></span>
-<span id="cb34-26"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
-<span id="cb34-27"><a href=""></a>    values <span class="op">=</span> temporary<span class="op">;</span></span>
-<span id="cb34-28"><a href=""></a>    length<span class="op">++;</span></span>
-<span id="cb34-29"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 53 -->
-</section>
-<section id="shrink-an-array" class="slide level2">
-<h2>Shrink an Array</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="dt">int</span> newLength <span class="op">=</span> length <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb35-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> temporary <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>newLength<span class="op">];</span></span>
-<span id="cb35-3"><a href=""></a></span>
-<span id="cb35-4"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> newLength<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb35-5"><a href=""></a>    temporary<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb35-6"><a href=""></a></span>
-<span id="cb35-7"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
-<span id="cb35-8"><a href=""></a>values <span class="op">=</span> temporary<span class="op">;</span></span>
-<span id="cb35-9"><a href=""></a>temporary <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb35-10"><a href=""></a>length <span class="op">=</span> newLength<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Only retained elements are copied.</p>
-<!-- Slide 54 -->
+<!-- Slide 64 -->
 </section>
 <section id="remove-the-last-element-1" class="slide level2">
 <h2>Remove the Last Element</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="dt">bool</span> removeLast<span class="op">(</span><span class="dt">int</span><span class="op">*&amp;</span> values<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> length<span class="op">)</span></span>
-<span id="cb36-2"><a href=""></a><span class="op">{</span></span>
-<span id="cb36-3"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>length <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb36-4"><a href=""></a>        <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb36-5"><a href=""></a></span>
-<span id="cb36-6"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> temporary <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb36-7"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>length <span class="op">&gt;</span> <span class="dv">1</span><span class="op">)</span></span>
-<span id="cb36-8"><a href=""></a>        temporary <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>length <span class="op">-</span> <span class="dv">1</span><span class="op">];</span></span>
-<span id="cb36-9"><a href=""></a></span>
-<span id="cb36-10"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb36-11"><a href=""></a>        temporary<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb36-12"><a href=""></a></span>
-<span id="cb36-13"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
-<span id="cb36-14"><a href=""></a>    values <span class="op">=</span> temporary<span class="op">;</span></span>
-<span id="cb36-15"><a href=""></a>    length<span class="op">--;</span></span>
-<span id="cb36-16"><a href=""></a>    <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb36-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 55 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a><span class="dt">bool</span> removeLast<span class="op">(</span><span class="dt">int</span><span class="op">*&amp;</span> values<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> length<span class="op">)</span></span>
+<span id="cb38-2"><a href=""></a><span class="op">{</span></span>
+<span id="cb38-3"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>length <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb38-4"><a href=""></a>        <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb38-5"><a href=""></a></span>
+<span id="cb38-6"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> temporary <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb38-7"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>length <span class="op">&gt;</span> <span class="dv">1</span><span class="op">)</span></span>
+<span id="cb38-8"><a href=""></a>        temporary <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>length <span class="op">-</span> <span class="dv">1</span><span class="op">];</span></span>
+<span id="cb38-9"><a href=""></a></span>
+<span id="cb38-10"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb38-11"><a href=""></a>        temporary<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb38-12"><a href=""></a></span>
+<span id="cb38-13"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
+<span id="cb38-14"><a href=""></a>    values <span class="op">=</span> temporary<span class="op">;</span></span>
+<span id="cb38-15"><a href=""></a>    length<span class="op">--;</span></span>
+<span id="cb38-16"><a href=""></a>    <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb38-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 65 -->
 </section>
 <section id="resize-to-any-length" class="slide level2 smaller">
 <h2>Resize to Any Length</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a><span class="dt">void</span> resize<span class="op">(</span><span class="dt">int</span><span class="op">*&amp;</span> values<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> length<span class="op">,</span> <span class="dt">int</span> newLength<span class="op">)</span></span>
-<span id="cb37-2"><a href=""></a><span class="op">{</span></span>
-<span id="cb37-3"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>newLength <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> newLength <span class="op">==</span> length<span class="op">)</span></span>
-<span id="cb37-4"><a href=""></a>        <span class="cf">return</span><span class="op">;</span></span>
-<span id="cb37-5"><a href=""></a></span>
-<span id="cb37-6"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> temporary <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb37-7"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>newLength <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb37-8"><a href=""></a>        temporary <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>newLength<span class="op">]{};</span></span>
-<span id="cb37-9"><a href=""></a></span>
-<span id="cb37-10"><a href=""></a>    <span class="dt">int</span> copyCount <span class="op">=</span> length<span class="op">;</span></span>
-<span id="cb37-11"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>newLength <span class="op">&lt;</span> length<span class="op">)</span></span>
-<span id="cb37-12"><a href=""></a>        copyCount <span class="op">=</span> newLength<span class="op">;</span></span>
-<span id="cb37-13"><a href=""></a></span>
-<span id="cb37-14"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> copyCount<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb37-15"><a href=""></a>        temporary<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb37-16"><a href=""></a></span>
-<span id="cb37-17"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
-<span id="cb37-18"><a href=""></a>    values <span class="op">=</span> temporary<span class="op">;</span></span>
-<span id="cb37-19"><a href=""></a>    length <span class="op">=</span> newLength<span class="op">;</span></span>
-<span id="cb37-20"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 56 -->
-</section>
-<section id="resize-with-unique_ptrtype" class="slide level2">
-<h2>Resize with <code>unique_ptr&lt;Type[]&gt;</code></h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a>unique_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">[]&gt;</span> next <span class="op">=</span> make_unique<span class="op">&lt;</span><span class="dt">int</span><span class="op">[]&gt;(</span>newLength<span class="op">);</span></span>
-<span id="cb38-2"><a href=""></a></span>
-<span id="cb38-3"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> copyCount<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb38-4"><a href=""></a>    next<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb38-5"><a href=""></a></span>
-<span id="cb38-6"><a href=""></a>values <span class="op">=</span> move<span class="op">(</span>next<span class="op">);</span></span>
-<span id="cb38-7"><a href=""></a>length <span class="op">=</span> newLength<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Assignment transfers ownership and automatically releases the old array.</p>
-<!-- Slide 57 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a><span class="dt">void</span> resize<span class="op">(</span><span class="dt">int</span><span class="op">*&amp;</span> values<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> length<span class="op">,</span> <span class="dt">int</span> newLength<span class="op">)</span></span>
+<span id="cb39-2"><a href=""></a><span class="op">{</span></span>
+<span id="cb39-3"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>newLength <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> newLength <span class="op">==</span> length<span class="op">)</span></span>
+<span id="cb39-4"><a href=""></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb39-5"><a href=""></a></span>
+<span id="cb39-6"><a href=""></a>    <span class="dt">int</span><span class="op">*</span> temporary <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb39-7"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>newLength <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb39-8"><a href=""></a>        temporary <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>newLength<span class="op">]{};</span></span>
+<span id="cb39-9"><a href=""></a></span>
+<span id="cb39-10"><a href=""></a>    <span class="dt">int</span> copyCount <span class="op">=</span> length<span class="op">;</span></span>
+<span id="cb39-11"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>newLength <span class="op">&lt;</span> length<span class="op">)</span></span>
+<span id="cb39-12"><a href=""></a>        copyCount <span class="op">=</span> newLength<span class="op">;</span></span>
+<span id="cb39-13"><a href=""></a></span>
+<span id="cb39-14"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> copyCount<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb39-15"><a href=""></a>        temporary<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb39-16"><a href=""></a></span>
+<span id="cb39-17"><a href=""></a>    <span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
+<span id="cb39-18"><a href=""></a>    values <span class="op">=</span> temporary<span class="op">;</span></span>
+<span id="cb39-19"><a href=""></a>    length <span class="op">=</span> newLength<span class="op">;</span></span>
+<span id="cb39-20"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 66 -->
 </section>
 <section id="the-cost-of-resizing" class="slide level2">
 <h2>The Cost of Resizing</h2>
@@ -1126,53 +1238,15 @@ Dr.&nbsp;Caleb Fowler
 <li>Copying retained elements takes O(N) time.</li>
 <li>Growing by one element repeatedly can perform many unnecessary copies.</li>
 </ul>
-<!-- Slide 58 -->
+<!-- Slide 67 -->
 </section>
-<section id="why-we-usually-choose-vector" class="slide level2">
-<h2>Why We Usually Choose <code>vector</code></h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> values <span class="op">=</span> <span class="op">{</span><span class="dv">2</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">6</span><span class="op">};</span></span>
-<span id="cb39-2"><a href=""></a>values<span class="op">.</span>push_back<span class="op">(</span><span class="dv">8</span><span class="op">);</span></span>
-<span id="cb39-3"><a href=""></a>values<span class="op">.</span>pop_back<span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Manual dynamic arrays expose allocation mechanics. <code>vector</code> normally provides the safer application-level abstraction.</p>
-<!-- Slide 59 -->
-</section>
-<section id="choose-the-storage-model" class="slide level2">
-<h2>Choose the Storage Model</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Need</th>
-<th>Suitable model</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Small known maximum</td>
-<td>Fixed array plus logical length</td>
-</tr>
-<tr class="even">
-<td>Study manual ownership</td>
-<td>Raw dynamic array</td>
-</tr>
-<tr class="odd">
-<td>Exclusive automatic ownership</td>
-<td><code>unique_ptr&lt;Type[]&gt;</code></td>
-</tr>
-<tr class="even">
-<td>General resizable sequence</td>
-<td><code>vector&lt;Type&gt;</code></td>
-</tr>
-</tbody>
-</table>
-<!-- Slide 60 -->
-</section>
-<section id="summary-1" class="slide level2">
+<section id="summary-2" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>Dynamic arrays pair <code>new[]</code> with <code>delete[]</code>, preserve the base address, and track bounds separately.</li>
-<li>Resizing allocates, copies, releases, transfers ownership, and updates length; higher-level code usually uses <code>vector</code>.</li>
+<li>Dynamic memory changes the allocation when the program’s data requires a different size.</li>
+<li>A resize is allocate, copy, release, transfer ownership, and update length.</li>
 </ul>
-<!-- Slide 61 -->
+<!-- Slide 68 -->
 </section>
 <section class="slide level2">
 
@@ -1181,24 +1255,24 @@ Dr.&nbsp;Caleb Fowler
 <h1>Key Takeaways</h1>
 <ul>
 <li>Pseudodynamic storage separates fixed capacity from runtime logical length.</li>
-<li>Dynamic arrays use <code>new[]</code> and the matching <code>delete[]</code> form.</li>
-<li>Raw arrays do not track their length or check their bounds.</li>
-<li>Resizing means allocate, copy, release, transfer ownership, and update length.</li>
+<li>Heap pseudodynamic arrays use <code>new[]</code> and the matching <code>delete[]</code> form.</li>
+<li>Raw heap arrays do not track their length or check their bounds.</li>
+<li>Dynamic memory changes allocation size by allocating, copying, releasing, transferring ownership, and updating length.</li>
 <li><code>unique_ptr&lt;Type[]&gt;</code> manages lifetime; <code>vector</code> is normally the safer resizable sequence.</li>
 </ul>
-<!-- Slide 62 -->
+<!-- Slide 69 -->
 </section>
 
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next Time</h1>
 <p>Structures and composite data.</p>
-<!-- Slide 63 -->
+<!-- Slide 70 -->
 </section>
 
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-<!-- Slide 64 -->
+<!-- Slide 71 -->
 </section>
 <section id="pseudodynamic-memory-good-practices" class="slide level2">
 <h2>Pseudodynamic Memory: Good Practices</h2>
@@ -1207,7 +1281,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Validate requested length before using it.</li>
 <li>Pass logical length with the array and capacity to operations that may append.</li>
 </ul>
-<!-- Slide 65 -->
+<!-- Slide 72 -->
 </section>
 <section id="pseudodynamic-memory-common-mistakes" class="slide level2">
 <h2>Pseudodynamic Memory: Common Mistakes</h2>
@@ -1216,7 +1290,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Allowing logical length to exceed capacity</li>
 <li>Growing logical length without initializing newly active elements</li>
 </ul>
-<!-- Slide 66 -->
+<!-- Slide 73 -->
 </section>
 <section id="pseudodynamic-memory-more-examples" class="slide level2">
 <h2>Pseudodynamic Memory: More Examples</h2>
@@ -1227,7 +1301,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb40-5"><a href=""></a>            <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
 <span id="cb40-6"><a href=""></a>    <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
 <span id="cb40-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 67 -->
+<!-- Slide 74 -->
 </section>
 <section id="pseudodynamic-memory-practice-problems" class="slide level2">
 <h2>Pseudodynamic Memory: Practice Problems</h2>
@@ -1236,7 +1310,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Write <code>removeAt</code> and shift later elements left.</li>
 <li>Trace capacity and logical length after five operations.</li>
 </ol>
-<!-- Slide 68 -->
+<!-- Slide 75 -->
 </section>
 <section id="pseudodynamic-memory-ai-search-terms" class="slide level2">
 <h2>Pseudodynamic Memory: AI Search Terms</h2>
@@ -1246,7 +1320,7 @@ Dr.&nbsp;Caleb Fowler
 <li>C++ array capacity versus length</li>
 <li>C++ array append with size variable</li>
 </ul>
-<!-- Slide 69 -->
+<!-- Slide 76 -->
 </section>
 <section id="pseudodynamic-memory-questions-for-reflection" class="slide level2">
 <h2>Pseudodynamic Memory: Questions for Reflection</h2>
@@ -1255,30 +1329,30 @@ Dr.&nbsp;Caleb Fowler
 <li>Why can shrinking logical length occur without moving data?</li>
 <li>When is a fixed maximum an acceptable design constraint?</li>
 </ul>
-<!-- Slide 70 -->
+<!-- Slide 77 -->
 </section>
-<section id="dynamic-memory-and-dynamic-arrays-good-practices" class="slide level2">
-<h2>Dynamic Memory and Dynamic Arrays: Good Practices</h2>
+<section id="pseudodynamic-memory---heap-good-practices" class="slide level2">
+<h2>Pseudodynamic Memory - Heap: Good Practices</h2>
 <ul>
 <li>Match <code>new[]</code> with <code>delete[]</code>.</li>
 <li>Preserve an owning pointer to the allocation’s base address.</li>
 <li>Keep length beside the pointer and release ownership on every exit path.</li>
 <li>Prefer automatic ownership and standard containers in application code.</li>
 </ul>
-<!-- Slide 71 -->
+<!-- Slide 78 -->
 </section>
-<section id="dynamic-memory-and-dynamic-arrays-common-mistakes" class="slide level2">
-<h2>Dynamic Memory and Dynamic Arrays: Common Mistakes</h2>
+<section id="pseudodynamic-memory---heap-common-mistakes" class="slide level2">
+<h2>Pseudodynamic Memory - Heap: Common Mistakes</h2>
 <ul>
 <li>Mixing scalar and array release forms</li>
 <li>Losing the only owning pointer</li>
 <li>Accessing outside <code>0</code> through <code>length - 1</code></li>
-<li>Updating length before ownership transfer is complete</li>
+<li>Assuming the pointer knows how many elements were allocated</li>
 </ul>
-<!-- Slide 72 -->
+<!-- Slide 79 -->
 </section>
-<section id="dynamic-memory-and-dynamic-arrays-more-examples" class="slide level2">
-<h2>Dynamic Memory and Dynamic Arrays: More Examples</h2>
+<section id="pseudodynamic-memory---heap-more-examples" class="slide level2">
+<h2>Pseudodynamic Memory - Heap: More Examples</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> clone<span class="op">(</span><span class="at">const</span> <span class="dt">int</span> source<span class="op">[],</span> <span class="dt">int</span> length<span class="op">)</span></span>
 <span id="cb41-2"><a href=""></a><span class="op">{</span></span>
 <span id="cb41-3"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>length <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
@@ -1290,35 +1364,93 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb41-9"><a href=""></a>    <span class="cf">return</span> copy<span class="op">;</span></span>
 <span id="cb41-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The caller receives ownership of the returned allocation.</p>
-<!-- Slide 73 -->
+<!-- Slide 80 -->
 </section>
-<section id="dynamic-memory-and-dynamic-arrays-practice-problems" class="slide level2">
-<h2>Dynamic Memory and Dynamic Arrays: Practice Problems</h2>
+<section id="pseudodynamic-memory---heap-practice-problems" class="slide level2">
+<h2>Pseudodynamic Memory - Heap: Practice Problems</h2>
 <ol type="1">
-<li>Write a function that grows an array by five elements.</li>
-<li>Resize an array to a user-selected length while preserving values that fit.</li>
-<li>Rewrite a raw dynamic-array program with <code>unique_ptr&lt;int[]&gt;</code>.</li>
+<li>Allocate a heap array using a validated requested length.</li>
+<li>Pass a heap array and length to a display function.</li>
+<li>Rewrite a raw heap-array program with <code>unique_ptr&lt;int[]&gt;</code>.</li>
 </ol>
-<!-- Slide 74 -->
+<!-- Slide 81 -->
 </section>
-<section id="dynamic-memory-and-dynamic-arrays-ai-search-terms" class="slide level2">
-<h2>Dynamic Memory and Dynamic Arrays: AI Search Terms</h2>
+<section id="pseudodynamic-memory---heap-ai-search-terms" class="slide level2">
+<h2>Pseudodynamic Memory - Heap: AI Search Terms</h2>
 <ul>
 <li>C++ dynamic array new delete array</li>
 <li>C++ preserve base pointer delete array</li>
-<li>C++ resize raw dynamic array copy</li>
 <li>C++ unique_ptr array make_unique bounds</li>
+<li>C++ heap array length parameter</li>
 </ul>
-<!-- Slide 75 -->
+<!-- Slide 82 -->
 </section>
-<section id="dynamic-memory-and-dynamic-arrays-questions-for-reflection" class="slide level2">
-<h2>Dynamic Memory and Dynamic Arrays: Questions for Reflection</h2>
+<section id="pseudodynamic-memory---heap-questions-for-reflection" class="slide level2">
+<h2>Pseudodynamic Memory - Heap: Questions for Reflection</h2>
 <ul>
-<li>Which object owns each allocation at every point in a resize?</li>
-<li>Why must old and new arrays coexist during copying?</li>
+<li>Why is a heap array still fixed-size after allocation?</li>
+<li>Which responsibilities appear when storage moves from stack to heap?</li>
 <li>Which responsibilities disappear when raw storage becomes a <code>vector</code>?</li>
 </ul>
-<!-- Slide 76 -->
+<!-- Slide 83 -->
+</section>
+<section id="dynamic-memory-good-practices" class="slide level2">
+<h2>Dynamic Memory: Good Practices</h2>
+<ul>
+<li>Keep old and new arrays alive during copying.</li>
+<li>Transfer ownership only after the retained values have been copied.</li>
+<li>Update the stored length after the owning pointer points to the new allocation.</li>
+</ul>
+<!-- Slide 84 -->
+</section>
+<section id="dynamic-memory-common-mistakes" class="slide level2">
+<h2>Dynamic Memory: Common Mistakes</h2>
+<ul>
+<li>Updating length before the copy uses the old boundary</li>
+<li>Deleting the old array before copying retained values</li>
+<li>Forgetting that repeated one-element growth performs repeated copying</li>
+</ul>
+<!-- Slide 85 -->
+</section>
+<section id="dynamic-memory-more-examples" class="slide level2">
+<h2>Dynamic Memory: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> temporary <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>length <span class="op">+</span> <span class="dv">1</span><span class="op">];</span></span>
+<span id="cb42-2"><a href=""></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb42-3"><a href=""></a>    temporary<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> values<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb42-4"><a href=""></a></span>
+<span id="cb42-5"><a href=""></a>temporary<span class="op">[</span>length<span class="op">]</span> <span class="op">=</span> newValue<span class="op">;</span></span>
+<span id="cb42-6"><a href=""></a><span class="kw">delete</span><span class="op">[]</span> values<span class="op">;</span></span>
+<span id="cb42-7"><a href=""></a>values <span class="op">=</span> temporary<span class="op">;</span></span>
+<span id="cb42-8"><a href=""></a>length<span class="op">++;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 86 -->
+</section>
+<section id="dynamic-memory-practice-problems" class="slide level2">
+<h2>Dynamic Memory: Practice Problems</h2>
+<ol type="1">
+<li>Trace the output of <code>rdaa.cpp</code> after each printed loop.</li>
+<li>Convert the grow step into an <code>append</code> function.</li>
+<li>Add a second append and count how many values are copied.</li>
+</ol>
+<!-- Slide 87 -->
+</section>
+<section id="dynamic-memory-ai-search-terms" class="slide level2">
+<h2>Dynamic Memory: AI Search Terms</h2>
+<ul>
+<li>C++ resize raw dynamic array</li>
+<li>C++ append to dynamic array new delete</li>
+<li>C++ dynamic array allocate copy delete pattern</li>
+<li>C++ vector versus raw dynamic array</li>
+</ul>
+<!-- Slide 88 -->
+</section>
+<section id="dynamic-memory-questions-for-reflection" class="slide level2">
+<h2>Dynamic Memory: Questions for Reflection</h2>
+<ul>
+<li>Why does changing data require a different allocation?</li>
+<li>When do two heap arrays exist at the same time?</li>
+<li>Why is <code>vector</code> the normal application-level version of this idea?</li>
+</ul>
+<!-- Slide 89 -->
 
 </section></section>
     </div>

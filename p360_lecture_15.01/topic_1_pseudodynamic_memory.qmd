@@ -1,5 +1,5 @@
 <!-- Topic 1: Pseudodynamic Memory -->
-<!-- Slides 3–19 -->
+<!-- Slides 3–21 -->
 
 # Pseudodynamic Memory
 <!-- Slide 3 -->
@@ -10,11 +10,22 @@
 - What remains fixed, and what is allowed to change?
 
 ::: notes
-Slides 3–19
+Slides 3–21
 Pseudodynamic memory is course terminology, not a standard C++ term.
 :::
 
 <!-- Slide 4 -->
+
+---
+
+## Two Flavors
+
+- **Stack flavor:** a fixed-capacity array is declared as a local variable.
+- Heap flavor: an array is allocated on the heap after the program knows the requested length.
+
+Both patterns separate physical storage from the logical length the program is currently using.
+
+<!-- Slide 5 -->
 
 ---
 
@@ -28,7 +39,7 @@ Pseudodynamic memory is course terminology, not a standard C++ term.
 [Graphic suggestion: ten array cells with six marked active and four marked unused.]
 :::
 
-<!-- Slide 5 -->
+<!-- Slide 6 -->
 
 ---
 
@@ -42,11 +53,11 @@ Pseudodynamic memory is course terminology, not a standard C++ term.
 
 The requested length becomes the logical length only when it fits the capacity.
 
-<!-- Slide 6 -->
+<!-- Slide 7 -->
 
 ---
 
-## The Pseudodynamic Pattern
+## The Stack Pattern
 
 ```{.cpp}
 const int CAPACITY = 100;
@@ -59,7 +70,18 @@ cin >> length;
 
 The allocation is fixed at compile time. The program chooses how much of it to use at runtime.
 
-<!-- Slide 7 -->
+<!-- Slide 8 -->
+
+---
+
+## Steps for the Stack Pattern
+
+1. Validate the requested length.
+2. Initialize only active elements.
+
+The next two slides show the two required steps before the array is safe to process.
+
+<!-- Slide 9 -->
 
 ---
 
@@ -75,7 +97,7 @@ while (length < 0 || length > CAPACITY)
 
 **Boundary:** valid indexes will be `0` through `length - 1`.
 
-<!-- Slide 8 -->
+<!-- Slide 10 -->
 
 ---
 
@@ -91,7 +113,7 @@ for (int index = 0; index < length; index++)
 
 The loop follows logical length, not physical capacity.
 
-<!-- Slide 9 -->
+<!-- Slide 11 -->
 
 ---
 
@@ -106,7 +128,7 @@ for (int index = 0; index < length; index++)
 
 **Predict:** if `length` is 4, how many values appear when capacity is 100?
 
-<!-- Slide 10 -->
+<!-- Slide 12 -->
 
 ---
 
@@ -143,7 +165,7 @@ int main()
 }
 ```
 
-<!-- Slide 11 -->
+<!-- Slide 13 -->
 
 ---
 
@@ -158,7 +180,7 @@ double average(const int values[], int length);
 - `length` identifies the valid range.
 - Capacity is needed only by operations that may add elements.
 
-<!-- Slide 12 -->
+<!-- Slide 14 -->
 
 ---
 
@@ -192,7 +214,7 @@ double average(const int values[], int length)
 }
 ```
 
-<!-- Slide 13 -->
+<!-- Slide 15 -->
 
 ---
 
@@ -205,7 +227,7 @@ length = 6;  // Six elements are logically active
 
 Changing `length` does not create or destroy array cells. Newly activated cells must receive valid values before use.
 
-<!-- Slide 14 -->
+<!-- Slide 16 -->
 
 ---
 
@@ -225,7 +247,7 @@ bool append(int values[], int& length, int capacity, int value)
 
 **Invariant:** `0 <= length && length <= capacity`.
 
-<!-- Slide 15 -->
+<!-- Slide 17 -->
 
 ---
 
@@ -244,7 +266,7 @@ bool removeLast(int& length)
 
 The stored bits may remain, but that cell is no longer logically valid.
 
-<!-- Slide 16 -->
+<!-- Slide 18 -->
 
 ---
 
@@ -265,7 +287,7 @@ removeLast(length);
 [Graphic suggestion: before/after array cells with a bold boundary at length.]
 :::
 
-<!-- Slide 17 -->
+<!-- Slide 19 -->
 
 ---
 
@@ -275,7 +297,7 @@ removeLast(length);
 - A request beyond capacity cannot be satisfied by changing logical length.
 - Runtime allocation removes the predetermined capacity, but adds ownership duties.
 
-<!-- Slide 18 -->
+<!-- Slide 20 -->
 
 ---
 
@@ -284,4 +306,4 @@ removeLast(length);
 - Pseudodynamic memory uses fixed capacity with a runtime logical length.
 - Every operation preserves `0 <= length <= capacity` and accesses only valid indexes.
 
-<!-- Slide 19 -->
+<!-- Slide 21 -->

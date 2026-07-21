@@ -42,6 +42,7 @@ Shared project files at `p360 Lectures/` root — do not copy or modify per-lect
 - `styles/styles.css` — shared CSS
 - `plantuml-filter.lua` — centralized Lua filter (referenced by `_quarto.yml`)
 - `inventory.csv` — append-only topic tracking across all lectures
+- `Dictionary_of_Terms.csv` — shared slide-category terms and definitions
 - `lessons.csv` — session lessons, added with instructor approval
 
 ---
@@ -123,6 +124,19 @@ After all topic files are generated, stitch them into a main lecture file:
 - **Filename:** `p360_lecture_0x.0y.qmd`
 - **Location:** working subfolder root
 - The stitched file has **no slide count**
+
+After the instructor has approved all topic slide proposals and the lecture source files have been generated, create a slide catalog CSV file:
+- **Filename:** `slide_catalog.csv`
+- **Location:** working lecture subfolder root
+- **One row per slide:** Include every slide with a visible slide number, including Last Time, Today's Agenda, topic section dividers, Key Takeaways, Next Time, Appendix, and appendix slides.
+- **Columns, in this exact order:** `Slide Number, Topic, Subject, Title, Category, Filename`
+- **Slide Number:** Use the global slide number that displays for the slide and matches the `<!-- Slide N -->` marker.
+- **Topic:** Use the lecture topic or structural area the slide belongs to, such as `Course Framing`, the topic name, `Course Wrap-Up`, or `Appendix`.
+- **Subject:** Use the exact matching value from the `Subject` column in `inventory.csv` when the slide belongs to an instructional topic. Leave this blank for framing, wrap-up, and appendix-divider slides that do not map cleanly to one inventory subject.
+- **Title:** Use the slide's `#` or `##` heading. If a slide has no title, create a temporary descriptive title and wrap it in angle brackets, such as `<Opening Context>`.
+- **Category:** Assign one instructional category term from `Dictionary_of_Terms.csv`. If no existing category term fits, ask the instructor before adding a new term to the dictionary.
+- **Filename:** List the file name for any asset or image used by that slide. Leave this blank when the slide does not use an asset or image. If a slide uses multiple files, separate the filenames with spaces or semicolons, not commas.
+- **CSV safety:** Do not use commas inside unquoted fields. Prefer category definitions and generated titles without commas.
 
 ---
 
@@ -343,7 +357,7 @@ Update `index.html` in this folder to reflect the completed lecture.
 Append one row per topic to `inventory.csv` in this folder. Do not overwrite existing rows.
 
 ```
-lecture, week, section, topic, emphasis, time_budget, optional, notes
+lecture, week, section, Subject, emphasis, time_budget, optional, notes
 ```
 
 ---
@@ -367,6 +381,8 @@ Categories: *voice*, *structure*, *slide length*, *Quarto syntax*, *tone*, *emph
 |------|----------|
 | `topic_x_keyword.qmd` (one per topic) | `[working subfolder]/` |
 | `p360_lecture_0x.0y.qmd` (stitched) | `[working subfolder]/` |
+| `slide_catalog.csv` | `[working subfolder]/` |
 | `index.html` (update link text) | `p360 Lectures/` |
 | `inventory.csv` (append only) | `p360 Lectures/` |
+| `Dictionary_of_Terms.csv` | `p360 Lectures/` |
 | `lessons.csv` (with approval) | `p360 Lectures/` |

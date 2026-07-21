@@ -1,19 +1,30 @@
-<!-- Topic 2: Dynamic Memory and Dynamic Arrays -->
-<!-- Slides 20–61 -->
+<!-- Topic 2: Pseudodynamic Memory - Heap -->
+<!-- Slides 22–50 -->
 
-# Dynamic Memory and Dynamic Arrays
-<!-- Slide 20 -->
+# Pseudodynamic Memory - Heap
+<!-- Slide 22 -->
 
 ## When Fixed Capacity Is Not Enough {.smaller}
 
-- What if the program cannot predict a safe capacity?
-- Runtime allocation trades a fixed limit for explicit ownership responsibility.
+- What if the program should ask for the array length when it runs?
+- Heap allocation removes the compile-time capacity wall, but the allocation still has a fixed length once created.
 
 ::: notes
-Slides 20–61
+Slides 22–50
 :::
 
-<!-- Slide 21 -->
+<!-- Slide 23 -->
+
+---
+
+## Two Flavors
+
+- Stack flavor: a fixed-capacity array is declared as a local variable.
+- **Heap flavor:** an array is allocated on the heap after the program knows the requested length.
+
+The heap flavor is more flexible at program start, but it introduces ownership and cleanup responsibilities.
+
+<!-- Slide 24 -->
 
 ---
 
@@ -26,7 +37,7 @@ Slides 20–61
 
 **Invariant:** one owner, one matching release.
 
-<!-- Slide 22 -->
+<!-- Slide 25 -->
 
 ---
 
@@ -48,7 +59,7 @@ int main()
 }
 ```
 
-<!-- Slide 23 -->
+<!-- Slide 26 -->
 
 ---
 
@@ -65,7 +76,7 @@ The second allocation reserves `count` contiguous `int` elements on the heap.
 [Graphic suggestion: two stack pointer variables, one pointing to a scalar heap cell and one to an array block.]
 :::
 
-<!-- Slide 24 -->
+<!-- Slide 27 -->
 
 ---
 
@@ -78,7 +89,7 @@ The second allocation reserves `count` contiguous `int` elements on the heap.
 
 The bracket form is part of the allocation contract.
 
-<!-- Slide 25 -->
+<!-- Slide 28 -->
 
 ---
 
@@ -94,7 +105,7 @@ delete[] values;
 
 Mixing scalar and array release forms causes undefined behavior.
 
-<!-- Slide 26 -->
+<!-- Slide 29 -->
 
 ---
 
@@ -108,7 +119,7 @@ Mixing scalar and array release forms causes undefined behavior.
 [Graphic suggestion: stack frame containing `values` and `length`, with an arrow to a heap block. Label the pointer and allocation lifetimes separately.]
 :::
 
-<!-- Slide 27 -->
+<!-- Slide 30 -->
 
 ---
 
@@ -127,7 +138,7 @@ while (length < 0)
 
 No allocation should occur until the requested length satisfies the program contract.
 
-<!-- Slide 28 -->
+<!-- Slide 31 -->
 
 ---
 
@@ -142,7 +153,7 @@ if (length > 0)
 
 `nullptr` clearly represents “no array.” Both `delete[] nullptr` and guarded traversal are safe.
 
-<!-- Slide 29 -->
+<!-- Slide 32 -->
 
 ---
 
@@ -157,7 +168,7 @@ for (int index = 0; index < length; index++)
 
 The allocated length is fixed for the lifetime of this allocation.
 
-<!-- Slide 30 -->
+<!-- Slide 33 -->
 
 ---
 
@@ -177,11 +188,11 @@ cout << '\n';
 
 **Boundary:** every subscript must remain below `length`.
 
-<!-- Slide 31 -->
+<!-- Slide 34 -->
 
 ---
 
-## Complete Dynamic Array Program {.smaller}
+## Complete Heap-Allocated Array Program {.smaller}
 
 ```{.cpp}
 #include <iostream>
@@ -212,7 +223,7 @@ int main()
 }
 ```
 
-<!-- Slide 32 -->
+<!-- Slide 35 -->
 
 ---
 
@@ -222,9 +233,9 @@ int main()
 - **Allocated length:** elements reserved by the successful `new[]` expression.
 - **Logical length:** elements the program currently treats as valid.
 
-These values may match, but the program must track them explicitly.
+In the heap pseudodynamic pattern, these values usually become the same after validation.
 
-<!-- Slide 33 -->
+<!-- Slide 36 -->
 
 ---
 
@@ -237,7 +248,7 @@ double average(const int values[], int length);
 
 The pointer carries an address. The length carries the boundary contract.
 
-<!-- Slide 34 -->
+<!-- Slide 37 -->
 
 ---
 
@@ -271,7 +282,7 @@ double average(const int values[], int length)
 }
 ```
 
-<!-- Slide 35 -->
+<!-- Slide 38 -->
 
 ---
 
@@ -281,7 +292,7 @@ double average(const int values[], int length)
 - `values[length]` is already one element beyond the allocation.
 - An out-of-bounds read or write causes undefined behavior.
 
-<!-- Slide 36 -->
+<!-- Slide 39 -->
 
 ---
 
@@ -298,7 +309,7 @@ delete[] values;
 
 **Predict:** is any particular output guaranteed for the second statement?
 
-<!-- Slide 37 -->
+<!-- Slide 40 -->
 
 ---
 
@@ -317,7 +328,7 @@ values = nullptr;
 
 The owning pointer retains the address returned by `new[]`.
 
-<!-- Slide 38 -->
+<!-- Slide 41 -->
 
 ---
 
@@ -336,7 +347,7 @@ while (cursor != end)
 
 `cursor` moves; `values` continues to own the base address.
 
-<!-- Slide 39 -->
+<!-- Slide 42 -->
 
 ---
 
@@ -344,32 +355,16 @@ while (cursor != end)
 
 ```{.cpp}
 int* values = new int[10];
-values = new int[20];
+values = nullptr;
 ```
 
-The first allocation still exists, but its address is gone. It can no longer be released.
+The allocation still exists, but its address is gone. It can no longer be released.
 
 ::: notes
-[Graphic suggestion: first heap block with its ownership arrow removed, then a second block receiving the pointer.]
+[Graphic suggestion: heap block with its ownership arrow removed while the pointer now holds `nullptr`.]
 :::
 
-<!-- Slide 40 -->
-
----
-
-## Replace an Allocation Safely
-
-```{.cpp}
-delete[] values;
-values = nullptr;
-
-values = new int[newLength];
-length = newLength;
-```
-
-Release the old allocation before replacing its only owning pointer when no data must be preserved.
-
-<!-- Slide 41 -->
+<!-- Slide 43 -->
 
 ---
 
@@ -392,7 +387,7 @@ return 0;
 
 Each exit path must honor the ownership invariant.
 
-<!-- Slide 42 -->
+<!-- Slide 44 -->
 
 ---
 
@@ -414,7 +409,7 @@ return result;
 
 One release point makes manual ownership easier to audit.
 
-<!-- Slide 43 -->
+<!-- Slide 45 -->
 
 ---
 
@@ -430,11 +425,11 @@ values[0] = 42;
 
 The smart pointer releases its array automatically when its lifetime ends.
 
-<!-- Slide 44 -->
+<!-- Slide 46 -->
 
 ---
 
-## Managed Dynamic Array {.smaller}
+## Managed Heap Array {.smaller}
 
 ```{.cpp}
 #include <iostream>
@@ -460,7 +455,7 @@ int main()
 }
 ```
 
-<!-- Slide 45 -->
+<!-- Slide 47 -->
 
 ---
 
@@ -474,278 +469,23 @@ int main()
 
 It does not store length or check whether an index is valid.
 
-<!-- Slide 46 -->
-
----
-
-## Why Resizing Needs a New Array
-
-- An existing allocation cannot grow or shrink in place through C++ syntax.
-- Resizing means allocating a different block and preserving the desired values.
-- Ownership transfers only after the copy succeeds.
-
-<!-- Slide 47 -->
-
----
-
-## The Resize Algorithm
-
-1. Validate the new length.
-2. Allocate a temporary array.
-3. Copy the elements that fit.
-4. Release the old array.
-5. Point the owner to the new array.
-6. Update the tracked length.
-
 <!-- Slide 48 -->
 
 ---
 
-## How Many Elements Should Be Copied?
+## Still Pseudodynamic
 
-```{.cpp}
-int copyCount = oldLength;
-if (newLength < oldLength)
-    copyCount = newLength;
-```
-
-The general rule is `min(oldLength, newLength)`.
+- The array length can be chosen at runtime.
+- Once the heap block is allocated, that block does not change size.
+- To change the size, the program must allocate a different block and move the data it wants to keep.
 
 <!-- Slide 49 -->
 
 ---
 
-## Grow an Array
-
-```{.cpp}
-int newLength = length + 3;
-int* temporary = new int[newLength]{};
-
-for (int i = 0; i < length; i++)
-    temporary[i] = values[i];
-
-delete[] values;
-values = temporary;
-temporary = nullptr;
-length = newLength;
-```
-
-<!-- Slide 50 -->
-
----
-
-## Trace a Growth Operation
-
-1. `values` owns the old block.
-2. `temporary` owns the new block.
-3. Both blocks exist during the copy.
-4. The old block is released.
-5. `values` becomes the owner of the new block.
-
-::: notes
-[Graphic suggestion: five before/after frames with ownership arrows and copied cells highlighted.]
-:::
-
-<!-- Slide 51 -->
-
----
-
-## Add One Element {.smaller}
-
-```{.cpp}
-void append(int*& values, int& length, int value)
-{
-    int* temporary = new int[length + 1];
-
-    for (int i = 0; i < length; i++)
-        temporary[i] = values[i];
-
-    temporary[length] = value;
-    delete[] values;
-    values = temporary;
-    temporary = nullptr;
-    length++;
-}
-```
-
-Both pointer and length use reference parameters because the function changes the caller’s state.
-
-<!-- Slide 52 -->
-
----
-
-## Use the Append Function {.smaller}
-
-```{.cpp}
-#include <iostream>
-using namespace std;
-
-void append(int*& values, int& length, int value);
-
-int main()
-{
-    int length = 3;
-    int* values = new int[length]{2, 4, 6};
-
-    append(values, length, 8);
-    for (int i = 0; i < length; i++)
-        cout << values[i] << ' ';
-
-    delete[] values;
-    values = nullptr;
-    return 0;
-}
-
-void append(int*& values, int& length, int value)
-{
-    int* temporary = new int[length + 1];
-    for (int i = 0; i < length; i++)
-        temporary[i] = values[i];
-    temporary[length] = value;
-    delete[] values;
-    values = temporary;
-    length++;
-}
-```
-
-<!-- Slide 53 -->
-
----
-
-## Shrink an Array
-
-```{.cpp}
-int newLength = length - 1;
-int* temporary = new int[newLength];
-
-for (int i = 0; i < newLength; i++)
-    temporary[i] = values[i];
-
-delete[] values;
-values = temporary;
-temporary = nullptr;
-length = newLength;
-```
-
-Only retained elements are copied.
-
-<!-- Slide 54 -->
-
----
-
-## Remove the Last Element
-
-```{.cpp}
-bool removeLast(int*& values, int& length)
-{
-    if (length == 0)
-        return false;
-
-    int* temporary = nullptr;
-    if (length > 1)
-        temporary = new int[length - 1];
-
-    for (int i = 0; i < length - 1; i++)
-        temporary[i] = values[i];
-
-    delete[] values;
-    values = temporary;
-    length--;
-    return true;
-}
-```
-
-<!-- Slide 55 -->
-
----
-
-## Resize to Any Length {.smaller}
-
-```{.cpp}
-void resize(int*& values, int& length, int newLength)
-{
-    if (newLength < 0 || newLength == length)
-        return;
-
-    int* temporary = nullptr;
-    if (newLength > 0)
-        temporary = new int[newLength]{};
-
-    int copyCount = length;
-    if (newLength < length)
-        copyCount = newLength;
-
-    for (int i = 0; i < copyCount; i++)
-        temporary[i] = values[i];
-
-    delete[] values;
-    values = temporary;
-    length = newLength;
-}
-```
-
-<!-- Slide 56 -->
-
----
-
-## Resize with `unique_ptr<Type[]>`
-
-```{.cpp}
-unique_ptr<int[]> next = make_unique<int[]>(newLength);
-
-for (int i = 0; i < copyCount; i++)
-    next[i] = values[i];
-
-values = move(next);
-length = newLength;
-```
-
-Assignment transfers ownership and automatically releases the old array.
-
-<!-- Slide 57 -->
-
----
-
-## The Cost of Resizing
-
-- Allocating a new block requires work proportional to the requested storage.
-- Copying retained elements takes O(N) time.
-- Growing by one element repeatedly can perform many unnecessary copies.
-
-<!-- Slide 58 -->
-
----
-
-## Why We Usually Choose `vector`
-
-```{.cpp}
-vector<int> values = {2, 4, 6};
-values.push_back(8);
-values.pop_back();
-```
-
-Manual dynamic arrays expose allocation mechanics. `vector` normally provides the safer application-level abstraction.
-
-<!-- Slide 59 -->
-
----
-
-## Choose the Storage Model
-
-| Need | Suitable model |
-|---|---|
-| Small known maximum | Fixed array plus logical length |
-| Study manual ownership | Raw dynamic array |
-| Exclusive automatic ownership | `unique_ptr<Type[]>` |
-| General resizable sequence | `vector<Type>` |
-
-<!-- Slide 60 -->
-
----
-
 ## Summary
 
-- Dynamic arrays pair `new[]` with `delete[]`, preserve the base address, and track bounds separately.
-- Resizing allocates, copies, releases, transfers ownership, and updates length; higher-level code usually uses `vector`.
+- Heap pseudodynamic memory uses `new[]` to choose array length at runtime.
+- The allocation has a fixed size until it is released, so ownership and bounds must be tracked explicitly.
 
-<!-- Slide 61 -->
+<!-- Slide 50 -->
