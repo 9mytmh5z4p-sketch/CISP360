@@ -1,312 +1,337 @@
-## {background-image="assets/cartoon.png" background-size="contain" background-position="center" background-repeat="no-repeat"}
-
----
-
 # Last Time
 
 ::: {.incremental}
-+ **How the Compiler Works**
-+ **The Symbol Table**
-+ **Data Type Conversion and Casting**
-+ **Signed, Unsigned, and Fixed-Width Types**
-+ **Determining Variable Size**
++ **Pseudodynamic Memory**
++ **Dynamic Memory and Dynamic Arrays**
 :::
 
 ::: notes
-1. **How the Compiler Works**: Preprocessing, compilation, and linking pipeline; translation units; role of header files and name mangling (future topic).
-2. **The Symbol Table**: The compiler's identifier record; drives type checking, scope resolution, and duplicate detection.
-3. **Data Type Conversion and Casting**: Implicit promotion vs. narrowing; C-style, functional notation, and static_cast syntax; integer division truncation.
-4. **Signed, Unsigned, and Fixed-Width Types**: Two's complement; range differences; mixing signed/unsigned in comparisons; cstdint exact-width types; size_t for indices.
-5. **Determining Variable Size**: sizeof operator; compile-time evaluation; array element count idiom; struct padding.
+Recall capacity versus logical size, runtime allocation, ownership, cleanup, and allocate-copy-release-transfer resizing.
 :::
 
----
+<!-- Slide 1 -->
 
 # Today's Agenda
 
-- Abstract Data Types
 - Structures
-- What's the Output?
-- Fill In the Missing Code
 - Arrays of Structures
-- Programming Task — Banking System
+- Binary Records
+- Abstract Data Types — Part 1
 
 ::: notes
 
 :::
 
-{{< include topic_1_abstract_data_types.qmd >}}
-{{< include topic_2_structures.qmd >}}
-{{< include topic_3_whats_the_output.qmd >}}
-{{< include topic_4_fill_in_the_code.qmd >}}
-{{< include topic_5_arrays_of_structs.qmd >}}
-{{< include topic_6_programming_task.qmd >}}
+<!-- Slide 2 -->
+
+{{< include topic_1_structures.qmd >}}
+{{< include topic_2_arrays_of_structures.qmd >}}
+{{< include topic_3_binary_records.qmd >}}
+{{< include topic_4_abstract_data_types.qmd >}}
 
 ---
 
 # Key Takeaways
 
-- A struct groups related members of different types under a single user-defined type name
-- Declare the struct type once; create as many variables as needed — just like `int` or `string`
-- Access members with dot notation: `variable.member`
-- Arrays of structs use the same indexing syntax as arrays of primitives: `roster[i].name`
+- Structures define complete record types from related members.
+- Arrays of structures keep each record intact through searching, sorting, storage, and resizing.
+- Fixed-size binary records enable direct access but depend on a controlled file layout.
+- An ADT is defined by values, operations, and contracts rather than one representation.
+
+<!-- Slide 136 -->
 
 ---
 
 # Next Time
 
+- Abstract Data Types — Part 2
+- Object-Oriented Programming
+- Introduction to Classes
+
+<!-- Slide 137 -->
+
 ---
 
 # Appendix
 
----
-
-## Abstract Data Types: Good Practices
-
-- Use a struct any time you manage multiple variables that describe the same entity — parallel variables with no formal relationship are a signal to create an ADT.
-- Name struct types with a capital letter and a noun (`Employee`, `Student`, `Product`) — the type name describes what the struct represents.
-- Keep struct declarations outside of functions so all functions in the file can use the type.
-
----
-
-## Abstract Data Types: Common Mistakes
-
-- Forgetting the semicolon after the closing brace: `struct Employee { ... }` — the compiler reports an error on the next line, not at the struct itself.
-- Treating the struct declaration as a variable — `struct Employee { ... };` creates a type, not a storage location; you must separately declare `Employee e;`.
-- Reaching for an array when fields have different types — that's a struct, not an array.
-
----
-
-## Abstract Data Types: More Examples
-
-```cpp
-// A Point ADT for 2D geometry
-struct Point {
-    double x;
-    double y;
-};
-
-// A Date ADT
-struct Date {
-    int month;
-    int day;
-    int year;
-};
-```
-
-Any real-world entity with multiple attributes of potentially different types is a candidate for an ADT.
-
----
-
-## Abstract Data Types: Practice Problems
-
-1. Identify three real-world entities (other than Employee or Student) that would benefit from a struct. List the members each would need with their types.
-2. What is the difference between a type definition and a variable declaration? Illustrate with `struct Point`.
-3. Draw the "Table of Variables" from the slide and add a new row for `class`. What does a class group that a struct does not?
-4. Write a struct for a `Rectangle` with `width` and `height`. Add a function that takes a `Rectangle` and returns its area.
-
----
-
-## Abstract Data Types: AI Search Terms
-
-- "C++ struct user-defined type"
-- "abstract data type C++ definition"
-- "struct vs class C++ difference"
-- "C++ composite type heterogeneous"
-- "when to use struct C++"
-
----
-
-## Abstract Data Types: Questions for Reflection
-
-- Why does grouping related data into a struct make code easier to maintain than using separate variables?
-- What real-world entities in your own programs would be good candidates for a struct?
-- How does the concept of an ADT relate to encapsulation in object-oriented programming?
+<!-- Slide 138 -->
 
 ---
 
 ## Structures: Good Practices
 
-- Declare the struct type once, outside any function, so it is available throughout the file.
-- Use an initialization list when all values are known at declaration time; use member-by-member assignment when values come from user input or computation.
-- Pass structs by `const` reference (`const Employee& e`) to functions that only read the data — avoids copying all members.
+- Define a structure before prototypes that use it.
+- Give types noun names and members clear domain names.
+- Use default member initializers for safe starting values.
+- Pass read-only records by `const` reference.
+
+<!-- Slide 139 -->
 
 ---
 
 ## Structures: Common Mistakes
 
-- Omitting the semicolon after `}` — required after every struct definition; missing it causes confusing errors on the lines that follow.
-- Initializing list values in the wrong order — values must match the order of member declarations in the struct, not alphabetical or logical order.
-- Writing `Employee.name` instead of `e.name` — the dot operator belongs to the variable, not the type name.
+- Omitting the semicolon after the closing brace
+- Writing `Employee.name` instead of `worker.name`
+- Assuming aggregate values map by name rather than declaration order
+- Passing a large read-only record by value accidentally
+
+<!-- Slide 140 -->
 
 ---
 
 ## Structures: More Examples
 
 ```cpp
-// Pass by const reference — no copy, members read-only
-void printEmployee(const Employee& e) {
-    cout << e.employeeID << ": " << e.name
-         << " @ $" << e.rate << "\n";
-}
-
-// Return a struct from a function
-Employee makeEmployee(int id, string name, double rate) {
-    Employee temp;
-    temp.employeeID = id;
-    temp.name       = name;
-    temp.rate       = rate;
-    return temp;
-}
+struct Point { double x = 0.0; double y = 0.0; };
+struct Date { int month = 1; int day = 1; int year = 2000; };
+struct Book { string title; string author; double price = 0.0; };
 ```
+
+<!-- Slide 141 -->
 
 ---
 
 ## Structures: Practice Problems
 
-1. Declare a `Book` struct with `title` (string), `author` (string), and `price` (double). Create two variables — one with an initialization list, one member-by-member.
-2. Write `void printBook(Book b)` that prints all three members. Call it from `main` with both Book variables.
-3. Write `void giveDiscount(Book& b, double pct)` that reduces `b.price` by `pct` percent. Verify the price changes in `main`.
-4. What happens if you swap two values in an initialization list? Write a short test and observe the result.
+1. Define a `Product` structure with an ID, description, price, and quantity.
+2. Write a function that returns the inventory value of one product.
+3. Add a nested `Date` member representing the last restock date.
+4. Compare the sizes of two equivalent structures with different member orders.
+
+<!-- Slide 142 -->
 
 ---
 
 ## Structures: AI Search Terms
 
-- "C++ struct declaration syntax"
-- "C++ struct initialization list member order"
-- "C++ dot notation member access operator"
-- "C++ struct pass by reference const"
-- "C++ struct return from function"
+- C++ aggregate initialization
+- C++ default member initializer struct
+- C++ struct padding alignment
+- C++ pointer to struct arrow operator
+- C++ pass struct by const reference
+
+<!-- Slide 143 -->
 
 ---
 
 ## Structures: Questions for Reflection
 
-- Why does C++ require a semicolon after the closing brace of a struct but not after the closing brace of a function?
-- When would you pass a struct by value versus by reference? What are the trade-offs?
-- How would code complexity change if you replaced a struct with separate parallel variables for a program managing 50 employees?
+- When should several variables become one record?
+- Which members determine whether two records represent the same entity?
+- Why can member order affect both initialization and memory layout?
+
+<!-- Slide 144 -->
 
 ---
 
 ## Arrays of Structures: Good Practices
 
-- Use a named constant for array size: `const int SIZE = 5;` — change it in one place and everything updates.
-- Use the two-step access pattern consistently: subscript first, then dot — `roster[i].name`, not `roster.name[i]`.
-- Declare the struct type before the array; the type must be defined before it can be used as an element type.
+- Keep capacity and logical size as separate values.
+- Search by stable identifiers rather than display names.
+- Swap or shift complete records instead of coordinating individual members.
+- Use `const Employee&` in range-based loops that only read.
+
+<!-- Slide 145 -->
 
 ---
 
 ## Arrays of Structures: Common Mistakes
 
-- Writing `roster.name[i]` instead of `roster[i].name` — `roster` is an array; you must index into it before accessing a member.
-- Initializing array elements with values in the wrong order — initialization list values map to struct members in declaration order.
-- Treating the array variable as a single struct — `roster` holds multiple structs; you must index to get one.
+- Writing `staff.name[i]` instead of `staff[i].name`
+- Traversing to capacity when only `count` records are valid
+- Tracking a maximum value but losing the record index
+- Updating `count` before confirming an append or removal succeeded
+
+<!-- Slide 146 -->
 
 ---
 
 ## Arrays of Structures: More Examples
 
 ```cpp
-// Finding the minimum
-int worst = 0;
-for (int i = 1; i < SIZE; i++)
-    if (roster[i].grade < roster[worst].grade) worst = i;
-cout << "Lowest: " << roster[worst].name
-     << " (" << roster[worst].grade << ")\n";
+struct City {
+    string name;
+    int population;
+};
 
-// Passing the array to a function
-void printRoster(Student roster[], int size) {
-    for (int i = 0; i < size; i++)
-        cout << roster[i].name << ": " << roster[i].grade << "\n";
-}
+City cities[] {
+    {"Sacramento", 526384},
+    {"Roseville", 154817}
+};
 ```
+
+<!-- Slide 147 -->
 
 ---
 
 ## Arrays of Structures: Practice Problems
 
-1. Declare a `Product` struct with `name` (string) and `price` (double). Create an array of 4 products using initialization lists.
-2. Write a function that returns the index of the most expensive product.
-3. Write a loop that prints only products with a price below $10.00.
-4. Modify the student roster loop to count how many students have a grade at or above 90 and print the count.
+1. Find the least expensive product in an inventory array.
+2. Sort students by grade while keeping names attached.
+3. Remove a record by ID while preserving a packed valid range.
+4. Resize a dynamic array of records and append one new record.
+
+<!-- Slide 148 -->
 
 ---
 
 ## Arrays of Structures: AI Search Terms
 
-- "C++ array of structs declaration"
-- "C++ struct array dot notation loop"
-- "C++ array of user-defined type"
-- "C++ struct array initialization list"
-- "C++ max tracker array of structs"
+- C++ array of structs
+- C++ search array of records
+- C++ sort structs by member
+- C++ logical size versus capacity
+- C++ range for const reference struct
+
+<!-- Slide 149 -->
 
 ---
 
 ## Arrays of Structures: Questions for Reflection
 
-- How does `roster[i].grade` differ conceptually from `scores[i]` where `scores` is a plain `int` array?
-- What would change if you needed to sort the roster by grade? What algorithms from earlier lectures would apply?
-- When would you use an array of structs versus parallel arrays? Which is easier to maintain as the data model grows?
+- Why is an index often more useful than a copied search result?
+- What invariant does a packed pseudodynamic record array maintain?
+- When would `vector<Employee>` be preferable to a dynamic array?
+
+<!-- Slide 150 -->
 
 ---
 
-## Programming Task — Banking System: Good Practices
+## Binary Records: Good Practices
 
-- Declare the struct outside `main` so helper functions for deposit, withdrawal, and transfer can all use it.
-- Validate every input before modifying the balance — check for positive amounts and sufficient funds before any operation changes state.
-- Display the balance before and after every transaction immediately after the operation, not at the end of the loop.
+- Use fixed-size, trivially copyable disk-record types.
+- Validate indexes before calculating offsets.
+- Check every read and write operation.
+- Store a format version when records must survive program changes.
 
----
-
-## Programming Task — Banking System: Common Mistakes
-
-- Modifying the balance before validating the input — validate first, then update; a failed validation should leave the balance unchanged.
-- Using `float` for currency arithmetic without understanding rounding — `float` has limited precision; `double` is safer for money calculations.
-- Skipping the `cin.ignore()` before `getline` for the bank name — without it, the newline left in the buffer will be consumed as an empty string.
+<!-- Slide 151 -->
 
 ---
 
-## Programming Task — Banking System: More Examples
+## Binary Records: Common Mistakes
+
+- Writing `string` objects or pointers as raw bytes
+- Confusing human record numbers with zero-based indexes
+- Seeking while the stream remains in a failed state
+- Assuming binary files are encrypted or portable
+
+<!-- Slide 152 -->
+
+---
+
+## Binary Records: More Examples
 
 ```cpp
-// Balance before/after pattern
-float before = account.balance;
-account.balance += amount;
-cout << "Before: $" << before << "  After: $" << account.balance << "\n";
+struct SensorRecord {
+    int sensorID;
+    long timestamp;
+    double reading;
+    bool active;
+};
 
-// Transfer validation
-if (amount <= 0 || amount > account.balance) {
-    cout << "Invalid transfer amount.\n";
-} else {
-    account.balance -= amount;
-    // encode and transmit recipient info
-}
+static_assert(is_trivially_copyable<SensorRecord>::value,
+              "Raw record required");
 ```
 
----
-
-## Programming Task — Banking System: Practice Problems
-
-1. Add an `int transactionCount` member to the struct. Increment it after every successful transaction and display it with the balance.
-2. Add a 5th menu option: **View account info** — display name, account number, and current balance.
-3. Modify withdrawal to reject any amount that would bring the balance below $10.00 (a minimum balance requirement).
-4. After the transfer branch collects recipient info, print a mock encoded payload: concatenate bank name, account number, and amount into a single string and display it as "Transfer payload: [string]".
+<!-- Slide 153 -->
 
 ---
 
-## Programming Task — Banking System: AI Search Terms
+## Binary Records: Practice Problems
 
-- "C++ do-while menu loop input validation"
-- "C++ struct member update before after display"
-- "C++ SHA-256 OpenSSL hash string"
-- "C++ getline cin ignore newline flush"
-- "C++ float precision currency alternative double"
+1. Calculate the byte offset for record index 12.
+2. Write a function that reports the number of complete records in a file.
+3. Update one sensor reading in place.
+4. Design a tombstone strategy and describe how deleted slots are reused.
+
+<!-- Slide 154 -->
 
 ---
 
-## Programming Task — Banking System: Questions for Reflection
+## Binary Records: AI Search Terms
 
-- Why is it important to validate input before modifying the balance rather than after?
-- What would change if you needed to support multiple accounts instead of one?
-- Why should sensitive transfer data like account numbers be encoded before transmission, even in a local simulation?
+- C++ binary file fixed size records
+- C++ seekg seekp record offset
+- C++ trivially copyable serialization
+- C++ struct padding binary file
+- binary file format versioning
+
+<!-- Slide 155 -->
+
+---
+
+## Binary Records: Questions for Reflection
+
+- Which assumptions make raw record access possible?
+- Why can a harmless source-code change invalidate an old binary file?
+- When should a program use a defined portable format instead?
+
+<!-- Slide 156 -->
+
+---
+
+## Abstract Data Types — Part 1: Good Practices
+
+- Define the values and operations before choosing representation.
+- State invariants and failure behavior explicitly.
+- Keep client code dependent on operations rather than members.
+- Treat representation choices as replaceable decisions.
+
+<!-- Slide 157 -->
+
+---
+
+## Abstract Data Types — Part 1: Common Mistakes
+
+- Treating ADT as another name for `class`
+- Confusing a data structure with the behavior it implements
+- Omitting failure behavior from an operation’s contract
+- Calling members private without identifying the invariant being protected
+
+<!-- Slide 158 -->
+
+---
+
+## Abstract Data Types — Part 1: More Examples
+
+| ADT | Possible Operations | Possible Representation |
+|---|---|---|
+| Queue | enqueue, dequeue, front | Array or vector |
+| Set | insert, erase, contains | Array or tree |
+| Date | advance, compare, format | Three integers or day count |
+
+<!-- Slide 159 -->
+
+---
+
+## Abstract Data Types — Part 1: Practice Problems
+
+1. Specify the values and operations of a `BankAccount` ADT.
+2. State an invariant for a bounded stack.
+3. Write preconditions and postconditions for `withdraw`.
+4. Propose two representations for a date and compare their tradeoffs.
+
+<!-- Slide 160 -->
+
+---
+
+## Abstract Data Types — Part 1: AI Search Terms
+
+- abstract data type values operations
+- ADT versus data structure
+- representation invariant programming
+- precondition postcondition contract
+- abstraction versus encapsulation
+
+<!-- Slide 161 -->
+
+---
+
+## Abstract Data Types — Part 1: Questions for Reflection
+
+- What should clients know about a type, and what should remain replaceable?
+- Why does observable behavior matter more than source-code secrecy?
+- Which limitation of public structures will classes address next?
+
+<!-- Slide 162 -->
