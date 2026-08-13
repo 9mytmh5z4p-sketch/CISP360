@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Homework Assignment 2 in task and subtask format">
+<title>Programming Homework 2</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { background: #d9dde2; scroll-behavior: smooth; }
+body { margin: 0; min-width: 300px; color: #111; background: #d9dde2; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.viewer-bar { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid rgba(17,24,39,.14); background: rgba(255,255,255,.96); box-shadow: 0 1px 7px rgba(17,24,39,.08); backdrop-filter: blur(12px); }
+.viewer-inner { width: min(100%, 960px); min-height: 58px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.viewer-title { min-width: 0; }
+.viewer-title strong { display: block; overflow: hidden; color: #111827; font-size: 15px; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
+.viewer-title span { display: block; margin-top: 2px; color: #667085; font-size: 12px; line-height: 1.2; }
+.task-jump { width: 148px; border: 1px solid #cbd2dc; border-radius: 7px; padding: 7px 9px; color: #243b64; background: #fff; font: 600 13px/1 "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.document { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 24px 14px 48px; }
+.paper { width: min(100%, 8.5in); min-height: 11in; padding: .45in .44in .5in; overflow: hidden; color: #111; background: #fff; box-shadow: 0 3px 14px rgba(17,24,39,.20); font-size: 10.5pt; line-height: 1.32; }
+.paper.dense { font-size: 10.1pt; line-height: 1.27; }
+h1, h2, h3, p, ul, ol, pre { margin-top: 0; }
+h1 { margin-bottom: .34in; font-size: 27pt; line-height: 1.04; letter-spacing: -.02em; }
+.section-title { margin: .24in 0 .12in; font-size: 19pt; line-height: 1.1; }
+.paper > .section-title:first-child { margin-top: 0; }
+.task { margin: 0 0 .24in; scroll-margin-top: 74px; }
+.task:last-child { margin-bottom: 0; }
+.task h2 { margin: 0 0 .11in; font-size: 15pt; line-height: 1.14; }
+p { margin-bottom: .12in; }
+.lead { margin-bottom: .07in; }
+.subtasks { margin: 0; padding: 0; list-style: none; }
+.subtasks li { display: grid; grid-template-columns: 3.15em minmax(0,1fr); gap: .08em; margin: 0 0 .045in; }
+.subtask-number { font-variant-numeric: tabular-nums; }
+.compact-list { margin: .05in 0 .14in; padding-left: .24in; }
+.compact-list li { margin-bottom: .035in; }
+.guidance { margin: .11in 0 .17in; padding-left: .14in; border-left: 3px solid #d3d7de; color: #303030; }
+pre { margin: .08in 0 .18in; padding: 0; overflow-wrap: anywhere; white-space: pre-wrap; color: #303030; font: 9.2pt/1.25 Courier, "Courier New", monospace; }
+code { font-family: Courier, "Courier New", monospace; }
+.example-list strong { white-space: nowrap; }
+.steps { margin: .05in 0 .15in; padding-left: .25in; }
+.steps li { margin-bottom: .035in; }
+.note { color: #303030; font-size: 9.6pt; }
+@media (max-width: 600px) {
+  .viewer-inner { padding-inline: 12px; }
+  .task-jump { width: 118px; font-size: 12px; }
+  .document { gap: 14px; padding: 14px 7px 28px; }
+  .paper { min-height: 0; padding: 7.2vw 6.4vw; box-shadow: 0 2px 8px rgba(17,24,39,.18); }
+  h1 { font-size: clamp(24px, 8vw, 36px); }
+  .section-title { font-size: clamp(20px, 5.8vw, 27px); }
+  .task h2 { font-size: clamp(17px, 4.8vw, 22px); }
+}
+@media print {
+  @page { size: letter; margin: 0; }
+  html, body { width: 8.5in; margin: 0; background: #fff; }
+  .viewer-bar { display: none; }
+  .document { display: block; margin: 0; padding: 0; }
+  .paper { width: 8.5in; min-height: 11in; margin: 0; box-shadow: none; break-after: page; page-break-after: always; }
+  .paper:last-child { break-after: auto; page-break-after: auto; }
+  .task { scroll-margin-top: 0; }
+}
+</style>
+</head>
+<body>
+<header class="viewer-bar">
+  <div class="viewer-inner">
+    <div class="viewer-title">
+      <strong>Programming Homework 2</strong>
+      <span>10 tasks with numbered subtasks</span>
+    </div>
+    <select class="task-jump" aria-label="Jump to a task" onchange="if(this.value) location.hash=this.value">
+      <option value="">Jump to task</option>
+      <option value="task-1">Task 1</option><option value="task-2">Task 2</option>
+      <option value="task-3">Task 3</option><option value="task-4">Task 4</option>
+      <option value="task-5">Task 5</option><option value="task-6">Task 6</option>
+      <option value="task-7">Task 7</option><option value="task-8">Task 8</option>
+      <option value="task-9">Task 9</option><option value="task-10">Task 10</option>
+    </select>
+  </div>
+</header>
+<main class="document">
+  <section class="paper" aria-label="Assignment overview">
+    <h1>Homework Assignment 2:<br>Personalized C++ Program with Vectors and Functions</h1>
+
+    <h2 class="section-title">Assignment Overview</h2>
+    <p>For Homework Assignment 2, you will create a complete C++ program based on a creative theme of your choice. Your program should collect user input, use a vector, process values with functions, and display clear, logically correct results.</p>
+    <p>Everyone must meet the same technical requirements, but your theme, greeting, prompts, variable names, function names, calculations, and output wording should be personalized. This helps you practice the required C++ concepts while making your program distinct from your classmates’ work.</p>
+    <p>Your program must compile, run, and produce output that makes sense for your chosen theme.</p>
+
+    <h2 class="section-title">Academic Integrity and AI Use</h2>
+    <p>You may use AI tools to help explain concepts, review error messages, or understand lecture material. You may not use AI to write your program code for you.</p>
+    <p>Your submitted work should reflect your own thinking, theme, structure, variable names, calculations, functions, and output design. Personalized programs help reduce plagiarism similarity scores. The target plagiarism score is under 50%.</p>
+
+    <h2 class="section-title">Required Source File Header</h2>
+    <p>Your program must begin with this source file header in a block comment:</p>
+    <pre>/*
+ * Student Name: [Student's Full Name]
+ * Date: [Submission Date]
+ * Assignment: Homework Assignment 2
+ * Program Description: [2-3 sentence description of what your program does]
+ */</pre>
+
+    <h2 class="section-title">Program Greeting</h2>
+    <p>At the beginning of <code>main()</code>, call a distinct <code>ProgramGreeting</code> function. The greeting must display your name, your program title or theme, a brief explanation of what the program does, and personalized wording connected to your chosen theme.</p>
+    <pre>================================
+Welcome to [Program Name]
+By: [Student Name]
+================================
+This program [brief description of what it does].</pre>
+  </section>
+
+  <section class="paper" aria-label="Technical requirements task 1 IPO model">
+    <h2 class="section-title">Technical Requirements: 10 Required Tasks</h2>
+    <p>Your program must complete all 10 tasks below.</p>
+
+    <section class="task" id="task-1">
+      <h2>Task 1: Create an IPO Model and Execution Trace Model</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">1.1.</span><span>Before beginning to code, plan the program with an IPO Model and an Execution Trace Model.</span></li>
+        <li><span class="subtask-number">1.2.</span><span>Include both completed models at the bottom of the source file inside block comments.</span></li>
+        <li><span class="subtask-number">1.3.</span><span>In the IPO Model, identify the input: data entered by the user.</span></li>
+        <li><span class="subtask-number">1.4.</span><span>In the IPO Model, identify the process: calculations, vector operations, and function calls performed by the program.</span></li>
+        <li><span class="subtask-number">1.5.</span><span>In the IPO Model, identify the output: information displayed to the user.</span></li>
+        <li><span class="subtask-number">1.6.</span><span>In the Execution Trace Model, show specific example input values.</span></li>
+        <li><span class="subtask-number">1.7.</span><span>Show important variable changes.</span></li>
+        <li><span class="subtask-number">1.8.</span><span>Show at least one vector change, such as a value being added with <code>push_back()</code>.</span></li>
+        <li><span class="subtask-number">1.9.</span><span>Show at least one function call, including its argument values and its returned value or displayed action.</span></li>
+        <li><span class="subtask-number">1.10.</span><span>Show the expected output for the sample run.</span></li>
+      </ol>
+      <h3>IPO Model Format</h3>
+      <pre>/*
+ * IPO Model
+ *
+ * Input:
+ * - ...
+ *
+ * Process:
+ * - ...
+ *
+ * Output:
+ * - ...
+ */</pre>
+    </section>
+  </section>
+
+  <section class="paper" aria-label="Execution trace format and technical requirements task 2">
+    <h2 class="section-title">Execution Trace Model Format</h2>
+    <pre>/*
+ * Execution Trace Model
+ *
+ * Sample Input:
+ * - ...
+ *
+ * Variable and Vector Changes:
+ * - ...
+ *
+ * Function Calls:
+ * - ...
+ *
+ * Expected Output:
+ * - ...
+ */</pre>
+
+    <section class="task" id="task-2">
+      <h2>Task 2: Include a Source File Header and Program Greeting Function</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">2.1.</span><span>Place the required source file header at the very top of the <code>.cpp</code> file inside a block comment.</span></li>
+        <li><span class="subtask-number">2.2.</span><span>Complete all required header fields: student name, submission date, assignment name, and a two- to three-sentence program description.</span></li>
+        <li><span class="subtask-number">2.3.</span><span>At the beginning of <code>main()</code>, call a distinct <code>ProgramGreeting</code> function.</span></li>
+        <li><span class="subtask-number">2.4.</span><span>Define <code>ProgramGreeting</code> as a <code>void</code> function because its job is to display information rather than calculate and return a value.</span></li>
+        <li><span class="subtask-number">2.5.</span><span>Display the student’s name, program title or theme, a brief explanation of what the program does, and personalized wording connected to the chosen theme.</span></li>
+        <li><span class="subtask-number">2.6.</span><span>Place function prototypes above <code>main()</code>.</span></li>
+        <li><span class="subtask-number">2.7.</span><span>Place function definitions below <code>main()</code>.</span></li>
+      </ol>
+    </section>
+  </section>
+
+  <section class="paper" aria-label="Technical requirements tasks 3 and 4">
+    <section class="task" id="task-3">
+      <h2>Task 3: Use Arithmetic and <code>static_cast</code></h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">3.1.</span><span>Perform at least two meaningful calculations using user input.</span></li>
+        <li><span class="subtask-number">3.2.</span><span>Include at least one calculation for which a decimal answer is needed.</span></li>
+        <li><span class="subtask-number">3.3.</span><span>Use <code>static_cast</code> to prevent an incorrect integer-division result.</span></li>
+        <li><span class="subtask-number">3.4.</span><span>Store at least one calculated result in a named variable.</span></li>
+        <li><span class="subtask-number">3.5.</span><span>Use at least one named constant for a value that should not change.</span></li>
+        <li><span class="subtask-number">3.6.</span><span>Make the calculations fit the program’s theme; do not add disconnected arithmetic merely to satisfy a requirement.</span></li>
+      </ol>
+    </section>
+
+    <section class="task" id="task-4">
+      <h2>Task 4: Format Output Clearly</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">4.1.</span><span>Display results in a clean, readable format.</span></li>
+        <li><span class="subtask-number">4.2.</span><span>Use <code>fixed</code> and <code>setprecision</code> for decimal output.</span></li>
+        <li><span class="subtask-number">4.3.</span><span>Use <code>setw</code> for spacing.</span></li>
+        <li><span class="subtask-number">4.4.</span><span>Include at least one formatted table or aligned list.</span></li>
+        <li><span class="subtask-number">4.5.</span><span>Use labels that clearly describe the displayed values.</span></li>
+        <li><span class="subtask-number">4.6.</span><span>Make the output look intentional and match the program’s theme.</span></li>
+      </ol>
+    </section>
+  </section>
+
+  <section class="paper" aria-label="Technical requirements tasks 5 and 6">
+    <section class="task" id="task-5">
+      <h2>Task 5: Use Advanced Input Correctly</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">5.1.</span><span>Collect both text input and numeric input from the user.</span></li>
+        <li><span class="subtask-number">5.2.</span><span>Use <code>getline()</code> for at least one full-line text value, such as a mission name, recipe title, route name, team name, or character name.</span></li>
+        <li><span class="subtask-number">5.3.</span><span>Use <code>cin &gt;&gt;</code> for numeric values.</span></li>
+        <li><span class="subtask-number">5.4.</span><span>Correctly handle the leftover newline when switching from <code>cin &gt;&gt;</code> to <code>getline()</code>.</span></li>
+        <li><span class="subtask-number">5.5.</span><span>Include at least one basic input-validation step for a numeric value.</span></li>
+        <li><span class="subtask-number">5.6.</span><span>Use theme-appropriate prompts that clearly tell the user what to enter.</span></li>
+      </ol>
+    </section>
+
+    <section class="task" id="task-6">
+      <h2>Task 6: Use Random Numbers</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">6.1.</span><span>Use random numbers in a way that fits the program’s theme.</span></li>
+        <li><span class="subtask-number">6.2.</span><span>Seed the random-number generator once near the beginning of the program.</span></li>
+        <li><span class="subtask-number">6.3.</span><span>Generate at least one random number within a clear range.</span></li>
+        <li><span class="subtask-number">6.4.</span><span>Use the random value in a meaningful calculation, decision, or output message.</span></li>
+        <li><span class="subtask-number">6.5.</span><span>Make the random-number range understandable from the code or output.</span></li>
+      </ol>
+      <p class="guidance">For example, a travel planner might generate a random weather delay, or a game stats program might generate a bonus event.</p>
+    </section>
+  </section>
+
+  <section class="paper" aria-label="Technical requirements tasks 7 and 8">
+    <section class="task" id="task-7">
+      <h2>Task 7: Use a Vector</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">7.1.</span><span>Include the correct library for vectors.</span></li>
+        <li><span class="subtask-number">7.2.</span><span>Declare at least one vector with an appropriate data type.</span></li>
+        <li><span class="subtask-number">7.3.</span><span>Add at least three values to the vector using <code>push_back()</code>.</span></li>
+        <li><span class="subtask-number">7.4.</span><span>Use <code>.size()</code> somewhere meaningful.</span></li>
+        <li><span class="subtask-number">7.5.</span><span>Use <code>pop_back()</code> only if removing the final element fits the program’s logic.</span></li>
+      </ol>
+      <p class="guidance">The vector might store fuel readings, scores, prices, ingredient amounts, energy readings, travel distances, or item weights.</p>
+    </section>
+
+    <section class="task" id="task-8">
+      <h2>Task 8: Use a Range-Based Loop</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">8.1.</span><span>Use a range-based <code>for</code> loop to process every value in the vector.</span></li>
+        <li><span class="subtask-number">8.2.</span><span>Use the loop for a meaningful purpose, such as calculating a total, finding an average, counting values, or displaying every value.</span></li>
+        <li><span class="subtask-number">8.3.</span><span>Use a clear loop-variable name.</span></li>
+        <li><span class="subtask-number">8.4.</span><span>Avoid changing the vector inside the range-based loop.</span></li>
+        <li><span class="subtask-number">8.5.</span><span>Use the range-based loop in a situation where every value in the vector matters.</span></li>
+      </ol>
+    </section>
+  </section>
+
+  <section class="paper" aria-label="Technical requirements tasks 9 and 10">
+    <section class="task" id="task-9">
+      <h2>Task 9: Use Function-Centered Architecture</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">9.1.</span><span>Organize the program around functions instead of placing all logic inside <code>main()</code>.</span></li>
+        <li><span class="subtask-number">9.2.</span><span>Include function prototypes above <code>main()</code>.</span></li>
+        <li><span class="subtask-number">9.3.</span><span>Define functions below <code>main()</code>.</span></li>
+        <li><span class="subtask-number">9.4.</span><span>Keep <code>main()</code> as the coordinator of the program.</span></li>
+        <li><span class="subtask-number">9.5.</span><span>Create at least four functions total, including <code>ProgramGreeting</code>.</span></li>
+        <li><span class="subtask-number">9.6.</span><span>Avoid nested function definitions.</span></li>
+        <li><span class="subtask-number">9.7.</span><span>Avoid global variables.</span></li>
+        <li><span class="subtask-number">9.8.</span><span>Give each function one clear job and a name that describes what it does or calculates.</span></li>
+      </ol>
+    </section>
+
+    <section class="task" id="task-10">
+      <h2>Task 10: Pass Data To and From Functions</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">10.1.</span><span>Include at least one function that takes one or more parameters.</span></li>
+        <li><span class="subtask-number">10.2.</span><span>Include at least one function that returns a calculated value.</span></li>
+        <li><span class="subtask-number">10.3.</span><span>Include at least one <code>void</code> function used for display or another action-only task.</span></li>
+        <li><span class="subtask-number">10.4.</span><span>Include at least one function that receives a vector as a parameter.</span></li>
+        <li><span class="subtask-number">10.5.</span><span>Store at least one returned value in a variable in <code>main()</code>.</span></li>
+        <li><span class="subtask-number">10.6.</span><span>Give each function a clear contract: it should receive the data it needs through parameters and return or display exactly what its job requires.</span></li>
+      </ol>
+    </section>
+  </section>
+
+  <section class="paper" aria-label="Theme and program structure guidance">
+    <h2 class="section-title">Theme Selection Guidance</h2>
+    <p>Choose a theme that gives you natural reasons to collect several values, store repeated data in a vector, call functions, and display results.</p>
+    <p>Strong themes usually have a clear scenario, a personalized title, one full-line text value, several numeric values, a reason to process a collection, and a result that would be useful or interesting.</p>
+    <p>Good theme examples:</p>
+    <ul class="compact-list example-list">
+      <li><strong>Space Mission Calculator:</strong> mission name, supply weights, fuel readings, random launch delay, total payload estimate</li>
+      <li><strong>Recipe Nutrition Tracker:</strong> recipe name, ingredient calorie values, servings, total calories, calories per serving</li>
+      <li><strong>Road Trip Planner:</strong> trip name, distances for each travel leg, fuel efficiency, total miles, estimated fuel cost</li>
+      <li><strong>Fantasy Character Stats:</strong> character name, item weights, ability scores, random bonus, total load or rating</li>
+      <li><strong>Home Energy Calculator:</strong> household name, appliance usage values, random peak-rate event, total and average usage</li>
+      <li><strong>Event Budget Planner:</strong> event name, category costs, guest count, total cost, cost per guest</li>
+    </ul>
+    <p>Avoid themes that are too simple. A program that only asks for two numbers and adds them is not enough for this assignment.</p>
+
+    <h2 class="section-title">Program Structure Guidelines</h2>
+    <ol class="steps">
+      <li>Source file header</li>
+      <li>Include directives</li>
+      <li><code>using namespace std;</code></li>
+      <li>Function prototypes</li>
+      <li><code>int main()</code></li>
+      <li>Program greeting function call</li>
+      <li>Main input, calculation, function-call, and output coordination</li>
+      <li><code>return 0;</code></li>
+      <li>Function definitions</li>
+      <li>IPO Model block comment</li>
+      <li>Execution Trace Model block comment</li>
+    </ol>
+    <p>Use comments to label major sections, but do not comment every single line. Comments should help the reader understand the purpose of each section.</p>
+  </section>
+
+  <section class="paper dense" aria-label="Submission requirements and final guidance">
+    <h2 class="section-title">Submission Requirements</h2>
+    <p>Submit your program through Canvas by the due date listed in Canvas.</p>
+    <p>Before submitting:</p>
+    <ol class="steps">
+      <li>Make sure your program compiles without errors.</li>
+      <li>Run your program using realistic test input.</li>
+      <li>Check that the output is logically correct for your theme.</li>
+      <li>Save your completed source file.</li>
+      <li>Rename the file from <code>.cpp</code> to <code>.txt</code>.</li>
+      <li>Upload the <code>.txt</code> file to Canvas.</li>
+    </ol>
+    <pre>Original file: homework2.cpp
+Submitted file: homework2.txt</pre>
+    <p>Your instructor will download submissions, compile and execute them, and append program output to the end of the source file as a comment.</p>
+
+    <h2 class="section-title">Common Mistakes to Avoid</h2>
+    <ul class="compact-list">
+      <li>Forgetting the source file header</li>
+      <li>Writing the greeting directly in <code>main()</code> instead of calling a <code>ProgramGreeting</code> function</li>
+      <li>Forgetting function prototypes above <code>main()</code></li>
+      <li>Defining a function inside another function</li>
+      <li>Placing most of the program logic inside <code>main()</code></li>
+      <li>Using global variables instead of parameters and return values</li>
+      <li>Mixing <code>cin &gt;&gt;</code> and <code>getline()</code> without handling the leftover newline</li>
+      <li>Forgetting to seed random numbers only once</li>
+      <li>Forgetting <code>#include &lt;vector&gt;</code></li>
+      <li>Expecting a pass-by-value vector parameter to change the original vector</li>
+      <li>Using integer division when a decimal answer is needed</li>
+      <li>Putting the IPO Model or Execution Trace Model outside block comments</li>
+      <li>Submitting the <code>.cpp</code> file instead of the required <code>.txt</code> file</li>
+      <li>Letting AI write the code instead of writing it yourself</li>
+    </ul>
+
+    <h2 class="section-title">Tips for Success</h2>
+    <p>Start with your theme first. Decide what your program is supposed to help someone calculate, estimate, track, or summarize.</p>
+    <p>Plan the vector next. If your theme does not naturally have at least three values that can go into a vector, adjust the theme before you start coding.</p>
+    <p>Build in small steps. Make the greeting work first, then collect input, then add the vector, then add one function at a time. Compile and run often.</p>
+    <p>Use realistic test values. If your result seems impossible for your theme, check your data types, arithmetic, division, vector contents, and function return values.</p>
+    <p>Make your program look like your work. Personalized names, prompts, labels, function names, and theme details will make your submission stronger and more original.</p>
+  </section>
+</main>
+</body>
+</html>

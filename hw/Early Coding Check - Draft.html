@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Draft Early Coding Check assignment in task and subtask format">
+<title>Early Coding Check — Draft</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { background: #d9dde2; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-width: 300px;
+  color: #111;
+  background: #d9dde2;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.viewer-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid rgba(17, 24, 39, .14);
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 1px 7px rgba(17, 24, 39, .08);
+  backdrop-filter: blur(12px);
+}
+.viewer-inner {
+  width: min(100%, 960px);
+  min-height: 58px;
+  margin: 0 auto;
+  padding: 9px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.viewer-title { min-width: 0; }
+.viewer-title strong {
+  display: block;
+  overflow: hidden;
+  color: #111827;
+  font-size: 15px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.viewer-title span {
+  display: block;
+  margin-top: 2px;
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.2;
+}
+.task-jump {
+  width: 148px;
+  border: 1px solid #cbd2dc;
+  border-radius: 7px;
+  padding: 7px 9px;
+  color: #243b64;
+  background: #fff;
+  font: 600 13px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 14px 48px;
+}
+.paper {
+  width: min(100%, 8.5in);
+  min-height: 11in;
+  padding: .45in .44in .5in;
+  overflow: hidden;
+  color: #111;
+  background: #fff;
+  box-shadow: 0 3px 14px rgba(17, 24, 39, .20);
+  font-size: 10.5pt;
+  line-height: 1.32;
+}
+.paper.dense { font-size: 10.1pt; line-height: 1.27; }
+.paper.dense .section-title { margin: .18in 0 .09in; font-size: 18pt; }
+.paper.dense .task { margin-bottom: .18in; }
+.paper.dense pre { margin-bottom: .13in; }
+h1, h2, h3, p, ul, ol, pre { margin-top: 0; }
+h1 {
+  margin-bottom: .28in;
+  font-size: 27pt;
+  line-height: 1.04;
+  letter-spacing: -.02em;
+}
+.draft-label {
+  display: inline-block;
+  margin: 0 0 .12in;
+  border: 1px solid #c8a33a;
+  border-radius: 999px;
+  padding: .045in .1in;
+  color: #5f4910;
+  background: #fff6cf;
+  font-size: 8.7pt;
+  font-weight: 700;
+  letter-spacing: .04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.section-title {
+  margin: .24in 0 .12in;
+  font-size: 19pt;
+  line-height: 1.1;
+}
+.paper > .section-title:first-child { margin-top: 0; }
+.task {
+  margin: 0 0 .24in;
+  scroll-margin-top: 74px;
+}
+.task:last-child { margin-bottom: 0; }
+.task h2 {
+  margin: 0 0 .11in;
+  font-size: 15pt;
+  line-height: 1.14;
+}
+p { margin-bottom: .12in; }
+.lead { margin-bottom: .07in; }
+.subtasks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.subtasks li {
+  display: grid;
+  grid-template-columns: 3.15em minmax(0, 1fr);
+  gap: .08em;
+  margin: 0 0 .045in;
+}
+.subtask-number { font-variant-numeric: tabular-nums; }
+.compact-list { margin: .05in 0 .14in; padding-left: .24in; }
+.compact-list li { margin-bottom: .035in; }
+.guidance {
+  margin: .11in 0 .17in;
+  padding-left: .14in;
+  border-left: 3px solid #d3d7de;
+  color: #303030;
+}
+pre {
+  margin: .08in 0 .18in;
+  padding: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  color: #303030;
+  font: 9.2pt/1.25 Courier, "Courier New", monospace;
+}
+code { font-family: Courier, "Courier New", monospace; }
+.steps { margin: .05in 0 .15in; padding-left: .25in; }
+.steps li { margin-bottom: .035in; }
+.note { color: #303030; font-size: 9.6pt; }
+@media (max-width: 600px) {
+  .viewer-inner { padding-inline: 12px; }
+  .task-jump { width: 118px; font-size: 12px; }
+  .document { gap: 14px; padding: 14px 7px 28px; }
+  .paper { min-height: 0; padding: 7.2vw 6.4vw; box-shadow: 0 2px 8px rgba(17, 24, 39, .18); }
+  h1 { font-size: clamp(24px, 8vw, 36px); }
+  .section-title { font-size: clamp(20px, 5.8vw, 27px); }
+  .task h2 { font-size: clamp(17px, 4.8vw, 22px); }
+}
+@media print {
+  @page { size: letter; margin: 0; }
+  html, body { width: 8.5in; margin: 0; background: #fff; }
+  .viewer-bar { display: none; }
+  .document { display: block; margin: 0; padding: 0; }
+  .paper {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0;
+    box-shadow: none;
+    break-after: page;
+    page-break-after: always;
+  }
+  .paper:last-child { break-after: auto; page-break-after: auto; }
+  .task { scroll-margin-top: 0; }
+}
+</style>
+</head>
+<body>
+<header class="viewer-bar">
+  <div class="viewer-inner">
+    <div class="viewer-title">
+      <strong>Early Coding Check — Draft</strong>
+      <span>5 tasks with numbered subtasks</span>
+    </div>
+    <select class="task-jump" aria-label="Jump to a task" onchange="if(this.value) location.hash=this.value">
+      <option value="">Jump to task</option>
+      <option value="task-1">Task 1</option>
+      <option value="task-2">Task 2</option>
+      <option value="task-3">Task 3</option>
+      <option value="task-4">Task 4</option>
+      <option value="task-5">Task 5</option>
+    </select>
+  </div>
+</header>
+<main class="document">
+  <section class="paper" aria-label="Activity overview">
+    <span class="draft-label">Draft Activity</span>
+    <h1>Early Coding Check:<br>Input and Formatted Output</h1>
+
+    <h2 class="section-title">Activity Overview</h2>
+    <p>Create a small purchase-summary program that gathers keyboard input, performs one calculation, and presents the result in a neatly aligned report. This activity practices choosing appropriate variable types, reading text and numeric values, and formatting decimal output.</p>
+
+    <h2 class="section-title">Activity Details</h2>
+    <ul class="compact-list">
+      <li><strong>Status:</strong> Draft</li>
+      <li><strong>In-person format:</strong> Complete during the scheduled class activity.</li>
+      <li><strong>Online format:</strong> Complete individually and submit through Canvas.</li>
+      <li><strong>Online due date:</strong> Sunday, September 13, 2026, at 11:59 p.m.</li>
+      <li><strong>Estimated time:</strong> 30–45 minutes</li>
+    </ul>
+
+    <h2 class="section-title">Scenario</h2>
+    <p>A campus supply store needs a program that prepares a purchase summary for one item. The program will ask for the item’s name, quantity, and unit price, calculate the total price, and display the information in a formatted table. The item name must be able to contain spaces.</p>
+
+    <h2 class="section-title">Learning Objectives</h2>
+    <p>After completing this activity, you should be able to:</p>
+    <ul class="compact-list">
+      <li>Choose appropriate types for text, whole-number, and decimal data.</li>
+      <li>Read a full line of text with <code>getline()</code> and numeric values with <code>cin</code>.</li>
+      <li>Use an arithmetic expression to calculate a purchase total.</li>
+      <li>Use <code>setw</code>, <code>fixed</code>, and <code>setprecision(2)</code> to create readable output.</li>
+    </ul>
+
+    <h2 class="section-title">Common Program Standards</h2>
+    <p>Your source file must include a source file header, the required library headers, <code>using namespace std;</code>, one correctly formed <code>int main()</code> function, meaningful variable names, and <code>return 0;</code>.</p>
+  </section>
+
+  <section class="paper" aria-label="Technical requirements tasks 1 through 3">
+    <h2 class="section-title">Technical Requirements: 5 Required Tasks</h2>
+    <p>Your program must complete all five tasks below.</p>
+
+    <section class="task" id="task-1">
+      <h2>Task 1: Set Up the Program</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">1.1.</span><span>Begin with a block-comment source file header containing your full name, course and section, date, assignment name, and a brief program description.</span></li>
+        <li><span class="subtask-number">1.2.</span><span>Include <code>&lt;iostream&gt;</code>, <code>&lt;iomanip&gt;</code>, and <code>&lt;string&gt;</code>.</span></li>
+        <li><span class="subtask-number">1.3.</span><span>Include <code>using namespace std;</code>.</span></li>
+        <li><span class="subtask-number">1.4.</span><span>Place all executable statements inside one correctly formed <code>int main()</code> function.</span></li>
+        <li><span class="subtask-number">1.5.</span><span>Display a short program title before requesting input and finish <code>main()</code> with <code>return 0;</code>.</span></li>
+      </ol>
+    </section>
+
+    <section class="task" id="task-2">
+      <h2>Task 2: Declare the Program’s Variables</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">2.1.</span><span>Declare a <code>string</code> variable for the item name.</span></li>
+        <li><span class="subtask-number">2.2.</span><span>Declare an integer variable for the quantity.</span></li>
+        <li><span class="subtask-number">2.3.</span><span>Declare <code>double</code> variables for the unit price and calculated total.</span></li>
+        <li><span class="subtask-number">2.4.</span><span>Give every variable a meaningful name and use that variable consistently throughout the program.</span></li>
+      </ol>
+    </section>
+
+    <section class="task" id="task-3">
+      <h2>Task 3: Read Keyboard Input</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">3.1.</span><span>Ask for the item name first and read it with <code>getline()</code>.</span></li>
+        <li><span class="subtask-number">3.2.</span><span>Ask for the quantity and read it with <code>cin</code>.</span></li>
+        <li><span class="subtask-number">3.3.</span><span>Ask for the unit price and read it with <code>cin</code>.</span></li>
+        <li><span class="subtask-number">3.4.</span><span>Use clear prompts that tell the user exactly what to enter.</span></li>
+        <li><span class="subtask-number">3.5.</span><span>Test the program with an item name containing at least two words.</span></li>
+      </ol>
+      <p class="guidance">Read the item name before the numeric values. This keeps the activity focused on full-line text input without requiring input-stream cleanup that has not yet been assigned.</p>
+    </section>
+  </section>
+
+  <section class="paper dense" aria-label="Technical requirements tasks 4 and 5 and completion requirements">
+    <section class="task" id="task-4">
+      <h2>Task 4: Calculate the Purchase Total</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">4.1.</span><span>Multiply the quantity by the unit price.</span></li>
+        <li><span class="subtask-number">4.2.</span><span>Store the result in the total variable.</span></li>
+        <li><span class="subtask-number">4.3.</span><span>Use the values entered by the user rather than hard-coding the answer.</span></li>
+      </ol>
+    </section>
+
+    <section class="task" id="task-5">
+      <h2>Task 5: Display a Formatted Purchase Summary</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">5.1.</span><span>Display a heading for the purchase summary.</span></li>
+        <li><span class="subtask-number">5.2.</span><span>Display column headings for the item name, quantity, unit price, and total.</span></li>
+        <li><span class="subtask-number">5.3.</span><span>Use <code>setw</code> to organize the headings and values into readable columns.</span></li>
+        <li><span class="subtask-number">5.4.</span><span>Use <code>fixed</code> and <code>setprecision(2)</code> so both monetary values display exactly two digits after the decimal point.</span></li>
+        <li><span class="subtask-number">5.5.</span><span>Display the complete multiword item name and the correctly calculated total.</span></li>
+      </ol>
+    </section>
+
+    <h2 class="section-title">Sample Interaction</h2>
+    <pre>Campus Supply Purchase Summary
+
+Enter the item name: Spiral Notebook Pack
+Enter the quantity: 3
+Enter the unit price: 4.75
+
+PURCHASE SUMMARY
+Item                         Quantity     Unit Price          Total
+Spiral Notebook Pack                3          $4.75         $14.25</pre>
+    <p class="note">The exact spacing may differ, but the headings and values must form clearly readable columns.</p>
+
+    <h2 class="section-title">Completion and Submission</h2>
+    <p><strong>In-person students:</strong> Complete the program during the scheduled class activity and demonstrate a successful run or submit the file as directed by the instructor.</p>
+    <p><strong>Online students:</strong> By Sunday, September 13, 2026, at 11:59 p.m., submit the completed source file and one sample run showing a multiword item name. Place the sample run at the bottom of the source file inside a block comment.</p>
+    <p>Online students should rename the completed source file before uploading it to Canvas:</p>
+    <pre>Working source: LastName_EarlyCodingCheck.cpp
+Submitted file: LastName_EarlyCodingCheck.txt</pre>
+
+    <h2 class="section-title">Completion Checklist</h2>
+    <ul class="compact-list">
+      <li>The program compiles and runs without errors.</li>
+      <li>The item name is read with <code>getline()</code>.</li>
+      <li>The quantity and unit price are read with <code>cin</code>.</li>
+      <li>A multiword item name appears completely in the report.</li>
+      <li>The total is calculated correctly.</li>
+      <li><code>setw</code>, <code>fixed</code>, and <code>setprecision(2)</code> are used.</li>
+      <li>Both monetary values display two decimal places.</li>
+      <li>The final report is aligned and easy to read.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

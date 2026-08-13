@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Draft Toolset Test assignment in task and subtask format">
+<title>Toolset Test — Draft</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { background: #d9dde2; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-width: 300px;
+  color: #111;
+  background: #d9dde2;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.viewer-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid rgba(17, 24, 39, .14);
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 1px 7px rgba(17, 24, 39, .08);
+  backdrop-filter: blur(12px);
+}
+.viewer-inner {
+  width: min(100%, 960px);
+  min-height: 58px;
+  margin: 0 auto;
+  padding: 9px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.viewer-title { min-width: 0; }
+.viewer-title strong {
+  display: block;
+  overflow: hidden;
+  color: #111827;
+  font-size: 15px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.viewer-title span {
+  display: block;
+  margin-top: 2px;
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.2;
+}
+.task-jump {
+  width: 148px;
+  border: 1px solid #cbd2dc;
+  border-radius: 7px;
+  padding: 7px 9px;
+  color: #243b64;
+  background: #fff;
+  font: 600 13px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 14px 48px;
+}
+.paper {
+  width: min(100%, 8.5in);
+  min-height: 11in;
+  padding: .45in .44in .5in;
+  overflow: hidden;
+  color: #111;
+  background: #fff;
+  box-shadow: 0 3px 14px rgba(17, 24, 39, .20);
+  font-size: 10.5pt;
+  line-height: 1.32;
+}
+.paper.dense { font-size: 10.1pt; line-height: 1.27; }
+.paper.dense .section-title { margin: .18in 0 .09in; font-size: 18pt; }
+.paper.dense .task { margin-bottom: .18in; }
+.paper.dense pre { margin-bottom: .13in; }
+h1, h2, h3, p, ul, ol, pre { margin-top: 0; }
+h1 {
+  margin-bottom: .28in;
+  font-size: 27pt;
+  line-height: 1.04;
+  letter-spacing: -.02em;
+}
+.draft-label {
+  display: inline-block;
+  margin: 0 0 .12in;
+  border: 1px solid #c8a33a;
+  border-radius: 999px;
+  padding: .045in .1in;
+  color: #5f4910;
+  background: #fff6cf;
+  font-size: 8.7pt;
+  font-weight: 700;
+  letter-spacing: .04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.section-title {
+  margin: .24in 0 .12in;
+  font-size: 19pt;
+  line-height: 1.1;
+}
+.paper > .section-title:first-child { margin-top: 0; }
+.task {
+  margin: 0 0 .24in;
+  scroll-margin-top: 74px;
+}
+.task:last-child { margin-bottom: 0; }
+.task h2 {
+  margin: 0 0 .11in;
+  font-size: 15pt;
+  line-height: 1.14;
+}
+p { margin-bottom: .12in; }
+.lead { margin-bottom: .07in; }
+.subtasks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.subtasks li {
+  display: grid;
+  grid-template-columns: 3.15em minmax(0, 1fr);
+  gap: .08em;
+  margin: 0 0 .045in;
+}
+.subtask-number { font-variant-numeric: tabular-nums; }
+.compact-list { margin: .05in 0 .14in; padding-left: .24in; }
+.compact-list li { margin-bottom: .035in; }
+.guidance {
+  margin: .11in 0 .17in;
+  padding-left: .14in;
+  border-left: 3px solid #d3d7de;
+  color: #303030;
+}
+pre {
+  margin: .08in 0 .18in;
+  padding: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  color: #303030;
+  font: 9.2pt/1.25 Courier, "Courier New", monospace;
+}
+code { font-family: Courier, "Courier New", monospace; }
+.steps { margin: .05in 0 .15in; padding-left: .25in; }
+.steps li { margin-bottom: .035in; }
+.note { color: #303030; font-size: 9.6pt; }
+@media (max-width: 600px) {
+  .viewer-inner { padding-inline: 12px; }
+  .task-jump { width: 118px; font-size: 12px; }
+  .document { gap: 14px; padding: 14px 7px 28px; }
+  .paper { min-height: 0; padding: 7.2vw 6.4vw; box-shadow: 0 2px 8px rgba(17, 24, 39, .18); }
+  h1 { font-size: clamp(24px, 8vw, 36px); }
+  .section-title { font-size: clamp(20px, 5.8vw, 27px); }
+  .task h2 { font-size: clamp(17px, 4.8vw, 22px); }
+}
+@media print {
+  @page { size: letter; margin: 0; }
+  html, body { width: 8.5in; margin: 0; background: #fff; }
+  .viewer-bar { display: none; }
+  .document { display: block; margin: 0; padding: 0; }
+  .paper {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0;
+    box-shadow: none;
+    break-after: page;
+    page-break-after: always;
+  }
+  .paper:last-child { break-after: auto; page-break-after: auto; }
+  .task { scroll-margin-top: 0; }
+}
+</style>
+</head>
+<body>
+<header class="viewer-bar">
+  <div class="viewer-inner">
+    <div class="viewer-title">
+      <strong>Toolset Test — Draft</strong>
+      <span>4 tasks with numbered subtasks</span>
+    </div>
+    <select class="task-jump" aria-label="Jump to a task" onchange="if(this.value) location.hash=this.value">
+      <option value="">Jump to task</option>
+      <option value="task-1">Task 1</option>
+      <option value="task-2">Task 2</option>
+      <option value="task-3">Task 3</option>
+      <option value="task-4">Task 4</option>
+    </select>
+  </div>
+</header>
+<main class="document">
+  <section class="paper" aria-label="Assignment overview">
+    <span class="draft-label">Draft Assignment</span>
+    <h1>Toolset Test:<br>Diagnose and Repair</h1>
+
+    <h2 class="section-title">Assignment Overview</h2>
+    <p>This assignment confirms that your C++ editor, compiler, and Canvas submission workflow are ready for the semester. You will open a short starter program, use compiler messages to diagnose its errors, correct the program, personalize its hard-coded output, and verify that the finished program compiles and runs.</p>
+    <p>This assignment does not use keyboard input. Your name and course selection or section must be written directly in the program.</p>
+
+    <h2 class="section-title">Assignment Details</h2>
+    <ul class="compact-list">
+      <li><strong>Status:</strong> Draft</li>
+      <li><strong>Due:</strong> Sunday, August 30, 2026, at 11:59 p.m.</li>
+      <li><strong>Estimated time:</strong> 30–45 minutes</li>
+      <li><strong>Work format:</strong> Individual</li>
+    </ul>
+
+    <h2 class="section-title">Learning Objectives</h2>
+    <p>After completing this assignment, you should be able to:</p>
+    <ul class="compact-list">
+      <li>Open, edit, save, compile, and run a C++ source file.</li>
+      <li>Recognize the required top matter and <code>main()</code> structure of a basic C++ program.</li>
+      <li>Use compiler messages to locate and repair simple syntax errors.</li>
+      <li>Display hard-coded text with <code>cout</code>.</li>
+      <li>Confirm that program output matches the source code.</li>
+    </ul>
+
+    <h2 class="section-title">Academic Integrity and AI Use</h2>
+    <p>Use your compiler messages, lecture examples, and course notes to complete the repair. AI tools may explain the general meaning of a compiler message, but they may not provide the corrected starter program or write the repair log for you.</p>
+  </section>
+
+  <section class="paper" aria-label="Starter program and technical requirements tasks 1 and 2">
+    <h2 class="section-title">Starter Program</h2>
+    <p>Copy or download the starter program exactly as provided. It contains seven intentional errors.</p>
+    <pre>include &lt;iostream&gt;
+using namespace std
+
+int Main()
+{
+    cout &lt; "TOOLSET TEST" &lt;&lt; endl
+    cout &lt;&lt; "Student: YOUR NAME" &lt;&lt; end1;
+    cout &lt;&lt; "Course/Section: YOUR COURSE OR SECTION" &lt;&lt; endl;
+    cout &lt;&lt; "Status: Toolset working!" &lt;&lt; endl;
+    return "0";
+}</pre>
+    <p class="guidance">Compiler messages sometimes describe the location where the compiler became confused rather than the exact location where the mistake began. Correct one issue at a time and compile again.</p>
+
+    <h2 class="section-title">Technical Requirements: 4 Required Tasks</h2>
+    <p>Your program must complete all four tasks below.</p>
+
+    <section class="task" id="task-1">
+      <h2>Task 1: Prepare the Starter Program</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">1.1.</span><span>Open the provided starter program in your C++ editor.</span></li>
+        <li><span class="subtask-number">1.2.</span><span>Save a working copy as <code>LastName_ToolsetTest.cpp</code>, replacing <code>LastName</code> with your last name.</span></li>
+        <li><span class="subtask-number">1.3.</span><span>Add a block-comment source file header containing your full name, the date, the assignment name, and a one-sentence program description.</span></li>
+        <li><span class="subtask-number">1.4.</span><span>Keep the program limited to the concepts shown in the starter file. Do not add keyboard input, calculations, decisions, loops, or additional functions.</span></li>
+      </ol>
+    </section>
+
+    <section class="task" id="task-2">
+      <h2>Task 2: Diagnose and Repair the Program</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">2.1.</span><span>Compile the original starter program once so you can observe the compiler messages before making corrections.</span></li>
+        <li><span class="subtask-number">2.2.</span><span>Locate and correct all seven intentional errors.</span></li>
+        <li><span class="subtask-number">2.3.</span><span>Use a valid include directive, namespace statement, <code>main()</code> definition, output statements, and return statement.</span></li>
+        <li><span class="subtask-number">2.4.</span><span>Preserve the intended four-line output while correcting the program.</span></li>
+        <li><span class="subtask-number">2.5.</span><span>Compile again after each repair or small group of repairs until the compiler reports no errors.</span></li>
+      </ol>
+    </section>
+  </section>
+
+  <section class="paper dense" aria-label="Technical requirements tasks 3 and 4 and submission requirements">
+    <section class="task" id="task-3">
+      <h2>Task 3: Personalize the Hard-Coded Output</h2>
+      <p class="lead">Your program must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">3.1.</span><span>Replace <code>YOUR NAME</code> with your first and last name.</span></li>
+        <li><span class="subtask-number">3.2.</span><span>Replace <code>YOUR COURSE OR SECTION</code> with your course selection or section.</span></li>
+        <li><span class="subtask-number">3.3.</span><span>Place both values directly inside string literals in the source code.</span></li>
+        <li><span class="subtask-number">3.4.</span><span>Do not use <code>cin</code>, <code>getline</code>, or any other keyboard-input operation.</span></li>
+        <li><span class="subtask-number">3.5.</span><span>Remove all placeholder text before submitting the program.</span></li>
+      </ol>
+      <p>The finished output should follow this pattern:</p>
+      <pre>TOOLSET TEST
+Student: Jordan Lee
+Course/Section: Section 12345
+Status: Toolset working!</pre>
+      <p class="note">Use your own name and actual course selection or section. The sample information above is only an example.</p>
+    </section>
+
+    <section class="task" id="task-4">
+      <h2>Task 4: Verify and Document the Repairs</h2>
+      <p class="lead">You must:</p>
+      <ol class="subtasks">
+        <li><span class="subtask-number">4.1.</span><span>Compile and run the corrected program successfully.</span></li>
+        <li><span class="subtask-number">4.2.</span><span>Confirm that the displayed name and course or section exactly match the values in your source code.</span></li>
+        <li><span class="subtask-number">4.3.</span><span>Create a repair log named <code>LastName_ToolsetTest_RepairLog.txt</code>.</span></li>
+        <li><span class="subtask-number">4.4.</span><span>Number the seven repairs and briefly identify the original problem, the compiler message or symptom that helped you find it, and the correction you made.</span></li>
+        <li><span class="subtask-number">4.5.</span><span>Open both submission files after saving them to confirm that they are readable and complete.</span></li>
+      </ol>
+    </section>
+
+    <h2 class="section-title">Submission Requirements</h2>
+    <p>Submit both files through Canvas:</p>
+    <ul class="compact-list">
+      <li><code>LastName_ToolsetTest.txt</code> — your corrected source file, renamed from <code>.cpp</code> to <code>.txt</code></li>
+      <li><code>LastName_ToolsetTest_RepairLog.txt</code> — your numbered explanation of the seven repairs</li>
+    </ul>
+    <pre>Working source: LastName_ToolsetTest.cpp
+Submitted source: LastName_ToolsetTest.txt
+Repair log: LastName_ToolsetTest_RepairLog.txt</pre>
+
+    <h2 class="section-title">Grading Checklist: 20 Points</h2>
+    <ul class="compact-list">
+      <li>Program compiles and runs: 5 points</li>
+      <li>Required first-program structure is correct: 4 points</li>
+      <li>Name and course or section are hard-coded and clearly labeled: 4 points</li>
+      <li>Program produces the intended output: 3 points</li>
+      <li>Repair log accurately explains all seven repairs: 3 points</li>
+      <li>Both files are correctly named and submitted: 1 point</li>
+    </ul>
+
+    <h2 class="section-title">Final Check</h2>
+    <p>Before submitting, compile the working <code>.cpp</code> file one final time. Then verify that the two uploaded <code>.txt</code> files contain your corrected source code and complete repair log.</p>
+  </section>
+</main>
+</body>
+</html>
