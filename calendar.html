@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="CISP 360 Fall 2026 class calendar, lecture schedule, deadlines, closures, and final-exam period.">
+  <meta name="description" content="CISP 360 Fall 2026 class calendar, lecture schedule, homework due dates, deadlines, closures, and final-exam period.">
   <title>CISP 360 — Fall 2026 Calendar</title>
   <style>
     :root {
@@ -363,6 +363,7 @@
     }
 
     .swatch-lecture { background: var(--teal-soft); }
+    .swatch-homework { background: var(--amber-soft); }
     .swatch-deadline { background: var(--red-soft); }
     .swatch-closure { background: var(--green-soft); }
     .swatch-exam { background: var(--purple-soft); }
@@ -565,6 +566,7 @@
     }
 
     .event-pill:hover { filter: saturate(1.2) brightness(0.98); }
+    .event-homework { background: var(--amber-soft); border-left: 3px solid var(--amber); }
     .event-deadline { background: var(--red-soft); border-left: 3px solid var(--red); }
     .event-holiday, .event-recess { background: var(--green-soft); border-left: 3px solid var(--green); }
     .event-exam { background: var(--purple-soft); border-left: 3px solid var(--purple); }
@@ -671,6 +673,8 @@
 
     .detail-event strong { display: block; font-size: 0.78rem; }
     .detail-event span { display: block; margin-top: 2px; color: var(--ink-soft); font-size: 0.7rem; }
+    .detail-event a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+    .detail-event a:hover { color: var(--teal); }
 
     .week-detail {
       padding: 11px;
@@ -894,7 +898,7 @@
 
     .dates-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 15px;
     }
 
@@ -951,6 +955,7 @@
       .today-stamp { display: none; }
       .semester-groups { grid-template-columns: 1fr 1fr; }
       .semester-group:last-child { grid-column: 1 / -1; }
+      .dates-grid { grid-template-columns: 1fr 1fr; }
     }
 
     @media (max-width: 920px) {
@@ -1054,6 +1059,7 @@
             <div class="month-buttons" id="month-buttons" aria-label="Choose a month"></div>
             <div class="legend" aria-label="Calendar legend">
               <span class="legend-item"><span class="legend-swatch swatch-lecture"></span>Class meeting</span>
+              <span class="legend-item"><span class="legend-swatch swatch-homework"></span>Homework due</span>
               <span class="legend-item"><span class="legend-swatch swatch-deadline"></span>Deadline</span>
               <span class="legend-item"><span class="legend-swatch swatch-closure"></span>Closure</span>
               <span class="legend-item"><span class="legend-swatch swatch-exam"></span>Finals</span>
@@ -1100,9 +1106,16 @@
           <p class="section-kicker">Keep in view</p>
           <h2 id="dates-heading">Dates that shape the term</h2>
         </div>
-        <p>Official semester deadlines, campus closures, finals, and post-term dates remain visible beside the lecture sequence.</p>
+        <p>Homework due dates, official semester deadlines, campus closures, finals, and post-term dates remain visible beside the lecture sequence.</p>
       </div>
       <div class="dates-grid">
+        <article class="date-card">
+          <h3>Homework Due</h3>
+          <ul class="date-list">
+            <li><time datetime="2026-08-30T23:59">Aug 30</time><span><a href="hw/Toolset%20Test.html">Toolset Test</a> · due by 11:59 p.m.</span></li>
+            <li><time datetime="2026-09-13T23:59">Sep 13</time><span><a href="hw/Early%20Coding%20Check.html">Early Coding Check</a> · due by 11:59 p.m.</span></li>
+          </ul>
+        </article>
         <article class="date-card">
           <h3>Enrollment &amp; Refunds</h3>
           <ul class="date-list">
@@ -1267,6 +1280,7 @@
       const meetingByDate = Object.fromEntries(classMeetings.map(item => [item.date, item]));
 
       const eventMeta = {
+        homework: { color: "#a86612", bg: "#f7ead1" },
         deadline: { color: "#a22f2c", bg: "#f7dfdd" },
         holiday: { color: "#3f6f54", bg: "#deece2" },
         recess: { color: "#3f6f54", bg: "#deece2" },
@@ -1276,9 +1290,9 @@
       };
 
       const events = {};
-      const addEvent = (date, type, title, detail = "") => {
+      const addEvent = (date, type, title, detail = "", href = "") => {
         if (!events[date]) events[date] = [];
-        events[date].push({ type, title, detail });
+        events[date].push({ type, title, detail, href });
       };
 
       const parseISO = value => {
@@ -1310,11 +1324,13 @@
       };
 
       addEvent("2026-08-22", "term", "Classes start", "Full Term begins; the term runs August 22 through December 17.");
+      addEvent("2026-08-30", "homework", "Toolset Test due", "Due by 11:59 p.m.", "hw/Toolset%20Test.html");
       addEvent("2026-09-04", "deadline", "Parking permit refund", "Last day to return a parking permit for a refund.");
       addEvent("2026-09-04", "deadline", "Tuition refund", "Last day to drop classes and qualify for a tuition refund.");
       addEvent("2026-09-06", "deadline", "Drop without notation", "Last day to drop classes without notation on record.");
       addEvent("2026-09-06", "deadline", "Enrollment closes", "Last day to enroll in classes.");
       addEvent("2026-09-07", "holiday", "Labor Day · No class", "No classes; offices closed.");
+      addEvent("2026-09-13", "homework", "Early Coding Check due", "Due by 11:59 p.m.", "hw/Early%20Coding%20Check.html");
       addEvent("2026-11-11", "holiday", "Veterans Day · No class", "No classes; offices closed.");
       addEvent("2026-11-17", "deadline", "Withdraw with a “W”", "Last day to withdraw from classes with a “W” notation on record.");
       addRange("2026-11-26", "2026-11-29", "recess", "Thanksgiving Recess", "No classes; offices closed November 26–29.");
@@ -1611,7 +1627,10 @@
         const meta = eventMeta[event.type];
         li.style.setProperty("--event-color", meta.color);
         li.style.setProperty("--event-bg", meta.bg);
-        li.innerHTML = `<strong>${event.title}</strong>${event.detail ? `<span>${event.detail}</span>` : ""}`;
+        const eventTitle = event.href
+          ? `<a href="${event.href}">${event.title}</a>`
+          : event.title;
+        li.innerHTML = `<strong>${eventTitle}</strong>${event.detail ? `<span>${event.detail}</span>` : ""}`;
         return li;
       };
 
@@ -1650,9 +1669,11 @@
         const items = [
           ...classMeetings.map(meeting => ({ date: meeting.date, title: `${meeting.id} · Class meeting`, detail: meeting.title })),
           { date: "2026-08-22", title: "Classes start", detail: "Full Term begins" },
+          { date: "2026-08-30", title: "Toolset Test due", detail: "Due by 11:59 p.m." },
           { date: "2026-09-04", title: "Refund deadlines", detail: "Parking permit and tuition" },
           { date: "2026-09-06", title: "Enrollment deadlines", detail: "Enroll or drop without notation" },
           { date: "2026-09-07", title: "Labor Day · No class", detail: "Campus closed" },
+          { date: "2026-09-13", title: "Early Coding Check due", detail: "Due by 11:59 p.m." },
           { date: "2026-11-11", title: "Veterans Day · No class", detail: "Campus closed" },
           { date: "2026-11-17", title: "Withdrawal deadline", detail: "Withdraw with a “W”" },
           { date: "2026-11-26", title: "Thanksgiving Recess", detail: "November 26–29" },
@@ -1721,7 +1742,7 @@
           dayEvents.forEach(event => list.appendChild(makeDetailEvent(event)));
           dayEventContainer.replaceChildren(list);
         } else {
-          dayEventContainer.innerHTML = `<p class="empty-note">Nothing dated here. Select a marked date for deadline, closure, or finals details.</p>`;
+          dayEventContainer.innerHTML = `<p class="empty-note">Nothing dated here. Select a marked date for homework, deadline, closure, or finals details.</p>`;
         }
 
         renderMeetingDetail(meeting, dayEvents);

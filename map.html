@@ -22,6 +22,7 @@
       --unit-three: #72009c;
       --unit-three-soft: #e7d0ef;
       --accent: #874e9c;
+      --homework: #b14f7c;
       --danger: #9f3e36;
       --focus: #5c0a86;
       --shadow: 0 12px 30px rgba(70, 35, 82, 0.1);
@@ -253,6 +254,7 @@
 
     .legend-item { display: inline-flex; align-items: center; gap: 6px; }
     .legend-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    .legend-diamond { width: 8px; height: 8px; border-radius: 2px; background: var(--homework); transform: rotate(45deg); }
     .legend-line { width: 15px; height: 3px; border-radius: 3px; background: var(--danger); }
 
     .semester-map { padding: 16px 18px 18px; }
@@ -378,10 +380,17 @@
     .week-button[aria-pressed="true"] .w-slot-code { color: #cfbfd3; }
     .week-button[aria-pressed="true"] .w-slot.no-class .w-slot-code { color: #ffaaa2; }
 
-    .week-button .w-event {
+    .week-button .w-events {
       position: absolute;
-      top: 9px;
+      top: 7px;
       right: 7px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+    }
+
+    .week-button .w-event {
       width: 7px;
       height: 7px;
       border-radius: 50%;
@@ -390,6 +399,7 @@
     }
 
     .week-button .w-event.break { width: 12px; height: 4px; border-radius: 4px; background: var(--danger); }
+    .week-button .w-event.homework { border-radius: 2px; background: var(--homework); transform: rotate(45deg); }
     .week-button[aria-pressed="true"] .w-event { box-shadow: 0 0 0 2px var(--night); }
 
     .now-marker {
@@ -596,6 +606,11 @@
 
     .milestone:last-child { padding-bottom: 0; border-bottom: 0; }
 
+    .milestone.homework {
+      padding-left: 10px;
+      border-left: 3px solid var(--homework);
+    }
+
     .milestone time {
       color: #e5c4ed;
       font-size: 10px;
@@ -603,6 +618,8 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
+
+    .milestone.homework time { color: #f0bad2; }
 
     .milestone strong { display: block; font-size: 13px; line-height: 1.25; }
     .milestone span { display: block; margin-top: 3px; color: #c8b8cc; font-size: 11px; line-height: 1.35; }
@@ -672,6 +689,8 @@
     }
 
     .deadline-item span { font-size: 12px; line-height: 1.35; }
+    .deadline-item.homework time { color: var(--homework); }
+    .deadline-item.homework span { font-weight: 700; }
 
     .after-term {
       position: relative;
@@ -810,7 +829,7 @@
     <section class="intro-row" aria-labelledby="map-title">
       <div>
         <h2 id="map-title">The semester, mapped.</h2>
-        <p>Seventeen Monday–Wednesday course weeks move from familiar programming ideas to the machinery beneath them. Choose any week to see both meeting dates, open its lecture pages, and review nearby academic milestones.</p>
+        <p>Seventeen Monday–Wednesday course weeks move from familiar programming ideas to the machinery beneath them. Choose any week to see both meeting dates, open its lecture pages, and review nearby academic milestones and homework due dates.</p>
       </div>
       <div class="countdown" id="term-summary" aria-live="polite">
         <strong id="term-summary-value">10</strong>
@@ -823,6 +842,7 @@
         <strong>17-week course path</strong>
         <div class="map-legend" aria-label="Map key">
           <span class="legend-item"><span class="legend-dot" aria-hidden="true"></span>Academic milestone</span>
+          <span class="legend-item"><span class="legend-diamond" aria-hidden="true"></span>Homework due</span>
           <span class="legend-item"><span class="legend-line" aria-hidden="true"></span>Campus closure or recess</span>
           <span>Each week shows Monday + Wednesday</span>
         </div>
@@ -855,7 +875,7 @@
         </section>
 
         <aside class="week-notes" aria-labelledby="notes-title">
-          <p class="notes-label" id="notes-title">Academic markers this week</p>
+          <p class="notes-label" id="notes-title">Dates and milestones this week</p>
           <div id="milestone-list"></div>
         </aside>
       </div>
@@ -869,11 +889,13 @@
         </div>
         <div class="deadline-grid">
           <div class="deadline-item"><time datetime="2026-08-22">Aug 22</time><span>Classes start.</span></div>
+          <div class="deadline-item homework"><time datetime="2026-08-30T23:59:00-07:00">Aug 30</time><span>Toolset Test due at 11:59 p.m.</span></div>
           <div class="deadline-item"><time datetime="2026-09-04">Sep 4</time><span>Last day to return a parking permit for a refund.</span></div>
           <div class="deadline-item"><time datetime="2026-09-04">Sep 4</time><span>Last day to drop classes and qualify for a tuition refund.</span></div>
           <div class="deadline-item"><time datetime="2026-09-06">Sep 6</time><span>Last day to drop classes without notation on record.</span></div>
           <div class="deadline-item"><time datetime="2026-09-06">Sep 6</time><span>Last day to enroll in classes.</span></div>
           <div class="deadline-item"><time datetime="2026-09-07">Sep 7</time><span>Labor Day — no classes; offices closed.</span></div>
+          <div class="deadline-item homework"><time datetime="2026-09-13T23:59:00-07:00">Sep 13</time><span>Early Coding Check due at 11:59 p.m.</span></div>
           <div class="deadline-item"><time datetime="2026-11-11">Nov 11</time><span>Veterans Day — no classes; offices closed.</span></div>
           <div class="deadline-item"><time datetime="2026-11-17">Nov 17</time><span>Last day to withdraw with a “W” notation.</span></div>
           <div class="deadline-item"><time datetime="2026-11-26">Nov 26–29</time><span>Thanksgiving Recess — no classes; offices closed.</span></div>
@@ -919,7 +941,10 @@
             { day: "Mon", date: "Aug 24", iso: "2026-08-24", type: "lecture", code: "01.01", title: "Introduction to Structured Programming" },
             { day: "Wed", date: "Aug 26", iso: "2026-08-26", type: "lecture", code: "01.02", title: "Variables, Types, and Arithmetic" }
           ],
-          milestones: [["Aug 22", "Classes start", "The published full term begins before P360’s first Monday meeting.", "term"]]
+          milestones: [
+            ["Aug 22", "Classes start", "The published full term begins before P360’s first Monday meeting.", "term"],
+            ["Aug 30", "Toolset Test due", "Due at 11:59 p.m.", "homework"]
+          ]
         },
         {
           number: 2, unit: 1, title: "Variables and the Terminal", range: "Mon Aug 31 · Wed Sep 2",
@@ -937,7 +962,8 @@
           ],
           milestones: [
             ["Sep 6", "Enrollment record deadlines", "Last day to enroll; last day to drop without notation.", "deadline"],
-            ["Sep 7", "Labor Day", "No classes; offices closed.", "break"]
+            ["Sep 7", "Labor Day", "No classes; offices closed.", "break"],
+            ["Sep 13", "Early Coding Check due", "Due at 11:59 p.m.", "homework"]
           ]
         },
         {
@@ -1184,14 +1210,17 @@
       weeks.forEach((week) => {
         const unit = unitStyles[week.unit];
         const button = document.createElement("button");
-        const hasBreak = week.milestones.some((item) => item[3] === "break");
+        const markerTypes = [];
+        if (week.milestones.some((item) => item[3] !== "break" && item[3] !== "homework")) markerTypes.push("academic");
+        if (week.milestones.some((item) => item[3] === "homework")) markerTypes.push("homework");
+        if (week.milestones.some((item) => item[3] === "break")) markerTypes.push("break");
         const lectureCount = week.sessions.filter((session) => session.type === "lecture").length;
         button.type = "button";
         button.className = "week-button";
         button.dataset.week = String(week.number);
         button.setAttribute("aria-pressed", week.number === initialWeek.number ? "true" : "false");
         button.setAttribute("aria-controls", "week-detail");
-        button.setAttribute("aria-label", `Week ${week.number}, ${week.range}, ${week.title}. ${lectureCount} lecture page${lectureCount === 1 ? "" : "s"}${week.milestones.length ? ", academic marker" : ""}.`);
+        button.setAttribute("aria-label", `Week ${week.number}, ${week.range}, ${week.title}. ${lectureCount} lecture page${lectureCount === 1 ? "" : "s"}${week.milestones.length ? ", course milestone" : ""}.`);
         button.style.setProperty("--week-color", unit.color);
         button.innerHTML = `
           <span class="w-label">Week ${week.number}</span>
@@ -1203,7 +1232,7 @@
               </span>
             `).join("")}
           </span>
-          ${week.milestones.length ? `<span class="w-event${hasBreak ? " break" : ""}" aria-hidden="true"></span>` : ""}
+          ${markerTypes.length ? `<span class="w-events" aria-hidden="true">${markerTypes.map((type) => `<span class="w-event ${type}"></span>`).join("")}</span>` : ""}
         `;
         button.addEventListener("click", () => selectWeek(week.number));
         button.addEventListener("keydown", (event) => {
@@ -1256,16 +1285,16 @@
         if (!week.milestones.length) {
           const quiet = document.createElement("p");
           quiet.className = "quiet-week";
-          quiet.textContent = "No published campus deadline or closure falls in this instructional week.";
+          quiet.textContent = "No published course milestone falls in this instructional week.";
           milestoneList.appendChild(quiet);
           return;
         }
 
         const list = document.createElement("div");
         list.className = "milestone-list";
-        week.milestones.forEach(([date, title, detail]) => {
+        week.milestones.forEach(([date, title, detail, type]) => {
           const item = document.createElement("div");
-          item.className = "milestone";
+          item.className = `milestone${type === "homework" ? " homework" : ""}`;
           item.innerHTML = `<time>${date}</time><div><strong>${title}</strong><span>${detail}</span></div>`;
           list.appendChild(item);
         });
