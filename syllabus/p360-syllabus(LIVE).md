@@ -108,6 +108,23 @@ Furthermore, you must turn in the first assignment to avoid being dropped from t
 
 ## Homework
 
+### Assignment Due Dates
+
+The syllabus is the authoritative source for assignment due dates. All dates below are Sundays unless otherwise noted.
+
+| Assignment | Due date |
+| --- | --- |
+| Toolset Test | August 30, 2026 |
+| Homework 1 | September 6, 2026 |
+| Early Coding Check | September 13, 2026 |
+| Homework 2 | September 20, 2026 |
+| Homework 3 | October 4, 2026 |
+| Homework 4 | October 18, 2026 |
+| Homework 5 | November 1, 2026 |
+| Homework 6 | November 15, 2026 |
+| Homework 7 | November 29, 2026 |
+| Final Programming Assignment | Thursday, December 17, 2026 |
+
 This class has new homework assignments designed to put you ahead of the ChatBots. After all, why should you be well paid when an organization can just hire someone for minimum wage and have them use ChatGPT? The answer is you are going to bring more value to your employer than a ChatBot. Therefore, you should be paid more. That’s what we will work on here. That means the homework is less about coding and more about understanding larger coding concepts and how they fit together in your program. We will discuss this in greater detail in class.
 
 All the homework assignments will be open and accessible from the first day of class. You can start on them whenever you wish. Do not get caught behind!

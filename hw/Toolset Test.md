@@ -1,6 +1,6 @@
 # Toolset Test: Diagnose and Repair
 
-> **Draft assignment** · Due Sunday, August 30, 2026, at 11:59 p.m. · Estimated time: 30–45 minutes · Individual work
+> **Draft assignment** · Due date listed in the syllabus · Estimated time: 30–45 minutes · Individual work
 
 ## Assignment Overview
 

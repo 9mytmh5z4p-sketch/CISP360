@@ -267,7 +267,7 @@ Use comments to label major sections, but do not comment every single line. Comm
 
 ## Submission Requirements
 
-Submit your program through Canvas by the due date listed in Canvas.
+Submit your program through Canvas by the due date listed in the syllabus.
 
 Before submitting:
 

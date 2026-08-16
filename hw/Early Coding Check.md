@@ -1,6 +1,6 @@
 # Early Coding Check: Input and Formatted Output
 
-> **Class activity** · Online submission due Sunday, September 13, 2026, at 11:59 p.m. · Estimated time: 30–45 minutes
+> **Class activity** · Online submission due on the date listed in the syllabus · Estimated time: 30–45 minutes
 
 ## Activity Overview
 
@@ -10,7 +10,7 @@ Create a small purchase-summary program that gathers keyboard input, performs on
 
 - **In-person format:** Complete during the scheduled class activity.
 - **Online format:** Complete individually and submit through Canvas.
-- **Online due date:** Sunday, September 13, 2026, at 11:59 p.m.
+- **Online due date:** See the syllabus for the exact date.
 - **Estimated time:** 30–45 minutes
 
 ## Scenario
@@ -106,7 +106,7 @@ The exact spacing may differ, but the headings and values must form clearly read
 
 **In-person students:** Complete the program during the scheduled class activity and demonstrate a successful run or submit the file as directed by the instructor.
 
-**Online students:** By Sunday, September 13, 2026, at 11:59 p.m., submit the completed source file and one sample run showing a multiword item name. Place the sample run at the bottom of the source file inside a block comment.
+**Online students:** By the date listed in the syllabus, submit the completed source file and one sample run showing a multiword item name. Place the sample run at the bottom of the source file inside a block comment.
 
 Online students should rename the completed source file before uploading it to Canvas:
 

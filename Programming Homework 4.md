@@ -229,7 +229,7 @@ Avoid themes that are too simple. A program that only asks for two numbers and p
 
 ## Submission Requirements
 
-Submit your completed program to Canvas by the due date listed in Canvas.
+Submit your completed program to Canvas by the due date listed in the syllabus.
 
 Before uploading:
 
