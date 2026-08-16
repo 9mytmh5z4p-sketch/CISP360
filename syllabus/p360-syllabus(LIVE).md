@@ -2,7 +2,7 @@
 
 **Introduction to Structured Programming**  
 **Course Syllabus**  
-Spring 2026
+Fall 2026
 
 ![C++ welcome program source code and terminal output](p360-welcome.png)
 
