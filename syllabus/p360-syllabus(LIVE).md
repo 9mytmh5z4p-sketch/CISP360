@@ -57,7 +57,9 @@ The State Chancellor’s Office wants to know if we are measuring our student su
 
 You will need access to a computer. I use Canvas to coordinate all classroom activities - even in my classroom courses. You will need to take notes – my lectures are insufficient for learning the material. Finally, you will need to acquire and read the textbook.
 
-Your client (me) will be using a Ubuntu Linux system to run you work on. It will have the standard C++ libraries only. The gcc compiler will be used to check your code. All the tools you need are installed with the Desktop installation of Ubuntu - you will not need to install anything else. Also, the online compliers (replit.com, programiz, onlinegdb c++) compile in the Linux backend. That makes them suitable for working in this class as well. See the FAQ for more detailed information on this.
+Your client (me) will be using a Ubuntu Linux system to compile and run your work on. We will use the standard C++ libraries only. The gcc compiler will be used to check your code. You have several choices as to how you want to access these tools. 
+First, all the tools you need are installed with the Desktop installation of Ubuntu - you will not need to install anything else. You would install virtualization software like VMware, and then install the desktop with that. This is nowhere near as hard as it was several years ago, but I would not say that it is a trivial process. If you are thinking of working in the computer industry, this would be a good skill to have, however. If this interests you, I suggest you check out YouTube videos on how to set this up. These are far more current than anything that I have to offer.
+Your second choice is using one of the online compliers (replit.com, programiz, onlinegdb c++) to compile and run your program. These online resources run the compiler that we use in the back end. That makes them suitable for working in this class as well. This is by far the easiest solution for today. You type your code in the included editor and you hit the green button and your program compiles (hopefully).
 
 ### Textbook
 
@@ -72,7 +74,36 @@ This is also a good online reference:
 
 ## Course Schedule & Grade Plan
 
-These are now online, in Canvas.
+The table below is a high-level overview of the course sequence. For lecture dates, assignment details, deadlines, closures, and finals information, see the [full course calendar](../calendar.html).
+
+### Course Schedule Summary
+
+| Weeks | Course focus |
+| --- | --- |
+| 1–2 | Introduction to C++, variables, types, arithmetic, terminal interactions, and software design |
+| 3–6 | Vectors, range-based loops, modular programming and design, advanced functions, overloading, and design patterns |
+| 7–10 | Conditional logic, iteration, nested loops, multidimensional vectors, menu-driven programs, input validation, file I/O, assertions, and string streams |
+| 11–14 | Arrays, indexing, algorithms, parallel arrays, multidimensional and modern arrays, pointer foundations, array decay, null pointers, passing pointers, and dynamic memory |
+| 15–16 | Structures, binary records, abstract data types, classes, member functions, constructors, destructors, and arrays and vectors of objects |
+| 17 | Finals period and course closeout |
+
+This summary is intended to show the progression of topics. The calendar is the authoritative source for the actual schedule.
+
+### Grade Plan
+
+| Assignment | Freq | Points | Total | % |
+| --- | ---: | ---: | ---: | ---: |
+| Homework 1 | 1 | 100 | 100 | 10% |
+| Homework 2 | 1 | 100 | 100 | 10% |
+| Homework 3 | 1 | 100 | 100 | 10% |
+| Homework 4 | 1 | 100 | 100 | 10% |
+| Homework 5 | 1 | 100 | 100 | 10% |
+| Homework 6 | 1 | 100 | 100 | 10% |
+| Homework 7 | 1 | 100 | 100 | 10% |
+| Toolset Test | 1 | 50 | 50 | 5% |
+| Early Coding Check | 1 | 50 | 50 | 5% |
+| Final Project | 1 | 200 | 200 | 20% |
+| **Total** |  |  | **1000** | **100%** |
 
 ## Attendance
 
@@ -80,9 +111,7 @@ If you are in an online class, see the “I’m in an online class...” questio
 
 If your class is in a classroom on campus, keep reading. Classroom attendance is mandatory. This class complies with the attendance policy specified under the Folsom Lake College Academic Policy and the specifications in the FLC Catalog. You are expected to attend allclasses. If you miss more than three (3) classes I will either drop you from the class or you will receive a zero for participation (depending upon where we are in relation to the withdraw date). I no longer accept excuses. It is your responsibility to attend class and to track your attendance. You should be very nervous when you reach 2 absences - you have NO room for problems. You are also expected to be ready to start class when the class is scheduled to begin. Even if you are one minute late, you are late. I take roll in class and record who is absent and who is tardy. Canvas records this as ’late’. Note: if you are more than 30 minutes late for class you are absent, not late.
 
-My expectation is you will attend class for the full meeting time. If you leave early, I will record that as a ’left early’. Two ’left early’ are a full absence. Two ’lates’ are a full absence. If you come to class late and leave early, you are absent from class.
-
-Coming in and out of the room once class starts is disruptive. It also isn’t fair to the other students who arrange their schedules so they can attend class. ’Late’ and ’left early’ attendance also reduces participation scores.
+My expectation is you will attend class for the full meeting time. If you leave early, I will record that as a ’left early’. Two ’left early’ are a full absence. Two ’lates’ are a full absence. If you come to class late and leave early, you are absent from class. Coming in and out of the room once class starts is disruptive. It also isn’t fair to the other students who arrange their schedules so they can attend class. .
 
 ### How Can I Track This?
 
@@ -90,7 +119,7 @@ Keeping track of this is a great idea. While rare, errors do occur in the roll. 
 
 ### I Missed a Test/Quiz/Project on the Day I Was Absent. What Can I Do About That?
 
-Nothing, that’s part of the price of missing class. You should expect a 0 for that assignment. No, you cannot make it up. I do give extra credit and you can recover some of the points you missed.
+Nothing, that’s part of the price of missing class. You should expect a 0 for that assignment. No, you cannot make it up. 
 
 ### What’s the Big Deal, Why Are You So Focused on Our Attending Class?
 
@@ -102,9 +131,9 @@ Attendance is different in an online class. Canvas tracks the dates you log on. 
 
 ## First Week of Classes
 
-It’s essential you attend the first week of class. If you do not do this, I will drop you immediately. You will then need to get on the wait list to add. Perhaps there will still be space, perhaps not. There are other students on the wait list and those students show up. Seriously, think about the message you are sending if you can’t be bothered to attend the first week. Online folks you are not subject to this.
+It’s essential you attend the first week of class. If you do not do this, I will drop you immediately. You will then need to get on the wait list to add. Perhaps there will still be space, perhaps not. There are other students on the wait list and those students show up. Seriously, think about the message you are sending if you can’t attend the first week of class. Online folks you are not subject to this.
 
-Furthermore, you must turn in the first assignment to avoid being dropped from the class. Los Rios has had a huge problem with fake student’s registering for classes to get .edu email addresses (they apply and receive student aid and skip town). You too, online folks, must turn in your first assignment on time.
+Furthermore, you must turn in the first assignment to avoid being dropped from the class. Community colleges have had a huge problem with fake student’s registering for classes to get .edu email addresses (they apply and receive student aid and skip town). You too, online folks, must turn in your first assignment on time.
 
 ## Homework
 
@@ -115,29 +144,30 @@ The syllabus is the authoritative source for assignment due dates. All dates bel
 | Assignment | Due date |
 | --- | --- |
 | Toolset Test | August 30, 2026 |
-| Homework 1 | September 6, 2026 |
-| Early Coding Check | September 13, 2026 |
+| Early Coding Check | September 6, 2026 |
+| Homework 1 | September 13, 2026 |
 | Homework 2 | September 20, 2026 |
 | Homework 3 | October 4, 2026 |
 | Homework 4 | October 18, 2026 |
 | Homework 5 | November 1, 2026 |
 | Homework 6 | November 15, 2026 |
 | Homework 7 | November 29, 2026 |
-| Final Programming Assignment | Thursday, December 17, 2026 |
+| **Final Programming Assignment** | **Thursday, December 17, 2026 — no late submissions** |
 
 This class has new homework assignments designed to put you ahead of the ChatBots. After all, why should you be well paid when an organization can just hire someone for minimum wage and have them use ChatGPT? The answer is you are going to bring more value to your employer than a ChatBot. Therefore, you should be paid more. That’s what we will work on here. That means the homework is less about coding and more about understanding larger coding concepts and how they fit together in your program. We will discuss this in greater detail in class.
 
 All the homework assignments will be open and accessible from the first day of class. You can start on them whenever you wish. Do not get caught behind!
 
-Homework is due on the due date. If you turn it in after the due date the grade will suffer a 10% penalty per day it is late. That’s automatic and built into Canvas. You have until the end of the semester to submit assignments, but the early ones will not be worth much (if anything).
+### Late Policy
 
-### Evidence of Master (EoM)
+Regular assignments are due on Sunday. Late assignments may be submitted through the following Friday, which is a five-day submission window. A 3% penalty is applied for each day the assignment is late.
 
-These are the other assignments you will have. They ask you to write code in a progression based upon the material the class has covered so far. There is a time limit for how long you can work on this. It sounds like a test, but you are graded for submitting work and not on how much you have completed. You and I can use this to see how well you have masted the material so far. These assignments cannot be turned in late. Online folks will have a week to complete the assignment. I’m asking you to take no longer than an hour with this.
+The Final Programming Assignment is the exception. It must be submitted by Thursday, December 17, 2026, the final day of class. It cannot be turned in late because the class will have ended and Canvas will be closed. Submit the final project by the due date.
+
 
 ### Plagiarism Scores
 
-A score higher than 50% is unacceptable. You will need to take steps to remedy this situation if you score greater than 50% on the plagiarism checker.
+A score higher than 50% is unacceptable. You will need to take steps to remedy this situation if you score greater than 50% on the plagiarism checker. 
 
 ## DSPS Students
 
@@ -175,8 +205,7 @@ In general, your ideas, comments, suggestions, questions, grade challenges, etc.
 
 The key to succeeding in this course is to keep up with the work. Assignments may start out simple, but they quickly build up in number and complexity. It is critical you work steadily week in and week out. Every class, my student’s say "I wish I had spent more time reading the textbook". Success is built on many little things, not 1 big score. This is what you need to do if you want to do well in here:
 
-- Buy the textbook (you would think I wouldn’t have to say this).
-- Read the textbook every week (nor this).
+- Read the textbook every week.
 - Come to class every week.
 - Keep up with the work.
 

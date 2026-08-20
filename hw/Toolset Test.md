@@ -1,6 +1,8 @@
 # Toolset Test: Diagnose and Repair
 
-> **Draft assignment** · Due date listed in the syllabus · Estimated time: 30–45 minutes · Individual work
+> **Assignment** · Estimated time: 30–45 minutes · Individual work
+
+See the syllabus for the late policy.
 
 ## Assignment Overview
 
