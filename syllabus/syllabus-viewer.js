@@ -6,6 +6,7 @@
   const documentElement = document.getElementById("syllabus-document");
   const statusElement = document.getElementById("viewer-status");
   const reloadButton = document.getElementById("reload-markdown");
+  const printButton = document.getElementById("print-syllabus");
   const fileInput = document.getElementById("markdown-file");
 
   const allowedTags = new Set([
@@ -212,6 +213,14 @@
       fileInput.click();
     } else {
       loadFromServer();
+    }
+  });
+
+  printButton.addEventListener("click", function () {
+    if (typeof window.print === "function") {
+      window.print();
+    } else {
+      setStatus("Use your browser's File > Print command to print the syllabus.");
     }
   });
 

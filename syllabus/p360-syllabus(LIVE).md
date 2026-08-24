@@ -129,6 +129,13 @@ In study after study, there is one element which is consistently linked to high 
 
 Attendance is different in an online class. Canvas tracks the dates you log on. If you haven’t logged on to Canvas for this class within the last two (2) weeks, I will assume you are no longer interested in the class and withdraw you.
 
+## Lecture Stream
+
+I live stream and record my lectures primarily so my online students have access to the most current digital artifacts. The live stream takes place at the same time the class is offered. It usually takes about a half hour after the class ends for the video to be available on canvas. Online students are not required to attend the live stream, but are certainly welcome to do so. In-class students are also welcome to join the live stream if they cannot attend class, but this does not excuse their absence.
+
+Canvas has the links of the Zoom live stream and it contains links to the recordings.
+
+
 ## First Week of Classes
 
 It’s essential you attend the first week of class. If you do not do this, I will drop you immediately. You will then need to get on the wait list to add. Perhaps there will still be space, perhaps not. There are other students on the wait list and those students show up. Seriously, think about the message you are sending if you can’t attend the first week of class. Online folks you are not subject to this.
