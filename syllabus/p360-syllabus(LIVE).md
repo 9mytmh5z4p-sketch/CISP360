@@ -76,6 +76,42 @@ This is also a good online reference:
 
 The table below is a high-level overview of the course sequence. For lecture dates, assignment details, deadlines, closures, and finals information, see the [full course calendar](../calendar.html).
 
+### Course Topics
+
+| Course topic | Brief summary |
+| --- | --- |
+| C++ Foundations, Functions, and Program Design | Review program structure, variables, data types, terminal input and output, IPO models, execution traces, scope, functions, parameter passing, and coding practices that support larger programs. |
+| Selection, Iteration, Menus, and Input Validation | Use relational and logical operators, conditional statements, loops, nested loops, menu architectures, counters, accumulators, searches, and validation strategies to control program behavior. |
+| Vectors, Arrays, and Algorithms | Work with vectors, multidimensional vectors, fixed-size arrays, C-strings, `std::array`, parallel data, traversal, searching, sorting, and standard vector algorithms. |
+| File I/O, String Streams, and Assertions | Read and write sequential and random-access files, parse and format data with string streams, design simple file formats, and use assertions to express program assumptions. |
+| References, Pointers, and Memory Access | Use references and reference parameters, work with addresses and dereferencing, connect arrays and pointers, perform pointer arithmetic and comparison, and recognize null, wild, and dangling pointers. |
+| Dynamic Memory and Resource Ownership | Compare stack and heap storage, use `new` and `delete` safely, build and resize dynamic arrays, understand leaks and ownership, and apply smart pointers and cleanup patterns. |
+| Structures, Abstract Data Types, and Classes | Define structures and records, organize data into abstract data types, separate interfaces from implementation, create classes and member functions, and use constructors, destructors, and collections of objects. |
+
+### Reading Schedule
+
+Use this table to prepare for each week’s class meetings. The textbook references are chapter-level readings from Gaddis, Walters, and Muganda (2019), *C++ Early Objects* (10th ed.). The LearnCpp links point to broad chapter material; the [full course calendar](../calendar.html) remains the authoritative source for dates and lecture details.
+
+| Week | Topics | Textbook chapters | LearnCpp material |
+| --- | --- | --- | --- |
+| Week 1 | Program structure, variables, data types, arithmetic operators, and the parts of a C++ program | Chapters 1–3 | [Chapter 1: C++ Basics](https://www.learncpp.com/cpp-tutorial/chapter-1-summary-and-quiz/); [Chapter 4: Fundamental Data Types](https://www.learncpp.com/cpp-tutorial/chapter-4-summary-and-quiz/); [Chapter 6: Operators](https://www.learncpp.com/cpp-tutorial/chapter-6-summary-and-quiz/) |
+| Week 2 | Data type conversion, overflow and underflow, terminal input and output, output formatting, and terminal tables | Chapters 2–3 | [Chapter 1: C++ Basics](https://www.learncpp.com/cpp-tutorial/chapter-1-summary-and-quiz/); [Chapter 4: Fundamental Data Types](https://www.learncpp.com/cpp-tutorial/chapter-4-summary-and-quiz/); [Chapter 10: Type Conversion](https://www.learncpp.com/cpp-tutorial/chapter-10-summary-and-quiz/) |
+| Week 3 | Software design, IPO models, execution traces, debugging, advanced input, dates, and random numbers | Chapters 1–3 and 6 | [Chapter 2: Functions and Files](https://www.learncpp.com/cpp-tutorial/chapter-2-summary-and-quiz/); [Chapter 3: Debugging C++ Programs](https://www.learncpp.com/cpp-tutorial/chapter-3-summary-and-quiz/); [Chapter 8: Control Flow](https://www.learncpp.com/cpp-tutorial/chapter-8-summary-and-quiz/) |
+| Week 4 | Vectors, vector operations, range-based for loops, modular programming, and coding functions | Chapters 6 and 8 | [Chapter 2: Functions and Files](https://www.learncpp.com/cpp-tutorial/chapter-2-summary-and-quiz/); [Chapter 16: Dynamic Arrays and `std::vector`](https://www.learncpp.com/cpp-tutorial/chapter-16-summary-and-quiz/) |
+| Week 5 | Function contracts, function boundaries, passing data, returning data, scope, shadow variables, stack frames, and references | Chapters 6 and 10 | [Chapter 2: Functions and Files](https://www.learncpp.com/cpp-tutorial/chapter-2-summary-and-quiz/); [Chapter 7: Scope, Duration, and Linkage](https://www.learncpp.com/cpp-tutorial/chapter-7-summary-and-quiz/); [Chapter 12: References and Pointers](https://www.learncpp.com/cpp-tutorial/chapter-12-summary-and-quiz/) |
+| Week 6 | Function overloading, parameter choices, function side effects, design patterns, Singleton, and Strategy | Chapter 6 | [Chapter 11: Function Overloading](https://www.learncpp.com/cpp-tutorial/chapter-11-summary-and-quiz/) |
+| Week 7 | Relational and logical operators, `if` statements, `switch`, nested decisions, and input failure | Chapter 4 | [Chapter 6: Operators](https://www.learncpp.com/cpp-tutorial/chapter-6-summary-and-quiz/); [Chapter 8: Control Flow](https://www.learncpp.com/cpp-tutorial/chapter-8-summary-and-quiz/); [Chapter 9: Error Detection and Handling](https://www.learncpp.com/cpp-tutorial/chapter-9-summary-and-quiz/) |
+| Week 8 | Iteration, loop anatomy, `while`, `do-while`, `for`, nested loops, and multidimensional vectors | Chapters 5 and 8 | [Chapter 8: Control Flow](https://www.learncpp.com/cpp-tutorial/chapter-8-summary-and-quiz/); [Chapter 16: Dynamic Arrays and `std::vector`](https://www.learncpp.com/cpp-tutorial/chapter-16-summary-and-quiz/) |
+| Week 9 | Loop patterns, menu-driven programs, counters, accumulators, searches, maximum and minimum tracking, and input validation | Chapters 4–5 | [Chapter 8: Control Flow](https://www.learncpp.com/cpp-tutorial/chapter-8-summary-and-quiz/); [Chapter 9: Error Detection and Handling](https://www.learncpp.com/cpp-tutorial/chapter-9-summary-and-quiz/) |
+| Week 10 | File I/O, assertions, string streams, sequential files, and random access | Chapter 13 | [Chapter 9: Error Detection and Handling](https://www.learncpp.com/cpp-tutorial/chapter-9-summary-and-quiz/); [Chapter 28: Input and Output](https://www.learncpp.com/cpp-tutorial/input-and-output-io-streams/) |
+| Week 11 | Arrays, array indexing, arrays with functions, array algorithms, parallel arrays, and vector tools | Chapters 8–9 | [Chapter 16: Dynamic Arrays and `std::vector`](https://www.learncpp.com/cpp-tutorial/chapter-16-summary-and-quiz/); [Chapter 17: Fixed-Size Arrays](https://www.learncpp.com/cpp-tutorial/chapter-17-summary-and-quiz/); [Chapter 18: Iterators and Algorithms](https://www.learncpp.com/cpp-tutorial/sorting-an-array-using-selection-sort/) |
+| Week 12 | Multidimensional arrays, C-strings, `std::array`, array comparisons, and binary search | Chapters 8–9 and 12 | [Chapter 17: Fixed-Size Arrays](https://www.learncpp.com/cpp-tutorial/chapter-17-summary-and-quiz/); [Chapter 18: Iterators and Algorithms](https://www.learncpp.com/cpp-tutorial/sorting-an-array-using-selection-sort/) |
+| Week 13 | Pointer variables, addresses, dereferencing, arrays and pointers, pointer arithmetic, null pointers, and pointer safety | Chapter 10 | [Chapter 12: References and Pointers](https://www.learncpp.com/cpp-tutorial/chapter-12-summary-and-quiz/); [Chapter 17: Fixed-Size Arrays](https://www.learncpp.com/cpp-tutorial/chapter-17-summary-and-quiz/) |
+| Week 14 | Stack and heap memory, `new` and `delete`, dynamic arrays, pseudodynamic memory, memory leaks, dangling pointers, and smart pointers | Chapters 10–11 | [Chapter 19: Dynamic Allocation](https://www.learncpp.com/cpp-tutorial/dynamic-memory-allocation-with-new-and-delete/); [Chapter 22: Smart Pointers](https://www.learncpp.com/cpp-tutorial/introduction-to-smart-pointers-move-semantics/) |
+| Week 15 | Structures, arrays of structures, binary records, and abstract data types | Chapters 7 and 13 | [Chapter 13: Structs and User-Defined Types](https://www.learncpp.com/cpp-tutorial/chapter-13-summary-and-quiz/); [Chapter 28: Input and Output](https://www.learncpp.com/cpp-tutorial/input-and-output-io-streams/) |
+| Week 16 | Classes, member functions, public and private data, constructors, destructors, and arrays and vectors of objects | Chapters 7 and 11 | [Chapter 14: Introduction to Classes](https://www.learncpp.com/cpp-tutorial/chapter-14-summary-and-quiz/); [Chapter 15: More on Classes](https://www.learncpp.com/cpp-tutorial/chapter-15-summary-and-quiz/); [Chapter 16: Dynamic Arrays and `std::vector`](https://www.learncpp.com/cpp-tutorial/chapter-16-summary-and-quiz/) |
+| Week 17 | Final review and course closeout | Review assigned chapters | Review the linked LearnCpp chapters above |
+
 ### Course Schedule Summary
 
 | Weeks | Course focus |
@@ -88,6 +124,23 @@ The table below is a high-level overview of the course sequence. For lecture dat
 | 17 | Finals period and course closeout |
 
 This summary is intended to show the progression of topics. The calendar is the authoritative source for the actual schedule.
+
+### Assignment Schedule
+
+The assignment pages below contain the detailed requirements, checklists, and submission instructions. Due dates are shown here for planning; the [full course calendar](../calendar.html) remains authoritative.
+
+| Assignment | Focus | Due date | GitHub assignment |
+| --- | --- | --- | --- |
+| Toolset Test | Set up the C++ toolchain, repair compiler errors, compile and run a basic program, and document the repairs | Sunday, August 30, 2026 | [Toolset Test](../hw/Toolset%20Test.html) |
+| Early Coding Check | Practice variables, keyboard input, arithmetic, and formatted terminal output by building a mini receipt | Sunday, September 6, 2026 | [Early Coding Check](../hw/Early%20Coding%20Check.html) |
+| Homework 1 | Build a personalized calculator program using input, calculations, functions, and formatted output | Sunday, September 13, 2026 | [Homework 1](../hw/Homework%201.html) |
+| Homework 2 | Build a personalized vector-and-functions program with IPO and execution-trace models | Sunday, September 20, 2026 | [Homework 2](../hw/Programming%20Homework%202.html) |
+| Homework 3 | Build a personalized program using functions, references, menus, and conditional decisions | Sunday, October 4, 2026 | [Homework 3](../hw/Programming%20Homework%203.html) |
+| Homework 4 | Extend function-centered design with references, menus, decisions, input recovery, and formatted reports | Sunday, October 18, 2026 | [Homework 4](../hw/Programming%20Homework%204.html) |
+| Homework 5 | Use counters, compound assignment, `break`, `continue`, input-failure recovery, and assertions | Sunday, November 1, 2026 | [Homework 5](../hw/Programming%20Homework%205.html) |
+| Homework 6 | Save and load file data, process fixed-size and multidimensional arrays, and produce a report | Sunday, November 15, 2026 | [Homework 6](../hw/Programming%20Homework%206.html) |
+| Homework 7 | Apply pointers, pointer parameters, dynamic allocation, dynamic arrays, and safe cleanup | Sunday, November 29, 2026 | [Homework 7](../hw/Programming%20Homework%207.html) |
+| Final Programming Assignment | Create a text adventure using collections, functions, command processing, persistent state, and connected locations | Thursday, December 17, 2026 — no late submissions | [Final Programming Assignment](../hw/Programming%20Homework%20Final.html) |
 
 ### Grade Plan
 
