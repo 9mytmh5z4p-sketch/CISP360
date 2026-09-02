@@ -597,7 +597,7 @@ Dr.&nbsp;Caleb Fowler
 <h2>fixed and setprecision Output</h2>
 
 <!-- Slide 32 -->
-<img data-src="images/020229.png" class="r-stretch"></section>
+<img data-src="images/fix_and_set_Out.png" class="r-stretch"></section>
 <section id="sticky-and-one-time-settings" class="slide level2">
 <h2>Sticky and One-Time Settings</h2>
 <ul>
@@ -793,7 +793,7 @@ Dr.&nbsp;Caleb Fowler
 </ul>
 <!-- Slide 49 -->
 <!-- Topic 5: Table Architectures -->
-<!-- Slides 50-59 -->
+<!-- Slides 50-68 -->
 </section></section>
 <section>
 <section id="table-architectures" class="title-slide slide level1 center">
@@ -807,7 +807,7 @@ Dr.&nbsp;Caleb Fowler
 <li>A table uses repeated formatting rules so rows line up.</li>
 </ul>
 <aside class="notes">
-<p>Slides 50-59</p>
+<p>Slides 50-68</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -869,31 +869,117 @@ Dr.&nbsp;Caleb Fowler
 <p>Keep separator length close to the total table width.</p>
 <!-- Slide 56 -->
 </section>
+<section id="choose-the-table-architecture" class="slide level2">
+<h2>Choose the Table Architecture</h2>
+<p>The data inside the table drives the decision about which table to use.</p>
+<ul>
+<li>Fixed-width borders emphasize row and column boundaries.</li>
+<li>Hexadecimal and octal tables compare value representations.</li>
+<li>Cash tables need aligned signs and decimal places.</li>
+<li>Scientific notation tables need room for exponents.</li>
+</ul>
+<!-- Slide 57 -->
+</section>
+<section id="fixed-width-table-with-borders" class="slide level2">
+<h2>Fixed-Width Table with Borders</h2>
+<p>Borders and repeated widths make each record easy to scan.</p>
+
+<!-- Slide 58 -->
+<img data-src="images/tables_fixed_width_borders.png" class="r-stretch"></section>
+<section id="coding-a-fixed-width-table" class="slide level2">
+<h2>Coding a Fixed-Width Table</h2>
+<p>Use the same width and alignment settings for the heading, separator, and every row.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Name"</span></span>
+<span id="cb35-2"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">6</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Age"</span></span>
+<span id="cb35-3"><a href=""></a>     <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Salary"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb35-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"============================"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb35-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Alice"</span></span>
+<span id="cb35-6"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">6</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="dv">30</span></span>
+<span id="cb35-7"><a href=""></a>     <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="fl">50000.50</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 59 -->
+</section>
+<section id="hexadecimal-and-octal-table" class="slide level2">
+<h2>Hexadecimal and Octal Table</h2>
+<p>The same value can be displayed in several representations when the format column names the representation.</p>
+
+<!-- Slide 60 -->
+<img data-src="images/tables_hex_octal.png" class="r-stretch"></section>
+<section id="coding-a-hexadecimal-and-octal-table" class="slide level2">
+<h2>Coding a Hexadecimal and Octal Table</h2>
+<p>Set the base before printing the value, then restore <code>dec</code> before printing ordinary numbers or labels.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="dt">int</span> value <span class="op">=</span> <span class="dv">255</span><span class="op">;</span></span>
+<span id="cb36-2"><a href=""></a></span>
+<span id="cb36-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Format"</span></span>
+<span id="cb36-4"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Value"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb36-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Decimal"</span></span>
+<span id="cb36-6"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> dec <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb36-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Hex"</span></span>
+<span id="cb36-8"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> hex <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb36-9"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Octal"</span></span>
+<span id="cb36-10"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> oct <span class="op">&lt;&lt;</span> value <span class="op">&lt;&lt;</span> dec <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 61 -->
+</section>
+<section id="cash-table-with-negative-numbers" class="slide level2">
+<h2>Cash Table with Negative Numbers</h2>
+<p>Currency output needs consistent decimal precision and enough width for a negative sign and parentheses.</p>
+
+<!-- Slide 62 -->
+<img data-src="images/tables_cash_negative.png" class="r-stretch"></section>
+<section id="coding-a-cash-table-with-negative-numbers" class="slide level2">
+<h2>Coding a Cash Table with Negative Numbers</h2>
+<p>Use <code>fixed</code> and <code>setprecision(2)</code> so positive and negative amounts share the same decimal format.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">18</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Description"</span></span>
+<span id="cb37-2"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Cash Amount"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb37-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb37-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">18</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Salary"</span></span>
+<span id="cb37-5"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="fl">1500.75</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb37-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">18</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Groceries"</span></span>
+<span id="cb37-7"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="op">-</span><span class="fl">450.50</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 63 -->
+</section>
+<section id="scientific-notation-table" class="slide level2">
+<h2>Scientific Notation Table</h2>
+<p>Scientific notation keeps very large or very small values readable while preserving a compact table width.</p>
+
+<!-- Slide 64 -->
+<img data-src="images/tables_scientific.png" class="r-stretch"></section>
+<section id="coding-a-scientific-notation-table" class="slide level2">
+<h2>Coding a Scientific Notation Table</h2>
+<p>Use <code>scientific</code> when the magnitude of the values matters more than writing every zero.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Value"</span></span>
+<span id="cb38-2"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">16</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Scientific"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb38-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> scientific <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">3</span><span class="op">);</span></span>
+<span id="cb38-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Value 1"</span></span>
+<span id="cb38-5"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">16</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="fl">1.235e3</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb38-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Value 2"</span></span>
+<span id="cb38-7"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">16</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="fl">9.87654e3</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 65 -->
+</section>
 <section id="complete-example-4" class="slide level2">
 <h2>Complete Example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb35-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
-<span id="cb35-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb35-4"><a href=""></a></span>
-<span id="cb35-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb35-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
-<span id="cb35-7"><a href=""></a></span>
-<span id="cb35-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">14</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Item"</span></span>
-<span id="cb35-9"><a href=""></a>         <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Qty"</span></span>
-<span id="cb35-10"><a href=""></a>         <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Price"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb35-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"--------------------------------"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb35-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">14</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Notebook"</span></span>
-<span id="cb35-13"><a href=""></a>         <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="dv">3</span></span>
-<span id="cb35-14"><a href=""></a>         <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="fl">4.99</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb35-15"><a href=""></a></span>
-<span id="cb35-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb35-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 57 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb39-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
+<span id="cb39-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb39-4"><a href=""></a></span>
+<span id="cb39-5"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb39-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb39-7"><a href=""></a></span>
+<span id="cb39-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">14</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Item"</span></span>
+<span id="cb39-9"><a href=""></a>         <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Qty"</span></span>
+<span id="cb39-10"><a href=""></a>         <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Price"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb39-11"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"--------------------------------"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb39-12"><a href=""></a>    cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">14</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Notebook"</span></span>
+<span id="cb39-13"><a href=""></a>         <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="dv">3</span></span>
+<span id="cb39-14"><a href=""></a>         <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="fl">4.99</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb39-15"><a href=""></a></span>
+<span id="cb39-16"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb39-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 66 -->
 </section>
 <section id="complete-example---output" class="slide level2">
 <h2>Complete Example - Output</h2>
 
-<!-- Slide 58 -->
+<!-- Slide 67 -->
 <img data-src="images/020256.png" class="r-stretch"></section>
 <section id="summary-4" class="slide level2">
 <h2>Summary</h2>
@@ -902,7 +988,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use consistent widths, alignment, and decimal formatting.</li>
 <li>The goal is output a person can scan quickly.</li>
 </ul>
-<!-- Slide 59 -->
+<!-- Slide 68 -->
 </section>
 <section class="slide level2">
 
@@ -917,7 +1003,7 @@ Dr.&nbsp;Caleb Fowler
 <li>ANSI color codes can emphasize terminal output when reset carefully.</li>
 <li>Tables are repeated output patterns designed for scanning.</li>
 </ul>
-<!-- Slide 60 -->
+<!-- Slide 69 -->
 </section>
 <section class="slide level2">
 
@@ -930,7 +1016,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Reading compiler errors</li>
 <li>More careful input handling</li>
 </ul>
-<!-- Slide 61 -->
+<!-- Slide 70 -->
 </section>
 <section class="slide level2">
 
@@ -938,7 +1024,7 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-<!-- Slide 62 -->
+<!-- Slide 71 -->
 </section>
 <section id="cout-good-practices" class="slide level2">
 <h2>cout: Good Practices</h2>
@@ -947,7 +1033,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use <code>"\n"</code> or <code>endl</code> intentionally; both create a new line, but <code>endl</code> also flushes.</li>
 <li>Keep chained output readable by breaking long statements across lines.</li>
 </ul>
-<!-- Slide 63 -->
+<!-- Slide 72 -->
 </section>
 <section id="cout-common-mistakes" class="slide level2">
 <h2>cout: Common Mistakes</h2>
@@ -956,14 +1042,14 @@ Dr.&nbsp;Caleb Fowler
 <li>Forgetting spaces inside string literals, causing output to run together.</li>
 <li>Ending every prompt with <code>endl</code> when the input should appear on the same line.</li>
 </ul>
-<!-- Slide 64 -->
+<!-- Slide 73 -->
 </section>
 <section id="cout-more-examples" class="slide level2">
 <h2>cout: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Total: $"</span> <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb36-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Tax: $"</span> <span class="op">&lt;&lt;</span> tax <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb36-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Grand total: $"</span> <span class="op">&lt;&lt;</span> grandTotal <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 65 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Total: $"</span> <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb40-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Tax: $"</span> <span class="op">&lt;&lt;</span> tax <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb40-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Grand total: $"</span> <span class="op">&lt;&lt;</span> grandTotal <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 74 -->
 </section>
 <section id="cout-practice-problems" class="slide level2">
 <h2>cout: Practice Problems</h2>
@@ -972,7 +1058,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Print a sentence that includes one <code>string</code> variable and one <code>int</code> variable.</li>
 <li>Write a prompt that keeps the cursor on the same line.</li>
 </ol>
-<!-- Slide 66 -->
+<!-- Slide 75 -->
 </section>
 <section id="cout-ai-search-terms" class="slide level2">
 <h2>cout: AI Search Terms</h2>
@@ -981,7 +1067,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ endl vs newline”</li>
 <li>“C++ print variable with text”</li>
 </ul>
-<!-- Slide 67 -->
+<!-- Slide 76 -->
 </section>
 <section id="cout-questions-for-reflection" class="slide level2">
 <h2>cout: Questions for Reflection</h2>
@@ -989,7 +1075,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why does output formatting matter even when the values are correct?</li>
 <li>When would a prompt on the same line be clearer than a prompt on its own line?</li>
 </ul>
-<!-- Slide 68 -->
+<!-- Slide 77 -->
 </section>
 <section id="cin-good-practices" class="slide level2">
 <h2>cin: Good Practices</h2>
@@ -998,7 +1084,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Match the variable type to the kind of input expected.</li>
 <li>Keep early examples to single-word <code>string</code> input until full-line input is introduced.</li>
 </ul>
-<!-- Slide 69 -->
+<!-- Slide 78 -->
 </section>
 <section id="cin-common-mistakes" class="slide level2">
 <h2>cin: Common Mistakes</h2>
@@ -1007,18 +1093,18 @@ Dr.&nbsp;Caleb Fowler
 <li>Expecting <code>cin &gt;&gt; name</code> to read a full name with spaces.</li>
 <li>Reading values in a different order than the prompt asks for them.</li>
 </ul>
-<!-- Slide 70 -->
+<!-- Slide 79 -->
 </section>
 <section id="cin-more-examples" class="slide level2">
 <h2>cin: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a><span class="dt">double</span> length<span class="op">;</span></span>
-<span id="cb37-2"><a href=""></a><span class="dt">double</span> width<span class="op">;</span></span>
-<span id="cb37-3"><a href=""></a></span>
-<span id="cb37-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Length and width: "</span><span class="op">;</span></span>
-<span id="cb37-5"><a href=""></a>cin <span class="op">&gt;&gt;</span> length <span class="op">&gt;&gt;</span> width<span class="op">;</span></span>
-<span id="cb37-6"><a href=""></a></span>
-<span id="cb37-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Area: "</span> <span class="op">&lt;&lt;</span> length <span class="op">*</span> width <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 71 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a><span class="dt">double</span> length<span class="op">;</span></span>
+<span id="cb41-2"><a href=""></a><span class="dt">double</span> width<span class="op">;</span></span>
+<span id="cb41-3"><a href=""></a></span>
+<span id="cb41-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Length and width: "</span><span class="op">;</span></span>
+<span id="cb41-5"><a href=""></a>cin <span class="op">&gt;&gt;</span> length <span class="op">&gt;&gt;</span> width<span class="op">;</span></span>
+<span id="cb41-6"><a href=""></a></span>
+<span id="cb41-7"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"Area: "</span> <span class="op">&lt;&lt;</span> length <span class="op">*</span> width <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 80 -->
 </section>
 <section id="cin-practice-problems" class="slide level2">
 <h2>cin: Practice Problems</h2>
@@ -1027,7 +1113,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Read two integers and print their sum.</li>
 <li>Read a price and quantity, then print the subtotal.</li>
 </ol>
-<!-- Slide 72 -->
+<!-- Slide 81 -->
 </section>
 <section id="cin-ai-search-terms" class="slide level2">
 <h2>cin: AI Search Terms</h2>
@@ -1036,7 +1122,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ cin whitespace behavior”</li>
 <li>“C++ read multiple values cin”</li>
 </ul>
-<!-- Slide 73 -->
+<!-- Slide 82 -->
 </section>
 <section id="cin-questions-for-reflection" class="slide level2">
 <h2>cin: Questions for Reflection</h2>
@@ -1044,7 +1130,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why should the prompt come before the read?</li>
 <li>Why does <code>cin</code> need to know the receiving variable’s type?</li>
 </ul>
-<!-- Slide 74 -->
+<!-- Slide 83 -->
 </section>
 <section id="output-manipulators-good-practices" class="slide level2">
 <h2>Output Manipulators: Good Practices</h2>
@@ -1053,7 +1139,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use <code>fixed &lt;&lt; setprecision(2)</code> for money-like values.</li>
 <li>Choose column widths after testing with realistic values.</li>
 </ul>
-<!-- Slide 75 -->
+<!-- Slide 84 -->
 </section>
 <section id="output-manipulators-common-mistakes" class="slide level2">
 <h2>Output Manipulators: Common Mistakes</h2>
@@ -1062,16 +1148,16 @@ Dr.&nbsp;Caleb Fowler
 <li>Expecting <code>setprecision(2)</code> to mean two decimal places without <code>fixed</code>.</li>
 <li>Using column widths too small for the data.</li>
 </ul>
-<!-- Slide 76 -->
+<!-- Slide 85 -->
 </section>
 <section id="output-manipulators-more-examples" class="slide level2">
 <h2>Output Manipulators: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
-<span id="cb38-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Day"</span></span>
-<span id="cb38-3"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Temp"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb38-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Monday"</span></span>
-<span id="cb38-5"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="fl">71.4</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 77 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> fixed <span class="op">&lt;&lt;</span> setprecision<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb42-2"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Day"</span></span>
+<span id="cb42-3"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Temp"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb42-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">10</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Monday"</span></span>
+<span id="cb42-5"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="fl">71.4</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 86 -->
 </section>
 <section id="output-manipulators-practice-problems" class="slide level2">
 <h2>Output Manipulators: Practice Problems</h2>
@@ -1080,7 +1166,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Format a <code>double</code> so it always prints two decimal places.</li>
 <li>Use <code>setw</code> to right-align three numbers.</li>
 </ol>
-<!-- Slide 78 -->
+<!-- Slide 87 -->
 </section>
 <section id="output-manipulators-ai-search-terms" class="slide level2">
 <h2>Output Manipulators: AI Search Terms</h2>
@@ -1089,7 +1175,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ fixed setprecision”</li>
 <li>“C++ left right output alignment”</li>
 </ul>
-<!-- Slide 79 -->
+<!-- Slide 88 -->
 </section>
 <section id="output-manipulators-questions-for-reflection" class="slide level2">
 <h2>Output Manipulators: Questions for Reflection</h2>
@@ -1097,7 +1183,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why do numbers usually read better right-aligned?</li>
 <li>Which formatting settings affect one item, and which stay active?</li>
 </ul>
-<!-- Slide 80 -->
+<!-- Slide 89 -->
 </section>
 <section id="terminal-color-codes-good-practices" class="slide level2">
 <h2>Terminal Color Codes: Good Practices</h2>
@@ -1106,7 +1192,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use color only when it communicates status or emphasis.</li>
 <li>Reset with <code>NORM</code> after every colored message.</li>
 </ul>
-<!-- Slide 81 -->
+<!-- Slide 90 -->
 </section>
 <section id="terminal-color-codes-common-mistakes" class="slide level2">
 <h2>Terminal Color Codes: Common Mistakes</h2>
@@ -1115,15 +1201,15 @@ Dr.&nbsp;Caleb Fowler
 <li>Adding color to every line until nothing stands out.</li>
 <li>Using colors that do not display well on the target terminal.</li>
 </ul>
-<!-- Slide 82 -->
+<!-- Slide 91 -->
 </section>
 <section id="terminal-color-codes-more-examples" class="slide level2">
 <h2>Terminal Color Codes: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a><span class="at">const</span> string BLUE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[034m"</span><span class="op">;</span></span>
-<span id="cb39-2"><a href=""></a><span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span>
-<span id="cb39-3"><a href=""></a></span>
-<span id="cb39-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> BLUE <span class="op">&lt;&lt;</span> <span class="st">"Info: loading settings."</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 83 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb43-1"><a href=""></a><span class="at">const</span> string BLUE <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[034m"</span><span class="op">;</span></span>
+<span id="cb43-2"><a href=""></a><span class="at">const</span> string NORM <span class="op">=</span> <span class="st">"</span><span class="sc">\033</span><span class="st">[0m"</span><span class="op">;</span></span>
+<span id="cb43-3"><a href=""></a></span>
+<span id="cb43-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> BLUE <span class="op">&lt;&lt;</span> <span class="st">"Info: loading settings."</span> <span class="op">&lt;&lt;</span> NORM <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 92 -->
 </section>
 <section id="terminal-color-codes-practice-problems" class="slide level2">
 <h2>Terminal Color Codes: Practice Problems</h2>
@@ -1132,7 +1218,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Print a green success message after a calculation.</li>
 <li>Add a blue heading to a formatted report.</li>
 </ol>
-<!-- Slide 84 -->
+<!-- Slide 93 -->
 </section>
 <section id="terminal-color-codes-ai-search-terms" class="slide level2">
 <h2>Terminal Color Codes: AI Search Terms</h2>
@@ -1141,7 +1227,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ color text console”</li>
 <li>“ANSI reset code terminal”</li>
 </ul>
-<!-- Slide 85 -->
+<!-- Slide 94 -->
 </section>
 <section id="terminal-color-codes-questions-for-reflection" class="slide level2">
 <h2>Terminal Color Codes: Questions for Reflection</h2>
@@ -1149,7 +1235,7 @@ Dr.&nbsp;Caleb Fowler
 <li>When does color improve output, and when does it become noise?</li>
 <li>Why is a reset code part of the output contract?</li>
 </ul>
-<!-- Slide 86 -->
+<!-- Slide 95 -->
 </section>
 <section id="table-architectures-good-practices" class="slide level2">
 <h2>Table Architectures: Good Practices</h2>
@@ -1158,7 +1244,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use the same widths for the header and every row.</li>
 <li>Align text left and numbers right unless there is a clear reason not to.</li>
 </ul>
-<!-- Slide 87 -->
+<!-- Slide 96 -->
 </section>
 <section id="table-architectures-common-mistakes" class="slide level2">
 <h2>Table Architectures: Common Mistakes</h2>
@@ -1167,15 +1253,15 @@ Dr.&nbsp;Caleb Fowler
 <li>Forgetting that long text can break a narrow column.</li>
 <li>Printing decimals with inconsistent precision.</li>
 </ul>
-<!-- Slide 88 -->
+<!-- Slide 97 -->
 </section>
 <section id="table-architectures-more-examples" class="slide level2">
 <h2>Table Architectures: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Course"</span></span>
-<span id="cb40-2"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Units"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb40-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"CISP 360"</span></span>
-<span id="cb40-4"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="dv">4</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 89 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb44-1"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Course"</span></span>
+<span id="cb44-2"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"Units"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb44-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> left <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">12</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"CISP 360"</span></span>
+<span id="cb44-4"><a href=""></a>     <span class="op">&lt;&lt;</span> right <span class="op">&lt;&lt;</span> setw<span class="op">(</span><span class="dv">8</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="dv">4</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 98 -->
 </section>
 <section id="table-architectures-practice-problems" class="slide level2">
 <h2>Table Architectures: Practice Problems</h2>
@@ -1184,7 +1270,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Add a separator line under the table header.</li>
 <li>Format a small grade report with names and scores.</li>
 </ol>
-<!-- Slide 90 -->
+<!-- Slide 99 -->
 </section>
 <section id="table-architectures-ai-search-terms" class="slide level2">
 <h2>Table Architectures: AI Search Terms</h2>
@@ -1193,7 +1279,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ align columns cout”</li>
 <li>“C++ console receipt formatting”</li>
 </ul>
-<!-- Slide 91 -->
+<!-- Slide 100 -->
 </section>
 <section id="table-architectures-questions-for-reflection" class="slide level2">
 <h2>Table Architectures: Questions for Reflection</h2>
@@ -1201,7 +1287,7 @@ Dr.&nbsp;Caleb Fowler
 <li>What makes a table easier to scan than a paragraph of values?</li>
 <li>How can a table structure reveal mistakes in output?</li>
 </ul>
-<!-- Slide 92 -->
+<!-- Slide 101 -->
 
 </section></section>
     </div>
