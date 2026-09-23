@@ -1,8 +1,8 @@
 <!-- Topic 4: Static Local Variables -->
-<!-- Slides 32-41 -->
+<!-- Slides 36-46 -->
 
 # Static Local Variables
-<!-- Slide 32 -->
+<!-- Slide 36 -->
 
 ## Can a Local Variable Remember? {.smaller}
 
@@ -11,10 +11,10 @@
 + A static local variable keeps its value between calls.
 
 ::: notes
-Slides 32-41
+Slides 36-46
 :::
 
-<!-- Slide 33 -->
+<!-- Slide 37 -->
 
 ---
 
@@ -30,7 +30,7 @@ void countCall() {
 
 Every call creates a new `count`, so the output is always `1`.
 
-<!-- Slide 34 -->
+<!-- Slide 38 -->
 
 ---
 
@@ -46,7 +46,7 @@ void countCall() {
 
 `count` is initialized once and keeps its value for the rest of the program run.
 
-<!-- Slide 35 -->
+<!-- Slide 39 -->
 
 ---
 
@@ -60,7 +60,7 @@ void countCall() {
 
 The variable remembers the result of the previous call.
 
-<!-- Slide 36 -->
+<!-- Slide 40 -->
 
 ---
 
@@ -72,7 +72,7 @@ The variable remembers the result of the previous call.
 
 This is the key difference from an ordinary local variable.
 
-<!-- Slide 37 -->
+<!-- Slide 41 -->
 
 ---
 
@@ -86,13 +86,33 @@ This is the key difference from an ordinary local variable.
 [Graphic suggestion: show repeated countCall() stack frames using one shared static count box outside the frame.]
 :::
 
-<!-- Slide 38 -->
+<!-- Slide 42 -->
 
 ---
 
-## Function Call Counter Example
+## How Static Works {background-iframe="images/static_local_lifetime.html" background-interactive="true"}
 
-```cpp
+::: notes
+[Interactive demonstration: show the stack frame appearing and disappearing while the static local value remains available between calls.]
+:::
+
+<!-- Slide 43 -->
+
+---
+
+```{.cpp}
+#include <iostream>
+using namespace std;
+
+int nextCallNumber();
+
+int main() {
+    cout << nextCallNumber() << endl;
+    cout << nextCallNumber() << endl;
+    cout << nextCallNumber() << endl;
+    return 0;
+}
+
 int nextCallNumber() {
     static int callNumber = 0;
     callNumber++;
@@ -100,9 +120,7 @@ int nextCallNumber() {
 }
 ```
 
-The function owns the counter, but callers can receive the next value.
-
-<!-- Slide 39 -->
+<!-- Slide 44 -->
 
 ---
 
@@ -114,7 +132,7 @@ The function owns the counter, but callers can receive the next value.
 
 Use static locals for function-owned state, not shared program-wide data.
 
-<!-- Slide 40 -->
+<!-- Slide 45 -->
 
 ---
 
@@ -124,4 +142,4 @@ Use static locals for function-owned state, not shared program-wide data.
 + Their names remain visible only inside the function.
 + They provide internal memory without exposing a global variable.
 
-<!-- Slide 41 -->
+<!-- Slide 46 -->

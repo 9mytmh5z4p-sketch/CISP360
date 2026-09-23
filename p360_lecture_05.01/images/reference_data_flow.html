@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reference Variable Data Flow</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#10151c; --panel:#1b2430; --text:#edf2f7; --muted:#a9b6c4; --accent:#77c7ff; --accent-2:#ffd166; --line:#607286; }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; display:grid; place-items:center; background:var(--bg); color:var(--text); font:18px/1.35 system-ui,sans-serif; }
+    main { width:min(960px,94vw); padding:28px; }
+    h1 { margin:0 0 8px; font-size:clamp(24px,4vw,40px); font-weight:600; }
+    #status { min-height:1.5em; color:var(--muted); }
+    .stage { position:relative; min-height:300px; margin:24px 0; padding:32px; border:1px solid var(--line); border-radius:14px; background:var(--panel); overflow:hidden; }
+    .name { position:absolute; padding:8px 14px; border:2px solid var(--accent); border-radius:8px; color:var(--accent); background:var(--bg); transition:transform 500ms ease,opacity 300ms ease; }
+    #score-name { left:9%; top:36%; }
+    #ref-name { right:9%; top:36%; opacity:0; }
+    .alias #ref-name { opacity:1; }
+    .storage { position:absolute; left:50%; top:50%; width:180px; height:106px; display:grid; place-items:center; transform:translate(-50%,-50%); border:3px solid var(--accent-2); border-radius:12px; color:var(--accent-2); font-size:34px; font-weight:600; background:#272c35; box-shadow:0 0 0 0 rgba(255,209,102,.35); transition:box-shadow 500ms ease,transform 500ms ease; }
+    .changed .storage { box-shadow:0 0 0 14px rgba(255,209,102,.12); transform:translate(-50%,-50%) scale(1.04); }
+    .arrow { position:absolute; top:calc(50% - 2px); width:23%; height:4px; background:var(--accent); opacity:0; transition:opacity 400ms ease; }
+    .arrow::after { content:""; position:absolute; top:-7px; border:8px solid transparent; }
+    #left-arrow { left:22%; }
+    #left-arrow::after { right:-14px; border-left-color:var(--accent); }
+    #right-arrow { right:22%; }
+    #right-arrow::after { left:-14px; border-right-color:var(--accent); }
+    .alias .arrow { opacity:1; }
+    .controls { display:flex; flex-wrap:wrap; gap:10px; }
+    button { padding:10px 16px; border:1px solid var(--line); border-radius:8px; color:var(--text); background:#263241; font:inherit; cursor:pointer; }
+    button:hover, button:focus-visible { border-color:var(--accent); }
+    .step-count { margin-left:auto; color:var(--muted); }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration:.001ms !important; } }
+  </style>
+</head>
+<body>
+  <main aria-labelledby="title">
+    <h1 id="title">How Does a Reference Move Data?</h1>
+    <div id="status" aria-live="polite"></div>
+    <section class="stage" aria-label="Animated reference variable data-flow diagram">
+      <div id="score-name" class="name">score</div>
+      <div id="left-arrow" class="arrow" aria-hidden="true"></div>
+      <div id="storage" class="storage">90</div>
+      <div id="right-arrow" class="arrow" aria-hidden="true"></div>
+      <div id="ref-name" class="name">scoreRef</div>
+    </section>
+    <div class="controls">
+      <button id="play" type="button">Play</button>
+      <button id="pause" type="button">Pause</button>
+      <button id="step" type="button">Step</button>
+      <button id="reset" type="button">Reset</button>
+      <span id="step-count" class="step-count"></span>
+    </div>
+  </main>
+  <script>
+    const steps = [
+      { value:"90", alias:false, changed:false, text:"Step 1: score owns one stored value." },
+      { value:"90", alias:true, changed:false, text:"Step 2: scoreRef becomes another name for the same storage." },
+      { value:"95", alias:true, changed:true, text:"Step 3: assigning through scoreRef changes the shared value." },
+      { value:"100", alias:true, changed:true, text:"Step 4: assigning through score also changes what scoreRef reads." }
+    ];
+    const stage=document.querySelector(".stage");
+    const storage=document.querySelector("#storage");
+    const status=document.querySelector("#status");
+    const count=document.querySelector("#step-count");
+    let index=0;
+    let timer=null;
+    function render() {
+      const step=steps[index];
+      storage.textContent=step.value;
+      stage.classList.toggle("alias",step.alias);
+      stage.classList.toggle("changed",step.changed);
+      status.textContent=step.text;
+      count.textContent="Step " + (index + 1) + " of " + steps.length;
+    }
+    function next() { index=(index + 1) % steps.length; render(); }
+    document.querySelector("#play").addEventListener("click",()=>{ if(timer===null) timer=setInterval(next,1500); });
+    document.querySelector("#pause").addEventListener("click",()=>{ clearInterval(timer); timer=null; });
+    document.querySelector("#step").addEventListener("click",next);
+    document.querySelector("#reset").addEventListener("click",()=>{ clearInterval(timer); timer=null; index=0; render(); });
+    render();
+  </script>
+</body>
+</html>

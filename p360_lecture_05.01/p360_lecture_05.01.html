@@ -258,7 +258,7 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 2 -->
 <!-- Topic 1: Reference Variables -->
-<!-- Slides 3-11 -->
+<!-- Slides 3-14 -->
 </section>
 
 <section>
@@ -274,7 +274,7 @@ Dr.&nbsp;Caleb Fowler
 <li>That idea matters before we use references in function parameter lists.</li>
 </ul>
 <aside class="notes">
-<p>Slides 3-11</p>
+<p>Slides 3-14</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -321,6 +321,23 @@ Dr.&nbsp;Caleb Fowler
 </ul>
 <!-- Slide 6 -->
 </section>
+<section id="reference-in-action" class="slide level2" data-background-iframe="images/reference_data_flow.html" data-background-interactive="true">
+<h2>Reference in Action</h2>
+<aside class="notes">
+<p>[Interactive video demonstration: use Play or Step to show scoreRef becoming an alias for score, then change the shared stored value through either name.]</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 7 -->
+</section>
 <section id="reference-syntax" class="slide level2">
 <h2>Reference Syntax</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">90</span><span class="op">;</span></span>
@@ -330,7 +347,7 @@ Dr.&nbsp;Caleb Fowler
 <li>A reference must be initialized when it is declared.</li>
 <li>The initializer is the variable the reference will name.</li>
 </ul>
-<!-- Slide 7 -->
+<!-- Slide 8 -->
 </section>
 <section id="changing-through-either-name" class="slide level2">
 <h2>Changing Through Either Name</h2>
@@ -343,7 +360,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb3-7"><a href=""></a>score <span class="op">=</span> <span class="dv">100</span><span class="op">;</span></span>
 <span id="cb3-8"><a href=""></a>cout <span class="op">&lt;&lt;</span> scoreRef <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Both output statements read the same stored value through different names.</p>
-<!-- Slide 8 -->
+<!-- Slide 9 -->
 </section>
 <section id="a-reference-is-not-reseated" class="slide level2">
 <h2>A Reference Is Not Reseated</h2>
@@ -353,7 +370,94 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb4-4"><a href=""></a></span>
 <span id="cb4-5"><a href=""></a>alias <span class="op">=</span> second<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>After the assignment, <code>first</code> becomes <code>20</code>. The reference still names <code>first</code>.</p>
-<!-- Slide 9 -->
+<!-- Slide 10 -->
+</section>
+<section class="slide level2">
+
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="co">// RefVar.cpp</span></span>
+<span id="cb5-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb5-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb5-4"><a href=""></a></span>
+<span id="cb5-5"><a href=""></a><span class="dt">void</span> Prompt<span class="op">(</span><span class="dt">int</span><span class="op">&amp;,</span> <span class="dt">int</span><span class="op">&amp;,</span> <span class="dt">int</span><span class="op">&amp;);</span></span>
+<span id="cb5-6"><a href=""></a><span class="dt">int</span> Adder<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
+<span id="cb5-7"><a href=""></a></span>
+<span id="cb5-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb5-9"><a href=""></a>  <span class="dt">int</span> iA<span class="op">,</span> iB<span class="op">,</span> iC<span class="op">;</span></span>
+<span id="cb5-10"><a href=""></a>  <span class="dt">int</span> total<span class="op">;</span></span>
+<span id="cb5-11"><a href=""></a></span>
+<span id="cb5-12"><a href=""></a>  Prompt<span class="op">(</span>iA<span class="op">,</span> iB<span class="op">,</span> iC<span class="op">);</span></span>
+<span id="cb5-13"><a href=""></a>  total <span class="op">=</span> Adder<span class="op">(</span>iA<span class="op">,</span> iB<span class="op">,</span> iC<span class="op">);</span></span>
+<span id="cb5-14"><a href=""></a>  cout <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb5-15"><a href=""></a></span>
+<span id="cb5-16"><a href=""></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-17"><a href=""></a><span class="op">}</span></span>
+<span id="cb5-18"><a href=""></a><span class="dt">void</span> Prompt <span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> a<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> b<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-19"><a href=""></a>  cout <span class="op">&lt;&lt;</span> <span class="st">"enter first number: "</span><span class="op">;</span></span>
+<span id="cb5-20"><a href=""></a>  cin <span class="op">&gt;&gt;</span> a<span class="op">;</span></span>
+<span id="cb5-21"><a href=""></a>  cout <span class="op">&lt;&lt;</span> <span class="st">"enter second number: "</span><span class="op">;</span></span>
+<span id="cb5-22"><a href=""></a>  cin <span class="op">&gt;&gt;</span> b<span class="op">;</span></span>
+<span id="cb5-23"><a href=""></a>  cout <span class="op">&lt;&lt;</span> <span class="st">"enter third number: "</span><span class="op">;</span></span>
+<span id="cb5-24"><a href=""></a>  cin <span class="op">&gt;&gt;</span> c<span class="op">;</span></span>
+<span id="cb5-25"><a href=""></a><span class="op">}</span></span>
+<span id="cb5-26"><a href=""></a><span class="dt">int</span> Adder<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-27"><a href=""></a>  <span class="cf">return</span> a <span class="op">+</span> b <span class="op">+</span> c<span class="op">;</span></span>
+<span id="cb5-28"><a href=""></a><span class="op">}</span></span>
+<span id="cb5-29"><a href=""></a></span>
+<span id="cb5-30"><a href=""></a><span class="co">/*</span></span>
+<span id="cb5-31"><a href=""></a><span class="co">Create a function which accepts 3 reference variables. In the function, prompt the client to enter 3 values - 1 value in each variable.</span></span>
+<span id="cb5-32"><a href=""></a><span class="co">Create a second function which you pass the 3 variables as arguments and which returns those values multiplied together.</span></span>
+<span id="cb5-33"><a href=""></a><span class="co">Display the total in main().</span></span>
+<span id="cb5-34"><a href=""></a></span>
+<span id="cb5-35"><a href=""></a><span class="co">This example doesn't even need to send anything to Adder() bc the ints in main() were changed.</span></span>
+<span id="cb5-36"><a href=""></a><span class="co">*/</span></span>
+<span id="cb5-37"><a href=""></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 11 -->
+</section>
+<section class="slide level2">
+
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="co">// RefVar.cpp</span></span>
+<span id="cb6-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb6-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb6-4"><a href=""></a></span>
+<span id="cb6-5"><a href=""></a><span class="dt">void</span> Prompt<span class="op">(</span><span class="dt">int</span><span class="op">&amp;,</span> <span class="dt">int</span><span class="op">&amp;,</span> <span class="dt">int</span><span class="op">&amp;);</span></span>
+<span id="cb6-6"><a href=""></a><span class="dt">int</span> Adder<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
+<span id="cb6-7"><a href=""></a></span>
+<span id="cb6-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-9"><a href=""></a>  <span class="dt">int</span> iA<span class="op">,</span> iB<span class="op">,</span> iC<span class="op">;</span></span>
+<span id="cb6-10"><a href=""></a>  <span class="dt">int</span> total<span class="op">;</span></span>
+<span id="cb6-11"><a href=""></a></span>
+<span id="cb6-12"><a href=""></a>  Prompt<span class="op">(</span>iA<span class="op">,</span> iB<span class="op">,</span> iC<span class="op">);</span></span>
+<span id="cb6-13"><a href=""></a>  total <span class="op">=</span> Adder<span class="op">(</span>iA<span class="op">,</span> iB<span class="op">,</span> iC<span class="op">);</span></span>
+<span id="cb6-14"><a href=""></a>  cout <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb6-15"><a href=""></a></span>
+<span id="cb6-16"><a href=""></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-17"><a href=""></a><span class="op">}</span></span>
+<span id="cb6-18"><a href=""></a><span class="dt">void</span> Prompt <span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> a<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> b<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-19"><a href=""></a>  cout <span class="op">&lt;&lt;</span> <span class="st">"enter first number: "</span><span class="op">;</span></span>
+<span id="cb6-20"><a href=""></a>  cin <span class="op">&gt;&gt;</span> a<span class="op">;</span></span>
+<span id="cb6-21"><a href=""></a>  cout <span class="op">&lt;&lt;</span> <span class="st">"enter second number: "</span><span class="op">;</span></span>
+<span id="cb6-22"><a href=""></a>  cin <span class="op">&gt;&gt;</span> b<span class="op">;</span></span>
+<span id="cb6-23"><a href=""></a>  cout <span class="op">&lt;&lt;</span> <span class="st">"enter third number: "</span><span class="op">;</span></span>
+<span id="cb6-24"><a href=""></a>  cin <span class="op">&gt;&gt;</span> c<span class="op">;</span></span>
+<span id="cb6-25"><a href=""></a><span class="op">}</span></span>
+<span id="cb6-26"><a href=""></a><span class="dt">int</span> Adder<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-27"><a href=""></a>  <span class="cf">return</span> a <span class="op">+</span> b <span class="op">+</span> c<span class="op">;</span></span>
+<span id="cb6-28"><a href=""></a><span class="op">}</span></span>
+<span id="cb6-29"><a href=""></a></span>
+<span id="cb6-30"><a href=""></a><span class="co">/*</span></span>
+<span id="cb6-31"><a href=""></a><span class="co">Create a function which accepts 3 reference variables. In the function, prompt the client to enter 3 values - 1 value in each variable.</span></span>
+<span id="cb6-32"><a href=""></a><span class="co">Create a second function which you pass the 3 variables as arguments and which returns those values multiplied together.</span></span>
+<span id="cb6-33"><a href=""></a><span class="co">Display the total in main().</span></span>
+<span id="cb6-34"><a href=""></a></span>
+<span id="cb6-35"><a href=""></a><span class="co">This example doesn't even need to send anything to Adder() bc the ints in main() were changed.</span></span>
+<span id="cb6-36"><a href=""></a><span class="co">*/</span></span>
+<span id="cb6-37"><a href=""></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Sample interaction:</p>
+<pre><code>enter first number: 2
+enter second number: 3
+enter third number: 4
+9</code></pre>
+<!-- Slide 12 -->
 </section>
 <section id="stack-frame-view-of-a-reference" class="slide level2">
 <h2>Stack Frame View of a Reference</h2>
@@ -389,7 +493,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 10 -->
+<!-- Slide 13 -->
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
@@ -398,14 +502,14 @@ Dr.&nbsp;Caleb Fowler
 <li>Changing the value through either name changes the same storage.</li>
 <li>References prepare us for parameters that work directly with caller variables.</li>
 </ul>
-<!-- Slide 11 -->
+<!-- Slide 14 -->
 <!-- Topic 2: Pass by Value and Pass by Reference -->
-<!-- Slides 12-21 -->
+<!-- Slides 15-25 -->
 </section></section>
 <section>
 <section id="pass-by-value-and-pass-by-reference" class="title-slide slide level1 center">
 <h1>Pass by Value and Pass by Reference</h1>
-<!-- Slide 12 -->
+<!-- Slide 15 -->
 </section>
 <section id="what-crosses-the-boundary" class="slide level2 smaller">
 <h2>What Crosses the Boundary?</h2>
@@ -415,7 +519,7 @@ Dr.&nbsp;Caleb Fowler
 <li>The parameter list tells us which one is happening.</li>
 </ul>
 <aside class="notes">
-<p>Slides 12-21</p>
+<p>Slides 15-25</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -427,24 +531,24 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 13 -->
+<!-- Slide 16 -->
 </section>
 <section id="pass-by-value-review" class="slide level2">
 <h2>Pass by Value Review</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">void</span> addFive<span class="op">(</span><span class="dt">int</span> number<span class="op">);</span></span>
-<span id="cb5-2"><a href=""></a></span>
-<span id="cb5-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb5-4"><a href=""></a>    <span class="dt">int</span> score <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb5-5"><a href=""></a>    addFive<span class="op">(</span>score<span class="op">);</span></span>
-<span id="cb5-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb5-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb5-8"><a href=""></a><span class="op">}</span></span>
-<span id="cb5-9"><a href=""></a></span>
-<span id="cb5-10"><a href=""></a><span class="dt">void</span> addFive<span class="op">(</span><span class="dt">int</span> number<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-11"><a href=""></a>    number <span class="op">=</span> number <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb5-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">void</span> addFive<span class="op">(</span><span class="dt">int</span> number<span class="op">);</span></span>
+<span id="cb8-2"><a href=""></a></span>
+<span id="cb8-3"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-4"><a href=""></a>    <span class="dt">int</span> score <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb8-5"><a href=""></a>    addFive<span class="op">(</span>score<span class="op">);</span></span>
+<span id="cb8-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb8-7"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-8"><a href=""></a><span class="op">}</span></span>
+<span id="cb8-9"><a href=""></a></span>
+<span id="cb8-10"><a href=""></a><span class="dt">void</span> addFive<span class="op">(</span><span class="dt">int</span> number<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-11"><a href=""></a>    number <span class="op">=</span> number <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb8-12"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>score</code> is still <code>10</code> because the function changed a copy.</p>
-<!-- Slide 14 -->
+<!-- Slide 17 -->
 </section>
 <section id="pass-by-value-trace" class="slide level2">
 <h2>Pass by Value Trace</h2>
@@ -485,19 +589,19 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>The caller and the function have separate storage.</p>
-<!-- Slide 15 -->
+<!-- Slide 18 -->
 </section>
 <section id="pass-by-reference" class="slide level2">
 <h2>Pass by Reference</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="dt">void</span> addFive<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> number<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb6-2"><a href=""></a>    number <span class="op">=</span> number <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb6-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="dt">void</span> addFive<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> number<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href=""></a>    number <span class="op">=</span> number <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>number</code> is a reference parameter.</li>
 <li>It becomes another name for the caller’s argument.</li>
 <li>The function can change the caller’s variable.</li>
 </ul>
-<!-- Slide 16 -->
+<!-- Slide 19 -->
 </section>
 <section id="pass-by-reference-trace" class="slide level2">
 <h2>Pass by Reference Trace</h2>
@@ -533,29 +637,29 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>The parameter name and caller name refer to the same storage.</p>
-<!-- Slide 17 -->
+<!-- Slide 20 -->
 </section>
 <section id="before-and-after-example" class="slide level2">
 <h2>Before and After Example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="dt">void</span> resetValue<span class="op">(</span><span class="dt">int</span> number<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-2"><a href=""></a>    number <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb7-3"><a href=""></a><span class="op">}</span></span>
-<span id="cb7-4"><a href=""></a></span>
-<span id="cb7-5"><a href=""></a><span class="dt">void</span> resetVariable<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> number<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-6"><a href=""></a>    number <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb7-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">void</span> resetValue<span class="op">(</span><span class="dt">int</span> number<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href=""></a>    number <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-3"><a href=""></a><span class="op">}</span></span>
+<span id="cb10-4"><a href=""></a></span>
+<span id="cb10-5"><a href=""></a><span class="dt">void</span> resetVariable<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> number<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-6"><a href=""></a>    number <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The first function changes only its copy. The second changes the caller’s variable.</p>
-<!-- Slide 18 -->
+<!-- Slide 21 -->
 </section>
 <section id="swap-example" class="slide level2">
 <h2>Swap Example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="dt">void</span> swapValues<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> first<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> second<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb8-2"><a href=""></a>    <span class="dt">int</span> temp <span class="op">=</span> first<span class="op">;</span></span>
-<span id="cb8-3"><a href=""></a>    first <span class="op">=</span> second<span class="op">;</span></span>
-<span id="cb8-4"><a href=""></a>    second <span class="op">=</span> temp<span class="op">;</span></span>
-<span id="cb8-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">void</span> swapValues<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> first<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> second<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href=""></a>    <span class="dt">int</span> temp <span class="op">=</span> first<span class="op">;</span></span>
+<span id="cb11-3"><a href=""></a>    first <span class="op">=</span> second<span class="op">;</span></span>
+<span id="cb11-4"><a href=""></a>    second <span class="op">=</span> temp<span class="op">;</span></span>
+<span id="cb11-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Swapping needs reference parameters because both caller variables must change.</p>
-<!-- Slide 19 -->
+<!-- Slide 22 -->
 </section>
 <section id="boundary-model-update" class="slide level2">
 <h2>Boundary Model Update</h2>
@@ -577,7 +681,48 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 20 -->
+<!-- Slide 23 -->
+</section>
+<section class="slide level2">
+
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="co">// RefVar.cpp</span></span>
+<span id="cb12-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb12-3"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb12-4"><a href=""></a></span>
+<span id="cb12-5"><a href=""></a><span class="dt">void</span> Prompt<span class="op">(</span><span class="dt">int</span><span class="op">&amp;,</span> <span class="dt">int</span><span class="op">&amp;,</span> <span class="dt">int</span><span class="op">&amp;);</span></span>
+<span id="cb12-6"><a href=""></a><span class="dt">int</span> Adder<span class="op">(</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">);</span></span>
+<span id="cb12-7"><a href=""></a></span>
+<span id="cb12-8"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb12-9"><a href=""></a>  <span class="dt">int</span> iA<span class="op">,</span> iB<span class="op">,</span> iC<span class="op">;</span></span>
+<span id="cb12-10"><a href=""></a>  <span class="dt">int</span> total<span class="op">;</span></span>
+<span id="cb12-11"><a href=""></a></span>
+<span id="cb12-12"><a href=""></a>  Prompt<span class="op">(</span>iA<span class="op">,</span> iB<span class="op">,</span> iC<span class="op">);</span></span>
+<span id="cb12-13"><a href=""></a>  total <span class="op">=</span> Adder<span class="op">(</span>iA<span class="op">,</span> iB<span class="op">,</span> iC<span class="op">);</span></span>
+<span id="cb12-14"><a href=""></a>  cout <span class="op">&lt;&lt;</span> total <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb12-15"><a href=""></a></span>
+<span id="cb12-16"><a href=""></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb12-17"><a href=""></a><span class="op">}</span></span>
+<span id="cb12-18"><a href=""></a><span class="dt">void</span> Prompt <span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> a<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> b<span class="op">,</span> <span class="dt">int</span><span class="op">&amp;</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-19"><a href=""></a>  cout <span class="op">&lt;&lt;</span> <span class="st">"enter first number: "</span><span class="op">;</span></span>
+<span id="cb12-20"><a href=""></a>  cin <span class="op">&gt;&gt;</span> a<span class="op">;</span></span>
+<span id="cb12-21"><a href=""></a>  cout <span class="op">&lt;&lt;</span> <span class="st">"enter second number: "</span><span class="op">;</span></span>
+<span id="cb12-22"><a href=""></a>  cin <span class="op">&gt;&gt;</span> b<span class="op">;</span></span>
+<span id="cb12-23"><a href=""></a>  cout <span class="op">&lt;&lt;</span> <span class="st">"enter third number: "</span><span class="op">;</span></span>
+<span id="cb12-24"><a href=""></a>  cin <span class="op">&gt;&gt;</span> c<span class="op">;</span></span>
+<span id="cb12-25"><a href=""></a><span class="op">}</span></span>
+<span id="cb12-26"><a href=""></a><span class="dt">int</span> Adder<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-27"><a href=""></a>  <span class="cf">return</span> a <span class="op">+</span> b <span class="op">+</span> c<span class="op">;</span></span>
+<span id="cb12-28"><a href=""></a><span class="op">}</span></span>
+<span id="cb12-29"><a href=""></a></span>
+<span id="cb12-30"><a href=""></a><span class="co">/*</span></span>
+<span id="cb12-31"><a href=""></a><span class="co">Create a function which accepts 3 reference variables. In the function, prompt the client to enter 3 values - 1 value in each variable.</span></span>
+<span id="cb12-32"><a href=""></a><span class="co">Create a second function which you pass the 3 variables as arguments and which returns those values multiplied together.</span></span>
+<span id="cb12-33"><a href=""></a><span class="co">Display the total in main().</span></span>
+<span id="cb12-34"><a href=""></a></span>
+<span id="cb12-35"><a href=""></a><span class="co">This example doesn't even need to send anything to Adder() bc the ints in main() were changed.</span></span>
+<span id="cb12-36"><a href=""></a><span class="co">*/</span></span>
+<span id="cb12-37"><a href=""></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 24 -->
 </section>
 <section id="summary-1" class="slide level2">
 <h2>Summary</h2>
@@ -586,14 +731,14 @@ Dr.&nbsp;Caleb Fowler
 <li>Pass by reference lets a function change the caller’s variable directly.</li>
 <li>The <code>&amp;</code> in the parameter list is the signal to trace carefully.</li>
 </ul>
-<!-- Slide 21 -->
+<!-- Slide 25 -->
 <!-- Topic 3: Reference Variables as Parameters -->
-<!-- Slides 22-31 -->
+<!-- Slides 26-35 -->
 </section></section>
 <section>
 <section id="reference-variables-as-parameters" class="title-slide slide level1 center">
 <h1>Reference Variables as Parameters</h1>
-<!-- Slide 22 -->
+<!-- Slide 26 -->
 </section>
 <section id="where-does-the-ampersand-go" class="slide level2 smaller">
 <h2>Where Does the Ampersand Go?</h2>
@@ -603,7 +748,7 @@ Dr.&nbsp;Caleb Fowler
 <li>That makes the prototype especially important.</li>
 </ul>
 <aside class="notes">
-<p>Slides 22-31</p>
+<p>Slides 26-35</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -615,72 +760,72 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 23 -->
+<!-- Slide 27 -->
 </section>
 <section id="prototype-syntax" class="slide level2">
 <h2>Prototype Syntax</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="dt">void</span> addTax<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> price<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">void</span> addTax<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> price<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>The <code>&amp;</code> belongs with the parameter type.</li>
 <li><code>price</code> will alias the caller’s variable.</li>
 <li>The prototype warns the caller that the argument may change.</li>
 </ul>
-<!-- Slide 24 -->
+<!-- Slide 28 -->
 </section>
 <section id="definition-syntax" class="slide level2">
 <h2>Definition Syntax</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">void</span> addTax<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> price<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb10-2"><a href=""></a>    price <span class="op">=</span> price <span class="op">*</span> <span class="fl">1.0825</span><span class="op">;</span></span>
-<span id="cb10-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">void</span> addTax<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> price<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-2"><a href=""></a>    price <span class="op">=</span> price <span class="op">*</span> <span class="fl">1.0825</span><span class="op">;</span></span>
+<span id="cb14-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The prototype and definition must agree on the reference marker.</p>
-<!-- Slide 25 -->
+<!-- Slide 29 -->
 </section>
 <section id="call-syntax-looks-ordinary" class="slide level2">
 <h2>Call Syntax Looks Ordinary</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb11-2"><a href=""></a>    <span class="dt">double</span> mealPrice <span class="op">=</span> <span class="fl">18.00</span><span class="op">;</span></span>
-<span id="cb11-3"><a href=""></a>    addTax<span class="op">(</span>mealPrice<span class="op">);</span></span>
-<span id="cb11-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> mealPrice <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb11-5"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb11-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href=""></a>    <span class="dt">double</span> mealPrice <span class="op">=</span> <span class="fl">18.00</span><span class="op">;</span></span>
+<span id="cb15-3"><a href=""></a>    addTax<span class="op">(</span>mealPrice<span class="op">);</span></span>
+<span id="cb15-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> mealPrice <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb15-5"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb15-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Nothing in the call itself shows that <code>mealPrice</code> can change.</p>
-<!-- Slide 26 -->
+<!-- Slide 30 -->
 </section>
 <section id="reference-parameters-need-variables" class="slide level2">
 <h2>Reference Parameters Need Variables</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a>addTax<span class="op">(</span>mealPrice<span class="op">);</span>  <span class="co">// works</span></span>
-<span id="cb12-2"><a href=""></a>addTax<span class="op">(</span><span class="fl">18.00</span><span class="op">);</span>      <span class="co">// error</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a>addTax<span class="op">(</span>mealPrice<span class="op">);</span>  <span class="co">// works</span></span>
+<span id="cb16-2"><a href=""></a>addTax<span class="op">(</span><span class="fl">18.00</span><span class="op">);</span>      <span class="co">// error</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A non-const reference parameter needs a variable it can alias.</p>
-<!-- Slide 27 -->
+<!-- Slide 31 -->
 </section>
 <section id="multiple-reference-parameters" class="slide level2">
 <h2>Multiple Reference Parameters</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">void</span> addTax<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> subtotal<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> tax<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb13-2"><a href=""></a>    tax <span class="op">=</span> subtotal <span class="op">*</span> <span class="fl">0.0825</span><span class="op">;</span></span>
-<span id="cb13-3"><a href=""></a>    subtotal <span class="op">=</span> subtotal <span class="op">+</span> tax<span class="op">;</span></span>
-<span id="cb13-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">void</span> addTax<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> subtotal<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> tax<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href=""></a>    tax <span class="op">=</span> subtotal <span class="op">*</span> <span class="fl">0.0825</span><span class="op">;</span></span>
+<span id="cb17-3"><a href=""></a>    subtotal <span class="op">=</span> subtotal <span class="op">+</span> tax<span class="op">;</span></span>
+<span id="cb17-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Both reference parameters can update caller-owned variables.</p>
-<!-- Slide 28 -->
+<!-- Slide 32 -->
 </section>
 <section id="input-and-output-parameters" class="slide level2">
 <h2>Input and Output Parameters</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">void</span> applyDiscount<span class="op">(</span><span class="dt">double</span> percent<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> price<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb14-2"><a href=""></a>    price <span class="op">=</span> price <span class="op">-</span> <span class="op">(</span>price <span class="op">*</span> percent<span class="op">);</span></span>
-<span id="cb14-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">void</span> applyDiscount<span class="op">(</span><span class="dt">double</span> percent<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> price<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href=""></a>    price <span class="op">=</span> price <span class="op">-</span> <span class="op">(</span>price <span class="op">*</span> percent<span class="op">);</span></span>
+<span id="cb18-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>percent</code> gives the function an input value.</li>
 <li><code>price</code> gives the function a variable it can update.</li>
 <li>The parameter list shows which data can change.</li>
 </ul>
-<!-- Slide 29 -->
+<!-- Slide 33 -->
 </section>
 <section id="reading-function-contracts-with-references" class="slide level2">
 <h2>Reading Function Contracts with References</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">void</span> getDimensions<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> width<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> height<span class="op">);</span></span>
-<span id="cb15-2"><a href=""></a><span class="dt">double</span> area<span class="op">(</span><span class="dt">double</span> width<span class="op">,</span> <span class="dt">double</span> height<span class="op">);</span></span>
-<span id="cb15-3"><a href=""></a><span class="dt">void</span> displayArea<span class="op">(</span><span class="dt">double</span> area<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">void</span> getDimensions<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> width<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> height<span class="op">);</span></span>
+<span id="cb19-2"><a href=""></a><span class="dt">double</span> area<span class="op">(</span><span class="dt">double</span> width<span class="op">,</span> <span class="dt">double</span> height<span class="op">);</span></span>
+<span id="cb19-3"><a href=""></a><span class="dt">void</span> displayArea<span class="op">(</span><span class="dt">double</span> area<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Check prototypes for <code>&amp;</code> before assuming a function only reads its arguments.</p>
-<!-- Slide 30 -->
+<!-- Slide 34 -->
 </section>
 <section id="summary-2" class="slide level2">
 <h2>Summary</h2>
@@ -689,14 +834,14 @@ Dr.&nbsp;Caleb Fowler
 <li>Calls look ordinary, so the prototype carries the warning.</li>
 <li>A reference parameter can let a function update caller data.</li>
 </ul>
-<!-- Slide 31 -->
+<!-- Slide 35 -->
 <!-- Topic 4: Static Local Variables -->
-<!-- Slides 32-41 -->
+<!-- Slides 36-46 -->
 </section></section>
 <section>
 <section id="static-local-variables" class="title-slide slide level1 center">
 <h1>Static Local Variables</h1>
-<!-- Slide 32 -->
+<!-- Slide 36 -->
 </section>
 <section id="can-a-local-variable-remember" class="slide level2 smaller">
 <h2>Can a Local Variable Remember?</h2>
@@ -706,7 +851,7 @@ Dr.&nbsp;Caleb Fowler
 <li>A static local variable keeps its value between calls.</li>
 </ul>
 <aside class="notes">
-<p>Slides 32-41</p>
+<p>Slides 36-46</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -718,27 +863,27 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 33 -->
+<!-- Slide 37 -->
 </section>
 <section id="ordinary-locals-reset-each-call" class="slide level2">
 <h2>Ordinary Locals Reset Each Call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">void</span> countCall<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb16-2"><a href=""></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb16-3"><a href=""></a>    count<span class="op">++;</span></span>
-<span id="cb16-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb16-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">void</span> countCall<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb20-2"><a href=""></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb20-3"><a href=""></a>    count<span class="op">++;</span></span>
+<span id="cb20-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb20-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Every call creates a new <code>count</code>, so the output is always <code>1</code>.</p>
-<!-- Slide 34 -->
+<!-- Slide 38 -->
 </section>
 <section id="the-static-keyword" class="slide level2">
 <h2>The <code>static</code> Keyword</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">void</span> countCall<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb17-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb17-3"><a href=""></a>    count<span class="op">++;</span></span>
-<span id="cb17-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb17-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a><span class="dt">void</span> countCall<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb21-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-3"><a href=""></a>    count<span class="op">++;</span></span>
+<span id="cb21-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>count</code> is initialized once and keeps its value for the rest of the program run.</p>
-<!-- Slide 35 -->
+<!-- Slide 39 -->
 </section>
 <section id="static-local-trace" class="slide level2">
 <h2>Static Local Trace</h2>
@@ -769,7 +914,7 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>The variable remembers the result of the previous call.</p>
-<!-- Slide 36 -->
+<!-- Slide 40 -->
 </section>
 <section id="scope-vs.-lifetime" class="slide level2">
 <h2>Scope vs.&nbsp;Lifetime</h2>
@@ -779,7 +924,7 @@ Dr.&nbsp;Caleb Fowler
 <li>A static local has local scope but program-long lifetime.</li>
 </ul>
 <p>This is the key difference from an ordinary local variable.</p>
-<!-- Slide 37 -->
+<!-- Slide 41 -->
 </section>
 <section id="stack-frame-model-contrast" class="slide level2">
 <h2>Stack Frame Model Contrast</h2>
@@ -801,53 +946,12 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 38 -->
-</section>
-<section id="function-call-counter-example" class="slide level2">
-<h2>Function Call Counter Example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a><span class="dt">int</span> nextCallNumber<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb18-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> callNumber <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb18-3"><a href=""></a>    callNumber<span class="op">++;</span></span>
-<span id="cb18-4"><a href=""></a>    <span class="cf">return</span> callNumber<span class="op">;</span></span>
-<span id="cb18-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The function owns the counter, but callers can receive the next value.</p>
-<!-- Slide 39 -->
-</section>
-<section id="when-static-locals-are-useful" class="slide level2">
-<h2>When Static Locals Are Useful</h2>
-<ul>
-<li>Counting how many times a function has run.</li>
-<li>Remembering a small setting controlled by the function.</li>
-<li>Performing one-time setup inside a helper function.</li>
-</ul>
-<p>Use static locals for function-owned state, not shared program-wide data.</p>
-<!-- Slide 40 -->
-</section>
-<section id="summary-3" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>Static local variables keep their values between function calls.</li>
-<li>Their names remain visible only inside the function.</li>
-<li>They provide internal memory without exposing a global variable.</li>
-</ul>
-<!-- Slide 41 -->
-<!-- Topic 5: Default Parameters -->
-<!-- Slides 42-51 -->
-</section></section>
-<section>
-<section id="default-parameters" class="title-slide slide level1 center">
-<h1>Default Parameters</h1>
 <!-- Slide 42 -->
 </section>
-<section id="can-an-argument-be-optional" class="slide level2 smaller">
-<h2>Can an Argument Be Optional?</h2>
-<ul>
-<li>Some function calls use the same value most of the time.</li>
-<li>A default parameter lets the function provide that common value.</li>
-<li>The caller can still override the default when needed.</li>
-</ul>
+<section id="how-static-works" class="slide level2" data-background-iframe="images/static_local_lifetime.html" data-background-interactive="true">
+<h2>How Static Works</h2>
 <aside class="notes">
-<p>Slides 42-51</p>
+<p>[Interactive demonstration: show the stack frame appearing and disappearing while the static local value remains available between calls.]</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -861,96 +965,62 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 43 -->
 </section>
-<section id="default-parameter-idea" class="slide level2">
-<h2>Default Parameter Idea</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">void</span> printLine<span class="op">(</span><span class="dt">char</span> symbol <span class="op">=</span> <span class="ch">'-'</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If the caller leaves out the argument, C++ uses the default value.</p>
+<section class="slide level2">
+
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb22-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb22-3"><a href=""></a></span>
+<span id="cb22-4"><a href=""></a><span class="dt">int</span> nextCallNumber<span class="op">();</span></span>
+<span id="cb22-5"><a href=""></a></span>
+<span id="cb22-6"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb22-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> nextCallNumber<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb22-8"><a href=""></a>    cout <span class="op">&lt;&lt;</span> nextCallNumber<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb22-9"><a href=""></a>    cout <span class="op">&lt;&lt;</span> nextCallNumber<span class="op">()</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb22-10"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb22-11"><a href=""></a><span class="op">}</span></span>
+<span id="cb22-12"><a href=""></a></span>
+<span id="cb22-13"><a href=""></a><span class="dt">int</span> nextCallNumber<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb22-14"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> callNumber <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb22-15"><a href=""></a>    callNumber<span class="op">++;</span></span>
+<span id="cb22-16"><a href=""></a>    <span class="cf">return</span> callNumber<span class="op">;</span></span>
+<span id="cb22-17"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <!-- Slide 44 -->
 </section>
-<section id="prototype-with-defaults" class="slide level2">
-<h2>Prototype with Defaults</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href=""></a><span class="dt">void</span> printLine<span class="op">(</span><span class="dt">char</span> symbol <span class="op">=</span> <span class="ch">'-'</span><span class="op">,</span> <span class="dt">int</span> length <span class="op">=</span> <span class="dv">20</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="when-static-locals-are-useful" class="slide level2">
+<h2>When Static Locals Are Useful</h2>
 <ul>
-<li>Put default values in the prototype.</li>
-<li>The prototype is the caller-facing contract.</li>
-<li>Do not repeat the defaults in the function definition.</li>
+<li>Counting how many times a function has run.</li>
+<li>Remembering a small setting controlled by the function.</li>
+<li>Performing one-time setup inside a helper function.</li>
 </ul>
+<p>Use static locals for function-owned state, not shared program-wide data.</p>
 <!-- Slide 45 -->
 </section>
-<section id="calling-with-all-arguments" class="slide level2">
-<h2>Calling with All Arguments</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href=""></a>printLine<span class="op">(</span><span class="ch">'='</span><span class="op">,</span> <span class="dv">40</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>symbol</code> receives <code>'='</code>.</li>
-<li><code>length</code> receives <code>40</code>.</li>
-<li>Both defaults are overridden.</li>
-</ul>
-<!-- Slide 46 -->
-</section>
-<section id="calling-with-some-arguments" class="slide level2">
-<h2>Calling with Some Arguments</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href=""></a>printLine<span class="op">(</span><span class="ch">'*'</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><code>symbol</code> receives <code>'*'</code>.</li>
-<li><code>length</code> uses the default value <code>20</code>.</li>
-<li>Supplied arguments fill parameters from left to right.</li>
-</ul>
-<!-- Slide 47 -->
-</section>
-<section id="right-to-left-rule" class="slide level2">
-<h2>Right-to-Left Rule</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">void</span> displayBox<span class="op">(</span>string text<span class="op">,</span> <span class="dt">char</span> border <span class="op">=</span> <span class="ch">'*'</span><span class="op">,</span> <span class="dt">int</span> width <span class="op">=</span> <span class="dv">30</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Once a parameter has a default, the parameters after it need defaults too.</p>
-<!-- Slide 48 -->
-</section>
-<section id="defaults-and-function-contracts" class="slide level2">
-<h2>Defaults and Function Contracts</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">void</span> displayTotal<span class="op">(</span><span class="dt">double</span> total<span class="op">,</span> <span class="dt">int</span> decimals <span class="op">=</span> <span class="dv">2</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>The required data still appears first.</li>
-<li>The default communicates the common case.</li>
-<li>The caller sees what can be customized.</li>
-</ul>
-<!-- Slide 49 -->
-</section>
-<section id="small-formatting-example" class="slide level2">
-<h2>Small Formatting Example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a><span class="dt">void</span> printLine<span class="op">(</span><span class="dt">char</span> symbol <span class="op">=</span> <span class="ch">'-'</span><span class="op">,</span> <span class="dt">int</span> length <span class="op">=</span> <span class="dv">20</span><span class="op">);</span></span>
-<span id="cb25-2"><a href=""></a></span>
-<span id="cb25-3"><a href=""></a><span class="dt">void</span> printLine<span class="op">(</span><span class="dt">char</span> symbol<span class="op">,</span> <span class="dt">int</span> length<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb25-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb25-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> symbol<span class="op">;</span></span>
-<span id="cb25-6"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb25-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb25-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The function can be called as <code>printLine();</code>, <code>printLine('=');</code>, or <code>printLine('*', 10);</code>.</p>
-<!-- Slide 50 -->
-</section>
-<section id="summary-4" class="slide level2">
+<section id="summary-3" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>Default parameters make common calls shorter.</li>
-<li>Defaults belong in the prototype.</li>
-<li>Defaulted parameters must be grouped at the end of the parameter list.</li>
+<li>Static local variables keep their values between function calls.</li>
+<li>Their names remain visible only inside the function.</li>
+<li>They provide internal memory without exposing a global variable.</li>
 </ul>
-<!-- Slide 51 -->
-<!-- Topic 6: Exit -->
-<!-- Slides 52-61 -->
+<!-- Slide 46 -->
+<!-- Topic 5: Default Parameters -->
+<!-- Slides 47-56 -->
 </section></section>
 <section>
-<section id="exit" class="title-slide slide level1 center">
-<h1>Exit</h1>
-<!-- Slide 52 -->
+<section id="default-parameters" class="title-slide slide level1 center">
+<h1>Default Parameters</h1>
+<!-- Slide 47 -->
 </section>
-<section id="return-or-stop-everything" class="slide level2 smaller">
-<h2>Return or Stop Everything?</h2>
+<section id="can-an-argument-be-optional" class="slide level2 smaller">
+<h2>Can an Argument Be Optional?</h2>
 <ul>
-<li>A normal return leaves one function.</li>
-<li><code>exit()</code> ends the whole program.</li>
-<li>That difference matters when tracing control flow.</li>
+<li>Some function calls use the same value most of the time.</li>
+<li>A default parameter lets the function provide that common value.</li>
+<li>The caller can still override the default when needed.</li>
 </ul>
 <aside class="notes">
-<p>Slides 52-61</p>
+<p>Slides 47-56</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -962,42 +1032,145 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- Slide 48 -->
+</section>
+<section id="default-parameter-idea" class="slide level2">
+<h2>Default Parameter Idea</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href=""></a><span class="dt">void</span> printLine<span class="op">(</span><span class="dt">char</span> symbol <span class="op">=</span> <span class="ch">'-'</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If the caller leaves out the argument, C++ uses the default value.</p>
+<!-- Slide 49 -->
+</section>
+<section id="prototype-with-defaults" class="slide level2">
+<h2>Prototype with Defaults</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href=""></a><span class="dt">void</span> printLine<span class="op">(</span><span class="dt">char</span> symbol <span class="op">=</span> <span class="ch">'-'</span><span class="op">,</span> <span class="dt">int</span> length <span class="op">=</span> <span class="dv">20</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Put default values in the prototype.</li>
+<li>The prototype is the caller-facing contract.</li>
+<li>Do not repeat the defaults in the function definition.</li>
+</ul>
+<!-- Slide 50 -->
+</section>
+<section id="calling-with-all-arguments" class="slide level2">
+<h2>Calling with All Arguments</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href=""></a>printLine<span class="op">(</span><span class="ch">'='</span><span class="op">,</span> <span class="dv">40</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>symbol</code> receives <code>'='</code>.</li>
+<li><code>length</code> receives <code>40</code>.</li>
+<li>Both defaults are overridden.</li>
+</ul>
+<!-- Slide 51 -->
+</section>
+<section id="calling-with-some-arguments" class="slide level2">
+<h2>Calling with Some Arguments</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a>printLine<span class="op">(</span><span class="ch">'*'</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>symbol</code> receives <code>'*'</code>.</li>
+<li><code>length</code> uses the default value <code>20</code>.</li>
+<li>Supplied arguments fill parameters from left to right.</li>
+</ul>
+<!-- Slide 52 -->
+</section>
+<section id="right-to-left-rule" class="slide level2">
+<h2>Right-to-Left Rule</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">void</span> displayBox<span class="op">(</span>string text<span class="op">,</span> <span class="dt">char</span> border <span class="op">=</span> <span class="ch">'*'</span><span class="op">,</span> <span class="dt">int</span> width <span class="op">=</span> <span class="dv">30</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Once a parameter has a default, the parameters after it need defaults too.</p>
 <!-- Slide 53 -->
+</section>
+<section id="defaults-and-function-contracts" class="slide level2">
+<h2>Defaults and Function Contracts</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a><span class="dt">void</span> displayTotal<span class="op">(</span><span class="dt">double</span> total<span class="op">,</span> <span class="dt">int</span> decimals <span class="op">=</span> <span class="dv">2</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The required data still appears first.</li>
+<li>The default communicates the common case.</li>
+<li>The caller sees what can be customized.</li>
+</ul>
+<!-- Slide 54 -->
+</section>
+<section id="small-formatting-example" class="slide level2">
+<h2>Small Formatting Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="dt">void</span> printLine<span class="op">(</span><span class="dt">char</span> symbol <span class="op">=</span> <span class="ch">'-'</span><span class="op">,</span> <span class="dt">int</span> length <span class="op">=</span> <span class="dv">20</span><span class="op">);</span></span>
+<span id="cb29-2"><a href=""></a></span>
+<span id="cb29-3"><a href=""></a><span class="dt">void</span> printLine<span class="op">(</span><span class="dt">char</span> symbol<span class="op">,</span> <span class="dt">int</span> length<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-4"><a href=""></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb29-5"><a href=""></a>        cout <span class="op">&lt;&lt;</span> symbol<span class="op">;</span></span>
+<span id="cb29-6"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb29-7"><a href=""></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb29-8"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The function can be called as <code>printLine();</code>, <code>printLine('=');</code>, or <code>printLine('*', 10);</code>.</p>
+<!-- Slide 55 -->
+</section>
+<section id="summary-4" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Default parameters make common calls shorter.</li>
+<li>Defaults belong in the prototype.</li>
+<li>Defaulted parameters must be grouped at the end of the parameter list.</li>
+</ul>
+<!-- Slide 56 -->
+<!-- Topic 6: Exit -->
+<!-- Slides 57-66 -->
+</section></section>
+<section>
+<section id="exit" class="title-slide slide level1 center">
+<h1>Exit</h1>
+<!-- Slide 57 -->
+</section>
+<section id="return-or-stop-everything" class="slide level2 smaller">
+<h2>Return or Stop Everything?</h2>
+<ul>
+<li>A normal return leaves one function.</li>
+<li><code>exit()</code> ends the whole program.</li>
+<li>That difference matters when tracing control flow.</li>
+</ul>
+<aside class="notes">
+<p>Slides 57-66</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 58 -->
 </section>
 <section id="return-from-a-helper-function" class="slide level2">
 <h2>Return from a Helper Function</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href=""></a><span class="dt">int</span> doubleValue<span class="op">(</span><span class="dt">int</span> number<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb26-2"><a href=""></a>    <span class="cf">return</span> number <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb26-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="dt">int</span> doubleValue<span class="op">(</span><span class="dt">int</span> number<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-2"><a href=""></a>    <span class="cf">return</span> number <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb30-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The returned value crosses back to the caller, and execution continues there.</p>
-<!-- Slide 54 -->
+<!-- Slide 59 -->
 </section>
 <section id="return-from-main" class="slide level2">
 <h2>Return from <code>main()</code></h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb27-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Done"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb27-3"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb27-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb31-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Done"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb31-3"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb31-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Returning from <code>main()</code> is the normal way to finish a successful program.</p>
-<!-- Slide 55 -->
+<!-- Slide 60 -->
 </section>
 <section id="the-exit-function" class="slide level2">
 <h2>The <code>exit()</code> Function</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href=""></a>exit<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
-<span id="cb28-2"><a href=""></a>exit<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a>exit<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb32-2"><a href=""></a>exit<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>exit()</code> terminates the program immediately.</li>
 <li>The value passed to <code>exit()</code> is the program’s status code.</li>
 <li>Code after the call does not continue.</li>
 </ul>
-<!-- Slide 56 -->
+<!-- Slide 61 -->
 </section>
 <section id="including-the-header" class="slide level2">
 <h2>Including the Header</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span></span>
-<span id="cb29-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span></span>
+<span id="cb33-2"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <code>exit()</code> function is declared in <code>&lt;cstdlib&gt;</code>.</p>
-<!-- Slide 57 -->
+<!-- Slide 62 -->
 </section>
 <section id="exit-status-codes" class="slide level2">
 <h2>Exit Status Codes</h2>
@@ -1020,18 +1193,18 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <p>Status codes let the operating system know how the program ended.</p>
-<!-- Slide 58 -->
+<!-- Slide 63 -->
 </section>
 <section id="exit-inside-a-function" class="slide level2">
 <h2>Exit Inside a Function</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href=""></a><span class="dt">void</span> requirePositive<span class="op">(</span><span class="dt">int</span> value<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb30-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>value <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb30-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Fatal error: value must be positive."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb30-4"><a href=""></a>        exit<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
-<span id="cb30-5"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb30-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a><span class="dt">void</span> requirePositive<span class="op">(</span><span class="dt">int</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb34-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(</span>value <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb34-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Fatal error: value must be positive."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb34-4"><a href=""></a>        exit<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb34-5"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb34-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This function stops the program because the program cannot continue safely.</p>
-<!-- Slide 59 -->
+<!-- Slide 64 -->
 </section>
 <section id="boundary-model-contrast" class="slide level2">
 <h2>Boundary Model Contrast</h2>
@@ -1053,7 +1226,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 60 -->
+<!-- Slide 65 -->
 </section>
 <section id="summary-5" class="slide level2">
 <h2>Summary</h2>
@@ -1062,14 +1235,14 @@ Dr.&nbsp;Caleb Fowler
 <li>Use <code>return 0;</code> from <code>main()</code> for normal program completion.</li>
 <li>Use <code>exit()</code> only when the whole program should stop immediately.</li>
 </ul>
-<!-- Slide 61 -->
+<!-- Slide 66 -->
 <!-- Topic 7: Menus and Functions -->
-<!-- Slides 62-74 -->
+<!-- Slides 67-79 -->
 </section></section>
 <section>
 <section id="menus-and-functions" class="title-slide slide level1 center">
 <h1>Menus and Functions</h1>
-<!-- Slide 62 -->
+<!-- Slide 67 -->
 </section>
 <section id="who-owns-each-menu-job" class="slide level2 smaller">
 <h2>Who Owns Each Menu Job?</h2>
@@ -1079,7 +1252,7 @@ Dr.&nbsp;Caleb Fowler
 <li><code>main()</code> should coordinate the pieces instead of doing every job itself.</li>
 </ul>
 <aside class="notes">
-<p>Slides 62-74</p>
+<p>Slides 67-79</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1091,7 +1264,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 63 -->
+<!-- Slide 68 -->
 </section>
 <section id="menu-program-responsibilities" class="slide level2">
 <h2>Menu Program Responsibilities</h2>
@@ -1102,101 +1275,101 @@ Dr.&nbsp;Caleb Fowler
 <li>Repeat until the user chooses to quit.</li>
 </ul>
 <p>Each responsibility can become a function or a small group of functions.</p>
-<!-- Slide 64 -->
+<!-- Slide 69 -->
 </section>
 <section id="display-menu-function" class="slide level2">
 <h2>Display Menu Function</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb31-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"1. Deposit"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb31-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"2. Withdraw"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb31-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"3. Show balance"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb31-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"4. Quit"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb31-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb35-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"1. Deposit"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb35-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"2. Withdraw"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb35-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"3. Show balance"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb35-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"4. Quit"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb35-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This function owns the menu text.</p>
-<!-- Slide 65 -->
+<!-- Slide 70 -->
 </section>
 <section id="get-choice-function" class="slide level2">
 <h2>Get Choice Function</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href=""></a><span class="dt">int</span> getChoice<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb32-2"><a href=""></a>    <span class="dt">int</span> choice<span class="op">;</span></span>
-<span id="cb32-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Choice: "</span><span class="op">;</span></span>
-<span id="cb32-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> choice<span class="op">;</span></span>
-<span id="cb32-5"><a href=""></a>    <span class="cf">return</span> choice<span class="op">;</span></span>
-<span id="cb32-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="dt">int</span> getChoice<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb36-2"><a href=""></a>    <span class="dt">int</span> choice<span class="op">;</span></span>
+<span id="cb36-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Choice: "</span><span class="op">;</span></span>
+<span id="cb36-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> choice<span class="op">;</span></span>
+<span id="cb36-5"><a href=""></a>    <span class="cf">return</span> choice<span class="op">;</span></span>
+<span id="cb36-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The function reads one value and returns it to the caller.</p>
-<!-- Slide 66 -->
+<!-- Slide 71 -->
 </section>
 <section id="action-functions" class="slide level2">
 <h2>Action Functions</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb33-1"><a href=""></a><span class="dt">void</span> showBalance<span class="op">(</span><span class="dt">double</span> balance<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb33-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Balance: $"</span> <span class="op">&lt;&lt;</span> balance <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb33-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a><span class="dt">void</span> showBalance<span class="op">(</span><span class="dt">double</span> balance<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb37-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Balance: $"</span> <span class="op">&lt;&lt;</span> balance <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb37-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>An action function should do one menu job clearly.</p>
-<!-- Slide 67 -->
+<!-- Slide 72 -->
 </section>
 <section id="main-as-the-coordinator" class="slide level2">
 <h2>Main as the Coordinator</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb34-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb34-2"><a href=""></a>    <span class="dt">double</span> balance <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
-<span id="cb34-3"><a href=""></a>    <span class="dt">int</span> choice<span class="op">;</span></span>
-<span id="cb34-4"><a href=""></a></span>
-<span id="cb34-5"><a href=""></a>    displayMenu<span class="op">();</span></span>
-<span id="cb34-6"><a href=""></a>    choice <span class="op">=</span> getChoice<span class="op">();</span></span>
-<span id="cb34-7"><a href=""></a></span>
-<span id="cb34-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb34-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb38-2"><a href=""></a>    <span class="dt">double</span> balance <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb38-3"><a href=""></a>    <span class="dt">int</span> choice<span class="op">;</span></span>
+<span id="cb38-4"><a href=""></a></span>
+<span id="cb38-5"><a href=""></a>    displayMenu<span class="op">();</span></span>
+<span id="cb38-6"><a href=""></a>    choice <span class="op">=</span> getChoice<span class="op">();</span></span>
+<span id="cb38-7"><a href=""></a></span>
+<span id="cb38-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb38-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>main()</code> owns the program flow and delegates details to helper functions.</p>
-<!-- Slide 68 -->
+<!-- Slide 73 -->
 </section>
 <section id="dispatching-the-choice" class="slide level2">
 <h2>Dispatching the Choice</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb35-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>choice <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb35-2"><a href=""></a>    addDeposit<span class="op">(</span>balance<span class="op">);</span></span>
-<span id="cb35-3"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>choice <span class="op">==</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb35-4"><a href=""></a>    makeWithdrawal<span class="op">(</span>balance<span class="op">);</span></span>
-<span id="cb35-5"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>choice <span class="op">==</span> <span class="dv">3</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb35-6"><a href=""></a>    showBalance<span class="op">(</span>balance<span class="op">);</span></span>
-<span id="cb35-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>choice <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb39-2"><a href=""></a>    addDeposit<span class="op">(</span>balance<span class="op">);</span></span>
+<span id="cb39-3"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>choice <span class="op">==</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb39-4"><a href=""></a>    makeWithdrawal<span class="op">(</span>balance<span class="op">);</span></span>
+<span id="cb39-5"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>choice <span class="op">==</span> <span class="dv">3</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb39-6"><a href=""></a>    showBalance<span class="op">(</span>balance<span class="op">);</span></span>
+<span id="cb39-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The dispatch code connects a user choice to the matching function call.</p>
-<!-- Slide 69 -->
+<!-- Slide 74 -->
 </section>
 <section id="menu-loop-shape" class="slide level2">
 <h2>Menu Loop Shape</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb36-1"><a href=""></a><span class="cf">do</span> <span class="op">{</span></span>
-<span id="cb36-2"><a href=""></a>    displayMenu<span class="op">();</span></span>
-<span id="cb36-3"><a href=""></a>    choice <span class="op">=</span> getChoice<span class="op">();</span></span>
-<span id="cb36-4"><a href=""></a>    processChoice<span class="op">(</span>choice<span class="op">,</span> balance<span class="op">);</span></span>
-<span id="cb36-5"><a href=""></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>choice <span class="op">!=</span> <span class="dv">4</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a><span class="cf">do</span> <span class="op">{</span></span>
+<span id="cb40-2"><a href=""></a>    displayMenu<span class="op">();</span></span>
+<span id="cb40-3"><a href=""></a>    choice <span class="op">=</span> getChoice<span class="op">();</span></span>
+<span id="cb40-4"><a href=""></a>    processChoice<span class="op">(</span>choice<span class="op">,</span> balance<span class="op">);</span></span>
+<span id="cb40-5"><a href=""></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>choice <span class="op">!=</span> <span class="dv">4</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A menu loop keeps showing choices until the quit option is selected.</p>
-<!-- Slide 70 -->
+<!-- Slide 75 -->
 </section>
 <section id="reference-parameters-in-menu-actions" class="slide level2">
 <h2>Reference Parameters in Menu Actions</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb37-1"><a href=""></a><span class="dt">void</span> addDeposit<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb37-2"><a href=""></a>    <span class="dt">double</span> amount<span class="op">;</span></span>
-<span id="cb37-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Deposit amount: "</span><span class="op">;</span></span>
-<span id="cb37-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> amount<span class="op">;</span></span>
-<span id="cb37-5"><a href=""></a>    balance <span class="op">=</span> balance <span class="op">+</span> amount<span class="op">;</span></span>
-<span id="cb37-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a><span class="dt">void</span> addDeposit<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb41-2"><a href=""></a>    <span class="dt">double</span> amount<span class="op">;</span></span>
+<span id="cb41-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Deposit amount: "</span><span class="op">;</span></span>
+<span id="cb41-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> amount<span class="op">;</span></span>
+<span id="cb41-5"><a href=""></a>    balance <span class="op">=</span> balance <span class="op">+</span> amount<span class="op">;</span></span>
+<span id="cb41-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The reference parameter lets the action update the caller’s balance.</p>
-<!-- Slide 71 -->
+<!-- Slide 76 -->
 </section>
 <section id="default-parameters-in-display-helpers" class="slide level2">
 <h2>Default Parameters in Display Helpers</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb38-1"><a href=""></a><span class="dt">void</span> printDivider<span class="op">(</span><span class="dt">char</span> symbol <span class="op">=</span> <span class="ch">'-'</span><span class="op">,</span> <span class="dt">int</span> length <span class="op">=</span> <span class="dv">30</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a><span class="dt">void</span> printDivider<span class="op">(</span><span class="dt">char</span> symbol <span class="op">=</span> <span class="ch">'-'</span><span class="op">,</span> <span class="dt">int</span> length <span class="op">=</span> <span class="dv">30</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Defaults keep common formatting calls short while still allowing customization.</p>
-<!-- Slide 72 -->
+<!-- Slide 77 -->
 </section>
 <section id="complete-menu-skeleton" class="slide level2">
 <h2>Complete Menu Skeleton</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">();</span></span>
-<span id="cb39-2"><a href=""></a><span class="dt">int</span> getChoice<span class="op">();</span></span>
-<span id="cb39-3"><a href=""></a><span class="dt">void</span> processChoice<span class="op">(</span><span class="dt">int</span> choice<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
-<span id="cb39-4"><a href=""></a><span class="dt">void</span> addDeposit<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
-<span id="cb39-5"><a href=""></a><span class="dt">void</span> makeWithdrawal<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
-<span id="cb39-6"><a href=""></a><span class="dt">void</span> showBalance<span class="op">(</span><span class="dt">double</span> balance<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb43-1"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">();</span></span>
+<span id="cb43-2"><a href=""></a><span class="dt">int</span> getChoice<span class="op">();</span></span>
+<span id="cb43-3"><a href=""></a><span class="dt">void</span> processChoice<span class="op">(</span><span class="dt">int</span> choice<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
+<span id="cb43-4"><a href=""></a><span class="dt">void</span> addDeposit<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
+<span id="cb43-5"><a href=""></a><span class="dt">void</span> makeWithdrawal<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
+<span id="cb43-6"><a href=""></a><span class="dt">void</span> showBalance<span class="op">(</span><span class="dt">double</span> balance<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The prototypes show the menu architecture before the function bodies are written.</p>
-<!-- Slide 73 -->
+<!-- Slide 78 -->
 </section>
 <section id="summary-6" class="slide level2">
 <h2>Summary</h2>
@@ -1205,7 +1378,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Reference parameters let menu actions update caller-owned state.</li>
 <li>Default parameters can simplify repeated display helper calls.</li>
 </ul>
-<!-- Slide 74 -->
+<!-- Slide 79 -->
 </section>
 <section class="slide level2">
 
@@ -1221,7 +1394,7 @@ Dr.&nbsp;Caleb Fowler
 <li><code>exit()</code> terminates the program instead of returning to a caller.</li>
 <li>Menu programs are clearer when display, input, dispatch, and actions are separate functions.</li>
 </ul>
-<!-- Slide 75 -->
+<!-- Slide 80 -->
 </section>
 <section class="slide level2">
 
@@ -1234,7 +1407,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Choosing a parameter style</li>
 <li>Function side effects</li>
 </ul>
-<!-- Slide 76 -->
+<!-- Slide 81 -->
 </section>
 <section class="slide level2">
 
@@ -1242,7 +1415,7 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-<!-- Slide 77 -->
+<!-- Slide 82 -->
 </section>
 <section id="reference-variables-good-practices" class="slide level2">
 <h2>Reference Variables: Good Practices</h2>
@@ -1251,7 +1424,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use references when alias behavior is intentional and useful.</li>
 <li>Trace the original variable and the reference as one shared stored value.</li>
 </ul>
-<!-- Slide 78 -->
+<!-- Slide 83 -->
 </section>
 <section id="reference-variables-common-mistakes" class="slide level2">
 <h2>Reference Variables: Common Mistakes</h2>
@@ -1260,17 +1433,17 @@ Dr.&nbsp;Caleb Fowler
 <li>Trying to declare a reference without initializing it.</li>
 <li>Expecting an assignment to make a reference point to a different variable.</li>
 </ul>
-<!-- Slide 79 -->
+<!-- Slide 84 -->
 </section>
 <section id="reference-variables-more-examples" class="slide level2">
 <h2>Reference Variables: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb40-1"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb40-2"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> total <span class="op">=</span> count<span class="op">;</span></span>
-<span id="cb40-3"><a href=""></a></span>
-<span id="cb40-4"><a href=""></a>total<span class="op">++;</span></span>
-<span id="cb40-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb44-1"><a href=""></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb44-2"><a href=""></a><span class="dt">int</span><span class="op">&amp;</span> total <span class="op">=</span> count<span class="op">;</span></span>
+<span id="cb44-3"><a href=""></a></span>
+<span id="cb44-4"><a href=""></a>total<span class="op">++;</span></span>
+<span id="cb44-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Both names refer to the same integer.</p>
-<!-- Slide 80 -->
+<!-- Slide 85 -->
 </section>
 <section id="reference-variables-practice-problems" class="slide level2">
 <h2>Reference Variables: Practice Problems</h2>
@@ -1279,7 +1452,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Predict the output after changing the value through the reference.</li>
 <li>Explain why a reference must be initialized.</li>
 </ol>
-<!-- Slide 81 -->
+<!-- Slide 86 -->
 </section>
 <section id="reference-variables-ai-search-terms" class="slide level2">
 <h2>Reference Variables: AI Search Terms</h2>
@@ -1288,7 +1461,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ reference must be initialized”</li>
 <li>“C++ reference variable beginner example”</li>
 </ul>
-<!-- Slide 82 -->
+<!-- Slide 87 -->
 </section>
 <section id="reference-variables-questions-for-reflection" class="slide level2">
 <h2>Reference Variables: Questions for Reflection</h2>
@@ -1296,7 +1469,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why is aliasing different from copying?</li>
 <li>What makes references useful for function parameters?</li>
 </ul>
-<!-- Slide 83 -->
+<!-- Slide 88 -->
 </section>
 <section id="pass-by-value-and-pass-by-reference-good-practices" class="slide level2">
 <h2>Pass by Value and Pass by Reference: Good Practices</h2>
@@ -1305,7 +1478,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use pass by reference when the caller’s variable must change.</li>
 <li>Check the prototype before tracing a function call.</li>
 </ul>
-<!-- Slide 84 -->
+<!-- Slide 89 -->
 </section>
 <section id="pass-by-value-and-pass-by-reference-common-mistakes" class="slide level2">
 <h2>Pass by Value and Pass by Reference: Common Mistakes</h2>
@@ -1314,14 +1487,14 @@ Dr.&nbsp;Caleb Fowler
 <li>Missing the <code>&amp;</code> in the parameter list.</li>
 <li>Forgetting that a reference parameter can modify caller-owned data.</li>
 </ul>
-<!-- Slide 85 -->
+<!-- Slide 90 -->
 </section>
 <section id="pass-by-value-and-pass-by-reference-more-examples" class="slide level2">
 <h2>Pass by Value and Pass by Reference: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb41-1"><a href=""></a><span class="dt">void</span> doubleCopy<span class="op">(</span><span class="dt">int</span> number<span class="op">);</span></span>
-<span id="cb41-2"><a href=""></a><span class="dt">void</span> doubleOriginal<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> number<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb45-1"><a href=""></a><span class="dt">void</span> doubleCopy<span class="op">(</span><span class="dt">int</span> number<span class="op">);</span></span>
+<span id="cb45-2"><a href=""></a><span class="dt">void</span> doubleOriginal<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> number<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The first prototype receives a copy. The second receives an alias.</p>
-<!-- Slide 86 -->
+<!-- Slide 91 -->
 </section>
 <section id="pass-by-value-and-pass-by-reference-practice-problems" class="slide level2">
 <h2>Pass by Value and Pass by Reference: Practice Problems</h2>
@@ -1330,7 +1503,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Predict whether <code>void change(int&amp; value);</code> changes the caller’s variable.</li>
 <li>Write a function that sets a caller’s integer to zero.</li>
 </ol>
-<!-- Slide 87 -->
+<!-- Slide 92 -->
 </section>
 <section id="pass-by-value-and-pass-by-reference-ai-search-terms" class="slide level2">
 <h2>Pass by Value and Pass by Reference: AI Search Terms</h2>
@@ -1339,7 +1512,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ reference parameter beginner”</li>
 <li>“C++ swap function reference parameters”</li>
 </ul>
-<!-- Slide 88 -->
+<!-- Slide 93 -->
 </section>
 <section id="pass-by-value-and-pass-by-reference-questions-for-reflection" class="slide level2">
 <h2>Pass by Value and Pass by Reference: Questions for Reflection</h2>
@@ -1347,7 +1520,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why is pass by value safer by default?</li>
 <li>Why does swapping two caller variables require reference parameters?</li>
 </ul>
-<!-- Slide 89 -->
+<!-- Slide 94 -->
 </section>
 <section id="reference-variables-as-parameters-good-practices" class="slide level2">
 <h2>Reference Variables as Parameters: Good Practices</h2>
@@ -1356,7 +1529,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Read the prototype before assuming a call cannot change its argument.</li>
 <li>Use clear parameter names that describe the caller data being updated.</li>
 </ul>
-<!-- Slide 90 -->
+<!-- Slide 95 -->
 </section>
 <section id="reference-variables-as-parameters-common-mistakes" class="slide level2">
 <h2>Reference Variables as Parameters: Common Mistakes</h2>
@@ -1365,15 +1538,15 @@ Dr.&nbsp;Caleb Fowler
 <li>Looking only at the function call and missing reference behavior.</li>
 <li>Passing a literal to a non-const reference parameter.</li>
 </ul>
-<!-- Slide 91 -->
+<!-- Slide 96 -->
 </section>
 <section id="reference-variables-as-parameters-more-examples" class="slide level2">
 <h2>Reference Variables as Parameters: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb42-1"><a href=""></a><span class="dt">void</span> readScore<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> score<span class="op">);</span></span>
-<span id="cb42-2"><a href=""></a><span class="dt">void</span> updateBalance<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
-<span id="cb42-3"><a href=""></a><span class="dt">void</span> getPoint<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> x<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> y<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb46-1"><a href=""></a><span class="dt">void</span> readScore<span class="op">(</span><span class="dt">int</span><span class="op">&amp;</span> score<span class="op">);</span></span>
+<span id="cb46-2"><a href=""></a><span class="dt">void</span> updateBalance<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
+<span id="cb46-3"><a href=""></a><span class="dt">void</span> getPoint<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> x<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> y<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each prototype signals that caller data may be updated.</p>
-<!-- Slide 92 -->
+<!-- Slide 97 -->
 </section>
 <section id="reference-variables-as-parameters-practice-problems" class="slide level2">
 <h2>Reference Variables as Parameters: Practice Problems</h2>
@@ -1382,7 +1555,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Write a prototype for a function that reads a user’s age into a caller variable.</li>
 <li>Explain why <code>getPoint(3.0, 4.0);</code> would not work with non-const reference parameters.</li>
 </ol>
-<!-- Slide 93 -->
+<!-- Slide 98 -->
 </section>
 <section id="reference-variables-as-parameters-ai-search-terms" class="slide level2">
 <h2>Reference Variables as Parameters: AI Search Terms</h2>
@@ -1391,7 +1564,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ non const reference parameter variable”</li>
 <li>“C++ function parameter ampersand”</li>
 </ul>
-<!-- Slide 94 -->
+<!-- Slide 99 -->
 </section>
 <section id="reference-variables-as-parameters-questions-for-reflection" class="slide level2">
 <h2>Reference Variables as Parameters: Questions for Reflection</h2>
@@ -1399,7 +1572,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why does the call syntax hide reference behavior?</li>
 <li>What responsibility does a prototype have when a parameter is a reference?</li>
 </ul>
-<!-- Slide 95 -->
+<!-- Slide 100 -->
 </section>
 <section id="static-local-variables-good-practices" class="slide level2">
 <h2>Static Local Variables: Good Practices</h2>
@@ -1408,7 +1581,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Keep the variable name local when outside code should not access it.</li>
 <li>Trace the value across calls instead of resetting it each call.</li>
 </ul>
-<!-- Slide 96 -->
+<!-- Slide 101 -->
 </section>
 <section id="static-local-variables-common-mistakes" class="slide level2">
 <h2>Static Local Variables: Common Mistakes</h2>
@@ -1417,17 +1590,17 @@ Dr.&nbsp;Caleb Fowler
 <li>Treating static locals as a replacement for clear data flow.</li>
 <li>Confusing local scope with short lifetime.</li>
 </ul>
-<!-- Slide 97 -->
+<!-- Slide 102 -->
 </section>
 <section id="static-local-variables-more-examples" class="slide level2">
 <h2>Static Local Variables: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb43-1"><a href=""></a><span class="dt">int</span> nextId<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb43-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> id <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
-<span id="cb43-3"><a href=""></a>    id<span class="op">++;</span></span>
-<span id="cb43-4"><a href=""></a>    <span class="cf">return</span> id<span class="op">;</span></span>
-<span id="cb43-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb47-1"><a href=""></a><span class="dt">int</span> nextId<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb47-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> id <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
+<span id="cb47-3"><a href=""></a>    id<span class="op">++;</span></span>
+<span id="cb47-4"><a href=""></a>    <span class="cf">return</span> id<span class="op">;</span></span>
+<span id="cb47-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The function keeps the next identifier internally.</p>
-<!-- Slide 98 -->
+<!-- Slide 103 -->
 </section>
 <section id="static-local-variables-practice-problems" class="slide level2">
 <h2>Static Local Variables: Practice Problems</h2>
@@ -1436,7 +1609,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Explain why code outside the function cannot use the static local name.</li>
 <li>Rewrite an ordinary local counter as a static local counter.</li>
 </ol>
-<!-- Slide 99 -->
+<!-- Slide 104 -->
 </section>
 <section id="static-local-variables-ai-search-terms" class="slide level2">
 <h2>Static Local Variables: AI Search Terms</h2>
@@ -1445,7 +1618,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ static local counter function”</li>
 <li>“C++ scope vs lifetime static local”</li>
 </ul>
-<!-- Slide 100 -->
+<!-- Slide 105 -->
 </section>
 <section id="static-local-variables-questions-for-reflection" class="slide level2">
 <h2>Static Local Variables: Questions for Reflection</h2>
@@ -1453,7 +1626,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why might a static local be safer than a global variable?</li>
 <li>When would remembering state inside a function make tracing harder?</li>
 </ul>
-<!-- Slide 101 -->
+<!-- Slide 106 -->
 </section>
 <section id="default-parameters-good-practices" class="slide level2">
 <h2>Default Parameters: Good Practices</h2>
@@ -1462,7 +1635,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Put default values in the prototype.</li>
 <li>Use defaults for common cases that make the function easier to call.</li>
 </ul>
-<!-- Slide 102 -->
+<!-- Slide 107 -->
 </section>
 <section id="default-parameters-common-mistakes" class="slide level2">
 <h2>Default Parameters: Common Mistakes</h2>
@@ -1471,15 +1644,15 @@ Dr.&nbsp;Caleb Fowler
 <li>Repeating default values in both the prototype and definition.</li>
 <li>Using defaults to hide unclear function design.</li>
 </ul>
-<!-- Slide 103 -->
+<!-- Slide 108 -->
 </section>
 <section id="default-parameters-more-examples" class="slide level2">
 <h2>Default Parameters: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb44-1"><a href=""></a><span class="dt">void</span> printTitle<span class="op">(</span>string title<span class="op">,</span> <span class="dt">char</span> underline <span class="op">=</span> <span class="ch">'='</span><span class="op">);</span></span>
-<span id="cb44-2"><a href=""></a><span class="dt">void</span> displayMoney<span class="op">(</span><span class="dt">double</span> amount<span class="op">,</span> <span class="dt">int</span> decimals <span class="op">=</span> <span class="dv">2</span><span class="op">);</span></span>
-<span id="cb44-3"><a href=""></a><span class="dt">void</span> pause<span class="op">(</span>string message <span class="op">=</span> <span class="st">"Press enter to continue."</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb48-1"><a href=""></a><span class="dt">void</span> printTitle<span class="op">(</span>string title<span class="op">,</span> <span class="dt">char</span> underline <span class="op">=</span> <span class="ch">'='</span><span class="op">);</span></span>
+<span id="cb48-2"><a href=""></a><span class="dt">void</span> displayMoney<span class="op">(</span><span class="dt">double</span> amount<span class="op">,</span> <span class="dt">int</span> decimals <span class="op">=</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb48-3"><a href=""></a><span class="dt">void</span> pause<span class="op">(</span>string message <span class="op">=</span> <span class="st">"Press enter to continue."</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each default describes the common call.</p>
-<!-- Slide 104 -->
+<!-- Slide 109 -->
 </section>
 <section id="default-parameters-practice-problems" class="slide level2">
 <h2>Default Parameters: Practice Problems</h2>
@@ -1488,7 +1661,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Write a function prototype for a divider line with default symbol and length.</li>
 <li>Predict which values are used in <code>printLine('*');</code>.</li>
 </ol>
-<!-- Slide 105 -->
+<!-- Slide 110 -->
 </section>
 <section id="default-parameters-ai-search-terms" class="slide level2">
 <h2>Default Parameters: AI Search Terms</h2>
@@ -1497,7 +1670,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ default arguments right to left”</li>
 <li>“C++ default parameter examples”</li>
 </ul>
-<!-- Slide 106 -->
+<!-- Slide 111 -->
 </section>
 <section id="default-parameters-questions-for-reflection" class="slide level2">
 <h2>Default Parameters: Questions for Reflection</h2>
@@ -1505,7 +1678,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why do default values belong in the caller-facing prototype?</li>
 <li>When does an optional argument make a function easier to read?</li>
 </ul>
-<!-- Slide 107 -->
+<!-- Slide 112 -->
 </section>
 <section id="exit-good-practices" class="slide level2">
 <h2>Exit: Good Practices</h2>
@@ -1514,7 +1687,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use <code>exit()</code> only for program-level termination.</li>
 <li>Include <code>&lt;cstdlib&gt;</code> when using <code>exit()</code>.</li>
 </ul>
-<!-- Slide 108 -->
+<!-- Slide 113 -->
 </section>
 <section id="exit-common-mistakes" class="slide level2">
 <h2>Exit: Common Mistakes</h2>
@@ -1523,18 +1696,18 @@ Dr.&nbsp;Caleb Fowler
 <li>Expecting code after <code>exit()</code> to run.</li>
 <li>Confusing a helper function return with ending the whole program.</li>
 </ul>
-<!-- Slide 109 -->
+<!-- Slide 114 -->
 </section>
 <section id="exit-more-examples" class="slide level2">
 <h2>Exit: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb45-1"><a href=""></a><span class="dt">void</span> requireFileOpen<span class="op">(</span><span class="dt">bool</span> opened<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb45-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(!</span>opened<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb45-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Could not open file."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb45-4"><a href=""></a>        exit<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
-<span id="cb45-5"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb45-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb49-1"><a href=""></a><span class="dt">void</span> requireFileOpen<span class="op">(</span><span class="dt">bool</span> opened<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb49-2"><a href=""></a>    <span class="cf">if</span> <span class="op">(!</span>opened<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb49-3"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Could not open file."</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb49-4"><a href=""></a>        exit<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb49-5"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb49-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The function ends the program when a critical requirement fails.</p>
-<!-- Slide 110 -->
+<!-- Slide 115 -->
 </section>
 <section id="exit-practice-problems" class="slide level2">
 <h2>Exit: Practice Problems</h2>
@@ -1543,7 +1716,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Explain the difference between <code>return 0;</code> and <code>exit(0);</code>.</li>
 <li>Write a guard function that exits when a number is negative.</li>
 </ol>
-<!-- Slide 111 -->
+<!-- Slide 116 -->
 </section>
 <section id="exit-ai-search-terms" class="slide level2">
 <h2>Exit: AI Search Terms</h2>
@@ -1552,7 +1725,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ return vs exit”</li>
 <li>“C++ exit status code 0 1”</li>
 </ul>
-<!-- Slide 112 -->
+<!-- Slide 117 -->
 </section>
 <section id="exit-questions-for-reflection" class="slide level2">
 <h2>Exit: Questions for Reflection</h2>
@@ -1560,7 +1733,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why should <code>exit()</code> be rare in beginner programs?</li>
 <li>What information does a status code communicate outside the program?</li>
 </ul>
-<!-- Slide 113 -->
+<!-- Slide 118 -->
 </section>
 <section id="menus-and-functions-good-practices" class="slide level2">
 <h2>Menus and Functions: Good Practices</h2>
@@ -1569,7 +1742,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Keep <code>main()</code> focused on coordination.</li>
 <li>Use prototypes to sketch the menu architecture before coding details.</li>
 </ul>
-<!-- Slide 114 -->
+<!-- Slide 119 -->
 </section>
 <section id="menus-and-functions-common-mistakes" class="slide level2">
 <h2>Menus and Functions: Common Mistakes</h2>
@@ -1578,17 +1751,17 @@ Dr.&nbsp;Caleb Fowler
 <li>Letting one action function do several unrelated jobs.</li>
 <li>Forgetting that actions may need reference parameters to update caller state.</li>
 </ul>
-<!-- Slide 115 -->
+<!-- Slide 120 -->
 </section>
 <section id="menus-and-functions-more-examples" class="slide level2">
 <h2>Menus and Functions: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb46-1"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">();</span></span>
-<span id="cb46-2"><a href=""></a><span class="dt">int</span> getChoice<span class="op">();</span></span>
-<span id="cb46-3"><a href=""></a><span class="dt">void</span> processChoice<span class="op">(</span><span class="dt">int</span> choice<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
-<span id="cb46-4"><a href=""></a><span class="dt">void</span> addDeposit<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
-<span id="cb46-5"><a href=""></a><span class="dt">void</span> showBalance<span class="op">(</span><span class="dt">double</span> balance<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb50-1"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">();</span></span>
+<span id="cb50-2"><a href=""></a><span class="dt">int</span> getChoice<span class="op">();</span></span>
+<span id="cb50-3"><a href=""></a><span class="dt">void</span> processChoice<span class="op">(</span><span class="dt">int</span> choice<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
+<span id="cb50-4"><a href=""></a><span class="dt">void</span> addDeposit<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
+<span id="cb50-5"><a href=""></a><span class="dt">void</span> showBalance<span class="op">(</span><span class="dt">double</span> balance<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>These prototypes separate the menu’s major responsibilities.</p>
-<!-- Slide 116 -->
+<!-- Slide 121 -->
 </section>
 <section id="menus-and-functions-practice-problems" class="slide level2">
 <h2>Menus and Functions: Practice Problems</h2>
@@ -1597,7 +1770,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Decide which menu functions should return a value.</li>
 <li>Write a prototype for a menu action that updates a caller’s total.</li>
 </ol>
-<!-- Slide 117 -->
+<!-- Slide 122 -->
 </section>
 <section id="menus-and-functions-ai-search-terms" class="slide level2">
 <h2>Menus and Functions: AI Search Terms</h2>
@@ -1606,7 +1779,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ do while menu switch functions”</li>
 <li>“C++ menu program reference parameter”</li>
 </ul>
-<!-- Slide 118 -->
+<!-- Slide 123 -->
 </section>
 <section id="menus-and-functions-questions-for-reflection" class="slide level2">
 <h2>Menus and Functions: Questions for Reflection</h2>
@@ -1614,7 +1787,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why does a menu program become easier to change when each job has its own function?</li>
 <li>Which menu responsibilities belong in <code>main()</code> and which should move to helpers?</li>
 </ul>
-<!-- Slide 119 -->
+<!-- Slide 124 -->
 
 </section></section>
     </div>
