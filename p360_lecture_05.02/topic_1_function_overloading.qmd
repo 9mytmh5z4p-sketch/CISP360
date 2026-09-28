@@ -1,5 +1,5 @@
 <!-- Topic 1: Function Overloading -->
-<!-- Slides 3-17 -->
+<!-- Slides 3-25 -->
 
 # Function Overloading
 <!-- Slide 3 -->
@@ -10,7 +10,7 @@
 + Function overloading lets the parameter list explain which version is needed.
 
 ::: notes
-Slides 3-17
+Slides 3-25
 :::
 
 <!-- Slide 4 -->
@@ -206,6 +206,67 @@ void printReport(string label, int low, int high) {
 ```
 
 <!-- Slide 13 -->
+---
+
+## More than One Choice?
+
+What happens when there's more than one function the compiler can choose?
+
++ Overload resolution compares the possible matches.
++ The compiler must decide which candidate is the best fit.
+
+<!-- Slide 14 -->
+
+---
+
+## Promotion or Conversion
+
+A function call may require a type change before it matches an overload.
+
++ A promotion is a special, pre-approved widening to int or to double.
++ A conversion is any other change of type.
+
+<!-- Slide 15 -->
+
+---
+
+## Recall Promotions
+
+![](images/promotionTable.png)
+
+<!-- Slide 16 -->
+
+---
+
+## Small Types are not Promoted
+
+bool, char, signed char, unsigned char, short, and unsigned short aren't in the ranking. They're promoted to int before any comparison happens, following the promotion table from before.
+
+<!-- Slide 17 -->
+
+---
+
+## Conversion is any other type change
+
+Promotions are always lossless. Conversions are not always lossy: some lose data and some don't. So "lossless" is true of every promotion, but it isn't what makes something a promotion.
+
+A promotion is simply one of the conversions on the fixed list from before. Everything else is a conversion, whether or not it loses data.
+
+<!-- Slide 18 -->
+
+---
+
+![](images/rankProcess.png)
+
+<!-- Slide 19 -->
+
+---
+
+## Why does this matter?
+
+This matters because the computer may be faced with several different possibilities to transform the type. In that situation, promotion always outranks conversion. The computer will choose that first.
+
+<!-- Slide 20 -->
 
 ---
 
@@ -222,11 +283,21 @@ convert(10);
 + If no single overload is clearly best, the compiler reports an error.
 + C++ does not guess when overload resolution is ambiguous.
 
-<!-- Slide 14 -->
+<!-- Slide 21 -->
 
 ---
 
-## Overloading vs. Different Names
+## Default Arguments
+
+Default arguments are not part of a function's signature. The function always has its full parameter list.
+
+There is no promotion or conversion with a default argument: the argument must match the type specified in the signature.
+
+<!-- Slide 22 -->
+
+---
+
+## Overloading vs. Different Function Names
 
 | Use overloading when... | Use different names when... |
 |---|---|
@@ -234,7 +305,7 @@ convert(10);
 | parameter lists communicate the case | the shared name would hide intent |
 | callers expect one operation family | callers need separate actions |
 
-<!-- Slide 15 -->
+<!-- Slide 23 -->
 
 ---
 
@@ -244,7 +315,7 @@ convert(10);
 + Keep overloads focused on one shared operation.
 + Avoid overloads that surprise the caller or depend on subtle conversions.
 
-<!-- Slide 16 -->
+<!-- Slide 24 -->
 
 ---
 
@@ -254,4 +325,4 @@ convert(10);
 + The parameter list distinguishes each version.
 + Good overloads make a function family easier to call and easier to read.
 
-<!-- Slide 17 -->
+<!-- Slide 25 -->

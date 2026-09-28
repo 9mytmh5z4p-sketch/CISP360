@@ -7,7 +7,6 @@
 + **Static Local Variables**
 + **Default Parameters**
 + **Exit**
-+ **Menus and Functions**
 :::
 
 ::: notes
@@ -29,8 +28,11 @@ Brief recall of lecture 05.01. Students should remember that parameter style con
 <!-- Slide 2 -->
 
 {{< include topic_1_function_overloading.qmd >}}
-{{< include topic_2_parameter_style.qmd >}}
-{{< include topic_3_function_side_effects.qmd >}}
+{{< include topic_2_promotion_prediction_drill.qmd >}}
+{{< include topic_3_parameter_style.qmd >}}
+{{< include topic_4_fix_the_overloads.qmd >}}
+{{< include topic_5_function_side_effects.qmd >}}
+{{< include topic_6_refactor_name_soup.qmd >}}
 
 ---
 
@@ -41,19 +43,19 @@ Brief recall of lecture 05.01. Students should remember that parameter style con
 - Parameter style is part of the function contract.
 - Side effects are changes outside a returned value; good function design makes them intentional and traceable.
 
-<!-- Slide 47 -->
+<!-- Slide 64 -->
 
 ---
 
 # Next Time
 
-<!-- Slide 48 -->
+<!-- Slide 65 -->
 
 ---
 
 # Appendix
 
-<!-- Slide 49 -->
+<!-- Slide 66 -->
 
 ---
 
@@ -63,7 +65,7 @@ Brief recall of lecture 05.01. Students should remember that parameter style con
 - Keep the overload set small enough that each version is easy to predict.
 - Prefer clear parameter lists over clever combinations.
 
-<!-- Slide 50 -->
+<!-- Slide 67 -->
 
 ---
 
@@ -73,7 +75,7 @@ Brief recall of lecture 05.01. Students should remember that parameter style con
 - Creating overloads whose calls are ambiguous.
 - Reusing the same name for functions that do different jobs.
 
-<!-- Slide 51 -->
+<!-- Slide 68 -->
 
 ---
 
@@ -87,7 +89,7 @@ void print(string value);
 
 All three functions share the same name, but the parameter type changes.
 
-<!-- Slide 52 -->
+<!-- Slide 69 -->
 
 ---
 
@@ -97,7 +99,7 @@ All three functions share the same name, but the parameter type changes.
 2. Decide whether `double value()` and `int value()` are valid overloads.
 3. Predict which overload is called by `show(4.0)`.
 
-<!-- Slide 53 -->
+<!-- Slide 70 -->
 
 ---
 
@@ -107,7 +109,7 @@ All three functions share the same name, but the parameter type changes.
 - "C++ function signature overload resolution"
 - "C++ overload return type not enough"
 
-<!-- Slide 54 -->
+<!-- Slide 71 -->
 
 ---
 
@@ -116,7 +118,7 @@ All three functions share the same name, but the parameter type changes.
 - When does one shared function name make code easier to read?
 - Why does the compiler need the parameter list to choose an overload?
 
-<!-- Slide 55 -->
+<!-- Slide 72 -->
 
 ---
 
@@ -126,7 +128,7 @@ All three functions share the same name, but the parameter type changes.
 - Use non-const references only when changing caller data is part of the contract.
 - Use `const` reference for read-only large data.
 
-<!-- Slide 56 -->
+<!-- Slide 73 -->
 
 ---
 
@@ -136,7 +138,7 @@ All three functions share the same name, but the parameter type changes.
 - Returning one value while also changing unrelated caller variables.
 - Hiding important data movement inside the function body.
 
-<!-- Slide 57 -->
+<!-- Slide 74 -->
 
 ---
 
@@ -150,7 +152,7 @@ double adjustedScore(double score);
 
 The prototype tells whether data is read, changed, or returned.
 
-<!-- Slide 58 -->
+<!-- Slide 75 -->
 
 ---
 
@@ -160,7 +162,7 @@ The prototype tells whether data is read, changed, or returned.
 2. Choose a style for a function that resets a balance to zero.
 3. Choose a style for a function that computes a sales tax total.
 
-<!-- Slide 59 -->
+<!-- Slide 76 -->
 
 ---
 
@@ -170,7 +172,7 @@ The prototype tells whether data is read, changed, or returned.
 - "C++ const reference parameter"
 - "C++ function parameter design"
 
-<!-- Slide 60 -->
+<!-- Slide 77 -->
 
 ---
 
@@ -179,7 +181,7 @@ The prototype tells whether data is read, changed, or returned.
 - How can a prototype warn you that caller data may change?
 - Why is returning a new value often easier to trace than modifying by reference?
 
-<!-- Slide 61 -->
+<!-- Slide 78 -->
 
 ---
 
@@ -189,7 +191,7 @@ The prototype tells whether data is read, changed, or returned.
 - Make intended mutation visible through the parameter list.
 - Avoid hidden state unless the function clearly owns that state.
 
-<!-- Slide 62 -->
+<!-- Slide 79 -->
 
 ---
 
@@ -199,7 +201,7 @@ The prototype tells whether data is read, changed, or returned.
 - Depending on global data when parameters would be clearer.
 - Writing functions that calculate, display, and mutate at the same time.
 
-<!-- Slide 63 -->
+<!-- Slide 80 -->
 
 ---
 
@@ -213,7 +215,7 @@ void displayTotal(double total);
 
 These functions have different effects even when their names look related.
 
-<!-- Slide 64 -->
+<!-- Slide 81 -->
 
 ---
 
@@ -223,7 +225,7 @@ These functions have different effects even when their names look related.
 2. Identify the side effect in a function with an `int&` parameter.
 3. Rewrite a mutation function so it returns a new value instead.
 
-<!-- Slide 65 -->
+<!-- Slide 82 -->
 
 ---
 
@@ -233,7 +235,7 @@ These functions have different effects even when their names look related.
 - "pure function vs side effect C++"
 - "C++ reference parameter mutation"
 
-<!-- Slide 66 -->
+<!-- Slide 83 -->
 
 ---
 
@@ -242,4 +244,184 @@ These functions have different effects even when their names look related.
 - Which side effects are useful in a menu program?
 - Which side effects make a function harder to test?
 
-<!-- Slide 67 -->
+<!-- Slide 84 -->
+
+---
+
+## Promotion Prediction Drill: Good Practices
+
+- Predict the best overload before running the program.
+- Compare exact matches, promotions, and conversions in that order.
+
+<!-- Slide 85 -->
+
+---
+
+## Promotion Prediction Drill: Common Mistakes
+
+- Treating every type change as a promotion.
+- Assuming the compiler will choose between equally good conversions.
+
+<!-- Slide 86 -->
+
+---
+
+## Promotion Prediction Drill: More Examples
+
+```cpp
+void show(int value);
+void show(double value);
+
+show('A');
+show(3.5f);
+```
+
+Ask which calls use promotion and which use conversion.
+
+<!-- Slide 87 -->
+
+---
+
+## Promotion Prediction Drill: Practice Problems
+
+1. Predict the overload selected for a char argument.
+2. Explain why a short argument is promoted before comparison.
+3. Identify a call that is ambiguous.
+
+<!-- Slide 88 -->
+
+---
+
+## Promotion Prediction Drill: AI Search Terms
+
+- "C++ overload promotion conversion"
+- "C++ overload resolution ranking"
+
+<!-- Slide 89 -->
+
+---
+
+## Promotion Prediction Drill: Questions for Reflection
+
+- Why does promotion outrank conversion?
+- What information does the promotion table provide?
+
+<!-- Slide 90 -->
+
+---
+
+## Fix The Overloads Exercise: Good Practices
+
+- Read every prototype before changing a call.
+- Fix one overload error at a time and recheck the signatures.
+
+<!-- Slide 91 -->
+
+---
+
+## Fix The Overloads Exercise: Common Mistakes
+
+- Adding a return type to distinguish overloads.
+- Changing a call instead of correcting the intended overload set.
+
+<!-- Slide 92 -->
+
+---
+
+## Fix The Overloads Exercise: More Examples
+
+```cpp
+void report(int value);
+void report(double value);
+```
+
+These overloads differ by parameter type.
+
+<!-- Slide 93 -->
+
+---
+
+## Fix The Overloads Exercise: Practice Problems
+
+1. Identify four errors in a small overload set.
+2. Explain which errors affect signatures.
+3. Rewrite the corrected prototypes.
+
+<!-- Slide 94 -->
+
+---
+
+## Fix The Overloads Exercise: AI Search Terms
+
+- "C++ overload compilation errors"
+- "C++ function signature errors"
+
+<!-- Slide 95 -->
+
+---
+
+## Fix The Overloads Exercise: Questions for Reflection
+
+- Which error was easiest to diagnose from the prototype?
+- Which error required tracing the call?
+
+<!-- Slide 96 -->
+
+---
+
+## Refactor this Program: Good Practices
+
+- Use one overloaded name when the operation is the same.
+- Keep each overload focused on one parameter pattern.
+
+<!-- Slide 97 -->
+
+---
+
+## Refactor this Program: Common Mistakes
+
+- Keeping duplicate function names after introducing overloads.
+- Changing behavior while renaming functions.
+
+<!-- Slide 98 -->
+
+---
+
+## Refactor this Program: More Examples
+
+```cpp
+int largest(int a, int b);
+double largest(double a, double b);
+```
+
+The shared name communicates one operation family.
+
+<!-- Slide 99 -->
+
+---
+
+## Refactor this Program: Practice Problems
+
+1. Replace several differently named maximum functions with overloads.
+2. Check that each parameter list is unique.
+3. Test every call after the refactor.
+
+<!-- Slide 100 -->
+
+---
+
+## Refactor this Program: AI Search Terms
+
+- "C++ refactor duplicate functions into overloads"
+- "C++ overloaded largest function"
+
+<!-- Slide 101 -->
+
+---
+
+## Refactor this Program: Questions for Reflection
+
+- When does a shared name improve readability?
+- What must remain unchanged during a refactor?
+
+<!-- Slide 102 -->
