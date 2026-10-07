@@ -7,13 +7,15 @@
 # Last Time
 
 ::: {.incremental}
-+ **Choosing a Parameter Style**
-+ **Function Side Effects**
-+ **Static Local Variables**
++ **The Conditional Operator**
++ **The switch Statement**
++ **Nested if Statements**
++ **Compound Conditions**
++ **Range Checking**
 :::
 
 ::: notes
-Brief recall from function design. Students should remember that scope, lifetime, and side effects affect how predictable a function is.
+Recall the previous lecture's decision structures: compact choices, fixed cases, dependent decisions, compound conditions, and range checks.
 :::
 
 <!-- Slide 2 -->
@@ -25,6 +27,7 @@ Brief recall from function design. Students should remember that scope, lifetime
 - Very Brief Review of Static
 - Design Patterns
 - Singleton Pattern
+- Menus and Functions
 
 ::: notes
 
@@ -35,6 +38,7 @@ Brief recall from function design. Students should remember that scope, lifetime
 {{< include topic_1_static_review.qmd >}}
 {{< include topic_2_design_patterns.qmd >}}
 {{< include topic_3_singleton_pattern.qmd >}}
+{{< include topic_4_menus_functions.qmd >}}
 
 ---
 
@@ -43,20 +47,21 @@ Brief recall from function design. Students should remember that scope, lifetime
 - Design patterns name recurring design choices.
 - Static local storage can support a larger design rule, but it is not the design itself.
 - Singleton controls access to one shared resource.
+- Menu programs become clearer when display, input, dispatch, and actions have separate functions.
 
-<!-- Slide 32 -->
+<!-- Slide 52 -->
 
 ---
 
 # Next Time
 
-<!-- Slide 33 -->
+<!-- Slide 53 -->
 
 ---
 
 # Appendix
 
-<!-- Slide 34 -->
+<!-- Slide 54 -->
 
 ---
 
@@ -66,7 +71,7 @@ Brief recall from function design. Students should remember that scope, lifetime
 - Keep the remembered state small and easy to explain.
 - Prefer visible parameters and return values when state does not need to persist.
 
-<!-- Slide 35 -->
+<!-- Slide 55 -->
 
 ---
 
@@ -76,7 +81,7 @@ Brief recall from function design. Students should remember that scope, lifetime
 - Forgetting that previous calls affect the next call.
 - Assuming local scope means short lifetime.
 
-<!-- Slide 36 -->
+<!-- Slide 56 -->
 
 ---
 
@@ -92,7 +97,7 @@ int nextId() {
 
 Each call returns a new value because `id` keeps its previous value.
 
-<!-- Slide 37 -->
+<!-- Slide 57 -->
 
 ---
 
@@ -102,7 +107,7 @@ Each call returns a new value because `id` keeps its previous value.
 2. Rewrite a static counter so the caller owns the counter instead.
 3. Explain the difference between scope and lifetime in one sentence.
 
-<!-- Slide 38 -->
+<!-- Slide 58 -->
 
 ---
 
@@ -112,7 +117,7 @@ Each call returns a new value because `id` keeps its previous value.
 - "C++ scope vs lifetime static local"
 - "C++ function remembers value between calls"
 
-<!-- Slide 39 -->
+<!-- Slide 59 -->
 
 ---
 
@@ -121,7 +126,7 @@ Each call returns a new value because `id` keeps its previous value.
 - When does hidden function memory make a program clearer?
 - When does hidden function memory make a program harder to debug?
 
-<!-- Slide 40 -->
+<!-- Slide 60 -->
 
 ---
 
@@ -131,7 +136,7 @@ Each call returns a new value because `id` keeps its previous value.
 - Use a pattern when it clarifies the structure of the solution.
 - Explain the tradeoff every time you explain the pattern.
 
-<!-- Slide 41 -->
+<!-- Slide 61 -->
 
 ---
 
@@ -141,7 +146,7 @@ Each call returns a new value because `id` keeps its previous value.
 - Treating patterns as recipes with fixed code.
 - Adding structure that does not make the program easier to reason about.
 
-<!-- Slide 42 -->
+<!-- Slide 62 -->
 
 ---
 
@@ -153,7 +158,7 @@ Each call returns a new value because `id` keeps its previous value.
 | Adapter | make one interface fit another |
 | Template Method | keep a stable process with replaceable steps |
 
-<!-- Slide 43 -->
+<!-- Slide 63 -->
 
 ---
 
@@ -163,7 +168,7 @@ Each call returns a new value because `id` keeps its previous value.
 2. Decide whether that problem needs a named pattern or ordinary functions.
 3. For one pattern, identify the problem, structure, and tradeoff.
 
-<!-- Slide 44 -->
+<!-- Slide 64 -->
 
 ---
 
@@ -173,7 +178,7 @@ Each call returns a new value because `id` keeps its previous value.
 - "Gang of Four design patterns beginner"
 - "design pattern problem structure tradeoff"
 
-<!-- Slide 45 -->
+<!-- Slide 65 -->
 
 ---
 
@@ -182,7 +187,7 @@ Each call returns a new value because `id` keeps its previous value.
 - Why is a shared vocabulary useful for design?
 - What can go wrong when a pattern name becomes more important than the problem?
 
-<!-- Slide 46 -->
+<!-- Slide 66 -->
 
 ---
 
@@ -192,7 +197,7 @@ Each call returns a new value because `id` keeps its previous value.
 - Keep the shared resource focused on one responsibility.
 - Make shared state easy to find and explain.
 
-<!-- Slide 47 -->
+<!-- Slide 67 -->
 
 ---
 
@@ -202,7 +207,7 @@ Each call returns a new value because `id` keeps its previous value.
 - Storing unrelated program data in one shared resource.
 - Ignoring the testing cost of hidden shared state.
 
-<!-- Slide 48 -->
+<!-- Slide 68 -->
 
 ---
 
@@ -217,7 +222,7 @@ string& logFileName() {
 
 A log file name is a small example because the program may want one coordinated output path.
 
-<!-- Slide 49 -->
+<!-- Slide 69 -->
 
 ---
 
@@ -227,7 +232,7 @@ A log file name is a small example because the program may want one coordinated 
 2. List one reason a settings file name might need exactly one shared access point.
 3. List one reason a settings value might not belong in a Singleton.
 
-<!-- Slide 50 -->
+<!-- Slide 70 -->
 
 ---
 
@@ -237,7 +242,7 @@ A log file name is a small example because the program may want one coordinated 
 - "Singleton pattern tradeoffs shared state"
 - "Singleton disguised global variable"
 
-<!-- Slide 51 -->
+<!-- Slide 71 -->
 
 ---
 
@@ -246,4 +251,65 @@ A log file name is a small example because the program may want one coordinated 
 - What does Singleton make easier?
 - What does Singleton hide from the caller?
 
-<!-- Slide 52 -->
+<!-- Slide 72 -->
+
+---
+
+## Menus and Functions: Good Practices
+
+- Keep display, input, dispatch, and action responsibilities separate.
+- Let `main()` coordinate the menu instead of performing every task itself.
+
+<!-- Slide 73 -->
+
+---
+
+## Menus and Functions: Common Mistakes
+
+- Putting the entire menu program inside `main()`.
+- Forgetting that an action needs a reference parameter to update caller-owned state.
+
+<!-- Slide 74 -->
+
+---
+
+## Menus and Functions: More Examples
+
+```cpp
+void showBalance(double balance) {
+    cout << "Balance: $" << balance << endl;
+}
+```
+
+<!-- Slide 75 -->
+
+---
+
+## Menus and Functions: Practice Problems
+
+- Separate a monolithic menu into display, input, dispatch, and action functions.
+- Identify which action functions need a reference parameter.
+- Add a quit option to a menu loop.
+
+<!-- Slide 76 -->
+
+---
+
+## Menus and Functions: AI Search Terms
+
+- C++ menu-driven program functions
+- C++ function dispatch menu
+- C++ reference parameter update caller
+- C++ default parameters display helper
+
+<!-- Slide 77 -->
+
+---
+
+## Menus and Functions: Questions for Reflection
+
+- Which function owns each menu responsibility?
+- Where does the selected choice become an action?
+- Which values must be returned and which must be updated by reference?
+
+<!-- Slide 78 -->

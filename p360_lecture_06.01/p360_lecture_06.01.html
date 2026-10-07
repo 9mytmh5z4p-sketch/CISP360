@@ -218,12 +218,14 @@ Dr.&nbsp;Caleb Fowler
 <section id="last-time" class="title-slide slide level1 center">
 <h1>Last Time</h1>
 <ul>
-<li class="fragment"><strong>Choosing a Parameter Style</strong></li>
-<li class="fragment"><strong>Function Side Effects</strong></li>
-<li class="fragment"><strong>Static Local Variables</strong></li>
+<li class="fragment"><strong>The Conditional Operator</strong></li>
+<li class="fragment"><strong>The switch Statement</strong></li>
+<li class="fragment"><strong>Nested if Statements</strong></li>
+<li class="fragment"><strong>Compound Conditions</strong></li>
+<li class="fragment"><strong>Range Checking</strong></li>
 </ul>
 <aside class="notes">
-<p>Brief recall from function design. Students should remember that scope, lifetime, and side effects affect how predictable a function is.</p>
+<p>Recall the previous lecture’s decision structures: compact choices, fixed cases, dependent decisions, compound conditions, and range checks.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -246,6 +248,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Very Brief Review of Static</li>
 <li>Design Patterns</li>
 <li>Singleton Pattern</li>
+<li>Menus and Functions</li>
 </ul>
 <aside class="notes">
 
@@ -620,6 +623,239 @@ Dr.&nbsp;Caleb Fowler
 <li>It should be chosen for a design reason, not convenience alone.</li>
 </ul>
 <!-- Slide 31 -->
+<!-- Topic 4: Menus and Functions -->
+<!-- Slides 32-51 -->
+</section></section>
+<section>
+<section id="menus-and-functions" class="title-slide slide level1 center">
+<h1>Menus and Functions</h1>
+<!-- Slide 32 -->
+</section>
+<section id="who-owns-each-menu-job" class="slide level2 smaller">
+<h2>Who Owns Each Menu Job?</h2>
+<ul>
+<li>A menu program has repeated responsibilities.</li>
+<li>Functions can keep each responsibility small.</li>
+<li><code>main()</code> should coordinate the pieces instead of doing every job itself.</li>
+</ul>
+<aside class="notes">
+<p>Slides 32-51</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 33 -->
+</section>
+<section id="menu-program-responsibilities" class="slide level2">
+<h2>Menu Program Responsibilities</h2>
+<ul>
+<li>Display the choices.</li>
+<li>Read the user’s choice.</li>
+<li>Process the selected action.</li>
+<li>Repeat until the user chooses to quit.</li>
+</ul>
+<p>Each responsibility can become a function or a small group of functions.</p>
+<!-- Slide 34 -->
+</section>
+<section id="display-menu-function" class="slide level2">
+<h2>Display Menu Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"1. Deposit"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb3-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"2. Withdraw"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb3-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"3. Show balance"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb3-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"4. Quit"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb3-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This function owns the menu text.</p>
+<!-- Slide 35 -->
+</section>
+<section id="get-choice-function" class="slide level2">
+<h2>Get Choice Function</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a><span class="dt">int</span> getChoice<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href=""></a>    <span class="dt">int</span> choice<span class="op">;</span></span>
+<span id="cb4-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Choice: "</span><span class="op">;</span></span>
+<span id="cb4-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> choice<span class="op">;</span></span>
+<span id="cb4-5"><a href=""></a>    <span class="cf">return</span> choice<span class="op">;</span></span>
+<span id="cb4-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The function reads one value and returns it to the caller.</p>
+<!-- Slide 36 -->
+</section>
+<section id="action-functions" class="slide level2">
+<h2>Action Functions</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">void</span> showBalance<span class="op">(</span><span class="dt">double</span> balance<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Balance: $"</span> <span class="op">&lt;&lt;</span> balance <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb5-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>An action function should do one menu job clearly.</p>
+<!-- Slide 37 -->
+</section>
+<section id="main-as-the-coordinator" class="slide level2">
+<h2>Main as the Coordinator</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href=""></a>    <span class="dt">double</span> balance <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb6-3"><a href=""></a>    <span class="dt">int</span> choice<span class="op">;</span></span>
+<span id="cb6-4"><a href=""></a></span>
+<span id="cb6-5"><a href=""></a>    displayMenu<span class="op">();</span></span>
+<span id="cb6-6"><a href=""></a>    choice <span class="op">=</span> getChoice<span class="op">();</span></span>
+<span id="cb6-7"><a href=""></a></span>
+<span id="cb6-8"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-9"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>main()</code> owns the program flow and delegates details to helper functions.</p>
+<!-- Slide 38 -->
+</section>
+<section id="dispatching-the-choice" class="slide level2">
+<h2>Dispatching the Choice</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href=""></a><span class="cf">if</span> <span class="op">(</span>choice <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href=""></a>    addDeposit<span class="op">(</span>balance<span class="op">);</span></span>
+<span id="cb7-3"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>choice <span class="op">==</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-4"><a href=""></a>    makeWithdrawal<span class="op">(</span>balance<span class="op">);</span></span>
+<span id="cb7-5"><a href=""></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>choice <span class="op">==</span> <span class="dv">3</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-6"><a href=""></a>    showBalance<span class="op">(</span>balance<span class="op">);</span></span>
+<span id="cb7-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The dispatch code connects a user choice to the matching function call.</p>
+<!-- Slide 39 -->
+</section>
+<section id="menu-loop-shape" class="slide level2">
+<h2>Menu Loop Shape</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href=""></a><span class="cf">do</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href=""></a>    displayMenu<span class="op">();</span></span>
+<span id="cb8-3"><a href=""></a>    choice <span class="op">=</span> getChoice<span class="op">();</span></span>
+<span id="cb8-4"><a href=""></a>    processChoice<span class="op">(</span>choice<span class="op">,</span> balance<span class="op">);</span></span>
+<span id="cb8-5"><a href=""></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>choice <span class="op">!=</span> <span class="dv">4</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A menu loop keeps showing choices until the quit option is selected.</p>
+<!-- Slide 40 -->
+</section>
+<section id="reference-parameters-in-menu-actions" class="slide level2">
+<h2>Reference Parameters in Menu Actions</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href=""></a><span class="dt">void</span> addDeposit<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href=""></a>    <span class="dt">double</span> amount<span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Deposit amount: "</span><span class="op">;</span></span>
+<span id="cb9-4"><a href=""></a>    cin <span class="op">&gt;&gt;</span> amount<span class="op">;</span></span>
+<span id="cb9-5"><a href=""></a>    balance <span class="op">=</span> balance <span class="op">+</span> amount<span class="op">;</span></span>
+<span id="cb9-6"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The reference parameter lets the action update the caller’s balance.</p>
+<!-- Slide 41 -->
+</section>
+<section id="default-parameters-in-display-helpers" class="slide level2">
+<h2>Default Parameters in Display Helpers</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">void</span> printDivider<span class="op">(</span><span class="dt">char</span> symbol <span class="op">=</span> <span class="ch">'-'</span><span class="op">,</span> <span class="dt">int</span> length <span class="op">=</span> <span class="dv">30</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Defaults keep common formatting calls short while still allowing customization.</p>
+<!-- Slide 42 -->
+</section>
+<section class="slide level2">
+
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb11-2"><a href=""></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
+<span id="cb11-3"><a href=""></a><span class="pp">#include </span><span class="im">&lt;limits&gt;</span></span>
+<span id="cb11-4"><a href=""></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 43 -->
+</section>
+<section id="function-prototypes" class="slide level2">
+<h2>Function Prototypes</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">();</span></span>
+<span id="cb12-2"><a href=""></a><span class="dt">int</span> getMenuChoice<span class="op">();</span></span>
+<span id="cb12-3"><a href=""></a><span class="dt">double</span> getPositiveAmount<span class="op">();</span></span>
+<span id="cb12-4"><a href=""></a><span class="dt">void</span> processChoice<span class="op">(</span><span class="dt">int</span> choice<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
+<span id="cb12-5"><a href=""></a><span class="dt">void</span> addDeposit<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
+<span id="cb12-6"><a href=""></a><span class="dt">void</span> makeWithdrawal<span class="op">(</span><span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">);</span></span>
+<span id="cb12-7"><a href=""></a><span class="dt">void</span> showBalance<span class="op">(</span><span class="dt">double</span> balance<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 44 -->
+</section>
+<section id="main" class="slide level2">
+<h2>main()</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href=""></a>    <span class="dt">double</span> balance <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb13-3"><a href=""></a></span>
+<span id="cb13-4"><a href=""></a>    <span class="co">// Normally we would wrap this in a loop</span></span>
+<span id="cb13-5"><a href=""></a>    displayMenu<span class="op">();</span></span>
+<span id="cb13-6"><a href=""></a>    <span class="dt">int</span> choice <span class="op">=</span> getMenuChoice<span class="op">();</span></span>
+<span id="cb13-7"><a href=""></a>    processChoice<span class="op">(</span>choice<span class="op">,</span> balance<span class="op">);</span></span>
+<span id="cb13-8"><a href=""></a></span>
+<span id="cb13-9"><a href=""></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-10"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 45 -->
+</section>
+<section id="displaymenu" class="slide level2">
+<h2>displayMenu()</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">void</span> displayMenu<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb14-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">Banking Menu</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb14-3"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"1. Deposit</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb14-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"2. Withdraw</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb14-5"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"3. Show balance</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb14-6"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"4. Quit</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb14-7"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 46 -->
+</section>
+<section id="getmenuchoice" class="slide level2">
+<h2>getMenuChoice()</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">int</span> getMenuChoice<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href=""></a>    <span class="dt">int</span> choice<span class="op">;</span></span>
+<span id="cb15-3"><a href=""></a></span>
+<span id="cb15-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Choice: "</span><span class="op">;</span></span>
+<span id="cb15-5"><a href=""></a></span>
+<span id="cb15-6"><a href=""></a>    <span class="cf">while</span> <span class="op">(!(</span>cin <span class="op">&gt;&gt;</span> choice<span class="op">)</span> <span class="op">||</span> choice <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">||</span> choice <span class="op">&gt;</span> <span class="dv">4</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-7"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Enter a menu choice from 1 through 4: "</span><span class="op">;</span></span>
+<span id="cb15-8"><a href=""></a>        cin<span class="op">.</span>clear<span class="op">();</span></span>
+<span id="cb15-9"><a href=""></a>        cin<span class="op">.</span>ignore<span class="op">(</span>numeric_limits<span class="op">&lt;</span>streamsize<span class="op">&gt;::</span>max<span class="op">(),</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">);</span></span>
+<span id="cb15-10"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb15-11"><a href=""></a></span>
+<span id="cb15-12"><a href=""></a>    <span class="cf">return</span> choice<span class="op">;</span></span>
+<span id="cb15-13"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 47 -->
+</section>
+<section id="inputvalidation" class="slide level2">
+<h2>inputValidation</h2>
+<ul>
+<li>Check whether input extraction succeeded.</li>
+<li>Check whether the value is within the allowed range.</li>
+<li>Clear the failed state and discard the invalid input before trying again.</li>
+</ul>
+<!-- Slide 48 -->
+</section>
+<section id="processchoice" class="slide level2">
+<h2>processChoice()</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">void</span> processChoice<span class="op">(</span><span class="dt">int</span> choice<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> balance<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href=""></a>    <span class="cf">switch</span> <span class="op">(</span>choice<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-3"><a href=""></a>    <span class="cf">case</span> <span class="dv">1</span><span class="op">:</span></span>
+<span id="cb16-4"><a href=""></a>        addDeposit<span class="op">(</span>balance<span class="op">);</span></span>
+<span id="cb16-5"><a href=""></a>        <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb16-6"><a href=""></a>    <span class="cf">case</span> <span class="dv">2</span><span class="op">:</span></span>
+<span id="cb16-7"><a href=""></a>        makeWithdrawal<span class="op">(</span>balance<span class="op">);</span></span>
+<span id="cb16-8"><a href=""></a>        <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb16-9"><a href=""></a>    <span class="cf">case</span> <span class="dv">3</span><span class="op">:</span></span>
+<span id="cb16-10"><a href=""></a>        showBalance<span class="op">(</span>balance<span class="op">);</span></span>
+<span id="cb16-11"><a href=""></a>        <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb16-12"><a href=""></a>    <span class="cf">case</span> <span class="dv">4</span><span class="op">:</span></span>
+<span id="cb16-13"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Goodbye.</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb16-14"><a href=""></a>        <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb16-15"><a href=""></a>    <span class="cf">default</span><span class="op">:</span></span>
+<span id="cb16-16"><a href=""></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Entered bad input"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb16-17"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb16-18"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 49 -->
+</section>
+<section id="various-choices" class="slide level2">
+<h2>Various Choices</h2>
+<ul>
+<li><code>addDeposit()</code> changes the balance through a reference parameter.</li>
+<li><code>makeWithdrawal()</code> checks the balance before changing it.</li>
+<li><code>showBalance()</code> reads the balance without changing it.</li>
+</ul>
+<!-- Slide 50 -->
+</section>
+<section id="summary-2" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Menus stay manageable when each function owns one responsibility.</li>
+<li>Reference parameters let menu actions update caller-owned state.</li>
+<li>Default parameters can simplify repeated display helper calls.</li>
+</ul>
+<!-- Slide 51 -->
 </section>
 <section class="slide level2">
 
@@ -631,8 +867,9 @@ Dr.&nbsp;Caleb Fowler
 <li>Design patterns name recurring design choices.</li>
 <li>Static local storage can support a larger design rule, but it is not the design itself.</li>
 <li>Singleton controls access to one shared resource.</li>
+<li>Menu programs become clearer when display, input, dispatch, and actions have separate functions.</li>
 </ul>
-<!-- Slide 32 -->
+<!-- Slide 52 -->
 </section>
 <section class="slide level2">
 
@@ -640,7 +877,7 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next Time</h1>
-<!-- Slide 33 -->
+<!-- Slide 53 -->
 </section>
 <section class="slide level2">
 
@@ -648,7 +885,7 @@ Dr.&nbsp;Caleb Fowler
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-<!-- Slide 34 -->
+<!-- Slide 54 -->
 </section>
 <section id="very-brief-review-of-static-good-practices" class="slide level2">
 <h2>Very Brief Review of Static: Good Practices</h2>
@@ -657,7 +894,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Keep the remembered state small and easy to explain.</li>
 <li>Prefer visible parameters and return values when state does not need to persist.</li>
 </ul>
-<!-- Slide 35 -->
+<!-- Slide 55 -->
 </section>
 <section id="very-brief-review-of-static-common-mistakes" class="slide level2">
 <h2>Very Brief Review of Static: Common Mistakes</h2>
@@ -666,17 +903,17 @@ Dr.&nbsp;Caleb Fowler
 <li>Forgetting that previous calls affect the next call.</li>
 <li>Assuming local scope means short lifetime.</li>
 </ul>
-<!-- Slide 36 -->
+<!-- Slide 56 -->
 </section>
 <section id="very-brief-review-of-static-more-examples" class="slide level2">
 <h2>Very Brief Review of Static: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href=""></a><span class="dt">int</span> nextId<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb3-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> id <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
-<span id="cb3-3"><a href=""></a>    id<span class="op">++;</span></span>
-<span id="cb3-4"><a href=""></a>    <span class="cf">return</span> id<span class="op">;</span></span>
-<span id="cb3-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">int</span> nextId<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href=""></a>    <span class="at">static</span> <span class="dt">int</span> id <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
+<span id="cb17-3"><a href=""></a>    id<span class="op">++;</span></span>
+<span id="cb17-4"><a href=""></a>    <span class="cf">return</span> id<span class="op">;</span></span>
+<span id="cb17-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each call returns a new value because <code>id</code> keeps its previous value.</p>
-<!-- Slide 37 -->
+<!-- Slide 57 -->
 </section>
 <section id="very-brief-review-of-static-practice-problems" class="slide level2">
 <h2>Very Brief Review of Static: Practice Problems</h2>
@@ -685,7 +922,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Rewrite a static counter so the caller owns the counter instead.</li>
 <li>Explain the difference between scope and lifetime in one sentence.</li>
 </ol>
-<!-- Slide 38 -->
+<!-- Slide 58 -->
 </section>
 <section id="very-brief-review-of-static-ai-search-terms" class="slide level2">
 <h2>Very Brief Review of Static: AI Search Terms</h2>
@@ -694,7 +931,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“C++ scope vs lifetime static local”</li>
 <li>“C++ function remembers value between calls”</li>
 </ul>
-<!-- Slide 39 -->
+<!-- Slide 59 -->
 </section>
 <section id="very-brief-review-of-static-questions-for-reflection" class="slide level2">
 <h2>Very Brief Review of Static: Questions for Reflection</h2>
@@ -702,7 +939,7 @@ Dr.&nbsp;Caleb Fowler
 <li>When does hidden function memory make a program clearer?</li>
 <li>When does hidden function memory make a program harder to debug?</li>
 </ul>
-<!-- Slide 40 -->
+<!-- Slide 60 -->
 </section>
 <section id="design-patterns-good-practices" class="slide level2">
 <h2>Design Patterns: Good Practices</h2>
@@ -711,7 +948,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Use a pattern when it clarifies the structure of the solution.</li>
 <li>Explain the tradeoff every time you explain the pattern.</li>
 </ul>
-<!-- Slide 41 -->
+<!-- Slide 61 -->
 </section>
 <section id="design-patterns-common-mistakes" class="slide level2">
 <h2>Design Patterns: Common Mistakes</h2>
@@ -720,7 +957,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Treating patterns as recipes with fixed code.</li>
 <li>Adding structure that does not make the program easier to reason about.</li>
 </ul>
-<!-- Slide 42 -->
+<!-- Slide 62 -->
 </section>
 <section id="design-patterns-more-examples" class="slide level2">
 <h2>Design Patterns: More Examples</h2>
@@ -746,7 +983,7 @@ Dr.&nbsp;Caleb Fowler
 </tr>
 </tbody>
 </table>
-<!-- Slide 43 -->
+<!-- Slide 63 -->
 </section>
 <section id="design-patterns-practice-problems" class="slide level2">
 <h2>Design Patterns: Practice Problems</h2>
@@ -755,7 +992,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Decide whether that problem needs a named pattern or ordinary functions.</li>
 <li>For one pattern, identify the problem, structure, and tradeoff.</li>
 </ol>
-<!-- Slide 44 -->
+<!-- Slide 64 -->
 </section>
 <section id="design-patterns-ai-search-terms" class="slide level2">
 <h2>Design Patterns: AI Search Terms</h2>
@@ -764,7 +1001,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“Gang of Four design patterns beginner”</li>
 <li>“design pattern problem structure tradeoff”</li>
 </ul>
-<!-- Slide 45 -->
+<!-- Slide 65 -->
 </section>
 <section id="design-patterns-questions-for-reflection" class="slide level2">
 <h2>Design Patterns: Questions for Reflection</h2>
@@ -772,7 +1009,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Why is a shared vocabulary useful for design?</li>
 <li>What can go wrong when a pattern name becomes more important than the problem?</li>
 </ul>
-<!-- Slide 46 -->
+<!-- Slide 66 -->
 </section>
 <section id="singleton-pattern-good-practices" class="slide level2">
 <h2>Singleton Pattern: Good Practices</h2>
@@ -781,7 +1018,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Keep the shared resource focused on one responsibility.</li>
 <li>Make shared state easy to find and explain.</li>
 </ul>
-<!-- Slide 47 -->
+<!-- Slide 67 -->
 </section>
 <section id="singleton-pattern-common-mistakes" class="slide level2">
 <h2>Singleton Pattern: Common Mistakes</h2>
@@ -790,16 +1027,16 @@ Dr.&nbsp;Caleb Fowler
 <li>Storing unrelated program data in one shared resource.</li>
 <li>Ignoring the testing cost of hidden shared state.</li>
 </ul>
-<!-- Slide 48 -->
+<!-- Slide 68 -->
 </section>
 <section id="singleton-pattern-more-examples" class="slide level2">
 <h2>Singleton Pattern: More Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href=""></a>string<span class="op">&amp;</span> logFileName<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb4-2"><a href=""></a>    <span class="at">static</span> string fileName <span class="op">=</span> <span class="st">"program.log"</span><span class="op">;</span></span>
-<span id="cb4-3"><a href=""></a>    <span class="cf">return</span> fileName<span class="op">;</span></span>
-<span id="cb4-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href=""></a>string<span class="op">&amp;</span> logFileName<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href=""></a>    <span class="at">static</span> string fileName <span class="op">=</span> <span class="st">"program.log"</span><span class="op">;</span></span>
+<span id="cb18-3"><a href=""></a>    <span class="cf">return</span> fileName<span class="op">;</span></span>
+<span id="cb18-4"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A log file name is a small example because the program may want one coordinated output path.</p>
-<!-- Slide 49 -->
+<!-- Slide 69 -->
 </section>
 <section id="singleton-pattern-practice-problems" class="slide level2">
 <h2>Singleton Pattern: Practice Problems</h2>
@@ -808,7 +1045,7 @@ Dr.&nbsp;Caleb Fowler
 <li>List one reason a settings file name might need exactly one shared access point.</li>
 <li>List one reason a settings value might not belong in a Singleton.</li>
 </ol>
-<!-- Slide 50 -->
+<!-- Slide 70 -->
 </section>
 <section id="singleton-pattern-ai-search-terms" class="slide level2">
 <h2>Singleton Pattern: AI Search Terms</h2>
@@ -817,7 +1054,7 @@ Dr.&nbsp;Caleb Fowler
 <li>“Singleton pattern tradeoffs shared state”</li>
 <li>“Singleton disguised global variable”</li>
 </ul>
-<!-- Slide 51 -->
+<!-- Slide 71 -->
 </section>
 <section id="singleton-pattern-questions-for-reflection" class="slide level2">
 <h2>Singleton Pattern: Questions for Reflection</h2>
@@ -825,7 +1062,58 @@ Dr.&nbsp;Caleb Fowler
 <li>What does Singleton make easier?</li>
 <li>What does Singleton hide from the caller?</li>
 </ul>
-<!-- Slide 52 -->
+<!-- Slide 72 -->
+</section>
+<section id="menus-and-functions-good-practices" class="slide level2">
+<h2>Menus and Functions: Good Practices</h2>
+<ul>
+<li>Keep display, input, dispatch, and action responsibilities separate.</li>
+<li>Let <code>main()</code> coordinate the menu instead of performing every task itself.</li>
+</ul>
+<!-- Slide 73 -->
+</section>
+<section id="menus-and-functions-common-mistakes" class="slide level2">
+<h2>Menus and Functions: Common Mistakes</h2>
+<ul>
+<li>Putting the entire menu program inside <code>main()</code>.</li>
+<li>Forgetting that an action needs a reference parameter to update caller-owned state.</li>
+</ul>
+<!-- Slide 74 -->
+</section>
+<section id="menus-and-functions-more-examples" class="slide level2">
+<h2>Menus and Functions: More Examples</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href=""></a><span class="dt">void</span> showBalance<span class="op">(</span><span class="dt">double</span> balance<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-2"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Balance: $"</span> <span class="op">&lt;&lt;</span> balance <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb19-3"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- Slide 75 -->
+</section>
+<section id="menus-and-functions-practice-problems" class="slide level2">
+<h2>Menus and Functions: Practice Problems</h2>
+<ul>
+<li>Separate a monolithic menu into display, input, dispatch, and action functions.</li>
+<li>Identify which action functions need a reference parameter.</li>
+<li>Add a quit option to a menu loop.</li>
+</ul>
+<!-- Slide 76 -->
+</section>
+<section id="menus-and-functions-ai-search-terms" class="slide level2">
+<h2>Menus and Functions: AI Search Terms</h2>
+<ul>
+<li>C++ menu-driven program functions</li>
+<li>C++ function dispatch menu</li>
+<li>C++ reference parameter update caller</li>
+<li>C++ default parameters display helper</li>
+</ul>
+<!-- Slide 77 -->
+</section>
+<section id="menus-and-functions-questions-for-reflection" class="slide level2">
+<h2>Menus and Functions: Questions for Reflection</h2>
+<ul>
+<li>Which function owns each menu responsibility?</li>
+<li>Where does the selected choice become an action?</li>
+<li>Which values must be returned and which must be updated by reference?</li>
+</ul>
+<!-- Slide 78 -->
 
 </section></section>
     </div>

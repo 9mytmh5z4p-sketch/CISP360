@@ -1,8 +1,8 @@
-<!-- Topic 6: Menus and Functions -->
-<!-- Slides 49-61 -->
+<!-- Topic 4: Menus and Functions -->
+<!-- Slides 32-51 -->
 
 # Menus and Functions
-<!-- Slide 49 -->
+<!-- Slide 32 -->
 
 ## Who Owns Each Menu Job? {.smaller}
 
@@ -11,10 +11,10 @@
 + `main()` should coordinate the pieces instead of doing every job itself.
 
 ::: notes
-Slides 49-61
+Slides 32-51
 :::
 
-<!-- Slide 50 -->
+<!-- Slide 33 -->
 
 ---
 
@@ -27,7 +27,7 @@ Slides 49-61
 
 Each responsibility can become a function or a small group of functions.
 
-<!-- Slide 51 -->
+<!-- Slide 34 -->
 
 ---
 
@@ -44,7 +44,7 @@ void displayMenu() {
 
 This function owns the menu text.
 
-<!-- Slide 52 -->
+<!-- Slide 35 -->
 
 ---
 
@@ -61,7 +61,7 @@ int getChoice() {
 
 The function reads one value and returns it to the caller.
 
-<!-- Slide 53 -->
+<!-- Slide 36 -->
 
 ---
 
@@ -75,7 +75,7 @@ void showBalance(double balance) {
 
 An action function should do one menu job clearly.
 
-<!-- Slide 54 -->
+<!-- Slide 37 -->
 
 ---
 
@@ -95,7 +95,7 @@ int main() {
 
 `main()` owns the program flow and delegates details to helper functions.
 
-<!-- Slide 55 -->
+<!-- Slide 38 -->
 
 ---
 
@@ -113,7 +113,7 @@ if (choice == 1) {
 
 The dispatch code connects a user choice to the matching function call.
 
-<!-- Slide 56 -->
+<!-- Slide 39 -->
 
 ---
 
@@ -129,7 +129,7 @@ do {
 
 A menu loop keeps showing choices until the quit option is selected.
 
-<!-- Slide 57 -->
+<!-- Slide 40 -->
 
 ---
 
@@ -146,7 +146,7 @@ void addDeposit(double& balance) {
 
 The reference parameter lets the action update the caller's balance.
 
-<!-- Slide 58 -->
+<!-- Slide 41 -->
 
 ---
 
@@ -158,24 +158,138 @@ void printDivider(char symbol = '-', int length = 30);
 
 Defaults keep common formatting calls short while still allowing customization.
 
-<!-- Slide 59 -->
+<!-- Slide 42 -->
 
 ---
 
-## Complete Menu Skeleton
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <limits>
+using namespace std;
+```
+
+<!-- Slide 43 -->
+
+---
+
+## Function Prototypes
 
 ```cpp
 void displayMenu();
-int getChoice();
+int getMenuChoice();
+double getPositiveAmount();
 void processChoice(int choice, double& balance);
 void addDeposit(double& balance);
 void makeWithdrawal(double& balance);
 void showBalance(double balance);
 ```
 
-The prototypes show the menu architecture before the function bodies are written.
+<!-- Slide 44 -->
 
-<!-- Slide 60 -->
+---
+
+## main()
+
+```cpp
+int main() {
+    double balance = 0.0;
+
+    // Normally we would wrap this in a loop
+    displayMenu();
+    int choice = getMenuChoice();
+    processChoice(choice, balance);
+
+    return 0;
+}
+```
+
+<!-- Slide 45 -->
+
+---
+
+## displayMenu()
+
+```cpp
+void displayMenu() {
+    cout << "\nBanking Menu\n";
+    cout << "1. Deposit\n";
+    cout << "2. Withdraw\n";
+    cout << "3. Show balance\n";
+    cout << "4. Quit\n";
+}
+```
+
+<!-- Slide 46 -->
+
+---
+
+## getMenuChoice()
+
+```cpp
+int getMenuChoice() {
+    int choice;
+
+    cout << "Choice: ";
+
+    while (!(cin >> choice) || choice < 1 || choice > 4) {
+        cout << "Enter a menu choice from 1 through 4: ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
+    return choice;
+}
+```
+
+<!-- Slide 47 -->
+
+---
+
+## inputValidation
+
++ Check whether input extraction succeeded.
++ Check whether the value is within the allowed range.
++ Clear the failed state and discard the invalid input before trying again.
+
+<!-- Slide 48 -->
+
+---
+
+## processChoice()
+
+```cpp
+void processChoice(int choice, double& balance) {
+    switch (choice) {
+    case 1:
+        addDeposit(balance);
+        break;
+    case 2:
+        makeWithdrawal(balance);
+        break;
+    case 3:
+        showBalance(balance);
+        break;
+    case 4:
+        cout << "Goodbye.\n";
+        break;
+    default:
+        cout << "Entered bad input" << endl;
+    }
+}
+```
+
+<!-- Slide 49 -->
+
+---
+
+## Various Choices
+
++ `addDeposit()` changes the balance through a reference parameter.
++ `makeWithdrawal()` checks the balance before changing it.
++ `showBalance()` reads the balance without changing it.
+
+<!-- Slide 50 -->
 
 ---
 
@@ -185,5 +299,4 @@ The prototypes show the menu architecture before the function bodies are written
 + Reference parameters let menu actions update caller-owned state.
 + Default parameters can simplify repeated display helper calls.
 
-<!-- Slide 61 -->
-
+<!-- Slide 51 -->
