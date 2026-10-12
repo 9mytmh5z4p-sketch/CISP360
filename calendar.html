@@ -574,6 +574,7 @@
     .event-exam { background: var(--purple-soft); border-left: 3px solid var(--purple); }
     .event-term { background: var(--blue-soft); border-left: 3px solid var(--blue); }
     .event-office { background: var(--amber-soft); border-left: 3px solid var(--amber); }
+    .event-review { background: #e5eef0; border-left: 3px solid var(--teal); }
 
     .mobile-indicators { display: none; }
 
@@ -1205,12 +1206,10 @@
         "07.01": "2026-10-05", "07.02": "2026-10-12",
         "08.01": "2026-10-14", "08.02": "2026-10-19",
         "09.01": "2026-10-21", "10.01": "2026-10-26",
-        "11.01": "2026-10-28", "11.02": "2026-11-02",
-        "12.01": "2026-11-04", "13.01": "2026-11-09",
-        "13.02": "2026-11-16", "14.01": "2026-11-18",
-        "14.02": "2026-11-23", "15.01": "2026-11-25",
-        "15.02": "2026-11-30", "16.01": "2026-12-02",
-        "16.02": "2026-12-07", "17.01": "2026-12-09"
+        "11.01": "2026-11-02", "11.02": "2026-11-04",
+        "12.01": "2026-11-09", "13.01": "2026-11-23",
+        "13.02": "2026-11-30", "14.01": "2026-12-02",
+        "14.02": "2026-12-07", "15.01": "2026-12-09"
       };
 
       const lecture = (id, title) => ({
@@ -1256,32 +1255,28 @@
           lecture("08.02", "Menu Driven Programming"),
           lecture("09.01", "Loop Control and Input Validation")
         ]},
-        { n: 10, start: "2026-10-26", end: "2026-10-28", section: "control", label: "Files and String Streams", lectures: [
-          lecture("10.01", "File I/O and Assertions"),
-          lecture("11.01", "String Streams and Random Access")
+        { n: 10, start: "2026-10-26", end: "2026-10-28", section: "control", label: "File I/O", note: "Wed Oct 28 · No class — instructor unavailable", lectures: [
+          lecture("10.01", "File I/O and Assertions")
         ]},
-        { n: 11, start: "2026-11-02", end: "2026-11-04", section: "power", label: "Arrays and Algorithms", lectures: [
-          lecture("11.02", "Arrays and Indexing"),
+        { n: 11, start: "2026-11-02", end: "2026-11-04", section: "power", label: "String Streams and Arrays", lectures: [
+          lecture("11.01", "String Streams and Random Access"),
+          lecture("11.02", "Arrays and Indexing")
+        ]},
+        { n: 12, start: "2026-11-09", end: "2026-11-11", section: "power", label: "Parallel Arrays and Veterans Day", note: "Wed Nov 11 · Veterans Day — no class", lectures: [
           lecture("12.01", "Array Functions, Algorithms, and Parallel Arrays")
         ]},
-        { n: 12, start: "2026-11-09", end: "2026-11-11", section: "power", label: "Modern Arrays and Veterans Day", note: "Wed Nov 11 · Veterans Day — no class", lectures: [
-          lecture("13.01", "Week 13, Lecture 01 – Multidimensional and Modern Arrays")
+        { n: 13, start: "2026-11-16", end: "2026-11-18", section: "power", label: "Instructor Unavailable", note: "Mon Nov 16 and Wed Nov 18 · No class", lectures: []
+        },
+        { n: 14, start: "2026-11-23", end: "2026-11-25", section: "power", label: "Pointer Foundations and Review", note: "Wed Nov 25 · Review day; Thanksgiving Recess begins Thu Nov 26", lectures: [
+          lecture("13.01", "Week 13, Lecture 01 – Multidimensional and Modern Arrays"),
         ]},
-        { n: 13, start: "2026-11-16", end: "2026-11-18", section: "power", label: "Pointer Foundations", lectures: [
-          lecture("13.02", "Week 13, Lecture 02 – Pointer Foundations"),
-          lecture("14.01", "Week 14, Lecture 01 – Array Decay, Null Pointers, and Passing Pointers")
+        { n: 15, start: "2026-11-30", end: "2026-12-02", section: "power", label: "Pointer Foundations and Dynamic Memory", lectures: [
+          lecture("13.02", "Pointer Foundations"),
+          lecture("14.01", "Array Decay, Null Pointers, and Passing Pointers")
         ]},
-        { n: 14, start: "2026-11-23", end: "2026-11-25", section: "power", label: "Dynamic Memory", note: "Thanksgiving Recess begins Thu Nov 26", lectures: [
+        { n: 16, start: "2026-12-07", end: "2026-12-09", section: "power", label: "Dynamic Memory and Records", lectures: [
           lecture("14.02", "Dynamic Memory and Smart Pointers"),
           lecture("15.01", "Pseudodynamic and Dynamic Memory")
-        ]},
-        { n: 15, start: "2026-11-30", end: "2026-12-02", section: "power", label: "Records and Classes", lectures: [
-          lecture("15.02", "Structures, Binary Records, and ADTs"),
-          lecture("16.01", "Classes & Member Functions")
-        ]},
-        { n: 16, start: "2026-12-07", end: "2026-12-09", section: "power", label: "Object Lifecycles and Collections", lectures: [
-          lecture("16.02", "Constructors & Destructors"),
-          lecture("17.01", "Arrays & Vectors of Objects")
         ]},
         { n: 17, start: "2026-12-14", end: "2026-12-16", section: "power", label: "Finals Period", note: "Exact P360 final exam date and time are not yet assigned", lectures: [] }
       ];
@@ -1296,7 +1291,8 @@
         recess: { color: "#3f6f54", bg: "#deece2" },
         exam: { color: "#72009c", bg: "#eee1f3" },
         term: { color: "#315d85", bg: "#e1eaf2" },
-        office: { color: "#a86612", bg: "#f7ead1" }
+        office: { color: "#a86612", bg: "#f7ead1" },
+        review: { color: "#3d5964", bg: "#e5eef0" }
       };
 
       const events = {};
@@ -1349,7 +1345,11 @@
       addEvent("2026-11-15", "homework", "Homework 6 assignment due", "Due date", "hw/Programming%20Homework%206.html");
       addEvent("2026-11-29", "homework", "Homework 7 assignment due", "Due date", "hw/Programming%20Homework%207.html");
       addEvent("2026-12-17", "homework", "Final Programming Assignment due", "Due date", "hw/Programming%20Homework%20Final.html");
+      addEvent("2026-10-28", "holiday", "No class · Instructor unavailable", "No class meeting.");
       addEvent("2026-11-11", "holiday", "Veterans Day · No class", "No classes; offices closed.");
+      addEvent("2026-11-16", "holiday", "No class · Instructor unavailable", "No class meeting.");
+      addEvent("2026-11-18", "holiday", "No class · Instructor unavailable", "No class meeting.");
+      addEvent("2026-11-25", "review", "Review day", "Course review; no new lecture content.");
       addEvent("2026-11-17", "deadline", "Withdraw with a “W”", "Last day to withdraw from classes with a “W” notation on record.");
       addRange("2026-11-26", "2026-11-29", "recess", "Thanksgiving Recess", "No classes; offices closed November 26–29.");
       addRange("2026-12-11", "2026-12-17", "exam", "Final exams", "Final exams run December 11–17.");
@@ -1374,7 +1374,7 @@
         "2026-08": "Monday/Wednesday classes · Labor Day closure",
         "2026-09": "Eight Monday/Wednesday class meetings",
         "2026-10": "Veterans Day closure · Thanksgiving Recess",
-        "2026-11": "Final lectures Dec 2, 7, and 9 · finals Dec 11–17",
+        "2026-11": "Final lectures Dec 7 and 9 · finals Dec 11–17",
         "2027-00": "Post-term · Winter Recess and grades due"
       };
 
@@ -1698,6 +1698,7 @@
           { date: "2026-10-18", title: "Homework 4 assignment due", detail: "Due date" },
           { date: "2026-11-01", title: "Homework 5 assignment due", detail: "Due date" },
           { date: "2026-11-15", title: "Homework 6 assignment due", detail: "Due date" },
+          { date: "2026-11-25", title: "Review day", detail: "Course review; no new lecture content" },
           { date: "2026-11-29", title: "Homework 7 assignment due", detail: "Due date" },
           { date: "2026-12-17", title: "Final Programming Assignment due", detail: "Due date" },
           { date: "2026-11-11", title: "Veterans Day · No class", detail: "Campus closed" },
