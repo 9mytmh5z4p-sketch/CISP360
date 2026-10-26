@@ -1,19 +1,26 @@
 <!-- Topic 2: Assertions -->
-<!-- Slides 30-45 -->
+<!-- Slides 37-56 -->
 
 # Assertions
-<!-- Slide 30 -->
+<!-- Slide 37 -->
 
 ## What Should Never Be False? {.smaller}
 
-- Some checks are not about normal client mistakes.
-- They mean the program reached a state the programmer did not intend.
+A program adds a 5-point curve to every score. One student entered 98, and the input was validated.
+
+- The program doesn't crash.
+- The report says the student earned 103 out of 100.
+- Every average that uses that score is wrong too.
+
+How could the program catch a mistake like this the moment it happens?
 
 ::: notes
-Slides 30-45
+Slides 37-56
+
+Bug-first hook. Return to this exact bug on the invariants slide, where an assertion catches it.
 :::
 
-<!-- Slide 31 -->
+<!-- Slide 38 -->
 
 ---
 
@@ -27,7 +34,7 @@ Slides 30-45
 
 Use validation for data coming from outside the program.
 
-<!-- Slide 32 -->
+<!-- Slide 39 -->
 
 ---
 
@@ -39,7 +46,7 @@ Use validation for data coming from outside the program.
 
 Assertions turn assumptions into executable checks.
 
-<!-- Slide 33 -->
+<!-- Slide 40 -->
 
 ---
 
@@ -48,15 +55,21 @@ Assertions turn assumptions into executable checks.
 ```cpp
 #include <cassert>
 
-int index = 3;
-int size = 5;
+vector<int> scores = {91, 78, 84};
+int size = scores.size();
+int last = size;            // bug: should be size - 1
 
-assert(index >= 0 && index < size);
+assert(last < size);
+cout << scores[last] << endl;
 ```
 
-The condition should describe a state that must already be true.
+The assertion fires before `scores[last]` reads past the end of the vector.
 
-<!-- Slide 34 -->
+::: notes
+Without the assertion, scores[3] is undefined behavior: it may print garbage, crash, or appear to work. The assertion turns a silent bug into a loud one.
+:::
+
+<!-- Slide 41 -->
 
 ---
 
@@ -68,7 +81,7 @@ The condition should describe a state that must already be true.
 
 The assertion documents what the caller or earlier code must guarantee.
 
-<!-- Slide 35 -->
+<!-- Slide 42 -->
 
 ---
 
@@ -83,6 +96,7 @@ double divide(int numerator, int denominator);
 
 int main() {
     cout << divide(10, 2) << endl;
+    cout << divide(10, 0) << endl;
     return 0;
 }
 
@@ -93,10 +107,89 @@ double divide(int numerator, int denominator) {
 ```
 
 ::: notes
-This example intentionally omits input. User-entered denominators should be validated before the function call.
+The first call prints 5. The second call breaks the precondition, and the program stops. This example intentionally omits input; user-entered denominators should be validated before the function call.
 :::
 
-<!-- Slide 36 -->
+<!-- Slide 43 -->
+
+---
+
+## Reading An Assertion Failure
+
+```text
+5
+a.out: main.cpp:14: double divide(int, int): Assertion `denominator != 0' failed.
+Aborted (core dumped)
+```
+
+| Part | Tells you |
+|---|---|
+| `main.cpp:14` | the file and line of the assertion |
+| `double divide(int, int)` | the function it was in |
+| `` `denominator != 0' `` | the assumption that was false |
+
+Don't patch the assertion. Ask who passed a zero, and trace where the bad value came from.
+
+::: notes
+Output from g++ on Linux, which most online compilers use. On a Mac the wording differs: Assertion failed: (denominator != 0), function divide, file main.cpp, line 14. Same three facts either way.
+:::
+
+<!-- Slide 44 -->
+
+---
+
+## Adding A Message To An Assertion
+
+```cpp
+double divide(int numerator, int denominator) {
+    assert(denominator != 0 && "divide needs a nonzero denominator");
+    return static_cast<double>(numerator) / denominator;
+}
+```
+
+```text
+a.out: main.cpp:14: double divide(int, int): Assertion `denominator != 0 &&
+"divide needs a nonzero denominator"' failed.
+```
+
+- A string literal always counts as true, so `&& "message"` never changes the result.
+- `assert` prints the whole condition, so the message appears in the failure.
+
+Use the message to say *what* went wrong in plain words.
+
+::: notes
+Verified with g++ -Wall: no warnings, and the output above (wrapped here to fit; it prints on one line). On a Mac: Assertion failed: (denominator != 0 && "divide needs a nonzero denominator"), function divide, file main.cpp, line 14.
+
+Watch for the reversed mistake: assert(denominator != 0 || "message") never fails, because the string is always true.
+:::
+
+<!-- Slide 45 -->
+
+---
+
+## Which Assertion Stops The Program?
+
+```cpp
+vector<int> scores = {91, 78, 84};
+int total = 0;
+for (int s : scores) {
+    total += s;
+}
+int last = scores.size() - 1;
+
+assert(total == 253);          // A
+assert(scores.size() == 3);    // B
+assert(scores[last] == 91);    // C
+assert(last == 2);             // D
+```
+
+Predict before you run it.
+
+::: notes
+Answer: C. total is 253 and size is 3, so A and B pass. scores[last] is 84, not 91, so C fires. D is true, but it never runs: the program stops at the first failed assertion.
+:::
+
+<!-- Slide 46 -->
 
 ---
 
@@ -105,27 +198,23 @@ This example intentionally omits input. User-entered denominators should be vali
 An invariant is a condition that should stay true while the program runs.
 
 ```cpp
-vector<string> names;
-vector<int> scores;
+int score = 98;
+int curve = 5;
 
-assert(names.size() == scores.size());
+score = score + curve;      // bug: forgot to cap at 100
+
+assert(score >= 0 && score <= 100);
 ```
 
-If parallel vectors represent the same records, their sizes should match.
+A valid score stays between 0 and 100, no matter how the program changes it. This assertion catches the bug from the start of the topic.
 
-<!-- Slide 37 -->
+::: notes
+Verified output: Assertion `score >= 0 && score <= 100' failed.
 
----
+Point out that the next slide uses the same condition on client input, and there it is the wrong tool. Same condition, different source: the curve is the programmer's code, the typed score is the client's.
+:::
 
-## Reading An Assertion Failure
-
-- Do not patch around the failure immediately.
-- Ask which assumption failed.
-- Trace where the bad state entered the program.
-
-An assertion failure is evidence. Use it to find the earlier cause.
-
-<!-- Slide 38 -->
+<!-- Slide 47 -->
 
 ---
 
@@ -138,7 +227,7 @@ assert(score >= 0 && score <= 100);
 
 Bad client input is expected. Expected mistakes need validation and recovery.
 
-<!-- Slide 39 -->
+<!-- Slide 48 -->
 
 ---
 
@@ -146,64 +235,164 @@ Bad client input is expected. Expected mistakes need validation and recovery.
 
 ```cpp
 cout << "Enter a score from 0 to 100: ";
-cin >> score;
 
-while (score < 0 || score > 100) {
+while (!(cin >> score) || score < 0 || score > 100) {
+    cin.clear();
+    cin.ignore(1000, '\n');
     cout << "Score must be 0 to 100. Try again: ";
-    cin >> score;
 }
 ```
 
-Validation keeps the program running and tells the client how to recover.
+Validation handles both a number out of range and a word typed instead of a number. It keeps the program running and tells the client how to recover.
 
-<!-- Slide 40 -->
+::: notes
+Without cin.clear() and cin.ignore(), typing a word puts cin in a failed state and the loop never ends. Ties back to last lecture's input validation.
+:::
+
+<!-- Slide 49 -->
+
+---
+
+## Assertions Can Be Disabled
+
+```cpp
+#define NDEBUG        // must come before the include
+#include <cassert>
+```
+
+- Defining `NDEBUG` removes every `assert` from the program.
+- Many release builds turn it on with the compiler flag `-DNDEBUG`.
+- Required behavior cannot depend on `assert`.
+
+Assertions are development checks, not a substitute for program behavior.
+
+<!-- Slide 50 -->
 
 ---
 
 ## Avoid Side Effects In Assertions
 
 ```cpp
+// Wrong: count only increases when assertions are on
 assert(count++ < limit);
+
+// Right: the work happens outside the assertion
+count++;
+assert(count <= limit);
 ```
 
-- Do not put assignments inside assertion conditions.
-- Do not rely on increments inside an assertion.
+- Do not put assignments or increments inside assertion conditions.
 - Do not place required function calls inside an assertion.
 
-The program should behave correctly even if assertions are disabled.
+The program should behave the same with or without `NDEBUG`.
 
-<!-- Slide 41 -->
-
----
-
-## Assertions Can Be Disabled
-
-- Some builds compile assertions out.
-- Required behavior cannot depend on `assert`.
-- Use `assert` to catch problems, not to implement normal logic.
-
-Assertions are development checks, not a substitute for program behavior.
-
-<!-- Slide 42 -->
+<!-- Slide 51 -->
 
 ---
 
-## Assertions And File I/O
+## Assertions And File I/O {.smaller}
 
 ```cpp
-inFile >> expectedCount;
+if (!(inFile >> expectedCount) || expectedCount < 0) {
+    cerr << "Error: bad record count" << endl;
+    return 1;
+}
 
 for (int i = 0; i < expectedCount; i++) {
-    inFile >> score;
+    if (!(inFile >> score)) {
+        cerr << "Error: file ended early" << endl;
+        return 1;
+    }
     scores.push_back(score);
 }
 
-assert(scores.size() == expectedCount);
+assert(static_cast<int>(scores.size()) == expectedCount);
 ```
 
-Validate the file operation first. Assert internal assumptions after the program has built its state.
+The file is outside data, so every read is validated. The assertion checks only the program's own work: each pass through the loop added exactly one score.
 
-<!-- Slide 43 -->
+::: notes
+A short or corrupted file is a client problem, so it gets an error message, not an assertion. Once every read is validated, the loop either adds expectedCount scores or exits, so if the assertion ever fires, the bug is in this code, not in the file. Verified: a count of 3 with two scores prints "Error: file ended early".
+
+As written, nothing can make this assertion fire: the loop either adds exactly expectedCount scores or returns early. It guards against a future change. Suppose someone later skips out-of-range scores:
+
+    for (int i = 0; i < expectedCount; i++) {
+        if (!(inFile >> score)) {
+            cerr << "Error: file ended early" << endl;
+            return 1;
+        }
+        if (score < 0 || score > 100) {
+            continue;               // new: skip bad scores
+        }
+        scores.push_back(score);
+    }
+
+    assert(static_cast<int>(scores.size()) == expectedCount);   // now fires
+
+A file with a score of 105 now yields fewer scores than the count promised, and the assertion fires. The programmer must decide: was skipping right (update the assertion), or is it a bug? Either way the mismatch is caught here instead of becoming a wrong average later. Invariants guard against code changes, not just today's code.
+
+Why the static_cast: it converts scores.size(), not the condition. size() returns size_t, an unsigned type; expectedCount is a signed int. Comparing signed with unsigned silently converts the int to unsigned, so a negative value would become a huge positive number, and g++ -Wall warns about it. Here expectedCount is already validated as nonnegative, so the comparison is safe; the cast removes the warning and shows both sides are compared as int. Alternative without a cast: int loaded = scores.size(); assert(loaded == expectedCount);
+:::
+
+<!-- Slide 52 -->
+
+---
+
+## Coding Task
+
+Write a function `double average(const vector<int>& scores)`.
+
+1. Assert the precondition: the vector is not empty.
+2. Call it with three scores, then with an empty vector, and read the failure message.
+3. Add validation in `main` so the empty vector never reaches the function.
+
+::: notes
+The point: the assertion documents the function's assumption, and validation in the caller keeps the assumption true.
+:::
+
+<!-- Slide 53 -->
+
+---
+
+```cpp
+#include <cassert>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+double average(const vector<int>& scores);
+
+int main() {
+    vector<int> scores = {91, 78, 84};
+    vector<int> empty;
+
+    cout << average(scores) << endl;
+
+    if (empty.size() == 0) {
+        cout << "No scores to average." << endl;
+    } else {
+        cout << average(empty) << endl;
+    }
+
+    return 0;
+}
+
+double average(const vector<int>& scores) {
+    assert(scores.size() > 0);
+
+    int total = 0;
+    for (int score : scores) {
+        total += score;
+    }
+    return static_cast<double>(total) / scores.size();
+}
+```
+
+::: notes
+Solution to the coding task. Output: 84.3333, then "No scores to average." Full program: cpp/average_assert.cpp
+:::
+
+<!-- Slide 54 -->
 
 ---
 
@@ -214,7 +403,7 @@ Validate the file operation first. Assert internal assumptions after the program
 - Assert invariants after state changes.
 - Validate client input and file data before trusting it.
 
-<!-- Slide 44 -->
+<!-- Slide 55 -->
 
 ---
 
@@ -223,4 +412,4 @@ Validate the file operation first. Assert internal assumptions after the program
 - Validate what can reasonably happen.
 - Assert what should never happen if the code is correct.
 
-<!-- Slide 45 -->
+<!-- Slide 56 -->

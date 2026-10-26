@@ -1,8 +1,8 @@
 <!-- Topic 1: File I/O -->
-<!-- Slides 3-29 -->
+<!-- Slides 4-36 -->
 
 # File I/O
-<!-- Slide 3 -->
+<!-- Slide 4 -->
 
 ## Data That Outlasts The Program {.smaller}
 
@@ -10,10 +10,10 @@
 - Files let a program save data, load it later, and share it with other programs.
 
 ::: notes
-Slides 3-29
+Slides 4-36
 :::
 
-<!-- Slide 4 -->
+<!-- Slide 5 -->
 
 ---
 
@@ -25,7 +25,7 @@ Slides 3-29
 
 The operators are familiar: `>>` extracts data, and `<<` inserts data.
 
-<!-- Slide 5 -->
+<!-- Slide 6 -->
 
 ---
 
@@ -40,7 +40,7 @@ The operators are familiar: `>>` extracts data, and `<<` inserts data.
 
 Every file program follows this pattern.
 
-<!-- Slide 6 -->
+<!-- Slide 7 -->
 
 ---
 
@@ -54,7 +54,7 @@ Every file program follows this pattern.
 
 Use the narrowest stream type that matches the job.
 
-<!-- Slide 7 -->
+<!-- Slide 8 -->
 
 ---
 
@@ -80,7 +80,7 @@ int main() {
 By default, `ofstream` creates the file if it does not exist and overwrites it if it already exists.
 :::
 
-<!-- Slide 8 -->
+<!-- Slide 9 -->
 
 ---
 
@@ -97,11 +97,91 @@ if (!inFile.is_open()) {
 
 File code should check the stream before trusting it.
 
-<!-- Slide 9 -->
+<!-- Slide 10 -->
+
+---
+
+## Coding Task
+
+Write a small program that combines the last two slides:
+
+1. Open `scores.txt` for reading.
+2. Check that the file opened, and print an error message if it did not.
+3. If it opened, read and print each name and score.
+
+Test it by running the program **without** creating `scores.txt`. You should see the error message.
+
+::: notes
+After students see the error, have them create scores.txt (or run the Writing To A File program first) and run again to see each name and score printed.
+:::
+
+<!-- Slide 11 -->
+
+---
+
+```cpp
+#include <fstream>
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    ifstream inFile("scores.txt");
+
+    if (!inFile.is_open()) {
+        cerr << "Error: could not open scores.txt" << endl;
+        return 1;
+    }
+
+    string name;
+    int score;
+
+    while (inFile >> name >> score) {
+        cout << name << ": " << score << endl;
+    }
+
+    inFile.close();
+    return 0;
+}
+```
+
+::: notes
+Solution to the coding task. If the file opens, the loop reads each name and score until extraction fails, a preview of Reading From A File. With "Alice 95" and "Bob 87" in the file, the output is "Alice: 95" and "Bob: 87". Full program: cpp/open_check.cpp
+:::
+
+<!-- Slide 12 -->
 
 ---
 
 ## Where Is The File?
+
+A file name is a path. There are two kinds:
+
+1. **Absolute path**: the full location, starting from the top of the drive.
+2. **Relative path**: a location measured from where the program is running.
+
+<!-- Slide 13 -->
+
+---
+
+## Where Is The File? Absolute
+
+An absolute path names every folder from the top of the drive.
+
+```cpp
+ifstream macFile("/Users/alex/cisp360/scores.txt");
+ifstream winFile("C:\\Users\\alex\\cisp360\\scores.txt");
+```
+
+- It works no matter where the program runs.
+- It breaks when the program moves to another computer or folder.
+- On Windows, each `\` in a string must be written as `\\`.
+
+<!-- Slide 14 -->
+
+---
+
+## Where Is The File? Relative
 
 - `"scores.txt"` is a relative path.
 - It is resolved from the program's working directory.
@@ -109,7 +189,7 @@ File code should check the stream before trusting it.
 
 When a file does not open, check both the file name and where the program is running.
 
-<!-- Slide 10 -->
+<!-- Slide 15 -->
 
 ---
 
@@ -130,7 +210,7 @@ later.close();
 | default output | overwrite the file |
 | `ios::app` | add new data at the end |
 
-<!-- Slide 11 -->
+<!-- Slide 16 -->
 
 ---
 
@@ -157,7 +237,7 @@ int main() {
 
 The stream advances automatically as each value is read.
 
-<!-- Slide 12 -->
+<!-- Slide 17 -->
 
 ---
 
@@ -173,7 +253,7 @@ Carol 91
 
 The example answers two questions: what does one record look like, and how does the reader know when to stop?
 
-<!-- Slide 13 -->
+<!-- Slide 18 -->
 
 ---
 
@@ -185,7 +265,21 @@ The example answers two questions: what does one record look like, and how does 
 
 Changing the file format means changing the code that reads it.
 
-<!-- Slide 14 -->
+<!-- Slide 19 -->
+
+---
+
+## File Patterns
+
+Every read loop needs a stopping rule. There are three common ones:
+
+1. **Read until extraction fails**: every remaining value is data.
+2. **First value is a count**: the file says how many records follow.
+3. **Sentinel value**: a special value marks the end of the data.
+
+Separately, the file's record shape decides *how* each record is read: with `>>` or with `getline`.
+
+<!-- Slide 20 -->
 
 ---
 
@@ -206,22 +300,7 @@ Use this when every remaining token in the file is data.
 This is usually better than `while (!inFile.eof())` because it tests the read itself.
 :::
 
-<!-- Slide 15 -->
-
----
-
-## Why Not `eof()` First?
-
-```cpp
-while (!inFile.eof()) {
-    inFile >> score;
-    scores.push_back(score);
-}
-```
-
-`eof()` becomes true only after a read attempts to pass the end. Test the extraction instead of predicting it.
-
-<!-- Slide 16 -->
+<!-- Slide 21 -->
 
 ---
 
@@ -246,7 +325,7 @@ for (int i = 0; i < count; i++) {
 
 Use this when the file declares how many records follow.
 
-<!-- Slide 17 -->
+<!-- Slide 22 -->
 
 ---
 
@@ -271,11 +350,18 @@ while (score != -1) {
 
 The sentinel must be a value that cannot be valid data.
 
-<!-- Slide 18 -->
+<!-- Slide 23 -->
 
 ---
 
-## Pattern 4: One Record Per Line
+## Record Shape: Tokens Or Whole Lines
+
+The stopping rule says *when* to stop. The record shape says *how* to read one record.
+
+```text
+Mary Ann Lee
+Bob Cruz
+```
 
 ```cpp
 string line;
@@ -287,36 +373,94 @@ while (getline(inFile, line)) {
 }
 ```
 
-Line-controlled files work well when each record may contain spaces or optional fields.
+`>>` stops at spaces, so it can't read "Mary Ann Lee" as one name. `getline` reads the whole line. The loop still stops like Pattern 1: when a read fails.
 
-<!-- Slide 19 -->
+::: notes
+Not a fourth stopping rule. Any of the three stopping patterns can be combined with either record shape.
+:::
+
+<!-- Slide 24 -->
 
 ---
 
 ## Choosing A Reading Pattern
 
-| File Design | Loop Shape |
-|---|---|
-| all tokens are data | read until extraction fails |
-| first value is record count | counted `for` loop |
-| special value marks the end | sentinel loop |
-| one logical record per line | `getline` loop |
+| File Design | Loop Shape | Disadvantage |
+|---|---|---|
+| all tokens are data | read until extraction fails | a bad value stops the loop early and looks like the end of the file |
+| first value is record count | counted `for` loop | the count must match the records; a wrong count drops or misreads data |
+| special value marks the end | sentinel loop | needs a value that can never be real data; a missing sentinel never ends the loop |
 
-Choose the loop after you know how the file is constructed.
+Then choose the record shape: `>>` for space-separated fields, `getline` when a field may contain spaces.
 
-<!-- Slide 20 -->
+<!-- Slide 25 -->
+
+---
+
+## Why Not `eof()` First?
+
+```cpp
+while (!inFile.eof()) {
+    inFile >> score;
+    scores.push_back(score);
+}
+```
+
+File `scores.txt` holds `91`, `78`, `84`, each followed by a newline.
+
+| Pass | `eof()` before read | Read result | `scores` |
+|---|---|---|---|
+| 1 | false | 91 | 91 |
+| 2 | false | 78 | 91 78 |
+| 3 | false | 84 | 91 78 84 |
+| 4 | false (newline left) | **fails**, `score` still 84 | 91 78 84 **84** |
+
+`eof()` becomes true only *after* a read fails, so the last value is stored twice. Test the extraction instead of predicting it.
+
+::: notes
+Output verified: 91 78 84 84. If the file holds bad data (a word where a number belongs), the read fails without reaching the end, eof() never becomes true, and the loop never ends.
+:::
+
+<!-- Slide 26 -->
 
 ---
 
 ## When Reading Stops Early
 
-- End of file is normal.
-- A wrong data type is a format error.
-- Both can make extraction fail.
+The same loop, `while (inFile >> score)`, reads two different files:
 
-If the loop stops before all expected records are read, inspect the file format before changing the loop.
+| File contents | Values read | Why the loop stopped |
+|---|---|---|
+| `91` `78` `84` | 3 | end of file: normal |
+| `91` `seventy` `84` | 1 | `seventy` is not an `int`: format error |
 
-<!-- Slide 21 -->
+Both stop the loop the same way: the extraction fails. If the loop stops before all expected records are read, inspect the file format before changing the loop.
+
+<!-- Slide 27 -->
+
+---
+
+## Using `eof()` After The Loop
+
+```cpp
+while (inFile >> score) {
+    scores.push_back(score);
+}
+
+if (inFile.eof()) {
+    cout << "Read all " << scores.size() << " scores." << endl;
+} else {
+    cerr << "Error: bad data at value " << scores.size() + 1 << endl;
+}
+```
+
+Before the loop, `eof()` is a guess. After the loop, it tells you *why* reading stopped.
+
+::: notes
+Verified output. First file: "Read all 3 scores." Second file: "Error: bad data at value 2". This is the right job for eof(): diagnosing the stop, not controlling the loop.
+:::
+
+<!-- Slide 28 -->
 
 ---
 
@@ -335,7 +479,7 @@ outFile.close();
 
 One value per line is easy to write, easy to read, and easy to inspect.
 
-<!-- Slide 22 -->
+<!-- Slide 29 -->
 
 ---
 
@@ -355,21 +499,22 @@ inFile.close();
 
 The vector grows as the file provides values.
 
-<!-- Slide 23 -->
+<!-- Slide 30 -->
 
 ---
 
-## Round Trip Pattern
+## Quick Consistency Test
 
 1. Build data in memory.
 2. Write the data to a file.
 3. Close the output stream.
 4. Open an input stream.
 5. Read the data back into memory.
+6. Compare what you read with what you wrote.
 
-Round trips are a useful way to test whether the write format and read loop agree.
+If the two match, the write format and the read loop agree. This is often called a round trip.
 
-<!-- Slide 24 -->
+<!-- Slide 31 -->
 
 ---
 
@@ -387,7 +532,7 @@ outFile.close();
 
 A record is one grouped unit of data. Here, each record has a name and a score.
 
-<!-- Slide 25 -->
+<!-- Slide 32 -->
 
 ---
 
@@ -407,7 +552,7 @@ inFile.close();
 
 The extraction order must match the file's field order.
 
-<!-- Slide 26 -->
+<!-- Slide 33 -->
 
 ---
 
@@ -425,7 +570,7 @@ outFile.close();
 
 CSV files are plain text files with comma-separated fields. Spreadsheet programs can read them.
 
-<!-- Slide 27 -->
+<!-- Slide 34 -->
 
 ---
 
@@ -436,7 +581,7 @@ CSV files are plain text files with comma-separated fields. Spreadsheet programs
 - Match the loop pattern to the file's stopping rule.
 - Keep text formats simple enough to inspect by eye.
 
-<!-- Slide 28 -->
+<!-- Slide 35 -->
 
 ---
 
@@ -446,4 +591,4 @@ CSV files are plain text files with comma-separated fields. Spreadsheet programs
 - The read loop must match the file's format contract.
 - Clear file formats make programs easier to test and debug.
 
-<!-- Slide 29 -->
+<!-- Slide 36 -->
