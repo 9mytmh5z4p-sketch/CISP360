@@ -15,7 +15,6 @@ Recall capacity versus logical size, runtime allocation, ownership, cleanup, and
 
 - Structures
 - Arrays of Structures
-- Binary Records
 - Abstract Data Types — Part 1
 
 ::: notes
@@ -26,7 +25,6 @@ Recall capacity versus logical size, runtime allocation, ownership, cleanup, and
 
 {{< include topic_1_structures.qmd >}}
 {{< include topic_2_arrays_of_structures.qmd >}}
-{{< include topic_3_binary_records.qmd >}}
 {{< include topic_4_abstract_data_types.qmd >}}
 
 ---
@@ -35,10 +33,9 @@ Recall capacity versus logical size, runtime allocation, ownership, cleanup, and
 
 - Structures define complete record types from related members.
 - Arrays of structures keep each record intact through searching, sorting, storage, and resizing.
-- Fixed-size binary records enable direct access but depend on a controlled file layout.
 - An ADT is defined by values, operations, and contracts rather than one representation.
 
-<!-- Slide 136 -->
+<!-- Slide 101 -->
 
 ---
 
@@ -48,13 +45,13 @@ Recall capacity versus logical size, runtime allocation, ownership, cleanup, and
 - Object-Oriented Programming
 - Introduction to Classes
 
-<!-- Slide 137 -->
+<!-- Slide 102 -->
 
 ---
 
 # Appendix
 
-<!-- Slide 138 -->
+<!-- Slide 103 -->
 
 ---
 
@@ -65,7 +62,7 @@ Recall capacity versus logical size, runtime allocation, ownership, cleanup, and
 - Use default member initializers for safe starting values.
 - Pass read-only records by `const` reference.
 
-<!-- Slide 139 -->
+<!-- Slide 104 -->
 
 ---
 
@@ -76,7 +73,7 @@ Recall capacity versus logical size, runtime allocation, ownership, cleanup, and
 - Assuming aggregate values map by name rather than declaration order
 - Passing a large read-only record by value accidentally
 
-<!-- Slide 140 -->
+<!-- Slide 105 -->
 
 ---
 
@@ -88,7 +85,7 @@ struct Date { int month = 1; int day = 1; int year = 2000; };
 struct Book { string title; string author; double price = 0.0; };
 ```
 
-<!-- Slide 141 -->
+<!-- Slide 106 -->
 
 ---
 
@@ -99,7 +96,7 @@ struct Book { string title; string author; double price = 0.0; };
 3. Add a nested `Date` member representing the last restock date.
 4. Compare the sizes of two equivalent structures with different member orders.
 
-<!-- Slide 142 -->
+<!-- Slide 107 -->
 
 ---
 
@@ -111,7 +108,7 @@ struct Book { string title; string author; double price = 0.0; };
 - C++ pointer to struct arrow operator
 - C++ pass struct by const reference
 
-<!-- Slide 143 -->
+<!-- Slide 108 -->
 
 ---
 
@@ -121,7 +118,7 @@ struct Book { string title; string author; double price = 0.0; };
 - Which members determine whether two records represent the same entity?
 - Why can member order affect both initialization and memory layout?
 
-<!-- Slide 144 -->
+<!-- Slide 109 -->
 
 ---
 
@@ -132,7 +129,7 @@ struct Book { string title; string author; double price = 0.0; };
 - Swap or shift complete records instead of coordinating individual members.
 - Use `const Employee&` in range-based loops that only read.
 
-<!-- Slide 145 -->
+<!-- Slide 110 -->
 
 ---
 
@@ -143,7 +140,7 @@ struct Book { string title; string author; double price = 0.0; };
 - Tracking a maximum value but losing the record index
 - Updating `count` before confirming an append or removal succeeded
 
-<!-- Slide 146 -->
+<!-- Slide 111 -->
 
 ---
 
@@ -161,7 +158,7 @@ City cities[] {
 };
 ```
 
-<!-- Slide 147 -->
+<!-- Slide 112 -->
 
 ---
 
@@ -172,7 +169,7 @@ City cities[] {
 3. Remove a record by ID while preserving a packed valid range.
 4. Resize a dynamic array of records and append one new record.
 
-<!-- Slide 148 -->
+<!-- Slide 113 -->
 
 ---
 
@@ -184,7 +181,7 @@ City cities[] {
 - C++ logical size versus capacity
 - C++ range for const reference struct
 
-<!-- Slide 149 -->
+<!-- Slide 114 -->
 
 ---
 
@@ -194,80 +191,7 @@ City cities[] {
 - What invariant does a packed pseudodynamic record array maintain?
 - When would `vector<Employee>` be preferable to a dynamic array?
 
-<!-- Slide 150 -->
-
----
-
-## Binary Records: Good Practices
-
-- Use fixed-size, trivially copyable disk-record types.
-- Validate indexes before calculating offsets.
-- Check every read and write operation.
-- Store a format version when records must survive program changes.
-
-<!-- Slide 151 -->
-
----
-
-## Binary Records: Common Mistakes
-
-- Writing `string` objects or pointers as raw bytes
-- Confusing human record numbers with zero-based indexes
-- Seeking while the stream remains in a failed state
-- Assuming binary files are encrypted or portable
-
-<!-- Slide 152 -->
-
----
-
-## Binary Records: More Examples
-
-```cpp
-struct SensorRecord {
-    int sensorID;
-    long timestamp;
-    double reading;
-    bool active;
-};
-
-static_assert(is_trivially_copyable<SensorRecord>::value,
-              "Raw record required");
-```
-
-<!-- Slide 153 -->
-
----
-
-## Binary Records: Practice Problems
-
-1. Calculate the byte offset for record index 12.
-2. Write a function that reports the number of complete records in a file.
-3. Update one sensor reading in place.
-4. Design a tombstone strategy and describe how deleted slots are reused.
-
-<!-- Slide 154 -->
-
----
-
-## Binary Records: AI Search Terms
-
-- C++ binary file fixed size records
-- C++ seekg seekp record offset
-- C++ trivially copyable serialization
-- C++ struct padding binary file
-- binary file format versioning
-
-<!-- Slide 155 -->
-
----
-
-## Binary Records: Questions for Reflection
-
-- Which assumptions make raw record access possible?
-- Why can a harmless source-code change invalidate an old binary file?
-- When should a program use a defined portable format instead?
-
-<!-- Slide 156 -->
+<!-- Slide 115 -->
 
 ---
 
@@ -278,7 +202,7 @@ static_assert(is_trivially_copyable<SensorRecord>::value,
 - Keep client code dependent on operations rather than members.
 - Treat representation choices as replaceable decisions.
 
-<!-- Slide 157 -->
+<!-- Slide 116 -->
 
 ---
 
@@ -289,7 +213,7 @@ static_assert(is_trivially_copyable<SensorRecord>::value,
 - Omitting failure behavior from an operation’s contract
 - Calling members private without identifying the invariant being protected
 
-<!-- Slide 158 -->
+<!-- Slide 117 -->
 
 ---
 
@@ -301,7 +225,7 @@ static_assert(is_trivially_copyable<SensorRecord>::value,
 | Set | insert, erase, contains | Array or tree |
 | Date | advance, compare, format | Three integers or day count |
 
-<!-- Slide 159 -->
+<!-- Slide 118 -->
 
 ---
 
@@ -312,7 +236,7 @@ static_assert(is_trivially_copyable<SensorRecord>::value,
 3. Write preconditions and postconditions for `withdraw`.
 4. Propose two representations for a date and compare their tradeoffs.
 
-<!-- Slide 160 -->
+<!-- Slide 119 -->
 
 ---
 
@@ -324,7 +248,7 @@ static_assert(is_trivially_copyable<SensorRecord>::value,
 - precondition postcondition contract
 - abstraction versus encapsulation
 
-<!-- Slide 161 -->
+<!-- Slide 120 -->
 
 ---
 
@@ -334,4 +258,4 @@ static_assert(is_trivially_copyable<SensorRecord>::value,
 - Why does observable behavior matter more than source-code secrecy?
 - Which limitation of public structures will classes address next?
 
-<!-- Slide 162 -->
+<!-- Slide 121 -->

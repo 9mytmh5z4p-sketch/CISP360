@@ -76,7 +76,7 @@ This is also a good online reference:
 
 The table below is a high-level overview of the course sequence. For lecture dates, assignment details, deadlines, closures, and finals information, see the [full course calendar](../calendar.html).
 
-The lecture sequence has been revised for instructor unavailability on Wednesday, October 28, and Monday and Wednesday, November 16 and 18. No class meets on those dates. November 25 is a review day with no new lecture content. Lectures after November 25 shift to the next available Monday or Wednesday meeting, and the final three originally scheduled lectures (`16.01`, `16.02`, and `17.01`) plus `15.02` have been removed. The final regular lecture is `15.01` on Wednesday, December 9; December 14–16 is reserved for finals-period information and course closeout.
+The lecture sequence has been revised for instructor unavailability on Wednesday, October 28, and Wednesday, November 18. No class meets on those dates. November 25 is a review day with no new lecture content. Lecture `11.01` (string streams and random access) has been removed to make room for higher-value material, so lectures from Monday, November 2, onward shift up one meeting, beginning with `11.02` on November 2. Lectures `16.02` and `17.01` have been removed. The final regular lecture is `16.01` on Wednesday, December 9; December 14–16 is reserved for finals-period information and course closeout.
 
 ### Course Topics
 
@@ -85,10 +85,10 @@ The lecture sequence has been revised for instructor unavailability on Wednesday
 | C++ Foundations, Functions, and Program Design | Review program structure, variables, data types, terminal input and output, IPO models, execution traces, scope, functions, parameter passing, and coding practices that support larger programs. |
 | Selection, Iteration, Menus, and Input Validation | Use relational and logical operators, conditional statements, loops, nested loops, menu architectures, counters, accumulators, searches, and validation strategies to control program behavior. |
 | Vectors, Arrays, and Algorithms | Work with vectors, multidimensional vectors, fixed-size arrays, C-strings, `std::array`, parallel data, traversal, searching, sorting, and standard vector algorithms. |
-| File I/O, String Streams, and Assertions | Read and write sequential and random-access files, parse and format data with string streams, design simple file formats, and use assertions to express program assumptions. |
+| File I/O and Assertions | Read and write sequential files, design simple file formats, and use assertions to express program assumptions. |
 | References, Pointers, and Memory Access | Use references and reference parameters, work with addresses and dereferencing, connect arrays and pointers, perform pointer arithmetic and comparison, and recognize null, wild, and dangling pointers. |
 | Dynamic Memory and Resource Ownership | Compare stack and heap storage, use `new` and `delete` safely, build and resize dynamic arrays, understand leaks and ownership, and apply smart pointers and cleanup patterns. |
-| Structures, Abstract Data Types, and Records | Define structures and records, organize data into abstract data types, and separate interfaces from implementation. |
+| Structures, Abstract Data Types, and Classes | Define structures and records, organize data into abstract data types, separate interfaces from implementation, and begin object-oriented programming with classes and objects. |
 
 ### Reading Schedule
 
@@ -106,12 +106,12 @@ Use this table to prepare for each week’s class meetings. The textbook referen
 | Week 8 | Iteration, loop anatomy, `while`, `do-while`, `for`, nested loops, and multidimensional vectors | Chapters 5 and 8 | [Chapter 8: Control Flow](https://www.learncpp.com/cpp-tutorial/chapter-8-summary-and-quiz/); [Chapter 16: Dynamic Arrays and `std::vector`](https://www.learncpp.com/cpp-tutorial/chapter-16-summary-and-quiz/) |
 | Week 9 | Loop patterns, menu-driven programs, counters, accumulators, searches, maximum and minimum tracking, and input validation | Chapters 4–5 | [Chapter 8: Control Flow](https://www.learncpp.com/cpp-tutorial/chapter-8-summary-and-quiz/); [Chapter 9: Error Detection and Handling](https://www.learncpp.com/cpp-tutorial/chapter-9-summary-and-quiz/) |
 | Week 10 | File I/O, assertions, and sequential files | Chapter 13 | [Chapter 9: Error Detection and Handling](https://www.learncpp.com/cpp-tutorial/chapter-9-summary-and-quiz/); [Chapter 28: Input and Output](https://www.learncpp.com/cpp-tutorial/input-and-output-io-streams/) |
-| Week 11 | String streams and random access, arrays, and array indexing | Chapters 8–9 and 13 | [Chapter 17: Fixed-Size Arrays](https://www.learncpp.com/cpp-tutorial/chapter-17-summary-and-quiz/); [Chapter 28: Input and Output](https://www.learncpp.com/cpp-tutorial/input-and-output-io-streams/) |
-| Week 12 | Array functions, algorithms, and parallel arrays | Chapters 8–9 | [Chapter 17: Fixed-Size Arrays](https://www.learncpp.com/cpp-tutorial/chapter-17-summary-and-quiz/); [Chapter 18: Iterators and Algorithms](https://www.learncpp.com/cpp-tutorial/sorting-an-array-using-selection-sort/) |
-| Week 13 | No class meetings — instructor unavailable on November 16 and 18 | — | — |
-| Week 14 | Multidimensional and modern arrays, followed by a review day on November 25 | Chapters 8–10 and 12 | [Chapter 12: References and Pointers](https://www.learncpp.com/cpp-tutorial/chapter-12-summary-and-quiz/); [Chapter 17: Fixed-Size Arrays](https://www.learncpp.com/cpp-tutorial/chapter-17-summary-and-quiz/) |
-| Week 15 | Pointer foundations, array decay, null pointers, passing pointers, and pointer safety | Chapters 10–11 | [Chapter 12: References and Pointers](https://www.learncpp.com/cpp-tutorial/chapter-12-summary-and-quiz/); [Chapter 17: Fixed-Size Arrays](https://www.learncpp.com/cpp-tutorial/chapter-17-summary-and-quiz/) |
-| Week 16 | Dynamic memory, smart pointers, pseudodynamic memory, and dynamic arrays | Chapters 10–11 | [Chapter 19: Dynamic Allocation](https://www.learncpp.com/cpp-tutorial/dynamic-memory-allocation-with-new-and-delete/); [Chapter 22: Smart Pointers](https://www.learncpp.com/cpp-tutorial/introduction-to-smart-pointers-move-semantics/) |
+| Week 11 | Arrays, array indexing, array functions, algorithms, and parallel arrays | Chapters 8–9 | [Chapter 17: Fixed-Size Arrays](https://www.learncpp.com/cpp-tutorial/chapter-17-summary-and-quiz/); [Chapter 18: Iterators and Algorithms](https://www.learncpp.com/cpp-tutorial/sorting-an-array-using-selection-sort/) |
+| Week 12 | Multidimensional and modern arrays; no class on November 11 (Veterans Day) | Chapters 8–9 | [Chapter 17: Fixed-Size Arrays](https://www.learncpp.com/cpp-tutorial/chapter-17-summary-and-quiz/) |
+| Week 13 | Pointer foundations on November 16; no class on November 18 — instructor unavailable | Chapters 10 and 12 | [Chapter 12: References and Pointers](https://www.learncpp.com/cpp-tutorial/chapter-12-summary-and-quiz/) |
+| Week 14 | Array decay, null pointers, and passing pointers, followed by a review day on November 25 | Chapters 10 and 12 | [Chapter 12: References and Pointers](https://www.learncpp.com/cpp-tutorial/chapter-12-summary-and-quiz/); [Chapter 17: Fixed-Size Arrays](https://www.learncpp.com/cpp-tutorial/chapter-17-summary-and-quiz/) |
+| Week 15 | Dynamic memory, smart pointers, pseudodynamic memory, and dynamic arrays | Chapters 10–11 | [Chapter 19: Dynamic Allocation](https://www.learncpp.com/cpp-tutorial/dynamic-memory-allocation-with-new-and-delete/); [Chapter 22: Smart Pointers](https://www.learncpp.com/cpp-tutorial/introduction-to-smart-pointers-move-semantics/) |
+| Week 16 | Structures, arrays of structures, abstract data types, object-oriented programming, and introduction to classes | Chapter 7 | [Chapter 13: Compound Types: Enums and Structs](https://www.learncpp.com/cpp-tutorial/chapter-13-summary-and-quiz/); [Chapter 14: Introduction to Classes](https://www.learncpp.com/cpp-tutorial/chapter-14-summary-and-quiz/) |
 | Week 17 | Final review and course closeout | Review assigned chapters | Review the linked LearnCpp chapters above |
 
 ### Course Schedule Summary
@@ -121,9 +121,8 @@ Use this table to prepare for each week’s class meetings. The textbook referen
 | 1–2 | Introduction to C++, variables, types, arithmetic, terminal interactions, and software design |
 | 3–6 | Vectors, range-based loops, modular programming and design, advanced functions, overloading, and conditional logic |
 | 7–9 | Conditional logic, design patterns, Singleton, iteration, nested loops, multidimensional vectors, menu-driven programs, and input validation |
-| 10–12 | File I/O, assertions, string streams, random access, arrays, indexing, array functions, algorithms, and parallel arrays |
-| 13 | No class meetings on November 16 and 18 because the instructor is unavailable |
-| 14–16 | Multidimensional and modern arrays, pointer foundations, array decay, null pointers, passing pointers, dynamic memory, pseudodynamic memory, structures, binary records, and abstract data types |
+| 10–12 | File I/O, assertions, arrays, indexing, array functions, algorithms, parallel arrays, and multidimensional and modern arrays |
+| 13–16 | Pointer foundations (no class on November 18 because the instructor is unavailable), array decay, null pointers, passing pointers, dynamic memory, smart pointers, pseudodynamic memory, structures, arrays of structures, abstract data types, and introduction to classes |
 | 17 | Finals period and course closeout |
 
 This summary is intended to show the progression of topics. The calendar is the authoritative source for the actual schedule.
