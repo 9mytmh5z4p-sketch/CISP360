@@ -41,7 +41,7 @@ Shared project files at `p360 Lectures/` root — do not copy or modify per-lect
 - `_quarto.yml` — shared Quarto format, filters, engine settings
 - `styles/styles.css` — shared CSS
 - `plantuml-filter.lua` — centralized Lua filter (referenced by `_quarto.yml`)
-- `inventory.csv` — append-only topic tracking across all lectures
+- `inventory.csv` — topic tracking across all lectures; keep each lecture's rows current
 - `Dictionary_of_Terms.csv` — shared slide-category terms and definitions
 - `lessons.csv` — session lessons, added with instructor approval
 
@@ -124,19 +124,21 @@ After all topic files are generated, stitch them into a main lecture file:
 - **Filename:** `p360_lecture_0x.0y.qmd`
 - **Location:** working subfolder root
 - The stitched file has **no slide count**
+- Do not place a `---` separator directly before a `#` heading (such as `# Key Takeaways`, `# Next Time`, or `# Appendix`). A `#` heading already starts a new slide, so the separator renders an extra blank slide and shifts every slide number after it.
+- Number `<!-- Slide N -->` markers to match the slide numbers shown on screen. Quarto generates the title slide from `_quarto.yml`, and it counts as slide 1, so the first source slide (Last Time) is `<!-- Slide 2 -->`.
 
 After the instructor has approved all topic slide proposals and the lecture source files have been generated, create a slide catalog CSV file:
 - **Filename:** `slide_catalog.csv`
 - **Location:** working lecture subfolder root
-- **One row per slide:** Include every slide with a visible slide number, including Last Time, Today's Agenda, topic section dividers, Key Takeaways, Next Time, Appendix, and appendix slides.
-- **Columns, in this exact order:** `Slide Number, Topic, Subject, Title, Category, Filename`
-- **Slide Number:** Use the global slide number that displays for the slide and matches the `<!-- Slide N -->` marker.
+- **One row per slide:** Include every slide with a visible slide number, including the generated title slide (row 1: `1,Course Framing,,CISP 360 Structured Programming,Section Divider,`), Last Time, Today's Agenda, topic section dividers, Key Takeaways, Next Time, Appendix, and appendix slides.
+- **Columns, in this exact order:** `Slide Number, Topic, Subject, Title, Category, Notes`
+- **Slide Number:** Use the global slide number that displays on screen for the slide. It matches the `<!-- Slide N -->` marker; the title slide is 1 and has no marker.
 - **Topic:** Use the lecture topic or structural area the slide belongs to, such as `Course Framing`, the topic name, `Course Wrap-Up`, or `Appendix`.
 - **Subject:** Use the exact matching value from the `Subject` column in `inventory.csv` when the slide belongs to an instructional topic. Leave this blank for framing, wrap-up, and appendix-divider slides that do not map cleanly to one inventory subject.
 - **Title:** Use the slide's `#` or `##` heading. If a slide has no title, create a temporary descriptive title and wrap it in angle brackets, such as `<Opening Context>`.
 - **Category:** Assign one instructional category term from `Dictionary_of_Terms.csv`. If no existing category term fits, ask the instructor before adding a new term to the dictionary.
-- **Filename:** List the file name for any asset or image used by that slide. Leave this blank when the slide does not use an asset or image. If a slide uses multiple files, separate the filenames with spaces or semicolons, not commas.
-- **CSV safety:** Do not use commas inside unquoted fields. Prefer category definitions and generated titles without commas.
+- **Notes:** Free-text notes about the slide, such as instructor reminders, revision requests, or build instructions. Also list the file name of any asset or image the slide uses (for example, an embedded visualization). Leave this blank when there is nothing to note. If a slide uses multiple files, separate the filenames with spaces or semicolons. Wrap the field in double quotes if it contains commas.
+- **CSV safety:** Do not use commas inside unquoted fields; quote any field that needs one, such as a `Notes` entry or a title that contains a comma. Prefer category definitions and generated titles without commas.
 
 ---
 
@@ -354,7 +356,7 @@ Update `index.html` in this folder to reflect the completed lecture.
 
 ## Post-Generation: Update inventory.csv
 
-Append one row per topic to `inventory.csv` in this folder. Do not overwrite existing rows.
+Add one row per topic to `inventory.csv` in this folder. When a lecture is revised, edit its existing rows in place, and add or remove rows for topics or exercises that were added or dropped, so the inventory always describes what the lecture currently teaches.
 
 ```
 lecture, week, section, Subject, emphasis, time_budget, optional, notes
@@ -383,6 +385,6 @@ Categories: *voice*, *structure*, *slide length*, *Quarto syntax*, *tone*, *emph
 | `p360_lecture_0x.0y.qmd` (stitched) | `[working subfolder]/` |
 | `slide_catalog.csv` | `[working subfolder]/` |
 | `index.html` (update link text) | `p360 Lectures/` |
-| `inventory.csv` (append only) | `p360 Lectures/` |
+| `inventory.csv` | `p360 Lectures/` |
 | `Dictionary_of_Terms.csv` | `p360 Lectures/` |
 | `lessons.csv` (with approval) | `p360 Lectures/` |
