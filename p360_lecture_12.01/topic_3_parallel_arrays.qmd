@@ -1,37 +1,41 @@
 <!-- Topic 3: Parallel Arrays -->
-<!-- Slides 38–56 -->
+<!-- Slides 45–64 -->
 
 # Parallel Arrays
-<!-- Slide 38 -->
+<!-- Slide 45 -->
 
-## Can One Index Describe a Whole Record? {.smaller}
+## What Happens when we have to Store Arrays of Different Types?
+
+::: notes
+Slides 45–64
+
+Talking points (previously on the slide):
 
 + Separate arrays can store separate attributes
 + A shared index connects the attributes for one entity
-
-::: notes
-Slides 38–56
 :::
 
-<!-- Slide 39 -->
+<!-- Slide 46 -->
 
 ---
 
 ## A Parallel-Array Dataset
 
-| Index | `names` | `scores` | `present` |
-|---:|---|---:|---|
-| 0 | Ada | 91 | true |
-| 1 | Linus | 78 | false |
-| 2 | Grace | 95 | true |
-
-At index `2`, every value describes Grace.
+![](images/three_arrays.png){fig-align="center" style="height: 480px; width: auto;"}
 
 ::: notes
-[Graphic suggestion: draw three horizontal arrays with vertical alignment bands connecting elements that share each index.]
+At index `2`, every value describes Grace.
 :::
 
-<!-- Slide 40 -->
+<!-- Slide 47 -->
+
+---
+
+## Key - Realize a Logical Connection
+
+![](images/parallel_array.png){fig-align="center" style="height: 480px; width: auto;"}
+
+<!-- Slide 48 -->
 
 ---
 
@@ -48,7 +52,7 @@ bool present[CAPACITY];
 + Every array uses the same capacity
 + Each position has the same meaning across all arrays
 
-<!-- Slide 41 -->
+<!-- Slide 49 -->
 
 ---
 
@@ -61,7 +65,7 @@ bool present[CAPACITY];
 
 All loops use the same logical `size`, not the full capacity.
 
-<!-- Slide 42 -->
+<!-- Slide 50 -->
 
 ---
 
@@ -75,7 +79,7 @@ For every active index `i`:
 
 If one array moves without the others, the dataset becomes incorrect.
 
-<!-- Slide 43 -->
+<!-- Slide 51 -->
 
 ---
 
@@ -92,7 +96,7 @@ for (int i = 0; i < size; i++) {
 }
 ```
 
-<!-- Slide 44 -->
+<!-- Slide 52 -->
 
 ---
 
@@ -109,7 +113,7 @@ for (int i = 0; i < size; i++) {
 + One loop controls every array
 + The index selects one complete logical record
 
-<!-- Slide 45 -->
+<!-- Slide 53 -->
 
 ---
 
@@ -126,7 +130,7 @@ void displayRecords(const string names[],
 + Pass one shared logical size
 + Use `const` when the function only reads records
 
-<!-- Slide 46 -->
+<!-- Slide 54 -->
 
 ---
 
@@ -145,7 +149,7 @@ void displayRecords(const string names[],
 }
 ```
 
-<!-- Slide 47 -->
+<!-- Slide 55 -->
 
 ---
 
@@ -159,7 +163,7 @@ int index = findName(names, size, targetName);
 + Keep the returned index
 + Use that index only when it is not `-1`
 
-<!-- Slide 48 -->
+<!-- Slide 56 -->
 
 ---
 
@@ -175,7 +179,7 @@ if (index != -1) {
 
 The search result locates the entire logical record, not only the matched name.
 
-<!-- Slide 49 -->
+<!-- Slide 57 -->
 
 ---
 
@@ -187,7 +191,7 @@ The search result locates the entire logical record, not only the matched name.
 
 An index preserves access to every related field.
 
-<!-- Slide 50 -->
+<!-- Slide 58 -->
 
 ---
 
@@ -207,7 +211,7 @@ int findHighestIndex(const int scores[], int size) {
 }
 ```
 
-<!-- Slide 51 -->
+<!-- Slide 59 -->
 
 ---
 
@@ -221,7 +225,7 @@ swap(present[i], present[i + 1]);
 
 Moving only the scores would attach them to the wrong names.
 
-<!-- Slide 52 -->
+<!-- Slide 60 -->
 
 ---
 
@@ -239,7 +243,7 @@ for (int pass = 0; pass < size - 1; pass++) {
 }
 ```
 
-<!-- Slide 53 -->
+<!-- Slide 61 -->
 
 ---
 
@@ -250,7 +254,7 @@ for (int pass = 0; pass < size - 1; pass++) {
 + Only a few attributes must stay aligned
 + The shared-index contract remains easy to inspect
 
-<!-- Slide 54 -->
+<!-- Slide 62 -->
 
 ---
 
@@ -260,7 +264,7 @@ for (int pass = 0; pass < size - 1; pass++) {
 + Sorting or moving records requires updating every array
 + A structure can package all fields for one entity into a single value
 
-<!-- Slide 55 -->
+<!-- Slide 63 -->
 
 ---
 
@@ -269,4 +273,4 @@ for (int pass = 0; pass < size - 1; pass++) {
 + Parallel arrays use one shared index to connect related values
 + Capacity, logical size, traversal, and movement must remain synchronized
 
-<!-- Slide 56 -->
+<!-- Slide 64 -->
