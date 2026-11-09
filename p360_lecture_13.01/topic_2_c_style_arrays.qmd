@@ -1,8 +1,8 @@
 <!-- Topic 2: C-Style Arrays and C-Strings -->
-<!-- Slides 24–45 -->
+<!-- Slides 25–46 -->
 
 # C-Style Arrays and C-Strings
-<!-- Slide 24 -->
+<!-- Slide 25 -->
 
 ## The Arrays We Already Know? {.smaller}
 
@@ -10,10 +10,10 @@
 - The name distinguishes it from modern C++ containers
 
 ::: notes
-Slides 24–45
+Slides 25–46
 :::
 
-<!-- Slide 25 -->
+<!-- Slide 26 -->
 
 ---
 
@@ -25,7 +25,7 @@ Slides 24–45
 | `std::array` | Fixed at compile time | Container interface |
 | `vector` | Runtime and resizable | Container interface |
 
-<!-- Slide 26 -->
+<!-- Slide 27 -->
 
 ---
 
@@ -35,7 +35,7 @@ Slides 24–45
 - They remain useful for C-compatible and low-level interfaces
 - In modern C++, the name signals a more limited contract than `std::array`
 
-<!-- Slide 27 -->
+<!-- Slide 28 -->
 
 ---
 
@@ -48,7 +48,7 @@ char initials[4] = {'P', '3', '6', '0'};
 - Each element stores one character
 - An ordinary character array is not automatically a string
 
-<!-- Slide 28 -->
+<!-- Slide 29 -->
 
 ---
 
@@ -61,7 +61,7 @@ char course[5] = {'P', '3', '6', '0', '\0'};
 - `\0` marks the end of a C-string
 - `\0`, `'0'`, and `nullptr` mean different things
 
-<!-- Slide 29 -->
+<!-- Slide 30 -->
 
 ---
 
@@ -78,7 +78,7 @@ char sameCourse[5] = {
 - A string literal adds the terminator
 - The first array therefore contains five elements
 
-<!-- Slide 30 -->
+<!-- Slide 31 -->
 
 ---
 
@@ -92,7 +92,7 @@ char name[20] = "Ada";
 - Length: 3 characters before `\0`
 - Unused capacity allows the text to grow
 
-<!-- Slide 31 -->
+<!-- Slide 32 -->
 
 ---
 
@@ -108,7 +108,7 @@ cout << strlen(name) << "\n";  // Number of characters
 - `sizeof` reports the array storage in this scope
 - `strlen` counts characters before the terminator
 
-<!-- Slide 32 -->
+<!-- Slide 33 -->
 
 ---
 
@@ -123,7 +123,7 @@ for (int index = 0; text[index] != '\0'; index++) {
 - The terminator is the loop sentinel
 - The loop does not need to visit unused capacity
 
-<!-- Slide 33 -->
+<!-- Slide 34 -->
 
 ---
 
@@ -145,7 +145,11 @@ int countVowels(const char text[]) {
 }
 ```
 
-<!-- Slide 34 -->
+::: notes
+Exercise option: have students build a test rig for this function. They write a `main()` that calls `countVowels()` on several test strings, compares each result with the expected count, and reports PASS or FAIL, then counts the vowels in a line read with `cin.getline`. Good test cases include uppercase vowels, an empty string, a word with no vowels, and text with spaces and symbols. The completed rig is in `cpp/count_vowels.cpp`.
+:::
+
+<!-- Slide 35 -->
 
 ---
 
@@ -162,7 +166,7 @@ void convertToUpper(char text[]) {
 - The function changes the caller's character array
 - The terminator remains in place
 
-<!-- Slide 35 -->
+<!-- Slide 36 -->
 
 ---
 
@@ -183,7 +187,7 @@ void reverseText(char text[]) {
 }
 ```
 
-<!-- Slide 36 -->
+<!-- Slide 37 -->
 
 ---
 
@@ -199,7 +203,7 @@ cin.getline(title, CAPACITY);
 - `cin >> title` stops at whitespace
 - `cin.getline` can read spaces and receives the destination capacity
 
-<!-- Slide 37 -->
+<!-- Slide 38 -->
 
 ---
 
@@ -215,7 +219,7 @@ cout << strlen(message) << "\n";
 - `strlen` returns the number of characters before `\0`
 - The terminator is not included in the length
 
-<!-- Slide 38 -->
+<!-- Slide 39 -->
 
 ---
 
@@ -232,7 +236,7 @@ if (result == 0) {
 - Negative means `first` comes before `second`
 - Zero means equal; positive means `first` comes after `second`
 
-<!-- Slide 39 -->
+<!-- Slide 40 -->
 
 ---
 
@@ -249,7 +253,7 @@ strcat(destination, " 360");
 - `strcat` appends to it
 - The destination must have enough capacity for the result and `\0`
 
-<!-- Slide 40 -->
+<!-- Slide 41 -->
 
 ---
 
@@ -264,7 +268,7 @@ void readTitle(char title[], int capacity) {
 - A C-style array parameter does not retain its capacity
 - Pass capacity when the function may write into the array
 
-<!-- Slide 41 -->
+<!-- Slide 42 -->
 
 ---
 
@@ -277,7 +281,7 @@ void readTitle(char title[], int capacity) {
 | `<cstring>` functions | Member functions and operators |
 | Needed by some C interfaces | Preferred for new C++ text |
 
-<!-- Slide 42 -->
+<!-- Slide 43 -->
 
 ---
 
@@ -288,7 +292,7 @@ void readTitle(char title[], int capacity) {
 - Fixed multidimensional arrays
 - Interfaces that exchange raw buffers
 
-<!-- Slide 43 -->
+<!-- Slide 44 -->
 
 ---
 
@@ -298,7 +302,7 @@ void readTitle(char title[], int capacity) {
 - They do not know their own size or provide a container interface
 - Prefer a modern C++ container unless compatibility requires the built-in form
 
-<!-- Slide 44 -->
+<!-- Slide 45 -->
 
 ---
 
@@ -307,4 +311,4 @@ void readTitle(char title[], int capacity) {
 - Previously studied built-in arrays are C-style arrays
 - A C-string adds a `\0` convention that requires explicit capacity and length management
 
-<!-- Slide 45 -->
+<!-- Slide 46 -->

@@ -1,8 +1,8 @@
-<!-- Topic 3: Dynamic Memory -->
-<!-- Slides 51–68 -->
+<!-- Topic 4: Dynamic Memory -->
+<!-- Slides 63–80 -->
 
 # Dynamic Memory
-<!-- Slide 51 -->
+<!-- Slide 63 -->
 
 ## When the Data Changes the Size {.smaller}
 
@@ -12,11 +12,11 @@
 The program does not ask the user for a new length each time. The data operation itself creates the need for a different array size.
 
 ::: notes
-Slides 51–68
+Slides 63–80
 This topic is organized around `rdaa.cpp`, the real dynamically allocated array example.
 :::
 
-<!-- Slide 52 -->
+<!-- Slide 64 -->
 
 ---
 
@@ -28,7 +28,7 @@ This topic is organized around `rdaa.cpp`, the real dynamically allocated array 
 
 This file is the complete example that the next slides dissect.
 
-<!-- Slide 53 -->
+<!-- Slide 65 -->
 
 ---
 
@@ -40,7 +40,7 @@ This file is the complete example that the next slides dissect.
 
 Each size change is really a new allocation plus a transfer of the values that still matter.
 
-<!-- Slide 54 -->
+<!-- Slide 66 -->
 
 ---
 
@@ -56,7 +56,7 @@ pInt[0] = 10;
 
 At this moment, `pInt` owns a heap array with exactly one element.
 
-<!-- Slide 55 -->
+<!-- Slide 67 -->
 
 ---
 
@@ -73,7 +73,7 @@ pTemp[1] = 20;
 
 The new value `20` requires a larger array. The old value is copied before ownership changes.
 
-<!-- Slide 56 -->
+<!-- Slide 68 -->
 
 ---
 
@@ -87,7 +87,7 @@ pTemp = nullptr;
 
 `pInt` becomes the owner of the larger array only after the old array has been released.
 
-<!-- Slide 57 -->
+<!-- Slide 69 -->
 
 ---
 
@@ -105,7 +105,7 @@ pTemp = nullptr;
 
 Removing data from the right means the retained values fit in a smaller allocation.
 
-<!-- Slide 58 -->
+<!-- Slide 70 -->
 
 ---
 
@@ -118,7 +118,7 @@ pInt = nullptr;
 
 After the final print, `pInt` still owns a heap allocation. The program should release that last array before it ends.
 
-<!-- Slide 59 -->
+<!-- Slide 71 -->
 
 ---
 
@@ -132,7 +132,7 @@ After the final print, `pInt` still owns a heap allocation. The program should r
 
 **Predict:** what would print after each stage?
 
-<!-- Slide 60 -->
+<!-- Slide 72 -->
 
 ---
 
@@ -142,7 +142,7 @@ After the final print, `pInt` still owns a heap allocation. The program should r
 - Resizing means allocating a different block and preserving the desired values.
 - Ownership transfers only after the copy succeeds.
 
-<!-- Slide 61 -->
+<!-- Slide 73 -->
 
 ---
 
@@ -155,7 +155,7 @@ After the final print, `pInt` still owns a heap allocation. The program should r
 5. Point the owner to the new array.
 6. Update the tracked length.
 
-<!-- Slide 62 -->
+<!-- Slide 74 -->
 
 ---
 
@@ -169,7 +169,7 @@ if (newLength < oldLength)
 
 The general rule is `min(oldLength, newLength)`.
 
-<!-- Slide 63 -->
+<!-- Slide 75 -->
 
 ---
 
@@ -193,7 +193,7 @@ void append(int*& values, int& length, int value)
 
 Both pointer and length use reference parameters because the function changes the caller's state.
 
-<!-- Slide 64 -->
+<!-- Slide 76 -->
 
 ---
 
@@ -219,7 +219,7 @@ bool removeLast(int*& values, int& length)
 }
 ```
 
-<!-- Slide 65 -->
+<!-- Slide 77 -->
 
 ---
 
@@ -248,7 +248,7 @@ void resize(int*& values, int& length, int newLength)
 }
 ```
 
-<!-- Slide 66 -->
+<!-- Slide 78 -->
 
 ---
 
@@ -258,7 +258,7 @@ void resize(int*& values, int& length, int newLength)
 - Copying retained elements takes O(N) time.
 - Growing by one element repeatedly can perform many unnecessary copies.
 
-<!-- Slide 67 -->
+<!-- Slide 79 -->
 
 ---
 
@@ -267,4 +267,4 @@ void resize(int*& values, int& length, int newLength)
 - Dynamic memory changes the allocation when the program's data requires a different size.
 - A resize is allocate, copy, release, transfer ownership, and update length.
 
-<!-- Slide 68 -->
+<!-- Slide 80 -->

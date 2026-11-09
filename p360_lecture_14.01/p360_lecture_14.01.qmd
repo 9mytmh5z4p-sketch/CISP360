@@ -1,88 +1,78 @@
 # Last Time
 
 ::: {.incremental}
-+ **Why Pointers?**
-+ **Addresses and Pointer Variables**
-+ **Dereferencing Pointers**
-+ **Arrays and Pointers**
-+ **Pointer Arithmetic and Comparison**
-+ **Pointer Safety**
-+ **Choosing Direct Access, References, or Pointers**
++ **Introduction to Pointers and Their Value in Modern Programming**
++ **Initializing and Using Pointers**
 :::
 
 ::: notes
-Recall that a pointer stores a typed address, dereferencing accesses its target, and array expressions often produce a pointer to the first element. This lecture concentrates on what decay discards, how programs represent absence, and how pointer parameters express function-boundary contracts.
-:::
-
-<!-- Slide 1 -->
-
-# Today's Agenda
-
-- Array Decay
-- Null Pointers
-- Passing Pointers
-
-::: notes
-The lecture moves from array-to-pointer conversion, to deliberate no-object states, to pointer parameters as interface design.
+Recall that a pointer stores a typed address and that dereferencing reads or writes its target. This lecture connects pointers to arrays and pointer arithmetic, shows how programs represent absence, and treats pointer parameters as function-boundary contracts.
 :::
 
 <!-- Slide 2 -->
 
-{{< include topic_1_array_decay.qmd >}}
+# Today's Agenda
+
+- Arrays and Pointers
+- Null Pointers
+- Passing Pointers
+
+::: notes
+The lecture moves from the pointer view of arrays and pointer arithmetic, to deliberate no-object states, to pointer parameters as interface design.
+:::
+
+<!-- Slide 3 -->
+
+{{< include topic_1_arrays_pointers.qmd >}}
 {{< include topic_2_null_pointers.qmd >}}
 {{< include topic_3_passing_pointers.qmd >}}
 
----
-
 # Key Takeaways
 
-- Array decay gives functions access to elements but not the array's extent
+- An array name becomes a pointer to its first element; pointer arithmetic moves by whole elements, and the size must travel separately
 - `nullptr` represents intentional absence and must have a documented meaning
 - Passing a pointer copies an address, while dereferencing it may share access to caller-owned data
 - Use the least powerful parameter style that expresses the function's contract
 
-<!-- Slide 73 -->
-
----
+<!-- Slide 64 -->
 
 # Next Time
 
-- Heap and stack storage
-- Dynamic allocation with `new` and `delete`
-- Pointer errors, memory leaks, and dangling pointers
-- Smart pointers and ownership
+- Heap and stack storage with `new` and `delete`
+- Pseudodynamic memory on the stack and heap
+- Dynamic memory: resizing arrays
 
-<!-- Slide 74 -->
-
----
+<!-- Slide 65 -->
 
 # Appendix
 
-<!-- Slide 75 -->
+<!-- Slide 66 -->
 
 ---
 
-## Array Decay: Good Practices
+## Arrays and Pointers: Good Practices
 
 - Pair every raw array pointer with an explicit size or end pointer
+- Keep pointer arithmetic inside the array; form one-past-the-end only as a boundary
 - Use `const` for read-only access
 - Prefer containers when the size should travel with the data
 
-<!-- Slide 76 -->
+<!-- Slide 67 -->
 
 ---
 
-## Array Decay: Common Mistakes
+## Arrays and Pointers: Common Mistakes
 
-- Expecting brackets in a function parameter to preserve the array size
-- Using `sizeof` on an array parameter to count caller elements
+- Assuming `ptr + 1` moves one byte instead of one element
+- Dereferencing the one-past-the-end pointer
+- Comparing or subtracting pointers into different arrays
 - Passing a pointer with a size that exceeds the actual range
 
-<!-- Slide 77 -->
+<!-- Slide 68 -->
 
 ---
 
-## Array Decay: More Examples
+## Arrays and Pointers: More Examples
 
 ```{.cpp}
 double average(const int* begin, const int* end) {
@@ -96,39 +86,41 @@ double average(const int* begin, const int* end) {
 }
 ```
 
-<!-- Slide 78 -->
+<!-- Slide 69 -->
 
 ---
 
-## Array Decay: Practice Problems
+## Arrays and Pointers: Practice Problems
 
-1. Write a function that receives a C-style array and its logical size, then returns its largest value.
-2. Rewrite that function to receive begin and end pointers.
-3. Explain why the function cannot recover the caller's array extent from the pointer alone.
+1. Rewrite an index loop that prints an array so it uses `*(values + i)` instead of `values[i]`.
+2. Write a function that receives begin and end pointers and returns the largest value in the range.
+3. Given `int* a = values + 1;` and `int* b = values + 4;`, predict `b - a`, `*a`, and `*(b - 1)`.
 
-<!-- Slide 79 -->
+<!-- Slide 70 -->
 
 ---
 
-## Array Decay: AI Search Terms
+## Arrays and Pointers: AI Search Terms
 
 - C++ array-to-pointer conversion
-- C++ array parameter decay
+- C++ pointer arithmetic scaled by element size
+- C++ subscript equivalence a[i] *(a + i)
 - C++ pointer and size interface
 - C++ reference to array preserve size
 - C++ multidimensional array decay
 
-<!-- Slide 80 -->
+<!-- Slide 71 -->
 
 ---
 
-## Array Decay: Questions for Reflection
+## Arrays and Pointers: Questions for Reflection
 
+- Why does `values[i]` still work on a pointer parameter?
 - Which parts of an array's type survive decay?
 - When is pointer-plus-size clearer than begin-and-end pointers?
 - What guarantee does a container reference preserve that a raw pointer cannot?
 
-<!-- Slide 81 -->
+<!-- Slide 72 -->
 
 ---
 
@@ -138,7 +130,7 @@ double average(const int* begin, const int* end) {
 - Test nullable pointers before `*ptr` and `ptr->member`
 - Prefer references when a function requires an object
 
-<!-- Slide 82 -->
+<!-- Slide 73 -->
 
 ---
 
@@ -148,7 +140,7 @@ double average(const int* begin, const int* end) {
 - Assuming non-null automatically means live and in bounds
 - Using `nullptr` without documenting what absence means
 
-<!-- Slide 83 -->
+<!-- Slide 74 -->
 
 ---
 
@@ -162,7 +154,7 @@ const int* chooseLarger(const int* first, const int* second) {
 }
 ```
 
-<!-- Slide 84 -->
+<!-- Slide 75 -->
 
 ---
 
@@ -172,7 +164,7 @@ const int* chooseLarger(const int* first, const int* second) {
 2. Call the function and print either the matching index or `not found`.
 3. Redesign a required pointer parameter as a reference parameter.
 
-<!-- Slide 85 -->
+<!-- Slide 76 -->
 
 ---
 
@@ -184,7 +176,7 @@ const int* chooseLarger(const int* first, const int* second) {
 - C++ nullptr overload resolution
 - C++ null pointer versus dangling pointer
 
-<!-- Slide 86 -->
+<!-- Slide 77 -->
 
 ---
 
@@ -194,7 +186,7 @@ const int* chooseLarger(const int* first, const int* second) {
 - Why does a null check establish less than full pointer validity?
 - How does a nullable pointer change a function's contract for its caller?
 
-<!-- Slide 87 -->
+<!-- Slide 78 -->
 
 ---
 
@@ -204,7 +196,7 @@ const int* chooseLarger(const int* first, const int* second) {
 - Check nullable parameters before dereferencing
 - Prefer references when the target is required
 
-<!-- Slide 88 -->
+<!-- Slide 79 -->
 
 ---
 
@@ -214,7 +206,7 @@ const int* chooseLarger(const int* first, const int* second) {
 - Changing `ptr` when the intended change was `*ptr`
 - Returning the address of a local variable
 
-<!-- Slide 89 -->
+<!-- Slide 80 -->
 
 ---
 
@@ -234,7 +226,7 @@ bool getFirstPositive(const int* values, int size, int* result) {
 }
 ```
 
-<!-- Slide 90 -->
+<!-- Slide 81 -->
 
 ---
 
@@ -244,7 +236,7 @@ bool getFirstPositive(const int* values, int size, int* result) {
 2. Write a function that receives `int* value` and sets the target to zero when non-null.
 3. Explain when the same function would be clearer with an `int&` parameter.
 
-<!-- Slide 91 -->
+<!-- Slide 82 -->
 
 ---
 
@@ -256,7 +248,7 @@ bool getFirstPositive(const int* values, int size, int* result) {
 - C++ nullable pointer parameter
 - C++ output parameter pointer
 
-<!-- Slide 92 -->
+<!-- Slide 83 -->
 
 ---
 
@@ -266,4 +258,4 @@ bool getFirstPositive(const int* values, int size, int* result) {
 - What responsibilities does a caller accept when passing a pointer?
 - How does the function signature reveal whether a parameter is required, optional, read-only, or writable?
 
-<!-- Slide 93 -->
+<!-- Slide 84 -->

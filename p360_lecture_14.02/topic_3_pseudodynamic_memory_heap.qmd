@@ -1,8 +1,8 @@
-<!-- Topic 2: Pseudodynamic Memory - Heap -->
-<!-- Slides 22–50 -->
+<!-- Topic 3: Pseudodynamic Memory - Heap -->
+<!-- Slides 39–62 -->
 
 # Pseudodynamic Memory - Heap
-<!-- Slide 22 -->
+<!-- Slide 39 -->
 
 ## When Fixed Capacity Is Not Enough {.smaller}
 
@@ -10,10 +10,10 @@
 - Heap allocation removes the compile-time capacity wall, but the allocation still has a fixed length once created.
 
 ::: notes
-Slides 22–50
+Slides 39–62
 :::
 
-<!-- Slide 23 -->
+<!-- Slide 40 -->
 
 ---
 
@@ -24,42 +24,7 @@ Slides 22–50
 
 The heap flavor is more flexible at program start, but it introduces ownership and cleanup responsibilities.
 
-<!-- Slide 24 -->
-
----
-
-## Scalar Ownership Review
-
-1. Allocate with `new`.
-2. Use the object through its pointer.
-3. Release it with `delete`.
-4. Set the pointer to `nullptr` when it remains in scope.
-
-**Invariant:** one owner, one matching release.
-
-<!-- Slide 25 -->
-
----
-
-## One Dynamically Allocated Value
-
-```{.cpp}
-#include <iostream>
-using namespace std;
-
-int main()
-{
-    int* score = new int;
-    *score = 92;
-    cout << *score << '\n';
-
-    delete score;
-    score = nullptr;
-    return 0;
-}
-```
-
-<!-- Slide 26 -->
+<!-- Slide 41 -->
 
 ---
 
@@ -76,7 +41,7 @@ The second allocation reserves `count` contiguous `int` elements on the heap.
 [Graphic suggestion: two stack pointer variables, one pointing to a scalar heap cell and one to an array block.]
 :::
 
-<!-- Slide 27 -->
+<!-- Slide 42 -->
 
 ---
 
@@ -89,7 +54,7 @@ The second allocation reserves `count` contiguous `int` elements on the heap.
 
 The bracket form is part of the allocation contract.
 
-<!-- Slide 28 -->
+<!-- Slide 43 -->
 
 ---
 
@@ -105,7 +70,7 @@ delete[] values;
 
 Mixing scalar and array release forms causes undefined behavior.
 
-<!-- Slide 29 -->
+<!-- Slide 44 -->
 
 ---
 
@@ -119,7 +84,7 @@ Mixing scalar and array release forms causes undefined behavior.
 [Graphic suggestion: stack frame containing `values` and `length`, with an arrow to a heap block. Label the pointer and allocation lifetimes separately.]
 :::
 
-<!-- Slide 30 -->
+<!-- Slide 45 -->
 
 ---
 
@@ -138,7 +103,7 @@ while (length < 0)
 
 No allocation should occur until the requested length satisfies the program contract.
 
-<!-- Slide 31 -->
+<!-- Slide 46 -->
 
 ---
 
@@ -153,7 +118,7 @@ if (length > 0)
 
 `nullptr` clearly represents “no array.” Both `delete[] nullptr` and guarded traversal are safe.
 
-<!-- Slide 32 -->
+<!-- Slide 47 -->
 
 ---
 
@@ -168,7 +133,7 @@ for (int index = 0; index < length; index++)
 
 The allocated length is fixed for the lifetime of this allocation.
 
-<!-- Slide 33 -->
+<!-- Slide 48 -->
 
 ---
 
@@ -188,7 +153,7 @@ cout << '\n';
 
 **Boundary:** every subscript must remain below `length`.
 
-<!-- Slide 34 -->
+<!-- Slide 49 -->
 
 ---
 
@@ -223,7 +188,7 @@ int main()
 }
 ```
 
-<!-- Slide 35 -->
+<!-- Slide 50 -->
 
 ---
 
@@ -235,7 +200,7 @@ int main()
 
 In the heap pseudodynamic pattern, these values usually become the same after validation.
 
-<!-- Slide 36 -->
+<!-- Slide 51 -->
 
 ---
 
@@ -248,7 +213,7 @@ double average(const int values[], int length);
 
 The pointer carries an address. The length carries the boundary contract.
 
-<!-- Slide 37 -->
+<!-- Slide 52 -->
 
 ---
 
@@ -282,7 +247,7 @@ double average(const int values[], int length)
 }
 ```
 
-<!-- Slide 38 -->
+<!-- Slide 53 -->
 
 ---
 
@@ -292,7 +257,7 @@ double average(const int values[], int length)
 - `values[length]` is already one element beyond the allocation.
 - An out-of-bounds read or write causes undefined behavior.
 
-<!-- Slide 39 -->
+<!-- Slide 54 -->
 
 ---
 
@@ -309,7 +274,7 @@ delete[] values;
 
 **Predict:** is any particular output guaranteed for the second statement?
 
-<!-- Slide 40 -->
+<!-- Slide 55 -->
 
 ---
 
@@ -328,7 +293,7 @@ values = nullptr;
 
 The owning pointer retains the address returned by `new[]`.
 
-<!-- Slide 41 -->
+<!-- Slide 56 -->
 
 ---
 
@@ -347,7 +312,7 @@ while (cursor != end)
 
 `cursor` moves; `values` continues to own the base address.
 
-<!-- Slide 42 -->
+<!-- Slide 57 -->
 
 ---
 
@@ -364,7 +329,7 @@ The allocation still exists, but its address is gone. It can no longer be releas
 [Graphic suggestion: heap block with its ownership arrow removed while the pointer now holds `nullptr`.]
 :::
 
-<!-- Slide 43 -->
+<!-- Slide 58 -->
 
 ---
 
@@ -387,7 +352,7 @@ return 0;
 
 Each exit path must honor the ownership invariant.
 
-<!-- Slide 44 -->
+<!-- Slide 59 -->
 
 ---
 
@@ -409,67 +374,7 @@ return result;
 
 One release point makes manual ownership easier to audit.
 
-<!-- Slide 45 -->
-
----
-
-## Automatic Array Ownership
-
-```{.cpp}
-#include <memory>
-using namespace std;
-
-unique_ptr<int[]> values = make_unique<int[]>(length);
-values[0] = 42;
-```
-
-The smart pointer releases its array automatically when its lifetime ends.
-
-<!-- Slide 46 -->
-
----
-
-## Managed Heap Array {.smaller}
-
-```{.cpp}
-#include <iostream>
-#include <memory>
-using namespace std;
-
-int main()
-{
-    int length;
-    cout << "How many values? ";
-    cin >> length;
-
-    if (length <= 0)
-        return 0;
-
-    unique_ptr<int[]> values = make_unique<int[]>(length);
-    for (int i = 0; i < length; i++)
-        cin >> values[i];
-
-    for (int i = 0; i < length; i++)
-        cout << values[i] << '\n';
-    return 0;
-}
-```
-
-<!-- Slide 47 -->
-
----
-
-## Lifetime Versus Bounds Safety
-
-`unique_ptr<Type[]>` provides:
-
-- Automatic release with the correct array form
-- Exclusive ownership
-- Subscript access
-
-It does not store length or check whether an index is valid.
-
-<!-- Slide 48 -->
+<!-- Slide 60 -->
 
 ---
 
@@ -479,7 +384,7 @@ It does not store length or check whether an index is valid.
 - Once the heap block is allocated, that block does not change size.
 - To change the size, the program must allocate a different block and move the data it wants to keep.
 
-<!-- Slide 49 -->
+<!-- Slide 61 -->
 
 ---
 
@@ -488,4 +393,4 @@ It does not store length or check whether an index is valid.
 - Heap pseudodynamic memory uses `new[]` to choose array length at runtime.
 - The allocation has a fixed size until it is released, so ownership and bounds must be tracked explicitly.
 
-<!-- Slide 50 -->
+<!-- Slide 62 -->

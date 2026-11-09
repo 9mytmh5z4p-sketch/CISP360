@@ -1,8 +1,8 @@
-<!-- Topic 3: Smart Pointers -->
-<!-- Slides 43–75 -->
+<!-- Topic 2: Smart Pointers -->
+<!-- Slides 28–63 -->
 
 # Smart Pointers
-<!-- Slide 43 -->
+<!-- Slide 28 -->
 
 ## Can Ownership Clean Up After Itself? {.smaller}
 
@@ -10,11 +10,11 @@
 + Smart pointers make ownership part of an object's automatic lifetime.
 
 ::: notes
-Slides 43–75
+Slides 28–63
 [Graphic suggestion: a scope closing and a managed allocation being released automatically.]
 :::
 
-<!-- Slide 44 -->
+<!-- Slide 29 -->
 
 ---
 
@@ -24,7 +24,7 @@ Slides 43–75
 + Dereference syntax still provides access to the pointed-to object.
 + The smart-pointer object's lifetime controls its cleanup behavior.
 
-<!-- Slide 45 -->
+<!-- Slide 30 -->
 
 ---
 
@@ -36,7 +36,7 @@ Slides 43–75
 | `shared_ptr` | Multiple owners | Genuine shared lifetime |
 | `weak_ptr` | Non-owning observer | Observe shared storage safely |
 
-<!-- Slide 46 -->
+<!-- Slide 31 -->
 
 ---
 
@@ -51,7 +51,7 @@ using namespace std;
 
 + Smart pointers and their creation helpers are declared in `<memory>`; `move` is declared in `<utility>`.
 
-<!-- Slide 47 -->
+<!-- Slide 32 -->
 
 ---
 
@@ -65,7 +65,7 @@ using namespace std;
 [Graphic suggestion: timeline labeled construction, use, scope exit, automatic release.]
 :::
 
-<!-- Slide 48 -->
+<!-- Slide 33 -->
 
 ---
 
@@ -90,7 +90,7 @@ cout << *managed << "\n";
 :::
 :::
 
-<!-- Slide 49 -->
+<!-- Slide 34 -->
 
 ---
 
@@ -108,7 +108,7 @@ if (score == nullptr) {
 }
 ```
 
-<!-- Slide 50 -->
+<!-- Slide 35 -->
 
 ---
 
@@ -122,7 +122,7 @@ unique_ptr<int> score(new int{95});
 + Destruction of `score` releases the allocation.
 + Direct use of `new` is valid here, but a helper is preferred.
 
-<!-- Slide 51 -->
+<!-- Slide 36 -->
 
 ---
 
@@ -135,7 +135,7 @@ unique_ptr<int> score = make_unique<int>(95);
 + `make_unique` creates the object and returns its owner.
 + The allocation is never exposed as an unowned raw pointer.
 
-<!-- Slide 52 -->
+<!-- Slide 37 -->
 
 ---
 
@@ -151,7 +151,7 @@ cout << *score << "\n";
 
 + Dereferencing accesses the managed object, not the smart pointer itself.
 
-<!-- Slide 53 -->
+<!-- Slide 38 -->
 
 ---
 
@@ -168,7 +168,7 @@ void showScore() {
 [Graphic suggestion: owner and allocation both disappear at the closing brace.]
 :::
 
-<!-- Slide 54 -->
+<!-- Slide 39 -->
 
 ---
 
@@ -191,7 +191,7 @@ int main() {
 } // automatic cleanup
 ```
 
-<!-- Slide 55 -->
+<!-- Slide 40 -->
 
 ---
 
@@ -205,7 +205,7 @@ int main() {
 [Graphic suggestion: ownership badge moving from source to destination while one allocation remains.]
 :::
 
-<!-- Slide 56 -->
+<!-- Slide 41 -->
 
 ---
 
@@ -220,7 +220,7 @@ unique_ptr<int> first = make_unique<int>(42);
 
 + The compiler prevents a double-ownership state.
 
-<!-- Slide 57 -->
+<!-- Slide 42 -->
 
 ---
 
@@ -237,7 +237,7 @@ cout << *second << "\n";
 Pause before the move. Ask which variable should own the allocation afterward.
 :::
 
-<!-- Slide 58 -->
+<!-- Slide 43 -->
 
 ---
 
@@ -252,7 +252,7 @@ cout << "first owns: " << static_cast<bool>(first) << "\n";
 cout << "second owns: " << static_cast<bool>(second) << "\n";
 ```
 
-<!-- Slide 59 -->
+<!-- Slide 44 -->
 
 ---
 
@@ -271,7 +271,7 @@ int main() {
 
 + The parameter style reveals whether ownership stays or moves.
 
-<!-- Slide 60 -->
+<!-- Slide 45 -->
 
 ---
 
@@ -295,7 +295,7 @@ unique_ptr<int> makeScore(int value) {
 }
 ```
 
-<!-- Slide 61 -->
+<!-- Slide 46 -->
 
 ---
 
@@ -312,7 +312,7 @@ score.reset(); // release and become empty
 
 + `reset` releases the previous managed object before taking a new one.
 
-<!-- Slide 62 -->
+<!-- Slide 47 -->
 
 ---
 
@@ -328,7 +328,7 @@ cout << *observer << "\n";
 + `get()` does not transfer ownership.
 + The observer is valid only while the owner keeps the object alive.
 
-<!-- Slide 63 -->
+<!-- Slide 48 -->
 
 ---
 
@@ -345,7 +345,67 @@ raw = nullptr;
 + `release()` returns the address without deleting the object.
 + Manual cleanup responsibility immediately returns.
 
-<!-- Slide 64 -->
+<!-- Slide 49 -->
+
+---
+
+## Automatic Array Ownership
+
+```{.cpp}
+#include <memory>
+using namespace std;
+
+unique_ptr<int[]> values = make_unique<int[]>(length);
+values[0] = 42;
+```
+
+The smart pointer releases its array automatically when its lifetime ends.
+
+<!-- Slide 50 -->
+
+---
+
+## Managed Heap Array {.smaller}
+
+```{.cpp}
+#include <iostream>
+#include <memory>
+using namespace std;
+
+int main()
+{
+    int length;
+    cout << "How many values? ";
+    cin >> length;
+
+    if (length <= 0)
+        return 0;
+
+    unique_ptr<int[]> values = make_unique<int[]>(length);
+    for (int i = 0; i < length; i++)
+        cin >> values[i];
+
+    for (int i = 0; i < length; i++)
+        cout << values[i] << '\n';
+    return 0;
+}
+```
+
+<!-- Slide 51 -->
+
+---
+
+## Lifetime Versus Bounds Safety
+
+`unique_ptr<Type[]>` provides:
+
+- Automatic release with the correct array form
+- Exclusive ownership
+- Subscript access
+
+It does not store length or check whether an index is valid.
+
+<!-- Slide 52 -->
 
 ---
 
@@ -359,7 +419,7 @@ shared_ptr<int> second = first;
 + Both smart pointers own the same object.
 + A reference count records how many shared owners remain.
 
-<!-- Slide 65 -->
+<!-- Slide 53 -->
 
 ---
 
@@ -375,7 +435,7 @@ cout << temperature.use_count() << "\n";
 
 + Prefer `make_shared` when shared ownership is required.
 
-<!-- Slide 66 -->
+<!-- Slide 54 -->
 
 ---
 
@@ -394,7 +454,7 @@ cout << second.use_count() << "\n"; // 2
 [Graphic suggestion: two owners pointing to one allocation and one control block labeled count 2.]
 :::
 
-<!-- Slide 67 -->
+<!-- Slide 55 -->
 
 ---
 
@@ -413,7 +473,7 @@ cout << first.use_count() << "\n"; // 1
 
 + The allocation is released when the final shared owner is destroyed.
 
-<!-- Slide 68 -->
+<!-- Slide 56 -->
 
 ---
 
@@ -423,7 +483,7 @@ cout << first.use_count() << "\n"; // 1
 + Copies must update that count.
 + Use `shared_ptr` only when the design truly requires multiple owners.
 
-<!-- Slide 69 -->
+<!-- Slide 57 -->
 
 ---
 
@@ -438,7 +498,7 @@ Keep this conceptual because classes have not yet been developed in depth.
 [Graphic suggestion: two objects joined by circular owning arrows, each count held above zero.]
 :::
 
-<!-- Slide 70 -->
+<!-- Slide 58 -->
 
 ---
 
@@ -452,7 +512,7 @@ Keep this conceptual because classes have not yet been developed in depth.
 [Graphic suggestion: replace one owning arrow in the cycle with a dashed observer arrow.]
 :::
 
-<!-- Slide 71 -->
+<!-- Slide 59 -->
 
 ---
 
@@ -469,7 +529,7 @@ if (shared_ptr<int> access = observer.lock()) {
 
 + `lock()` returns temporary shared ownership if the object still exists.
 
-<!-- Slide 72 -->
+<!-- Slide 60 -->
 
 ---
 
@@ -484,7 +544,7 @@ if (shared_ptr<int> access = observer.lock()) {
 | Genuine shared ownership | `shared_ptr` |
 | Observe shared storage | `weak_ptr` |
 
-<!-- Slide 73 -->
+<!-- Slide 61 -->
 
 ---
 
@@ -515,7 +575,7 @@ cout << *score << "\n";
 :::
 :::
 
-<!-- Slide 74 -->
+<!-- Slide 62 -->
 
 ---
 
@@ -525,4 +585,4 @@ cout << *score << "\n";
 + Use `shared_ptr` only for genuine shared lifetime.
 + Use `weak_ptr` to observe shared storage without extending its lifetime.
 
-<!-- Slide 75 -->
+<!-- Slide 63 -->

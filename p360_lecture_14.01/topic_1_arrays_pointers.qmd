@@ -1,0 +1,220 @@
+<!-- Topic 1: Arrays and Pointers -->
+<!-- Slides 4–17 -->
+
+# Arrays and Pointers
+<!-- Slide 4 -->
+
+## Decay, Revisited {.smaller}
+
+- In 12.01, an array passed to a function decayed to a pointer to its first element
+- The size did not travel with it, so we passed the size separately
+- Today: what that pointer is, and what we can do with it
+
+::: notes
+Slides 4–17
+
+This one slide replaces the full decay review. Students already saw the decay definition, `sizeof` inside and outside a function, parameter brackets, passing the size, caller-visible mutation, and `const` array parameters in 12.01 (slides 12–19). Remind them briefly and move on to the pointer view.
+:::
+
+<!-- Slide 5 -->
+
+---
+
+## The Array Name Is the First Address
+
+```{.cpp}
+int values[4] = {10, 20, 30, 40};
+int* first = values;          // same address as &values[0]
+
+cout << *first << "\n";       // 10
+```
+
+- An array name used in an expression becomes a pointer to element `0`
+- This is the conversion we called decay in 12.01
+
+<!-- Slide 6 -->
+
+---
+
+## The Pointer Is Not the Array
+
+```{.cpp}
+int scores[5] = {82, 91, 76, 88, 94};
+int* ptr = scores;
+
+cout << scores << "\n";
+cout << &scores[0] << "\n";
+cout << ptr << "\n";
+```
+
+- The printed addresses may match
+- The types and the information carried do not match
+
+<!-- Slide 7 -->
+
+---
+
+## Pointer Arithmetic Moves by Elements
+
+```{.cpp}
+int values[4] = {10, 20, 30, 40};
+int* ptr = values;
+
+cout << *ptr << "\n";         // 10
+cout << *(ptr + 1) << "\n";   // 20
+cout << *(ptr + 3) << "\n";   // 40
+```
+
+- `ptr + 1` is the address of the next element, not the next byte
+- The compiler scales each step by the size of the element type
+
+::: notes
+[Graphic suggestion: four adjacent int cells with ptr, ptr + 1, ptr + 2, ptr + 3 arrows; label each step as sizeof(int) bytes.]
+:::
+
+<!-- Slide 8 -->
+
+---
+
+## Subscripts Are Pointer Arithmetic
+
+```{.cpp}
+values[2]       // the element at index 2
+*(values + 2)   // the same element
+ptr[2]          // a pointer can use subscripts too
+```
+
+- `a[i]` means `*(a + i)`
+- That is why a decayed array parameter can still use `values[i]`
+
+<!-- Slide 9 -->
+
+---
+
+## Moving a Pointer
+
+```{.cpp}
+int* ptr = values;
+
+ptr++;                    // now points to values[1]
+cout << *ptr << "\n";     // 20
+
+ptr += 2;                 // now points to values[3]
+cout << *ptr << "\n";     // 40
+```
+
+- `++`, `--`, `+=`, and `-=` move a pointer by whole elements
+- The pointer must stay inside the array; moving outside it is undefined behavior
+
+<!-- Slide 10 -->
+
+---
+
+## Comparing Pointers
+
+```{.cpp}
+int* first = values;
+int* last = values + 3;
+
+cout << (first < last) << "\n";   // 1 (true)
+cout << (last - first) << "\n";   // 3 elements apart
+```
+
+- `<`, `>`, `==`, and `!=` compare positions within one array
+- Subtracting two pointers gives the distance in elements
+- Only compare pointers that point into the same array
+
+<!-- Slide 11 -->
+
+---
+
+## Begin and End Pointers
+
+```{.cpp}
+int values[5] = {3, 6, 9, 12, 15};
+
+const int* begin = values;
+const int* end = values + 5;
+```
+
+- `begin` points to the first element.
+- `end` points one past the last element and is a boundary, not a value to read.
+
+::: notes
+[Graphic suggestion: show begin pointing to index 0 and end pointing just beyond index 4.]
+:::
+
+<!-- Slide 12 -->
+
+---
+
+## Walking a Pointer Range
+
+```{.cpp}
+void printRange(const int* begin, const int* end) {
+    for (const int* current = begin; current != end; current++) {
+        cout << *current << "\n";
+    }
+}
+```
+
+- The loop stops at the boundary.
+- It never dereferences `end`.
+
+<!-- Slide 13 -->
+
+---
+
+## Subarrays Without Copying
+
+```{.cpp}
+int values[6] = {10, 20, 30, 40, 50, 60};
+
+printValues(values, 6);
+printValues(values + 2, 3);
+printRange(values + 1, values + 5);
+```
+
+- A pointer can describe a smaller range inside a larger array.
+
+<!-- Slide 14 -->
+
+---
+
+## Preserving the Full Array Type
+
+```{.cpp}
+void printFour(const int (&values)[4]) {
+    for (int value : values) {
+        cout << value << "\n";
+    }
+}
+```
+
+- A reference-to-array parameter preserves the array extent.
+- This is useful to recognize, but pointer-plus-size is the main pattern today.
+
+<!-- Slide 15 -->
+
+---
+
+## Choosing an Array Interface
+
+| Interface | Best fit |
+|---|---|
+| `const int* values, int size` | Simple read-only raw array |
+| `int* values, int size` | Caller-visible element changes |
+| `begin, end` | Subranges and pointer traversal |
+| `vector<int>&` | Resizable collection with size attached |
+
+<!-- Slide 16 -->
+
+---
+
+## What to Remember About Arrays and Pointers
+
+- An array name becomes a pointer to its first element; the size does not travel with it
+- Pointer arithmetic moves by whole elements, so `values[i]` is `*(values + i)`
+- A pointer plus a size, or a begin and end pair, describes a range without copying
+
+<!-- Slide 17 -->

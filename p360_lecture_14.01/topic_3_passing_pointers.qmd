@@ -1,8 +1,8 @@
 <!-- Topic 3: Passing Pointers -->
-<!-- Slides 48–72 -->
+<!-- Slides 41–63 -->
 
 # Passing Pointers
-<!-- Slide 48 -->
+<!-- Slide 41 -->
 
 ## What Crosses the Function Boundary? {.smaller}
 
@@ -10,10 +10,10 @@
 - The function gets its own pointer variable, but it may share access to the caller's object.
 
 ::: notes
-Slides 48–72
+Slides 41–63
 :::
 
-<!-- Slide 49 -->
+<!-- Slide 42 -->
 
 ---
 
@@ -29,7 +29,7 @@ int score = 91;
 printValue(&score);
 ```
 
-<!-- Slide 50 -->
+<!-- Slide 43 -->
 
 ---
 
@@ -43,7 +43,7 @@ printValue(&score);
 - The pointer is passed by value.
 - The target may still be shared.
 
-<!-- Slide 51 -->
+<!-- Slide 44 -->
 
 ---
 
@@ -66,7 +66,7 @@ void addBonus(int* score) {
 - `&exam` supplies the address.
 - `*score` accesses the caller's `exam`.
 
-<!-- Slide 52 -->
+<!-- Slide 45 -->
 
 ---
 
@@ -84,7 +84,7 @@ cout << exam << "\n";
 | during call | 85 | address of `exam` |
 | after `*score += 5` | 90 | address of `exam` |
 
-<!-- Slide 53 -->
+<!-- Slide 46 -->
 
 ---
 
@@ -100,7 +100,7 @@ void printValue(const int* value) {
 
 - `const int*` means the function may read the target but not change the `int`.
 
-<!-- Slide 54 -->
+<!-- Slide 47 -->
 
 ---
 
@@ -116,7 +116,7 @@ void resetScore(int* score) {
 
 - Writing through `*score` changes the caller-owned object.
 
-<!-- Slide 55 -->
+<!-- Slide 48 -->
 
 ---
 
@@ -137,7 +137,7 @@ int main() {
 
 - What prints after the function returns?
 
-<!-- Slide 56 -->
+<!-- Slide 49 -->
 
 ---
 
@@ -157,7 +157,7 @@ changeBoth(original);
 - `*ptr = 99` changes `value`.
 - `ptr = nullptr` changes only the local pointer copy.
 
-<!-- Slide 57 -->
+<!-- Slide 50 -->
 
 ---
 
@@ -178,7 +178,7 @@ void addOneReference(int& value) {
 - Both can modify the caller's object.
 - The pointer version can also represent absence.
 
-<!-- Slide 58 -->
+<!-- Slide 51 -->
 
 ---
 
@@ -193,7 +193,7 @@ void curveRequired(int& score) {
 - A reference says the function requires a real object.
 - There is no null branch to explain or defend.
 
-<!-- Slide 59 -->
+<!-- Slide 52 -->
 
 ---
 
@@ -209,7 +209,7 @@ void curveIfPresent(int* score) {
 
 - A pointer is appropriate when `nullptr` is part of the contract.
 
-<!-- Slide 60 -->
+<!-- Slide 53 -->
 
 ---
 
@@ -227,7 +227,7 @@ void printLabel(const string* label) {
 
 - If the parameter can be null, the function must check before dereferencing.
 
-<!-- Slide 61 -->
+<!-- Slide 54 -->
 
 ---
 
@@ -245,7 +245,7 @@ void showScore(const int* score) {
 
 - The function's contract gives `nullptr` a specific meaning.
 
-<!-- Slide 62 -->
+<!-- Slide 55 -->
 
 ---
 
@@ -263,7 +263,7 @@ bool divide(int numerator, int denominator, double* result) {
 }
 ```
 
-<!-- Slide 63 -->
+<!-- Slide 56 -->
 
 ---
 
@@ -286,57 +286,23 @@ void findMinMax(const int* values, int size,
 }
 ```
 
-<!-- Slide 64 -->
+<!-- Slide 57 -->
 
 ---
 
-## Pointer Parameters and Arrays
-
-```{.cpp}
-void printValues(const int* values, int size) {
-    for (int i = 0; i < size; i++) {
-        cout << values[i] << "\n";
-    }
-}
-
-int scores[3] = {88, 91, 76};
-printValues(scores, 3);
-```
-
-- An array argument decays to a pointer at the function boundary.
-
-<!-- Slide 65 -->
-
----
-
-## Pointer Plus Size Contract
+## Arrays as Pointer Parameters
 
 ```{.cpp}
 int scores[3] = {88, 91, 76};
 
-printValues(scores, 3); // correct
-printValues(scores, 5); // broken contract
+printValues(scores, 3);   // correct
+printValues(scores, 5);   // broken contract: reads past the array
 ```
 
-- The pointer says where the range begins.
-- The size says where the valid range ends.
+- An array argument arrives as a pointer to its first element, as in the first topic
+- The pointer says where the range begins; the size says where it ends
 
-<!-- Slide 66 -->
-
----
-
-## Passing a Subrange
-
-```{.cpp}
-int values[6] = {10, 20, 30, 40, 50, 60};
-
-printValues(values, 6);
-printValues(values + 2, 3);
-```
-
-- The second call starts at `30` and processes three elements.
-
-<!-- Slide 67 -->
+<!-- Slide 58 -->
 
 ---
 
@@ -352,7 +318,7 @@ int* badPointer() {
 - `local` disappears when the function returns.
 - The returned pointer would refer to an object that no longer exists.
 
-<!-- Slide 68 -->
+<!-- Slide 59 -->
 
 ---
 
@@ -368,7 +334,7 @@ void printLabel(const string* label);
 - `const` suggests read-only access.
 - A pointer suggests the target may be shared, optional, or range-like.
 
-<!-- Slide 69 -->
+<!-- Slide 60 -->
 
 ---
 
@@ -378,7 +344,7 @@ void printLabel(const string* label);
 - Pass `nullptr` only when the function contract allows it.
 - Keep pointer ranges paired with the correct boundary.
 
-<!-- Slide 70 -->
+<!-- Slide 61 -->
 
 ---
 
@@ -392,7 +358,7 @@ void printLabel(const string* label);
 | Optional object | Pointer |
 | Raw array range | Pointer plus size or begin/end |
 
-<!-- Slide 71 -->
+<!-- Slide 62 -->
 
 ---
 
@@ -401,4 +367,4 @@ void printLabel(const string* label);
 - Passing a pointer copies an address into a local parameter.
 - Changing `*ptr` can change the caller's object; changing `ptr` changes only the local pointer copy.
 
-<!-- Slide 72 -->
+<!-- Slide 63 -->

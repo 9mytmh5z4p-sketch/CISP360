@@ -1,8 +1,8 @@
-<!-- Topic 2: Pointer Errors, Memory Leaks, and Dangling Pointers -->
-<!-- Slides 19–42 -->
+<!-- Topic 1: Pointer Errors, Memory Leaks, and Dangling Pointers -->
+<!-- Slides 4–27 -->
 
 # Pointer Errors, Memory Leaks, and Dangling Pointers
-<!-- Slide 19 -->
+<!-- Slide 4 -->
 
 ## What Happens When the Pointer Outlives Its Target? {.smaller}
 
@@ -10,11 +10,11 @@
 + The address looks ordinary, but dereferencing it is no longer valid.
 
 ::: notes
-Slides 19–42
+Slides 4–27
 [Graphic suggestion: a pointer arrow ending at a faded, crossed-out object.]
 :::
 
-<!-- Slide 20 -->
+<!-- Slide 5 -->
 
 ---
 
@@ -27,7 +27,7 @@ Slides 19–42
 | Ownership | Who must release the allocation? |
 | Deallocation | Is the release operation valid and correctly matched? |
 
-<!-- Slide 21 -->
+<!-- Slide 6 -->
 
 ---
 
@@ -40,7 +40,7 @@ Slides 19–42
 [Graphic suggestion: side-by-side panels—an unreachable live block and an arrow aimed at a dead block.]
 :::
 
-<!-- Slide 22 -->
+<!-- Slide 7 -->
 
 ---
 
@@ -50,7 +50,7 @@ Slides 19–42
 + A broken program may crash, print plausible output, or appear to work.
 + Successful output does not prove that the access was valid.
 
-<!-- Slide 23 -->
+<!-- Slide 8 -->
 
 ---
 
@@ -60,7 +60,7 @@ Slides 19–42
 2. Is the pointed-to object still alive?
 3. Does the pointer refer to the object the program intends to access?
 
-<!-- Slide 24 -->
+<!-- Slide 9 -->
 
 ---
 
@@ -82,7 +82,7 @@ Pause before revealing the final comment. Ask which of the three dereference che
 [Graphic suggestion: score containing question marks instead of a known address.]
 :::
 
-<!-- Slide 25 -->
+<!-- Slide 10 -->
 
 ---
 
@@ -99,7 +99,7 @@ if (score != nullptr) {
 + `nullptr` represents a deliberate no-object state.
 + It must be checked before dereferencing.
 
-<!-- Slide 26 -->
+<!-- Slide 11 -->
 
 ---
 
@@ -123,7 +123,7 @@ int* makeScore() {
 } // localScore dies here
 ```
 
-<!-- Slide 27 -->
+<!-- Slide 12 -->
 
 ---
 
@@ -144,7 +144,7 @@ cout << *selected << "\n"; // undefined behavior
 [Graphic suggestion: nested scope box disappearing while selected retains its address.]
 :::
 
-<!-- Slide 28 -->
+<!-- Slide 13 -->
 
 ---
 
@@ -161,7 +161,7 @@ score = nullptr;
 
 + `delete` invalidates access through every pointer to that allocation.
 
-<!-- Slide 29 -->
+<!-- Slide 14 -->
 
 ---
 
@@ -181,7 +181,7 @@ cout << *alias << "\n"; // alias still dangles
 [Graphic suggestion: owner and alias both point to one allocation; delete crosses out the allocation, then owner becomes null while alias remains.]
 :::
 
-<!-- Slide 30 -->
+<!-- Slide 15 -->
 
 ---
 
@@ -191,7 +191,7 @@ cout << *alias << "\n"; // alias still dangles
 + Other aliases are not changed automatically.
 + The real requirement is that no pointer access an object after its lifetime ends.
 
-<!-- Slide 31 -->
+<!-- Slide 16 -->
 
 ---
 
@@ -206,7 +206,7 @@ delete score; // undefined behavior
 
 + One allocation must be released exactly once.
 
-<!-- Slide 32 -->
+<!-- Slide 17 -->
 
 ---
 
@@ -225,7 +225,7 @@ delete pointer; // score was not created by new
 [Graphic suggestion: stack object labeled automatic contrasted with heap object labeled dynamic.]
 :::
 
-<!-- Slide 33 -->
+<!-- Slide 18 -->
 
 ---
 
@@ -239,7 +239,7 @@ delete pointer; // score was not created by new
 [Graphic suggestion: a live heap block with no incoming arrows.]
 :::
 
-<!-- Slide 34 -->
+<!-- Slide 19 -->
 
 ---
 
@@ -258,7 +258,7 @@ score = nullptr;
 Pause before revealing the comment. Ask which allocation remains reachable.
 :::
 
-<!-- Slide 35 -->
+<!-- Slide 20 -->
 
 ---
 
@@ -274,7 +274,7 @@ for (int i = 0; i < 1000; i++) {
 
 + Small leaks become large when placed on repeated paths.
 
-<!-- Slide 36 -->
+<!-- Slide 21 -->
 
 ---
 
@@ -293,7 +293,7 @@ score = nullptr;
 
 + Every exit path must preserve the cleanup contract.
 
-<!-- Slide 37 -->
+<!-- Slide 22 -->
 
 ---
 
@@ -314,7 +314,7 @@ score = nullptr;
 
 + Manual ownership duplicates cleanup across control paths.
 
-<!-- Slide 38 -->
+<!-- Slide 23 -->
 
 ---
 
@@ -326,7 +326,7 @@ score = nullptr;
 | Borrower | Uses the object only while it remains alive |
 | Alias | Never assumes ownership merely because it has the address |
 
-<!-- Slide 39 -->
+<!-- Slide 24 -->
 
 ---
 
@@ -349,7 +349,7 @@ int main() {
 }
 ```
 
-<!-- Slide 40 -->
+<!-- Slide 25 -->
 
 ---
 
@@ -360,7 +360,7 @@ int main() {
 + Keep ownership unambiguous and distinguish owners from observers.
 + Match each allocation with exactly one correct release.
 
-<!-- Slide 41 -->
+<!-- Slide 26 -->
 
 ---
 
@@ -370,4 +370,4 @@ int main() {
 + Leaks lose access to live storage; dangling pointers retain access to dead storage.
 + Manual ownership makes every control path responsible for correct cleanup.
 
-<!-- Slide 42 -->
+<!-- Slide 27 -->

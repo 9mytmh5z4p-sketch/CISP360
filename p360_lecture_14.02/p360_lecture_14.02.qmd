@@ -1,56 +1,54 @@
 # Last Time
 
 ::: {.incremental}
-+ **Array Decay**
++ **Arrays and Pointers**
 + **Null Pointers**
++ **Passing Pointers**
 :::
 
 ::: notes
-Recall that array parameters lose size information and that nullptr represents a deliberate no-object state. This lecture adds explicit lifetime and ownership.
-:::
-
-<!-- Slide 1 -->
-
-# Today's Agenda
-
-- `new` and `delete`
-- Pointer Errors, Memory Leaks, and Dangling Pointers
-- Smart Pointers
-
-::: notes
-
+Recall that an array name becomes a pointer to its first element, that `nullptr` represents a deliberate no-object state, and that pointer parameters let a function reach caller-owned data. This lecture adds dynamic allocation: objects whose lifetime the program controls.
 :::
 
 <!-- Slide 2 -->
 
-{{< include topic_1_new_delete.qmd >}}
-{{< include topic_2_pointer_errors.qmd >}}
-{{< include topic_3_smart_pointers.qmd >}}
+# Today's Agenda
 
----
+- `new` and `delete`
+- Pseudodynamic Memory
+- Pseudodynamic Memory - Heap
+- Dynamic Memory
+
+::: notes
+The lecture moves from single heap objects, to fixed-capacity arrays on the stack and then the heap, to arrays that resize while the program runs.
+:::
+
+<!-- Slide 3 -->
+
+{{< include topic_1_new_delete.qmd >}}
+{{< include topic_2_pseudodynamic_memory.qmd >}}
+{{< include topic_3_pseudodynamic_memory_heap.qmd >}}
+{{< include topic_4_dynamic_memory.qmd >}}
 
 # Key Takeaways
 
 - Dynamic allocation separates an object's lifetime from the scope that creates it.
-- Raw ownership requires valid access, correct bounds, and exactly one matching release.
-- `unique_ptr` makes single ownership automatic; shared ownership requires deliberate use of `shared_ptr` and `weak_ptr`.
+- Pseudodynamic storage separates fixed capacity from runtime logical length.
+- Heap arrays use `new[]` and the matching `delete[]`; a raw heap array does not track its length or check its bounds.
+- Dynamic memory changes allocation size by allocating, copying, releasing, transferring ownership, and updating length.
 
-<!-- Slide 76 -->
-
----
+<!-- Slide 81 -->
 
 # Next Time
 
-- Dynamic Arrays with `new[]` and `delete[]`
-- Resizing Dynamic Arrays Safely
+- Pointer errors, memory leaks, and dangling pointers
+- Smart pointers and ownership
 
-<!-- Slide 77 -->
-
----
+<!-- Slide 82 -->
 
 # Appendix
 
-<!-- Slide 78 -->
+<!-- Slide 83 -->
 
 ---
 
@@ -60,7 +58,7 @@ Recall that array parameters lose size information and that nullptr represents a
 - Preserve one clear owning pointer for each scalar allocation.
 - Place the matching release near the end of the owner's responsibility.
 
-<!-- Slide 79 -->
+<!-- Slide 84 -->
 
 ---
 
@@ -70,7 +68,7 @@ Recall that array parameters lose size information and that nullptr represents a
 - Forgetting cleanup on an early return
 - Treating the pointer's scope as the allocation's lifetime
 
-<!-- Slide 80 -->
+<!-- Slide 85 -->
 
 ---
 
@@ -87,7 +85,7 @@ delete grade;
 grade = nullptr;
 ```
 
-<!-- Slide 81 -->
+<!-- Slide 86 -->
 
 ---
 
@@ -97,7 +95,7 @@ grade = nullptr;
 2. Allocate one `double`, modify it through its pointer, and release it.
 3. Label the owner and cleanup point in a function-return example.
 
-<!-- Slide 82 -->
+<!-- Slide 87 -->
 
 ---
 
@@ -107,7 +105,7 @@ grade = nullptr;
 - C++ scalar new and delete examples
 - C++ ownership raw pointer examples
 
-<!-- Slide 83 -->
+<!-- Slide 88 -->
 
 ---
 
@@ -116,138 +114,213 @@ grade = nullptr;
 - Why does the pointer's lifetime differ from the allocation's lifetime?
 - Why must one owner be responsible for releasing a scalar allocation?
 
-<!-- Slide 84 -->
-
----
-
-## Pointer Errors: Good Practices
-
-- Check initialization, lifetime, and bounds before dereferencing.
-- Keep owners distinct from borrowers.
-- Test failure and early-return paths, not only the successful path.
-
-<!-- Slide 85 -->
-
----
-
-## Pointer Errors: Common Mistakes
-
-- Assuming a non-null address must still be valid
-- Nulling one alias and assuming every alias changed
-- Confusing an observing alias with a second owner
-
-<!-- Slide 86 -->
-
----
-
-## Pointer Errors: More Examples
-
-```{.cpp}
-int* owner = new int{42};
-int* observer = owner;
-
-cout << *observer << "\n";
-delete owner;
-owner = nullptr;
-observer = nullptr;
-```
-
-<!-- Slide 87 -->
-
----
-
-## Pointer Errors: Practice Problems
-
-1. Identify the first invalid operation in a use-after-scope trace.
-2. Repair a loop that leaks one allocation per iteration.
-3. Rewrite an example so one pointer remains the clear owner.
-
-<!-- Slide 88 -->
-
----
-
-## Pointer Errors: AI Search Terms
-
-- C++ dangling pointer use after free
-- C++ memory leak early return
-- AddressSanitizer C++ heap use after free
-- LeakSanitizer C++ memory leaks
-
 <!-- Slide 89 -->
 
 ---
 
-## Pointer Errors: Questions for Reflection
+## Pseudodynamic Memory: Good Practices
 
-- Why can undefined behavior appear to produce correct output?
-- How are a leak and a dangling pointer opposites?
-- Why does aliasing complicate cleanup?
+- Give capacity and logical length different names.
+- Validate requested length before using it.
+- Pass logical length with the array and capacity to operations that may append.
 
 <!-- Slide 90 -->
 
 ---
 
-## Smart Pointers: Good Practices
+## Pseudodynamic Memory: Common Mistakes
 
-- Prefer `make_unique` and single ownership by default.
-- Transfer `unique_ptr` ownership explicitly with `move`.
-- Use `shared_ptr` only when multiple owners are part of the design.
+- Treating every capacity slot as valid data
+- Allowing logical length to exceed capacity
+- Growing logical length without initializing newly active elements
 
 <!-- Slide 91 -->
 
 ---
 
-## Smart Pointers: Common Mistakes
+## Pseudodynamic Memory: More Examples
 
-- Dereferencing an empty or moved-from smart pointer
-- Copying a `unique_ptr` instead of transferring it with `move`
-- Using `release()` without immediately establishing a new owner
+```{.cpp}
+bool contains(const int values[], int length, int target)
+{
+    for (int i = 0; i < length; i++)
+        if (values[i] == target)
+            return true;
+    return false;
+}
+```
 
 <!-- Slide 92 -->
 
 ---
 
-## Smart Pointers: More Examples
+## Pseudodynamic Memory: Practice Problems
 
-```{.cpp}
-unique_ptr<int> first = make_unique<int>(10);
-unique_ptr<int> second = make_unique<int>(20);
-
-second = move(first);
-
-cout << *second << "\n";
-cout << boolalpha << static_cast<bool>(first) << "\n";
-```
+1. Write `insertAtEnd` for a fixed array with logical length.
+2. Write `removeAt` and shift later elements left.
+3. Trace capacity and logical length after five operations.
 
 <!-- Slide 93 -->
 
 ---
 
-## Smart Pointers: Practice Problems
+## Pseudodynamic Memory: AI Search Terms
 
-1. Rewrite a raw scalar allocation using `make_unique`.
-2. Trace two `shared_ptr` copies and record the count after each scope ends.
-3. Choose an ownership type for three short program designs.
+- C++ fixed capacity array logical size
+- C++ partially filled array
+- C++ array capacity versus length
+- C++ array append with size variable
 
 <!-- Slide 94 -->
 
 ---
 
-## Smart Pointers: AI Search Terms
+## Pseudodynamic Memory: Questions for Reflection
 
-- C++ RAII unique_ptr ownership
-- C++ move unique_ptr function parameter
-- C++ shared_ptr reference count weak_ptr cycle
-- C++ smart pointer custom deleter
+- Which operations need capacity as a parameter?
+- Why can shrinking logical length occur without moving data?
+- When is a fixed maximum an acceptable design constraint?
 
 <!-- Slide 95 -->
 
 ---
 
-## Smart Pointers: Questions for Reflection
+## Pseudodynamic Memory - Heap: Good Practices
 
-- What guarantee does `unique_ptr` add that a raw pointer lacks?
-- When is shared ownership genuinely necessary?
-- Why must `weak_ptr` be locked before access?
+- Match `new[]` with `delete[]`.
+- Preserve an owning pointer to the allocation's base address.
+- Keep length beside the pointer and release ownership on every exit path.
+- Prefer automatic ownership and standard containers in application code.
 
 <!-- Slide 96 -->
+
+---
+
+## Pseudodynamic Memory - Heap: Common Mistakes
+
+- Mixing scalar and array release forms
+- Losing the only owning pointer
+- Accessing outside `0` through `length - 1`
+- Assuming the pointer knows how many elements were allocated
+
+<!-- Slide 97 -->
+
+---
+
+## Pseudodynamic Memory - Heap: More Examples
+
+```{.cpp}
+int* clone(const int source[], int length)
+{
+    if (length == 0)
+        return nullptr;
+
+    int* copy = new int[length];
+    for (int i = 0; i < length; i++)
+        copy[i] = source[i];
+    return copy;
+}
+```
+
+The caller receives ownership of the returned allocation.
+
+<!-- Slide 98 -->
+
+---
+
+## Pseudodynamic Memory - Heap: Practice Problems
+
+1. Allocate a heap array using a validated requested length.
+2. Pass a heap array and length to a display function.
+3. Rewrite a raw heap-array program with `unique_ptr<int[]>`.
+
+<!-- Slide 99 -->
+
+---
+
+## Pseudodynamic Memory - Heap: AI Search Terms
+
+- C++ dynamic array new delete array
+- C++ preserve base pointer delete array
+- C++ unique_ptr array make_unique bounds
+- C++ heap array length parameter
+
+<!-- Slide 100 -->
+
+---
+
+## Pseudodynamic Memory - Heap: Questions for Reflection
+
+- Why is a heap array still fixed-size after allocation?
+- Which responsibilities appear when storage moves from stack to heap?
+- Which responsibilities disappear when raw storage becomes a `vector`?
+
+<!-- Slide 101 -->
+
+---
+
+## Dynamic Memory: Good Practices
+
+- Keep old and new arrays alive during copying.
+- Transfer ownership only after the retained values have been copied.
+- Update the stored length after the owning pointer points to the new allocation.
+
+<!-- Slide 102 -->
+
+---
+
+## Dynamic Memory: Common Mistakes
+
+- Updating length before the copy uses the old boundary
+- Deleting the old array before copying retained values
+- Forgetting that repeated one-element growth performs repeated copying
+
+<!-- Slide 103 -->
+
+---
+
+## Dynamic Memory: More Examples
+
+```{.cpp}
+int* temporary = new int[length + 1];
+for (int i = 0; i < length; i++)
+    temporary[i] = values[i];
+
+temporary[length] = newValue;
+delete[] values;
+values = temporary;
+length++;
+```
+
+<!-- Slide 104 -->
+
+---
+
+## Dynamic Memory: Practice Problems
+
+1. Trace the output of `rdaa.cpp` after each printed loop.
+2. Convert the grow step into an `append` function.
+3. Add a second append and count how many values are copied.
+
+<!-- Slide 105 -->
+
+---
+
+## Dynamic Memory: AI Search Terms
+
+- C++ resize raw dynamic array
+- C++ append to dynamic array new delete
+- C++ dynamic array allocate copy delete pattern
+- C++ vector versus raw dynamic array
+
+<!-- Slide 106 -->
+
+---
+
+## Dynamic Memory: Questions for Reflection
+
+- Why does changing data require a different allocation?
+- When do two heap arrays exist at the same time?
+- Why is `vector` the normal application-level version of this idea?
+
+<!-- Slide 107 -->
