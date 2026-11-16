@@ -1,8 +1,8 @@
-<!-- Topic 1: Introduction to Pointers and Their Value in Modern Programming -->
-<!-- Slides 3–13 -->
+<!-- Topic 1: Introduction to Pointers -->
+<!-- Slides 8–18 -->
 
-# Introduction to Pointers and Their Value in Modern Programming
-<!-- Slide 3 -->
+# Introduction to Pointers
+<!-- Slide 8 -->
 
 ## When Does a Name Stop Being Enough? {.smaller}
 
@@ -10,28 +10,34 @@
 - What if the program must choose the object while it is running?
 
 ::: notes
-Slides 3–13
+Slides 8–18
 Ask students to imagine one operation that might update either of two counters. The operation is fixed, but its target is not.
 :::
 
-<!-- Slide 4 -->
+<!-- Slide 9 -->
+
+---
+
+## Pointer Demo
+
+![](images/pointer_demo.png){fig-align="center" style="height: 480px; width: auto;"}
+
+::: notes
+The program stores the address of `x` in `ptr`, then prints four things: the value of `x` (25), the address stored in `ptr`, the value reached by dereferencing `*ptr` (25), and `&x`. The two addresses match because `ptr` holds the address of `x`; the exact address differs from run to run and machine to machine. Don't explain the syntax yet: topic 2 takes each piece in turn (the address operator, declaring a pointer, and dereferencing). Here the goal is to see a pointer hold an address and lead back to a value.
+:::
+
+<!-- Slide 10 -->
 
 ---
 
 ## From Symbol Table to Runtime Data
 
-| Source code | Compiler knowledge | Runtime storage |
-|---|---|---|
-| `score` | name, type, scope, address | `88` |
+![](images/symbol_table_to_pointer.svg){fig-align="center" style="height: 330px; width: auto;"}
 
 - A name lets the compiler locate an object
 - A pointer makes an object's address available to the running program
 
-::: notes
-[Graphic suggestion: extend the familiar symbol-table model with an arrow from the address field into a pointer variable.]
-:::
-
-<!-- Slide 5 -->
+<!-- Slide 11 -->
 
 ---
 
@@ -41,25 +47,17 @@ Ask students to imagine one operation that might update either of two counters. 
 - The object at that address is the pointer's **target** or **pointee**
 - Using the address to reach the target is **indirection**
 
-<!-- Slide 6 -->
+<!-- Slide 12 -->
 
 ---
 
 ## The Pointer Model
 
-| Pointer variable | Stored value | Target variable |
-|---|---|---|
-| `selected` | address of `score` | `score = 88` |
-
-`selected` → address → `score`
+![](images/pointer_model.svg){fig-align="center" style="height: 300px; width: auto;"}
 
 - The pointer has its own storage, separate from its target
 
-::: notes
-[Graphic suggestion: draw two memory cells. The selected cell contains an arrow-shaped address that leads to the score cell.]
-:::
-
-<!-- Slide 7 -->
+<!-- Slide 13 -->
 
 ---
 
@@ -68,9 +66,9 @@ Ask students to imagine one operation that might update either of two counters. 
 - Select an existing object while the program runs
 - Read or modify that object indirectly
 - Describe positions and ranges in contiguous data
-- Work with libraries and resources whose locations are provided at runtime
+- Give a function access to a large object without copying it
 
-<!-- Slide 8 -->
+<!-- Slide 14 -->
 
 ---
 
@@ -81,24 +79,14 @@ Ask students to imagine one operation that might update either of two counters. 
 | `regular = 40` | target `regular` | `regular = 35` |
 | `sale = 28` | target `sale` | `sale = 23` |
 
+- The operation: subtract 5 from whichever price is selected
 - The operation stays the same while the selected target changes
 
 ::: notes
-Keep this example conceptual. Topic 2 supplies the C++ syntax and execution trace.
+Keep this example conceptual. The same example returns in C++ on the "One Operation, Runtime Choice" slide (slide 34) in topic 2.
 :::
 
-<!-- Slide 9 -->
-
----
-
-## Where Do Pointers Fit in Modern C++?
-
-- Raw pointers commonly express non-owning access or library interoperability
-- Smart pointers express ownership of dynamically allocated resources
-- Containers such as `vector` usually replace manually managed arrays
-- Pointers remain foundational to arrays, iterators, dynamic memory, and polymorphism
-
-<!-- Slide 10 -->
+<!-- Slide 15 -->
 
 ---
 
@@ -111,8 +99,9 @@ Keep this example conceptual. Topic 2 supplies the C++ syntax and execution trac
 | Represent address semantics or no target | pointer |
 
 - Use the highest-level tool that clearly expresses the design
+- Pointers still matter: the next lectures use them for arrays and dynamic memory
 
-<!-- Slide 11 -->
+<!-- Slide 16 -->
 
 ---
 
@@ -124,7 +113,7 @@ A pointer may be used only when it identifies:
 - An object whose lifetime has not ended
 - A location within the operation's permitted boundary
 
-<!-- Slide 12 -->
+<!-- Slide 17 -->
 
 ---
 
@@ -134,4 +123,4 @@ A pointer may be used only when it identifies:
 - Address semantics enable runtime flexibility but add validity and lifetime responsibilities
 - Modern C++ uses raw pointers selectively and prefers higher-level ownership and container tools
 
-<!-- Slide 13 -->
+<!-- Slide 18 -->

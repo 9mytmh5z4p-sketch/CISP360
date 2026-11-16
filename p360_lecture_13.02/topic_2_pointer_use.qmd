@@ -1,8 +1,8 @@
 <!-- Topic 2: Initializing and Using Pointers -->
-<!-- Slides 14–33 -->
+<!-- Slides 19–38 -->
 
 # Initializing and Using Pointers
-<!-- Slide 14 -->
+<!-- Slide 19 -->
 
 ## How Does a Pointer Reach a Variable? {.smaller}
 
@@ -10,10 +10,10 @@
 - How do we obtain that address and store it safely?
 
 ::: notes
-Slides 14–33
+Slides 19–38
 :::
 
-<!-- Slide 15 -->
+<!-- Slide 20 -->
 
 ---
 
@@ -26,9 +26,9 @@ cout << &score << "\n";
 ```
 
 - Unary `&` produces the address of an object
-- Printed addresses are implementation-controlled identifiers, not meaningful numbers to interpret
+- Addresses print in hexadecimal and change from run to run, so don't try to interpret them
 
-<!-- Slide 16 -->
+<!-- Slide 21 -->
 
 ---
 
@@ -44,7 +44,7 @@ int* scorePtr;
 | `*` | pointer declarator |
 | `scorePtr` | pointer variable name |
 
-<!-- Slide 17 -->
+<!-- Slide 22 -->
 
 ---
 
@@ -58,7 +58,7 @@ int* scorePtr = &score;
 // int* wrongPtr = &average; // incompatible target type
 ```
 
-<!-- Slide 18 -->
+<!-- Slide 23 -->
 
 ---
 
@@ -76,7 +76,7 @@ int* first;
 int* second;
 ```
 
-<!-- Slide 19 -->
+<!-- Slide 24 -->
 
 ---
 
@@ -87,16 +87,13 @@ int score = 88;
 int* scorePtr = &score;
 ```
 
-| Expression | Meaning |
-|---|---|
-| `&score` | address of `score` |
-| `scorePtr` | address stored in the pointer |
+![](images/symbol_table_to_pointer.svg){fig-align="center" style="height: 300px; width: auto;"}
 
 ::: notes
-[Graphic suggestion: show separate cells for score and scorePtr, then draw the stored address as an arrow from scorePtr to score.]
+This is the same diagram as slide 11. Now students can read the line of code that produces it: `&score` supplies the address, and `scorePtr` stores it.
 :::
 
-<!-- Slide 20 -->
+<!-- Slide 25 -->
 
 ---
 
@@ -110,7 +107,7 @@ int* selected = nullptr;
 - Use it when a valid target is not yet available
 - In modern C++, prefer `nullptr` over `NULL` or `0`
 
-<!-- Slide 21 -->
+<!-- Slide 26 -->
 
 ---
 
@@ -121,10 +118,11 @@ int* selected = nullptr;
 | valid address | identifies a live target | yes |
 | `nullptr` | deliberately identifies no target | no |
 | uninitialized | indeterminate value | no |
+| dangling | holds an address, but the target's lifetime has ended | no |
 
-- Reading or dereferencing an uninitialized pointer has undefined behavior
+- Reading or dereferencing an uninitialized or dangling pointer has undefined behavior
 
-<!-- Slide 22 -->
+<!-- Slide 27 -->
 
 ---
 
@@ -137,10 +135,36 @@ int* scorePtr = &score;
 cout << *scorePtr << "\n";
 ```
 
-- Unary `*` follows the stored address to the target
-- Here, `*` is dereference—not multiplication or declaration syntax
+`scorePtr` → address of `score` → `88`
 
-<!-- Slide 23 -->
+- Unary `*` follows the stored address to the target
+- Reading `*scorePtr` gives the target's value, `88`
+
+::: notes
+Trace three distinct facts: the pointer's stored address, the target's value, and whether dereferencing is valid.
+:::
+
+<!-- Slide 28 -->
+
+---
+
+## One Symbol, Several Meanings
+
+| Code | Symbol and context | Meaning |
+|---|---|---|
+| `int* ptr;` | `*` in a declaration | `ptr` is a pointer to `int` |
+| `*ptr = 95;` | `*` before one operand | dereference: follow the address |
+| `score * 2` | `*` between two operands | multiplication |
+| `ptr = &score;` | `&` before one operand | address of `score` |
+| `int& alias = score;` | `&` in a declaration | `alias` is a reference to `score` (Week 5) |
+
+- Read the context: is it a declaration, and how many operands does the symbol have?
+
+::: notes
+This is the most common source of confusion in the pointer unit. Point at each row and ask students to say the meaning out loud before revealing it.
+:::
+
+<!-- Slide 29 -->
 
 ---
 
@@ -158,26 +182,7 @@ int* ptr = &value;
 | `ptr` | stored address |
 | `*ptr` | value reached through `ptr` |
 
-<!-- Slide 24 -->
-
----
-
-## Reading Through a Pointer
-
-```{.cpp}
-int score = 88;
-int* scorePtr = &score;
-
-cout << *scorePtr << "\n";
-```
-
-`scorePtr` → address of `score` → `88`
-
-::: notes
-Trace three distinct facts: the pointer's stored address, the target's value, and whether dereferencing is valid.
-:::
-
-<!-- Slide 25 -->
+<!-- Slide 30 -->
 
 ---
 
@@ -194,7 +199,7 @@ cout << score << "\n";
 - `score` changes from `88` to `95`
 - `scorePtr` continues to store the same address
 
-<!-- Slide 26 -->
+<!-- Slide 31 -->
 
 ---
 
@@ -216,7 +221,7 @@ points += 3;
 Answer: points and *ptr are both 17. ptr still stores the address of points.
 :::
 
-<!-- Slide 27 -->
+<!-- Slide 32 -->
 
 ---
 
@@ -233,7 +238,7 @@ ptr = &second;
 - `ptr = &second;` changes the target
 - `*ptr = 25;` would change the current target's value
 
-<!-- Slide 28 -->
+<!-- Slide 33 -->
 
 ---
 
@@ -252,7 +257,14 @@ if (saleIsActive) {
 *selected -= 5;
 ```
 
-<!-- Slide 29 -->
+- Which price changes, and what is its new value?
+- This is the "subtract 5" operation from slide 15, now in C++
+
+::: notes
+Answer: `salePrice` becomes 23 because `selected` was reseated to it; `regularPrice` stays 40. The operation line never changed; only the target did.
+:::
+
+<!-- Slide 34 -->
 
 ---
 
@@ -269,7 +281,7 @@ if (selected != nullptr) {
 - A null check prevents dereferencing the no-target state
 - Non-null is necessary, but the target must also still be alive
 
-<!-- Slide 30 -->
+<!-- Slide 35 -->
 
 ---
 
@@ -287,7 +299,7 @@ int* ptr = nullptr;
 - `ptr` is now dangling: it contains an address but has no live target
 - A null pointer and a dangling pointer are different invalid states
 
-<!-- Slide 31 -->
+<!-- Slide 36 -->
 
 ---
 
@@ -300,10 +312,7 @@ int* selected = &first;
 
 *selected += 5;
 selected = &second;
-
-if (selected != nullptr) {
-    *selected += 5;
-}
+*selected += 5;
 
 selected = nullptr;
 ```
@@ -312,7 +321,7 @@ selected = nullptr;
 Trace: selected starts at first; first becomes 15; selected is reseated to second; second becomes 25; selected is reset to the deliberate no-target state.
 :::
 
-<!-- Slide 32 -->
+<!-- Slide 37 -->
 
 ---
 
@@ -322,4 +331,4 @@ Trace: selected starts at first; first becomes 15; selected is reseated to secon
 - Dereference only when the pointer identifies a compatible, live target
 - Distinguish changing a pointer's target from changing the target's value
 
-<!-- Slide 33 -->
+<!-- Slide 38 -->

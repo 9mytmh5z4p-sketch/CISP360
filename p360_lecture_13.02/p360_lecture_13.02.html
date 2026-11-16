@@ -226,13 +226,13 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 1 -->
+<!-- Slide 2 -->
 </section>
 
 <section id="todays-agenda" class="title-slide slide level1 center">
 <h1>Today’s Agenda</h1>
 <ul>
-<li>Introduction to Pointers and Their Value in Modern Programming</li>
+<li>Introduction to Pointers</li>
 <li>Initializing and Using Pointers</li>
 </ul>
 <aside class="notes">
@@ -248,61 +248,33 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 2 -->
-<!-- Topic 1: Introduction to Pointers and Their Value in Modern Programming -->
-<!-- Slides 3–13 -->
+<!-- Slide 3 -->
+<!-- Topic 0x: Programmer Spotlight: Sean Parent (opening review activity) -->
+<!-- Slides 4–7 -->
 </section>
 
 <section>
-<section id="introduction-to-pointers-and-their-value-in-modern-programming" class="title-slide slide level1 center">
-<h1>Introduction to Pointers and Their Value in Modern Programming</h1>
-<!-- Slide 3 -->
-</section>
-<section id="when-does-a-name-stop-being-enough" class="slide level2 smaller">
-<h2>When Does a Name Stop Being Enough?</h2>
-<ul>
-<li>A variable name identifies one object</li>
-<li>What if the program must choose the object while it is running?</li>
-</ul>
-<aside class="notes">
-<p>Slides 3–13 Ask students to imagine one operation that might update either of two counters. The operation is fixed, but its target is not.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<section id="programmer-spotlight-sean-parent" class="title-slide slide level1 center">
+<h1>Programmer Spotlight: Sean Parent</h1>
 <!-- Slide 4 -->
 </section>
-<section id="from-symbol-table-to-runtime-data" class="slide level2">
-<h2>From Symbol Table to Runtime Data</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Source code</th>
-<th>Compiler knowledge</th>
-<th>Runtime storage</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>score</code></td>
-<td>name, type, scope, address</td>
-<td><code>88</code></td>
-</tr>
-</tbody>
-</table>
+<section id="who-is-sean-parent" class="slide level2 smaller">
+<h2>Who Is Sean Parent?</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p><img data-src="images/sean_parent.jpg" style="width: 100%; height: auto;"></p>
+</div><div class="column" style="width:60%;">
 <ul>
-<li>A name lets the compiler locate an object</li>
-<li>A pointer makes an object’s address available to the running program</li>
+<li>Senior principal scientist and software architect in Adobe’s Software Technology Lab</li>
+<li>Joined Adobe in 1993 to work on Photoshop; helped create Photoshop and Lightroom for the web and mobile</li>
+<li>Earlier: Apple’s system software team (1988–1993), which built the technology behind the move to PowerPC</li>
+<li>Spent 2009 at Google working on Chrome OS before returning to Adobe</li>
 </ul>
+</div></div>
 <aside class="notes">
-<p>[Graphic suggestion: extend the familiar symbol-table model with an arrow from the address field into a pointer variable.]</p>
+<p>Opening review, about 15 minutes. Follow these slides with the handout activity “Expressing Intent Through Abstraction” (raw array loop versus <code>count_if</code>), which reviews array traversal from 11.02–13.01. The two programs are in <code>cpp/program1.cpp</code> and <code>cpp/program2.cpp</code>.</p>
+<p>Slides 4–7</p>
+<p>Sources: C++Now speaker biography (schedule.cppnow.org/speaker/sean-parent-2/) and Adobe blog, “C++ at Adobe with Sean Parent, senior principal scientist” (April 2021).</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -316,39 +288,43 @@ Dr.&nbsp;Caleb Fowler
       }</style></aside>
 <!-- Slide 5 -->
 </section>
-<section id="what-is-a-pointer" class="slide level2">
-<h2>What Is a Pointer?</h2>
+<section id="significant-works" class="slide level2">
+<h2>Significant Works</h2>
 <ul>
-<li>A <strong>pointer</strong> is a typed variable whose value is a memory address</li>
-<li>The object at that address is the pointer’s <strong>target</strong> or <strong>pointee</strong></li>
-<li>Using the address to reach the target is <strong>indirection</strong></li>
-</ul>
-<!-- Slide 6 -->
-</section>
-<section id="the-pointer-model" class="slide level2">
-<h2>The Pointer Model</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Pointer variable</th>
-<th>Stored value</th>
-<th>Target variable</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>selected</code></td>
-<td>address of <code>score</code></td>
-<td><code>score = 88</code></td>
-</tr>
-</tbody>
-</table>
-<p><code>selected</code> → address → <code>score</code></p>
-<ul>
-<li>The pointer has its own storage, separate from its target</li>
+<li><strong>“C++ Seasoning”</strong> (GoingNative 2013): three goals for simpler, clearer, correct code</li>
+<li><strong>“Inheritance Is the Base Class of Evil”</strong> (2013): runtime polymorphism built from value types instead of class hierarchies</li>
+<li><strong>“Better Code”</strong> talk series and the STLab <em>Better Code</em> book: engineering as making informed tradeoffs</li>
+<li><strong>Hylo</strong> (formerly Val): a language built on value semantics, co-designed with Dave Abrahams; <em>The Val Object Model</em> (C++ committee paper P2676, 2022)</li>
 </ul>
 <aside class="notes">
-<p>[Graphic suggestion: draw two memory cells. The selected cell contains an arrow-shaped address that leads to the score cell.]</p>
+<p>Students only need the gist: Parent is known less for one library than for a set of talks that changed how many C++ programmers write ordinary code. The recordings of “C++ Seasoning” are a good optional watch.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 6 -->
+</section>
+<section id="his-programming-philosophy" class="slide level2">
+<h2>His Programming Philosophy</h2>
+<ul>
+<li><strong>No raw loops:</strong> call a named algorithm, or write one, instead of an anonymous loop</li>
+<li><strong>No raw synchronization primitives:</strong> use higher-level concurrency tools</li>
+<li><strong>No raw pointers:</strong> prefer value types that manage themselves</li>
+<li><strong>Local reasoning:</strong> you should understand a piece of code without reading the rest of the program</li>
+</ul>
+<aside class="notes">
+<p>The first three bullets are the three goals from Parent’s “C++ Seasoning” talk (GoingNative 2013). The fourth is the reason behind all three.</p>
+<p><strong>No raw loops.</strong> A “raw” loop is a hand-written loop doing a job that already has a name: summing, counting, searching, sorting, finding the largest value. Parent’s point is that a reader must trace a raw loop line by line (start index, stopping condition, what changes on each pass) just to discover its purpose, and every one of those details is a chance for an off-by-one error. A named algorithm states the purpose directly: <code>count_if(begin(scores), end(scores), isPassing)</code> reads as “count the passing scores.” When no standard algorithm fits, the advice is not “never write a loop” but “put the loop in a well-named function of its own,” which is exactly what students did in 12.01 with <code>findMaximum</code> and <code>linearSearch</code>. Today’s handout activity (Program 1 versus Program 2) is this bullet in practice.</p>
+<p><strong>No raw synchronization primitives.</strong> This one is about programs that do several things at the same time (threads), which CISP 360 does not cover. Low-level tools such as mutexes (locks) and atomic variables let threads share data safely, but only if every piece of code uses them correctly, and the resulting bugs are intermittent and very hard to reproduce. Parent recommends higher-level tools, such as tasks and futures, that hand work to another thread and collect the result without the programmer managing locks directly. For students, the takeaway is the pattern: the lowest-level tool is rarely the one you should reach for first.</p>
+<p><strong>No raw pointers.</strong> Parent means raw pointers used to own or manage memory: <code>new</code> and <code>delete</code> written by hand, or pointers passed around so that many parts of a program can reach the same object. He prefers value types: objects that manage their own storage and behave like an <code>int</code>, so copying one gives you an independent copy. <code>vector</code>, <code>string</code>, and <code>std::array</code> are value types that students already use. In “C++ Seasoning” he extends the caution even to shared ownership with smart pointers, because an object reachable from many places is hard to reason about. This is not a reason to skip today’s lecture: references, containers, and smart pointers are all built on pointers, and you cannot judge a tool you do not understand. The rule is about what you write in application code, not about what you need to know.</p>
+<p><strong>Local reasoning.</strong> This is the principle behind the other three. You should be able to understand what a piece of code does by reading that piece and the interfaces it uses, without searching the rest of the program for whatever else might change the same data. Raw loops hide intent, raw synchronization hides which thread touches what, and raw pointers hide who else can modify an object. Each rule removes a reason you would otherwise have to read code somewhere else. This idea runs through Parent’s later work too, including the Hylo language, which is built on value semantics so that each piece of code can be reasoned about on its own.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -361,6 +337,90 @@ Dr.&nbsp;Caleb Fowler
           display:block!important;
       }</style></aside>
 <!-- Slide 7 -->
+<!-- Topic 1: Introduction to Pointers -->
+<!-- Slides 8–18 -->
+</section></section>
+<section>
+<section id="introduction-to-pointers" class="title-slide slide level1 center">
+<h1>Introduction to Pointers</h1>
+<!-- Slide 8 -->
+</section>
+<section id="when-does-a-name-stop-being-enough" class="slide level2 smaller">
+<h2>When Does a Name Stop Being Enough?</h2>
+<ul>
+<li>A variable name identifies one object</li>
+<li>What if the program must choose the object while it is running?</li>
+</ul>
+<aside class="notes">
+<p>Slides 8–18 Ask students to imagine one operation that might update either of two counters. The operation is fixed, but its target is not.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 9 -->
+</section>
+<section id="pointer-demo" class="slide level2">
+<h2>Pointer Demo</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/pointer_demo.png" class="quarto-figure quarto-figure-center" style="height: 480px; width: auto;"></p>
+</figure>
+</div>
+<aside class="notes">
+<p>The program stores the address of <code>x</code> in <code>ptr</code>, then prints four things: the value of <code>x</code> (25), the address stored in <code>ptr</code>, the value reached by dereferencing <code>*ptr</code> (25), and <code>&amp;x</code>. The two addresses match because <code>ptr</code> holds the address of <code>x</code>; the exact address differs from run to run and machine to machine. Don’t explain the syntax yet: topic 2 takes each piece in turn (the address operator, declaring a pointer, and dereferencing). Here the goal is to see a pointer hold an address and lead back to a value.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 10 -->
+</section>
+<section id="from-symbol-table-to-runtime-data" class="slide level2">
+<h2>From Symbol Table to Runtime Data</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/symbol_table_to_pointer.svg" class="quarto-figure quarto-figure-center" style="height: 330px; width: auto;"></p>
+</figure>
+</div>
+<ul>
+<li>A name lets the compiler locate an object</li>
+<li>A pointer makes an object’s address available to the running program</li>
+</ul>
+<!-- Slide 11 -->
+</section>
+<section id="what-is-a-pointer" class="slide level2">
+<h2>What Is a Pointer?</h2>
+<ul>
+<li>A <strong>pointer</strong> is a typed variable whose value is a memory address</li>
+<li>The object at that address is the pointer’s <strong>target</strong> or <strong>pointee</strong></li>
+<li>Using the address to reach the target is <strong>indirection</strong></li>
+</ul>
+<!-- Slide 12 -->
+</section>
+<section id="the-pointer-model" class="slide level2">
+<h2>The Pointer Model</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/pointer_model.svg" class="quarto-figure quarto-figure-center" style="height: 300px; width: auto;"></p>
+</figure>
+</div>
+<ul>
+<li>The pointer has its own storage, separate from its target</li>
+</ul>
+<!-- Slide 13 -->
 </section>
 <section id="why-store-an-address" class="slide level2">
 <h2>Why Store an Address?</h2>
@@ -368,9 +428,9 @@ Dr.&nbsp;Caleb Fowler
 <li>Select an existing object while the program runs</li>
 <li>Read or modify that object indirectly</li>
 <li>Describe positions and ranges in contiguous data</li>
-<li>Work with libraries and resources whose locations are provided at runtime</li>
+<li>Give a function access to a large object without copying it</li>
 </ul>
-<!-- Slide 8 -->
+<!-- Slide 14 -->
 </section>
 <section id="one-operation-different-targets" class="slide level2">
 <h2>One Operation, Different Targets</h2>
@@ -396,10 +456,11 @@ Dr.&nbsp;Caleb Fowler
 </tbody>
 </table>
 <ul>
+<li>The operation: subtract 5 from whichever price is selected</li>
 <li>The operation stays the same while the selected target changes</li>
 </ul>
 <aside class="notes">
-<p>Keep this example conceptual. Topic 2 supplies the C++ syntax and execution trace.</p>
+<p>Keep this example conceptual. The same example returns in C++ on the “One Operation, Runtime Choice” slide (slide 34) in topic 2.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -411,17 +472,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 9 -->
-</section>
-<section id="where-do-pointers-fit-in-modern-c" class="slide level2">
-<h2>Where Do Pointers Fit in Modern C++?</h2>
-<ul>
-<li>Raw pointers commonly express non-owning access or library interoperability</li>
-<li>Smart pointers express ownership of dynamically allocated resources</li>
-<li>Containers such as <code>vector</code> usually replace manually managed arrays</li>
-<li>Pointers remain foundational to arrays, iterators, dynamic memory, and polymorphism</li>
-</ul>
-<!-- Slide 10 -->
+<!-- Slide 15 -->
 </section>
 <section id="pointers-are-not-the-default" class="slide level2">
 <h2>Pointers Are Not the Default</h2>
@@ -449,8 +500,9 @@ Dr.&nbsp;Caleb Fowler
 </table>
 <ul>
 <li>Use the highest-level tool that clearly expresses the design</li>
+<li>Pointers still matter: the next lectures use them for arrays and dynamic memory</li>
 </ul>
-<!-- Slide 11 -->
+<!-- Slide 16 -->
 </section>
 <section id="capability-comes-with-responsibility" class="slide level2">
 <h2>Capability Comes With Responsibility</h2>
@@ -460,7 +512,7 @@ Dr.&nbsp;Caleb Fowler
 <li>An object whose lifetime has not ended</li>
 <li>A location within the operation’s permitted boundary</li>
 </ul>
-<!-- Slide 12 -->
+<!-- Slide 17 -->
 </section>
 <section id="introduction-to-pointers-summary" class="slide level2">
 <h2>Introduction to Pointers: Summary</h2>
@@ -469,14 +521,14 @@ Dr.&nbsp;Caleb Fowler
 <li>Address semantics enable runtime flexibility but add validity and lifetime responsibilities</li>
 <li>Modern C++ uses raw pointers selectively and prefers higher-level ownership and container tools</li>
 </ul>
-<!-- Slide 13 -->
+<!-- Slide 18 -->
 <!-- Topic 2: Initializing and Using Pointers -->
-<!-- Slides 14–33 -->
+<!-- Slides 19–38 -->
 </section></section>
 <section>
 <section id="initializing-and-using-pointers" class="title-slide slide level1 center">
 <h1>Initializing and Using Pointers</h1>
-<!-- Slide 14 -->
+<!-- Slide 19 -->
 </section>
 <section id="how-does-a-pointer-reach-a-variable" class="slide level2 smaller">
 <h2>How Does a Pointer Reach a Variable?</h2>
@@ -485,7 +537,7 @@ Dr.&nbsp;Caleb Fowler
 <li>How do we obtain that address and store it safely?</li>
 </ul>
 <aside class="notes">
-<p>Slides 14–33</p>
+<p>Slides 19–38</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -497,7 +549,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 15 -->
+<!-- Slide 20 -->
 </section>
 <section id="the-address-operator" class="slide level2">
 <h2>The Address Operator</h2>
@@ -506,9 +558,9 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb1-3"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">&amp;</span>score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Unary <code>&amp;</code> produces the address of an object</li>
-<li>Printed addresses are implementation-controlled identifiers, not meaningful numbers to interpret</li>
+<li>Addresses print in hexadecimal and change from run to run, so don’t try to interpret them</li>
 </ul>
-<!-- Slide 16 -->
+<!-- Slide 21 -->
 </section>
 <section id="declaring-a-pointer-variable" class="slide level2">
 <h2>Declaring a Pointer Variable</h2>
@@ -535,7 +587,7 @@ Dr.&nbsp;Caleb Fowler
 </tr>
 </tbody>
 </table>
-<!-- Slide 17 -->
+<!-- Slide 22 -->
 </section>
 <section id="match-the-pointer-to-the-target" class="slide level2">
 <h2>Match the Pointer to the Target</h2>
@@ -544,7 +596,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb3-3"><a href=""></a></span>
 <span id="cb3-4"><a href=""></a><span class="dt">int</span><span class="op">*</span> scorePtr <span class="op">=</span> <span class="op">&amp;</span>score<span class="op">;</span></span>
 <span id="cb3-5"><a href=""></a><span class="co">// int* wrongPtr = &amp;average; // incompatible target type</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 18 -->
+<!-- Slide 23 -->
 </section>
 <section id="declare-one-pointer-at-a-time" class="slide level2">
 <h2>Declare One Pointer at a Time</h2>
@@ -555,32 +607,19 @@ Dr.&nbsp;Caleb Fowler
 </ul>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> first<span class="op">;</span></span>
 <span id="cb5-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> second<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 19 -->
+<!-- Slide 24 -->
 </section>
 <section id="initialize-with-an-address" class="slide level2">
 <h2>Initialize With an Address</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">88</span><span class="op">;</span></span>
 <span id="cb6-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> scorePtr <span class="op">=</span> <span class="op">&amp;</span>score<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Expression</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>&amp;score</code></td>
-<td>address of <code>score</code></td>
-</tr>
-<tr class="even">
-<td><code>scorePtr</code></td>
-<td>address stored in the pointer</td>
-</tr>
-</tbody>
-</table>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/symbol_table_to_pointer.svg" class="quarto-figure quarto-figure-center" style="height: 300px; width: auto;"></p>
+</figure>
+</div>
 <aside class="notes">
-<p>[Graphic suggestion: show separate cells for score and scorePtr, then draw the stored address as an arrow from scorePtr to score.]</p>
+<p>This is the same diagram as slide 11. Now students can read the line of code that produces it: <code>&amp;score</code> supplies the address, and <code>scorePtr</code> stores it.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -592,7 +631,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 20 -->
+<!-- Slide 25 -->
 </section>
 <section id="initialize-with-nullptr" class="slide level2">
 <h2>Initialize With <code>nullptr</code></h2>
@@ -602,11 +641,16 @@ Dr.&nbsp;Caleb Fowler
 <li>Use it when a valid target is not yet available</li>
 <li>In modern C++, prefer <code>nullptr</code> over <code>NULL</code> or <code>0</code></li>
 </ul>
-<!-- Slide 21 -->
+<!-- Slide 26 -->
 </section>
 <section id="valid-null-or-indeterminate" class="slide level2">
 <h2>Valid, Null, or Indeterminate?</h2>
 <table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Pointer state</th>
@@ -630,12 +674,17 @@ Dr.&nbsp;Caleb Fowler
 <td>indeterminate value</td>
 <td>no</td>
 </tr>
+<tr class="even">
+<td>dangling</td>
+<td>holds an address, but the target’s lifetime has ended</td>
+<td>no</td>
+</tr>
 </tbody>
 </table>
 <ul>
-<li>Reading or dereferencing an uninitialized pointer has undefined behavior</li>
+<li>Reading or dereferencing an uninitialized or dangling pointer has undefined behavior</li>
 </ul>
-<!-- Slide 22 -->
+<!-- Slide 27 -->
 </section>
 <section id="what-does-dereferencing-mean" class="slide level2">
 <h2>What Does Dereferencing Mean?</h2>
@@ -643,11 +692,86 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb8-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> scorePtr <span class="op">=</span> <span class="op">&amp;</span>score<span class="op">;</span></span>
 <span id="cb8-3"><a href=""></a></span>
 <span id="cb8-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>scorePtr <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>scorePtr</code> → address of <code>score</code> → <code>88</code></p>
 <ul>
 <li>Unary <code>*</code> follows the stored address to the target</li>
-<li>Here, <code>*</code> is dereference—not multiplication or declaration syntax</li>
+<li>Reading <code>*scorePtr</code> gives the target’s value, <code>88</code></li>
 </ul>
-<!-- Slide 23 -->
+<aside class="notes">
+<p>Trace three distinct facts: the pointer’s stored address, the target’s value, and whether dereferencing is valid.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 28 -->
+</section>
+<section id="one-symbol-several-meanings" class="slide level2">
+<h2>One Symbol, Several Meanings</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Code</th>
+<th>Symbol and context</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>int* ptr;</code></td>
+<td><code>*</code> in a declaration</td>
+<td><code>ptr</code> is a pointer to <code>int</code></td>
+</tr>
+<tr class="even">
+<td><code>*ptr = 95;</code></td>
+<td><code>*</code> before one operand</td>
+<td>dereference: follow the address</td>
+</tr>
+<tr class="odd">
+<td><code>score * 2</code></td>
+<td><code>*</code> between two operands</td>
+<td>multiplication</td>
+</tr>
+<tr class="even">
+<td><code>ptr = &amp;score;</code></td>
+<td><code>&amp;</code> before one operand</td>
+<td>address of <code>score</code></td>
+</tr>
+<tr class="odd">
+<td><code>int&amp; alias = score;</code></td>
+<td><code>&amp;</code> in a declaration</td>
+<td><code>alias</code> is a reference to <code>score</code> (Week 5)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Read the context: is it a declaration, and how many operands does the symbol have?</li>
+</ul>
+<aside class="notes">
+<p>This is the most common source of confusion in the pointer unit. Point at each row and ask students to say the meaning out loud before revealing it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 29 -->
 </section>
 <section id="four-related-expressions" class="slide level2">
 <h2>Four Related Expressions</h2>
@@ -679,50 +803,28 @@ Dr.&nbsp;Caleb Fowler
 </tr>
 </tbody>
 </table>
-<!-- Slide 24 -->
-</section>
-<section id="reading-through-a-pointer" class="slide level2">
-<h2>Reading Through a Pointer</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">88</span><span class="op">;</span></span>
-<span id="cb10-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> scorePtr <span class="op">=</span> <span class="op">&amp;</span>score<span class="op">;</span></span>
-<span id="cb10-3"><a href=""></a></span>
-<span id="cb10-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>scorePtr <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>scorePtr</code> → address of <code>score</code> → <code>88</code></p>
-<aside class="notes">
-<p>Trace three distinct facts: the pointer’s stored address, the target’s value, and whether dereferencing is valid.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<!-- Slide 25 -->
+<!-- Slide 30 -->
 </section>
 <section id="writing-through-a-pointer" class="slide level2">
 <h2>Writing Through a Pointer</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">88</span><span class="op">;</span></span>
-<span id="cb11-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> scorePtr <span class="op">=</span> <span class="op">&amp;</span>score<span class="op">;</span></span>
-<span id="cb11-3"><a href=""></a></span>
-<span id="cb11-4"><a href=""></a><span class="op">*</span>scorePtr <span class="op">=</span> <span class="dv">95</span><span class="op">;</span></span>
-<span id="cb11-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href=""></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">88</span><span class="op">;</span></span>
+<span id="cb10-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> scorePtr <span class="op">=</span> <span class="op">&amp;</span>score<span class="op">;</span></span>
+<span id="cb10-3"><a href=""></a></span>
+<span id="cb10-4"><a href=""></a><span class="op">*</span>scorePtr <span class="op">=</span> <span class="dv">95</span><span class="op">;</span></span>
+<span id="cb10-5"><a href=""></a>cout <span class="op">&lt;&lt;</span> score <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>score</code> changes from <code>88</code> to <code>95</code></li>
 <li><code>scorePtr</code> continues to store the same address</li>
 </ul>
-<!-- Slide 26 -->
+<!-- Slide 31 -->
 </section>
 <section id="predict-the-state" class="slide level2">
 <h2>Predict the State</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">int</span> points <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb12-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> <span class="op">&amp;</span>points<span class="op">;</span></span>
-<span id="cb12-3"><a href=""></a></span>
-<span id="cb12-4"><a href=""></a><span class="op">*</span>ptr <span class="op">=</span> <span class="dv">14</span><span class="op">;</span></span>
-<span id="cb12-5"><a href=""></a>points <span class="op">+=</span> <span class="dv">3</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href=""></a><span class="dt">int</span> points <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb11-2"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> <span class="op">&amp;</span>points<span class="op">;</span></span>
+<span id="cb11-3"><a href=""></a></span>
+<span id="cb11-4"><a href=""></a><span class="op">*</span>ptr <span class="op">=</span> <span class="dv">14</span><span class="op">;</span></span>
+<span id="cb11-5"><a href=""></a>points <span class="op">+=</span> <span class="dv">3</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>What is <code>points</code>?</li>
 <li>What is <code>*ptr</code>?</li>
@@ -741,76 +843,90 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 27 -->
+<!-- Slide 32 -->
 </section>
 <section id="changing-the-target" class="slide level2">
 <h2>Changing the Target</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">int</span> first <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb13-2"><a href=""></a><span class="dt">int</span> second <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
-<span id="cb13-3"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> <span class="op">&amp;</span>first<span class="op">;</span></span>
-<span id="cb13-4"><a href=""></a></span>
-<span id="cb13-5"><a href=""></a>ptr <span class="op">=</span> <span class="op">&amp;</span>second<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href=""></a><span class="dt">int</span> first <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb12-2"><a href=""></a><span class="dt">int</span> second <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb12-3"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> <span class="op">&amp;</span>first<span class="op">;</span></span>
+<span id="cb12-4"><a href=""></a></span>
+<span id="cb12-5"><a href=""></a>ptr <span class="op">=</span> <span class="op">&amp;</span>second<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>ptr = &amp;second;</code> changes the target</li>
 <li><code>*ptr = 25;</code> would change the current target’s value</li>
 </ul>
-<!-- Slide 28 -->
+<!-- Slide 33 -->
 </section>
 <section id="one-operation-runtime-choice" class="slide level2">
 <h2>One Operation, Runtime Choice</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span> regularPrice <span class="op">=</span> <span class="dv">40</span><span class="op">;</span></span>
-<span id="cb14-2"><a href=""></a><span class="dt">int</span> salePrice <span class="op">=</span> <span class="dv">28</span><span class="op">;</span></span>
-<span id="cb14-3"><a href=""></a><span class="dt">bool</span> saleIsActive <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb14-4"><a href=""></a></span>
-<span id="cb14-5"><a href=""></a><span class="dt">int</span><span class="op">*</span> selected <span class="op">=</span> <span class="op">&amp;</span>regularPrice<span class="op">;</span></span>
-<span id="cb14-6"><a href=""></a><span class="cf">if</span> <span class="op">(</span>saleIsActive<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb14-7"><a href=""></a>    selected <span class="op">=</span> <span class="op">&amp;</span>salePrice<span class="op">;</span></span>
-<span id="cb14-8"><a href=""></a><span class="op">}</span></span>
-<span id="cb14-9"><a href=""></a></span>
-<span id="cb14-10"><a href=""></a><span class="op">*</span>selected <span class="op">-=</span> <span class="dv">5</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 29 -->
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href=""></a><span class="dt">int</span> regularPrice <span class="op">=</span> <span class="dv">40</span><span class="op">;</span></span>
+<span id="cb13-2"><a href=""></a><span class="dt">int</span> salePrice <span class="op">=</span> <span class="dv">28</span><span class="op">;</span></span>
+<span id="cb13-3"><a href=""></a><span class="dt">bool</span> saleIsActive <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb13-4"><a href=""></a></span>
+<span id="cb13-5"><a href=""></a><span class="dt">int</span><span class="op">*</span> selected <span class="op">=</span> <span class="op">&amp;</span>regularPrice<span class="op">;</span></span>
+<span id="cb13-6"><a href=""></a><span class="cf">if</span> <span class="op">(</span>saleIsActive<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-7"><a href=""></a>    selected <span class="op">=</span> <span class="op">&amp;</span>salePrice<span class="op">;</span></span>
+<span id="cb13-8"><a href=""></a><span class="op">}</span></span>
+<span id="cb13-9"><a href=""></a></span>
+<span id="cb13-10"><a href=""></a><span class="op">*</span>selected <span class="op">-=</span> <span class="dv">5</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Which price changes, and what is its new value?</li>
+<li>This is the “subtract 5” operation from slide 15, now in C++</li>
+</ul>
+<aside class="notes">
+<p>Answer: <code>salePrice</code> becomes 23 because <code>selected</code> was reseated to it; <code>regularPrice</code> stays 40. The operation line never changed; only the target did.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 34 -->
 </section>
 <section id="check-before-dereferencing" class="slide level2">
 <h2>Check Before Dereferencing</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> selected <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb15-2"><a href=""></a></span>
-<span id="cb15-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>selected <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb15-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>selected <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb15-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> selected <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb14-2"><a href=""></a></span>
+<span id="cb14-3"><a href=""></a><span class="cf">if</span> <span class="op">(</span>selected <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-4"><a href=""></a>    cout <span class="op">&lt;&lt;</span> <span class="op">*</span>selected <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb14-5"><a href=""></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>A null check prevents dereferencing the no-target state</li>
 <li>Non-null is necessary, but the target must also still be alive</li>
 </ul>
-<!-- Slide 30 -->
+<!-- Slide 35 -->
 </section>
 <section id="when-a-target-disappears" class="slide level2">
 <h2>When a Target Disappears</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
-<span id="cb16-2"><a href=""></a></span>
-<span id="cb16-3"><a href=""></a><span class="op">{</span></span>
-<span id="cb16-4"><a href=""></a>    <span class="dt">int</span> temporary <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
-<span id="cb16-5"><a href=""></a>    ptr <span class="op">=</span> <span class="op">&amp;</span>temporary<span class="op">;</span></span>
-<span id="cb16-6"><a href=""></a><span class="op">}</span> <span class="co">// temporary's lifetime ends</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href=""></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb15-2"><a href=""></a></span>
+<span id="cb15-3"><a href=""></a><span class="op">{</span></span>
+<span id="cb15-4"><a href=""></a>    <span class="dt">int</span> temporary <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb15-5"><a href=""></a>    ptr <span class="op">=</span> <span class="op">&amp;</span>temporary<span class="op">;</span></span>
+<span id="cb15-6"><a href=""></a><span class="op">}</span> <span class="co">// temporary's lifetime ends</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>ptr</code> is now dangling: it contains an address but has no live target</li>
 <li>A null pointer and a dangling pointer are different invalid states</li>
 </ul>
-<!-- Slide 31 -->
+<!-- Slide 36 -->
 </section>
 <section id="a-complete-pointer-lifecycle" class="slide level2">
 <h2>A Complete Pointer Lifecycle</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">int</span> first <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb17-2"><a href=""></a><span class="dt">int</span> second <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
-<span id="cb17-3"><a href=""></a><span class="dt">int</span><span class="op">*</span> selected <span class="op">=</span> <span class="op">&amp;</span>first<span class="op">;</span></span>
-<span id="cb17-4"><a href=""></a></span>
-<span id="cb17-5"><a href=""></a><span class="op">*</span>selected <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb17-6"><a href=""></a>selected <span class="op">=</span> <span class="op">&amp;</span>second<span class="op">;</span></span>
-<span id="cb17-7"><a href=""></a></span>
-<span id="cb17-8"><a href=""></a><span class="cf">if</span> <span class="op">(</span>selected <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb17-9"><a href=""></a>    <span class="op">*</span>selected <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb17-10"><a href=""></a><span class="op">}</span></span>
-<span id="cb17-11"><a href=""></a></span>
-<span id="cb17-12"><a href=""></a>selected <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href=""></a><span class="dt">int</span> first <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb16-2"><a href=""></a><span class="dt">int</span> second <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb16-3"><a href=""></a><span class="dt">int</span><span class="op">*</span> selected <span class="op">=</span> <span class="op">&amp;</span>first<span class="op">;</span></span>
+<span id="cb16-4"><a href=""></a></span>
+<span id="cb16-5"><a href=""></a><span class="op">*</span>selected <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb16-6"><a href=""></a>selected <span class="op">=</span> <span class="op">&amp;</span>second<span class="op">;</span></span>
+<span id="cb16-7"><a href=""></a><span class="op">*</span>selected <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb16-8"><a href=""></a></span>
+<span id="cb16-9"><a href=""></a>selected <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <aside class="notes">
 <p>Trace: selected starts at first; first becomes 15; selected is reseated to second; second becomes 25; selected is reset to the deliberate no-target state.</p>
 <style type="text/css">
@@ -824,7 +940,7 @@ Dr.&nbsp;Caleb Fowler
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- Slide 32 -->
+<!-- Slide 37 -->
 </section>
 <section id="initializing-and-using-pointers-summary" class="slide level2">
 <h2>Initializing and Using Pointers: Summary</h2>
@@ -833,12 +949,58 @@ Dr.&nbsp;Caleb Fowler
 <li>Dereference only when the pointer identifies a compatible, live target</li>
 <li>Distinguish changing a pointer’s target from changing the target’s value</li>
 </ul>
-<!-- Slide 33 -->
-</section>
-<section class="slide level2">
-
+<!-- Slide 38 -->
+<!-- Topic 2x: Syntax Sprint: Pointers -->
+<!-- Slides 39–40 -->
 </section></section>
 <section>
+<section id="syntax-sprint-pointers" class="title-slide slide level1 center">
+<h1>Syntax Sprint: Pointers</h1>
+<!-- Slide 39 -->
+</section>
+<section id="programming-activity" class="slide level2">
+<h2>Programming Activity</h2>
+<p>Create a simple program that declares:</p>
+<ul>
+<li>Two <code>int</code> variables and one pointer to an <code>int</code></li>
+<li>Two <code>string</code> variables and one pointer to a <code>string</code></li>
+</ul>
+<p>Using <strong>the pointer variables only</strong>, display:</p>
+<ul>
+<li>The address held in the pointer</li>
+<li>The contents of each of the two variables</li>
+</ul>
+<aside class="notes">
+<p>Slides 39–40</p>
+<p>Students must point each pointer at one variable, display through it, then reseat it to the second variable and display again. Watch for students who print <code>first</code> directly instead of <code>*intPtr</code>, or who forget <code>#include &lt;string&gt;</code>.</p>
+<p>Solution in <code>cpp/syntax_sprint_pointers.cpp</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href=""></a><span class="dt">int</span> first <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb17-2"><a href=""></a><span class="dt">int</span> second <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb17-3"><a href=""></a><span class="dt">int</span><span class="op">*</span> intPtr <span class="op">=</span> <span class="op">&amp;</span>first<span class="op">;</span></span>
+<span id="cb17-4"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"intPtr holds "</span> <span class="op">&lt;&lt;</span> intPtr <span class="op">&lt;&lt;</span> <span class="st">", which contains "</span> <span class="op">&lt;&lt;</span> <span class="op">*</span>intPtr <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb17-5"><a href=""></a>intPtr <span class="op">=</span> <span class="op">&amp;</span>second<span class="op">;</span></span>
+<span id="cb17-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"intPtr holds "</span> <span class="op">&lt;&lt;</span> intPtr <span class="op">&lt;&lt;</span> <span class="st">", which contains "</span> <span class="op">&lt;&lt;</span> <span class="op">*</span>intPtr <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb17-7"><a href=""></a></span>
+<span id="cb17-8"><a href=""></a>string course <span class="op">=</span> <span class="st">"CISP 360"</span><span class="op">;</span></span>
+<span id="cb17-9"><a href=""></a>string topic <span class="op">=</span> <span class="st">"Pointers"</span><span class="op">;</span></span>
+<span id="cb17-10"><a href=""></a>string<span class="op">*</span> stringPtr <span class="op">=</span> <span class="op">&amp;</span>course<span class="op">;</span></span>
+<span id="cb17-11"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"stringPtr holds "</span> <span class="op">&lt;&lt;</span> stringPtr <span class="op">&lt;&lt;</span> <span class="st">", which contains "</span> <span class="op">&lt;&lt;</span> <span class="op">*</span>stringPtr <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb17-12"><a href=""></a>stringPtr <span class="op">=</span> <span class="op">&amp;</span>topic<span class="op">;</span></span>
+<span id="cb17-13"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="st">"stringPtr holds "</span> <span class="op">&lt;&lt;</span> stringPtr <span class="op">&lt;&lt;</span> <span class="st">", which contains "</span> <span class="op">&lt;&lt;</span> <span class="op">*</span>stringPtr <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Addresses differ from run to run; the values print as 10, 20, CISP 360, and Pointers.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- Slide 40 -->
+</section></section>
 <section id="key-takeaways" class="title-slide slide level1 center">
 <h1>Key Takeaways</h1>
 <ul>
@@ -847,12 +1009,9 @@ Dr.&nbsp;Caleb Fowler
 <li>Initialize pointers with a valid address or <code>nullptr</code></li>
 <li>Modern C++ uses raw pointers selectively and prefers higher-level tools when possible</li>
 </ul>
-<!-- Slide 34 -->
+<!-- Slide 41 -->
 </section>
-<section class="slide level2">
 
-</section></section>
-<section>
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next Time</h1>
 <ul>
@@ -860,15 +1019,13 @@ Dr.&nbsp;Caleb Fowler
 <li>Null pointers</li>
 <li>Passing pointers</li>
 </ul>
-<!-- Slide 35 -->
+<!-- Slide 42 -->
 </section>
-<section class="slide level2">
 
-</section></section>
 <section>
 <section id="appendix" class="title-slide slide level1 center">
 <h1>Appendix</h1>
-<!-- Slide 36 -->
+<!-- Slide 43 -->
 </section>
 <section id="introduction-to-pointers-good-practices" class="slide level2">
 <h2>Introduction to Pointers: Good Practices</h2>
@@ -876,7 +1033,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Begin with the object and explain why its address must become program data</li>
 <li>Use raw pointers only when address semantics clearly serve the design</li>
 </ul>
-<!-- Slide 37 -->
+<!-- Slide 44 -->
 </section>
 <section id="introduction-to-pointers-common-mistakes" class="slide level2">
 <h2>Introduction to Pointers: Common Mistakes</h2>
@@ -884,7 +1041,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Treating a pointer as though it stores the target object</li>
 <li>Assuming modern C++ uses raw pointers as the default ownership tool</li>
 </ul>
-<!-- Slide 38 -->
+<!-- Slide 45 -->
 </section>
 <section id="introduction-to-pointers-more-examples" class="slide level2">
 <h2>Introduction to Pointers: More Examples</h2>
@@ -892,7 +1049,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Select one of several counters while the program runs</li>
 <li>Receive non-owning access to an object managed elsewhere</li>
 </ul>
-<!-- Slide 39 -->
+<!-- Slide 46 -->
 </section>
 <section id="introduction-to-pointers-practice-problems" class="slide level2">
 <h2>Introduction to Pointers: Practice Problems</h2>
@@ -900,7 +1057,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Draw a pointer variable, its stored address, and its target as three separate parts.</li>
 <li>Identify a situation that requires runtime target selection.</li>
 </ol>
-<!-- Slide 40 -->
+<!-- Slide 47 -->
 </section>
 <section id="introduction-to-pointers-ai-search-terms" class="slide level2">
 <h2>Introduction to Pointers: AI Search Terms</h2>
@@ -909,7 +1066,7 @@ Dr.&nbsp;Caleb Fowler
 <li>modern C++ raw pointer non-owning access</li>
 <li>raw pointers versus smart pointers C++</li>
 </ul>
-<!-- Slide 41 -->
+<!-- Slide 48 -->
 </section>
 <section id="introduction-to-pointers-questions-for-reflection" class="slide level2">
 <h2>Introduction to Pointers: Questions for Reflection</h2>
@@ -917,7 +1074,7 @@ Dr.&nbsp;Caleb Fowler
 <li>What capability does an address provide beyond a variable name?</li>
 <li>Why should raw pointers not be the default tool for every variable relationship?</li>
 </ul>
-<!-- Slide 42 -->
+<!-- Slide 49 -->
 </section>
 <section id="initializing-and-using-pointers-good-practices" class="slide level2">
 <h2>Initializing and Using Pointers: Good Practices</h2>
@@ -926,7 +1083,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Initialize immediately with a valid address or <code>nullptr</code></li>
 <li>Verify the target is valid and live before dereferencing</li>
 </ul>
-<!-- Slide 43 -->
+<!-- Slide 50 -->
 </section>
 <section id="initializing-and-using-pointers-common-mistakes" class="slide level2">
 <h2>Initializing and Using Pointers: Common Mistakes</h2>
@@ -935,7 +1092,7 @@ Dr.&nbsp;Caleb Fowler
 <ul>
 <li><code>ptr</code> is uninitialized, so dereferencing it has undefined behavior</li>
 </ul>
-<!-- Slide 44 -->
+<!-- Slide 51 -->
 </section>
 <section id="initializing-and-using-pointers-more-examples" class="slide level2">
 <h2>Initializing and Using Pointers: More Examples</h2>
@@ -945,7 +1102,7 @@ Dr.&nbsp;Caleb Fowler
 <span id="cb19-4"><a href=""></a></span>
 <span id="cb19-5"><a href=""></a>selected <span class="op">=</span> <span class="op">&amp;</span>second<span class="op">;</span></span>
 <span id="cb19-6"><a href=""></a>cout <span class="op">&lt;&lt;</span> <span class="op">*</span>selected <span class="op">&lt;&lt;</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<!-- Slide 45 -->
+<!-- Slide 52 -->
 </section>
 <section id="initializing-and-using-pointers-practice-problems" class="slide level2">
 <h2>Initializing and Using Pointers: Practice Problems</h2>
@@ -954,7 +1111,7 @@ Dr.&nbsp;Caleb Fowler
 <li>Predict the target after a pointer is reseated and dereferenced.</li>
 <li>Explain why a dangling pointer is different from <code>nullptr</code>.</li>
 </ol>
-<!-- Slide 46 -->
+<!-- Slide 53 -->
 </section>
 <section id="initializing-and-using-pointers-ai-search-terms" class="slide level2">
 <h2>Initializing and Using Pointers: AI Search Terms</h2>
@@ -963,7 +1120,7 @@ Dr.&nbsp;Caleb Fowler
 <li>C++ nullptr versus dangling pointer</li>
 <li>C++ pointer reseating versus indirect assignment</li>
 </ul>
-<!-- Slide 47 -->
+<!-- Slide 54 -->
 </section>
 <section id="initializing-and-using-pointers-questions-for-reflection" class="slide level2">
 <h2>Initializing and Using Pointers: Questions for Reflection</h2>
@@ -971,7 +1128,7 @@ Dr.&nbsp;Caleb Fowler
 <li>What changes in <code>ptr = &amp;value</code> compared with <code>*ptr = value</code>?</li>
 <li>What must be true before a pointer can be safely dereferenced?</li>
 </ul>
-<!-- Slide 48 -->
+<!-- Slide 55 -->
 
 </section></section>
     </div>
